@@ -5,7 +5,11 @@ let
     colorschemeFromPicture nixWallpaperFromScheme;
 in {
   imports =
-    [ inputs.nix-colors.homeManagerModule ../features/cli ../features/nvim ]
+    [
+      inputs.nix-colors.homeManagerModule
+      ../features/cli
+      # ../features/nvim
+    ]
     ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {

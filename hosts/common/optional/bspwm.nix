@@ -11,12 +11,13 @@
       displayManager = {
         sddm = {
           enable = false;
-          theme = "chili";
+          # theme = "chili";
           # theme = "sddm-chili-theme";
           # theme = "catppuccin-sddm-corners";
         };
 
-        gdm.enable = true;
+        gdm = { enable = true; };
+
         # defaultSession = "bspwm";
       };
 

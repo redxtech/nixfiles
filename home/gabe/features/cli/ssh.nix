@@ -20,8 +20,4 @@ in
       };
     };
   };
-
-  home.persistence = {
-    "/persist/home/misterio".directories = [ ".ssh" ];
-  };
 }

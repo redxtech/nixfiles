@@ -8,7 +8,4 @@
       prompt = "enabled";
     };
   };
-  home.persistence = {
-    "/persist/home/misterio".directories = [ ".config/gh" ];
-  };
 }

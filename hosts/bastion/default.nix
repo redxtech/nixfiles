@@ -20,6 +20,7 @@
     ../common/optional/desktop-apps.nix
     ../common/optional/flatpak.nix
     ../common/optional/fonts.nix
+    ../common/optional/bspwm.nix
   ];
 
   networking.hostName = "bastion";
