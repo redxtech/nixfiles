@@ -7,6 +7,7 @@ in {
   users.users.gabe = {
     description = "Gabe Dunn";
     isNormalUser = true;
+    hashedPasswordFile = config.sops.secrets.gabe-pw.path;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "video" "audio" ] ++ ifTheyExist [
       "deluge"
@@ -20,6 +21,11 @@ in {
       "plugdev"
       "wireshark"
     ];
+
+  sops.secrets.gabe-pw = {
+    sopsFile = ../../secrets.yaml;
+    neededForUsers = true;
+  };
 
     openssh.authorizedKeys.keys =
       [ (builtins.readFile ../../../../home/gabe/ssh.pub) ];
