@@ -27,10 +27,7 @@ in {
     packages = [ pkgs.home-manager ];
   };
 
-  sops.secrets.gabe-pw = {
-    sopsFile = ../../secrets.yaml;
-    neededForUsers = true;
-  };
+  sops.secrets.gabe-pw.neededForUsers = true;
 
   # home-manager.users.gabe =
   #   import ../../../../home/gabe/${config.networking.hostName}.nix;
