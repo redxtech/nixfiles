@@ -3,6 +3,7 @@
 {
   fonts = {
     packages = with pkgs; [
+      cantarell-fonts
       (nerdfonts.override {
         fonts = [
           "FiraCode"

@@ -1,8 +1,7 @@
-{ pkgs, config, ... }:
-{
+{ pkgs, config, lib, ... }: {
   console = {
     useXkbConfig = true;
-    earlySetup = false;
+    earlySetup = lib.mkDefault false;
   };
 
   boot = {

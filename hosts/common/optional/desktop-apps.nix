@@ -8,8 +8,6 @@
 
     steam.enable = false; # TODO: enable
 
-    ssh.startAgent = true;
-
     thunar = {
       enable = true;
 
@@ -25,15 +23,12 @@
     firefox-devedition-bin
     flameshot
     gnome.gnome-software
+    gnome.gpaste
     kitty
     mpv
     obsidian
     spotifywm
-    (vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = false;
-      commandLineArgs = "--force-dark-mode";
-    })
+    vivaldi
     vscodium
 
     # thunar tools

@@ -29,6 +29,8 @@ in {
       publicKeyFile = pubKey name;
       extraHostNames = (lib.optional (name == hostName) "localhost");
     }) hosts;
+
+    startAgent = true;
   };
 
   # Passwordless sudo when SSH'ing with keys

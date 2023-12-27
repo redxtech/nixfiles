@@ -22,25 +22,24 @@
       gpaste
       gnome3.gnome-tweaks
 
-      # extensions
-      appindicator
-      blur-my-shell
-      caffeine
-      clipboard-indicator
-      docker
-      focus-changer
-      forge
-      gesture-improvements
-      grand-theft-focus
-      just-perfection
-      no-titlebar-when-maximized
-      openweather
-      pip-on-top
-      power-profile-switcher
-      switch-focus-type
-      # system76-scheduler
-      workspace-indicator-2
-      vitals
-      x11-gestures
+      gnomeExtensions.appindicator
+      gnomeExtensions.blur-my-shell
+      gnomeExtensions.caffeine
+      gnomeExtensions.clipboard-indicator
+      gnomeExtensions.docker
+      gnomeExtensions.focus-changer
+      gnomeExtensions.forge
+      gnomeExtensions.gesture-improvements
+      gnomeExtensions.grand-theft-focus
+      gnomeExtensions.just-perfection
+      gnomeExtensions.no-titlebar-when-maximized
+      gnomeExtensions.openweather
+      gnomeExtensions.pip-on-top
+      gnomeExtensions.power-profile-switcher
+      gnomeExtensions.switch-focus-type
+      # gnomeExtensions.system76-scheduler
+      gnomeExtensions.workspace-indicator-2
+      gnomeExtensions.vitals
+      gnomeExtensions.x11-gestures
     ];
 }

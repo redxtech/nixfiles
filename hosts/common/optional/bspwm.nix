@@ -1,6 +1,8 @@
 { pkgs, inputs, ... }:
 
 {
+  environment.systemPackages = with pkgs; [ dunst feh rofi picom polkit_gnome ];
+
   services = {
     xserver = {
       enable = true;
@@ -11,7 +13,7 @@
       displayManager = {
         sddm = {
           enable = false;
-          # theme = "chili";
+          theme = "chili";
           # theme = "sddm-chili-theme";
           # theme = "catppuccin-sddm-corners";
         };

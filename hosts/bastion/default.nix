@@ -7,20 +7,25 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     ./hardware-configuration.nix
-    ./disko.nix
-    # ./filesystem.nix
+    ./filesystem.nix
     ./services.nix
 
     ../common/global
     ../common/users/gabe
 
-    ../common/optional/pipewire.nix
-    ../common/optional/quietboot.nix
-    ../common/optional/systemd-boot.nix
+    ../common/optional/bspwm.nix
     ../common/optional/desktop-apps.nix
+    ../common/optional/extra.nix
+    ../common/optional/fail2ban.nix
     ../common/optional/flatpak.nix
     ../common/optional/fonts.nix
-    ../common/optional/bspwm.nix
+    # ../common/optional/gaming.nix
+    ../common/optional/pipewire.nix
+    ../common/optional/quietboot.nix
+    ../common/optional/security.nix
+    ../common/optional/systemd-boot.nix
+    ../common/optional/theme.nix
+    ../common/optional/virtualization.nix
   ];
 
   networking.hostName = "bastion";
