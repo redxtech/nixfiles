@@ -60,10 +60,10 @@
           specialArgs = { inherit inputs outputs; };
         };
         # # laptop
-        # voyager = lib.nixosSystem {
-        #   modules = [ ./hosts/voyager ];
-        #   specialArgs = { inherit inputs outputs; };
-        # };
+        voyager = lib.nixosSystem {
+          modules = [ ./hosts/voyager ];
+          specialArgs = { inherit inputs outputs; };
+        };
         # # nas & media server
         # quasar = lib.nixosSystem {
         #   modules = [ ./hosts/quasar ];
@@ -82,11 +82,11 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
         };
-        # "gabe@voyager" = lib.homeManagerConfiguration {
-        #   modules = [ ./home/gabe/voyager.nix ];
-        #   pkgs = pkgsFor.x86_64-linux;
-        #   extraSpecialArgs = { inherit inputs outputs; };
-        # };
+        "gabe@voyager" = lib.homeManagerConfiguration {
+          modules = [ ./home/gabe/voyager.nix ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+        };
         # "gabe@quasar" = lib.homeManagerConfiguration {
         #   modules = [ ./home/gabe/quasar.nix ];
         #   pkgs = pkgsFor.x86_64-linux;
