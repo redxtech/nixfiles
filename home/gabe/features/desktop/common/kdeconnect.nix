@@ -9,8 +9,7 @@ let
     ${kdeconnect-cli} -d $(${kdeconnect-cli} --list-available --id-only) --ping-msg "$(${fortune})"
   '';
 
-in
-{
+in {
   # Hide all .desktop, except for org.kde.kdeconnect.settings
   xdg.desktopEntries = {
     "org.kde.kdeconnect.sms" = {
@@ -38,9 +37,5 @@ in
 
   xdg.configFile = {
     "kdeconnect-scripts/fortune.sh".source = "${script-fortune}/bin/fortune";
-  };
-
-  home.persistence = {
-    "/persist/home/misterio".directories = [ ".config/kdeconnect" ];
   };
 }
