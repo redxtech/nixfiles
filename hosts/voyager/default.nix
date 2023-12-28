@@ -17,7 +17,7 @@
     ../common/optional/fail2ban.nix
     ../common/optional/flatpak.nix
     ../common/optional/fonts.nix
-    # ../common/optional/gaming.nix
+    ../common/optional/gaming-prime.nix
     ../common/optional/pipewire.nix
     ../common/optional/quietboot.nix
     ../common/optional/security.nix

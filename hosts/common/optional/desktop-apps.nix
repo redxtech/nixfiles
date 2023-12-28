@@ -6,8 +6,6 @@
     gnupg.agent.enable = true;
     partition-manager.enable = true;
 
-    steam.enable = false; # TODO: enable
-
     thunar = {
       enable = true;
 
