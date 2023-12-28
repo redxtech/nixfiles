@@ -1,52 +1,157 @@
 { pkgs, lib, config, ... }:
-let
-  ssh = "${pkgs.openssh}/bin/ssh";
 
-  git-m7 = pkgs.writeShellScriptBin "git-m7" ''
-    repo="$(git remote -v | grep git@m7.rs | head -1 | cut -d ':' -f2 | cut -d ' ' -f1)"
-    # Add a .git suffix if it's missing
-    if [[ "$repo" != *".git" ]]; then
-      repo="$repo.git"
-    fi
-
-    if [ "$1" == "init" ]; then
-      if [ "$2" == "" ]; then
-        echo "You must specify a name for the repo"
-        exit 1
-      fi
-      ${ssh} -A git@m7.rs << EOF
-        git init --bare "$2.git"
-        git -C "$2.git" branch -m main
-    EOF
-      git remote add origin git@m7.rs:"$2.git"
-    elif [ "$1" == "ls" ]; then
-      ${ssh} -A git@m7.rs ls
-    else
-      ${ssh} -A git@m7.rs git -C "/srv/git/$repo" $@
-    fi
-  '';
-in
 {
-  home.packages = [ git-m7 ];
-  programs.git = {
-    enable = true;
-    package = pkgs.gitAndTools.gitFull;
-    aliases = {
-      ff = "merge --ff-only";
-      pushall = "!git remote | xargs -L1 git push --all";
-      graph = "log --decorate --oneline --graph";
-      add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
-      fast-forward = "merge --ff-only";
+  programs = {
+    git = {
+      enable = true;
+
+      package = pkgs.hub;
+
+      aliases = {
+        last = "log -1 --stat";
+        cp = "cherry-pick";
+        co = "checkout";
+        cl = "clone";
+        ci = "commit";
+        st = "status -sb";
+        br = "branch";
+        unstage = "reset HEAD --";
+        dc = "diff --cached";
+        lg =
+          "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all";
+        pop = "stash pop";
+        s = "status";
+        d = "diff";
+        c = "commit";
+        p = "push";
+      };
+
+      signing = {
+        signByDefault = true;
+        key = null; # TODO: get per-device keys
+      };
+
+      extraConfig = {
+        user = lib.mkBefore {
+          name = "Gabe Dunn";
+          email = "gabe@sent.at";
+        };
+        core = {
+          autocrlf = "input";
+          trustctime = false;
+          editor = "nvim";
+          filemode = false;
+        };
+        color = { ui = true; };
+        filter.lfs = {
+          clean = "git-lfs clean -- %f";
+          smudge = "git-lfs smudge -- %f";
+          process = "git-lfs filter-process";
+          required = true;
+        };
+        hub = { protocol = "ssh"; };
+        init = { defaultBranch = "master"; };
+        pull = { rebase = true; };
+        push = { default = "matching"; };
+        tag = { forceSignAnnotated = true; };
+        # merge = { tool = "nvim -d"; };
+        # mergetool = {
+        #   keeptemporaries = false;
+        #   keepbackups = false;
+        #   prompt = false;
+        #   trustexitcode = false;
+        #   path = "nvim -d";
+        # };
+        # pager = {
+        #   diff = "delta";
+        #   log = "delta";
+        #   reflog = "delta";
+        #   show = "delta";
+        # };
+      };
+
+      includes = [
+        { path = "${config.xdg.configHome}/git/gitconfig.local"; }
+        {
+          condition = "gitdir:${config.home.homeDirectory}/Work/Speechify/";
+          path = "${config.home.homeDirectory}/Work/Speechify/.gitconfig";
+        }
+      ];
+
+      difftastic = {
+        enable = true;
+
+        background = "dark";
+        # display = "inline";
+      };
+
+      delta = {
+        enable = false;
+
+        options = {
+          features = "side-by-side line-numbers decorations";
+          # TODO: fix these getting formatted improperly
+          # plus_style = "syntax #003800";
+          # minus_style = "syntax #3f0001";
+          navigate = true;
+          decorations = {
+            commit-decoration-style = "bold yellow box ul";
+            file-style = "bold yellow ul";
+            file-decoration-style = "none";
+            hunk-header-decoration-style = "cyan box ul";
+          };
+          line-numbers = {
+            line-numbers-left-style = "cyan";
+            line-numbers-right-style = "cyan";
+            line-numbers-minus-style = 124;
+            line-numbers-plus-style = 28;
+          };
+        };
+      };
     };
-    userName = "Gabriel Fontes";
-    userEmail = "hi@m7.rs";
-    extraConfig = {
-      init.defaultBranch = "main";
-      user.signing.key = "CE707A2C17FAAC97907FF8EF2E54EA7BFE630916";
-      commit.gpgSign = true;
-      gpg.program = "${config.programs.gpg.package}/bin/gpg2";
+
+    gh = {
+      enable = true;
+
+      extensions = with pkgs; [ gh-cal gh-eco gh-markdown-preview ];
+
+      settings = {
+        git_protocol = "ssh";
+
+        prompt = "enabled";
+
+        aliases = {
+          co = "pr checkout";
+          pv = "pr view";
+        };
+        version = 1;
+      };
     };
-    lfs.enable = true;
-    ignores = [ ".direnv" "result" ];
+
+    gh-dash.enable = true;
+
+    git-cliff = { enable = true; };
+
+    gitui = {
+      enable = false;
+      keyConfig = ''
+        move_left: Some(( code: Char('h'), modifiers: ( bits: 0,),)),
+        move_right: Some(( code: Char('l'), modifiers: ( bits: 0,),)),
+        move_up: Some(( code: Char('k'), modifiers: ( bits: 0,),)),
+        move_down: Some(( code: Char('j'), modifiers: ( bits: 0,),)),
+
+        stash_open: Some(( code: Char('l'), modifiers: ( bits: 0,),)),
+
+        open_help: Some(( code: F(1), modifiers: ( bits: 0,),)),
+      '';
+    };
+
+    lazygit = {
+      enable = true;
+      settings = {
+        gui = { nerdFontsVersion = "3"; };
+        disableStartupPopups = true;
+      };
+    };
   };
 }

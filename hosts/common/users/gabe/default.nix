@@ -53,49 +53,5 @@ in {
     spotifywm
     vivaldi
     vscodium
-
-    # cli
-    atool
-
-    atool
-    bat
-    btop
-    cpustat
-    delta
-    dex
-    eza
-    fasd
-    figlet
-    fd
-    ffmpeg
-    ffmpegthumbnailer
-    # fnm
-    fzf
-    gh
-    git
-    hub
-    jq
-    lazygit
-    mcfly
-    mediainfo
-    micro
-    neofetch
-    pavucontrol
-    # pipecontrol
-    playerctl
-    poetry
-    pulseaudio
-    ranger
-    rclone
-    ripgrep
-    tealdeer
-    tmux
-    # urlencode
-    xdo
-    xfce.exo
-    xorg.xmodmap
-    yadm
-    yt-dlp
-    zoxide
   ];
 }

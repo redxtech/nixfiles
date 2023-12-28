@@ -1,4 +1,5 @@
 { pkgs, ... }:
+
 let
   update-script = pkgs.writeShellApplication {
     name = "fetch-nix-index-database";
@@ -11,8 +12,7 @@ let
       ln -f "$filename" files
     '';
   };
-in
-{
+in {
   programs.nix-index.enable = true;
 
   systemd.user.services.nix-index-database-sync = {
@@ -25,7 +25,9 @@ in
     };
   };
   systemd.user.timers.nix-index-database-sync = {
-    Unit = { Description = "Automatic github:mic92/nix-index-database fetching"; };
+    Unit = {
+      Description = "Automatic github:mic92/nix-index-database fetching";
+    };
     Timer = {
       OnBootSec = "10m";
       OnUnitActiveSec = "24h";
