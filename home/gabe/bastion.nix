@@ -1,10 +1,9 @@
-{ inputs, outputs, ... }: {
+{ inputs, outputs, ... }:
+
+{
   imports = [
     ./global
     # ./features/desktop/bspwm
-    # ./features/desktop/hyprland
-    ./features/rgb
-    ./features/pass
     ./features/games
   ];
 
