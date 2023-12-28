@@ -1,7 +1,15 @@
 { pkgs, inputs, ... }:
 
 {
-  services.flatpak.enable = true;
+  services.flatpak = {
+    enable = true;
+
+    packages = [
+      "com.obsproject.Studio"
+      "dev.vencord.Vesktop"
+      # "io.github.dvlv.boxbuddyrs"
+    ];
+  };
 
   xdg.portal = {
     enable = true;

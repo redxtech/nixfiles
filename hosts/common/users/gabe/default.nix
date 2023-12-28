@@ -24,7 +24,28 @@ in {
 
     openssh.authorizedKeys.keys =
       [ (builtins.readFile ../../../../home/gabe/ssh.pub) ];
-    packages = [ pkgs.home-manager ];
+
+    packages = with pkgs; [
+      home-manager
+
+      # beekeeper-studio-ultimate
+      discord
+      feh
+      firefox-devedition-bin
+      flameshot
+      google-chrome
+      insomnia
+      kitty
+      libsForQt5.kleopatra
+      mozillavpn
+      mpv
+      networkmanagerapplet
+      obsidian
+      slack
+      spotifywm
+      vivaldi
+      vscodium
+    ];
   };
 
   sops.secrets.gabe-pw.neededForUsers = true;
@@ -34,24 +55,4 @@ in {
 
   services.geoclue2.enable = true;
   # security.pam.services = { swaylock = { }; };
-
-  environment.systemPackages = with pkgs; [
-    # beekeeper-studio-ultimate
-    discord
-    feh
-    firefox-devedition-bin
-    flameshot
-    google-chrome
-    insomnia
-    kitty
-    libsForQt5.kleopatra
-    mozillavpn
-    mpv
-    networkmanagerapplet
-    obsidian
-    slack
-    spotifywm
-    vivaldi
-    vscodium
-  ];
 }
