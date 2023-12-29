@@ -7,10 +7,12 @@ let
 in {
   imports = [
     inputs.nix-colors.homeManagerModule
+    inputs.nix-flatpak.homeManagerModule.nix-flatpak
     # inputs.sops-nix.homeManagerModules.sops
 
     ./nix.nix
     ./sops.nix
+    ./user-theme.nix # TODO: remove
     ../features/cli
     # ../features/nvim
     ../features/helix

@@ -22,7 +22,6 @@
     playerctl
     plexamp
     slack
-    # steam
     spotifywm
     xdragon
     xfce.exo
