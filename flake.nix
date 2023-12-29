@@ -14,22 +14,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hardware.url = "github:nixos/nixos-hardware";
-    nix-colors.url = "github:misterio77/nix-colors";
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
-
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hardware.url = "github:nixos/nixos-hardware";
+    nix-colors.url = "github:misterio77/nix-colors";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
+    # nur.url = "github:nix-community/NUR";
   };
 
   outputs = { self, nixpkgs, home-manager, sops-nix, ... }@inputs:
