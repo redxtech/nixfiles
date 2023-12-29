@@ -3,8 +3,7 @@
 {
   imports = [
     ./kitty.nix
-    # ./firefox
-
+    ./firefox
     ./mpv.nix
     ./rio.nix
   ];
