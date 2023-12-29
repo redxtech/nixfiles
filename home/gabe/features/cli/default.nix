@@ -8,6 +8,7 @@
     ./neovim.nix
     ./nix-index.nix
     ./programs.nix
+    ./services.nix
     ./ssh.nix
     ./zsh.nix
   ];
