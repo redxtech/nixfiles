@@ -30,9 +30,6 @@ in {
     sessionPath = [ "$HOME/.local/bin" ];
     sessionVariables = {
       FLAKE = "$HOME/Code/nixfiles";
-      BROWSER = "firefox-developer-edition";
-      VISUAL = "nvim";
-      TERMINAL = "kitty";
     };
     language.base = "en_CA.UTF-8";
   };

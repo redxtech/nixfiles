@@ -33,7 +33,10 @@
     vlc
   ];
 
-  programs = { feh.enable = true; };
+  programs = {
+    feh.enable = true;
+    zathura.enable = true;
+  };
 
   services.playerctld = { enable = true; };
 
