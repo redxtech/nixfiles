@@ -5,6 +5,7 @@
   # shellcolord = pkgs.callPackage ./shellcolord { };
 
   # Personal scripts
+  switchup = pkgs.callPackage ./switchup { };
   nix-inspect = pkgs.callPackage ./nix-inspect { };
   minicava = pkgs.callPackage ./minicava { };
   lyrics = pkgs.python3Packages.callPackage ./lyrics { };
