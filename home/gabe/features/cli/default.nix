@@ -7,62 +7,83 @@
     # ./lyrics.nix
     ./neovim.nix
     ./nix-index.nix
+    ./programs.nix
     ./ssh.nix
     ./zsh.nix
   ];
 
   home = {
-    # TODO: remove programs installed by programs.<program>
     packages = with pkgs; [
       comma # install and run programs by sticking a , before them
       distrobox # nice escape hatch, integrates docker images with my environment
 
+      age # encryption
       atool # work with archives
-      bat # better cat
-      btop # better top
+      bitwarden-cli # password manager
+      bluetuith # bluetooth manager
+      cachix # nix binary cache manager
       cpustat # cpu usage
-      delta # better diff
+      # delta # better diff
       dex # desktop entry executor
-      eza # better ls
+      diffsitter # better diff
+      du-dust # better du
+      dua # better du
       fd # better find
+      fx # better jq
       figlet # ascii art
       ffmpeg # media multitool
       ffmpegthumbnailer # thumbnailer
-      # fnm
-      fzf # fuzzy finder
-      gh # github cli
-      git # version control
       httpie # better curl
-      hub # github cli
-      lazygit # git ui
-      ltex-ls # spell checking LSP
-      mcfly # better history
+      # ltex-ls # spell checking LSP
+      lsb-release # get distro info
       mediainfo # media info
       micro # editor
       neofetch # system info
       nil # nix LSP
+      nixd # nix LSP
       nixfmt # nix formatter
+      nix-du # du for nix store
       nix-inspect # see which pkgs are in your PATH
       pfetch # system info
+      pipes-rs # pipes screensaver
       playerctl # media player controller
       # poetry # python package manager
+      prettyping # better ping
+      ps_mem # memory usage
+      rage # age with rust
       ranger # file manager
       rclone # cloud storage manager
-      ripgrep # better grep
+      rsync # file transfer
+      sd # better sed
       slurm-nm # network monitor
-      tealdeer # better man pages
-      tly # tally counter
-      tmux # terminal multiplexer
-      diffsitter # better diff
-      jq # JSON pretty printer and manipulator
       timer # to help with my ADHD paralysis
-      # urlencode # url encoder
+      tly # tally counter
+      tokei # count lines of code in project
+      urlencode # url encoder
+      xclip # clipboard manager
+      xdg-utils # xdg-open
       xdo # xdotool
       xfce.exo # protocol handler
       xorg.xmodmap # keyboard remapper
       yadm # dotfile manager
-      yt-dlp # youtube downloader
-      zoxide # better cd
+      yq-go # jq for yaml
+
+      # personal packages
+      switchup
+
+      # TODO: move these to their own file OR specific dev shells
+      google-cloud-sdk
+      kubecolor
+      kubectl
+      kubectx
+      telepresence2
+
+      # get rid of or figure better place
+      sqlite # for mcfly
+
+      # languages
+      nodejs
+      (python3.withPackages (ps: with ps; [ dbus-python pygobject3 requests ]))
     ];
 
     shellAliases = {
