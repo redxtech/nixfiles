@@ -1,0 +1,18 @@
+{ pkgs, inputs, ... }:
+
+{
+  # imports = [
+  #   inputs.nix-flatpak.homeManagerModules.nix-flatpak
+  # ];
+
+  services.flatpak = {
+    enable = true;
+
+    packages = [
+      "com.obsproject.Studio"
+      "dev.vencord.Vesktop"
+      # "io.github.dvlv.boxbuddyrs"
+    ];
+  };
+}
+

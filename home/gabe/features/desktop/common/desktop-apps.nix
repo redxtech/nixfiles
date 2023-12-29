@@ -4,6 +4,7 @@
   imports = [
     ./kitty.nix
     ./firefox
+    ./flatpak.nix
     ./mpv.nix
     ./rio.nix
   ];
