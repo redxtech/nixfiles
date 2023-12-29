@@ -41,14 +41,27 @@
     xclip
   ];
 
-  # Fix for qt6 plugins
+  # fix for qt6 plugins
   environment.profileRelativeSessionVariables = {
     QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
   };
 
   hardware.enableRedistributableFirmware = true;
 
-  # Increase open file limit for sudoers
+  # passwordless sudo for ps_mem
+  security.sudo = {
+    enable = true;
+
+    extraRules = [{
+      commands = [{
+        command = "${pkgs.ps_mem}/bin/ps_mem";
+        options = [ "NOPASSWD" ];
+      }];
+      groups = [ "wheel" ];
+    }];
+  };
+
+  # increase open file limit for sudoers
   security.pam.loginLimits = [
     {
       domain = "@wheel";
