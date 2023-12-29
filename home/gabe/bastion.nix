@@ -4,7 +4,6 @@
   imports = [
     ./global
     # ./features/desktop/bspwm
-    ./features/games
   ];
 
   colorscheme = inputs.nix-colors.colorschemes.dracula;

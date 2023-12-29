@@ -1,9 +1,9 @@
 { inputs, outputs, ... }:
+
 {
   imports = [
     ./global
     # ./features/desktop/wireless
-    ./features/games
   ];
 
   colorscheme = inputs.nix-colors.colorSchemes.atelier-heath;

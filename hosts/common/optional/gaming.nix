@@ -33,7 +33,13 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [ protonup-qt steamcmd steam-tui ];
+  environment.systemPackages = with pkgs; [
+    protonup-qt
+    steamcmd
+    steam-tui
+    (lutris.override { extraPkgs = p: [ p.wine ]; })
+    prismlauncher-qt5
+  ];
 
   nixpkgs.config.nvidia.acceptLicense = true;
 
@@ -51,6 +57,8 @@
           stdenv.cc.cc.lib
           libkrb5
           keyutils
+          mangohud
+          protontricks
           glxinfo
         ];
     };
