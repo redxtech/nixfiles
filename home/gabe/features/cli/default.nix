@@ -1,15 +1,11 @@
 { pkgs, ... }: {
   imports = [
-    ./bash.nix
-    ./bat.nix
     # ./fish.nix
     ./git.nix
     ./gpg.nix
     # ./jujutsu.nix
     # ./lyrics.nix
     ./nix-index.nix
-    ./pfetch.nix
-    ./ranger.nix
     ./ssh.nix
     ./zsh.nix
   ];
@@ -46,6 +42,7 @@
       nil # nix LSP
       nixfmt # nix formatter
       nix-inspect # see which pkgs are in your PATH
+      pfetch # system info
       playerctl # media player controller
       # poetry # python package manager
       ranger # file manager
@@ -82,9 +79,21 @@
       diff = "diff --color=auto";
       ip = "ip --color=auto";
     };
+
+    # pfetch
+    sessionVariables.PF_INFO =
+      "ascii title os kernel uptime shell term desktop scheme palette";
   };
 
   programs = {
+    bash = { enable = true; };
+
+    bat = {
+      enable = true;
+      config.theme = "Dracula";
+      # config.theme = "base16";
+    };
+
     direnv = {
       enable = true;
       enableZshIntegration = true;

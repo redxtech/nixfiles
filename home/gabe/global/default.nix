@@ -10,6 +10,7 @@ in {
     ./nix.nix
     ../features/cli
     # ../features/nvim
+    ../features/helix
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   systemd.user.startServices = "sd-switch";
