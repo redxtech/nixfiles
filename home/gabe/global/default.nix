@@ -34,7 +34,16 @@ in {
       VISUAL = "nvim";
       TERMINAL = "kitty";
     };
+    language.base = "en_CA.UTF-8";
   };
+
+  manual = {
+    html.enable = true;
+    json.enable = lib.mkDefault true;
+  };
+
+  # set up later
+  accounts = { };
 
   colorscheme = lib.mkDefault colorSchemes.dracula;
   wallpaper = let
@@ -48,9 +57,4 @@ in {
     logoScale = 4;
   });
   home.file.".colorscheme".text = config.colorscheme.slug;
-
-  manual = {
-    html.enable = true;
-    json.enable = lib.mkDefault true;
-  };
 }

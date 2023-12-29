@@ -49,6 +49,7 @@
       ranger # file manager
       rclone # cloud storage manager
       ripgrep # better grep
+      slurm-nm # network monitor
       tealdeer # better man pages
       tly # tally counter
       tmux # terminal multiplexer
