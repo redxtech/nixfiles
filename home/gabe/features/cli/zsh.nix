@@ -308,8 +308,8 @@ in {
   };
 
   # file writing
-  # xdg.configFile."zsh/env.secrets.zsh".text = ''
-  #   export YOUTUBE_API_KEY="$(${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/rofi/youtube.txt)"
-  #   export BW_SESSION="$(${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/zsh/env/bw.txt)"
-  # '';
+  xdg.configFile."zsh/env.secrets.zsh".text = ''
+    export YOUTUBE_API_KEY="$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.youtube.path})"
+    export BW_SESSION="$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.bw.path})"
+  '';
 }

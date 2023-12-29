@@ -7,7 +7,10 @@ let
 in {
   imports = [
     inputs.nix-colors.homeManagerModule
+    # inputs.sops-nix.homeManagerModules.sops
+
     ./nix.nix
+    ./sops.nix
     ../features/cli
     # ../features/nvim
     ../features/helix

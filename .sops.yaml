@@ -33,3 +33,8 @@ creation_rules:
       - age:
           - *gabe
           - *voyager
+
+  - path_regex: home/gabe/secrets\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
