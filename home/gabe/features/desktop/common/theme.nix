@@ -1,0 +1,93 @@
+{ config, pkgs, inputs, ... }:
+
+let
+  inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
+in rec {
+  home.packages = with pkgs; [
+    # theme
+    vimix-cursor-theme
+
+    # fonts
+    cantarell-fonts
+    jetbrains-mono
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts-extra
+    xkcd-font
+    (nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "Hack"
+        "Inconsolata"
+        "JetBrainsMono"
+        "NerdFontsSymbolsOnly"
+        "Noto"
+      ];
+    })
+  ];
+
+  gtk = {
+    enable = true;
+
+    font = {
+      name = config.fontProfiles.regular.family;
+      size = 12;
+    };
+
+    theme = {
+      name = "Dracula";
+      package = pkgs.dracula-theme;
+      # name = "${config.colorscheme.slug}";
+      # package = gtkThemeFromScheme { scheme = config.colorscheme; };
+    };
+
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+  };
+
+  gtk3 = { extraConfig = { gtk-application-prefer-dark-theme = 1; }; };
+
+  gtk2 = {
+    configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+    extraConfig = ''
+      gtk-xft-antialias=1
+      gtk-xft-hinting=1
+      gtk-xft-hintstyle=hintfull
+      gtk-xft-rgba=rgb
+      gtk-button-images=1
+      gtk-menu-images=1
+    '';
+  };
+
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+    style = {
+      name = "gtk2";
+      package = pkgs.qt6Packages.qt6gtk2;
+    };
+  };
+
+  home.pointerCursor = {
+    name = "Vimix-Cursors";
+    package = pkgs.vimix-cursor-theme;
+
+    gtk.enable = true;
+
+    x11 = {
+      enable = true;
+      defaultCursor = "left_ptr";
+    };
+  };
+
+  services.xsettingsd = {
+    enable = true;
+    settings = {
+      "Net/ThemeName" = "${gtk.theme.name}";
+      "Net/IconThemeName" = "${gtk.iconTheme.name}";
+    };
+  };
+}

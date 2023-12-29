@@ -1,16 +1,18 @@
+{ config, pkgs, ... }:
+
 {
   imports = [
-    ./deluge.nix
-    ./discord.nix
-    ./dragon.nix
-    ./firefox.nix
-    ./font.nix
-    ./gtk.nix
-    ./kdeconnect.nix
-    ./pavucontrol.nix
-    ./playerctl.nix
-    ./qt.nix
-    ./slack.nix
-    ./sublime-music.nix
+    ./desktop-apps.nix
+    # ./font.nix
+    # ./kdeconnect.nix
+    ./theme.nix
   ];
+
+  home.packages = with pkgs; [ glxinfo spotify-tui ];
+
+  xdg = {
+    enable = true;
+
+    userDirs = { videos = "$HOME/Videos"; };
+  };
 }
