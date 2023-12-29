@@ -5,6 +5,7 @@
     ./gpg.nix
     # ./jujutsu.nix
     # ./lyrics.nix
+    ./neovim.nix
     ./nix-index.nix
     ./ssh.nix
     ./zsh.nix
