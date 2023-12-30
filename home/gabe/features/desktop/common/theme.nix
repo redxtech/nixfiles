@@ -46,20 +46,20 @@ in rec {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
-  };
 
-  gtk3 = { extraConfig = { gtk-application-prefer-dark-theme = 1; }; };
+    gtk3 = { extraConfig = { gtk-application-prefer-dark-theme = 1; }; };
 
-  gtk2 = {
-    configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
-    extraConfig = ''
-      gtk-xft-antialias=1
-      gtk-xft-hinting=1
-      gtk-xft-hintstyle=hintfull
-      gtk-xft-rgba=rgb
-      gtk-button-images=1
-      gtk-menu-images=1
-    '';
+    gtk2 = {
+      configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+      extraConfig = ''
+        gtk-xft-antialias=1
+        gtk-xft-hinting=1
+        gtk-xft-hintstyle=hintfull
+        gtk-xft-rgba=rgb
+        gtk-button-images=1
+        gtk-menu-images=1
+      '';
+    };
   };
 
   qt = {
