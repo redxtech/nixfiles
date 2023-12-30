@@ -44,6 +44,9 @@ in {
       enable = true;
 
       abbreviations = {
+        nsn = "nix shell nixpkgs#";
+        nbn = "nix build nixpkgs#";
+
         yamd = "yadm";
         yand = "yadm";
 
@@ -112,35 +115,16 @@ in {
       np = "${n}-shell -p";
       nd = "${n} develop -c $SHELL";
       ns = "${n} shell";
-      nsn = "${ns} nixpkgs#";
       nb = "${n} build";
-      nbn = "${nb} nixpkgs#";
       nf = "${n} flake";
 
       hm = "home-manager --flake .";
       hms = "${hm} switch";
       hmsb = "${hms} -b backup";
 
-      # mkd = "mkdir -pv";
-      # mv = "mv -v";
-      # rm = "rm -i";
-
-      ls = mkIf hasExa "eza";
-      la = "${ls} -al";
-      ll = "${ls} -l";
-      l = "${ls} -l";
-
-      exa = mkIf hasExa "eza";
-
-      vim = mkIf hasNeovim "nvim";
-      vi = vim;
-      v = vim;
-
-      cik = mkIf hasKitty "clone-in-kitty --type os-window";
+      cik = "clone-in-kitty --type os-window";
       ck = cik;
 
-      e = "$EDITOR";
-      svim = "sudo -e";
       ly =
         "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
 

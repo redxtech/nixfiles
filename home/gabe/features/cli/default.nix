@@ -86,16 +86,23 @@
       (python3.withPackages (ps: with ps; [ dbus-python pygobject3 requests ]))
     ];
 
-    shellAliases = {
-      # ls = "eza";
-      la = "ls -al";
-      ll = "ls -l";
-      l = "ls -l";
+    shellAliases = rec {
+      ls = "eza";
+      la = "${ls} -al";
+      ll = "${ls} -l";
+      l = "${ls} -l";
 
       mkd = "mkdir -pv";
       mv = "mv -v";
       rm = "rm -i";
 
+      vim = "nvim";
+      vi = vim;
+      v = vim;
+
+      exa = "eza";
+
+      e = "$EDITOR";
       svim = "sudo -e";
 
       grep = "grep --color=auto";
