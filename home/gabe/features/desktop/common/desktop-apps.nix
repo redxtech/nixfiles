@@ -12,6 +12,7 @@
   home.packages = with pkgs; [
     arandr
     # audacity
+    beekeeper-studio-ultimate
     betterdiscordctl
     deluge
     discord

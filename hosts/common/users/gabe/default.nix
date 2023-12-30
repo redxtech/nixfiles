@@ -28,7 +28,6 @@ in {
     packages = with pkgs; [
       home-manager
 
-      # beekeeper-studio-ultimate
       discord
       feh
       firefox-devedition-bin

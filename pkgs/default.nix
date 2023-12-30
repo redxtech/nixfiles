@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> { } }: rec {
 
   # Packages with an actual source
+  beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
   # rgbdaemon = pkgs.callPackage ./rgbdaemon { };
   # shellcolord = pkgs.callPackage ./shellcolord { };
 

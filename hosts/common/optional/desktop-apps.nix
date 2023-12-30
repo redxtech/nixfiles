@@ -17,7 +17,6 @@
 
   environment.systemPackages = with pkgs; [
     # gui apps
-    # beekeeper-studio
     firefox-devedition-bin
     flameshot
     gnome.gnome-software
