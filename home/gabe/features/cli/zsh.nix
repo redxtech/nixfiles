@@ -121,6 +121,8 @@ in {
       hm = "home-manager --flake .";
       hms = "${hm} switch";
       hmsb = "${hms} -b backup";
+      hmb = "${hm} build";
+      hmn = "${hm} news";
 
       cik = "clone-in-kitty --type os-window";
       ck = cik;
