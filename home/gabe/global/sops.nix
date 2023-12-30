@@ -9,6 +9,9 @@
 
     secrets = {
       youtube = { path = "${config.xdg.configHome}/rofi/youtube.txt"; };
+      openweathermap = {
+        path = "${config.xdg.configHome}/polybar/openweathermap.txt";
+      };
     };
   };
 }
