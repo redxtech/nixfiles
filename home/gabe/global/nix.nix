@@ -18,17 +18,14 @@
       ];
     };
 
-    # Add each flake input as a registry
-    # To make nix3 commands consistent with the flake
+    # add each flake input as a registry
+    # to make nix3 commands consistent with the flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-
-    # Add nixpkgs input to NIX_PATH
-    # This lets nix2 commands still use <nixpkgs>
-    nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
   };
 
   nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = builtins.attrValues outputs.overlays
+      ++ [ inputs.neovim-nightly-overlay.overlay ];
     config = {
       allowUnfree = true;
       allowUnfreePredicate = (_: true);
