@@ -3,7 +3,8 @@
 {
   imports = [
     ./global
-    # ./features/desktop/bspwm
+    ./features/desktop/bspwm
+    ./features/desktop/common/kdeconnect.nix
   ];
 
   colorscheme = inputs.nix-colors.colorschemes.dracula;

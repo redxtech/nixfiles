@@ -3,7 +3,7 @@
 {
   imports = [
     ./global
-    # ./features/desktop/wireless
+    ./features/desktop/bspwm
     ./features/desktop/bspwm/per-device/voyager.nix
   ];
 
