@@ -4,17 +4,17 @@
 
 Here's my NixOS/home-manager config files. Requires [Nix flakes](https://nixos.wiki/wiki/Flakes).
 
-Looking for something simpler to start out with flakes? Try [my starter config repo](https://github.com/Misterio77/nix-starter-config).
+Looking for something simpler to start out with flakes? Try [Misterio77's starter config repo](https://github.com/Misterio77/nix-starter-config).
 
 **Highlights**:
 
 - Multiple **NixOS configurations**, including **desktop**, **laptop**, **server**
-- ~~**Encrypted** single **BTRFS** partition~~
-- ~~Fully **declarative** **self-hosted** stuff~~
 - Deployment **secrets** using **sops-nix**
 - **Mesh networked** hosts with **tailscale** and **headscale**
 - Flexible **Home Manager** Configs through **feature flags**
 - Extensively configured bspwm environment and editor (**neovim**)
+- ~~Fully **declarative** **self-hosted** stuff~~ soon
+- ~~**Encrypted** single **BTRFS** partition~~
 - ~~**Declarative** **themes** and **wallpapers** with **nix-colors**~~
 
 ## Structure
