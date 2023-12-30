@@ -11,7 +11,7 @@ in {
   home.packages = pinentry.packages;
 
   services.gpg-agent = {
-    enable = true;
+    enable = false;
     enableSshSupport = true;
     sshKeys = [ "11148591F2B2026E9B2227BD5C7A1973A2838278" ];
     pinentryFlavor = pinentry.name;

@@ -102,7 +102,7 @@ def output_windows():
 
 # Start the subprocess and redirect stdout to a pipe
 process = subprocess.Popen(
-    ["${pkgs.bspwm}/bin/bspc", "subscribe"], stdout=subprocess.PIPE, universal_newlines=True # noqa
+    ["bspc", "subscribe"], stdout=subprocess.PIPE, universal_newlines=True # noqa
 )
 
 # Continuously read lines from the stdout
