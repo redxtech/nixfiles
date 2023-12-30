@@ -5,9 +5,10 @@
 
   sops = {
     defaultSopsFile = ../secrets.yaml;
-    age.sshKeyPaths = [ "$HOME/.ssh/id_ed25519" ];
+    age.sshKeyPaths = [ /home/gabe/.ssh/id_ed25519 ];
 
     secrets = {
+      bw = { path = "${config.xdg.configHome}/zsh/bw.txt"; };
       youtube = { path = "${config.xdg.configHome}/rofi/youtube.txt"; };
       openweathermap = {
         path = "${config.xdg.configHome}/polybar/openweathermap.txt";
