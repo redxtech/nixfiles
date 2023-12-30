@@ -15,8 +15,19 @@ let
     };
   }) colours);
 
+  scripts = (import ./scripts) { inherit pkgs lib; };
+
   inherit (config.lib.formats.rasi) mkLiteral;
 in {
+  home.packages = with scripts; [
+    rofi-clipboard
+    rofi-nerd-icons
+    rofi-powermenu
+    rofi-screenshot
+    rofi-web
+    rofi-youtube
+  ];
+
   programs.rofi = {
     enable = true;
 
