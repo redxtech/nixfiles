@@ -5,8 +5,8 @@
     enable = true;
 
     packages = [
-      "com.obsproject.Studio"
-      "dev.vencord.Vesktop"
+      # "com.obsproject.Studio"
+      # "dev.vencord.Vesktop"
       # "io.github.dvlv.boxbuddyrs"
     ];
   };

@@ -1,13 +1,7 @@
 { config, pkgs, inputs, system, ... }:
 
 {
-  imports = [
-    ./kitty.nix
-    ./firefox
-    ./flatpak.nix
-    ./mpv.nix
-    ./rio.nix
-  ];
+  imports = [ ./kitty.nix ./firefox ./flatpak.nix ./mpv.nix ./rio.nix ];
 
   home.packages = with pkgs; [
     arandr
