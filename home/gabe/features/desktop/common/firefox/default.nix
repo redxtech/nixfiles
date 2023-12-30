@@ -1,9 +1,9 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
-  home = { sessionVariables = {
-      BROWSER = "firefox-developer-edition -p gabe";
-  }; };
+  home = {
+    sessionVariables = { BROWSER = "firefox-developer-edition -p gabe"; };
+  };
 
   programs.firefox = {
     enable = true;
@@ -90,20 +90,20 @@
         userChrome = builtins.readFile ./userChrome.css;
         userContent = builtins.readFile ./userContent.css;
 
-        extensions = with pkgs.nur.repos.rycee.firefox-addons;
-          [
-            # bitwarden
-            # darkreader
-            enhancer-for-youtube
-            # gesturefy
-            # kagi-search
-            # localcdn
-            # raindropio
-            # sidebery
-            # sponsorblock
-            # stylus
-            # ublock-origin
-          ];
+        # extensions = with inputs.firefox-addons.packages;
+        # [
+        # bitwarden
+        # darkreader
+        # enhancer-for-youtube
+        # gesturefy
+        # kagi-search
+        # localcdn
+        # raindropio
+        # sidebery
+        # sponsorblock
+        # stylus
+        # ublock-origin
+        # ];
 
         search = {
           force = true;
