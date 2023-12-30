@@ -44,6 +44,9 @@ in {
       patches = (oldAttrs.patches or [ ]) ++ [ ./pfetch.patch ];
     });
 
+    picom-jonaburg = prev.picom-jonaburg.overrideAttrs
+      (oldAttrs: { meta.mainProgram = "picom"; });
+
     rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
 
     vivaldi = prev.vivaldi.override {

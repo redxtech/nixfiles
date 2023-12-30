@@ -81,7 +81,6 @@
       tmux.enableShellIntegration = true;
     };
 
-    gpg = { enable = false; };
     granted = { enable = false; };
 
     htop.enable = true;

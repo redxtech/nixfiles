@@ -109,4 +109,3 @@ process = subprocess.Popen(
 while True:
     line = process.stdout.readline().strip()
     output_windows()
-

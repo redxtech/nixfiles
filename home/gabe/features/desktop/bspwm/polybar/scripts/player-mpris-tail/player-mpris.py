@@ -765,4 +765,3 @@ else:
         print(_dbusValueToPython(current_player._metadata))
     elif args.command == "raise" and current_player:
         current_player.raisePlayer()
-
