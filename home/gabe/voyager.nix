@@ -1,149 +1,65 @@
 { inputs, outputs, pkgs, lib, config, ... }:
 
 {
-  imports = [
-    ./global
-    ./features/desktop/bspwm
-    ./features/desktop/bspwm/per-device/voyager.nix
-  ];
+  imports = [ ./global ./features/desktop/bspwm ];
 
   colorscheme = inputs.nix-colors.colorSchemes.atelier-heath;
   wallpaper = outputs.wallpapers.aenami-lunar;
 
-  #   ------
-  #  | eDP-1|
-  #   ------
-  monitors = [{
-    name = "eDP-1";
-    width = 1920;
-    height = 1080;
-    primary = true;
-  }];
+  profileVars = {
+    enable = true;
+
+    primaryMonitor = "eDP-1";
+
+    network = {
+      type = "wireless";
+      interface = "wlp59s0";
+    };
+
+    hwmonPath = "/sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input";
+
+    polybarModulesRight = [
+      "margin"
+      "weather"
+      "margin"
+      "backlight"
+      "margin"
+      # "kdeconnect"
+      # "margin"
+      "pipewire"
+      "margin"
+      "memory"
+      "margin"
+      "temperature"
+      "margin"
+      "cpu"
+      "margin"
+      "network"
+      "margin"
+      "battery"
+      "margin"
+      "date"
+      "margin"
+      "dnd"
+    ];
+  };
 
   # desktop layout
   xsession.windowManager.bspwm = {
-    monitors = { "eDP-1" = [ "shell" "www" "chat" "music" "files" "video" ]; };
+    monitors = {
+      "${config.profileVars.primaryMonitor}" =
+        [ "shell" "www" "chat" "music" "files" "video" ];
+    };
   };
 
   # laptop only polybar stuff
   services.polybar = {
     script = ''
       polybar main &
-
-      MONITOR_COUNT=$(${pkgs.xorg.xrandr}/bin/xrandr | ${pkgs.ripgrep}/bin/rg ' connected' | ${pkgs.coreutils}/bin/wc -l)
-
-      if test "$MONITOR_COUNT" = "2"; then
-        polybar secondary &
-      fi
     '';
 
     settings = with builtins;
       with lib.strings; {
-        "bar/secondary" = {
-          inherit (config.services.polybar.settings."bar/main")
-            width height line-size offset bottom fixed-center wm-restack
-            override-redirect enable-ipc background foreground cursor font;
-
-          monitor = "DP-1";
-
-          modules = {
-            left =
-              concatStringsSep " " [ "bspwm" "margin" "polywins-secondary" ];
-            center = config.services.polybar.settings."bar/main".modules.center;
-            right = concatStringsSep " " (config.device-vars.barRightModules
-              ++ [ "margin" "tray" "margin" "powermenu" ]);
-          };
-        };
-        "module/polywins-secondary" = {
-          inherit (config.services.polybar.settings."module/polywins")
-            format label tail type;
-
-          exec = let
-            polywins =
-              pkgs.callPackage ./features/desktop/bspwm/polybar/scripts/polywins
-              { };
-          in "${polywins}/bin/polywins DP-2";
-        };
-        "module/backlight" = {
-          type = "internal/backlight";
-
-          card = "intel_backlight";
-          enable-scroll = true;
-          scroll-interval = -10;
-
-          format = {
-            underline = "\${colours.backlight";
-            prefix = {
-              text = "󰖨";
-              background = "\${colours.backlight}";
-              foreground = "\${colours.bg}";
-              padding = 1;
-            };
-          };
-          label = {
-            text = "%percentage%%";
-            background = "\${colours.bg-alt}";
-            foreground = "\${colours.fg}";
-            padding = 1;
-          };
-        };
-        "module/battery" = {
-          type = "internal/battery";
-
-          battery = "BAT0";
-          adapter = "AC";
-          full-at = 98;
-
-          format = {
-            charging = {
-              text = "<label-charging>";
-              underline = "\${colours.cyan}";
-              prefix = {
-                text = "󰂄";
-                background = "\${colours.cyan}";
-                foreground = "\${colours.bg}";
-                padding = 1;
-              };
-            };
-            discharging = {
-              text = "<label-discharging>";
-              underline = "\${colours.cyan}";
-              prefix = {
-                text = "󰁾";
-                background = "\${colours.cyan}";
-                foreground = "\${colours.bg}";
-                padding = 1;
-              };
-            };
-            full = {
-              text = "<label-full>";
-              underline = "\${colours.green}";
-              prefix = {
-                text = "󰁹";
-                background = "\${colours.green}";
-                foreground = "\${colours.bg}";
-                padding = 1;
-              };
-            };
-          };
-          label = {
-            charging = {
-              text = "%percentage%%";
-              background = "\${colours.bg-alt}";
-              padding = 1;
-            };
-            discharging = {
-              text = "%percentage%%";
-              background = "\${colours.bg-alt}";
-              padding = 1;
-            };
-            full = {
-              text = "%percentage%%";
-              background = "\${colours.bg-alt}";
-              padding = 1;
-            };
-          };
-        };
         "module/network" = { label.connected.text = "%essid%"; };
       };
   };

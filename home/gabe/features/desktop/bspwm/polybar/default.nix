@@ -19,9 +19,9 @@ in {
         "${runFloat "kitty"} ${pkgs.kitty}/bin/kitty --single-instance";
       runBtop = "${kittyRun} ${pkgs.btop}/bin/btop";
       runSlurm =
-        "${kittyRun} -o initial_window_width=79c -o initial_window_height=22c ${pkgs.slurm-nm}/bin/slurm -i ${config.device-vars.networkInterface}";
+        "${kittyRun} -o initial_window_width=79c -o initial_window_height=22c ${pkgs.slurm-nm}/bin/slurm -i ${config.profileVars.network.interface}";
 
-      isWired = (config.device-vars.networkType == "wired");
+      isWired = (config.profileVars.network.type == "wired");
 
       rofiScripts = (import ../rofi/scripts) { inherit pkgs lib config; };
     in {
@@ -100,12 +100,87 @@ in {
             "polywins"
           ];
           center = concatStringsSep " " [ "player-mpris-tail" ];
-          right = concatStringsSep " " (config.device-vars.barRightModules
+          right = concatStringsSep " " (config.profileVars.polybarModulesRight
             ++ [ "margin" "tray" "margin" ]);
         };
       };
       "settings" = { screenchange-reload = true; };
       # modules
+      "module/backlight" = {
+        type = "internal/backlight";
+
+        enable-scroll = true;
+        scroll-interval = -10;
+
+        format = {
+          underline = "\${colours.backlight";
+          prefix = {
+            text = "󰖨";
+            background = "\${colours.backlight}";
+            foreground = "\${colours.bg}";
+            padding = 1;
+          };
+        };
+        label = {
+          text = "%percentage%%";
+          background = "\${colours.bg-alt}";
+          foreground = "\${colours.fg}";
+          padding = 1;
+        };
+      };
+      "module/battery" = {
+        type = "internal/battery";
+
+        format = {
+          charging = {
+            text = "<label-charging>";
+            underline = "\${colours.cyan}";
+            prefix = {
+              text = "󰂄";
+              background = "\${colours.cyan}";
+              foreground = "\${colours.bg}";
+              padding = 1;
+            };
+          };
+          discharging = {
+            text = "<label-discharging>";
+            underline = "\${colours.cyan}";
+            prefix = {
+              text = "󰁾";
+              background = "\${colours.cyan}";
+              foreground = "\${colours.bg}";
+              padding = 1;
+            };
+          };
+          full = {
+            text = "<label-full>";
+            underline = "\${colours.green}";
+            prefix = {
+              text = "󰁹";
+              background = "\${colours.green}";
+              foreground = "\${colours.bg}";
+              padding = 1;
+            };
+          };
+        };
+        label = {
+          charging = {
+            text = "%percentage%%";
+            background = "\${colours.bg-alt}";
+            padding = 1;
+          };
+          discharging = {
+            text = "%percentage%%";
+            background = "\${colours.bg-alt}";
+            padding = 1;
+          };
+          full = {
+            text = "%percentage%%";
+            background = "\${colours.bg-alt}";
+            padding = 1;
+          };
+        };
+      };
       "module/icon-menu" = {
         type = "custom/text";
         click = {
@@ -330,8 +405,6 @@ in {
 
         interval = 3;
 
-        interface-type = config.device-vars.networkType;
-
         animation-packetloss = [ (if isWired then "󰌙" else "󰤮") "" ];
         animation.packetloss = {
           foreground = "\${colours.red}";
@@ -443,7 +516,8 @@ in {
 
         tail = true;
 
-        exec = "${scripts.polywins}/bin/polywins ${config.device-vars.monitor}";
+        exec =
+          "${scripts.polywins}/bin/polywins ${config.profileVars.primaryMonitor}";
 
         format = "<label>";
         label = {
@@ -468,7 +542,6 @@ in {
         type = "internal/temperature";
 
         interval = 5;
-        hwmon-path = config.device-vars.hwmonPath;
         warn-temperature = 80;
 
         format = {
