@@ -58,7 +58,6 @@
       sd # better sed
       slurm-nm # network monitor
       timer # to help with my ADHD paralysis
-      tly # tally counter
       tokei # count lines of code in project
       urlencode # url encoder
       xclip # clipboard manager

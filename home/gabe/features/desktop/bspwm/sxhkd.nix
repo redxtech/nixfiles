@@ -12,6 +12,7 @@ let
   ff = "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
 
   scripts = (import ./rofi/scripts) { inherit pkgs lib config; };
+  pipewire-control = pkgs.callPackage ./polybar/scripts/pipewire-control { };
 
   # TODO: convert to module, use services.sxhkd
   entries = [
@@ -270,13 +271,13 @@ let
       binds = [ "hyper + {m,r}" ];
     }
     # various miscellany
-    {
-      description = "upgrade packages";
-      command = "${
-          runFloat "kitty"
-        } ${kittyRun} ${pkgs.updates-install-arch}/bin/updates-install-arch";
-      binds = [ "hyper + u" ];
-    }
+    # {
+    #   description = "upgrade packages";
+    #   command = "${
+    #       runFloat "kitty"
+    #     } ${kittyRun} ${pkgs.updates-install-arch}/bin/updates-install-arch";
+    #   binds = [ "hyper + u" ];
+    # }
     {
       description = "{pop most recent,close all} notification";
       command = "${dunst}/bin/dunstctl {history-pop,close-all}";

@@ -23,7 +23,7 @@ in {
 
       isWired = (config.device-vars.networkType == "wired");
 
-      rofiScripts = (import ./rofi/scripts) { inherit pkgs lib config; };
+      rofiScripts = (import ../rofi/scripts) { inherit pkgs lib config; };
     in {
       "colours" = {
         # named colours

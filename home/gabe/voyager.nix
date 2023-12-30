@@ -1,4 +1,4 @@
-{ inputs, outputs, pkgs, ... }:
+{ inputs, outputs, pkgs, lib, config, ... }:
 
 {
   imports = [
@@ -58,7 +58,11 @@
           inherit (config.services.polybar.settings."module/polywins")
             format label tail type;
 
-          exec = "${pkgs.polywins}/bin/polywins DP-2";
+          exec = let
+            polywins =
+              pkgs.callPackage ./features/desktop/bspwm/polybar/scripts/polywins
+              { };
+          in "${polywins}/bin/polywins DP-2";
         };
         "module/backlight" = {
           type = "internal/backlight";

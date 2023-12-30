@@ -6,9 +6,7 @@ let
     colorschemeFromPicture nixWallpaperFromScheme;
 in {
   imports = [
-    inputs.nix-colors.homeManagerModule
-    inputs.nix-flatpak.homeManagerModule.nix-flatpak
-    # inputs.sops-nix.homeManagerModules.sops
+    inputs.nix-colors.homeManagerModules.default
 
     ./nix.nix
     ./sops.nix
@@ -30,9 +28,7 @@ in {
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "23.11";
     sessionPath = [ "$HOME/.local/bin" ];
-    sessionVariables = {
-      FLAKE = "$HOME/Code/nixfiles";
-    };
+    sessionVariables = { FLAKE = "$HOME/Code/nixfiles"; };
     language.base = "en_CA.UTF-8";
   };
 

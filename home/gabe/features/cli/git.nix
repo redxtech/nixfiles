@@ -7,6 +7,9 @@
 
       package = pkgs.hub;
 
+      userName = "Gabe Dunn";
+      userEmail = "gabe@sent.at";
+
       aliases = {
         last = "log -1 --stat";
         cp = "cherry-pick";
@@ -32,10 +35,6 @@
       };
 
       extraConfig = {
-        user = lib.mkBefore {
-          name = "Gabe Dunn";
-          email = "gabe@sent.at";
-        };
         core = {
           autocrlf = "input";
           trustctime = false;
