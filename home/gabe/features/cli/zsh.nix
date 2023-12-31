@@ -116,6 +116,8 @@ in {
       nd = "${n} develop -c $SHELL";
       ns = "${n} shell";
       nb = "${n} build";
+      nbp =
+        "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
       nf = "${n} flake";
 
       hm = "home-manager --flake .";
