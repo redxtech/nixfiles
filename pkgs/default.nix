@@ -11,6 +11,9 @@
   minicava = pkgs.callPackage ./minicava { };
   lyrics = pkgs.python3Packages.callPackage ./lyrics { };
 
+  # font Packages
+  dank-mono = pkgs.callPackage ./dank-mono { };
+
   # My slightly customized plymouth theme, just makes the blue outline white
   plymouth-spinner-monochrome =
     pkgs.callPackage ./plymouth-spinner-monochrome { };
