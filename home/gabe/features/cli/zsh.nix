@@ -6,9 +6,7 @@ let
   hasRipgrep = hasPackage "ripgrep";
   hasExa = hasPackage "eza";
   hasNeovim = config.programs.neovim.enable;
-  hasShellColor = config.programs.shellcolor.enable;
   hasKitty = config.programs.kitty.enable;
-  shellcolor = "${pkgs.shellcolord}/bin/shellcolor";
 in {
   programs.zsh = {
     enable = true;
@@ -161,8 +159,72 @@ in {
       # clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
     };
 
-    zplug = {
+    zinit = {
       enable = true;
+
+      p10k.enable = true;
+
+      plugins = [
+        { name = "aloxaf/fzf-tab"; }
+        { name = "ael-code/zsh-colored-man-pages"; }
+        {
+          name = "chisui/zsh-nix-shell";
+        }
+        # {
+        #   name = "dominik-schwabe/zsh-fnm";
+        # }
+        # { name = "g-plane/zsh-yarn-autocompletions"; }
+        { name = "greymd/docker-zsh-completion"; }
+        { name = "hlissner/zsh-autopair"; }
+        { name = "MichaelAquilina/zsh-auto-notify"; }
+        {
+          name = "nix-community/nix-zsh-completions";
+        }
+        # {
+        #   name = "OMZP::archlinux";
+        #   tags = tags.archOnly;
+        # }
+        # {
+        #   name = "OMZP::dnf";
+        #   tags = tags.dnfOnly;
+        # }
+        # {
+        #   name = "OMZP::ubuntu";
+        #   tags = tags.aptOnly;
+        # }
+        { name = "OMZP::command-not-found"; }
+        { name = "OMZP::github"; }
+        { name = "OMZP::man"; }
+        { name = "OMZP::transfer"; }
+        { name = "redxtech/zsh-containers"; }
+        {
+          name = "redxtech/zsh-kitty";
+          ice = {
+            wait = "2";
+            atload = "__kitty_complete";
+            lucid = "true";
+          };
+        }
+        { name = "redxtech/zsh-not-vim"; }
+        { name = "redxtech/zsh-show-path"; }
+        { name = "redxtech/zsh-systemd"; }
+        { name = "redxtech/zsh-unix-simple"; }
+        {
+          name = "ryutok/rust-zsh-completions";
+          ice = { as = "completion"; };
+        }
+        { name = "voronkovich/gitignore.plugin.zsh"; }
+        {
+          name = "zpm-zsh/ssh";
+        }
+
+        # { name = "zdharma-continuum/fast-syntax-highlighting"; }
+        # { name = "zsh-users/zsh-completions"; }
+      ];
+    };
+
+    zplug = {
+      enable = false;
       zplugHome = "${config.xdg.dataHome}/zplug";
 
       plugins = let

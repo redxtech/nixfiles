@@ -35,6 +35,7 @@
       ffmpeg # media multitool
       ffmpegthumbnailer # thumbnailer
       httpie # better curl
+      libnotify # desktop notifications
       # ltex-ls # spell checking LSP
       lsb-release # get distro info
       mediainfo # media info

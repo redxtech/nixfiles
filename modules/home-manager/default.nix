@@ -4,4 +4,5 @@
   profileVars = import ./profileVars.nix;
   # rgbdaemon = import ./rgbdaemon.nix;
   # wallpaper = import ./wallpaper.nix;
+  zinit = import ./zinit.nix;
 }
