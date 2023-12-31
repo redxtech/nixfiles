@@ -3,7 +3,6 @@
 {
   imports = [
     ./desktop-apps.nix
-    ./font.nix
     # ./kdeconnect.nix
     ./services.nix
     ./theme.nix
