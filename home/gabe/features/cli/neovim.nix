@@ -28,13 +28,36 @@
     '';
 
     extraPackages = with pkgs; [
-      buf-language-server
       gcc
+      gnumake
       go
-      lua-language-server
       nixfmt
       shellcheck
+
+      # language servers & mason binaries
+      buf-language-server
+      clang-tools
+      deno
+      docker-compose-language-service
+      dockerfile-language-server-nodejs
+      hadolint
+      helm-ls
+      lldb
+      luajitPackages.jsregexp
+      lua-language-server
+      nodePackages.bash-language-server
+      nodePackages.prettier
+      nodePackages.pyright
+      nodePackages.typescript-language-server
+      nodePackages.vls
+      nodePackages.vscode-json-languageserver-bin
+      python311Packages.debugpy
+      ruff-lsp
+      shfmt
       stylua
+      tailwindcss-language-server
+      yaml-language-server
+      vscode-langservers-extracted
     ];
 
   };
