@@ -18,6 +18,7 @@
 
         sops
         ssh-to-age
+        git-crypt
         gnupg
         age
       ];
