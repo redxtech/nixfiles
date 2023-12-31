@@ -4,7 +4,6 @@
   imports = [ ./global ./features/desktop/bspwm ];
 
   colorscheme = inputs.nix-colors.colorSchemes.atelier-heath;
-  wallpaper = outputs.wallpapers.aenami-lunar;
 
   profileVars = {
     enable = true;

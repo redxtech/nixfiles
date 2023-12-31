@@ -15,7 +15,6 @@ Looking for something simpler to start out with flakes? Try [Misterio77's starte
 - Extensively configured bspwm environment and editor (**neovim**)
 - ~~Fully **declarative** **self-hosted** stuff~~ soon
 - ~~**Encrypted** single **BTRFS** partition~~
-- ~~**Declarative** **themes** and **wallpapers** with **nix-colors**~~
 
 ## Structure
 

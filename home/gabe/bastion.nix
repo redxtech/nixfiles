@@ -8,7 +8,6 @@
   ];
 
   colorscheme = inputs.nix-colors.colorschemes.dracula;
-  # wallpaper = outputs.wallpapers.aenami-all-i-need;
 
   profileVars = {
     enable = true;
