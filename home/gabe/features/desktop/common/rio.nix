@@ -9,9 +9,15 @@
       blinking-cursor = true;
       theme = "dracula";
 
-      background = {
-        # mode = "Color";
-        opacity = 0.7;
+      fonts = {
+        size = 12;
+        family = config.fontProfiles.monospace.family;
+      };
+
+      window = {
+        foreground-opacity = 1.0;
+        background-opacity = 0.9;
+        blur = true;
       };
     };
   };
