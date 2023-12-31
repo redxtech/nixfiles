@@ -1,9 +1,6 @@
 { inputs, lib, pkgs, config, outputs, ... }:
 
-let
-  inherit (inputs.nix-colors) colorSchemes;
-  inherit (inputs.nix-colors.lib-contrib { inherit pkgs; })
-    colorschemeFromPicture nixWallpaperFromScheme;
+let inherit (inputs.nix-colors) colorSchemes;
 in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
@@ -32,6 +29,9 @@ in {
     language.base = "en_CA.UTF-8";
   };
 
+  colorscheme = lib.mkDefault colorSchemes.dracula;
+  home.file.".colorscheme".text = config.colorscheme.slug;
+
   manual = {
     html.enable = true;
     json.enable = lib.mkDefault true;
@@ -39,7 +39,4 @@ in {
 
   # set up later
   accounts = { };
-
-  colorscheme = lib.mkDefault colorSchemes.dracula;
-  home.file.".colorscheme".text = config.colorscheme.slug;
 }

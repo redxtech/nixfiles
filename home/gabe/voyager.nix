@@ -3,7 +3,7 @@
 {
   imports = [ ./global ./features/desktop/bspwm ];
 
-  colorscheme = inputs.nix-colors.colorSchemes.atelier-heath;
+  colorscheme = inputs.nix-colors.colorSchemes.dracula;
 
   profileVars = {
     enable = true;
