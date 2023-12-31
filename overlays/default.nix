@@ -56,4 +56,6 @@ in {
     };
 
   };
+
+  neovim-nightly = inputs.neovim-nightly-overlay.overlay;
 }
