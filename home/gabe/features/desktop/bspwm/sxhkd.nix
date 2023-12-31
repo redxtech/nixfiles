@@ -253,6 +253,11 @@ let
       binds = [ "hyper + {d,f,p}" ];
     }
     {
+      description = "open neovide";
+      command = "${pkgs.neovide}/bin/neovide";
+      binds = [ "hyper + shift + n" ];
+    }
+    {
       description = "toggle obsidian";
       command =
         "${bspwm}/bin/bspc node $(${xdo}/bin/xdo id -N obsidian) -g hidden -f";
