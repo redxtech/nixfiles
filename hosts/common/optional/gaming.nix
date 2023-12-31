@@ -39,6 +39,7 @@
     steam-tui
     (lutris.override { extraPkgs = p: [ p.wine ]; })
     prismlauncher-qt5
+    protontricks
   ];
 
   nixpkgs.config.nvidia.acceptLicense = true;
@@ -58,7 +59,6 @@
           libkrb5
           keyutils
           mangohud
-          protontricks
           glxinfo
         ];
     };

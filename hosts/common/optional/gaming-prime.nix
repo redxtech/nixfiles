@@ -29,7 +29,6 @@
           libkrb5
           keyutils
           mangohud
-          protontricks
           glxinfo
           bumblebee
         ];
