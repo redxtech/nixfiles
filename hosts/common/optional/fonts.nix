@@ -4,6 +4,7 @@
   fonts = {
     packages = with pkgs; [
       cantarell-fonts
+      dank-mono
       (nerdfonts.override {
         fonts = [
           "FiraCode"

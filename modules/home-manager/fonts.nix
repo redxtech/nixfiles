@@ -31,10 +31,9 @@ in with lib; {
     };
   };
 
-  config = mkIf cfg.enable {
-    fonts.fontconfig.enable = true;
-    home.packages =
-      [ cfg.monospace.package cfg.regular.package cfg.symbols.package ]
-      ++ cfg.extraFonts;
-  };
+  config.fonts.fontconfig.enable = mkIf cfg.enable true;
+  config.home.packages = mkIf cfg.enable
+    ([ cfg.monospace.package cfg.regular.package cfg.symbols.package ]
+      ++ cfg.extraFonts);
+
 }
