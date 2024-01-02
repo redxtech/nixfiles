@@ -6,6 +6,45 @@ let
 
   cfg = config.programs.zsh.zinit;
 
+  arglessIces = [
+    "aliases"
+    "blockf"
+    "cloneonly"
+    "completions"
+    "countdown"
+    "light-mode"
+    "link"
+    "lucid"
+    "nocd"
+    "nocompile"
+    "nocompletions"
+    "notify"
+    "reset"
+    "reset-prompt"
+    "run-atpull"
+    "service"
+    "silent"
+    "svn"
+    "wait"
+
+    "sh"
+    "bash"
+    "csh"
+    "ksh"
+  ];
+  iceToStr = name: value:
+    if (name == "wait" || name == "lucid") && value == "false" then
+      ""
+    else if name == "wait" && value != "0" then
+      "wait'${value}'"
+    else if builtins.elem name arglessIces then
+      "${name}"
+    else
+      "${name}'${value}'";
+  icesToStr = ices: concatStringsSep " " ices;
+
+  defaultArgs = "wait lucid";
+
   pluginModule = types.submodule ({ config, ... }: {
     options = {
       name = mkOption {
@@ -19,13 +58,7 @@ let
           wait = "0";
           lucid = "true";
         };
-        apply = mapAttrsToList (name: value:
-          if "${name}'${value}'" == "wait'0'" then
-            "wait"
-          else if "${name}'${value}'" == "lucid'true'" then
-            "lucid"
-          else
-            "${name}'${value}'");
+        apply = mapAttrsToList iceToStr;
         description = "Ices to apply to the plugin.";
       };
     };

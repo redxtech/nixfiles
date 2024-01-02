@@ -3,9 +3,6 @@ let
   inherit (lib) mkIf;
   hasPackage = pname:
     lib.any (p: p ? pname && p.pname == pname) config.home.packages;
-  hasRipgrep = hasPackage "ripgrep";
-  hasExa = hasPackage "eza";
-  hasNeovim = config.programs.neovim.enable;
   hasKitty = config.programs.kitty.enable;
 in {
   programs.zsh = {
@@ -174,7 +171,9 @@ in {
           name = "g-plane/zsh-yarn-autocompletions";
           ice = {
             atload = "zpcdreplay";
-            atclone = "./zplug.zsh";
+            atclone = "zsh ./zplug.zsh";
+            lucid = "true";
+            wait = "0";
           };
         }
         { name = "greymd/docker-zsh-completion"; }
