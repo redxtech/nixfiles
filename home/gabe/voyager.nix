@@ -3,6 +3,16 @@
 {
   imports = [ ./global ./features/desktop/bspwm ];
 
+  #  ------
+  # | eDP-1|
+  #  ------
+  monitors = [{
+    name = "eDP-1";
+    width = 1920;
+    height = 1080;
+    primary = true;
+  }];
+
   colorscheme = inputs.nix-colors.colorSchemes.dracula;
 
   profileVars = {

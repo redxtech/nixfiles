@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ pkgs, lib, config, ... }:
 
 let
   inherit (lib) mkOption types;
@@ -23,7 +23,7 @@ in {
           type = types.int;
           example = 1080;
         };
-        refreshRate = mkOption {
+        rate = mkOption {
           type = types.int;
           default = 60;
         };
@@ -53,5 +53,18 @@ in {
         -> ((lib.length (lib.filter (m: m.primary) config.monitors)) == 1);
       message = "Exactly one monitor must be set to primary.";
     }];
+    home.file.".screenlayout" = {
+      text = ''
+        ${pkgs.xorg.xrandr}/bin/xrandr -- ${
+          lib.concatStringsSep " " (builtins.map (m:
+            "--output ${m.name} --mode ${toString m.width}x${
+              toString m.height
+            } --rate ${toString m.rate} --pos ${toString m.x}x${toString m.y} ${
+              if m.primary then "--primary" else ""
+            } ${if m.enabled then "" else "--off"}") config.monitors)
+        }
+      '';
+      executable = true;
+    };
   };
 }

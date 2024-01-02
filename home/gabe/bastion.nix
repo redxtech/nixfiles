@@ -7,6 +7,23 @@
     ./features/desktop/common/kdeconnect.nix
   ];
 
+  monitors = [
+    {
+      name = "DP-1";
+      width = 2560;
+      height = 1440;
+      primary = true;
+      rate = 144;
+    }
+    {
+      name = "DP-2";
+      width = 2560;
+      height = 1440;
+      x = 2560;
+      rate = 144;
+    }
+  ];
+
   colorscheme = inputs.nix-colors.colorschemes.dracula;
 
   profileVars = {
