@@ -54,6 +54,14 @@
       wayland_titlebar_color = "background";
     };
 
+    extraConfig = ''
+      modify_font strikethrough_position    130%
+      modify_font strikethrough_thickness   0.1px
+      modify_font underline_position        150%
+      modify_font underline_thickness       0.1px
+      modify_font cell_height               125%
+    '';
+
     shellIntegration.enableZshIntegration = true;
   };
 
