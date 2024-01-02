@@ -50,7 +50,11 @@ in {
       description = "Path to zinit home directory.";
     };
 
+    # TODO: add more p10k options ?
     p10k.enable = mkEnableOption "p10k - powerlevel10k theme for zsh";
+
+    enableSyntaxCompletionsSuggestions = mkEnableOption
+      "Enable fast-syntax-highlighting, zsh-completions and zsh-autosuggestions.";
   };
 
   config = let isOMZP = str: builtins.substring 0 6 str == "OMZP::";
@@ -63,11 +67,9 @@ in {
 
       source ${pkgs.zinit}/share/zinit/zinit.zsh
       ${optionalString cfg.p10k.enable ''
-        # zsh prompt
         zinit ice depth=1
         zinit light romkatv/powerlevel10k
       ''}
-
       ${optionalString (cfg.plugins != [ ]) ''
         ${concatStrings (map (plugin: ''
           ${optionalString (plugin.ice != [ ])
@@ -77,13 +79,15 @@ in {
           } "${plugin.name}"
         '') cfg.plugins)}
       ''}
-      zinit wait lucid for \
-        atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-            zdharma-continuum/fast-syntax-highlighting \
-        blockf \
-            zsh-users/zsh-completions \
-        atload"!_zsh_autosuggest_start" \
-            zsh-users/zsh-autosuggestions
+      ${optionalString cfg.enableSyntaxCompletionsSuggestions ''
+        zinit wait lucid for \
+          atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+              zdharma-continuum/fast-syntax-highlighting \
+          blockf \
+              zsh-users/zsh-completions \
+          atload"!_zsh_autosuggest_start" \
+              zsh-users/zsh-autosuggestions
+      ''}
     '';
 
   };

@@ -164,16 +164,19 @@ in {
 
       p10k.enable = true;
 
+      enableSyntaxCompletionsSuggestions = true;
+
       plugins = [
         { name = "aloxaf/fzf-tab"; }
         { name = "ael-code/zsh-colored-man-pages"; }
+        { name = "chisui/zsh-nix-shell"; }
         {
-          name = "chisui/zsh-nix-shell";
+          name = "g-plane/zsh-yarn-autocompletions";
+          ice = {
+            atload = "zpcdreplay";
+            atclone = "./zplug.zsh";
+          };
         }
-        # {
-        #   name = "dominik-schwabe/zsh-fnm";
-        # }
-        # { name = "g-plane/zsh-yarn-autocompletions"; }
         { name = "greymd/docker-zsh-completion"; }
         { name = "hlissner/zsh-autopair"; }
         { name = "MichaelAquilina/zsh-auto-notify"; }
@@ -214,12 +217,7 @@ in {
           ice = { as = "completion"; };
         }
         { name = "voronkovich/gitignore.plugin.zsh"; }
-        {
-          name = "zpm-zsh/ssh";
-        }
-
-        # { name = "zdharma-continuum/fast-syntax-highlighting"; }
-        # { name = "zsh-users/zsh-completions"; }
+        { name = "zpm-zsh/ssh"; }
       ];
     };
   };
