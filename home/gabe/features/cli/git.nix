@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 
 {
-  home.packages = with pkgs; [ git-crypt ];
+  home.packages = with pkgs; [ git-crypt git-filter-repo ];
 
   programs = {
     git = {

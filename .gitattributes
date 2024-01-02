@@ -1,1 +1,1 @@
-*.otf filter=git-crypt diff=git-crypt
+pkgs/dank-mono/dank-mono/* filter=git-crypt diff=git-crypt
