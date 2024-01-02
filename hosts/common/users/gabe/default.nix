@@ -7,7 +7,9 @@ in {
   users.users.gabe = {
     description = "Gabe Dunn";
     isNormalUser = true;
-    hashedPasswordFile = config.sops.secrets.gabe-pw.path;
+    # hashedPasswordFile = config.sops.secrets.gabe-pw.path;
+    hashedPassword =
+      "$y$j9T$GxuD3pSdyD5yPsu7PdPuX0$zdgOGbkKcK3upg7dtU/WGr6CEce6RBF.mvb49v4fAQC";
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "video" "audio" ] ++ ifTheyExist [
       "deluge"
@@ -47,7 +49,7 @@ in {
     ];
   };
 
-  sops.secrets.gabe-pw.neededForUsers = true;
+  # sops.secrets.gabe-pw.neededForUsers = true;
 
   # home-manager.users.gabe =
   #   import ../../../../home/gabe/${config.networking.hostName}.nix;
