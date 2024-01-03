@@ -34,11 +34,11 @@
 
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    # binfmt.emulatedSystems = [
-    #   "aarch64-linux"
-    #   # "i686-linux" 
-    #   "x86_64-windows"
-    # ];
+    binfmt.emulatedSystems = [
+      "aarch64-linux"
+      # "i686-linux"
+      "x86_64-windows"
+    ];
   };
 
   programs = {
