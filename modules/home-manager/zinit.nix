@@ -111,29 +111,33 @@ in {
       export ZINIT_HOME=${cfg.zinitHome}/zinit
 
       source ${pkgs.zinit}/share/zinit/zinit.zsh
+
       ${optionalString cfg.p10k.enable ''
         zinit ice depth=1
         zinit light romkatv/powerlevel10k
       ''}
-      ${optionalString (waitLucidPlugins != [ ]) ''
-        zinit wait lucid for \
-          ${
-            concatStringsSep ''
-               \
-              	'' (map (plugin: plugin.name) waitLucidPlugins)
-          }
-      ''}
-      ${optionalString (otherPlugins != [ ]) ''
-        ${concatStrings (map (plugin: ''
-          ${optionalString (plugin.ice != [ ]) "zinit ice ${
-            concatStringsSep " "
-            (mapAttrsToList iceToStr (defaultIces // plugin.ice))
-          }"}
-          zinit ${
-            if (isOMZP plugin.name) then "snippet" else "load"
-          } "${plugin.name}"
-        '') otherPlugins)}
-      ''}
+      ${
+        optionalString (otherPlugins != [ ]) ''
+          ${concatStrings (map (plugin: ''
+            ${optionalString (plugin.ice != [ ]) "zinit ice ${
+              concatStringsSep " "
+              (mapAttrsToList iceToStr (defaultIces // plugin.ice))
+            }"}
+            zinit ${
+              if (isOMZP plugin.name) then "snippet" else "load"
+            } "${plugin.name}"
+          '') otherPlugins)}
+        ''
+      }${
+        optionalString (waitLucidPlugins != [ ]) ''
+          zinit wait lucid for \
+            ${
+              concatStringsSep ''
+                 \
+                	'' (map (plugin: plugin.name) waitLucidPlugins)
+            }
+        ''
+      }
       ${optionalString cfg.enableSyntaxCompletionsSuggestions ''
         zinit wait lucid for \
           atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
