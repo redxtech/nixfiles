@@ -172,8 +172,6 @@ in {
           ice = {
             atload = "zpcdreplay";
             atclone = "zsh ./zplug.zsh";
-            lucid = "true";
-            wait = "0";
           };
         }
         { name = "greymd/docker-zsh-completion"; }
@@ -204,7 +202,6 @@ in {
           ice = {
             wait = "2";
             atload = "__kitty_complete";
-            lucid = "true";
           };
         }
         { name = "redxtech/zsh-not-vim"; }

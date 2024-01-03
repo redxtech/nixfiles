@@ -42,8 +42,10 @@ let
     else
       "${name}'${value}'";
   icesToStr = ices: concatStringsSep " " ices;
-
-  defaultArgs = "wait lucid";
+  defaultIces = {
+    wait = "0";
+    lucid = "true";
+  };
 
   pluginModule = types.submodule ({ config, ... }: {
     options = {
@@ -58,7 +60,6 @@ let
           wait = "0";
           lucid = "true";
         };
-        apply = mapAttrsToList iceToStr;
         description = "Ices to apply to the plugin.";
       };
     };
@@ -105,8 +106,10 @@ in {
       ''}
       ${optionalString (cfg.plugins != [ ]) ''
         ${concatStrings (map (plugin: ''
-          ${optionalString (plugin.ice != [ ])
-          "zinit ice ${concatStringsSep " " plugin.ice}"}
+          ${optionalString (plugin.ice != [ ]) "zinit ice ${
+            concatStringsSep " "
+            (mapAttrsToList iceToStr (defaultIces // plugin.ice))
+          }"}
           zinit ${
             if (isOMZP plugin.name) then "snippet" else "load"
           } "${plugin.name}"
@@ -122,7 +125,6 @@ in {
               zsh-users/zsh-autosuggestions
       ''}
     '';
-
   };
 }
 
