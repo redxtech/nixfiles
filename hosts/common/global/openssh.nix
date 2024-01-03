@@ -15,6 +15,7 @@ in {
       StreamLocalBindUnlink = "yes";
       # Allow forwarding ports to everywhere
       GatewayPorts = "clientspecified";
+      X11Forwarding = true;
     };
 
     hostKeys = [

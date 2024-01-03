@@ -13,24 +13,17 @@ in {
 
     # TODO: switch to tailscale IPs once it's set up
     matchBlocks = {
-      "desktop" = {
+      "bastion" = {
         user = user;
         identityFile = identityFile;
-        hostname = "10.0.0.59";
+        hostname = "bastion.colobus-pirate.ts.net";
         forwardAgent = true;
         remoteForwards = remoteForwards;
       };
-      "desktop-remote" = {
+      "voyager" = {
         user = user;
         identityFile = identityFile;
-        hostname = "desktop.gabedunn.dev";
-        forwardAgent = true;
-        remoteForwards = remoteForwards;
-      };
-      "laptop" = {
-        user = user;
-        identityFile = identityFile;
-        hostname = "10.0.0.161";
+        hostname = "voyager.colobus-pirate.ts.net";
         port = 5022;
         forwardAgent = true;
         remoteForwards = remoteForwards;
