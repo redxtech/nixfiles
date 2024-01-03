@@ -18,7 +18,10 @@
           # theme = "catppuccin-sddm-corners";
         };
 
-        gdm = { enable = true; };
+        gdm = {
+          enable = true;
+          autoSuspend = false;
+        };
 
         # defaultSession = "bspwm";
       };
