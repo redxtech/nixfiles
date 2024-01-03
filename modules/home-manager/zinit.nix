@@ -91,7 +91,18 @@ in {
       "Enable fast-syntax-highlighting, zsh-completions and zsh-autosuggestions.";
   };
 
-  config = let isOMZP = str: builtins.substring 0 6 str == "OMZP::";
+  config = let
+    isOMZP = str: builtins.substring 0 6 str == "OMZP::";
+    waitLucidPlugins = builtins.filter (plugin:
+      plugin.ice == {
+        wait = "0";
+        lucid = "true";
+      }) cfg.plugins;
+    otherPlugins = builtins.filter (plugin:
+      plugin.ice != {
+        wait = "0";
+        lucid = "true";
+      }) cfg.plugins;
   in mkIf cfg.enable {
     home.packages = [ pkgs.zinit ];
 
@@ -104,7 +115,15 @@ in {
         zinit ice depth=1
         zinit light romkatv/powerlevel10k
       ''}
-      ${optionalString (cfg.plugins != [ ]) ''
+      ${optionalString (waitLucidPlugins != [ ]) ''
+        zinit wait lucid for \
+          ${
+            concatStringsSep ''
+               \
+              	'' (map (plugin: plugin.name) waitLucidPlugins)
+          }
+      ''}
+      ${optionalString (otherPlugins != [ ]) ''
         ${concatStrings (map (plugin: ''
           ${optionalString (plugin.ice != [ ]) "zinit ice ${
             concatStringsSep " "
@@ -113,7 +132,7 @@ in {
           zinit ${
             if (isOMZP plugin.name) then "snippet" else "load"
           } "${plugin.name}"
-        '') cfg.plugins)}
+        '') otherPlugins)}
       ''}
       ${optionalString cfg.enableSyntaxCompletionsSuggestions ''
         zinit wait lucid for \
