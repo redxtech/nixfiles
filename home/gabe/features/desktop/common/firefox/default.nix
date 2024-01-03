@@ -18,7 +18,7 @@
           "browser.contentblocking.category" = "standard";
           "browser.link.open_newwindow" = 3;
           "browser.link.open_newwindow.restriction" = 2;
-          "browser.link.open_newwindow.override.external" = 2;
+          "browser.link.open_newwindow.override.external" = 3;
           "browser.newtabpage.activity-stream.feeds.section.highlights" = true;
           "browser.newtabpage.activity-stream.section.highlights.includePocket" =
             false;
