@@ -53,12 +53,6 @@ in {
       };
     };
 
-    initExtraFirst = ''
-      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      fi
-    '';
-
     initExtra = ''
       # more zsh options
       setopt append_history             # each shell adds its history on exit
@@ -74,9 +68,6 @@ in {
 
       # hyphen & case insensitive completions 
       zstyle ':completion:*' matcher-list "" 'm:{a-zA-Z-_}={A-Za-z_-}'
-
-      # source the theme
-      [[ ! -f "$ZSH_CUSTOM/p10k.zsh" ]] || source "$ZSH_CUSTOM/p10k.zsh"
 
       if test -f ${config.xdg.configHome}/zsh/env.local.zsh; then
         source ${config.xdg.configHome}/zsh/env.local.zsh
@@ -95,16 +86,10 @@ in {
         "(btm btop conf docker kitty micro ranger spotifyd spt ssh tmux yadm zsh)";
     };
 
-    shellAliases = rec {
-      shit = "sudo $(fc -ln -1)";
-      # Clear screen and scrollback
-      # clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
-    };
+    shellAliases = rec { shit = "sudo $(fc -ln -1)"; };
 
     zinit = {
       enable = true;
-
-      p10k.enable = true;
 
       enableSyntaxCompletionsSuggestions = true;
 

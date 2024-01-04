@@ -3,7 +3,7 @@
 {
   users.users.root = {
     # hashedPasswordFile = config.sops.secrets.root-pw.path;
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   sops.secrets.root-pw.neededForUsers = true;

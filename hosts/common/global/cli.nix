@@ -1,9 +1,16 @@
 { config, pkgs, ... }:
 
 {
-  programs.zsh = {
-    enable = true;
+  programs = {
+    zsh = { enable = true; };
 
+    fish = {
+      enable = true;
+      useBabelfish = true;
+    };
+  };
+
+  environment = {
     shellAliases = rec {
       nr = "nixos-rebuild --flake .";
       nrs = "${nr} switch";
@@ -14,36 +21,36 @@
       hms = "${hm} switch";
       hmsb = "${hms} -b backup";
     };
+
+    systemPackages = with pkgs; [
+      atool
+      bat
+      btop
+      cpustat
+      dex
+      eza
+      fd
+      ffmpeg
+      fzf
+      gh
+      git
+      jq
+      lazygit
+      mcfly
+      mediainfo
+      micro
+      neofetch
+      playerctl
+      ranger
+      rclone
+      ripgrep
+      tealdeer
+      tmux
+      yadm
+      yt-dlp
+      zoxide
+    ];
+
+    pathsToLink = [ "/share/zsh" ];
   };
-
-  environment.systemPackages = with pkgs; [
-    atool
-    bat
-    btop
-    cpustat
-    dex
-    eza
-    fd
-    ffmpeg
-    fzf
-    gh
-    git
-    jq
-    lazygit
-    mcfly
-    mediainfo
-    micro
-    neofetch
-    playerctl
-    ranger
-    rclone
-    ripgrep
-    tealdeer
-    tmux
-    yadm
-    yt-dlp
-    zoxide
-  ];
-
-  environment.pathsToLink = [ "/share/zsh" ];
 }

@@ -8,7 +8,7 @@ in {
     description = "Gabe Dunn";
     isNormalUser = true;
     hashedPasswordFile = config.sops.secrets.gabe-pw.path;
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     extraGroups = [ "wheel" "video" "audio" ] ++ ifTheyExist [
       "deluge"
       "docker"

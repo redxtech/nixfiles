@@ -1,8 +1,8 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 
 with lib; {
   imports = [
-    # ./fish.nix
+    ./fish.nix
     ./git.nix
     ./gpg.nix
     # ./jujutsu.nix
@@ -11,6 +11,7 @@ with lib; {
     ./nix-index.nix
     ./programs.nix
     ./services.nix
+    ./starship.nix
     ./ssh.nix
     ./zsh.nix
   ];
