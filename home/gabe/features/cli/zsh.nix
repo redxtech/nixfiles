@@ -93,60 +93,10 @@ in {
       AUTO_NOTIFY_EXPIRE_TIME = 10000;
       AUTO_NOTIFY_IGNORE =
         "(btm btop conf docker kitty micro ranger spotifyd spt ssh tmux yadm zsh)";
-      KUBECONFIG = "${config.xdg.configHome}/kube/config";
-      PNPM_HOME = "${config.xdg.dataHome}/pnpm";
-      RANGER_LOAD_DEFAULT_RC = "FALSE";
     };
 
     shellAliases = rec {
-      jqless = "jq -C | less -r";
-
-      n = "nix";
-      np = "${n}-shell -p";
-      nd = "${n} develop -c $SHELL";
-      ns = "${n} shell";
-      nb = "${n} build";
-      nbp =
-        "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
-      nf = "${n} flake";
-
-      hm = "home-manager --flake .";
-      hms = "${hm} switch";
-      hmsb = "${hms} -b backup";
-      hmb = "${hm} build";
-      hmn = "${hm} news";
-
-      cik = "clone-in-kitty --type os-window";
-      ck = cik;
-
-      ly =
-        "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
-
-      src = "exec $SHELL";
       shit = "sudo $(fc -ln -1)";
-
-      ssh = mkIf hasKitty "kitty +kitten ssh";
-      cat = mkIf (hasPackage "bat") "bat";
-      dia = mkIf (hasPackage "dua") "dua interactive";
-      ping = mkIf (hasPackage "prettyping") "prettyping";
-      pipes = mkIf (hasPackage "pipes-rs") "piipes-rs";
-
-      jc = "journalctl -xeu";
-      jcu = "journalctl --user -xeu";
-
-      npr = "npm run";
-      rsync = "rsync --info=progress2 -r";
-      rcp = "rclone copy -P --transfers=20";
-      xclip = "xclip -selection c";
-      ps_mem = "sudo ps_mem";
-      neofetchk = "neofetch --backend kitty --source $HOME/.config/wall.png";
-      "inodes-where" =
-        "sudo du --inodes --separate-dirs --one-file-system / | sort -rh | head";
-      dirties = "watch -d grep -e Dirty: -e Writeback: /proc/meminfo";
-      expand-dong = "aunpack";
-
-      starwars = "telnet towel.blinkenlights.nl";
-
       # Clear screen and scrollback
       # clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
     };

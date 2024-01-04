@@ -1,57 +1,35 @@
 { pkgs, lib, config, ... }:
 let
   inherit (lib) mkIf;
-  hasPackage = pname: lib.any (p: p ? pname && p.pname == pname) config.home.packages;
+  hasPackage = pname:
+    lib.any (p: p ? pname && p.pname == pname) config.home.packages;
   hasRipgrep = hasPackage "ripgrep";
   hasExa = hasPackage "eza";
   hasNeovim = config.programs.neovim.enable;
-  hasEmacs = config.programs.emacs.enable;
-  hasNeomutt = config.programs.neomutt.enable;
-  hasShellColor = config.programs.shellcolor.enable;
   hasKitty = config.programs.kitty.enable;
-  shellcolor = "${pkgs.shellcolord}/bin/shellcolor";
-in
-{
+in {
   programs.fish = {
     enable = true;
     shellAbbrs = rec {
-      jqless = "jq -C | less -r";
-
-      n = "nix";
-      nd = "nix develop -c $SHELL";
-      ns = "nix shell";
+      # nix
       nsn = "nix shell nixpkgs#";
-      nb = "nix build";
       nbn = "nix build nixpkgs#";
-      nf = "nix flake";
 
-      nr = "nixos-rebuild --flake .";
-      nrs = "nixos-rebuild --flake . switch";
-      snr = "sudo nixos-rebuild --flake .";
-      snrs = "sudo nixos-rebuild --flake . switch";
-      hm = "home-manager --flake .";
-      hms = "home-manager --flake . switch";
-
-      ls = mkIf hasExa "eza";
-      exa = mkIf hasExa "eza";
-
-      e = mkIf hasEmacs "emacsclient -t";
-
-      vrg = mkIf (hasNeomutt && hasRipgrep) "nvimrg";
-      vim = mkIf hasNeovim "nvim";
-      vi = vim;
-      v = vim;
-
-      mutt = mkIf hasNeomutt "neomutt";
-      m = mutt;
-
-      cik = mkIf hasKitty "clone-in-kitty --type os-window";
-      ck = cik;
+      # typos
+      clera = "clear";
+      claer = "clear";
+      dc = "cd";
+      ecoh = "echo";
+      yamd = "yadm";
+      yand = "yadm";
+      pacuar = "pacaur";
+      sudp = "sudo";
+      yarm = "yarn";
     };
-    shellAliases = {
-      # Clear screen and scrollback
-      clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
-    };
+    # shellAliases = rec {
+    #   # Clear screen and scrollback
+    #   clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
+    # };
     functions = {
       # Disable greeting
       fish_greeting = "";

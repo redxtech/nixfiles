@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }:
+
+with lib; {
   imports = [
     # ./fish.nix
     ./git.nix
@@ -88,7 +90,16 @@
       (python3.withPackages (ps: with ps; [ dbus-python pygobject3 requests ]))
     ];
 
-    shellAliases = rec {
+    shellAliases = let
+      inherit (lib) mkIf;
+      hasPackage = pname:
+        lib.any (p: p ? pname && p.pname == pname) config.home.packages;
+      hasRipgrep = hasPackage "ripgrep";
+      hasExa = hasPackage "eza";
+      hasNeovim = config.programs.neovim.enable;
+      hasKitty = config.programs.kitty.enable;
+    in rec {
+      # main aliaes
       ls = "eza";
       la = "${ls} -al";
       ll = "${ls} -l";
@@ -101,36 +112,73 @@
       vim = "nvim";
       vi = vim;
       v = vim;
-
-      exa = "eza";
-
-      e = "$EDITOR";
       svim = "sudo -e";
 
       grep = "grep --color=auto";
       diff = "diff --color=auto";
       ip = "ip --color=auto";
+
+      src = "exec $SHELL";
+
+      # nix
+      n = "nix-shell -p";
+      nb = "nix build";
+      nd = "nix develop -c $SHELL";
+      ns = "nix shell";
+      nbp =
+        "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
+      nf = "nix flake";
+
+      # home manager
+      hm = "home-manager --flake .";
+      hms = "${hm} switch";
+      hmsb = "${hms} -b backup";
+      hmb = "${hm} build";
+      hmn = "${hm} news";
+
+      # replacements
+      cat = mkIf (hasPackage "bat") "bat";
+      dia = mkIf (hasPackage "dua") "dua interactive";
+      ping = mkIf (hasPackage "prettyping") "prettyping";
+      pipes = mkIf (hasPackage "pipes-rs") "piipes-rs";
+      ssh = mkIf hasKitty "kitty +kitten ssh";
+
+      # general aliaes
+      cik = "clone-in-kitty --type os-window";
+      ck = cik;
+      dirties = "watch -d grep -e Dirty: -e Writeback: /proc/meminfo";
+      jc = "journalctl -xeu";
+      jcu = "journalctl --user -xeu";
+      jqless = "jq -C | less -r";
+      ly =
+        "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
+      neofetchk = "neofetch --backend kitty --source $HOME/.config/wall.png";
+      "inodes-where" =
+        "sudo du --inodes --separate-dirs --one-file-system / | sort -rh | head";
+      npr = "npm run";
+      ps_mem = "sudo ps_mem";
+      rcp = "rclone copy -P --transfers=20";
+      rgu = "rg -uu";
+      rsync = "rsync --info=progress2 -r";
+      xclip = "xclip -selection c";
+      vrg = mkIf (hasNeovim && hasRipgrep) "nvimrg";
+
+      # fun
+      expand-dong = "aunpack";
+      starwars = "telnet towel.blinkenlights.nl";
     };
 
-    # pfetch
-    sessionVariables.PF_INFO =
-      "ascii title os kernel uptime shell term desktop scheme palette";
+    sessionVariables = {
+      KUBECONFIG = "${config.xdg.configHome}/kube/config";
+      PF_INFO =
+        "ascii title os kernel uptime shell term desktop scheme palette";
+      PNPM_HOME = "${config.xdg.dataHome}/pnpm";
+      RANGER_LOAD_DEFAULT_RC = "FALSE";
+    };
   };
 
   programs = {
     bash = { enable = true; };
-
-    bat = {
-      enable = true;
-      config.theme = "Dracula";
-      # config.theme = "base16";
-    };
-
-    direnv = {
-      enable = true;
-      enableZshIntegration = true;
-      nix-direnv.enable = true;
-    };
 
     thefuck = {
       enable = true;

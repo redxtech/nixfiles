@@ -4,23 +4,15 @@
   programs.zsh = {
     enable = true;
 
-    shellAliases = {
-      n = "nix";
-      np = "nix-shell -p";
-      nd = "nix develop -c $SHELL";
-      ns = "nix shell";
-      nsn = "nix shell nixpkgs#";
-      nb = "nix build";
-      nbn = "nix build nixpkgs#";
-      nf = "nix flake";
-
+    shellAliases = rec {
       nr = "nixos-rebuild --flake .";
-      nrs = "nixos-rebuild --flake . switch";
-      snr = "sudo nixos-rebuild --flake .";
-      snrs = "sudo nixos-rebuild --flake . switch";
+      nrs = "${nr} switch";
+      snr = "sudo ${nr}";
+      snrs = "sudo ${nrs}";
+
       hm = "home-manager --flake .";
-      hms = "home-manager --flake . switch";
-      hmsb = "home-manager --flake . switch -b backup";
+      hms = "${hm} switch";
+      hmsb = "${hms} -b backup";
     };
   };
 

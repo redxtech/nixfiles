@@ -32,6 +32,7 @@ let
     "csh"
     "ksh"
   ];
+
   iceToStr = name: value:
     if (name == "wait" || name == "lucid") && value == "false" then
       ""
@@ -41,7 +42,9 @@ let
       "${name}"
     else
       "${name}'${value}'";
+
   icesToStr = ices: concatStringsSep " " ices;
+
   defaultIces = {
     wait = "0";
     lucid = "true";
