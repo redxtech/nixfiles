@@ -75,9 +75,6 @@ in {
       # hyphen & case insensitive completions 
       zstyle ':completion:*' matcher-list "" 'm:{a-zA-Z-_}={A-Za-z_-}'
 
-      # kubecolor completion
-      compdef kubecolor=kubectl
-
       # source the theme
       [[ ! -f "$ZSH_CUSTOM/p10k.zsh" ]] || source "$ZSH_CUSTOM/p10k.zsh"
 

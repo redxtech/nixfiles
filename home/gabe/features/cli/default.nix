@@ -73,7 +73,8 @@
       switchup
 
       # TODO: move these to their own file OR specific dev shells
-      google-cloud-sdk
+      (google-cloud-sdk.withExtraComponents
+        [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
       kubecolor
       kubectl
       kubectx

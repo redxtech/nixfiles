@@ -52,4 +52,6 @@
     yt-dlp
     zoxide
   ];
+
+  environment.pathsToLink = [ "/share/zsh" ];
 }
