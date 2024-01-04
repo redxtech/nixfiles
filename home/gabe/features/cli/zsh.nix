@@ -1,4 +1,5 @@
 { pkgs, lib, config, ... }:
+
 let
   inherit (lib) mkIf;
   hasPackage = pname:
@@ -7,9 +8,6 @@ let
 in {
   programs.zsh = {
     enable = true;
-
-    enableAutosuggestions = true;
-    enableCompletion = true;
 
     autocd = true;
     defaultKeymap = "viins";

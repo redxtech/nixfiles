@@ -70,6 +70,8 @@ in {
   options.programs.zsh.zinit = {
     enable = mkEnableOption "zinit - flexible and fast zsh plugin manager";
 
+    package = mkPackageOption pkgs "zinit" { };
+
     plugins = mkOption {
       default = [ ];
       type = types.listOf pluginModule;
@@ -104,7 +106,18 @@ in {
         lucid = "true";
       }) cfg.plugins;
   in mkIf cfg.enable {
-    home.packages = [ pkgs.zinit ];
+    home.packages = [ cfg.package ]
+      ++ optional cfg.enableSyntaxCompletionsSuggestions
+      pkgs.nix-zsh-completions;
+
+    programs.zsh.enableAutosuggestions =
+      mkIf cfg.enableSyntaxCompletionsSuggestions false;
+
+    programs.zsh.enableCompletion =
+      mkIf cfg.enableSyntaxCompletionsSuggestions false;
+
+    programs.zsh.syntaxHighlighting.enable =
+      mkIf cfg.enableSyntaxCompletionsSuggestions false;
 
     # TODO: split into only wait & lucid / other ices, and use for \
     programs.zsh.initExtraBeforeCompInit = ''
@@ -138,13 +151,16 @@ in {
             }
         ''
       }
+    '';
+
+    programs.zsh.initExtra = ''
       ${optionalString cfg.enableSyntaxCompletionsSuggestions ''
         zinit wait lucid for \
           atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
               zdharma-continuum/fast-syntax-highlighting \
-          blockf \
+          blockf atpull'zinit creinstall -q .' \
               zsh-users/zsh-completions \
-          atload"!_zsh_autosuggest_start" \
+          atload"_zsh_autosuggest_start" \
               zsh-users/zsh-autosuggestions
       ''}
     '';
