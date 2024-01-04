@@ -33,6 +33,7 @@ with lib; {
       du-dust # better du
       dua # better du
       fd # better find
+      frogmouth # markdown reader
       fx # better jq
       figlet # ascii art
       ffmpeg # media multitool
@@ -153,6 +154,7 @@ with lib; {
       jqless = "jq -C | less -r";
       ly =
         "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
+      md = "frogmouth";
       neofetchk = "neofetch --backend kitty --source $HOME/.config/wall.png";
       "inodes-where" =
         "sudo du --inodes --separate-dirs --one-file-system / | sort -rh | head";

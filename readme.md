@@ -36,6 +36,10 @@ Looking for something simpler to start out with flakes? Try [Misterio77's starte
 - `pkgs`: My custom packages. Also accessible via `nix build`. You can compose
   these into your own configuration by using my flake's overlay, or consume them through NUR.
 
+## Should I use this?
+
+![learning curve](https://imgur.com/vtaE76k)
+
 ## About the installation
 
 ~~All my computers use a single btrfs (encrypted on all except headless systems)

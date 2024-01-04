@@ -59,11 +59,7 @@
 
       bun.format = " [$symbol($version )]($style)";
 
-      cmd_duration = {
-        show_milliseconds = true;
-        show_notifications = true;
-        min_time_to_notify = 20000;
-      };
+      cmd_duration.show_milliseconds = true;
 
       directory = {
         format = "[$path]($style)[$read_only]($read_only_style)";
