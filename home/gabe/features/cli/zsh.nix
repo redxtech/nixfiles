@@ -92,7 +92,7 @@ in {
       ZSH_FNM_ENV_EXTRA_ARGS = "--use-on-cd";
       AUTO_NOTIFY_EXPIRE_TIME = 10000;
       AUTO_NOTIFY_IGNORE =
-        "(btm btop conf docker kitty micro ranger spotifyd spt tmux yadm zsh)";
+        "(btm btop conf docker kitty micro ranger spotifyd spt ssh tmux yadm zsh)";
       KUBECONFIG = "${config.xdg.configHome}/kube/config";
       PNPM_HOME = "${config.xdg.dataHome}/pnpm";
       RANGER_LOAD_DEFAULT_RC = "FALSE";

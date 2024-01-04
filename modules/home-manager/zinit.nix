@@ -110,60 +110,60 @@ in {
       ++ optional cfg.enableSyntaxCompletionsSuggestions
       pkgs.nix-zsh-completions;
 
-    programs.zsh.enableAutosuggestions =
-      mkIf cfg.enableSyntaxCompletionsSuggestions false;
+    programs.zsh = {
+      enableAutosuggestions = mkIf cfg.enableSyntaxCompletionsSuggestions false;
 
-    programs.zsh.enableCompletion =
-      mkIf cfg.enableSyntaxCompletionsSuggestions false;
+      enableCompletion = mkIf cfg.enableSyntaxCompletionsSuggestions false;
 
-    programs.zsh.syntaxHighlighting.enable =
-      mkIf cfg.enableSyntaxCompletionsSuggestions false;
+      syntaxHighlighting.enable =
+        mkIf cfg.enableSyntaxCompletionsSuggestions false;
 
-    # TODO: split into only wait & lucid / other ices, and use for \
-    programs.zsh.initExtraBeforeCompInit = ''
-      export ZINIT_HOME=${cfg.zinitHome}/zinit
+      # TODO: split into only wait & lucid / other ices, and use for \
+      initExtraBeforeCompInit = ''
+        export ZINIT_HOME=${cfg.zinitHome}/zinit
 
-      source ${pkgs.zinit}/share/zinit/zinit.zsh
+        source ${pkgs.zinit}/share/zinit/zinit.zsh
 
-      ${optionalString cfg.p10k.enable ''
-        zinit ice depth=1
-        zinit light romkatv/powerlevel10k
-      ''}
-      ${
-        optionalString (otherPlugins != [ ]) ''
-          ${concatStrings (map (plugin: ''
-            ${optionalString (plugin.ice != [ ]) "zinit ice ${
-              concatStringsSep " "
-              (mapAttrsToList iceToStr (defaultIces // plugin.ice))
-            }"}
-            zinit ${
-              if (isOMZP plugin.name) then "snippet" else "load"
-            } "${plugin.name}"
-          '') otherPlugins)}
-        ''
-      }${
-        optionalString (waitLucidPlugins != [ ]) ''
+        ${optionalString cfg.p10k.enable ''
+          zinit ice depth=1
+          zinit light romkatv/powerlevel10k
+        ''}
+        ${
+          optionalString (otherPlugins != [ ]) ''
+            ${concatStrings (map (plugin: ''
+              ${optionalString (plugin.ice != [ ]) "zinit ice ${
+                concatStringsSep " "
+                (mapAttrsToList iceToStr (defaultIces // plugin.ice))
+              }"}
+              zinit ${
+                if (isOMZP plugin.name) then "snippet" else "load"
+              } "${plugin.name}"
+            '') otherPlugins)}
+          ''
+        }${
+          optionalString (waitLucidPlugins != [ ]) ''
+            zinit wait lucid for \
+              ${
+                concatStringsSep ''
+                   \
+                  	'' (map (plugin: plugin.name) waitLucidPlugins)
+              }
+          ''
+        }
+      '';
+
+      initExtra = ''
+        ${optionalString cfg.enableSyntaxCompletionsSuggestions ''
           zinit wait lucid for \
-            ${
-              concatStringsSep ''
-                 \
-                	'' (map (plugin: plugin.name) waitLucidPlugins)
-            }
-        ''
-      }
-    '';
-
-    programs.zsh.initExtra = ''
-      ${optionalString cfg.enableSyntaxCompletionsSuggestions ''
-        zinit wait lucid for \
-          atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-              zdharma-continuum/fast-syntax-highlighting \
-          blockf atpull'zinit creinstall -q .' \
-              zsh-users/zsh-completions \
-          atload"_zsh_autosuggest_start" \
-              zsh-users/zsh-autosuggestions
-      ''}
-    '';
+            atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+                zdharma-continuum/fast-syntax-highlighting \
+            blockf atpull'zinit creinstall -q .' \
+                zsh-users/zsh-completions \
+            atload"_zsh_autosuggest_start" \
+                zsh-users/zsh-autosuggestions
+        ''}
+      '';
+    };
   };
 }
 
