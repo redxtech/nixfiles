@@ -11,6 +11,7 @@
     ./services.nix
 
     ../common/global
+    ../common/users/root
     ../common/users/gabe
 
     ../common/optional/bspwm.nix
