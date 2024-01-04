@@ -187,10 +187,22 @@ in {
         #   name = "OMZP::ubuntu";
         #   tags = tags.aptOnly;
         # }
-        { name = "OMZP::command-not-found"; }
-        { name = "OMZP::github"; }
-        { name = "OMZP::man"; }
-        { name = "OMZP::transfer"; }
+        {
+          name = "OMZP::command-not-found";
+          snippet = true;
+        }
+        {
+          name = "OMZP::github";
+          snippet = true;
+        }
+        {
+          name = "OMZP::man";
+          snippet = true;
+        }
+        {
+          name = "OMZP::transfer";
+          snippet = true;
+        }
         { name = "redxtech/zsh-containers"; }
         {
           name = "redxtech/zsh-kitty";

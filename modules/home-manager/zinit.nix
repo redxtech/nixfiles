@@ -62,6 +62,12 @@ let
         };
         description = "Ices to apply to the plugin.";
       };
+
+      snippet = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether to load the plugin with zinit snippet.";
+      };
     };
 
   });
@@ -94,7 +100,6 @@ in {
   };
 
   config = let
-    isOMZP = str: builtins.substring 0 6 str == "OMZP::";
     waitLucidPlugins = builtins.filter (plugin:
       plugin.ice == {
         wait = "0";
@@ -136,7 +141,7 @@ in {
                 (mapAttrsToList iceToStr (defaultIces // plugin.ice))
               }"}
               zinit ${
-                if (isOMZP plugin.name) then "snippet" else "load"
+                if plugin.snippet then "snippet" else "load"
               } "${plugin.name}"
             '') otherPlugins)}
           ''
