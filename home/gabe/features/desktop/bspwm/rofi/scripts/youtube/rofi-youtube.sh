@@ -15,7 +15,7 @@ main() {
 	query="$(_rofi -l 0 -p "$prompt 󰄾")"
 
 	# turn the query into a url
-	YT_API_KEY="$(cat ~/.config/rofi/youtube.txt)"
+	YT_API_KEY="$(cat ~/.config/secrets/youtube.txt)"
 	query="$(printf "%s" "$query" | urlencode)"
 	urlstring="https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=20&key=${YT_API_KEY}"
 

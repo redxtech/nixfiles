@@ -591,7 +591,7 @@ in {
 
         interval = 600;
         exec = ''
-          OPENWEATHER_API_KEY="$(${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/polybar/openweathermap.txt)" ${scripts.weather-bar}/bin/weather-bar -u metric'';
+          OPENWEATHER_API_KEY="$(${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/secrets/openweathermap.txt)" ${scripts.weather-bar}/bin/weather-bar -u metric'';
 
         format = {
           underline = "\${colours.weather}";

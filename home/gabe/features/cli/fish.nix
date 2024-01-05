@@ -283,5 +283,22 @@ in {
       # done config
       set __done_min_cmd_duration 10000 # 10 seconds
     '';
+
+    shellInit = language "fish" ''
+      # source local env variables
+      if test -f ${config.xdg.configHome}/fish/env.local.fish;
+        source ${config.xdg.configHome}/fish/env.local.fish
+      fi
+
+      if test -f ${config.xdg.configHome}/fish/env.secrets.fish;
+        source ${config.xdg.configHome}/fish/env.secrets.fish
+      end
+    '';
   };
+
+  # file writing
+  xdg.configFile."fish/env.secrets.fish".text = ''
+    set --export YOUTUBE_API_KEY "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.youtube.path})"
+    set --export BW_SESSION "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.bw.path})"
+  '';
 }

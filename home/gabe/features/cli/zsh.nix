@@ -24,15 +24,6 @@ in {
       save = 100000;
     };
 
-    dirHashes = {
-      code = "$HOME/Code";
-      dl = "$HOME/Downloads";
-      docs = "$HOME/Documents";
-      drawer = "$HOME/Drawer";
-      pics = "$HOME/Pictures";
-      vids = "$HOME/Videos";
-    };
-
     zsh-abbr = {
       enable = true;
 
