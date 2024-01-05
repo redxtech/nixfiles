@@ -44,6 +44,7 @@ with lib; {
       lsb-release # get distro info
       mediainfo # media info
       micro # editor
+      navi # cheatsheet
       neofetch # system info
       nil # nix LSP
       nixd # nix LSP
