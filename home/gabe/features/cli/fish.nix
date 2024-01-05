@@ -41,6 +41,21 @@ in {
       # disable greeting
       fish_greeting = "";
 
+      fish_user_key_bindings = language "fish" ''
+        # fish_vi_key_bindings
+
+        # use search with tab complete
+        bind --mode insert \t complete-and-search
+        bind --mode insert --key btab complete
+        bind --mode visual \t complete-and-search
+        bind --mode visual --key btab complete
+        bind \t complete-and-search
+        bind --key btab complete
+
+        # open command buffer in vim when alt+e is pressed
+        bind \ee edit_command_buffer
+      '';
+
       # list all paths in $PATH
       paths = language "fish" ''
         for path in $PATH
@@ -246,17 +261,13 @@ in {
       # theme
       fish_config theme choose "Dracula Official"
 
-      # Open command buffer in vim when alt+e is pressed
-      bind \ee edit_command_buffer
-
       # kitty integration
       set --global KITTY_INSTALLATION_DIR "${pkgs.kitty}/lib/kitty"
       set --global KITTY_SHELL_INTEGRATION enabled
       source "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_conf.d/kitty-shell-integration.fish"
       set --prepend fish_complete_path "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_completions.d"
 
-      # Use vim bindings and cursors
-      fish_vi_key_bindings
+      # use vim cursors
       set fish_cursor_default     block      blink
       set fish_cursor_insert      line       blink
       set fish_cursor_replace_one underscore blink
@@ -271,7 +282,6 @@ in {
 
       # done config
       set __done_min_cmd_duration 10000 # 10 seconds
-      # set --append __done_exclude '^n?vim ^btop ^docker ^hx ^kitty ^micro ^ranger ^spt ^ssh ^yadm ^zsh'
     '';
   };
 }
