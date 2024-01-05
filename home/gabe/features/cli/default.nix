@@ -143,6 +143,7 @@ with lib; {
       # replacements
       cat = mkIf (hasPackage "bat") "bat";
       dia = mkIf (hasPackage "dua") "dua interactive";
+      kubectl = mkIf (hasPackage "kubecolor") "kubecolor";
       ping = mkIf (hasPackage "prettyping") "prettyping";
       pipes = mkIf (hasPackage "pipes-rs") "piipes-rs";
       ssh = mkIf hasKitty "kitty +kitten ssh";

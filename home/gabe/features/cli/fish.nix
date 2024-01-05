@@ -186,15 +186,15 @@ in {
           name = "sponge";
           src = sponge.src;
         }
-        # {
-        #   name = "tacklebox";
-        #   src = fetchFromGitHub {
-        #     owner = "redxtech";
-        #     repo = "tacklebox";
-        #     rev = "";
-        #     sha256 = "";
-        #   };
-        # }
+        {
+          name = "tacklebox";
+          src = fetchFromGitHub {
+            owner = "redxtech";
+            repo = "tacklebox";
+            rev = "fc07c1c6fadcd25309ad6235492d1c887964a3f8";
+            sha256 = "sha256-6ONkbZw5zxhSCddtvM0pAOIoV2UZfpDECZ5U2ivVFJA=";
+          };
+        }
         {
           name = "fish-abbreviation-tips";
           src = fetchFromGitHub {
