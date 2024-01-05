@@ -48,6 +48,12 @@ in {
         end
       '';
 
+      # make a directory and cd into it
+      mkcd = language "fish" ''
+        mkdir -pv $argv
+        cd $argv
+      '';
+
       # renames the current working directory
       mvcd = language "fish" ''
         set cwd $PWD
@@ -180,6 +186,15 @@ in {
           name = "sponge";
           src = sponge.src;
         }
+        # {
+        #   name = "tacklebox";
+        #   src = fetchFromGitHub {
+        #     owner = "redxtech";
+        #     repo = "tacklebox";
+        #     rev = "";
+        #     sha256 = "";
+        #   };
+        # }
         {
           name = "fish-abbreviation-tips";
           src = fetchFromGitHub {
@@ -205,15 +220,6 @@ in {
             repo = "plugin-bak";
             rev = "93ce665e1e0ae405a4bbee102f782646e03cdfb6";
             sha256 = "sha256-5BeSsy2JFkaKfXOtscJZVoaSK4FO8H6MXuV43uKd4TI=";
-          };
-        }
-        {
-          name = "wttr";
-          src = fetchFromGitHub {
-            owner = "oh-my-fish";
-            repo = "plugin-wttr";
-            rev = "7500e382e6b29a463edc57598217ce0cfaf8c90c";
-            sha256 = "sha256-k3FrRPxKCiObO6HgtDx8ORbcLmfSYQsQeq5SAoNfZbE=";
           };
         }
         {

@@ -95,7 +95,6 @@ in {
       description = "Path to zinit home directory.";
     };
 
-    # TODO: add more p10k options ?
     p10k.enable = mkEnableOption "p10k - powerlevel10k theme for zsh";
 
     enableSyntaxCompletionsSuggestions = mkEnableOption
@@ -126,7 +125,6 @@ in {
       syntaxHighlighting.enable =
         mkIf cfg.enableSyntaxCompletionsSuggestions false;
 
-      # TODO: split into only wait & lucid / other ices, and use for \
       initExtraBeforeCompInit = ''
         export ZINIT_HOME=${cfg.zinitHome}/zinit
 
