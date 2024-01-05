@@ -44,7 +44,7 @@ in {
       fish_user_key_bindings = language "fish" ''
         # fish_vi_key_bindings
 
-        # use search with tab complete
+        # use search with tab complete - next best thing to fzf tab completion
         bind --mode insert \t complete-and-search
         bind --mode insert --key btab complete
         bind --mode visual \t complete-and-search
@@ -211,12 +211,30 @@ in {
           };
         }
         {
+          name = "fyshtemd";
+          src = fetchFromGitHub {
+            owner = "redxtech";
+            repo = "fyshtemd";
+            rev = "54898ce07333d1a7a0cd8821793a1a86cffca902";
+            sha256 = "sha256-P/zC/6l3DPHLJErsi4/3ExTSoSo+Xj+ZhUmjsaUoKjc=";
+          };
+        }
+        {
           name = "tacklebox";
           src = fetchFromGitHub {
             owner = "redxtech";
             repo = "tacklebox";
-            rev = "fc07c1c6fadcd25309ad6235492d1c887964a3f8";
-            sha256 = "sha256-6ONkbZw5zxhSCddtvM0pAOIoV2UZfpDECZ5U2ivVFJA=";
+            rev = "5cefd87a4c04856d3479a3799172db130a6fdfa9";
+            sha256 = "sha256-XZgnc+PN8yc6nkPPPC+kRtUIKf+e9ltBfHebxhNbnCI=";
+          };
+        }
+        {
+          name = "unix-simple";
+          src = fetchFromGitHub {
+            owner = "redxtech";
+            repo = "fish-unix-simple";
+            rev = "04906ee89f3cb5f912789d051302f13a53869be1";
+            sha256 = "sha256-TwgqpnwJO6dSyPcRf8xbM+o0YGjg8NVOUcED5+tSNHs=";
           };
         }
         {
@@ -282,13 +300,16 @@ in {
 
       # done config
       set __done_min_cmd_duration 10000 # 10 seconds
+
+      # use fish for nix shells
+      ${pkgs.any-nix-shell}/bin/any-nix-shell fish | source
     '';
 
     shellInit = language "fish" ''
       # source local env variables
       if test -f ${config.xdg.configHome}/fish/env.local.fish;
         source ${config.xdg.configHome}/fish/env.local.fish
-      fi
+      end
 
       if test -f ${config.xdg.configHome}/fish/env.secrets.fish;
         source ${config.xdg.configHome}/fish/env.secrets.fish
