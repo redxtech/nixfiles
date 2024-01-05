@@ -72,6 +72,7 @@ with lib; {
       xorg.xmodmap # keyboard remapper
       yadm # dotfile manager
       yq-go # jq for yaml
+      vulnix # nix security checker
 
       # personal packages
       switchup

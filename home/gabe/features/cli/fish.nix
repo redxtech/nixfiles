@@ -202,6 +202,10 @@ in {
       set fish_cursor_replace_one underscore blink
       set fish_cursor_visual      block
 
+      # fzf config
+      set fzf_diff_highlighter delta --paging=never --width=20
+      fzf_configure_bindings --directory=\co
+
       # sponge clears typos from history when shell exits
       set sponge_purge_only_on_exit true
 
