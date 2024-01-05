@@ -187,6 +187,15 @@ in {
           src = sponge.src;
         }
         {
+          name = "fish-not-vim";
+          src = fetchFromGitHub {
+            owner = "redxtech";
+            repo = "fish-not-vim";
+            rev = "1a506e9a436ec58c9e7eee9e24d2b02d0a90677f";
+            sha256 = "sha256-HnvsGSgfooelWzmUC8xVTSGYkwd07br8ewcCSfkIanQ=";
+          };
+        }
+        {
           name = "tacklebox";
           src = fetchFromGitHub {
             owner = "redxtech";

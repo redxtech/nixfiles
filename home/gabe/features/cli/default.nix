@@ -26,6 +26,7 @@ with lib; {
       bitwarden-cli # password manager
       bluetuith # bluetooth manager
       cachix # nix binary cache manager
+      cowsay # ascii art
       cpustat # cpu usage
       # delta # better diff
       dex # desktop entry executor
