@@ -38,7 +38,7 @@ Looking for something simpler to start out with flakes? Try [Misterio77's starte
 
 ## Should I use this?
 
-![learning curve](https://imgur.com/vtaE76k)
+![learning curve](https://i.imgur.com/vtaE76k.png)
 
 ## About the installation
 
