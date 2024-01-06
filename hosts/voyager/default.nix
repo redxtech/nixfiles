@@ -13,6 +13,7 @@
     ../common/users/gabe
 
     ../common/optional/bspwm.nix
+    ../common/optional/containers.nix
     ../common/optional/desktop-apps.nix
     ../common/optional/extra.nix
     ../common/optional/fail2ban.nix
@@ -22,6 +23,7 @@
     ../common/optional/pipewire.nix
     ../common/optional/quietboot.nix
     ../common/optional/security.nix
+    ../common/optional/steam-hardware.nix
     ../common/optional/systemd-boot.nix
     ../common/optional/theme.nix
     ../common/optional/virtualization.nix

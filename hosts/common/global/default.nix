@@ -9,9 +9,7 @@
     ./locale.nix
     ./nix.nix
     ./openssh.nix
-    ./containers.nix
     ./sops.nix
-    ./steam-hardware.nix
     # ./systemd-initrd.nix
     ./tailscale.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
