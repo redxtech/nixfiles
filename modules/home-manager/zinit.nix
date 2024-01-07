@@ -95,7 +95,17 @@ in {
       description = "Path to zinit home directory.";
     };
 
-    p10k.enable = mkEnableOption "p10k - powerlevel10k theme for zsh";
+    p10k = {
+      enable = mkEnableOption "p10k - powerlevel10k theme for zsh";
+
+      config = mkOption {
+        type = types.path;
+        default = "${config.xdg.configHome}/zsh/p10k.zsh";
+        defaultText = "~/.config/zsh/p10k.zsh";
+        apply = toString;
+        description = "Path to p10k config file to source.";
+      };
+    };
 
     enableSyntaxCompletionsSuggestions = mkEnableOption
       "Enable fast-syntax-highlighting, zsh-completions and zsh-autosuggestions.";
@@ -133,6 +143,7 @@ in {
         ${optionalString cfg.p10k.enable ''
           zinit ice depth=1
           zinit light romkatv/powerlevel10k
+          source ${cfg.p10k.config}
         ''}
         ${
           optionalString (otherPlugins != [ ]) ''
