@@ -134,6 +134,9 @@ with lib; {
         "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
       nf = "nix flake";
 
+      # build nixos iso file
+      nbsiso = "nix build .#nixosConfigurations.nixiso.config.formats.iso";
+
       # home manager
       hm = "home-manager --flake .";
       hms = "${hm} switch";
