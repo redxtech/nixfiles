@@ -9,6 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,9 +65,15 @@
           modules = [ ./hosts/bastion inputs.disko.nixosModules.disko ];
           specialArgs = { inherit inputs outputs; };
         };
-        # # laptop
+        # laptop
         voyager = lib.nixosSystem {
           modules = [ ./hosts/voyager ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        # nixiso
+        nixiso = lib.nixosSystem {
+          modules = [ ./hosts/nixiso ];
+          system = "x86_64-linux";
           specialArgs = { inherit inputs outputs; };
         };
         # # nas & media server
