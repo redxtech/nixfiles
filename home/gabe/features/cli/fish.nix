@@ -101,6 +101,16 @@ in {
         '';
       };
 
+      nd = {
+        wraps = "nix develop";
+        description = "Wraps `nix develop` to run fish instead of bash";
+        body = language "fish" ''
+          if status is-interactive
+            nix develop $argv -c $SHELL
+          end
+        '';
+      };
+
       # grep using ripgrep and pass to nvim
       nvimrg =
         mkIf (hasNeovim && hasRipgrep) "nvim -q (rg --vimgrep $argv | psub)";

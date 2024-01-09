@@ -50,6 +50,7 @@ with lib; {
       nil # nix LSP
       nixd # nix LSP
       nixfmt # nix formatter
+      # nix-delegate # distributed nix builds transparently
       nix-du # du for nix store
       nix-inspect # see which pkgs are in your PATH
       pfetch # system info
@@ -128,7 +129,7 @@ with lib; {
       # nix
       n = "nix-shell -p";
       nb = "nix build";
-      nd = "nix develop -c $SHELL";
+      # nd = "nix develop -c $SHELL";
       ns = "nix shell";
       nbp =
         "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";

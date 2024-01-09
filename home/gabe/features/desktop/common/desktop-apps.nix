@@ -16,6 +16,7 @@
     pavucontrol
     playerctl
     plexamp
+    qdirstat
     slack
     spotifywm
     xdragon
