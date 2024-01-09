@@ -1,4 +1,4 @@
-{ inputs, outputs, pkgs, ... }:
+{ inputs, outputs, pkgs, lib, config, ... }:
 
 {
   imports = [
@@ -67,5 +67,39 @@
 
     startupPrograms =
       [ "${pkgs.bspwm}/bin/bspc wm --reorder-monitors DP-1 DP-2" ];
+  };
+
+  services.polybar = with lib; {
+    script = ''
+      polybar main &
+      polybar secondary &
+    '';
+
+    settings = {
+      "bar/secondary" = {
+        inherit (config.services.polybar.settings."bar/main")
+          width height line-size offset bottom fixed-center wm-restack
+          override-redirect enable-ipc background foreground cursor font;
+
+        monitor = "DP-2";
+
+        modules = {
+          left = concatStringsSep " " [ "bspwm" "margin" "polywins-secondary" ];
+          center = config.services.polybar.settings."bar/main".modules.center;
+          right = concatStringsSep " " (config.profileVars.polybarModulesRight
+            ++ [ "margin" "powermenu" ]);
+        };
+      };
+      "module/polywins-secondary" = let
+        scripts = (import ./features/desktop/bspwm/polybar/scripts) {
+          inherit pkgs lib;
+        };
+      in {
+        inherit (config.services.polybar.settings."module/polywins")
+          format label tail type;
+
+        exec = "${scripts.polywins}/bin/polywins DP-2";
+      };
+    };
   };
 }

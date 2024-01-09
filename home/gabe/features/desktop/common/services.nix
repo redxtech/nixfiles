@@ -8,11 +8,6 @@
 
     flameshot = { enable = false; };
 
-    kdeconnect = {
-      enable = true;
-      indicator = false;
-    };
-
     keybase = { enable = false; };
     megasync = { enable = false; };
     network-manager-applet = { enable = false; };
