@@ -4,7 +4,7 @@ keys:
     - &gabe age1yscg86yrkxlt6xj4gnmw5l98xwajwph36ye2u5ltfyts3h6kh9dqcs83zj
   # hosts
   - &hosts:
-    - &bastion age1hm5lf4qk84r4wh00atn6hpts7mpdx80adq26wht2e5qh9ewvhyaszfv82d
+    - &bastion age1wdy8dlkhxmxgqqfzjqg9e2jz40qkmp9pkvshzxvzz8ytwa255eqqnl2fcs
     - &voyager age1adqrqr0jt44l7lp2z7am0elzvkmwhwcp57ra7p4l8yt489yq0p4sehkfe3
 
 creation_rules:
