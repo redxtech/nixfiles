@@ -14,6 +14,7 @@
     shellAliases = rec {
       nr = "nixos-rebuild --flake .";
       nrs = "${nr} switch";
+      nrb = "${nr} build";
       snr = "sudo ${nr}";
       snrs = "sudo ${nrs}";
 
