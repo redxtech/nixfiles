@@ -2,7 +2,7 @@
 
 {
   users.users.root = {
-    # hashedPasswordFile = config.sops.secrets.root-pw.path;
+    hashedPasswordFile = config.sops.secrets.root-pw.path;
     shell = pkgs.fish;
   };
 
