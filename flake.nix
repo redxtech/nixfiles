@@ -24,11 +24,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hardware.url = "github:nixos/nixos-hardware";
     nix-colors.url = "github:misterio77/nix-colors";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
@@ -70,12 +65,6 @@
           modules = [ ./hosts/voyager ];
           specialArgs = { inherit inputs outputs; };
         };
-        # nixiso
-        nixiso = lib.nixosSystem {
-          modules = [ ./hosts/nixiso ];
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs outputs; };
-        };
         # # nas & media server
         # quasar = lib.nixosSystem {
         #   modules = [ ./hosts/quasar ];
@@ -84,6 +73,12 @@
         # # raspi - ??
         # gizmo = lib.nixosSystem {
         #   modules = [ ./hosts/gizmo ];
+        #   specialArgs = { inherit inputs outputs; };
+        # };
+        # # nixiso
+        # nixiso = lib.nixosSystem {
+        #   modules = [ ./hosts/nixiso ];
+        #   system = "x86_64-linux";
         #   specialArgs = { inherit inputs outputs; };
         # };
       };
