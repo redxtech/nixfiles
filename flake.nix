@@ -24,6 +24,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    devenv.url = "github:cachix/devenv";
+    # treefmt-nix.url = "github:numtide/treefmt-nix";
     hardware.url = "github:nixos/nixos-hardware";
     nix-colors.url = "github:misterio77/nix-colors";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
@@ -51,7 +53,8 @@
       overlays = import ./overlays { inherit inputs outputs; };
 
       packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
-      devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
+      devShells =
+        forEachSystem (pkgs: import ./shell.nix { inherit pkgs inputs; });
       formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
 
       nixosConfigurations = {

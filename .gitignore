@@ -2,3 +2,4 @@ hosts/quasar
 hosts/gizmo
 result
 .direnv
+.devenv

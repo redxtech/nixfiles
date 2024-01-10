@@ -1,26 +1,64 @@
-# Shell for bootstrapping flake-enabled nix and other tooling
-{ pkgs ? # If pkgs is not defined, instanciate nixpkgs from locked commit
-  let
-    lock =
-      (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
-    nixpkgs = fetchTarball {
-      url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
-      sha256 = lock.narHash;
-    };
-  in import nixpkgs { overlays = [ ]; }, ... }: {
-    default = pkgs.mkShell {
-      NIX_CONFIG =
-        "extra-experimental-features = nix-command flakes repl-flake";
-      nativeBuildInputs = with pkgs; [
-        nix
-        home-manager
-        git
+{ pkgs, inputs, ... }:
 
-        sops
-        ssh-to-age
-        git-crypt
-        gnupg
-        age
-      ];
-    };
-  }
+{
+  default = inputs.devenv.lib.mkShell {
+    inherit pkgs inputs;
+    modules = [
+      ({ pkgs, config, ... }: {
+        env.NIX_CONFIG =
+          "extra-experimental-features = nix-command flakes repl-flake";
+
+        packages = with pkgs; [
+          nix
+          home-manager
+          git
+
+          sops
+          ssh-to-age
+          git-crypt
+          gnupg
+          age
+        ];
+      })
+    ];
+  };
+
+  node = inputs.devenv.lib.mkShell {
+    inherit pkgs inputs;
+    modules = [
+      ({ pkgs, config, ... }: {
+        # packages = with pkgs; [ nodejs_latest ];
+
+        languages = {
+          javascript = {
+            enable = true;
+            package = pkgs.nodejs_latest;
+            corepack.enable = true;
+          };
+          typescript.enable = true;
+        };
+
+        difftastic.enable = true;
+      })
+    ];
+  };
+
+  python = inputs.devenv.lib.mkShell {
+    inherit pkgs inputs;
+    modules = [
+      ({ pkgs, config, ... }: {
+        packages = with pkgs; [ black nodePackages.pyright ];
+
+        languages = {
+          python = {
+            enable = true;
+            poetry.enable = true;
+            venv.enable = true;
+          };
+        };
+
+        difftastic.enable = true;
+      })
+    ];
+  };
+}
