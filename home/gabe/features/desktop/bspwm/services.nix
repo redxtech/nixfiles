@@ -15,7 +15,7 @@
 
       timers = [
         {
-          delay = 300;
+          delay = 600;
           command =
             "${pkgs.betterlockscreen}/bin/betterlockscreen --lock dimblur";
         }
@@ -64,5 +64,4 @@
     # };
   };
 }
-
 
