@@ -28,6 +28,7 @@
     '';
 
     extraPackages = with pkgs; [
+      cargo
       gcc
       gnumake
       go
@@ -52,6 +53,7 @@
       nodePackages.vls
       nodePackages.vscode-json-languageserver-bin
       python311Packages.debugpy
+      rnix-lsp
       ruff-lsp
       shfmt
       stylua
