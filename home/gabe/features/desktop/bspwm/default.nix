@@ -84,6 +84,7 @@
 
         extraConfig = ''
           bspc rule -a '*:*:Open Files' 'desktop=*' 'state=floating'
+          bspc rule -a '*:*:File Upload' 'desktop=*' 'state=floating'
           bspc rule -a '*:*:Picture in picture' 'state=floating'
           bspc rule -a '*:*:Picture-in-picture' 'state=floating'
           bspc rule -a '*:*:Picture-in-Picture' 'state=floating'
