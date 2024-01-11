@@ -65,4 +65,20 @@
       };
     };
   };
+
+  fileSystems = {
+    "/media/big-goober" = {
+      device = "/dev/disk/by-uuid/bdfecef7-9904-49df-8c0d-dd14d0e60810";
+      fsType = "btrfs";
+      options = [ "rw" "lazytime" "space_cache" "subvolid=5" "subvol=/" ];
+      mountPoint = "/media/big-goober";
+    };
+
+    "/media/mid-goober" = {
+      device = "/dev/disk/by-uuid/7fbace0e-0bba-4ec5-9c5c-05105ffefb6d";
+      fsType = "btrfs";
+      options = [ "rw" "lazytime" "space_cache" "subvolid=5" "subvol=/" ];
+      mountPoint = "/media/mid-goober";
+    };
+  };
 }
