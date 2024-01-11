@@ -111,6 +111,14 @@ in {
         '';
       };
 
+      srun = {
+        wraps = "steam-run";
+        description = "Wraps `steam-run` to be easier to use";
+        body = language "fish" ''
+          NIXPKGS_ALLOW_UNFREE=1 nix-shell -p steam-run --run "steam-run $argv"
+        '';
+      };
+
       # grep using ripgrep and pass to nvim
       nvimrg =
         mkIf (hasNeovim && hasRipgrep) "nvim -q (rg --vimgrep $argv | psub)";
