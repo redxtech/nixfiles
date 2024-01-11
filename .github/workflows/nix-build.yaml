@@ -12,7 +12,7 @@ jobs:
         with:
           name: gabedunn
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - run: nix flake check --print-build-logs
+      - run: nix flake check --print-build-logs --impure
 
   shell:
     runs-on: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
         with:
           name: gabedunn
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - run: nix build .#devShells.x86_64-linux.default --print-build-logs
+      - run: nix build .#devShells.x86_64-linux.default --print-build-logs --impure
 
   packages-beekeeper:
     runs-on: ubuntu-latest
