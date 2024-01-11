@@ -106,7 +106,7 @@
           ++ map runOnceWeekend [ "${slack}/bin/slack" ] ++ map runWithRule [{
             cmd = "${kitty}/bin/kitty ${btop}/bin/btop";
             window = "kitty";
-            rule = "state=floating desktop='^1'";
+            rule = "state=floating desktop='^7'";
           }];
       };
   };
