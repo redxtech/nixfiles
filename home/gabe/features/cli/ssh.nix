@@ -24,7 +24,6 @@ in {
         user = user;
         identityFile = identityFile;
         hostname = "voyager.colobus-pirate.ts.net";
-        port = 5022;
         forwardAgent = true;
         remoteForwards = remoteForwards;
       };

@@ -76,4 +76,5 @@ in {
   };
 
   neovim-nightly = inputs.neovim-nightly-overlay.overlay;
+  # nur = inputs.nur.overlay;
 }
