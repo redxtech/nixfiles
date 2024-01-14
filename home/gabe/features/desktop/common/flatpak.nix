@@ -7,10 +7,20 @@
     enable = true;
 
     packages = [
+      "com.getpostman.Postman"
       "com.obsproject.Studio"
       "dev.vencord.Vesktop"
-      # "io.github.dvlv.boxbuddyrs"
+      "io.github.dvlv.boxbuddyrs"
     ];
+  };
+
+  xdg.portal = {
+    enable = true;
+
+    extraPortals = with pkgs; [ xdg-desktop-portal ];
+    xdgOpenUsePortal = false;
+
+    config = { common.default = "*"; };
   };
 }
 
