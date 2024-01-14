@@ -41,6 +41,7 @@ with lib; {
       ffmpegthumbnailer # thumbnailer
       httpie # better curl
       libnotify # desktop notifications
+      libwebp # webp support
       # ltex-ls # spell checking LSP
       lsb-release # get distro info
       mediainfo # media info

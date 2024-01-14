@@ -283,6 +283,15 @@ in {
           };
         }
         {
+          name = "archlinux";
+          src = fetchFromGitHub {
+            owner = "oh-my-fish";
+            repo = "plugin-archlinux";
+            rev = "1fd975f852bc2bd398e3cfd19780650b23233c27";
+            sha256 = "sha256-Q77U18KYS/4BY0MUaFh7U/EA3AyidpurdTyR6C86KqI=";
+          };
+        }
+        {
           name = "bak";
           src = fetchFromGitHub {
             owner = "oh-my-fish";
