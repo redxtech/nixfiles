@@ -48,7 +48,7 @@ in {
     };
 
     calibre-web = mkNtv {
-      enable = true;
+      enable = false;
 
       user = cfg.user;
       group = cfg.group;

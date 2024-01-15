@@ -40,11 +40,7 @@ in {
 
       calibre = mkCtr {
         image = "lscr.io/linuxserver/calibre";
-        ports = [
-          "8805:8080"
-          "8806:8081"
-          # "${cfg.ports.calibre}:8081"
-        ];
+        ports = [ "8805:8080" "8806:8081" (mkPort cfg.ports.calibre 8081) ];
         environment = defaultEnv // { PASSWORD = ""; };
         volumes = [
           (mkConf "calibre")
@@ -52,9 +48,9 @@ in {
         ];
       };
 
-      calibre-web = mkCtr {
+      calibre-web = {
         image = "lscr.io/linuxserver/calibre-web";
-        ports = [ "${cfg.ports.calibre-web}:8083" ];
+        ports = [ (mkPort cfg.ports.calibre-web 8083) ];
         environment = defaultEnv;
         volumes = [
           (mkConf "calibre-web")
