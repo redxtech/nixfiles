@@ -7,7 +7,6 @@
     packages = [
       # "com.obsproject.Studio"
       # "dev.vencord.Vesktop"
-      # "io.github.dvlv.boxbuddyrs"
     ];
   };
 
