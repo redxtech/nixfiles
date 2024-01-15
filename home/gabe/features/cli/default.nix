@@ -54,6 +54,7 @@ with lib; {
       # nix-delegate # distributed nix builds transparently
       nix-du # du for nix store
       nix-inspect # see which pkgs are in your PATH
+      packagekit # package helper across distros
       pfetch # system info
       pipes-rs # pipes screensaver
       playerctl # media player controller
