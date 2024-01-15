@@ -9,6 +9,7 @@ in {
     bazarr = 6767;
     calibre = 9001;
     calibre-web = 9002;
+    cockpit = 9090;
     deluge = 8112;
     jackett = 9117;
     jellyfin = 8096;
@@ -62,6 +63,15 @@ in {
         enableBookUploading = true;
         calibreLibrary = "${cfg.paths.media}/books";
       };
+    };
+
+    cockpit = {
+      enable = true;
+
+      port = cfg.ports.cockpit;
+      openFirewall = true;
+
+      # settings = { };
     };
 
     jackett = mkNtv {
