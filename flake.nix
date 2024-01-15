@@ -68,11 +68,11 @@
           modules = [ ./hosts/voyager ];
           specialArgs = { inherit inputs outputs; };
         };
-        # # nas & media server
-        # quasar = lib.nixosSystem {
-        #   modules = [ ./hosts/quasar ];
-        #   specialArgs = { inherit inputs outputs; };
-        # };
+        # nas & media server
+        quasar = lib.nixosSystem {
+          modules = [ ./hosts/quasar ];
+          specialArgs = { inherit inputs outputs; };
+        };
         # # raspi - ??
         # gizmo = lib.nixosSystem {
         #   modules = [ ./hosts/gizmo ];
@@ -97,11 +97,11 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
         };
-        # "gabe@quasar" = lib.homeManagerConfiguration {
-        #   modules = [ ./home/gabe/quasar.nix ];
-        #   pkgs = pkgsFor.x86_64-linux;
-        #   extraSpecialArgs = { inherit inputs outputs; };
-        # };
+        "gabe@quasar" = lib.homeManagerConfiguration {
+          modules = [ ./home/gabe/quasar.nix ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+        };
         # "gabe@gizmo" = lib.homeManagerConfiguration {
         #   modules = [ ./home/gabe/gizmo.nix ];
         #   pkgs = pkgsFor.aarch64-linux;

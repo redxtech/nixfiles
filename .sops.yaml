@@ -6,6 +6,7 @@ keys:
   - &hosts:
     - &bastion age1wdy8dlkhxmxgqqfzjqg9e2jz40qkmp9pkvshzxvzz8ytwa255eqqnl2fcs
     - &voyager age1adqrqr0jt44l7lp2z7am0elzvkmwhwcp57ra7p4l8yt489yq0p4sehkfe3
+    - &quasar age19ke07grxa0eshd3eqhgrahua90yslcdw4ecktsdtcpwd7mw98duszff9x0
 
 creation_rules:
   - path_regex: hosts/common/secrets\.(ya?ml|json|env|ini)$
@@ -14,6 +15,7 @@ creation_rules:
           - *gabe
           - *bastion
           - *voyager
+          - *quasar
 
   - path_regex: hosts/common/secrets3\.(ya?ml|json|env|ini)$
     key_groups:
@@ -21,6 +23,7 @@ creation_rules:
           - *gabe
           - *bastion
           - *voyager
+          - *quasar
 
   - path_regex: hosts/bastion/secrets\.(ya?ml|json|env|ini)$
     key_groups:
@@ -33,6 +36,12 @@ creation_rules:
       - age:
           - *gabe
           - *voyager
+
+  - path_regex: hosts/quasar/secrets\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
+          - *quasar
 
   - path_regex: home/gabe/secrets\.(ya?ml|json|env|ini)$
     key_groups:
