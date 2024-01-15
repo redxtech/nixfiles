@@ -69,11 +69,15 @@ in {
 
       user = cfg.user;
       group = cfg.group;
-      web.port = cfg.ports.deluge;
-      web.openFirewall = true;
 
       dataDir = cfg.paths.data + "/deluge";
       extraPackages = with pkgs; [ ];
+
+      web = {
+        enable = true;
+        port = cfg.ports.deluge;
+        openFirewall = true;
+      };
 
       declarative = true;
       authFile = config.sops.secrets.deluge-auth.path;
