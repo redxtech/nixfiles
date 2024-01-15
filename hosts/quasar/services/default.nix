@@ -111,4 +111,6 @@ in {
       openFirewall = true;
     };
   };
+
+  sops.secrets.deluge-auth.sopsFile = ../secrets.yaml;
 }
