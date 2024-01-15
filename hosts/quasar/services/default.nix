@@ -17,6 +17,7 @@ in {
     lidarr = 8686;
     plex = 32400;
     portainer = 9000;
+    qbit = 8810;
     radarr = 7878;
     startpage = 9009;
     sonarr = 8989;

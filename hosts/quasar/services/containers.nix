@@ -61,7 +61,7 @@ in {
 
       jackett = mkCtr {
         image = "lscr.io/linuxserver/jackett";
-        ports = [ "${cfg.ports.jackett}:9117" ];
+        ports = [ (mkPort cfg.ports.jackett 9117) ];
         environment = defaultEnv // { AUTO_UPDATE = "true"; };
         volumes = [ (mkConf "jackett") downloads ];
       };
@@ -78,27 +78,39 @@ in {
 
       radarr = mkCtr {
         image = "lscr.io/linuxserver/radarr";
-        ports = [ "${cfg.ports.radarr}:7878" ];
+        ports = [ (mkPort cfg.ports.radarr 7878) ];
         environment = defaultEnv;
         volumes = [ (mkConf "radarr") downloads media ];
       };
 
       sonarr = mkCtr {
         image = "lscr.io/linuxserver/sonarr";
-        ports = [ "${cfg.ports.sonarr}:8989" ];
+        ports = [ (mkPort cfg.ports.sonarr 8989) ];
         environment = defaultEnv;
         volumes = [ (mkConf "sonarr") downloads media ];
       };
 
       jellyseerr = mkCtr {
         image = "lscr.io/fallenbagel/jellyseerr";
-        ports = [ "${cfg.ports.jellyseerr}:5055" ];
+        ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         environment = defaultEnv;
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
       };
 
+      qbit = {
+        image = "lscr.io/linuxserver/qbittorrent";
+        ports = [
+          (mkPort cfg.ports.qbit cfg.ports.qbit)
+          "6882:6882"
+          "6882:6882/udp"
+        ];
+        environment = defaultEnv // {
+          WEBUI_PORT = "${toString cfg.ports.qbit}";
+        };
+        volumes = [ (mkConf "qbit") (mkData "qbit") ];
+      };
+
       # certbot
-      # cockpit
       # dashy
       # flaresolverr
       # jellyfin
@@ -107,7 +119,6 @@ in {
       # mc
       # modded-mc
       # pingbot
-      # qbit
       # qdirstat
       # stash
       # tubearchivist
