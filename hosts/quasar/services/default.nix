@@ -3,7 +3,7 @@
 with lib;
 let cfg = config.nas;
 in {
-  imports = [ ./containers.nix ./plex.nix ];
+  imports = [ ./containers.nix ./plex.nix ./deluge.nix ];
 
   nas.ports = {
     bazarr = 6767;
@@ -64,27 +64,6 @@ in {
       };
     };
 
-    deluge = mkNtv {
-      enable = true;
-
-      user = cfg.user;
-      group = cfg.group;
-
-      dataDir = cfg.paths.data + "/deluge";
-      extraPackages = with pkgs; [ ];
-
-      web = {
-        enable = true;
-        port = cfg.ports.deluge;
-        openFirewall = true;
-      };
-
-      declarative = true;
-      authFile = config.sops.secrets.deluge-auth.path;
-      openFirewall = true;
-      config = { };
-    };
-
     jackett = mkNtv {
       enable = true;
       user = cfg.user;
@@ -114,11 +93,5 @@ in {
       port = cfg.ports.jellyseerr;
       openFirewall = true;
     };
-  };
-
-  sops.secrets.deluge-auth = {
-    sopsFile = ../secrets.yaml;
-    owner = cfg.user;
-    mode = "0644";
   };
 }

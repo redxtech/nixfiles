@@ -59,13 +59,6 @@ in {
         ];
       };
 
-      deluge = mkCtr {
-        image = "lscr.io/linuxserver/deluge";
-        ports = [ "${cfg.ports.deluge}:8112" "6881:6881" "6881:6881/udp" ];
-        environment = defaultEnv;
-        volumes = [ (mkConf "deluge") (mkDl "deluge") ];
-      };
-
       jackett = mkCtr {
         image = "lscr.io/linuxserver/jackett";
         ports = [ "${cfg.ports.jackett}:9117" ];
