@@ -64,6 +64,23 @@ in {
       };
     };
 
+    deluge = mkNtv {
+      enable = true;
+
+      user = cfg.user;
+      group = cfg.group;
+      web.port = cfg.ports.deluge;
+      web.openFirewall = true;
+
+      dataDir = cfg.paths.data + "/deluge";
+      extraPackages = with pkgs; [ ];
+
+      declarative = true;
+      authFile = config.sops.secrets.deluge-auth.path;
+      openFirewall = true;
+      config = { };
+    };
+
     jackett = mkNtv {
       enable = true;
       user = cfg.user;

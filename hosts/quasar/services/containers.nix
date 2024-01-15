@@ -12,6 +12,7 @@ let
   mkCtr = conf: mkIf cfg.useNative conf;
   mkConf = name: cfg.paths.config + "/" + name + ":/config";
   mkData = name: cfg.paths.data + "/" + name + ":/data";
+  mkDl = name: cfg.paths.downloads + "/" + name + ":/downloads";
   downloads = cfg.paths.downloads + ":/downloads";
   media = cfg.paths.media + ":/media";
   mkPort = host: guest: "${toString host}:${toString guest}";
@@ -62,6 +63,13 @@ in {
         ];
       };
 
+      deluge = mkCtr {
+        image = "lscr.io/linuxserver/deluge";
+        ports = [ "${cfg.ports.deluge}:8112" "6881:6881" "6881:6881/udp" ];
+        environment = defaultEnv;
+        volumes = [ (mkConf "deluge") (mkDl "deluge") ];
+      };
+
       jackett = mkCtr {
         image = "lscr.io/linuxserver/jackett";
         ports = [ "${cfg.ports.jackett}:9117" ];
@@ -104,11 +112,13 @@ in {
       # cockpit
       # dashy
       # flaresolverr
+      # jellyfin
       # kiwix
       # lidarr
       # mc
       # modded-mc
       # pingbot
+      # qbit
       # qdirstat
       # stash
       # tubearchivist
@@ -123,6 +133,7 @@ in {
       # nextcloud
       # readarr
       # tmod
+      # traefik
     };
   };
 }
