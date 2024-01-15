@@ -103,6 +103,11 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
         };
+        "gabe@rock-hard" = lib.homeManagerConfiguration {
+          modules = [ ./home/gabe/rock-hard.nix ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+        };
         # "gabe@gizmo" = lib.homeManagerConfiguration {
         #   modules = [ ./home/gabe/gizmo.nix ];
         #   pkgs = pkgsFor.aarch64-linux;
