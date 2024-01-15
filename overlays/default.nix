@@ -1,4 +1,5 @@
 { outputs, inputs }:
+
 let
   addPatches = pkg: patches:
     pkg.overrideAttrs
@@ -20,6 +21,26 @@ in {
     import ../pkgs { pkgs = final; } // {
       # formats = prev.formats // import ../pkgs/formats { pkgs = final; };
       # vimPlugins = prev.vimPlugins // final.callPackage ../pkgs/vim-plugins { };
+
+      plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
+        version = "1.32.8.7639-fb6452ebf";
+        name = "${old.pname}-${version}";
+
+        src = if prev.stdenv.hostPlatform.system == "aarch64-linux" then
+          prev.fetchurl {
+            url =
+              "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_arm64.deb";
+            sha256 = "";
+          }
+        else
+          prev.fetchurl {
+            url =
+              "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
+            sha256 = "sha256-jdGVAdvm7kjxTP3CQ5w6dKZbfCRwSy9TrtxRHaV0/cs=";
+          };
+      });
+
+      plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };
     };
 
   # Modifies existing packages
