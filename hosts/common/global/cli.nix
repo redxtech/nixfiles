@@ -54,4 +54,6 @@
 
     pathsToLink = [ "/share/zsh" ];
   };
+
+  services.packagekit.enable = true;
 }
