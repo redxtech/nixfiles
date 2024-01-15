@@ -3,7 +3,7 @@
 with lib;
 let cfg = config.nas;
 in {
-  imports = [ ./containers.nix ./plex.nix ./calibre.nix ];
+  imports = [ ./containers.nix ./plex.nix ];
 
   nas.ports = {
     bazarr = 6767;
@@ -34,6 +34,34 @@ in {
       user = cfg.user;
       group = cfg.group;
       listenPort = cfg.ports.bazarr;
+    };
+
+    calibre-server = mkNtv {
+      enable = true;
+
+      user = cfg.user;
+      group = cfg.group;
+      port = cfg.ports.calibre;
+
+      libraries = [ "${cfg.paths.media}/books" ];
+      # auth.enable = true;
+    };
+
+    calibre-web = mkNtv {
+      enable = true;
+
+      user = cfg.user;
+      group = cfg.group;
+
+      dataDir = "${cfg.paths.data}/calibre-web";
+      listen.port = cfg.ports.calibre-web;
+      openFirewall = true;
+
+      options = {
+        enableBookConversion = true;
+        enableBookUploading = true;
+        calibreLibrary = "${cfg.paths.media}/books";
+      };
     };
 
     jackett = mkNtv {

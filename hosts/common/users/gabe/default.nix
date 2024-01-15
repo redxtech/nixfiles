@@ -11,6 +11,7 @@ in {
     hashedPasswordFile = config.sops.secrets.gabe-pw.path;
     shell = pkgs.fish;
     extraGroups = [ "wheel" "video" "audio" ] ++ ifTheyExist [
+      "data"
       "deluge"
       "docker"
       "git"

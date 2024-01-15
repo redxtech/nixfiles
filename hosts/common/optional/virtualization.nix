@@ -23,6 +23,7 @@
     #   lxd.enable = true;
   };
 
+  # enable virt-manager
   programs.virt-manager.enable = true;
 
   # dconf, needed for virt-manager

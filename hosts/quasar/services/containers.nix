@@ -37,6 +37,31 @@ in {
         volumes = [ (mkConf "bazarr") media ];
       };
 
+      calibre = mkCtr {
+        image = "lscr.io/linuxserver/calibre";
+        ports = [
+          "8805:8080"
+          "8806:8081"
+          # "${cfg.ports.calibre}:8081"
+        ];
+        environment = defaultEnv // { PASSWORD = ""; };
+        volumes = [
+          (mkConf "calibre")
+          (cfg.paths.media + "/books:/config/Calibre Library")
+        ];
+      };
+
+      calibre-web = mkCtr {
+        image = "lscr.io/linuxserver/calibre-web";
+        ports = [ "${cfg.ports.calibre-web}:8083" ];
+        environment = defaultEnv;
+        volumes = [
+          (mkConf "calibre-web")
+          (cfg.paths.media + "/books:/books")
+          # media
+        ];
+      };
+
       jackett = mkCtr {
         image = "lscr.io/linuxserver/jackett";
         ports = [ "${cfg.ports.jackett}:9117" ];
