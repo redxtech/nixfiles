@@ -12,28 +12,19 @@ in {
     enable = true;
 
     # TODO: switch to tailscale IPs once it's set up
-    matchBlocks = {
-      "bastion" = {
+    matchBlocks = let
+      mkDevice = name: {
         user = user;
         identityFile = identityFile;
-        hostname = "bastion.colobus-pirate.ts.net";
+        hostname = "${name}.colobus-pirate.ts.net";
         forwardAgent = true;
         remoteForwards = remoteForwards;
       };
-      "voyager" = {
-        user = user;
-        identityFile = identityFile;
-        hostname = "voyager.colobus-pirate.ts.net";
-        forwardAgent = true;
-        remoteForwards = remoteForwards;
-      };
-      "rock-hard" = {
-        user = user;
-        identityFile = identityFile;
-        hostname = "10.0.0.191";
-        forwardAgent = true;
-        remoteForwards = remoteForwards;
-      };
+    in {
+      "bastion" = mkDevice "bastion";
+      "voyager" = mkDevice "voyager";
+      "quasar" = mkDevice "quasar";
+      "rock-hard" = mkDevice "rock-hard";
       "sb" = {
         user = "redxtech";
         identityFile = identityFile;
