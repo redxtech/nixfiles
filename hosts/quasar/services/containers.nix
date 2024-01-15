@@ -69,7 +69,7 @@ in {
       nginx-proxy-manager = {
         image = "jc21/nginx-proxy-manager";
         ports = [ "80:80" "81:81" "443:443" ];
-        environment = defaultEnv;
+        environment = { TZ = defaultEnv.TZ; };
         volumes = [
           (mkData "nginx-proxy-manager")
           (cfg.paths.config + "/letsencrypt:/etc/letsencrypt")
