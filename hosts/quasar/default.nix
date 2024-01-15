@@ -7,7 +7,8 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     # TODO: switch to actual configs
-    ./hardware-configuration.nix
+    ./hardware-configuration-qemu.nix
+    # ./hardware-configuration.nix
     # ./filesystem.nix
 
     ./services
