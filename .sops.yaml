@@ -17,14 +17,6 @@ creation_rules:
           - *voyager
           - *quasar
 
-  - path_regex: hosts/common/secrets3\.(ya?ml|json|env|ini)$
-    key_groups:
-      - age:
-          - *gabe
-          - *bastion
-          - *voyager
-          - *quasar
-
   - path_regex: hosts/bastion/secrets\.(ya?ml|json|env|ini)$
     key_groups:
       - age:
