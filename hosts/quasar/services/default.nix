@@ -112,5 +112,9 @@ in {
     };
   };
 
-  sops.secrets.deluge-auth.sopsFile = ../secrets.yaml;
+  sops.secrets.deluge-auth = {
+    sopsFile = ../secrets.yaml;
+    owner = cfg.user;
+    mode = "0644";
+  };
 }
