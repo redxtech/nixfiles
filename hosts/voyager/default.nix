@@ -32,7 +32,7 @@
 
   networking.hostName = "voyager";
 
-  time.timeZone = "America/Edmonton";
+  time.timeZone = "America/Vancouver";
 
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
