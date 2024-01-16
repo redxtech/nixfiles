@@ -30,8 +30,11 @@
           keyutils
           mangohud
           glxinfo
-          bumblebee
+          # bumblebee
         ];
     };
   };
+
+  # hardware.bumblebee.enable = true;
+  hardware.nvidia.prime.offload.enable = true;
 }
