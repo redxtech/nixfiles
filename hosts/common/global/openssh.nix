@@ -8,13 +8,10 @@ in {
   services.openssh = {
     enable = true;
     settings = {
-      # Harden
       PasswordAuthentication = false;
-      PermitRootLogin = "no";
-      # Automatically remove stale sockets
-      StreamLocalBindUnlink = "yes";
-      # Allow forwarding ports to everywhere
-      GatewayPorts = "clientspecified";
+      PermitRootLogin = "prohibit-password";
+      StreamLocalBindUnlink = "yes"; # automatically remove stale sockets
+      GatewayPorts = "clientspecified"; # allow forwarding ports to everywhere
       X11Forwarding = true;
     };
 
@@ -39,6 +36,8 @@ in {
     }) realHosts;
 
     startAgent = true;
+
+    forwardX11 = true;
   };
 
   # Passwordless sudo when SSH'ing with keys
