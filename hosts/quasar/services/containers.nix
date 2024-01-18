@@ -33,7 +33,7 @@ in {
 
       portainer-agent = {
         image = "portainer/agent:2.19.4";
-        ports = [ "9001:9001" ];
+        ports = [ (mkPort cfg.ports.portainer-agent 9001) ];
         volumes = [
           "/var/lib/docker/volumes:/var/lib/docker/volumes"
           "/var/run/docker.sock:/var/run/docker.sock"
@@ -45,15 +45,15 @@ in {
         image = "adguard/adguardhome";
         ports = [
           (mkPort cfg.ports.adguard 3000) # frontend
-          # "53:53/tcp" # DNS
-          # "53:53/udp" # DNS
-          # "67:67/udp" # DHCP
-          # "68:68/tcp" # DHCP
-          # "68:68/udp" # DHCP
+          "53:53/tcp" # DNS
+          "53:53/udp" # DNS
+          "67:67/udp" # DHCP
+          "68:68/tcp" # DHCP
+          "68:68/udp" # DHCP
           #     "80:80/tcp" # DNS over HTTPS
           #     "443:443/tcp" # DNS over HTTPS
           #     "443:443/udp" # DNS over HTTPS
-          # "853:853/tcp" # DNS over TLS
+          "853:853/tcp" # DNS over TLS
           # "784:784/udp" # DNS over QUIC
           # "853:853/udp" # DNS over QUIC
           # "8853:8853/udp" # DNS over QUIC
