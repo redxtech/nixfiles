@@ -9,6 +9,9 @@
     packages = [ "com.getpostman.Postman" "com.obsproject.Studio" ];
   };
 
+  xdg.dataFile."fonts".source =
+    config.lib.file.mkOutOfStoreSymlink /run/current-system/sw/share/X11/fonts;
+
   xdg.portal = {
     enable = true;
 
