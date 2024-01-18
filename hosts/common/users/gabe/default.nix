@@ -51,8 +51,8 @@ in {
 
   sops.secrets.gabe-pw.neededForUsers = true;
 
-  # home-manager.users.gabe =
-  #   import ../../../../home/gabe/${config.networking.hostName}.nix;
+  home-manager.users.gabe =
+    import ../../../../home/gabe/${config.networking.hostName}.nix;
 
   services.geoclue2.enable = true;
   # security.pam.services = { swaylock = { }; };
