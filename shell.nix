@@ -13,11 +13,14 @@
           home-manager
           git
 
-          sops
-          ssh-to-age
-          git-crypt
-          gnupg
           age
+          sops
+          gnupg
+          ssh-to-age
+
+          transcrypt
+          xxd
+          openssl
         ];
       })
     ];

@@ -1,1 +1,1 @@
-pkgs/dank-mono/dank-mono/* filter=git-crypt diff=git-crypt
+pkgs/dank-mono/**/*.ttf filter=crypt diff=crypt merge=crypt
