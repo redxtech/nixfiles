@@ -4,11 +4,15 @@
   services.flatpak = {
     enable = true;
 
-    packages = [
-      # "com.obsproject.Studio"
-      # "dev.vencord.Vesktop"
-    ];
+    # packages = [ ];
+
+    update.auto = {
+      enable = true;
+      onCalendar = "weekly";
+    };
   };
+
+  environment.systemPackages = with pkgs; [ gnome.gnome-software ];
 
   xdg.portal = {
     enable = true;

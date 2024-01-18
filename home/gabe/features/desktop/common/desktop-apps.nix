@@ -10,6 +10,7 @@
     betterdiscordctl
     deluge
     discord
+    vesktop
     libreoffice
     multiviewer-for-f1
     neovide

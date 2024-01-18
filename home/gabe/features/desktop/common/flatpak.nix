@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, config, inputs, ... }:
 
 {
   imports = [ inputs.nix-flatpak.homeManagerModules.nix-flatpak ];
@@ -6,11 +6,7 @@
   services.flatpak = {
     enable = true;
 
-    packages = [
-      "com.getpostman.Postman"
-      "com.obsproject.Studio"
-      "dev.vencord.Vesktop"
-    ];
+    packages = [ "com.getpostman.Postman" "com.obsproject.Studio" ];
   };
 
   xdg.portal = {
