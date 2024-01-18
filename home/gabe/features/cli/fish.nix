@@ -20,6 +20,9 @@ in {
       nsn = "nix shell nixpkgs#";
       nbn = "nix build nixpkgs#";
 
+      # xmodmap
+      XMO = "xmodmap ~/.Xmodmap";
+
       # typos
       clera = "clear";
       claer = "clear";
