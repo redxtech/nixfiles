@@ -1,5 +1,6 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, outputs, ... }:
 
+with lib;
 let
   inherit (lib) mkIf;
   language = name: text: text;
@@ -110,6 +111,30 @@ in {
         body = language "fish" ''
           if status is-interactive
             nix develop $argv -c $SHELL
+          end
+        '';
+      };
+
+      nixos-rebuild-remote = {
+        description = "Rebuilds a remote NixOS machine";
+        body = ''
+          nixos-rebuild --flake "$FLAKE#$argv[1]" \
+          --fast \
+          --target-host "root@$argv[1]" \
+          --build-host "root@$argv[1]" \
+          switch
+        '';
+      };
+
+      __fish_nixos_rebuild_remote_complete = let
+        realHosts =
+          builtins.removeAttrs outputs.nixosConfigurations [ "nixiso" ];
+        hostnames = concatStringsSep " " (builtins.attrNames realHosts);
+      in {
+        body = ''
+          set -l hostnames ${hostnames}
+          for host in $hostnames
+              echo $host
           end
         '';
       };
@@ -342,6 +367,9 @@ in {
 
       # use fish for nix shells
       ${pkgs.any-nix-shell}/bin/any-nix-shell fish | source
+
+      # add completion for nixos-rebuild-remote
+      complete -c nixos-rebuild-remote -a '(__fish_nixos_rebuild_remote_complete)' -f
     '';
 
     shellInit = language "fish" ''
