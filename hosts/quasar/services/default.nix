@@ -6,6 +6,7 @@ in {
   imports = [ ./containers.nix ./plex.nix ./deluge.nix ];
 
   nas.ports = {
+    adguard = 9900;
     bazarr = 6767;
     calibre = 9001;
     calibre-web = 9002;
@@ -31,6 +32,12 @@ in {
     downloads = cfg.paths.downloads + ":/downloads";
     media = cfg.paths.media + ":/media";
   in {
+    adguardhome = mkNtv {
+      enable = true;
+      openFirewall = true;
+      settings = { bind_port = cfg.ports.adguard; };
+    };
+
     bazarr = mkNtv {
       enable = true;
       user = cfg.user;

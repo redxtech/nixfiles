@@ -31,6 +31,32 @@ in {
           [ "/var/run/docker.sock:/var/run/docker.sock" (mkData "portainer") ];
       };
 
+      adguard = {
+        image = "adguard/adguardhome";
+        ports = [
+          "53:53/tcp" # DNS
+          "53:53/udp" # DNS
+          # "67:67/udp" # DHCP
+          # "68:68/tcp" # DHCP
+          # "68:68/udp" # DHCP
+          "80:80/tcp" # DNS over HTTPS
+          "443:443/tcp" # DNS over HTTPS
+          "443:443/udp" # DNS over HTTPS
+          (mkPort cfg.ports.adguard 3000) # frontend
+          "853:853/tcp" # DNS over TLS
+          # "784:784/udp" # DNS over QUIC
+          # "853:853/udp" # DNS over QUIC
+          # "8853:8853/udp" # DNS over QUIC
+          # "5443:5443/tcp" # DNScrypt
+          # "5443:5443/udp" # DNScrypt
+        ];
+        environment = defaultEnv;
+        volumes = [
+          "${cfg.paths.config}/adguard:/opt/adguardhome/conf"
+          "${cfg.paths.data}/adguard:/opt/adguardhome/work"
+        ];
+      };
+
       bazarr = mkCtr {
         image = "lscr.io/linuxserver/bazarr";
         ports = [ "${cfg.ports.bazarr}:6767" ];
