@@ -6,15 +6,8 @@ stdenvNoCC.mkDerivation rec {
 
   src = ./dank-mono;
 
-  dontBuild = true;
-  dontConfigure = true;
-
   installPhase = ''
-    runHook preInstall
-
-    install -Dm444 -t $out/share/fonts/opentype/ $src/*.otf
-
-    runHook postInstall
+    install -D -m 444 $src/*.ttf -t $out/share/fonts/ttf
   '';
 
   meta = with lib; {
