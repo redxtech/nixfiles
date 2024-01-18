@@ -8,7 +8,7 @@ in {
   nas.ports = {
     adguard = 9900;
     bazarr = 6767;
-    calibre = 9001;
+    calibre = 9003;
     calibre-web = 9002;
     cockpit = 9090;
     deluge = 8112;
