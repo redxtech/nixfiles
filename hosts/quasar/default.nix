@@ -12,6 +12,7 @@
     # ./filesystem.nix
 
     ./services
+    # ./acme.nix
 
     ../common/global
     ../common/users/root

@@ -158,7 +158,6 @@ in {
       # stash
       # tubearchivist
 
-      # adguard
       # ddclient
       # duplicati
       # gitea

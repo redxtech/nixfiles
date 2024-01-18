@@ -3,7 +3,6 @@
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.nix-flatpak.nixosModules.nix-flatpak
-    # ./acme.nix
     # ./auto-upgrade.nix
     ./cli.nix
     ./locale.nix
