@@ -41,7 +41,7 @@ in {
         ];
       };
 
-      adguardhome = {
+      adguardhome = mkCtr {
         image = "adguard/adguardhome";
         ports = [
           (mkPort cfg.ports.adguard 3000) # frontend
@@ -68,15 +68,15 @@ in {
 
       bazarr = mkCtr {
         image = "lscr.io/linuxserver/bazarr";
-        ports = [ "${cfg.ports.bazarr}:6767" ];
         environment = defaultEnv;
+        ports = [ "${cfg.ports.bazarr}:6767" ];
         volumes = [ (mkConf "bazarr") media ];
       };
 
       calibre = mkCtr {
         image = "lscr.io/linuxserver/calibre";
-        ports = [ "8805:8080" "8806:8081" (mkPort cfg.ports.calibre 8081) ];
         environment = defaultEnv // { PASSWORD = ""; };
+        ports = [ "8805:8080" "8806:8081" (mkPort cfg.ports.calibre 8081) ];
         volumes = [
           (mkConf "calibre")
           (cfg.paths.media + "/books:/config/Calibre Library")
@@ -85,8 +85,8 @@ in {
 
       calibre-web = {
         image = "lscr.io/linuxserver/calibre-web";
-        ports = [ (mkPort cfg.ports.calibre-web 8083) ];
         environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.calibre-web 8083) ];
         volumes = [
           (mkConf "calibre-web")
           (cfg.paths.media + "/books:/books")
@@ -96,15 +96,15 @@ in {
 
       jackett = mkCtr {
         image = "lscr.io/linuxserver/jackett";
-        ports = [ (mkPort cfg.ports.jackett 9117) ];
         environment = defaultEnv // { AUTO_UPDATE = "true"; };
+        ports = [ (mkPort cfg.ports.jackett 9117) ];
         volumes = [ (mkConf "jackett") downloads ];
       };
 
       nginx-proxy-manager = {
         image = "jc21/nginx-proxy-manager";
-        ports = [ "80:80" "81:81" "443:443" ];
         environment = { TZ = defaultEnv.TZ; };
+        ports = [ "80:80" "81:81" "443:443" ];
         volumes = [
           (mkData "nginx-proxy-manager")
           (cfg.paths.config + "/letsencrypt:/etc/letsencrypt")
@@ -113,43 +113,45 @@ in {
 
       radarr = mkCtr {
         image = "lscr.io/linuxserver/radarr";
-        ports = [ (mkPort cfg.ports.radarr 7878) ];
         environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.radarr 7878) ];
         volumes = [ (mkConf "radarr") downloads media ];
       };
 
       sonarr = mkCtr {
         image = "lscr.io/linuxserver/sonarr";
-        ports = [ (mkPort cfg.ports.sonarr 8989) ];
         environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.sonarr 8989) ];
         volumes = [ (mkConf "sonarr") downloads media ];
       };
 
       jellyseerr = mkCtr {
         image = "lscr.io/fallenbagel/jellyseerr";
-        ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
       };
 
       qbit = {
         image = "lscr.io/linuxserver/qbittorrent";
+        environment = defaultEnv // {
+          WEBUI_PORT = "${toString cfg.ports.qbit}";
+        };
         ports = [
           (mkPort cfg.ports.qbit cfg.ports.qbit)
           "6882:6882"
           "6882:6882/udp"
         ];
-        environment = defaultEnv // {
-          WEBUI_PORT = "${toString cfg.ports.qbit}";
-        };
         volumes = [ (mkConf "qbit") (mkData "qbit") ];
       };
 
       qdirstat = {
         image = "lscr.io/linuxserver/qdirstat";
-        environment = defaultEnv;
-        ports = [ (mkPort cfg.ports.qdirstat 3000) ];
-        volumes = [ (mkConf "qdirstat") ":/data:ro" ];
+        environment = defaultEnv // {
+          CUSTOM_PORT = "${toString cfg.ports.qdirstat}";
+        };
+        ports = [ (mkPort cfg.ports.qdirstat cfg.ports.qdirstat) ];
+        volumes = [ (mkConf "qdirstat") "/:/data:ro" ];
       };
 
       # certbot
@@ -161,7 +163,6 @@ in {
       # mc
       # modded-mc
       # pingbot
-      # qdirstat
       # stash
       # tubearchivist
 
