@@ -20,6 +20,7 @@ in {
     portainer = 9000;
     portainer-agent = 9001;
     qbit = 8810;
+    qdirstat = 9030;
     radarr = 7878;
     startpage = 9009;
     sonarr = 8989;

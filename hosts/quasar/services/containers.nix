@@ -145,6 +145,13 @@ in {
         volumes = [ (mkConf "qbit") (mkData "qbit") ];
       };
 
+      qdirstat = {
+        image = "lscr.io/linuxserver/qdirstat";
+        environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.qdirstat 3000) ];
+        volumes = [ (mkConf "qdirstat") ":/data:ro" ];
+      };
+
       # certbot
       # dashy
       # flaresolverr
