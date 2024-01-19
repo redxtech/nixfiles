@@ -35,6 +35,7 @@
 
   networking.hostName = "quasar";
   nas.enable = true;
+  nas.useNative = false;
 
   # TODO: remove
   services.xserver.displayManager.autoLogin.enable = true;

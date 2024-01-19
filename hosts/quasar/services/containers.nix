@@ -9,7 +9,7 @@ let
     TZ = cfg.timezone;
   };
 
-  mkCtr = conf: mkIf cfg.useNative conf;
+  mkCtr = conf: mkIf (!cfg.useNative) conf;
   mkConf = name: cfg.paths.config + "/" + name + ":/config";
   mkData = name: cfg.paths.data + "/" + name + ":/data";
   mkDl = name: cfg.paths.downloads + "/" + name + ":/downloads";

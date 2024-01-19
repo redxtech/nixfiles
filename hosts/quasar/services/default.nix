@@ -28,7 +28,7 @@ in {
   };
 
   services = let
-    mkNtv = conf: mkIf (!cfg.useNative) conf;
+    mkNtv = conf: mkIf cfg.useNative conf;
     mkConf = name: cfg.paths.config + "/" + name + ":/config";
     mkData = name: cfg.paths.data + "/" + name + ":/data";
     downloads = cfg.paths.downloads + ":/downloads";
