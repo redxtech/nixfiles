@@ -37,6 +37,8 @@
   nas.enable = true;
 
   # TODO: remove
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "gabe";
   services.qemuGuest.enable = true;
   boot.loader.grub = {
     enable = true;
