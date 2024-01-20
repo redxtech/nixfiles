@@ -16,6 +16,7 @@ let
   downloads = cfg.paths.downloads + ":/downloads";
   media = cfg.paths.media + ":/media";
   mkPort = host: guest: "${toString host}:${toString guest}";
+  mkPorts = port: "${toString port}:${toString port}";
 in {
   virtualisation.oci-containers = {
     containers = {
@@ -69,7 +70,7 @@ in {
       bazarr = mkCtr {
         image = "lscr.io/linuxserver/bazarr";
         environment = defaultEnv;
-        ports = [ "${cfg.ports.bazarr}:6767" ];
+        ports = [ (mkPort cfg.ports.bazarr 6767) ];
         volumes = [ (mkConf "bazarr") media ];
       };
 
@@ -137,11 +138,7 @@ in {
         environment = defaultEnv // {
           WEBUI_PORT = "${toString cfg.ports.qbit}";
         };
-        ports = [
-          (mkPort cfg.ports.qbit cfg.ports.qbit)
-          "6882:6882"
-          "6882:6882/udp"
-        ];
+        ports = [ (mkPorts cfg.ports.qbit) "6882:6882" "6882:6882/udp" ];
         volumes = [ (mkConf "qbit") (mkData "qbit") ];
       };
 
@@ -150,7 +147,7 @@ in {
         environment = defaultEnv // {
           CUSTOM_PORT = "${toString cfg.ports.qdirstat}";
         };
-        ports = [ (mkPort cfg.ports.qdirstat cfg.ports.qdirstat) ];
+        ports = [ (mkPorts cfg.ports.qdirstat) ];
         volumes = [ (mkConf "qdirstat") "/:/data:ro" ];
       };
 
