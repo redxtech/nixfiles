@@ -48,9 +48,9 @@ in {
           (mkPort cfg.ports.adguard 3000) # frontend
           "53:53/tcp" # DNS
           "53:53/udp" # DNS
-          "67:67/udp" # DHCP
-          "68:68/tcp" # DHCP
-          "68:68/udp" # DHCP
+          # "67:67/udp" # DHCP
+          # "68:68/tcp" # DHCP
+          # "68:68/udp" # DHCP
           #     "80:80/tcp" # DNS over HTTPS
           #     "443:443/tcp" # DNS over HTTPS
           #     "443:443/udp" # DNS over HTTPS
@@ -127,7 +127,7 @@ in {
       };
 
       jellyseerr = mkCtr {
-        image = "lscr.io/fallenbagel/jellyseerr";
+        image = "fallenbagel/jellyseerr";
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
