@@ -40,6 +40,8 @@
   # TODO: remove
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "gabe";
+  systemd.services."getty@tty1".enable = false; # fix for autologin
+  systemd.services."autovt@tty1".enable = false; # fix for autologin
   services.qemuGuest.enable = true;
   boot.loader.grub = {
     enable = true;
