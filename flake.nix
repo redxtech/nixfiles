@@ -24,6 +24,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    solaar = {
+      url = "github:Svenum/Solaar-Flake/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     devenv.url = "github:cachix/devenv";
     # treefmt-nix.url = "github:numtide/treefmt-nix";
     hardware.url = "github:nixos/nixos-hardware";
