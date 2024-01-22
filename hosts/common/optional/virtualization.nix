@@ -16,6 +16,9 @@
       '';
     };
 
+    # allow usb passthrough
+    spiceUSBRedirection.enable = true;
+
     # enable docker
     docker.enable = true;
 
