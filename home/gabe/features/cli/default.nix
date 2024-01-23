@@ -66,6 +66,7 @@ with lib; {
       rclone # cloud storage manager
       rsync # file transfer
       sd # better sed
+      sshfs # mount remote filesystems
       slurm-nm # network monitor
       timer # to help with my ADHD paralysis
       tokei # count lines of code in project
