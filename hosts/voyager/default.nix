@@ -20,6 +20,7 @@
     ../common/optional/flatpak.nix
     ../common/optional/fonts.nix
     ../common/optional/gaming-prime.nix
+    ../common/optional/logitech.nix
     ../common/optional/pipewire.nix
     ../common/optional/quietboot.nix
     ../common/optional/security.nix
