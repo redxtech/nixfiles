@@ -396,6 +396,6 @@
 }
 
 /* Suppress Link Destination Overlay */
-#statuspanel[type="overLink"] {
-  display: none !important;
-}
+/* #statuspanel[type="overLink"] { */
+/*   display: none !important; */
+/* } */
