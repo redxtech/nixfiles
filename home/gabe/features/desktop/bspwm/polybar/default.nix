@@ -20,6 +20,8 @@ in {
       runBtop = "${kittyRun} ${pkgs.btop}/bin/btop";
       runSlurm =
         "${kittyRun} -o initial_window_width=79c -o initial_window_height=22c ${pkgs.slurm-nm}/bin/slurm -i ${config.profileVars.network.interface}";
+      runWttr =
+        "${kittyRun} ${pkgs.fish}/bin/fish -c '${pkgs.curl}/bin/curl wttr.in; read -n 1 -p \"echo Press any key to continue...\"'";
 
       isWired = (config.profileVars.network.type == "wired");
 
@@ -595,8 +597,9 @@ in {
 
         format = {
           underline = "\${colours.weather}";
+          text = "<label>%{A}";
           prefix = {
-            text = "󰅟";
+            text = "%{A1:${runWttr}:}󰅟";
             background = "\${colours.weather}";
             foreground = "\${colours.bg}";
             padding = 1;
