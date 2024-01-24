@@ -56,6 +56,7 @@ with lib; {
       nix-inspect # see which pkgs are in your PATH
       packagekit # package helper across distros
       pfetch # system info
+      piper # gui for ratbagd
       pipes-rs # pipes screensaver
       playerctl # media player controller
       # poetry # python package manager
@@ -75,6 +76,7 @@ with lib; {
       xdg-utils # xdg-open
       xdo # xdotool
       xfce.exo # protocol handler
+      xorg.xev # keyboard event viewer
       xorg.xmodmap # keyboard remapper
       yadm # dotfile manager
       yq-go # jq for yaml

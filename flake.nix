@@ -35,6 +35,7 @@
     nix-colors.url = "github:misterio77/nix-colors";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+    # xremap-flake.url = "github:xremap/nix-flake";
     # nur.url = "github:nix-community/NUR";
     # nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
