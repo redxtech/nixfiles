@@ -31,6 +31,7 @@
     # ../common/optional/systemd-boot.nix # TODO: re-enable
     ../common/optional/theme.nix
     ../common/optional/virtualization.nix
+    ../common/optional/zfs.nix
   ];
 
   networking.hostName = "quasar";
