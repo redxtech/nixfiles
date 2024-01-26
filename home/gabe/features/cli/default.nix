@@ -2,6 +2,7 @@
 
 with lib; {
   imports = [
+    ./config
     ./fish.nix
     ./git.nix
     ./gpg.nix
@@ -44,6 +45,7 @@ with lib; {
       libwebp # webp support
       # ltex-ls # spell checking LSP
       lsb-release # get distro info
+      lyrics # lyrics in terminal
       mediainfo # media info
       micro # editor
       navi # cheatsheet
