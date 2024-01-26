@@ -80,6 +80,7 @@ with lib; {
       xorg.xmodmap # keyboard remapper
       yadm # dotfile manager
       yq-go # jq for yaml
+      ventoy # bootable usb creator
       vulnix # nix security checker
 
       # personal packages
