@@ -145,7 +145,7 @@ with lib; {
       nbsiso = "nix build .#nixosConfigurations.nixiso.config.formats.iso";
 
       # home manager
-      hm = "home-manager --flake .";
+      hm = "home-manager --flake $FLAKE";
       hms = "${hm} switch";
       hmsb = "${hms} -b backup";
       hmb = "${hm} build";

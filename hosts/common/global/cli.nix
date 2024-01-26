@@ -12,7 +12,7 @@
 
   environment = {
     shellAliases = rec {
-      nr = "nixos-rebuild --flake .";
+      nr = "nixos-rebuild --flake $FLAKE";
       nrs = "${nr} switch";
       nrb = "${nr} build";
       snr = "sudo ${nr}";
