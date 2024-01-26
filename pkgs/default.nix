@@ -23,6 +23,5 @@
   dank-mono = pkgs.callPackage ./dank-mono { };
 
   # My slightly customized plymouth theme, just makes the blue outline white
-  plymouth-spinner-monochrome =
-    pkgs.callPackage ./plymouth-spinner-monochrome { };
+  plymouth-nixos-blur = pkgs.callPackage ./plymouth-nixos-blur { };
 }

@@ -7,12 +7,8 @@
   boot = {
     plymouth = {
       enable = true;
-      theme = "spinner-monochrome";
-      themePackages = [
-        (pkgs.plymouth-spinner-monochrome.override {
-          inherit (config.boot.plymouth) logo;
-        })
-      ];
+      theme = "colorful_loop";
+      themePackages = with pkgs; [ adi1090x-plymouth-themes ];
     };
     loader.timeout = lib.mkDefault 0;
     kernelParams = [
