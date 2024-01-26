@@ -26,7 +26,7 @@
     # ../common/optional/flatpak.nix
     ../common/optional/fonts.nix
     ../common/optional/pipewire.nix
-    # ../common/optional/quietboot.nix # TODO: re-enable
+    ../common/optional/quietboot.nix
     ../common/optional/security.nix
     # ../common/optional/systemd-boot.nix # TODO: re-enable
     ../common/optional/theme.nix
