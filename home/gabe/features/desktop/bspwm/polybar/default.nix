@@ -402,6 +402,35 @@ in {
           padding = 1;
         };
       };
+      "module/minicava" = {
+        type = "custom/script";
+
+        exec = "${pkgs.minicava}/bin/minicava";
+        tail = true;
+
+        click = {
+          left = "${scripts.player-mpris-tail}/bin/player-mpris play-pause &";
+          right = "${kittyRun} ${pkgs.spotify-tui}/bin/spt";
+          middle = "${scripts.copy-spotify-url}/bin/copy-spotify-url";
+        };
+
+        format = {
+          underline = "\${colours.mpris}";
+          prefix = {
+            text = "󰝚";
+            background = "\${colours.mpris}";
+            foreground = "\${colours.bg}";
+            padding = 1;
+          };
+        };
+        label = {
+          # text = "%output:0:40:...%";
+          text = "%output%";
+          background = "\${colours.bg-alt}";
+          foreground = "\${colours.fg}";
+          padding = 1;
+        };
+      };
       "module/network" = {
         type = "internal/network";
 
