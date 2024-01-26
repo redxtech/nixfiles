@@ -103,6 +103,7 @@
             "${spotifywm}/bin/spotifywm"
             "${xfce.thunar}/bin/thunar --daemon"
             "${obsidian}/bin/obsidian"
+            "${solaar}/bin/solaar -w hide"
           ] ++ map runOnceF [ "${variety}/bin/variety" ]
           ++ map runOnceWeekend [ "${slack}/bin/slack" ] ++ map runWithRule [{
             cmd = "${kitty}/bin/kitty ${btop}/bin/btop";
