@@ -86,7 +86,7 @@ in {
       port = cfg.ports.cockpit;
       openFirewall = true;
 
-      # settings = { };
+      settings = { WebService = { AllowUnencrypted = true; }; };
     };
 
     jackett = mkNtv {
@@ -119,4 +119,14 @@ in {
       openFirewall = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    cockpit-benchmark
+    cockpit-file-sharing
+    cockpit-machines
+    # cockpit-podman
+    cockpit-zfs-manager
+    libvirt-dbus
+    virt-manager
+  ];
 }
