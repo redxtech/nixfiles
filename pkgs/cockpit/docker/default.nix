@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchzip, gettext }:
+{ lib, stdenv, fetchzip }:
 
 stdenv.mkDerivation rec {
   pname = "cockpit-docker";

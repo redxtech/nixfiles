@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchFromGitHub, corepack_20, gettext, nodejs_20 }:
+{ lib, stdenv, fetchFromGitHub, zfs }:
 
 stdenv.mkDerivation rec {
   pname = "cockpit-navigator";
@@ -11,9 +11,19 @@ stdenv.mkDerivation rec {
     hash = "sha256-ge3wrri/eG1HprFSBYkjlqLzYOM3S4gUoqyE1w2Grz8=";
   };
 
+  buildInputs = [ zfs ];
+
   installPhase = ''
       mkdir -p $out/share/cockpit/zfs
     	cp -r zfs/* $out/share/cockpit/zfs
   '';
+
+  meta = with lib; {
+    description = "Cockpit UI for managing ZFS";
+    license = licenses.lgpl3Only;
+    homepage = "https://github.com/45Drives/cockpit-zfs-manager";
+    platforms = platforms.linux;
+    maintainers = with maintainers; [ ];
+  };
 }
 
