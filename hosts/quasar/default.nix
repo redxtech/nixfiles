@@ -6,10 +6,8 @@
     inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
     inputs.hardware.nixosModules.common-pc-ssd
 
-    # TODO: switch to actual configs
-    ./hardware-configuration-qemu.nix
-    # ./hardware-configuration.nix
-    # ./filesystem.nix
+    ./hardware-configuration.nix
+    ./filesystem.nix
 
     ./services
     # ./acme.nix
@@ -28,7 +26,7 @@
     ../common/optional/pipewire.nix
     ../common/optional/quietboot.nix
     ../common/optional/security.nix
-    # ../common/optional/systemd-boot.nix # TODO: re-enable
+    ../common/optional/systemd-boot.nix
     ../common/optional/theme.nix
     ../common/optional/virtualization.nix
     ../common/optional/zfs.nix
@@ -37,18 +35,6 @@
   networking.hostName = "quasar";
   nas.enable = true;
   nas.useNative = false;
-
-  # TODO: remove
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "gabe";
-  systemd.services."getty@tty1".enable = false; # fix for autologin
-  systemd.services."autovt@tty1".enable = false; # fix for autologin
-  services.qemuGuest.enable = true;
-  boot.loader.grub = {
-    enable = true;
-    device = "/dev/vda";
-    useOSProber = true;
-  };
 
   networking.networkmanager.enable = true;
 
