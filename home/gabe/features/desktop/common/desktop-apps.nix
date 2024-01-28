@@ -27,6 +27,9 @@
     xfce.thunar-volman
     vivaldi
     vlc
+
+    # games
+    prismlauncher
   ];
 
   programs = {
