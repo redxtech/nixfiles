@@ -122,6 +122,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     cockpit-benchmark
+    cockpit-docker
     cockpit-file-sharing
     cockpit-machines
     # cockpit-podman

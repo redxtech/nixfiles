@@ -13,6 +13,7 @@
 
   # cockpit modules
   cockpit-benchmark = pkgs.callPackage ./cockpit/benchmark { };
+  cockpit-docker = pkgs.callPackage ./cockpit/docker { };
   cockpit-file-sharing = pkgs.callPackage ./cockpit/file-sharing { };
   cockpit-machines = pkgs.callPackage ./cockpit/machines { };
   cockpit-podman = pkgs.callPackage ./cockpit/podman { };
