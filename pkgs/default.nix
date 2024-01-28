@@ -17,6 +17,7 @@
   cockpit-file-sharing = pkgs.callPackage ./cockpit/file-sharing { };
   cockpit-machines = pkgs.callPackage ./cockpit/machines { };
   cockpit-podman = pkgs.callPackage ./cockpit/podman { };
+  cockpit-tailscale = pkgs.callPackage ./cockpit/tailscale { };
   cockpit-zfs-manager = pkgs.callPackage ./cockpit/zfs-manager { };
   libvirt-dbus = pkgs.callPackage ./libvirt-dbus { }; # for cockpit-machines
 

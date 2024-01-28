@@ -126,6 +126,7 @@ in {
     cockpit-file-sharing
     cockpit-machines
     # cockpit-podman
+    cockpit-tailscale
     cockpit-zfs-manager
     libvirt-dbus
     virt-manager
