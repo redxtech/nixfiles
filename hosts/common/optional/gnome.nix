@@ -51,6 +51,7 @@
       gnomeExtensions.openweather
       gnomeExtensions.pip-on-top
       gnomeExtensions.power-profile-switcher
+      gnomeExtensions.remmina-search-provider
       gnomeExtensions.switch-focus-type
       # gnomeExtensions.system76-scheduler
       gnomeExtensions.workspace-indicator-2

@@ -18,6 +18,7 @@
     playerctl
     plexamp
     qdirstat
+    remmina
     slack
     spotifywm
     xdragon
