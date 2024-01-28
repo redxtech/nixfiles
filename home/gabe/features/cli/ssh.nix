@@ -4,6 +4,10 @@ in {
   programs.ssh = let
     user = "gabe";
     identityFile = "~/.ssh/id_ed25519";
+    remoteForwards = [{
+      bind.address = "/%d/.gnupg-sockets/S.gpg-agent";
+      host.address = "/%d/.gnupg-sockets/S.gpg-agent.extra";
+    }];
   in {
     enable = true;
 
@@ -14,6 +18,7 @@ in {
         identityFile = identityFile;
         hostname = "${name}.colobus-pirate.ts.net";
         forwardAgent = true;
+        remoteForwards = remoteForwards;
       };
     in {
       "bastion" = mkDevice "bastion";
@@ -25,6 +30,7 @@ in {
         identityFile = identityFile;
         hostname = "titan.usbx.me";
         forwardAgent = true;
+        remoteForwards = remoteForwards;
       };
       "aur" = {
         user = "aur";
