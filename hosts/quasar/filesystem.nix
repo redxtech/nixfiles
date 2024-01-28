@@ -17,18 +17,17 @@
       fsType = "vfat";
     };
 
-    # zfs mounts
+    # zfs pools
     "/pool" = mkZfs "pool";
-    "/pool/downloads" = mkZfs "pool/downloads";
-    "/pool/data" = mkZfs "pool/data";
-    "/pool/settings" = mkZfs "pool/settings";
-    "/pool/media" = mkZfs "pool/media";
     "/pool/cloud" = mkZfs "pool/cloud";
+    "/pool/data" = mkZfs "pool/data";
+    "/pool/downloads" = mkZfs "pool/downloads";
+    "/pool/media" = mkZfs "pool/media";
+    "/pool/settings" = mkZfs "pool/settings";
 
-    "/lake" = mkZfs "lake";
+    # temp disabled
+    # "/lake" = mkZfs "lake";
   };
-
-  boot.zfs.extraPools = [ "pool" "lake" ];
 
   # needed for zfs
   networking.hostId = "74996f49";
