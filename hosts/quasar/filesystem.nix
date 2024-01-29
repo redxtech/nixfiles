@@ -40,7 +40,4 @@
   networking.hostId = "74996f49";
 
   swapDevices = [ ];
-
-  boot.supportedFilesystems = [ "btrfs" ];
-  environment.systemPackages = with pkgs; [ btrfs-progs ];
 }
