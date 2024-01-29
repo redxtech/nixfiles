@@ -1,7 +1,11 @@
 { pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [ virt-manager ];
+  environment.systemPackages = with pkgs; [
+    virt-manager
+    virt-viewer
+    virtiofsd
+  ];
 
   virtualisation = {
     # enable libvirtd
