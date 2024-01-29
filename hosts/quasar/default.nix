@@ -35,8 +35,12 @@
   ];
 
   networking.hostName = "quasar";
-  nas.enable = true;
-  nas.useNative = false;
+
+  nas = {
+    enable = true;
+    useNative = false;
+    paths.config = "/config/pods";
+  };
 
   networking.networkmanager.enable = true;
 

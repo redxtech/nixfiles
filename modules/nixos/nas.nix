@@ -32,7 +32,7 @@ in {
       pool = mkOption {
         type = types.path;
         description = "Directory of the pool";
-        default = "/media/pool";
+        default = "/pool";
       };
 
       config = mkOption {
