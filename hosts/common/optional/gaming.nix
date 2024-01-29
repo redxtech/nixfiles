@@ -34,12 +34,19 @@
   };
 
   environment.systemPackages = with pkgs; [
+    # steam
     protonup-qt
     steamcmd
     steam-tui
-    (lutris.override { extraPkgs = p: [ p.wine ]; })
     prismlauncher-qt5
     protontricks
+    (lutris.override { extraPkgs = p: [ p.wine ]; })
+
+    # games
+    prismlauncher
+
+    # tools
+    mangohud
   ];
 
   nixpkgs.config.nvidia.acceptLicense = true;
