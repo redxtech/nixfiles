@@ -21,6 +21,7 @@
     "/config" = {
       device = "/dev/disk/by-uuid/2fb799ea-69bf-476a-912a-ec7986f80a6f";
       fsType = "btrfs";
+      options = [ "compress=zstd" ];
     };
 
     # zfs pools

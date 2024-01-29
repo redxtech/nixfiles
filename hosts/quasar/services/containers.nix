@@ -30,6 +30,7 @@ in {
         ports = [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
         volumes =
           [ "/var/run/docker.sock:/var/run/docker.sock" (mkData "portainer") ];
+        extraOptions = [ "--network=host" ];
       };
 
       portainer-agent = {
@@ -40,6 +41,7 @@ in {
           "/var/run/docker.sock:/var/run/docker.sock"
           "/:/host"
         ];
+        extraOptions = [ "--network=host" ];
       };
 
       adguardhome = mkCtr {
