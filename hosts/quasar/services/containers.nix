@@ -164,6 +164,16 @@ in {
         volumes = [ (mkConf "qdirstat") "/:/data:ro" ];
       };
 
+      tautulli = mkCtr {
+        image = "lscr.io/linuxserver/tautulli";
+        environment = defaultEnv;
+        ports = [ (mkPorts cfg.ports.tautulli) ];
+        volumes = [
+          (mkConf "tautulli")
+          "${cfg.paths.config}/plex/Plex Media Server/Logs:/Logs"
+        ];
+      };
+
       # certbot
       # dashy
       # flaresolverr

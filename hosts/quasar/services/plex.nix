@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.nas;
-  mkNtv = conf: mkIf (!cfg.useNative) conf;
+  mkNtv = conf: mkIf cfg.useNative conf;
 in {
   services = {
     plex = {
@@ -13,7 +13,7 @@ in {
       user = cfg.user;
       group = cfg.group;
 
-      dataDir = "${cfg.paths.data}/plex";
+      dataDir = "${cfg.paths.config}/plex";
       openFirewall = true;
 
       extraPlugins = [
