@@ -97,6 +97,13 @@ in {
         ];
       };
 
+      deluge = {
+        image = "lscr.io/linuxserver/deluge";
+        ports = [ (mkPorts cfg.ports.deluge) "6881:6881" "6881:6881/udp" ];
+        environment = defaultEnv;
+        volumes = [ (mkConf "deluge") (mkDl "deluge") ];
+      };
+
       jackett = mkCtr {
         image = "lscr.io/linuxserver/jackett";
         environment = defaultEnv // { AUTO_UPDATE = "true"; };

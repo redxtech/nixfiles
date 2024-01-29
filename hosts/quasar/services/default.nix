@@ -6,7 +6,6 @@ in {
   imports = [
     ./containers.nix
     ./plex.nix
-    ./deluge.nix
     # ./traefik.nix
   ];
 
