@@ -26,6 +26,7 @@
     ../common/optional/fonts.nix
     ../common/optional/pipewire.nix
     ../common/optional/quietboot.nix
+    # ../common/optional/rdp.nix
     ../common/optional/security.nix
     ../common/optional/systemd-boot.nix
     ../common/optional/theme.nix
