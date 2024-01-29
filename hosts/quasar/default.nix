@@ -16,6 +16,7 @@
     ../common/users/root
     ../common/users/gabe
 
+    ../common/optional/cockpit.nix
     ../common/optional/containers.nix
     ../common/optional/desktop-apps.nix
     ../common/optional/gnome.nix

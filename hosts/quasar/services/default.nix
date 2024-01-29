@@ -15,7 +15,7 @@ in {
     bazarr = 6767;
     calibre = 9003;
     calibre-web = 9002;
-    cockpit = 9090;
+    # cockpit = 9090;
     deluge = 8112;
     jackett = 9117;
     jellyfin = 8096;
@@ -80,15 +80,6 @@ in {
       };
     };
 
-    cockpit = {
-      enable = true;
-
-      port = cfg.ports.cockpit;
-      openFirewall = true;
-
-      settings = { WebService = { AllowUnencrypted = true; }; };
-    };
-
     jackett = mkNtv {
       enable = true;
       user = cfg.user;
@@ -120,15 +111,5 @@ in {
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    cockpit-benchmark
-    cockpit-docker
-    cockpit-file-sharing
-    cockpit-machines
-    # cockpit-podman
-    cockpit-tailscale
-    cockpit-zfs-manager
-    libvirt-dbus
-    virt-manager
-  ];
+  environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
 }

@@ -16,6 +16,7 @@
     ../common/users/gabe
 
     ../common/optional/bspwm.nix
+    ../common/optional/cockpit.nix
     ../common/optional/containers.nix
     ../common/optional/desktop-apps.nix
     ../common/optional/extra.nix
