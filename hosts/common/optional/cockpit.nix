@@ -4,6 +4,16 @@
   services.cockpit = {
     enable = true;
 
+    package = pkgs.cockpit.overrideAttrs (old: {
+      postBuild = ''
+        ${old.postBuild}
+
+        rm -rf \
+          dist/packagekit \
+          dist/selinux
+      '';
+    });
+
     port = lib.mkDefault 9090;
     openFirewall = true;
 

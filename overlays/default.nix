@@ -52,12 +52,6 @@ in {
 
     # https://github.com/NixOS/nix/issues/5567#issuecomment-1193259926
     # nix = addPatches prev.nix [ ./nix-make-installables-expr-context.patch ];
-
-    cockpit = prev.buildEnv {
-      name = "cockpit";
-      paths = [ prev.cockpit prev.zfs ];
-    };
-
     pfetch = prev.pfetch.overrideAttrs (oldAttrs: {
       version = "unstable-2021-12-10";
       src = final.fetchFromGitHub {
