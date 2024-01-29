@@ -141,7 +141,7 @@ in {
           WEBUI_PORT = "${toString cfg.ports.qbit}";
         };
         ports = [ (mkPorts cfg.ports.qbit) "6882:6882" "6882:6882/udp" ];
-        volumes = [ (mkConf "qbit") (mkData "qbit") ];
+        volumes = [ (mkConf "qbit") (mkData "qbit") downloads ];
       };
 
       qdirstat = {

@@ -95,6 +95,30 @@
 
     ruff.enable = false;
 
+    sftpman = {
+      enable = true;
+
+      defaultSshKey = "~/.ssh/id_ed25519";
+
+      mounts = {
+        config = {
+          user = "gabe";
+          host = "quasar";
+          mountPoint = "/config";
+        };
+        pool = {
+          user = "gabe";
+          host = "quasar";
+          mountPoint = "/pool";
+        };
+        lake = {
+          user = "gabe";
+          host = "quasar";
+          mountPoint = "/lake";
+        };
+      };
+    };
+
     tealdeer = {
       enable = true;
 
