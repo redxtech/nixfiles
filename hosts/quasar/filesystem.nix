@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ pkgs, lib, ... }:
 
 {
   fileSystems = let
@@ -17,6 +17,12 @@
       fsType = "vfat";
     };
 
+    # btrfs mirrored config volumes
+    "/config" = {
+      device = "/dev/disk/by-uuid/2fb799ea-69bf-476a-912a-ec7986f80a6f";
+      fsType = "btrfs";
+    };
+
     # zfs pools
     "/pool" = mkZfs "pool";
     "/pool/cloud" = mkZfs "pool/cloud";
@@ -33,4 +39,7 @@
   networking.hostId = "74996f49";
 
   swapDevices = [ ];
+
+  boot.supportedFilesystems = [ "btrfs" ];
+  environment.systemPackages = with pkgs; [ btrfs-progs ];
 }
