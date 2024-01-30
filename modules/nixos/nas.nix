@@ -85,7 +85,6 @@ in {
       description = "Data User";
       shell = pkgs.fish;
       isSystemUser = true;
-      isNormalUser = false;
       group = cfg.group;
 
       extraGroups = [ cfg.group ] ++ ifTheyExist [

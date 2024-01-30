@@ -114,6 +114,14 @@ in {
         ];
       };
 
+      ddclient = {
+        image = "lscr.io/linuxserver/ddclient:latest";
+        environment = defaultEnv;
+        volumes = [
+          "${config.sops.secrets."ddclient.conf".path}:/defaults/ddclient.conf"
+        ];
+      };
+
       deluge = {
         image = "lscr.io/linuxserver/deluge:latest";
         labels = mkLabelsPort "deluge" cfg.ports.deluge;
@@ -211,5 +219,7 @@ in {
       # tmod
     };
   };
+
+  sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
 }
 
