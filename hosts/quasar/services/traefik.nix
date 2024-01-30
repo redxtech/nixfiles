@@ -54,29 +54,28 @@ in {
       };
     };
 
-    dynamicConfigOptions = {
+    dynamicConfigOptions = let
+      mkRouter = name: {
+        rule = "Host(`${name}.${cfg.domain}`)";
+        service = "${name}";
+        entrypoints = [ "websecure" ];
+      };
+      mkService = port: {
+        loadBalancer.servers = [{ url = "http://localhost:${toString port}"; }];
+      };
+    in {
       http = {
         routers = {
-          portainer = {
-            rule = "Host(`portainer.${cfg.domain}`)";
-            service = "portainer";
-            entrypoints = [ "websecure" ];
-          };
-          sonarr = {
-            rule = "Host(`sonarr.${cfg.domain}`)";
-            service = "sonarr";
-            entrypoints = [ "websecure" ];
-          };
-          radarr = {
-            rule = "Host(`radarr.${cfg.domain}`)";
-            service = "radarr";
-            entrypoints = [ "websecure" ];
-          };
+          portainer = mkRouter "portainer";
+          sonarr = mkRouter "sonarr";
+          radarr = mkRouter "radarr";
+          uptime = mkRouter "uptime";
         };
         services = {
-          portainer.loadBalancer.servers = [{ url = "http://localhost:9000"; }];
-          sonarr.loadBalancer.servers = [{ url = "http://localhost:8989"; }];
-          radarr.loadBalancer.servers = [{ url = "http://localhost:7878"; }];
+          portainer = mkService 9000;
+          sonarr = mkService 8989;
+          radarr = mkService 7878;
+          uptime = mkService 3001;
         };
       };
     };

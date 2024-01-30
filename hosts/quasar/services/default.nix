@@ -10,7 +10,7 @@ in {
     bazarr = 6767;
     calibre = 9003;
     calibre-web = 9002;
-    # cockpit = 9090;
+    cockpit = 9090;
     deluge = 8112;
     jackett = 9117;
     jellyfin = 8096;
