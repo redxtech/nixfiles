@@ -39,6 +39,7 @@
 
   nas = {
     enable = true;
+    domain = "nas.gabedunn.dev";
     useNative = false;
     paths.config = "/config/pods";
   };

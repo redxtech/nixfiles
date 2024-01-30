@@ -10,6 +10,12 @@ in {
     enable = mkEnableOption "NAS configuration";
     useNative = mkEnableOption "Use native services instead of containers";
 
+    domain = mkOption {
+      type = types.str;
+      description = "Domain to use for NAS services";
+      default = "nas.local";
+    };
+
     user = mkOption {
       type = types.str;
       description = "User to run NAS services as";
