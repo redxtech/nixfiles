@@ -2,6 +2,7 @@
 
   # Packages with an actual source
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
+  dashy = pkgs.callPackage ./dashy { };
   # rgbdaemon = pkgs.callPackage ./rgbdaemon { };
   # shellcolord = pkgs.callPackage ./shellcolord { };
 
