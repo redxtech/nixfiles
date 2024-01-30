@@ -4,6 +4,7 @@
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
   dashy = pkgs.callPackage ./dashy { };
   # rgbdaemon = pkgs.callPackage ./rgbdaemon { };
+  seabird = pkgs.callPackage ./seabird { };
   # shellcolord = pkgs.callPackage ./shellcolord { };
 
   # Personal scripts

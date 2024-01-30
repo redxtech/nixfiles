@@ -88,6 +88,7 @@
           bspc rule -a '*:*:Picture in picture' 'state=floating'
           bspc rule -a '*:*:Picture-in-picture' 'state=floating'
           bspc rule -a '*:*:Picture-in-Picture' 'state=floating'
+          bspc rule -a '*:*:*Extension*' 'desktop=*'
         '';
 
         startupPrograms = with pkgs;

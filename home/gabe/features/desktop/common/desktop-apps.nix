@@ -19,6 +19,7 @@
     plexamp
     qdirstat
     remmina
+    seabird
     slack
     spotifywm
     xdragon
