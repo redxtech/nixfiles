@@ -3,7 +3,7 @@
 with lib;
 let cfg = config.nas;
 in {
-  imports = [ ./containers.nix ./plex.nix ./traefik.nix ];
+  imports = [ ./containers.nix ./dashboard.nix ./plex.nix ./traefik.nix ];
 
   nas.ports = {
     adguard = 9900;
@@ -11,6 +11,7 @@ in {
     calibre = 9003;
     calibre-web = 9002;
     cockpit = 9090;
+    dashy = 4000;
     deluge = 8112;
     jackett = 9117;
     jellyfin = 8096;
