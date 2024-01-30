@@ -32,6 +32,7 @@ in {
               sans = [ "*.${cfg.domain}" ];
             }];
           };
+          forwardedHeaders.trustedIPs = [ "127.0.0.1/32" ];
         };
       };
 
