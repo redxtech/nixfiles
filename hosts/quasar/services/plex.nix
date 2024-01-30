@@ -62,4 +62,15 @@ in {
 
     # TODO: kitana web UI ?
   };
+
+  services.traefik.dynamicConfigOptions.http =
+    lib.mkIf config.services.traefik.enable {
+      routers.plex = {
+        rule = "Host(`plex.${config.nas.domain}`)";
+        service = "plex";
+        entrypoints = [ "websecure" ];
+      };
+      services.plex.loadBalancer.servers =
+        [{ url = "http://localhost:${toString config.nas.ports.plex}"; }];
+    };
 }
