@@ -98,6 +98,9 @@ in {
     };
     users.groups.${cfg.group} = { };
 
+    # add netdata to group if enabled
+    users.groups.netdata = lib.mkIf config.services.netdata.enable { };
+
     time.timeZone = cfg.timezone;
 
     # container config

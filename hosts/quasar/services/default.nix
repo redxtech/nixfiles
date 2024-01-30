@@ -16,6 +16,7 @@ in {
     jellyfin = 8096;
     jellyseerr = 5055;
     lidarr = 8686;
+    netdata = 19999;
     plex = 32400;
     portainer = 9000;
     portainer-agent = 9001;
@@ -25,6 +26,7 @@ in {
     startpage = 9009;
     sonarr = 8989;
     tautulli = 8181;
+    uptime-kuma = 3001;
   };
 
   services = let
@@ -83,6 +85,29 @@ in {
       dataDir = "${cfg.paths.data}/jackett";
     };
 
+    jellyseerr = mkNtv {
+      enable = true;
+      port = cfg.ports.jellyseerr;
+      openFirewall = true;
+    };
+
+    netdata = {
+      enable = false;
+
+      group = "docker";
+
+      python.extraPackages = ps:
+        with ps; [
+          psycopg2
+          docker
+          dnspython
+          numpy
+          pandas
+        ];
+
+      config = { web."default port" = toString cfg.ports.netdata; };
+    };
+
     radarr = mkNtv {
       enable = true;
       user = cfg.user;
@@ -99,10 +124,12 @@ in {
       dataDir = "${cfg.paths.data}/sonarr";
     };
 
-    jellyseerr = mkNtv {
+    uptime-kuma = {
       enable = true;
-      port = cfg.ports.jellyseerr;
-      openFirewall = true;
+      settings = {
+        UPTIME_KUMA_HOST = "0.0.0.0";
+        UPTIME_KUMA_PORT = toString cfg.ports.uptime-kuma;
+      };
     };
   };
 
