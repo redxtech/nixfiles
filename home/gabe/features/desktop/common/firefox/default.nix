@@ -257,6 +257,8 @@
       other = {
         id = 1;
         name = "other";
+        userChrome = builtins.readFile ./userChrome.css;
+        userContent = builtins.readFile ./userContent.css;
       };
     };
   };

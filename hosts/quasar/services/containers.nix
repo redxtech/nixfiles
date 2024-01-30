@@ -30,7 +30,7 @@ in {
         ports = [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
         volumes =
           [ "/var/run/docker.sock:/var/run/docker.sock" (mkData "portainer") ];
-        extraOptions = [ "--network=host" ];
+        extraOptions = [ "--network" "host" ];
       };
 
       portainer-agent = {
@@ -41,7 +41,7 @@ in {
           "/var/run/docker.sock:/var/run/docker.sock"
           "/:/host"
         ];
-        extraOptions = [ "--network=host" ];
+        extraOptions = [ "--network" "host" ];
       };
 
       adguardhome = mkCtr {
@@ -126,6 +126,7 @@ in {
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.radarr 7878) ];
         volumes = [ (mkConf "radarr") downloads media ];
+        extraOptions = [ "--network" "host" ];
       };
 
       sonarr = mkCtr {
@@ -133,6 +134,7 @@ in {
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.sonarr 8989) ];
         volumes = [ (mkConf "sonarr") downloads media ];
+        extraOptions = [ "--network" "host" ];
       };
 
       jellyseerr = mkCtr {
@@ -183,7 +185,6 @@ in {
       # mc
       # modded-mc
       # pingbot
-      # stash
       # tubearchivist
 
       # ddclient
@@ -195,7 +196,6 @@ in {
       # nextcloud
       # readarr
       # tmod
-      # traefik
     };
   };
 }
