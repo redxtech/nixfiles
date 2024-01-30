@@ -52,6 +52,33 @@ in {
         exposedByDefault = false;
       };
     };
+
+    dynamicConfigOptions = {
+      http = {
+        routers = {
+          portainer = {
+            rule = "Host(`portainer.${cfg.domain}`)";
+            service = "portainer";
+            entrypoints = [ "websecure" ];
+          };
+          sonarr = {
+            rule = "Host(`sonarr.${cfg.domain}`)";
+            service = "sonarr";
+            entrypoints = [ "websecure" ];
+          };
+          radarr = {
+            rule = "Host(`radarr.${cfg.domain}`)";
+            service = "radarr";
+            entrypoints = [ "websecure" ];
+          };
+        };
+        services = {
+          portainer.loadBalancer.servers = [{ url = "http://localhost:9000"; }];
+          sonarr.loadBalancer.servers = [{ url = "http://localhost:8989"; }];
+          radarr.loadBalancer.servers = [{ url = "http://localhost:7878"; }];
+        };
+      };
+    };
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];

@@ -24,17 +24,22 @@ let
     "traefik.http.routers.${name}.tls" = "true";
     "traefik.http.routers.${name}.tls.certresolver" = "cloudflare";
   };
+  mkLabelsPort = name: port:
+    {
+      "traefik.http.services.${name}.loadbalancer.server.port" =
+        "${toString port}";
+    } // (mkLabels name);
 in {
   virtualisation.oci-containers = {
     containers = {
       startpage = {
-        image = "ghcr.io/redxtech/startpage";
-        ports = [ (mkPort cfg.ports.startpage 3000) ];
+        image = "ghcr.io/redxtech/startpage:latest";
         labels = mkLabels "startpage";
+        ports = [ (mkPort cfg.ports.startpage 3000) ];
       };
 
       portainer = {
-        image = "portainer/portainer-ee";
+        image = "portainer/portainer-ee:latest";
         ports = [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
         volumes =
           [ "/var/run/docker.sock:/var/run/docker.sock" (mkData "portainer") ];
@@ -42,7 +47,7 @@ in {
       };
 
       portainer-agent = {
-        image = "portainer/agent:2.19.4";
+        image = "portainer/agent:latest";
         ports = [ (mkPort cfg.ports.portainer-agent 9001) ];
         volumes = [
           "/var/lib/docker/volumes:/var/lib/docker/volumes"
@@ -53,7 +58,8 @@ in {
       };
 
       adguardhome = mkCtr {
-        image = "adguard/adguardhome";
+        image = "adguard/adguardhome:latest";
+        labels = mkLabelsPort "adguard" cfg.ports.adguard;
         ports = [
           (mkPort cfg.ports.adguard 3000) # frontend
           "53:53/tcp" # DNS
@@ -78,14 +84,16 @@ in {
       };
 
       bazarr = mkCtr {
-        image = "lscr.io/linuxserver/bazarr";
+        image = "lscr.io/linuxserver/bazarr:latest";
+        labels = mkLabels "bazarr";
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.bazarr 6767) ];
         volumes = [ (mkConf "bazarr") media ];
       };
 
       calibre = mkCtr {
-        image = "lscr.io/linuxserver/calibre";
+        image = "lscr.io/linuxserver/calibre:latest";
+        labels = mkLabels "calibre";
         environment = defaultEnv // { PASSWORD = ""; };
         ports = [ "8805:8080" "8806:8081" (mkPort cfg.ports.calibre 8081) ];
         volumes = [
@@ -95,7 +103,8 @@ in {
       };
 
       calibre-web = {
-        image = "lscr.io/linuxserver/calibre-web";
+        image = "lscr.io/linuxserver/calibre-web:latest";
+        labels = mkLabels "calibre-web";
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.calibre-web 8083) ];
         volumes = [
@@ -106,21 +115,23 @@ in {
       };
 
       deluge = {
-        image = "lscr.io/linuxserver/deluge";
+        image = "lscr.io/linuxserver/deluge:latest";
+        labels = mkLabelsPort "deluge" cfg.ports.deluge;
         ports = [ (mkPorts cfg.ports.deluge) "6881:6881" "6881:6881/udp" ];
         environment = defaultEnv;
         volumes = [ (mkConf "deluge") (mkDl "deluge") ];
       };
 
       jackett = mkCtr {
-        image = "lscr.io/linuxserver/jackett";
+        image = "lscr.io/linuxserver/jackett:latest";
+        labels = mkLabels "jackett";
         environment = defaultEnv // { AUTO_UPDATE = "true"; };
         ports = [ (mkPort cfg.ports.jackett 9117) ];
         volumes = [ (mkConf "jackett") downloads ];
       };
 
       radarr = mkCtr {
-        image = "lscr.io/linuxserver/radarr";
+        image = "lscr.io/linuxserver/radarr:latest";
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.radarr 7878) ];
         volumes = [ (mkConf "radarr") downloads media ];
@@ -128,7 +139,7 @@ in {
       };
 
       sonarr = mkCtr {
-        image = "lscr.io/linuxserver/sonarr";
+        image = "lscr.io/linuxserver/sonarr:latest";
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.sonarr 8989) ];
         volumes = [ (mkConf "sonarr") downloads media ];
@@ -136,14 +147,16 @@ in {
       };
 
       jellyseerr = mkCtr {
-        image = "fallenbagel/jellyseerr";
+        image = "fallenbagel/jellyseerr:latest";
+        labels = mkLabels "jellyseerr";
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
       };
 
       qbit = {
-        image = "lscr.io/linuxserver/qbittorrent";
+        image = "lscr.io/linuxserver/qbittorrent:latest";
+        labels = mkLabelsPort "qbit" cfg.ports.qbit;
         environment = defaultEnv // {
           WEBUI_PORT = "${toString cfg.ports.qbit}";
         };
@@ -156,7 +169,8 @@ in {
       };
 
       qdirstat = {
-        image = "lscr.io/linuxserver/qdirstat";
+        image = "lscr.io/linuxserver/qdirstat:latest";
+        labels = mkLabels "qdirstat";
         environment = defaultEnv // {
           CUSTOM_PORT = "${toString cfg.ports.qdirstat}";
         };
@@ -165,7 +179,8 @@ in {
       };
 
       tautulli = mkCtr {
-        image = "lscr.io/linuxserver/tautulli";
+        image = "lscr.io/linuxserver/tautulli:latest";
+        labels = mkLabels "tautulli";
         environment = defaultEnv;
         ports = [ (mkPorts cfg.ports.tautulli) ];
         volumes = [
