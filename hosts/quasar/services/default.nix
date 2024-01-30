@@ -3,11 +3,7 @@
 with lib;
 let cfg = config.nas;
 in {
-  imports = [
-    ./containers.nix
-    ./plex.nix
-    # ./traefik.nix
-  ];
+  imports = [ ./containers.nix ./plex.nix ./traefik.nix ];
 
   nas.ports = {
     adguard = 9900;

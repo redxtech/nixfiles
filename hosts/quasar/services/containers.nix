@@ -17,12 +17,20 @@ let
   media = cfg.paths.media + ":/media";
   mkPort = host: guest: "${toString host}:${toString guest}";
   mkPorts = port: "${toString port}:${toString port}";
+  mkLabels = name: {
+    "traefik.enable" = "true";
+    "traefik.http.routers.${name}.rule" = "Host(`${name}.${cfg.domain}`)";
+    "traefik.http.routers.${name}.entrypoints" = "websecure";
+    "traefik.http.routers.${name}.tls" = "true";
+    "traefik.http.routers.${name}.tls.certresolver" = "cloudflare";
+  };
 in {
   virtualisation.oci-containers = {
     containers = {
       startpage = {
         image = "ghcr.io/redxtech/startpage";
         ports = [ (mkPort cfg.ports.startpage 3000) ];
+        labels = mkLabels "startpage";
       };
 
       portainer = {
@@ -109,16 +117,6 @@ in {
         environment = defaultEnv // { AUTO_UPDATE = "true"; };
         ports = [ (mkPort cfg.ports.jackett 9117) ];
         volumes = [ (mkConf "jackett") downloads ];
-      };
-
-      nginx-proxy-manager = {
-        image = "jc21/nginx-proxy-manager";
-        environment = { TZ = defaultEnv.TZ; };
-        ports = [ "80:80" "81:81" "443:443" ];
-        volumes = [
-          (mkData "nginx-proxy-manager")
-          (cfg.paths.config + "/letsencrypt:/etc/letsencrypt")
-        ];
       };
 
       radarr = mkCtr {
