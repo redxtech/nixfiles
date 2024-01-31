@@ -1,6 +1,6 @@
 { lib, buildGoModule, fetchFromGitHub, wrapGAppsHook, pkg-config, glib, graphene
 , gobject-introspection, gdk-pixbuf, pango, gtk4, gtksourceview5, libadwaita
-, libxml2 }:
+, libxml2, imagemagick }:
 
 buildGoModule rec {
   pname = "seabird";
@@ -15,7 +15,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-y5UWQBl56ZFmcK6pq+/HtCR+EY4uRlV6MJQ99GFyjIs=";
 
-  nativeBuildInputs = [ wrapGAppsHook pkg-config glib.dev libxml2 ];
+  nativeBuildInputs = [ wrapGAppsHook pkg-config glib.dev libxml2 imagemagick ];
   buildInputs = [
     glib.dev
     graphene
@@ -29,6 +29,16 @@ buildGoModule rec {
 
   preBuild = ''
     go generate ./...
+  '';
+
+  postInstall = ''
+    mkdir -p $out/share/applications
+    cp $src/dev.skynomads.Seabird.desktop $out/share/applications/
+
+    for i in 16 24 48 64 96 128 256 512; do
+      mkdir -p $out/share/icons/hicolor/''${i}x''${i}/apps
+      convert -background none -resize ''${i}x''${i} ./icon/seabird.svg $out/share/icons/hicolor/''${i}x''${i}/apps/dev.skynomads.Seabird.png
+    done
   '';
 
   meta = with lib; {
