@@ -9,7 +9,6 @@ let
     TZ = cfg.timezone;
   };
 
-  mkCtr = conf: mkIf (!cfg.useNative) conf;
   mkConf = name: cfg.paths.config + "/" + name + ":/config";
   mkData = name: cfg.paths.data + "/" + name + ":/data";
   mkDl = name: cfg.paths.downloads + "/" + name + ":/downloads";
@@ -58,33 +57,7 @@ in {
         ];
       };
 
-      adguardhome = mkCtr {
-        image = "adguard/adguardhome:latest";
-        labels = mkLabelsPort "adguard" cfg.ports.adguard;
-        ports = [
-          (mkPort cfg.ports.adguard 3000) # frontend
-          "53:53/tcp" # DNS
-          "53:53/udp" # DNS
-          # "67:67/udp" # DHCP
-          # "68:68/tcp" # DHCP
-          # "68:68/udp" # DHCP
-          #     "80:80/tcp" # DNS over HTTPS
-          #     "443:443/tcp" # DNS over HTTPS
-          #     "443:443/udp" # DNS over HTTPS
-          "853:853/tcp" # DNS over TLS
-          # "784:784/udp" # DNS over QUIC
-          # "853:853/udp" # DNS over QUIC
-          # "8853:8853/udp" # DNS over QUIC
-          # "5443:5443/tcp" # DNScrypt
-          # "5443:5443/udp" # DNScrypt
-        ];
-        volumes = [
-          "${toString cfg.paths.config}/adguard:/opt/adguardhome/conf"
-          "${toString cfg.paths.data}/adguard:/opt/adguardhome/work"
-        ];
-      };
-
-      bazarr = mkCtr {
+      bazarr = {
         image = "lscr.io/linuxserver/bazarr:latest";
         labels = mkLabels "bazarr";
         environment = defaultEnv;
@@ -97,7 +70,7 @@ in {
           "${
             mkTLstr "calibre" "middlewares"
           }.headers.customrequestheaders.${header}";
-      in mkCtr {
+      in {
         image = "lscr.io/linuxserver/calibre:latest";
         labels = (mkLabelsPort "calibre" cfg.ports.calibre-ssl) // {
           "${mkTLSstr "calibre"}.loadbalancer.serverstransport" =
@@ -154,7 +127,7 @@ in {
         volumes = [ (mkConf "deluge") (mkDl "deluge") ];
       };
 
-      jackett = mkCtr {
+      jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
         labels = mkLabels "jackett";
         environment = defaultEnv // { AUTO_UPDATE = "true"; };
@@ -162,7 +135,7 @@ in {
         volumes = [ (mkConf "jackett") downloads ];
       };
 
-      radarr = mkCtr {
+      radarr = {
         image = "lscr.io/linuxserver/radarr:latest";
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.radarr 7878) ];
@@ -170,7 +143,7 @@ in {
         extraOptions = [ "--network" "host" ];
       };
 
-      sonarr = mkCtr {
+      sonarr = {
         image = "lscr.io/linuxserver/sonarr:latest";
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.sonarr 8989) ];
@@ -178,7 +151,7 @@ in {
         extraOptions = [ "--network" "host" ];
       };
 
-      jellyseerr = mkCtr {
+      jellyseerr = {
         image = "fallenbagel/jellyseerr:latest";
         labels = mkLabels "jellyseerr";
         environment = defaultEnv;
@@ -210,7 +183,7 @@ in {
         volumes = [ (mkConf "qdirstat") "/:/data:ro" ];
       };
 
-      tautulli = mkCtr {
+      tautulli = {
         image = "lscr.io/linuxserver/tautulli:latest";
         labels = mkLabels "tautulli";
         environment = defaultEnv;
@@ -222,7 +195,6 @@ in {
       };
 
       # certbot
-      # dashy
       # flaresolverr
       # jellyfin
       # kiwix

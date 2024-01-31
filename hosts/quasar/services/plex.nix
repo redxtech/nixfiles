@@ -1,9 +1,7 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-let
-  cfg = config.nas;
-  mkNtv = conf: mkIf cfg.useNative conf;
+let cfg = config.nas;
 in {
   services = {
     plex = {
@@ -45,19 +43,6 @@ in {
         #   sha256 = "";
         # })
       ];
-    };
-
-    tautulli = mkNtv {
-      enable = true;
-
-      user = cfg.user;
-      group = cfg.group;
-
-      dataDir = "${cfg.paths.data}/tautulli";
-      configFile = cfg.paths.config + "/tautulli/config.ini";
-
-      port = cfg.ports.tautulli;
-      openFirewall = true;
     };
 
     # TODO: kitana web UI ?

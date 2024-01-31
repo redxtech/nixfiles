@@ -40,51 +40,15 @@ in {
   };
 
   services = let
-    mkNtv = conf: mkIf cfg.useNative conf;
     mkConf = name: cfg.paths.config + "/" + name + ":/config";
     mkData = name: cfg.paths.data + "/" + name + ":/data";
     downloads = cfg.paths.downloads + ":/downloads";
     media = cfg.paths.media + ":/media";
   in {
-    adguardhome = mkNtv {
+    adguardhome = {
       enable = true;
       openFirewall = true;
       settings = { bind_port = cfg.ports.adguard; };
-    };
-
-    bazarr = mkNtv {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      listenPort = cfg.ports.bazarr;
-    };
-
-    calibre-server = mkNtv {
-      enable = true;
-
-      user = cfg.user;
-      group = cfg.group;
-      port = cfg.ports.calibre;
-
-      libraries = [ "${cfg.paths.media}/books" ];
-      # auth.enable = true;
-    };
-
-    calibre-web = mkNtv {
-      enable = false;
-
-      user = cfg.user;
-      group = cfg.group;
-
-      dataDir = "${cfg.paths.data}/calibre-web";
-      listen.port = cfg.ports.calibre-web;
-      openFirewall = true;
-
-      options = {
-        enableBookConversion = true;
-        enableBookUploading = true;
-        calibreLibrary = "${cfg.paths.media}/books";
-      };
     };
 
     cockpit.settings.WebService = {
@@ -95,20 +59,6 @@ in {
         "ws://quasar:${toString cfg.ports.cockpit}"
       ];
       ProtocolHeader = "X-Forwarded-Proto";
-    };
-
-    jackett = mkNtv {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      openFirewall = true;
-      dataDir = "${cfg.paths.data}/jackett";
-    };
-
-    jellyseerr = mkNtv {
-      enable = true;
-      port = cfg.ports.jellyseerr;
-      openFirewall = true;
     };
 
     netdata = {
@@ -126,22 +76,6 @@ in {
         ];
 
       config = { web."default port" = toString cfg.ports.netdata; };
-    };
-
-    radarr = mkNtv {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      openFirewall = true;
-      dataDir = "${cfg.paths.data}/radarr";
-    };
-
-    sonarr = mkNtv {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      openFirewall = true;
-      dataDir = "${cfg.paths.data}/sonarr";
     };
 
     uptime-kuma = {

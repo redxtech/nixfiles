@@ -8,7 +8,6 @@ let
 in {
   options.nas = {
     enable = mkEnableOption "NAS configuration";
-    useNative = mkEnableOption "Use native services instead of containers";
 
     domain = mkOption {
       type = types.str;
