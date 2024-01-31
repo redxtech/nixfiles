@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   virtualisation.oci-containers = {
@@ -28,8 +28,14 @@
           "/var/run/docker.sock:/var/run/docker.sock"
           "/:/host"
         ];
-        extraOptions = [ "--network=host" ];
       };
     };
   };
+
+  services.cockpit.settings.WebService.Origins = lib.concatStringsSep " " [
+    "http://localhost:9090"
+    "ws://localhost:9090"
+    "http://bastion:9090"
+    "ws://bastion:9090"
+  ];
 }

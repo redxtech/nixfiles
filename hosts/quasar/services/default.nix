@@ -85,6 +85,16 @@ in {
       };
     };
 
+    cockpit.settings.WebService = {
+      Origins = lib.concatStringsSep " " [
+        "https://${cfg.domain}"
+        "wss://${cfg.domain}"
+        "http://quasar:${toString cfg.ports.cockpit}"
+        "ws://quasar:${toString cfg.ports.cockpit}"
+      ];
+      ProtocolHeader = "X-Forwarded-Proto";
+    };
+
     jackett = mkNtv {
       enable = true;
       user = cfg.user;

@@ -54,7 +54,6 @@ in {
           "/var/run/docker.sock:/var/run/docker.sock"
           "/:/host"
         ];
-        extraOptions = [ "--network" "host" ];
       };
 
       adguardhome = mkCtr {

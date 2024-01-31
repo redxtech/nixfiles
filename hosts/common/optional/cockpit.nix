@@ -17,18 +17,7 @@
     port = lib.mkDefault 9090;
     openFirewall = true;
 
-    settings = {
-      WebService = {
-        AllowUnencrypted = true;
-        Origins = lib.concatStringsSep " " [
-          "https://${config.nas.domain}"
-          "wss://${config.nas.domain}"
-          "http://quasar:${toString config.nas.ports.cockpit}"
-          "ws://quasar:${toString config.nas.ports.cockpit}"
-        ];
-        ProtocolHeader = "X-Forwarded-Proto";
-      };
-    };
+    settings.WebService.AllowUnencrypted = true;
   };
 
   environment.systemPackages = with pkgs; [
