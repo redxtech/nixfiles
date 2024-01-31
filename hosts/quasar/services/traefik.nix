@@ -78,6 +78,7 @@ in {
           radarr = mkService 7878;
           uptime = mkService 3001;
         };
+        serversTransports.ignorecert.insecureSkipVerify = true;
       };
     };
   };

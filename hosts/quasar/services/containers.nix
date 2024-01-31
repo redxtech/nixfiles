@@ -17,17 +17,19 @@ let
   media = cfg.paths.media + ":/media";
   mkPort = host: guest: "${toString host}:${toString guest}";
   mkPorts = port: "${toString port}:${toString port}";
+  mkTLstr = name: type: "traefik.http.${type}.${name}"; # make traefik label
+  mkTLRstr = name: "${mkTLstr name "routers"}"; # make traefik router label
+  mkTLSstr = name: "${mkTLstr name "services"}"; # make traefik router label
   mkLabels = name: {
     "traefik.enable" = "true";
-    "traefik.http.routers.${name}.rule" = "Host(`${name}.${cfg.domain}`)";
-    "traefik.http.routers.${name}.entrypoints" = "websecure";
-    "traefik.http.routers.${name}.tls" = "true";
-    "traefik.http.routers.${name}.tls.certresolver" = "cloudflare";
+    "${mkTLRstr name}.rule" = "Host(`${name}.${cfg.domain}`)";
+    "${mkTLRstr name}.entrypoints" = "websecure";
+    "${mkTLRstr name}.tls" = "true";
+    "${mkTLRstr name}.tls.certresolver" = "cloudflare";
   };
   mkLabelsPort = name: port:
     {
-      "traefik.http.services.${name}.loadbalancer.server.port" =
-        "${toString port}";
+      "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
     } // (mkLabels name);
 in {
   virtualisation.oci-containers = {
@@ -90,26 +92,49 @@ in {
         volumes = [ (mkConf "bazarr") media ];
       };
 
-      calibre = mkCtr {
+      calibre = let
+        mkHStr = header:
+          "${
+            mkTLstr "calibre" "middlewares"
+          }.headers.customrequestheaders.${header}";
+      in mkCtr {
         image = "lscr.io/linuxserver/calibre:latest";
-        labels = mkLabels "calibre";
-        environment = defaultEnv // { PASSWORD = ""; };
-        ports = [ "8805:8080" "8806:8081" (mkPort cfg.ports.calibre 8081) ];
-        volumes = [
-          (mkConf "calibre")
-          (cfg.paths.media + "/books:/config/Calibre Library")
+        labels = (mkLabelsPort "calibre" cfg.ports.calibre-ssl) // {
+          "${mkTLSstr "calibre"}.loadbalancer.serverstransport" =
+            "ignorecert@file";
+          "${mkTLSstr "calibre"}.loadbalancer.server.scheme" = "https";
+          "${mkTLRstr "calibre"}.middlewares" = "calibre@docker";
+          "${mkHStr "Cross-Origin-Embedder-Policy"}" = "require-corp";
+          "${mkHStr "Cross-Origin-Opener-Policy"}" = "same-origin";
+          "${mkHStr "Cross-Origin-Resource-Policy"}" = "same-site";
+        };
+        environment = defaultEnv // {
+          FILE__CUSTOM_USER = config.sops.secrets.calibre_user.path;
+          FILE__PASSWORD = config.sops.secrets.calibre_pw.path;
+          CUSTOM_PORT = "${toString cfg.ports.calibre}";
+          CUSTOM_HTTPS_PORT = "${toString cfg.ports.calibre-ssl}";
+        };
+        ports = [
+          (mkPorts cfg.ports.calibre) # vnc
+          (mkPorts cfg.ports.calibre-ssl) # https vnc
+          (mkPort cfg.ports.calibre-server 8081) # web server
         ];
+        volumes = let
+          secretPath = type: "${config.sops.secrets."calibre_${type}".path}";
+          mkSecretMnt = type: "${secretPath type}:${secretPath type}";
+        in [ (mkConf "calibre") (mkSecretMnt "user") (mkSecretMnt "pw") ];
       };
 
       calibre-web = {
         image = "lscr.io/linuxserver/calibre-web:latest";
         labels = mkLabels "calibre-web";
-        environment = defaultEnv;
+        environment = defaultEnv // {
+          DOCKER_MODS = "linuxserver/mods:universal-calibre";
+        };
         ports = [ (mkPort cfg.ports.calibre-web 8083) ];
         volumes = [
           (mkConf "calibre-web")
-          (cfg.paths.media + "/books:/books")
-          # media
+          (cfg.paths.config + "/calibre/Calibre Library:/books")
         ];
       };
 
@@ -220,5 +245,7 @@ in {
   };
 
   sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
+  sops.secrets.calibre_user.sopsFile = ../secrets.yaml;
+  sops.secrets.calibre_pw.sopsFile = ../secrets.yaml;
 }
 

@@ -14,8 +14,10 @@ in {
   nas.ports = {
     adguard = 9900;
     bazarr = 6767;
-    calibre = 9003;
-    calibre-web = 9002;
+    calibre = 8805;
+    calibre-ssl = 8804;
+    calibre-server = 8806;
+    calibre-web = 8807;
     cockpit = 9090;
     dashy = 4000;
     deluge = 8112;
