@@ -3,7 +3,13 @@
 with lib;
 let cfg = config.nas;
 in {
-  imports = [ ./containers.nix ./dashboard.nix ./plex.nix ./traefik.nix ];
+  imports = [
+    ./containers.nix
+    ./dashboard.nix
+    # ./minecraft.nix
+    ./plex.nix
+    ./traefik.nix
+  ];
 
   nas.ports = {
     adguard = 9900;
@@ -18,6 +24,7 @@ in {
     jellyseerr = 5055;
     lidarr = 8686;
     netdata = 19999;
+    minecraft = 25565;
     plex = 32400;
     portainer = 9000;
     portainer-agent = 9001;
