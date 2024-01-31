@@ -4,8 +4,8 @@ with lib;
 let
   cfg = config.nas;
   defaultEnv = {
-    PUID = "config.users.users.${cfg.user}.uid";
-    PGID = "config.users.groups.${cfg.group}.gid";
+    PUID = toString config.users.users.${cfg.user}.uid;
+    PGID = toString config.users.groups.${cfg.group}.gid;
     TZ = cfg.timezone;
   };
 
