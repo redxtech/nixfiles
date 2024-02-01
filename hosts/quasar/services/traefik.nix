@@ -73,10 +73,10 @@ in {
           uptime = mkRouter "uptime";
         };
         services = {
-          portainer = mkService 9000;
-          sonarr = mkService 8989;
-          radarr = mkService 7878;
-          uptime = mkService 3001;
+          portainer = mkService cfg.ports.portainer;
+          sonarr = mkService cfg.ports.sonarr;
+          radarr = mkService cfg.ports.radarr;
+          uptime = mkService cfg.ports.uptime-kuma;
         };
         serversTransports.ignorecert.insecureSkipVerify = true;
       };

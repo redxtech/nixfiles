@@ -170,6 +170,36 @@ in {
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
       };
 
+      monica = {
+        image = "lscr.io/linuxserver/monica:latest";
+        hostname = "monica";
+        labels = mkLabels "monica";
+        environment = defaultEnv // {
+          # APP_URL = "https://monica.${cfg.domain}";
+          DB_HOST = "mysql";
+          DB_USERNAME = "monica";
+          DB_DATABASE = "monica";
+        };
+        environmentFiles = [ config.sops.secrets.monica_env.path ];
+        ports = [ (mkPort cfg.ports.monica 80) ];
+        volumes = [ (mkConf "monica") ];
+        extraOptions = [ "--network" "monica" ];
+      };
+
+      mysql = {
+        image = "mysql:latest";
+        hostname = "mysql";
+        environment = defaultEnv // {
+          MYSQL_RANDOM_ROOT_PASSWORD = "true";
+          MYSQL_DATABASE = "monica";
+          MYSQL_USER = "monica";
+        };
+        environmentFiles = [ config.sops.secrets.monica_env.path ];
+        ports = [ (mkPort cfg.ports.mysql 33060) ];
+        volumes = [ (mkConf "mysql") ];
+        extraOptions = [ "--network" "monica" ];
+      };
+
       qbit = {
         image = "lscr.io/linuxserver/qbittorrent:latest";
         labels = mkLabelsPort "qbit" cfg.ports.qbit;
@@ -219,15 +249,19 @@ in {
       # duplicati
       # grocy
       # home-assistant
-      # monica
       # nextcloud
       # readarr
       # tmod
     };
   };
 
+  system.activationScripts.mkDockerNetworks = ''
+    ${pkgs.docker}/bin/docker network create --drive bridge monica
+  '';
+
   sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
   sops.secrets.calibre_user.sopsFile = ../secrets.yaml;
   sops.secrets.calibre_pw.sopsFile = ../secrets.yaml;
+  sops.secrets.monica_env.sopsFile = ../secrets.yaml;
 }
 

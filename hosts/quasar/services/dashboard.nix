@@ -166,6 +166,12 @@ in {
           };
           items = [
             {
+              title = "Monica";
+              url = "https://monica.${cfg.domain}";
+              icon = "hl-monica";
+              description = "Personal CRM";
+            }
+            {
               title = "Apprise";
               url = "https://apprise.${cfg.domain}";
               icon = "hl-apprise";
