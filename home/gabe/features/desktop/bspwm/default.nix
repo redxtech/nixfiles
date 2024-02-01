@@ -48,10 +48,6 @@
         };
 
         rules = {
-          Chromium = { desktop = "www"; };
-          firefox = { desktop = "www"; };
-          firefoxdeveloperedition = { desktop = "www"; };
-          "firefox-aurora" = { desktop = "www"; };
           "firefox-aurora:*:Library" = { state = "floating"; };
           discord = {
             desktop = "chat";
@@ -83,7 +79,7 @@
         };
 
         extraConfig = ''
-          bspc rule -a -o 'firefox-aurora' 'desktop=*' 'state=floating'
+          bspc rule -a 'firefox-aurora' --one-shot 'desktop=www'
           bspc rule -a '*:*:Open Files' 'desktop=*' 'state=floating'
           bspc rule -a '*:*:File Upload' 'desktop=*' 'state=floating'
           bspc rule -a '*:*:Picture in picture' 'state=floating'
