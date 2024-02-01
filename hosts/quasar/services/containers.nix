@@ -33,30 +33,6 @@ let
 in {
   virtualisation.oci-containers = {
     containers = {
-      startpage = {
-        image = "ghcr.io/redxtech/startpage:latest";
-        labels = mkLabels "startpage";
-        ports = [ (mkPort cfg.ports.startpage 3000) ];
-      };
-
-      portainer = {
-        image = "portainer/portainer-ee:latest";
-        ports = [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
-        volumes =
-          [ "/var/run/docker.sock:/var/run/docker.sock" (mkData "portainer") ];
-        extraOptions = [ "--network" "host" ];
-      };
-
-      portainer-agent = {
-        image = "portainer/agent:latest";
-        ports = [ (mkPort cfg.ports.portainer-agent 9001) ];
-        volumes = [
-          "/var/lib/docker/volumes:/var/lib/docker/volumes"
-          "/var/run/docker.sock:/var/run/docker.sock"
-          "/:/host"
-        ];
-      };
-
       # TODO: dash, figure out what to do with it
       # apprise = {
       #   image = "lscr.io/linuxserver/apprise-api:latest";
@@ -145,22 +121,6 @@ in {
         volumes = [ (mkConf "jackett") downloads ];
       };
 
-      radarr = {
-        image = "lscr.io/linuxserver/radarr:latest";
-        environment = defaultEnv;
-        ports = [ (mkPort cfg.ports.radarr 7878) ];
-        volumes = [ (mkConf "radarr") downloads media ];
-        extraOptions = [ "--network" "host" ];
-      };
-
-      sonarr = {
-        image = "lscr.io/linuxserver/sonarr:latest";
-        environment = defaultEnv;
-        ports = [ (mkPort cfg.ports.sonarr 8989) ];
-        volumes = [ (mkConf "sonarr") downloads media ];
-        extraOptions = [ "--network" "host" ];
-      };
-
       # TODO: setup
       jellyseerr = {
         image = "fallenbagel/jellyseerr:latest";
@@ -195,9 +155,27 @@ in {
           MYSQL_USER = "monica";
         };
         environmentFiles = [ config.sops.secrets.monica_env.path ];
-        ports = [ (mkPort cfg.ports.mysql 33060) ];
+        ports = [ (mkPort cfg.ports.mysql 3306) ];
         volumes = [ (mkConf "mysql") ];
         extraOptions = [ "--network" "monica" ];
+      };
+
+      portainer = {
+        image = "portainer/portainer-ee:latest";
+        ports = [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
+        volumes =
+          [ "/var/run/docker.sock:/var/run/docker.sock" (mkData "portainer") ];
+        extraOptions = [ "--network" "host" ];
+      };
+
+      portainer-agent = {
+        image = "portainer/agent:latest";
+        ports = [ (mkPort cfg.ports.portainer-agent 9001) ];
+        volumes = [
+          "/var/lib/docker/volumes:/var/lib/docker/volumes"
+          "/var/run/docker.sock:/var/run/docker.sock"
+          "/:/host"
+        ];
       };
 
       qbit = {
@@ -223,6 +201,28 @@ in {
         };
         ports = [ (mkPorts cfg.ports.qdirstat) ];
         volumes = [ (mkConf "qdirstat") "/:/data:ro" ];
+      };
+
+      radarr = {
+        image = "lscr.io/linuxserver/radarr:latest";
+        environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.radarr 7878) ];
+        volumes = [ (mkConf "radarr") downloads media ];
+        extraOptions = [ "--network" "host" ];
+      };
+
+      sonarr = {
+        image = "lscr.io/linuxserver/sonarr:latest";
+        environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.sonarr 8989) ];
+        volumes = [ (mkConf "sonarr") downloads media ];
+        extraOptions = [ "--network" "host" ];
+      };
+
+      startpage = {
+        image = "ghcr.io/redxtech/startpage:latest";
+        labels = mkLabels "startpage";
+        ports = [ (mkPort cfg.ports.startpage 3000) ];
       };
 
       tautulli = {
@@ -256,7 +256,7 @@ in {
   };
 
   system.activationScripts.mkDockerNetworks = ''
-    ${pkgs.docker}/bin/docker network create --drive bridge monica
+    ${pkgs.docker}/bin/docker network create --driver bridge monica
   '';
 
   sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
