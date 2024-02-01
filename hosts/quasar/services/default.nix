@@ -12,8 +12,10 @@ in {
     ./traefik.nix
   ];
 
+  # TODO: group by type & use consistent values
   nas.ports = {
     adguard = 9900;
+    apprise = 9005;
     bazarr = 6767;
     calibre = 8805;
     calibre-ssl = 8804;

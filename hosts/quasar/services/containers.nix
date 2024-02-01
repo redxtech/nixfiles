@@ -57,6 +57,16 @@ in {
         ];
       };
 
+      # TODO: dash, figure out what to do with it
+      # apprise = {
+      #   image = "lscr.io/linuxserver/apprise-api:latest";
+      #   ports = [ (mkPort cfg.ports.apprise 8000) ];
+      #   labels = mkLabels "apprise";
+      #   environment = defaultEnv;
+      #   volumes = [ (mkConf "apprise") ];
+      # };
+
+      # TODO: setup
       bazarr = {
         image = "lscr.io/linuxserver/bazarr:latest";
         labels = mkLabels "bazarr";
@@ -151,6 +161,7 @@ in {
         extraOptions = [ "--network" "host" ];
       };
 
+      # TODO: setup
       jellyseerr = {
         image = "fallenbagel/jellyseerr:latest";
         labels = mkLabels "jellyseerr";
@@ -173,6 +184,7 @@ in {
         ];
       };
 
+      # TODO: setup
       qdirstat = {
         image = "lscr.io/linuxserver/qdirstat:latest";
         labels = mkLabels "qdirstat";
@@ -204,9 +216,7 @@ in {
       # pingbot
       # tubearchivist
 
-      # ddclient
       # duplicati
-      # gitea
       # grocy
       # home-assistant
       # monica
