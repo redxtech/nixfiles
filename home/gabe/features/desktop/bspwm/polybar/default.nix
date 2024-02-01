@@ -693,13 +693,14 @@ in {
     };
   };
 
-  # TODO: test without
-  systemd.user.services.polybar = {
-    Unit = {
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Install = { WantedBy = [ "graphical-session.target" ]; };
+  # polybar seems to start before bspwm is ready, so we need to restart it
+  systemd.user.services.polybar-restart = {
+    Service.Type = "oneshot";
+    Service.ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
+    Service.ExecStart =
+      "${pkgs.systemd}/bin/systemctl --user restart polybar.service";
+    Unit.After = [ "tray.target" ];
+    Install.WantedBy = [ "tray.target" ];
   };
 }
 
