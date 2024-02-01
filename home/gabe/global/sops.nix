@@ -13,6 +13,9 @@
       openweathermap = {
         path = "${config.xdg.configHome}/secrets/openweathermap.txt";
       };
+      "adguardian.fish" = {
+        path = "${config.xdg.configHome}/secrets/adguardian.fish";
+      };
     };
   };
 }

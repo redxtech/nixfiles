@@ -50,6 +50,16 @@ in {
       #   [ ./vim-numbertoggle-command-mode.patch ];
     };
 
+    # update the version of the package
+    adguardhome = prev.adguardhome.overrideAttrs (oldAttrs: rec {
+      version = "0.107.43";
+      src = final.fetchurl {
+        url =
+          "https://github.com/AdguardTeam/AdGuardHome/releases/download/v${version}/AdGuardHome_linux_amd64.tar.gz";
+        sha256 = "sha256-Ck4+7HTKVuLykwVEX1rAWWJE+6bT/oIWQ1LTB7Qkls8=";
+      };
+    });
+
     # https://github.com/NixOS/nix/issues/5567#issuecomment-1193259926
     # nix = addPatches prev.nix [ ./nix-make-installables-expr-context.patch ];
     pfetch = prev.pfetch.overrideAttrs (oldAttrs: {

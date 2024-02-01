@@ -22,6 +22,7 @@ with lib; {
       comma # install and run programs by sticking a , before them
       distrobox # nice escape hatch, integrates docker images with my environment
 
+      adguardian # monitor adguard home
       age # encryption
       atool # work with archives
       bitwarden-cli # password manager

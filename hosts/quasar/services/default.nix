@@ -4,6 +4,7 @@ with lib;
 let cfg = config.nas;
 in {
   imports = [
+    ./adguard.nix
     ./containers.nix
     ./dashboard.nix
     # ./minecraft.nix
@@ -45,12 +46,6 @@ in {
     downloads = cfg.paths.downloads + ":/downloads";
     media = cfg.paths.media + ":/media";
   in {
-    adguardhome = {
-      enable = true;
-      openFirewall = true;
-      settings = { bind_port = cfg.ports.adguard; };
-    };
-
     cockpit.settings.WebService = {
       Origins = lib.concatStringsSep " " [
         "https://${cfg.domain}"

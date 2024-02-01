@@ -139,12 +139,12 @@ in {
               icon = "hl-traefik";
               description = "Reverse proxy";
             }
-            # {
-            #   title = "Adguard Home";
-            #   url = "https://adguard.${cfg.domain}";
-            #   icon = "hl-adguard-home";
-            #   description = "Network-wide, DNS level adblocking";
-            # }
+            {
+              title = "Adguard Home";
+              url = "https://adguard.${cfg.domain}";
+              icon = "hl-adguard-home";
+              description = "Network-wide, DNS level adblocking";
+            }
             # rec {
             #   title = "Nix cache";
             #   url = "https://cache.${cfg.domain}";

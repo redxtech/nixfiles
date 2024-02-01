@@ -381,6 +381,10 @@ in {
       if test -f ${config.xdg.configHome}/fish/env.secrets.fish;
         source ${config.xdg.configHome}/fish/env.secrets.fish
       end
+
+      if test -f ${config.sops.secrets."adguardian.fish".path};
+        source ${config.sops.secrets."adguardian.fish".path}
+      end
     '';
   };
 
