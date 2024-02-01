@@ -1,91 +1,70 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-let cfg = config.nas;
+let
+  cfg = config.nas;
+  defaultEnv = {
+    PUID = toString config.users.users.${cfg.user}.uid;
+    PGID = toString config.users.groups.${cfg.group}.gid;
+    TZ = cfg.timezone;
+  };
+
+  name = "adguard";
+  port = cfg.ports.adguard;
+  host = "adguard.${cfg.domain}";
+  webports = "${toString port}:${toString port}";
+  mkTLstr = type: "traefik.http.${type}.${name}";
+  mkTLRstr = "${mkTLstr "routers"}";
+  mkTLSstr = "${mkTLstr "services"}";
 in {
-  services.adguardhome = {
-    enable = true;
+  virtualisation.oci-containers.containers = {
+    adguard = let name = "adguard";
+    in {
+      image = "adguard/adguardhome:latest";
+      environment = defaultEnv;
 
-    openFirewall = true;
-    mutableSettings = true;
-
-    settings = {
-      bind_host = "0.0.0.0";
-      bind_port = cfg.ports.adguard;
-
-      http.address = "0.0.0.0:${toString cfg.ports.adguard}";
-
-      users = [{
-        name = "gabe";
-        password =
-          "$2b$15$ybN5R4tC0LCDKieq10ba2eWWlMbgsD9cy.//CSeD3NXYazfKKs95C";
-      }];
-
-      dns = {
-        bind_hosts = [ "0.0.0.0" ];
-        bind_port = cfg.ports.adguard;
-        bootstrap_dns = [
-          "1.1.1.1"
-          "1.0.0.1"
-          "2606:4700:4700::1111"
-          "2606:4700:4700::1001"
-          "9.9.9.9"
-          "149.112.112.112"
-          "2620:fe::fe"
-          "2620:fe::fe:9"
-        ];
-        upstream_dns = [
-          "https://dns.cloudflare.com/dns-query"
-          "https://dns.quad9.net/dns-query"
-        ];
-        upstream_mode = "load_balance";
-        trusted_proxies = [ "127.0.0.0/8" "::1/128" ];
-
-        resolve_clients = true;
-        serve_http3 = true;
+      labels = {
+        "traefik.enable" = "true";
+        "${mkTLRstr}.entrypoints" = "websecure";
+        "${mkTLRstr}.tls" = "true";
+        "${mkTLSstr}.loadbalancer.server.port" = "${toString port}";
+        "${mkTLRstr}.rule" =
+          "HostRegexp(`${host}`, `{subdomain:[a-z-]+}.${host}`)";
       };
 
-      filtering = {
-        protection_enabled = true;
-        safebrowsing_enabled = true;
-        filtering_enabled = true;
-        parental_enabled = false;
-        safe_search.enabled = false;
+      ports = [
+        webports # frontend
+        "53:53/tcp" # DNS
+        "53:53/udp" # DNS
+        # "67:67/udp" # DHCP
+        # "68:68/tcp" # DHCP
+        # "68:68/udp" # DHCP
+        # "80:80/tcp" # DNS over HTTPS
+        # "443:443/tcp" # DNS over HTTPS
+        # "443:443/udp" # DNS over HTTPS
+        "853:853/tcp" # DNS over TLS
+        "784:784/udp" # DNS over QUIC
+        "853:853/udp" # DNS over QUIC
+        "8853:8853/udp" # DNS over QUIC
+        # "5443:5443/tcp" # DNScrypt
+        # "5443:5443/udp" # DNScrypt
+      ];
 
-        # rewrites = [{
-        #   domain = "";
-        #   answer = "";
-        # }];
-      };
-
-      querylog.enabled = true;
-      querylog.interval = "2160h";
-      statistics.enabled = true;
-      statistics.interval = "2160h";
-
-      # dhcp = {
-      #   enabled = false;
-      #   interface_name = "enp0s31f6";
-      # };
-
-      # tls = {
-      #   enabled = false;
-      #   server_name = "adguard.${cfg.domain}";
-      #   force_https = true;
-      #   # TODO: certs
-      # };
+      volumes = [
+        "${toString cfg.paths.config}/adguard/conf:/opt/adguardhome/conf"
+        "${toString cfg.paths.config}/adguard/work:/opt/adguardhome/work"
+        "${
+          config.security.acme.certs."adguard.${cfg.domain}".directory
+        }:/certs/adguard.${cfg.domain}"
+      ];
     };
   };
 
-  services.traefik.dynamicConfigOptions.http =
-    lib.mkIf config.services.traefik.enable {
-      routers.adguard = {
-        rule =
-          "HostRegexp(`adguard.${cfg.domain}`, `{subdomain:[a-z]+}.adguard.${cfg.domain}`)";
-        service = "adguard";
-        entrypoints = [ "websecure" ];
-      };
-      services.adguard.loadBalancer.servers =
-        [{ url = "http://localhost:${toString config.nas.ports.adguard}"; }];
+  security.acme.certs = {
+    "${host}" = {
+      domain = "${host}";
+      extraDomainNames = [ "*.${host}" ];
+      group = config.services.traefik.group;
     };
+  };
 }

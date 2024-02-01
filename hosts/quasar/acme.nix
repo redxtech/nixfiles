@@ -1,27 +1,16 @@
 { lib, config, ... }:
 
-{
+let cfg = config.nas;
+in {
   security.acme = {
     acceptTerms = true;
     defaults = {
       email = "gabe+acme@sent.at";
-      # reloadServices = [];
+      dnsResolver = "1.1.1.1:53";
       dnsProvider = "cloudflare";
-    };
-
-    certs = {
-      "nas.gabedunn.dev" = {
-        domain = "nas.gabedunn.dev";
-        extraDomainNames = [ "*.nas.gabedunn.dev" ];
-        credentialFiles = {
-          CF_DNS_API_TOKEN_FILE = config.sops.secrets."cloudflare_dns".path;
-        };
-      };
+      environmentFile = config.sops.secrets."cloudflare_acme".path;
     };
   };
 
-  sops.secrets."cloudflare_dns" = {
-    # owner = config.traefik.certs."nas.gabedunn.dev".user;
-    # owner = "acme";
-  };
+  sops.secrets."cloudflare_acme".sopsFile = ./secrets.yaml;
 }

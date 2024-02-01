@@ -80,6 +80,19 @@ in {
         };
         serversTransports.ignorecert.insecureSkipVerify = true;
       };
+
+      tls = let
+        cert = {
+          certFile =
+            config.security.acme.certs."adguard.${cfg.domain}".directory
+            + "/cert.pem";
+          keyFile = config.security.acme.certs."adguard.${cfg.domain}".directory
+            + "/key.pem";
+        };
+      in {
+        certificates = [ cert ];
+        stores.default.defaultCertificate = cert;
+      };
     };
   };
 
