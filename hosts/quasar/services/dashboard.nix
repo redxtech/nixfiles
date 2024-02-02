@@ -96,6 +96,7 @@ in {
               icon = "hl-calibre";
               url = "https://calibre.${cfg.domain}";
               description = "Powerful ebook software";
+              statusCheckAcceptCodes = "401";
             }
             {
               title = "Calibre Web";
