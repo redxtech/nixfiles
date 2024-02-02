@@ -121,7 +121,38 @@ in {
         volumes = [ (mkConf "jackett") downloads ];
       };
 
-      # TODO: setup
+      jellyfin = {
+        image = "lscr.io/linuxserver/jellyfin:latest";
+        labels = mkLabels "jellyfin";
+        environment = defaultEnv // {
+          JELLYFIN_PublishedServerUrl = "10.0.0.191";
+        };
+        ports = [
+          (mkPorts cfg.ports.jellyfin)
+          (mkPorts 8920)
+          "${mkPorts 7359}/udp"
+          "${mkPorts 1900}/udp"
+        ];
+        volumes = [
+          (mkConf "jellyfin")
+          # "${cfg.paths.config}/jellyfin/custom-web:/usr/share/jellyfin/web"
+          media
+          (cfg.paths.config + "/calibre/Calibre Library:/books")
+        ];
+      };
+
+      jellyfin-vue = {
+        image = "ghcr.io/jellyfin/jellyfin-vue:unstable";
+        labels = mkLabels "jellyfin-vue";
+        environment = {
+          DEFAULT_SERVERS =
+            "quasar:8096,jellyfin.${cfg.domain},10.0.0.191:8096,demo.jellyfin.org";
+          HISTORY_ROUTER_MODE = "0";
+        };
+        ports = [ (mkPort cfg.ports.jellyfin-vue 80) ];
+        volumes = [ (mkConf "jackett") downloads ];
+      };
+
       jellyseerr = {
         image = "fallenbagel/jellyseerr:latest";
         labels = mkLabels "jellyseerr";
@@ -238,7 +269,6 @@ in {
 
       # certbot
       # flaresolverr
-      # jellyfin
       # kiwix
       # lidarr
       # mc

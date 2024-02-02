@@ -26,6 +26,7 @@ in {
     deluge = 8112;
     jackett = 9117;
     jellyfin = 8096;
+    jellyfin-vue = 8099;
     jellyseerr = 5055;
     lidarr = 8686;
     minecraft = 25565;
