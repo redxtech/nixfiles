@@ -41,6 +41,8 @@ in {
       });
 
       plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };
+
+      nix-autobahn = inputs.nix-autobahn.packages.${final.system}.nix-autobahn;
     };
 
   # Modifies existing packages

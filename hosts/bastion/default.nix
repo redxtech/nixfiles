@@ -55,6 +55,7 @@
     dconf.enable = true;
     kdeconnect.enable = true;
     solaar.enable = true;
+    nix-ld.enable = true;
   };
 
   virtualisation.docker.storageDriver = "btrfs";

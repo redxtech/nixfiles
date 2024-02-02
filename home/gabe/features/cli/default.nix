@@ -55,6 +55,7 @@ with lib; {
       nixd # nix LSP
       nixfmt # nix formatter
       # nix-delegate # distributed nix builds transparently
+      nix-autobahn # dynamic executable helper
       nix-du # du for nix store
       nix-inspect # see which pkgs are in your PATH
       packagekit # package helper across distros
@@ -71,6 +72,7 @@ with lib; {
       rsync # file transfer
       sd # better sed
       sshfs # mount remote filesystems
+      steam-run # run binaries in fhs
       slurm-nm # network monitor
       timer # to help with my ADHD paralysis
       tokei # count lines of code in project

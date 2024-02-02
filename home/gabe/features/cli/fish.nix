@@ -18,6 +18,7 @@ in {
 
     shellAbbrs = rec {
       # nix
+      nsr = "nix run nixpkgs#";
       nsn = "nix shell nixpkgs#";
       nbn = "nix build nixpkgs#";
 
@@ -117,6 +118,7 @@ in {
 
       nixos-rebuild-remote = {
         description = "Rebuilds a remote NixOS machine";
+        wraps = "nixos-rebuild switch";
         body = ''
           nixos-rebuild --flake "$FLAKE#$argv[1]" \
           --fast \
@@ -124,6 +126,12 @@ in {
           --build-host "root@$argv[1]" \
           switch
         '';
+      };
+
+      nrr = {
+        description = "Rebuilds a remote NixOS machine";
+        wraps = "nixos-rebuild-remote";
+        body = "nixos-rebuild-remote $argv";
       };
 
       __fish_nixos_rebuild_remote_complete = let
@@ -136,14 +144,6 @@ in {
           for host in $hostnames
               echo $host
           end
-        '';
-      };
-
-      srun = {
-        wraps = "steam-run";
-        description = "Wraps `steam-run` to be easier to use";
-        body = language "fish" ''
-          NIXPKGS_ALLOW_UNFREE=1 nix-shell -p steam-run --run "steam-run $argv"
         '';
       };
 
