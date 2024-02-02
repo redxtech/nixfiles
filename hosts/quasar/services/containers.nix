@@ -255,8 +255,12 @@ in {
     };
   };
 
-  system.activationScripts.mkDockerNetworks = ''
-    ${pkgs.docker}/bin/docker network create --driver bridge monica
+  system.activationScripts.mkDockerNetworks = let networks = [ "monica" ];
+  in ''
+    for network in ${toString networks}; do
+      ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
+        ${pkgs.docker}/bin/docker network create --driver bridge $network
+    done
   '';
 
   sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
