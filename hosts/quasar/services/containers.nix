@@ -142,6 +142,7 @@ in {
         labels = mkLabelsPort "jellyfin" cfg.ports.jellyfin;
         environment = defaultEnv // {
           JELLYFIN_PublishedServerUrl = "10.0.0.191";
+          NVIDIA_VISIBLE_DEVICES = "all";
         };
         ports = [
           (mkPorts cfg.ports.jellyfin)
@@ -162,8 +163,8 @@ in {
         labels = mkLabels "jellyfin-vue";
         environment = {
           DEFAULT_SERVERS =
-            "quasar:8096,jellyfin.${cfg.domain},10.0.0.191:8096,demo.jellyfin.org";
-          HISTORY_ROUTER_MODE = "0";
+            "http://quasar:8096,https://jellyfin.${cfg.domain},10.0.0.191:8096,demo.jellyfin.org";
+          HISTORY_ROUTER_MODE = "1";
         };
         ports = [ (mkPort cfg.ports.jellyfin-vue 80) ];
         volumes = [ (mkConf "jackett") downloads ];
