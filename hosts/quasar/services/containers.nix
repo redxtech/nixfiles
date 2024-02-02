@@ -204,7 +204,7 @@ in {
           "vi.stackexchange.com_en_all_2022-05.zim"
           "wikibooks_en_all_maxi_2021-03.zim"
           "wikihow_en_maxi_2022-01.zim"
-          # "wikileaks_en_afghanistan-war-diary_2012-01.zim/wikileaks_en_afghanistan-war-diary_2012-01.zim"
+          "wikileaks_en_afghanistan-war-diary_2012-01.zim/wikileaks_en_afghanistan-war-diary_2012-01.zim"
           "wikipedia_en_all_maxi_2022-05.zim"
           "wikipedia_en_all_maxi_2024-01.zim"
           "wikiquote_en_all_maxi_2022-05.zim"
@@ -284,13 +284,14 @@ in {
           (mkConf "qbit")
           (mkData "qbit")
           (cfg.paths.downloads + "/qbit:/downloads")
+          "${pkgs.vuetorrent}/var/www/vuetorrent:/vuetorrent:ro"
         ];
       };
 
       # TODO: setup
       qdirstat = {
         image = "lscr.io/linuxserver/qdirstat:latest";
-        labels = mkLabels "qdirstat";
+        # labels = mkLabelsPort "qdirstat" cfg.ports.qdirstat;
         environment = defaultEnv // {
           CUSTOM_PORT = "${toString cfg.ports.qdirstat}";
         };
@@ -333,7 +334,6 @@ in {
 
       # certbot
       # lidarr
-      # qflood
       # mc
       # modded-mc
       # pingbot

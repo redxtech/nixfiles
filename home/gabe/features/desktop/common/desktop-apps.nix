@@ -10,7 +10,8 @@
     betterdiscordctl
     deluge
     discord
-    vesktop
+    jellyfin-media-player
+    jellyfin-mpv-shim
     libreoffice
     multiviewer-for-f1
     neovide
@@ -27,6 +28,7 @@
     xfce.thunar
     xfce.thunar-archive-plugin
     xfce.thunar-volman
+    vesktop
     via
     vivaldi
     vlc

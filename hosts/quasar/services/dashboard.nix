@@ -11,8 +11,8 @@ in {
 
     settings = {
       pageInfo = {
-        title = "Quasar Dashboard";
-        description = "Nyaa~~";
+        title = "quasar dashboard";
+        description = "shut up baby, i know it";
         navLinks = [
           {
             title = "github";
