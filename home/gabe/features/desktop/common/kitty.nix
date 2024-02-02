@@ -10,7 +10,7 @@
 
     font = {
       name = "DankMono-Regular";
-      size = 12;
+      size = 13;
     };
 
     # keybindings = {};
@@ -19,8 +19,8 @@
       cursor_shape = "beam";
 
       scrollback_lines = 10000;
-      scrollback_pager =
-        "${config.xdg.configHome}/kitty/pager.sh 'INPUT_LINE_NUMBER' 'CURSOR_LINE' 'CURSOR_COLUMN'";
+      # scrollback_pager =
+      #   "${config.xdg.configHome}/kitty/pager.sh 'INPUT_LINE_NUMBER' 'CURSOR_LINE' 'CURSOR_COLUMN'";
       scrollback_pager_history_size = 100;
 
       url_color = "#0087bd";
@@ -51,6 +51,10 @@
 
       editor = "nvim";
 
+      allow_remote_control = "socket-only";
+      listen_on = "unix:/tmp/kitty";
+      shell_integration = "enabled";
+
       wayland_titlebar_color = "background";
     };
 
@@ -59,7 +63,13 @@
       modify_font strikethrough_thickness   0.1px
       modify_font underline_position        150%
       modify_font underline_thickness       0.1px
-      modify_font cell_height               125%
+      # modify_font cell_height               125%
+
+      # kitty-scrollback.nvim: kitten alias
+      action_alias kitty_scrollback_nvim kitten /home/gabe/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
+      map kitty_mod+h kitty_scrollback_nvim                                                                                                                 # browse scrollback buffer in nvim
+      map kitty_mod+g kitty_scrollback_nvim --config ksb_builtin_last_cmd_output                                                                            # browse output of the last shell command in nvim
+      mouse_map ctrl+shift+right press ungrabbed combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output # show clicked command output in nvim
     '';
 
     shellIntegration.enableZshIntegration = true;
