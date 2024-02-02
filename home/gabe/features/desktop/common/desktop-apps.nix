@@ -27,6 +27,7 @@
     xfce.thunar
     xfce.thunar-archive-plugin
     xfce.thunar-volman
+    via
     vivaldi
     vlc
 

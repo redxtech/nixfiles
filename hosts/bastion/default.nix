@@ -73,54 +73,52 @@
   # dbus packages
   services.dbus.packages = with pkgs; [ python310Packages.dbus-python ];
 
-  # ensure gnome settings daemon is running
   services.udev = {
+    # ensure gnome settings daemon is running
     packages = with pkgs; [ gnome.gnome-settings-daemon ];
-    # udev rules for moonlander flashing
+
     extraRules = ''
       # rules for allowing users in the video group to change the backlight brightness
       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness"
       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/%k/brightness"
 
-      # Rules for Oryx web flashing and live training
+      # rules for via firmware flashing
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+
+      # rules for oryx web flashing and live training
       KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
       KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
 
-      # Wally Flashing rules for the Moonlander and Planck EZ
+      # wally flashing rules for the moonlander and planck ez
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11",     MODE:="0666",     SYMLINK+="stm32_dfu"
 
       # lossless adapter
       SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="0337", MODE="0666"
       SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="102b", MODE="0666"
 
-      # This rule was added by Solaar.
+      # solaar
 
-      # Allows non-root users to have raw access to Logitech devices.
-      # Allowing users to write to the device is potentially dangerous
-      # because they could perform firmware updates.
+      # allows non-root users to have raw access to logitech devices.
       KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
 
       ACTION != "add", GOTO="solaar_end"
       SUBSYSTEM != "hidraw", GOTO="solaar_end"
 
-      # USB-connected Logitech receivers and devices
-      ATTRS{idVendor}=="046d", GOTO="solaar_apply"
+      ATTRS{idVendor}=="046d", GOTO="solaar_apply" # usb-connected logitech receivers and devices
 
-      # Lenovo nano receiver
-      ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="6042", GOTO="solaar_apply"
+      ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="6042", GOTO="solaar_apply" # lenovo nano receiver
 
-      # Bluetooth-connected Logitech devices
-      KERNELS == "0005:046D:*", GOTO="solaar_apply"
+      KERNELS == "0005:046D:*", GOTO="solaar_apply" # bluetooth-connected Logitech devices
 
       GOTO="solaar_end"
 
       LABEL="solaar_apply"
 
-      # Allow any seated user to access the receiver.
+      # allow any seated user to access the receiver.
       # uaccess: modern ACL-enabled udev
       TAG+="uaccess"
 
-      # Grant members of the "plugdev" group access to receiver (useful for SSH users)
+      # grant members of the "plugdev" group access to receiver (useful for SSH users)
       MODE="0660", GROUP="plugdev"
       LABEL="solaar_end"
     '';
