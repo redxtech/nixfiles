@@ -24,6 +24,7 @@ in {
     cockpit = 9090;
     dashy = 4000;
     deluge = 8112;
+    flaresolverr = 8191;
     jackett = 9117;
     jellyfin = 8096;
     jellyfin-vue = 8099;
@@ -37,6 +38,7 @@ in {
     plex = 32400;
     portainer = 9000;
     portainer-agent = 9001;
+    prowlarr = 9696;
     qbit = 8810;
     qdirstat = 9030;
     radarr = 7878;

@@ -118,6 +118,17 @@ in {
         volumes = [ (mkConf "deluge") (mkDl "deluge") ];
       };
 
+      flaresolverr = {
+        image = "ghcr.io/flaresolverr/flaresolverr:latest";
+        labels = mkLabels "flaresolverr";
+        environment = defaultEnv // {
+          LOG_LEVEL = "info";
+          LOG_HTML = "false";
+          CAPTCHA_SOLVER = "none";
+        };
+        ports = [ (mkPorts cfg.ports.flaresolverr) ];
+      };
+
       jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
         labels = mkLabels "jackett";
@@ -160,7 +171,7 @@ in {
 
       jellyseerr = {
         image = "fallenbagel/jellyseerr:latest";
-        labels = mkLabels "jellyseerr";
+        labels = mkLabelsPort "jellyseerr" cfg.ports.jellyseerr;
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
@@ -252,6 +263,15 @@ in {
         ];
       };
 
+      prowlarr = {
+        image = "lscr.io/linuxserver/prowlarr:latest";
+        labels = mkLabelsPort "prowlarr" cfg.ports.prowlarr;
+        environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.prowlarr 9696) ];
+        volumes = [ (mkConf "prowlarr") downloads media ];
+        extraOptions = [ "--network" "host" ];
+      };
+
       qbit = {
         image = "lscr.io/linuxserver/qbittorrent:latest";
         labels = mkLabelsPort "qbit" cfg.ports.qbit;
@@ -311,9 +331,8 @@ in {
       };
 
       # certbot
-      # flaresolverr
-      # kiwix
       # lidarr
+      # qflood
       # mc
       # modded-mc
       # pingbot
