@@ -128,7 +128,7 @@ in {
 
       jellyfin = {
         image = "lscr.io/linuxserver/jellyfin:latest";
-        labels = mkLabels "jellyfin";
+        labels = mkLabelsPort "jellyfin" cfg.ports.jellyfin;
         environment = defaultEnv // {
           JELLYFIN_PublishedServerUrl = "10.0.0.191";
         };
@@ -164,6 +164,7 @@ in {
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
+        extraOptions = [ "--network" "host" ];
       };
 
       kiwix = {
