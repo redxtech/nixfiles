@@ -180,6 +180,7 @@ in {
 
       kiwix = {
         image = "ghcr.io/kiwix/kiwix-serve:latest";
+        # labels = mkLabelsPort "kiwix" cfg.ports.kiwix;
         volumes = [ (cfg.paths.downloads + "/deluge/zim:/data") ];
         ports = [ (mkPort cfg.ports.kiwix 8080) ];
         cmd = [
