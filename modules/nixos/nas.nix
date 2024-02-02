@@ -17,14 +17,26 @@ in {
 
     user = mkOption {
       type = types.str;
-      description = "User to run NAS services as";
+      description = "user to run nas services as";
       default = "data";
     };
 
     group = mkOption {
       type = types.str;
-      description = "Group to run NAS services as";
+      description = "group to run nas services as";
       default = "data";
+    };
+
+    uid = mkOption {
+      type = types.int;
+      description = "user id to run nas services as";
+      default = 911;
+    };
+
+    gid = mkOption {
+      type = types.int;
+      description = "group to run nas services as";
+      default = 911;
     };
 
     timezone = mkOption {
@@ -85,6 +97,7 @@ in {
       shell = pkgs.fish;
       isSystemUser = true;
       group = cfg.group;
+      uid = cfg.uid;
 
       extraGroups = [ cfg.group ] ++ ifTheyExist [
         "deluge"
@@ -95,7 +108,7 @@ in {
         "podman"
       ];
     };
-    users.groups.${cfg.group} = { };
+    users.groups.${cfg.group}.gid = cfg.gid;
 
     # add netdata to group if enabled
     users.groups.netdata = lib.mkIf config.services.netdata.enable { };

@@ -7,9 +7,6 @@ in {
     # package = pkgs.dashy.override { nodejs-16_x = pkgs.nodejs_18; };
 
     port = cfg.ports.dashy;
-    user = cfg.user;
-    group = cfg.group;
-    dataDir = cfg.paths.data + "/dashy";
     mutableConfig = false;
 
     settings = {
