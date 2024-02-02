@@ -32,6 +32,7 @@
     man-pages
     man-pages-posix
     neovim
+    ps_mem
     unrar
     unzip
     wget
@@ -50,10 +51,16 @@
     enable = true;
 
     extraRules = [{
-      commands = [{
-        command = "${pkgs.ps_mem}/bin/ps_mem";
-        options = [ "NOPASSWD" ];
-      }];
+      commands = [
+        {
+          command = "${pkgs.ps_mem}/bin/ps_mem";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/run/current-system/sw/bin/ps_mem";
+          options = [ "NOPASSWD" ];
+        }
+      ];
       groups = [ "wheel" ];
     }];
   };

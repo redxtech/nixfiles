@@ -65,7 +65,6 @@ with lib; {
       playerctl # media player controller
       # poetry # python package manager
       prettyping # better ping
-      ps_mem # memory usage
       rage # age with rust
       ranger # file manager
       rclone # cloud storage manager

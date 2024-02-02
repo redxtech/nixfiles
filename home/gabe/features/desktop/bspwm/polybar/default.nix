@@ -20,6 +20,8 @@ in {
       runBtop = "${kittyRun} ${pkgs.btop}/bin/btop";
       runSlurm =
         "${kittyRun} -o initial_window_width=79c -o initial_window_height=22c ${pkgs.slurm-nm}/bin/slurm -i ${config.profileVars.network.interface}";
+      runPS_MEM = ''
+        ${kittyRun} ${pkgs.fish}/bin/fish -c "sudo ${pkgs.ps_mem}/bin/ps_mem; read -s -n 1 -p 'echo Press any key to continue...'"'';
       runWttr =
         "${kittyRun} ${pkgs.fish}/bin/fish -c '${pkgs.curl}/bin/curl wttr.in; read -n 1 -p \"echo Press any key to continue...\"'";
 
@@ -359,7 +361,7 @@ in {
           text = "<label>%{A}";
           underline = "\${colours.memory}";
           prefix = {
-            text = lib.mkDefault "%{A1:${runBtop}:}󰘚";
+            text = lib.mkDefault "%{A1:${runPS_MEM}:}󰘚";
             background = "\${colours.memory}";
             foreground = "\${colours.bg}";
             padding = 1;
