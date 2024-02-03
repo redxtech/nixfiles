@@ -27,10 +27,6 @@ in {
       type = types.path;
       default = "/var/lib/dashy";
     };
-    mutableConfig = mkOption {
-      type = types.bool;
-      default = false;
-    };
     settings = mkOption {
       type = types.attrs;
       default = { };
@@ -50,14 +46,8 @@ in {
       wantedBy = [ "multi-user.target" ];
       preStart = ''
         mkdir -p ${cfg.dataDir}/public
-      '' + (if cfg.mutableConfig then ''
-        if [ ! -f ${cfg.dataDir}/public/conf.yml ]; then
-          cp ${cfg.package}/libexec/Dashy/deps/Dashy/public/conf.yml ${cfg.dataDir}/public/conf.yml
-          chmod u+w ${cfg.dataDir}/public/conf.yml
-        fi
-      '' else ''
         ln -sf ${configFile} ${cfg.dataDir}/public/conf.yml
-      '');
+      '';
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/dashy";
         WorkingDirectory = cfg.dataDir;

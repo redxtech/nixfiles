@@ -4,10 +4,8 @@ let cfg = config.nas;
 in {
   services.dashy = {
     enable = true;
-    # package = pkgs.dashy.override { nodejs-16_x = pkgs.nodejs_18; };
 
     port = cfg.ports.dashy;
-    mutableConfig = false;
 
     settings = {
       pageInfo = {
