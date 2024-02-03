@@ -333,19 +333,26 @@ in {
         ];
       };
 
-      # certbot
+      # pairdrop
       # lidarr
-      # mc
+      # airsonic (advanced?)
       # modded-mc
-      # pingbot
-      # tubearchivist
-
-      # duplicati
-      # grocy
-      # home-assistant
+      # organizr
+      # invoice ninja
+      # lychee/immich/photoprism
+      # paperless-ngx
+      # emulatorjs
       # nextcloud
+      # wireguard
+      # tubearchivist
+      # home-assistant
+      # grocy
       # readarr
+      # duplicati/duplicacy
+
+      # fireshare
       # tmod
+      # pingbot
     };
   };
 

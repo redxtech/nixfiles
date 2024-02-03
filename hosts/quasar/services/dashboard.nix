@@ -22,6 +22,7 @@ in {
           }
         ];
       };
+
       appConfig = {
         theme = "dracula";
         layout = "auto";
@@ -35,6 +36,7 @@ in {
           customSearchEngine = "https://kagi.com/search?q=";
         };
       };
+
       sections = [
         {
           name = "Media";
@@ -209,40 +211,39 @@ in {
             collapsed = false;
             hideForGuests = false;
           };
-          items = [
-            {
-              title = "Monica";
-              url = "https://monica.${cfg.domain}";
-              icon = "hl-monica";
-              description = "Personal CRM";
-            }
-            {
-              title = "NextCloud";
-              url = "https://cloud.${cfg.domain}";
-              icon =
-                "https://raw.githubusercontent.com/nextcloud/server/master/core/img/favicon.svg";
-              description = "Cloud";
-            }
-            {
-              title = "Grocy";
-              url = "https://grocy.${cfg.domain}";
-              icon = "hl-grocy";
-              description = "ERP - beyond the fridge";
-            }
-            {
-              title = "Home Assistant";
-              url = "https://ha.${cfg.domain}";
-              icon = "hl-home-assistant";
-              description = "Home automation";
-            }
-            {
-              title = "Apprise";
-              url = "https://apprise.${cfg.domain}";
-              icon =
-                "https://github.com/caronc/apprise/blob/master/apprise/assets/themes/default/apprise-info-256x256.png?raw=true";
-              description = "Notification service";
-            }
-          ];
+          items = [{
+            title = "Monica";
+            url = "https://monica.${cfg.domain}";
+            icon = "hl-monica";
+            description = "Personal CRM";
+          }
+          # {
+          #   title = "NextCloud";
+          #   url = "https://cloud.${cfg.domain}";
+          #   icon =
+          #     "https://raw.githubusercontent.com/nextcloud/server/master/core/img/favicon.svg";
+          #   description = "Cloud";
+          # }
+          # {
+          #   title = "Grocy";
+          #   url = "https://grocy.${cfg.domain}";
+          #   icon = "hl-grocy";
+          #   description = "ERP - beyond the fridge";
+          # }
+          # {
+          #   title = "Home Assistant";
+          #   url = "https://ha.${cfg.domain}";
+          #   icon = "hl-home-assistant";
+          #   description = "Home automation";
+          # }
+          # {
+          #   title = "Apprise";
+          #   url = "https://apprise.${cfg.domain}";
+          #   icon =
+          #     "https://github.com/caronc/apprise/blob/master/apprise/assets/themes/default/apprise-info-256x256.png?raw=true";
+          #   description = "Notification service";
+          # }
+            ];
         }
         {
           name = "Monitoring";
