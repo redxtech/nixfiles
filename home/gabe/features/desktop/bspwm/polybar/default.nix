@@ -85,9 +85,9 @@ in {
 
         font = [
           # standard text fonts
-          "Inter:style=Regular:size=10;2"
-          "Inter:style=Bold:size=10;2"
-          "Inter:style=Italic:size=10;2"
+          "DankMono:style=Regular:size=10;2"
+          "DankMono:style=Bold:size=10;2"
+          "DankMono:style=Italic:size=10;2"
 
           # icon fonts
           "Symbols Nerd Font Mono:style=Regular:size=10;2"
