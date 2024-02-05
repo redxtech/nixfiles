@@ -39,6 +39,7 @@ in rec {
           "Noto"
         ];
       })
+      inter
       jetbrains-mono
       noto-fonts
       noto-fonts-cjk
