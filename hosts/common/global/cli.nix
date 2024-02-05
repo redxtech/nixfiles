@@ -41,6 +41,7 @@
       mediainfo
       micro
       neofetch
+      openssl
       playerctl
       ranger
       rclone
