@@ -21,6 +21,8 @@ in {
       nsr = "nix run nixpkgs#";
       nsn = "nix shell nixpkgs#";
       nbn = "nix build nixpkgs#";
+      nbp =
+        "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
 
       # xmodmap
       XMO = "xmodmap ~/.Xmodmap";

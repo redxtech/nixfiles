@@ -141,8 +141,6 @@ with lib; {
       nb = "nix build";
       # nd = "nix develop -c $SHELL";
       ns = "nix shell";
-      nbp =
-        "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
       nf = "nix flake";
 
       # build nixos iso file
