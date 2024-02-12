@@ -41,6 +41,7 @@
           "network.dns.disablePrefetch" = false;
           "network.predictor.enabled" = true;
           "network.prefetch-next" = true;
+          "security.insecure_field_warning.contextual.enabled" = false;
           "svg.context-properties.content.enabled" = true;
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
