@@ -1,28 +1,17 @@
 { pkgs, inputs, ... }:
 
 {
-  default = inputs.devenv.lib.mkShell {
-    inherit pkgs inputs;
-    modules = [
-      ({ pkgs, config, ... }: {
-        env.NIX_CONFIG =
-          "extra-experimental-features = nix-command flakes repl-flake";
+  default = pkgs.mkShell {
+    NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake";
+    nativeBuildInputs = with pkgs; [
+      nix
+      home-manager
+      git
 
-        packages = with pkgs; [
-          nix
-          home-manager
-          git
-
-          age
-          sops
-          gnupg
-          ssh-to-age
-
-          transcrypt
-          xxd
-          openssl
-        ];
-      })
+      age
+      sops
+      gnupg
+      ssh-to-age
     ];
   };
 
