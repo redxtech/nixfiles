@@ -10,6 +10,7 @@
     betterdiscordctl
     deluge
     discord
+    dolphin-emu
     jellyfin-media-player
     jellyfin-mpv-shim
     libreoffice
