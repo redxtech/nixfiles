@@ -30,6 +30,7 @@ in {
     jellyfin-vue = 8099;
     jellyseerr = 5055;
     kiwix = 9060;
+    ladder = 1111;
     lidarr = 8686;
     minecraft = 25565;
     monica = 6901;

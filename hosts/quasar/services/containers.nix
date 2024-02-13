@@ -217,6 +217,12 @@ in {
         ];
       };
 
+      ladder = {
+        image = "wasimaster/13ft:latest";
+        labels = mkLabels "ladder";
+        ports = [ (mkPort cfg.ports.ladder 5000) ];
+      };
+
       monica = {
         image = "lscr.io/linuxserver/monica:latest";
         hostname = "monica";
