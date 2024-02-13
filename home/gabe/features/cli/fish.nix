@@ -23,6 +23,7 @@ in {
       nbn = "nix build nixpkgs#";
       nbp =
         "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
+      nrr = "nixos-rebuild-remote";
 
       # xmodmap
       XMO = "xmodmap ~/.Xmodmap";
@@ -128,12 +129,6 @@ in {
           --build-host "root@$argv[1]" \
           switch
         '';
-      };
-
-      nrr = {
-        description = "Rebuilds a remote NixOS machine";
-        wraps = "nixos-rebuild-remote";
-        body = "nixos-rebuild-remote $argv";
       };
 
       __fish_nixos_rebuild_remote_complete = let
