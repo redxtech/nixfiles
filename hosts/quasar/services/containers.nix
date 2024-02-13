@@ -223,6 +223,14 @@ in {
         ports = [ (mkPort cfg.ports.ladder 5000) ];
       };
 
+      ladder-alt = {
+        image = "wasimaster/13ft:latest";
+        labels = (mkLabels "13ft") // {
+          "${mkTLRstr "13ft"}.rule" = "Host(`13ft.short.af`)";
+        };
+        ports = [ (mkPort 1111 5000) ];
+      };
+
       monica = {
         image = "lscr.io/linuxserver/monica:latest";
         hostname = "monica";

@@ -33,6 +33,7 @@ with lib; {
       # delta # better diff
       dex # desktop entry executor
       diffsitter # better diff
+      dogdns # better dig
       du-dust # better du
       dua # better du
       fd # better find
