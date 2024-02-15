@@ -116,6 +116,11 @@
           host = "quasar";
           mountPoint = "/lake";
         };
+        rsync = {
+          user = "fm1620";
+          host = "rsync";
+          mountPoint = "";
+        };
       };
     };
 

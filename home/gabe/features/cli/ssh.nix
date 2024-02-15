@@ -32,6 +32,11 @@ in {
         forwardAgent = true;
         remoteForwards = remoteForwards;
       };
+      rsync = {
+        user = "fm1620";
+        identityFile = identityFile;
+        hostname = "fm1620.rsync.net";
+      };
       "aur" = {
         user = "aur";
         identityFile = "~/.ssh/aur";
