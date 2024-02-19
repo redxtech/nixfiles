@@ -87,6 +87,7 @@ with lib; {
       yq-go # jq for yaml
       ventoy # bootable usb creator
       vulnix # nix security checker
+      zip # archiver
 
       # personal packages
       switchup
