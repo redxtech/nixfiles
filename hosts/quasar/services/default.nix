@@ -3,14 +3,8 @@
 with lib;
 let cfg = config.nas;
 in {
-  imports = [
-    ./adguard.nix
-    ./containers.nix
-    ./dashboard.nix
-    # ./minecraft.nix
-    ./plex.nix
-    ./traefik.nix
-  ];
+  imports =
+    [ ./adguard.nix ./containers.nix ./dashboard.nix ./plex.nix ./traefik.nix ];
 
   # TODO: group by type & use consistent values
   nas.ports = {
@@ -32,7 +26,6 @@ in {
     kiwix = 9060;
     ladder = 1313;
     lidarr = 8686;
-    minecraft = 25565;
     monica = 6901;
     mysql = 3306;
     netdata = 19999;
