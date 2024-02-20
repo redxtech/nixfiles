@@ -32,6 +32,8 @@ in {
     plex = 32400;
     portainer = 9000;
     portainer-agent = 9001;
+    psend = 9010;
+    psend-mysql = 9910;
     prowlarr = 9696;
     qbit = 8810;
     qdirstat = 9030;

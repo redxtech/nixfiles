@@ -289,6 +289,30 @@ in {
         ];
       };
 
+      psend = {
+        image = "lscr.io/linuxserver/projectsend:latest";
+        labels = mkLabels "psend";
+        environment = defaultEnv // { MAX_UPLOAD = "10240"; };
+        # environmentFiles = [ config.sops.secrets.psend_env.path ];
+        ports = [ (mkPort cfg.ports.psend 80) ];
+        volumes = [ (mkConf "psend") (mkData "psend") ];
+        extraOptions = [ "--network" "psend" ];
+      };
+
+      psend-mysql = {
+        image = "mysql:latest";
+        hostname = "psend-mysql";
+        environment = defaultEnv // {
+          MYSQL_RANDOM_ROOT_PASSWORD = "true";
+          MYSQL_DATABASE = "projectsend";
+          MYSQL_USER = "projectsend";
+        };
+        environmentFiles = [ config.sops.secrets.psend_env.path ];
+        ports = [ (mkPort cfg.ports.psend-mysql 3306) ];
+        volumes = [ "${cfg.paths.config}/psend-mysql:/var/lib/mysql" ];
+        extraOptions = [ "--network" "psend" ];
+      };
+
       prowlarr = {
         image = "lscr.io/linuxserver/prowlarr:latest";
         labels = mkLabelsPort "prowlarr" cfg.ports.prowlarr;
@@ -378,17 +402,19 @@ in {
     };
   };
 
-  system.activationScripts.mkDockerNetworks = let networks = [ "monica" ];
-  in ''
-    for network in ${toString networks}; do
-      ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
-        ${pkgs.docker}/bin/docker network create --driver bridge $network
-    done
-  '';
+  system.activationScripts.mkDockerNetworks =
+    let networks = [ "monica" "psend" ];
+    in ''
+      for network in ${toString networks}; do
+        ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
+          ${pkgs.docker}/bin/docker network create --driver bridge $network
+      done
+    '';
 
   sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
   sops.secrets.calibre_user.sopsFile = ../secrets.yaml;
   sops.secrets.calibre_pw.sopsFile = ../secrets.yaml;
   sops.secrets.monica_env.sopsFile = ../secrets.yaml;
+  sops.secrets.psend_env.sopsFile = ../secrets.yaml;
 }
 
