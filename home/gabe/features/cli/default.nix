@@ -144,6 +144,8 @@ with lib; {
       # nd = "nix develop -c $SHELL";
       ns = "nix shell";
       nf = "nix flake";
+      flakeup =
+        "nix flake update --update-input nixpkgs --update-input home-manager";
 
       # build nixos iso file
       nbsiso = "nix build .#nixosConfigurations.nixiso.config.formats.iso";

@@ -18,6 +18,8 @@ Looking for something simpler to start out with flakes? Try [Misterio77's starte
 
 ## Structure
 
+> lol this section is very outdated and will be updated soon:tm:
+
 - `flake.nix`: Entrypoint for hosts and home configurations. Also exposes a
   devshell for boostrapping (`nix develop` or `nix-shell`).
 - `hosts`: NixOS Configurations, accessible via `nixos-rebuild --flake`.
