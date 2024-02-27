@@ -27,7 +27,7 @@ in {
 
       isWired = (config.profileVars.network.type == "wired");
 
-      rofiScripts = (import ../rofi/scripts) { inherit pkgs lib config; };
+      rofiScripts = (import ../../rofi/scripts) { inherit pkgs lib config; };
     in {
       "colours" = {
         # named colours

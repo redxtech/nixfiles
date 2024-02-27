@@ -11,7 +11,7 @@ let
 
   ff = "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
 
-  scripts = (import ./rofi/scripts) { inherit pkgs lib config; };
+  scripts = (import ../rofi/scripts) { inherit pkgs lib config; };
   pipewire-control = pkgs.callPackage ./polybar/scripts/pipewire-control { };
 
   # TODO: convert to module, use services.sxhkd

@@ -7,7 +7,7 @@
     ./dunst.nix
     ./picom.nix
     ./polybar
-    ./rofi
+    ../rofi
     ./services.nix
     ./sxhkd.nix
   ];
