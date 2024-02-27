@@ -93,6 +93,8 @@
             "${xorg.xset}/bin/xset r rate 240 40" # keyboard repeat rate
             "${xorg.xset}/bin/xset s off -dpms" # disable screen blanking
             "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr"
+            "${sftpman}/bin/sftpman mount_all"
+            "${gnupg}/bin/gpgconf --launch gpg-agent"
           ] ++ map runOnce [
             "${networkmanagerapplet}/bin/nm-applet --indicator"
             "${blueman}/bin/blueman-applet"

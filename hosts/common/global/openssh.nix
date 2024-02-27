@@ -36,10 +36,5 @@ in {
     }) realHosts;
 
     startAgent = true;
-
-    forwardX11 = true;
   };
-
-  # Passwordless sudo when SSH'ing with keys
-  security.pam.sshAgentAuth.enable = true;
 }

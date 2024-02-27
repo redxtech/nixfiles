@@ -111,15 +111,15 @@
           host = "quasar";
           mountPoint = "/pool";
         };
-        lake = {
-          user = "gabe";
-          host = "quasar";
-          mountPoint = "/lake";
-        };
+        # lake = {
+        #   user = "gabe";
+        #   host = "quasar";
+        #   mountPoint = "/lake";
+        # };
         rsync = {
           user = "fm1620";
           host = "rsync";
-          mountPoint = "";
+          mountPoint = "/";
         };
       };
     };
