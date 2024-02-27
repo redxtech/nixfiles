@@ -29,6 +29,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sddm-catppuccin.url = "github:khaneliman/sddm-catppuccin";
+    sddm-catppuccin.inputs.nixpkgs.follows = "nixpkgs";
+
     devenv.url = "github:cachix/devenv";
     # treefmt-nix.url = "github:numtide/treefmt-nix";
     hardware.url = "github:nixos/nixos-hardware";

@@ -1,29 +1,41 @@
 { pkgs, inputs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [ dunst feh rofi picom polkit_gnome ];
+  environment.systemPackages = with pkgs; [
+    dunst
+    feh
+    rofi
+    picom
+    inputs.sddm-catppuccin.packages.${pkgs.hostPlatform.system}.sddm-catppuccin
+    polkit_gnome
+  ];
 
   services = {
     xserver = {
       enable = true;
 
       xkb.layout = "us";
-      # xkbVariant = "";
 
       displayManager = {
         sddm = {
-          enable = false;
-          theme = "chili";
-          # theme = "sddm-chili-theme";
-          # theme = "catppuccin-sddm-corners";
+          enable = true;
+
+          theme = "catppuccin";
+
+          wayland.enable = true;
+
+          settings = {
+            General = { CursorTheme = "Vimix-Cursors"; };
+            Theme = { EnableAvatars = true; };
+          };
         };
 
         gdm = {
-          enable = true;
+          enable = false;
           autoSuspend = false;
         };
 
-        # defaultSession = "bspwm";
+        defaultSession = "none+bspwm";
       };
 
       windowManager.bspwm.enable = true;
