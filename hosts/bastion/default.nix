@@ -16,6 +16,7 @@
     ../common/users/gabe
 
     ../common/optional/bspwm.nix
+    ../common/optional/hyprland.nix
     ../common/optional/btrfs.nix
     ../common/optional/cockpit.nix
     ../common/optional/containers.nix
