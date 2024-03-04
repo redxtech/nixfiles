@@ -42,6 +42,7 @@ with lib; {
       figlet # ascii art
       ffmpeg # media multitool
       ffmpegthumbnailer # thumbnailer
+      gallery-dl # image downloader
       httpie # better curl
       libnotify # desktop notifications
       libwebp # webp support
@@ -66,6 +67,7 @@ with lib; {
       playerctl # media player controller
       # poetry # python package manager
       prettyping # better ping
+      p7zip # zip archiver
       rage # age with rust
       ranger # file manager
       rclone # cloud storage manager
