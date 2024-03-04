@@ -30,6 +30,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     devenv.url = "github:cachix/devenv";
+    fh.url = "github:DeterminateSystems/fh";
     hardware.url = "github:nixos/nixos-hardware";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nix-autobahn.url = "github:lassulus/nix-autobahn";

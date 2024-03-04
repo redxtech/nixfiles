@@ -91,6 +91,9 @@ with lib; {
       vulnix # nix security checker
       zip # archiver
 
+      # flakehub
+      fh
+
       # personal packages
       switchup
 
