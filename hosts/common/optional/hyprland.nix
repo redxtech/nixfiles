@@ -38,7 +38,7 @@
           };
         };
 
-        defaultSession = "hyprland";
+        # defaultSession = "hyprland";
       };
     };
 
