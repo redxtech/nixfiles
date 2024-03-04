@@ -106,6 +106,7 @@ in {
   };
 
   neovim-nightly = inputs.neovim-nightly-overlay.overlay;
+  rust-overlay = inputs.rust-overlay.overlays.default;
   # nur = inputs.nur.overlay;
   # inputs.nix-minecraft.overlay
 }

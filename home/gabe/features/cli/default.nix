@@ -101,13 +101,6 @@ with lib; {
       kubectl
       kubectx
       telepresence2
-
-      # get rid of or figure better place
-      sqlite # for mcfly
-
-      # languages
-      nodejs
-      (python3.withPackages (ps: with ps; [ dbus-python pygobject3 requests ]))
     ];
 
     shellAliases = let
@@ -180,7 +173,6 @@ with lib; {
       neofetchk = "neofetch --backend kitty --source $HOME/.config/wall.png";
       "inodes-where" =
         "sudo du --inodes --separate-dirs --one-file-system / | sort -rh | head";
-      npr = "npm run";
       ps_mem = "sudo ps_mem";
       rcp = "rclone copy -P --transfers=20";
       rgu = "rg -uu";
@@ -198,7 +190,6 @@ with lib; {
       KUBECONFIG = "${config.xdg.configHome}/kube/config";
       PF_INFO =
         "ascii title os kernel uptime shell term desktop scheme palette";
-      PNPM_HOME = "${config.xdg.dataHome}/pnpm";
       RANGER_LOAD_DEFAULT_RC = "FALSE";
     };
   };

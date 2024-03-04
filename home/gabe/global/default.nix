@@ -5,6 +5,7 @@ in {
   imports = [
     inputs.nix-colors.homeManagerModules.default
 
+    ./langs.nix
     ./nix.nix
     ./sops.nix
     ./user-theme.nix # TODO: remove
