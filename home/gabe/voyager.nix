@@ -3,16 +3,6 @@
 {
   imports = [ ./global ./features/desktop/bspwm ];
 
-  #  ------
-  # | eDP-1|
-  #  ------
-  monitors = [{
-    name = "eDP-1";
-    width = 1920;
-    height = 1080;
-    primary = true;
-  }];
-
   colorscheme = inputs.nix-colors.colorSchemes.dracula;
 
   profileVars = {
@@ -74,15 +64,8 @@
   };
 
   # rename wireplumber devices
-  xdg.configFile."wireplumber/main.lua.d/51-alsa-rename.lua".text = ''
-    table.insert(alsa_monitor.rules, {
-      matches = { { { "node.name", "matches", "alsa_output.pci-0000_00_1f.3.*" } } },
-      apply_properties = { ["node.description"] = "Speakers" },
-    })
-
-    table.insert(alsa_monitor.rules, {
-      matches = { { { "node.name", "matches", "alsa_output.usb-AudioQuest_AudioQuest_DragonFly_Red*" } } },
-      apply_properties = { ["node.description"] = "DAC" },
-    })
-  '';
+  desktop.audio.devices = [{
+    name = "Speakers";
+    matches = "alsa_output.pci-0000_00_1f.3.*";
+  }];
 }

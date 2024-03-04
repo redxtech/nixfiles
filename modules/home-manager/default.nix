@@ -1,4 +1,5 @@
 {
+  desktop = import ./desktop;
   fonts = import ./fonts.nix;
   monitors = import ./monitors.nix;
   profileVars = import ./profileVars.nix;
