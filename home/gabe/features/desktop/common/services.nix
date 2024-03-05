@@ -41,46 +41,4 @@
       };
     };
   };
-
-  systemd.user.services = {
-    setxmodmap = {
-      Unit = {
-        Description = "Set up keyboard in X";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-
-      Install = { WantedBy = [ "graphical-session.target" ]; };
-
-      Service = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        ExecStart =
-          "${pkgs.xorg.xmodmap}/bin/xmodmap ${config.home.homeDirectory}/.Xmodmap";
-      };
-    };
-
-    xplugd-xmodmap = {
-      Unit = {
-        Description = "Rerun setxmodmap.service when I/O is changed";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-
-      Install = { WantedBy = [ "graphical-session.target" ]; };
-
-      Service = {
-        Type = "forking";
-        ExecStart = let
-          script = pkgs.writeShellScript "xplugrc" ''
-            case "$1,$3" in
-              keyboard,connected)
-              systemctl --user restart setxmodmap.service
-              ;;
-            esac
-          '';
-        in "${pkgs.xplugd}/bin/xplugd ${script}";
-      };
-    };
-  };
 }

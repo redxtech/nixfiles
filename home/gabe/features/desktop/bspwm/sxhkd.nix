@@ -19,12 +19,12 @@ let
     {
       description = "open terminal";
       command = "${kittyRun}";
-      binds = [ "hyper + Return" "super + Return" ];
+      binds = [ "super + Return" ];
     }
     {
       description = "open floating terminal";
       command = "${runFloat "kitty"} ${kittyRun}";
-      binds = [ "hyper + shift + Return" "super + shift + Return" ];
+      binds = [ "super + shift + Return" ];
     }
     {
       description = "open other terminals";
@@ -34,7 +34,7 @@ let
     {
       description = "open rofi app launcher";
       command = "${bin rofi} -show drun";
-      binds = [ "hyper + space" "super + space" ];
+      binds = [ "super + space" ];
     }
     {
       description = "open rofi launchers";
@@ -187,22 +187,16 @@ let
       command = "${bspwm}/bin/bspc node -v {-20 0,0 20,0 -20,20 0}";
       binds = [ "super + {Left,Down,Up,Right}" ];
     }
-    {
-      description = "snap current window to an aspect ratio";
-      command =
-        "${jgmenu}/bin/jgmenu --simple --at-pointer --csv-file=${cfgDir}/bspwm/resize-aspect.csv";
-      binds = [ "hyper + shift + r" ];
-    }
     # multimedia keys
     {
       description = "${
           bin playerctl
-        } {play/pause,skip,skip back} {spotify,chromium,mpv,general}";
+        } {play/pause,skip,prev} {spotify,chromium,mpv,general}";
       command = ''
         ${
           bin playerctl
-        } --player={spotify,chromium,mpv,Plexamp,""} {play-pause,next,previous}'';
-      binds = [ "{_,shift,ctrl,alt,hyper} + XF86Audio{Play,Next,Prev}" ];
+        } --player={spotify,chromium,mpv,""} {play-pause,next,previous}'';
+      binds = [ "{_,shift,ctrl,alt} + XF86Audio{Play,Next,Prev}" ];
     }
     {
       description = "volume {up,down}";
@@ -237,84 +231,36 @@ let
       binds = [ "super + w" ];
     }
     {
-      description = "open {discord,thunar,plex}";
-      # command = "{${bin discord},${bin xfce.thunar},${bin plex-media-player}";
-      command = "{discord,thunar,plex-desktop}";
-      binds = [ "hyper + {d,f,p}" ];
+      description = "open thunar";
+      command = "thunar";
+      binds = [ "super + g" ];
     }
     {
       description = "open neovide";
       command = "${pkgs.neovide}/bin/neovide";
-      binds = [ "hyper + shift + n" ];
-    }
-    {
-      description = "toggle obsidian";
-      command =
-        "${bspwm}/bin/bspc node $(${xdo}/bin/xdo id -N obsidian) -g hidden -f";
-      binds = [ "hyper + n" ];
-    }
-    {
-      description = "focus {firefox,discord,spotify,thunar,plex}";
-      command = ''
-        ${wmctrl}/bin/wmctrl -a {"Firefox Develop Edition",discord,spotify,thunar,plex}'';
-      binds = [ "hyper + alt + {w,d,s,f,p}" ];
+      binds = [ "super + n" ];
     }
     {
       description = "terminal exec {btop,ranger}";
       command =
         "${runFloat "kitty"} ${kittyRun} {${btop}/bin/btop,${bin ranger}}";
-      binds = [ "hyper + {m,r}" ];
+      binds = [ "super + shift + {m,r}" ];
     }
     # various miscellany
-    # {
-    #   description = "upgrade packages";
-    #   command = "${
-    #       runFloat "kitty"
-    #     } ${kittyRun} ${pkgs.updates-install-arch}/bin/updates-install-arch";
-    #   binds = [ "hyper + u" ];
-    # }
     {
       description = "{pop most recent,close all} notification";
       command = "${dunst}/bin/dunstctl {history-pop,close-all}";
-      binds = [ "hyper + {_,shift + }h" ];
-    }
-    {
-      description = "{stream,download} from youtube";
-      command = "${scripts.rofi-youtube}/bin/rofi-youtube {stream,download}";
-      binds = [ "hyper + {_,shift + }y" ];
+      binds = [ "super + {shift,alt + }h" ];
     }
     {
       description = "copy & paste from clipboard history";
       command = "${scripts.rofi-clipboard}/bin/rofi-clipboard";
       binds = [ "super + c" ];
     }
-    {
-      description = "make a {web,kagi} search";
-      command = "${scripts.rofi-web}/bin/rofi-web {_,default}";
-      binds = [ "hyper + {_,shift + }b" ];
-    }
-    {
-      description = "pull up emoji selector";
-      command = ''
-        ${
-          rofi.override (old: { plugins = [ rofi-emoji ]; })
-        }/bin/rofi -modi emoji -show emoji -display-emoji -matching {glob,fuzzy} "Emoji 󰄾"'';
-      binds = [ "hyper + {_,shift +} e" ];
-    }
-    {
-      description = "show webcam";
-      command = "${config.home.homeDirectory}/bin/mpvcam"; # TODO: fix
-      binds = [ "hyper + shift + i" ];
-    }
-    {
-      description = "go to {previous,next} wallpapers with variety";
-      command = "${variety}/bin/variety --{previous,next}";
-      binds = [ "hyper + bracket{left,right}" ];
-    }
     # {
     #   description = "toggle {night,day} mode";
     #   command = "${bin redshift} -O {3500,6500}";
-    #   binds = [ "hyper + bracket{down,up}" ];
+    #   binds = [ "super + bracket{down,up}" ];
     # }
     {
       description = "show keybind cheatsheet";
