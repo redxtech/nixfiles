@@ -57,8 +57,6 @@
           obsidian = {
             desktop = "^4";
             state = "floating";
-            sticky = true;
-            hidden = true;
           };
           Plex = { desktop = "video"; };
           plexmediaplayer = { desktop = "video"; };

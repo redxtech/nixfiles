@@ -42,14 +42,9 @@ let
       binds = [ "super + {r,d,ctrl + d,shift + d}" ];
     }
     {
-      description = "open ssh launcher";
-      command = "${bin rofi} -show ssh";
-      binds = [ "hyper + s" ];
-    }
-    {
       description = "rofi powermenu";
       command = "${scripts.rofi-powermenu}/bin/rofi-powermenu";
-      binds = [ "hyper + BackSpace" "super + shift + e" ];
+      binds = [ "super + BackSpace" "super + shift + e" ];
     }
     {
       description = "restart sxhkd";
@@ -66,11 +61,6 @@ let
       description = "close current window/kill all instances of app";
       command = "${bspwm}/bin/bspc node -{c,k}";
       binds = [ "super + {_,shift+ }q" ];
-    }
-    {
-      description = "close current window";
-      command = "${bspwm}/bin/bspc node -c";
-      binds = [ "hyper + q" ];
     }
     {
       description = "alternate between the tiled and monocle layout";
@@ -296,7 +286,7 @@ let
     {
       description = "copy & paste from clipboard history";
       command = "${scripts.rofi-clipboard}/bin/rofi-clipboard";
-      binds = [ "hyper + c" ];
+      binds = [ "super + c" ];
     }
     {
       description = "make a {web,kagi} search";
