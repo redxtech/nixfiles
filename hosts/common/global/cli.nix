@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
   programs = {
@@ -11,15 +11,16 @@
   };
 
   environment = {
-    shellAliases = rec {
-      nr = "nixos-rebuild --flake $FLAKE";
+    shellAliases = let
+      nr = "nh os";
+      hm = "nh home";
+    in rec {
       nrs = "${nr} switch";
-      nrb = "${nr} build";
-      snr = "sudo ${nr}";
+      nru = "${nrs} --ask --update";
       snrs = "sudo ${nrs}";
 
-      hm = "home-manager --flake .";
       hms = "${hm} switch";
+      hmsu = "${hms} --ask --update";
       hmsb = "${hms} -b backup";
     };
 
@@ -51,6 +52,9 @@
       yadm
       yt-dlp
       zoxide
+
+      # nix helper, better nixos-rebuild
+      inputs.nh.packages.${pkgs.system}.default
     ];
 
     pathsToLink = [ "/share/zsh" ];
