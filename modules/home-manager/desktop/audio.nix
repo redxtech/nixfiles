@@ -25,6 +25,7 @@
     };
   };
 
+  # write the wireplumber lua config files to rename the devices
   config = let
     mkDevice = { name, matches }: ''
       table.insert(alsa_monitor.rules, {

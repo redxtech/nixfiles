@@ -14,6 +14,8 @@
     extraModulePackages = [ ];
   };
 
+  services.xserver.videoDrivers = [ "amdgpu" ];
+
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp39s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;

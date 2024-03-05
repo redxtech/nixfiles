@@ -52,7 +52,10 @@
       ];
 
     settings = with pkgs; {
-      monitor = [ "DP-1,2560x1440,0x0,1" "DP-2,2560x1440,2560x0,1" ];
+      monitor = [
+        "${config.profileVars.primaryMonitor},2560x1440,0x0,1"
+        "${config.profileVars.secondaryMonitor},2560x1440,2560x0,1"
+      ];
 
       input = {
         # kb_layout = us

@@ -4,16 +4,16 @@
   wayland.windowManager.hyprland = with pkgs; {
     settings = {
       workspace = [
-        "1,monitor:DP-1"
-        "2,monitor:DP-1"
-        "3,monitor:DP-1"
-        "4,monitor:DP-1"
-        "5,monitor:DP-1"
-        "6,monitor:DP-1"
-        "7,monitor:DP-2"
-        "8,monitor:DP-2"
-        "9,monitor:DP-2"
-        "10,monitor:DP-2"
+        "1,monitor:${config.profileVars.primaryMonitor}"
+        "2,monitor:${config.profileVars.primaryMonitor}"
+        "3,monitor:${config.profileVars.primaryMonitor}"
+        "4,monitor:${config.profileVars.primaryMonitor}"
+        "5,monitor:${config.profileVars.primaryMonitor}"
+        "6,monitor:${config.profileVars.primaryMonitor}"
+        "7,monitor:${config.profileVars.secondaryMonitor}"
+        "8,monitor:${config.profileVars.secondaryMonitor}"
+        "9,monitor:${config.profileVars.secondaryMonitor}"
+        "10,monitor:${config.profileVars.secondaryMonitor}"
       ];
 
       windowrule = [

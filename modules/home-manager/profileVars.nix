@@ -17,6 +17,12 @@ in with lib; {
       description = "The primary monitor's name.";
     };
 
+    secondaryMonitor = mkOption {
+      default = "";
+      type = types.str;
+      description = "The secondary monitor's name.";
+    };
+
     network = {
       type = mkOption {
         default = "wired";

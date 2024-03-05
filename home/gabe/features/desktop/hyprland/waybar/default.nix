@@ -44,16 +44,16 @@
           "default" = "";
         };
         persistent-workspaces = {
-          "1" = [ "DP-1" ];
-          "2" = [ "DP-1" ];
-          "3" = [ "DP-1" ];
-          "4" = [ "DP-1" ];
-          "5" = [ "DP-1" ];
-          "6" = [ "DP-1" ];
-          "7" = [ "DP-2" ];
-          "8" = [ "DP-2" ];
-          "9" = [ "DP-2" ];
-          "10" = [ "DP-2" ];
+          "1" = [ "${config.profileVars.primaryMonitor}" ];
+          "2" = [ "${config.profileVars.primaryMonitor}" ];
+          "3" = [ "${config.profileVars.primaryMonitor}" ];
+          "4" = [ "${config.profileVars.primaryMonitor}" ];
+          "5" = [ "${config.profileVars.primaryMonitor}" ];
+          "6" = [ "${config.profileVars.primaryMonitor}" ];
+          "7" = [ "${config.profileVars.secondaryMonitor}" ];
+          "8" = [ "${config.profileVars.secondaryMonitor}" ];
+          "9" = [ "${config.profileVars.secondaryMonitor}" ];
+          "10" = [ "${config.profileVars.secondaryMonitor}" ];
         };
       };
 

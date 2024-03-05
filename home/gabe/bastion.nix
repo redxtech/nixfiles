@@ -13,7 +13,8 @@
   profileVars = {
     enable = true;
 
-    primaryMonitor = "DP-1";
+    primaryMonitor = "DisplayPort-0";
+    secondaryMonitor = "DisplayPort-1";
 
     network = {
       type = "wired";
@@ -45,12 +46,15 @@
 
   xsession.windowManager.bspwm = {
     monitors = {
-      "DP-1" = [ "shell" "www" "chat" "files" "five" "six" ];
-      "DP-2" = [ "r-www" "music" "video" "ten" ];
+      "${config.profileVars.primaryMonitor}" =
+        [ "shell" "www" "chat" "files" "five" "six" ];
+      "${config.profileVars.secondaryMonitor}" =
+        [ "r-www" "music" "video" "ten" ];
     };
 
-    startupPrograms =
-      [ "${pkgs.bspwm}/bin/bspc wm --reorder-monitors DP-1 DP-2" ];
+    startupPrograms = [
+      "${pkgs.bspwm}/bin/bspc wm --reorder-monitors ${config.profileVars.primaryMonitor} ${config.profileVars.secondaryMonitor}"
+    ];
   };
 
   services.polybar = with lib; {
@@ -65,7 +69,7 @@
           width height line-size offset bottom fixed-center wm-restack
           override-redirect enable-ipc background foreground cursor font;
 
-        monitor = "DP-2";
+        monitor = "${config.profileVars.secondaryMonitor}";
 
         modules = {
           left = concatStringsSep " " [ "bspwm" "margin" "polywins-secondary" ];
@@ -82,7 +86,8 @@
         inherit (config.services.polybar.settings."module/polywins")
           format label tail type;
 
-        exec = "${scripts.polywins}/bin/polywins DP-2";
+        exec =
+          "${scripts.polywins}/bin/polywins ${config.profileVars.secondaryMonitor}";
       };
     };
   };
@@ -107,28 +112,4 @@
         "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00*mono-chat*";
     }
   ];
-
-  # # rename wireplumber devices
-  # # TODO: add this to custom "desktop" module
-  # xdg.configFile."wireplumber/main.lua.d/51-alsa-rename.lua".text = ''
-  #   table.insert(alsa_monitor.rules, {
-  #     matches = { { { "node.name", "matches", "alsa_output.usb-Schiit_Audio_Schiit_Unison_Modi_Multi_2-00.*" } } },
-  #     apply_properties = { ["node.description"] = "Schiit Stack" },
-  #   })
-
-  #   table.insert(alsa_monitor.rules, {
-  #     matches = { { { "node.name", "matches", "alsa_output.pci-0000_2e_00*" } } },
-  #     apply_properties = { ["node.description"] = "Speakers" },
-  #   })
-
-  #   table.insert(alsa_monitor.rules, {
-  #     matches = { { { "node.name", "matches", "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00*stereo-game*" } } },
-  #     apply_properties = { ["node.description"] = "Arctis 7 Game" },
-  #   })
-
-  #   table.insert(alsa_monitor.rules, {
-  #     matches = { { { "node.name", "matches", "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00*mono-chat*" } } },
-  #     apply_properties = { ["node.description"] = "Arctis 7 Chat" },
-  #   })
-  # '';
 }

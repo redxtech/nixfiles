@@ -25,8 +25,8 @@
             handle() {
               case $1 in monitoradded*)
                 # reassign monitors
-                # hyprctl keyword "monitor" "DP-1,2560x1440,0x0,1"
-                # hyprctl keyword "monitor" "DP-2,2560x1440,2560x0,1"
+                # hyprctl keyword "monitor" "${config.profileVars.primaryMonitor},2560x1440,0x0,1"
+                # hyprctl keyword "monitor" "${config.profileVars.secondaryMonitor},2560x1440,2560x0,1"
 
                 # loop through workspaces for each monitor and move them to where they should be
                 for ws in 1 2 3 4 5 6; do
