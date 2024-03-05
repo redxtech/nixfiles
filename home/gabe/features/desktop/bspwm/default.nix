@@ -2,7 +2,6 @@
   imports = [
     ../common
 
-    ./autorandr.nix
     ./default-apps.nix
     ./dunst.nix
     ./picom.nix

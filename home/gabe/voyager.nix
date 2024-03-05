@@ -1,7 +1,7 @@
 { inputs, outputs, pkgs, lib, config, ... }:
 
 {
-  imports = [ ./global ./features/desktop/bspwm ];
+  imports = [ ./global ./laptop.nix ./features/desktop/bspwm ];
 
   colorscheme = inputs.nix-colors.colorSchemes.dracula;
 

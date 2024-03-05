@@ -3,6 +3,7 @@
 {
   imports = [
     ./global
+    ./desktop.nix
     ./features/desktop/bspwm
     # ./features/desktop/hyprland
     ./features/desktop/common/kdeconnect.nix
