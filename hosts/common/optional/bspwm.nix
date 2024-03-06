@@ -35,7 +35,7 @@
           autoSuspend = false;
         };
 
-        # defaultSession = "none+bspwm";
+        defaultSession = "none+bspwm";
       };
 
       windowManager.bspwm.enable = true;

@@ -6,66 +6,66 @@
       rules = [
         {
           window = "firefox-aurora:*:Library";
-          state = "floating";
+          flags.state = "floating";
         }
         {
           window = "discord";
-          workspace = "chat";
+          flags.workspace = "chat";
           flags.follow = false;
         }
         {
           window = "Spotify";
-          workspace = "music";
+          flags.workspace = "music";
         }
         {
           window = "obsidian";
-          state = "floating";
-          workspace = 4;
+          flags.state = "floating";
+          flags.workspace = 4;
         }
         {
           window = "Plex";
-          workspace = "video";
+          flags.workspace = "video";
         }
         {
           window = "plexmediaplayer";
-          workspace = "video";
+          flags.workspace = "video";
         }
         {
           window = "Slack";
-          state = "floating";
+          flags.state = "floating";
         }
         {
           window = "Element";
-          workspace = "chat";
+          flags.workspace = "chat";
           flags.follow = false;
         }
         {
           window = "Plexamp";
-          state = "floating";
+          flags.state = "floating";
         }
         {
           window = "Subl";
-          workspace = "*";
+          flags.workspace = "*";
         }
         {
           window = "flameshot";
-          state = "floating";
+          flags.state = "floating";
         }
         {
           window = "Blueman-manager";
-          state = "floating";
+          flags.state = "floating";
         }
         {
           window = "mpv:*:Webcam";
-          state = "floating";
+          flags.state = "floating";
         }
         {
           window = "mplayer2";
-          state = "floating";
+          flags.state = "floating";
         }
         {
           window = "Yad";
-          state = "floating";
+          flags.state = "floating";
         }
         {
           window = "Screenkey";
@@ -106,13 +106,19 @@
         "${blueman}/bin/blueman-applet"
         "${flameshot}/bin/flameshot"
         "${discord}/bin/discord"
-        "${spotifywm}/bin/spotifywm"
+        "${spotifywm}/bin/spotify"
         "${xfce.thunar}/bin/thunar --daemon"
-        "${obsidian}/bin/obsidian"
         "${solaar}/bin/solaar -w hide"
       ];
       runOnceNoF = [ "${variety}/bin/variety" ];
-      runFloat = [ "${kitty}/bin/kitty ${btop}/bin/btop" ];
+      runWithRule = [{
+        cmd = "${kitty}/bin/kitty ${btop}/bin/btop";
+        window = "kitty";
+        flags = {
+          state = "floating";
+          workspace = "r-www";
+        };
+      }];
       runDays = [{
         cmd = "${slack}/bin/slack";
         days = [ 0 1 2 3 4 ];

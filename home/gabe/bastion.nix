@@ -45,19 +45,6 @@
     ];
   };
 
-  xsession.windowManager.bspwm = {
-    monitors = {
-      "${config.profileVars.primaryMonitor}" =
-        [ "shell" "www" "chat" "files" "five" "six" ];
-      "${config.profileVars.secondaryMonitor}" =
-        [ "r-www" "music" "video" "ten" ];
-    };
-
-    startupPrograms = [
-      "${pkgs.bspwm}/bin/bspc wm --reorder-monitors ${config.profileVars.primaryMonitor} ${config.profileVars.secondaryMonitor}"
-    ];
-  };
-
   services.polybar = with lib; {
     script = ''
       polybar main &
