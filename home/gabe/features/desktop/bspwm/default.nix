@@ -49,14 +49,4 @@
       };
     };
   };
-
-  # window resizing data for jgmenu
-  xdg.configFile."bspwm/resize-aspect.csv".text =
-    let resize-aspect = pkgs.callPackage ./polybar/scripts/resize-aspect { };
-    in ''
-      16x9,${resize-aspect}/bin/resize-aspect 16 9
-      4x3,${resize-aspect}/bin/resize-aspect 4 3
-      21x9,${resize-aspect}/bin/resize-aspect 12 5
-      Balance,${pkgs.bspwm}/bin/bspc node @parent -r .5
-    '';
 }
