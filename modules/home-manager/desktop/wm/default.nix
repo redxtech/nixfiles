@@ -8,11 +8,11 @@ in with types; {
     ./bspwm
     # ./hyprland
 
+    ./binds.nix
     ./rules.nix
   ];
 
   # TODO:
-  # - binds: handle config for keybinds with the wm
   # - configure notif daemon
   # - set relavant polybar config ?
   # - configure autolocking
@@ -48,36 +48,6 @@ in with types; {
         default = 600;
         description = "The time in seconds before the screen is locked";
       };
-    };
-
-    # window manager specific keybinds
-    binds = mkOption {
-      type = listOf (submodule {
-        keys = mkOption {
-          type = str;
-          default = null;
-        };
-        command = mkOption {
-          type = str;
-          default = null;
-        };
-        description = mkOption {
-          type = str;
-          default = null;
-        };
-      });
-
-      default = [ ];
-
-      example = ''
-        [
-          {
-            keys = "Super + Return";
-            command = "kitty";
-            description = "Launch terminal";
-          }
-        ]
-      '';
     };
   };
 

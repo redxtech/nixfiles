@@ -10,8 +10,6 @@
   ];
 
   # TODO:
-  # - set up wm config
-  # - set up autostarted apps
   # - set up installed apps
 
   options.desktop = let inherit (lib) mkOption types;

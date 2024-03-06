@@ -8,6 +8,5 @@
     ./polybar
     ../rofi
     ./services.nix
-    ./sxhkd.nix
   ];
 }

@@ -13,6 +13,7 @@
     dolphin-emu
     jellyfin-media-player
     jellyfin-mpv-shim
+    kitty
     libreoffice
     multiviewer-for-f1
     neovide

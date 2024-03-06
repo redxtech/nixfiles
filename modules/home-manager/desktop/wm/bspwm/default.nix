@@ -2,11 +2,6 @@
 
 # TODO:
 # - merge global binds with bspwm binds
-# - merge global rules with bspwm rules
-# - configure bspwm monitors & desktops from wm config
-# - configure monitors with xrandr/autorandr
-# - reorder monitors with bspc
-# - assign bspwm settings with mkDefault
 
 let
   cfg = config.desktop;
@@ -44,11 +39,10 @@ in with lib; {
         fmtFlags flags
       } && ${cmd}";
 
-    # binds = cfg.wm.binds ++ cfgWM.binds;
-    # rules = cfg.wm.rules ++ cfgWM.rules;
-
     # in mkIf cfgWM.enable {
   in mkIf true {
+    home.packages = with pkgs; [ bspwm sxhkd ];
+
     xsession.enable = true;
 
     xsession.windowManager.bspwm = {
@@ -91,5 +85,32 @@ in with lib; {
         ++ (map runWithRule
           cfg.autostart.runWithRule); # autostart commands with rules
     };
+
+    services.sxhkd = let
+      entryToBind = { description, cmd, keys, ... }: (''
+        # ${description}
+        ${strings.concatMapStringsSep "\n" (bind: ''
+          ${bind}
+          	${cmd}'') keys}
+      '');
+
+      keybindingsStr =
+        strings.concatStringsSep "\n" (lists.map entryToBind cfg.wm.binds);
+    in {
+      enable = true;
+      extraConfig = ''
+        ${keybindingsStr}
+      '';
+    };
+
+    xdg.configFile."sxhkd/cheatcheet".text = let
+      entryToCheatSheet = { description, cmd, keys, ... }: (''
+        ${strings.concatMapStringsSep "\n"
+        (bind: "${bind} => ${description} => ${cmd}") keys}
+      '');
+
+      cheatsheetStr = strings.concatStringsSep "\n"
+        (lists.map entryToCheatSheet cfg.wm.binds);
+    in cheatsheetStr;
   };
 }
