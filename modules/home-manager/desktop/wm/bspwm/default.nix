@@ -70,6 +70,8 @@ in with lib; {
         focused_border_color = mkDefault "#6c71c4";
       };
 
+      rules = cfg.wm.rules;
+
       # some rules need to be set after the rest of the rules
       extraConfig = ''
         bspc rule -a 'firefox-aurora' --one-shot 'desktop=www'

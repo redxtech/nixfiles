@@ -6,7 +6,7 @@
     ./audio.nix
     ./autostart.nix
     ./monitors.nix
-    # ./wm
+    ./wm
   ];
 
   # TODO:

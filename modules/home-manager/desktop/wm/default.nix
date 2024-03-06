@@ -8,13 +8,11 @@ in with types; {
     ./bspwm
     # ./hyprland
 
-    # ./rules.nix
+    ./rules.nix
   ];
 
   # TODO:
-  # - autostart: handle config for autostarting apps with the wm
   # - binds: handle config for keybinds with the wm
-  # - rules: handle config for rules with the wm
   # - configure notif daemon
   # - set relavant polybar config ?
   # - configure autolocking

@@ -3,75 +3,34 @@
 {
   desktop = {
     wm = {
-      rules = [
-        {
-          window = "firefox-aurora:*:Library";
-          flags.state = "floating";
-        }
-        {
-          window = "discord";
-          flags.workspace = "chat";
-          flags.follow = false;
-        }
-        {
-          window = "Spotify";
-          flags.workspace = "music";
-        }
-        {
-          window = "obsidian";
-          flags.state = "floating";
-          flags.workspace = 4;
-        }
-        {
-          window = "Plex";
-          flags.workspace = "video";
-        }
-        {
-          window = "plexmediaplayer";
-          flags.workspace = "video";
-        }
-        {
-          window = "Slack";
-          flags.state = "floating";
-        }
-        {
-          window = "Element";
-          flags.workspace = "chat";
-          flags.follow = false;
-        }
-        {
-          window = "Plexamp";
-          flags.state = "floating";
-        }
-        {
-          window = "Subl";
-          flags.workspace = "*";
-        }
-        {
-          window = "flameshot";
-          flags.state = "floating";
-        }
-        {
-          window = "Blueman-manager";
-          flags.state = "floating";
-        }
-        {
-          window = "mpv:*:Webcam";
-          flags.state = "floating";
-        }
-        {
-          window = "mplayer2";
-          flags.state = "floating";
-        }
-        {
-          window = "Yad";
-          flags.state = "floating";
-        }
-        {
-          window = "Screenkey";
-          flags.manage = false;
-        }
-      ];
+      rules = {
+        "firefox-aurora:*:Library" = { state = "floating"; };
+        discord = {
+          desktop = "chat";
+          follow = false;
+        };
+        Spotify = { desktop = "music"; };
+        obsidian = {
+          desktop = "^4";
+          state = "floating";
+        };
+        Plex = { desktop = "video"; };
+        plexmediaplayer = { desktop = "video"; };
+        Slack = { state = "floating"; };
+        Element = {
+          desktop = "chat";
+          follow = false;
+        };
+        Plexamp = { state = "floating"; };
+        Subl = { desktop = "*"; };
+        flameshot = { state = "floating"; };
+        "Blueman-manager" = { state = "floating"; };
+        "mpv:*:Webcam" = { state = "floating"; };
+        "Kupfer.py" = { focus = true; };
+        mplayer2 = { state = "floating"; };
+        Screenkey = { manage = false; };
+        Yad = { state = "floating"; };
+      };
 
       binds = [
         {
