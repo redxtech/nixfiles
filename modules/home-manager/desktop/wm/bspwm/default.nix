@@ -8,6 +8,8 @@ let
   cfgWM = cfg.wm.bspwm;
   opt = options.desktop;
 in with lib; {
+  imports = [ ../xorg/dunst.nix ];
+
   options.desktop.wm.bspwm = {
     enable = mkEnableOption "enable bspwm config";
 
