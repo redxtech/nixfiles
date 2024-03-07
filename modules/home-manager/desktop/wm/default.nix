@@ -13,7 +13,6 @@ in with types; {
   ];
 
   # TODO:
-  # - configure notif daemon
   # - set relavant polybar config ?
   # - configure autolocking
   # - configure dpms
