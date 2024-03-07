@@ -3,14 +3,12 @@
 {
   imports = [
     # submodules
+    ./apps
     ./audio.nix
     ./autostart.nix
     ./monitors.nix
     ./wm
   ];
-
-  # TODO:
-  # - set up installed apps
 
   options.desktop = let inherit (lib) mkOption types;
   in {

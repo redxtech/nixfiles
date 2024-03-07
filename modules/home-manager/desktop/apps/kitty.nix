@@ -6,8 +6,8 @@
   programs.kitty = {
     enable = true;
 
+    # TODO: move to theme module
     theme = "Dracula";
-
     font = {
       name = "DankMono-Regular";
       size = 13;

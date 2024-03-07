@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./desktop-apps.nix
     # ./kdeconnect.nix
     ./services.nix
     ./theme.nix
