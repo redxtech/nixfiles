@@ -2,8 +2,8 @@
 
 let
   inherit (lib) mkOption types;
-  cfg = config.desktop.wm;
-in with types; {
+  cfg = config.desktop;
+in {
   imports = [
     ./bspwm
     # ./hyprland
@@ -17,7 +17,7 @@ in with types; {
   # - configure autolocking
   # - configure dpms
 
-  options.desktop.wm = {
+  options.desktop.wm = with types; {
     enable =
       lib.mkEnableOption "Enable the window manager configuration module";
 

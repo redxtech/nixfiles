@@ -1,6 +1,7 @@
 { inputs, pkgs, lib, config, ... }:
 
-{
+let cfg = config.desktop;
+in {
   options = let inherit (lib) mkOption types;
   in {
     desktop.audio = {
@@ -33,7 +34,7 @@
         apply_properties = { ["node.description"] = "${name}" },
       })
     '';
-  in {
+  in lib.mkIf cfg.enable {
     xdg.configFile."wireplumber/main.lua.d/51-alsa-rename.lua".text = ''
       ${lib.concatStringsSep "\n" (map mkDevice config.desktop.audio.devices)}
     '';

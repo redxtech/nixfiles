@@ -91,8 +91,7 @@ in with types; {
     };
   };
 
-  # config = lib.mkIf cfg.enable {
-  config = lib.mkIf true {
+  config = lib.mkIf cfg.enable {
     # assertions = [ ];
 
     desktop.autostart.processed = let

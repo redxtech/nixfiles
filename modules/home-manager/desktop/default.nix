@@ -1,6 +1,9 @@
 { inputs, pkgs, lib, config, ... }:
 
-{
+let
+  inherit (lib) mkIf mkOption;
+  cfg = config.desktop;
+in {
   imports = [
     # submodules
     ./apps
@@ -10,13 +13,12 @@
     ./wm
   ];
 
-  options.desktop = let inherit (lib) mkOption types;
-  in {
+  options.desktop = with lib.types; {
     enable = lib.mkEnableOption "Enable desktop configuration";
 
     network = {
       interface = mkOption {
-        type = types.str;
+        type = str;
         default = null;
         example = "enp39s0";
         description = ''
@@ -26,7 +28,7 @@
       };
 
       type = mkOption {
-        type = types.enum [ "wired" "wireless" ];
+        type = enum [ "wired" "wireless" ];
         default = null;
         description = ''
           The type of network interface.
@@ -35,5 +37,5 @@
     };
   };
 
-  # config = { };
+  # config = mkIf cfg.enable { };
 }

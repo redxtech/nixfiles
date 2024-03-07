@@ -98,11 +98,10 @@ in with types; {
     };
   };
 
-  # config = lib.mkIf cfg.enable {
   config = let
     inherit (lib) filter length;
     primaryMonitors = (filter (m: m.primary) cfg.monitors);
-  in lib.mkIf true {
+  in lib.mkIf cfg.enable {
     # ensure exactly one monitor is set to primary
     assertions = [{
       assertion = ((length cfg.monitors) != 0)

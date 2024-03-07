@@ -1,13 +1,13 @@
 { inputs, pkgs, lib, config, options, ... }:
 
 # TODO:
-# - merge global binds with bspwm binds
+# - merge global binds with bspwm binds (extract bspwm only binds to own config)
 
 let
   cfg = config.desktop;
   cfgWM = cfg.wm.bspwm;
   opt = options.desktop;
-in with lib; {
+in {
   imports = [
     ./picom.nix
 
@@ -15,7 +15,7 @@ in with lib; {
   ];
 
   options.desktop.wm.bspwm = {
-    enable = mkEnableOption "enable bspwm config";
+    enable = lib.mkEnableOption "enable bspwm config";
 
     binds = opt.wm.binds;
     autostart = opt.autostart.run;
@@ -23,7 +23,8 @@ in with lib; {
 
   config = let
     inherit (lib) mkDefault attrsToList;
-    inherit (builtins) listToAttrs map;
+    inherit (lib.string) concatStringsSep concatMapStringsSep;
+    inherit (builtins) listToAttrs map toString;
 
     foldWs = workspaces: (map (ws: ws.name) workspaces);
     mkMonitor = { name, workspaces, ... }: {
@@ -45,8 +46,7 @@ in with lib; {
         fmtFlags flags
       } && ${cmd}";
 
-    # in mkIf cfgWM.enable {
-  in mkIf true {
+  in lib.mkIf cfg.enable {
     home.packages = with pkgs; [ bspwm sxhkd ];
 
     xsession.enable = true;
@@ -95,13 +95,12 @@ in with lib; {
     services.sxhkd = let
       entryToBind = { description, cmd, keys, ... }: (''
         # ${description}
-        ${strings.concatMapStringsSep "\n" (bind: ''
+        ${concatMapStringsSep "\n" (bind: ''
           ${bind}
           	${cmd}'') keys}
       '');
 
-      keybindingsStr =
-        strings.concatStringsSep "\n" (lists.map entryToBind cfg.wm.binds);
+      keybindingsStr = concatStringsSep "\n" (map entryToBind cfg.wm.binds);
     in {
       enable = true;
       extraConfig = ''
@@ -111,12 +110,12 @@ in with lib; {
 
     xdg.configFile."sxhkd/cheatcheet".text = let
       entryToCheatSheet = { description, cmd, keys, ... }: (''
-        ${strings.concatMapStringsSep "\n"
-        (bind: "${bind} => ${description} => ${cmd}") keys}
+        ${concatMapStringsSep "\n" (bind: "${bind} => ${description} => ${cmd}")
+        keys}
       '');
 
-      cheatsheetStr = strings.concatStringsSep "\n"
-        (lists.map entryToCheatSheet cfg.wm.binds);
+      cheatsheetStr =
+        concatStringsSep "\n" (map entryToCheatSheet cfg.wm.binds);
     in cheatsheetStr;
   };
 }

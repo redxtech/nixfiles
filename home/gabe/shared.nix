@@ -2,6 +2,8 @@
 
 {
   desktop = {
+    enable = true;
+
     wm = {
       rules = {
         "firefox-aurora:*:Library" = { state = "floating"; };

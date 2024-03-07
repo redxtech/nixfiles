@@ -1,6 +1,6 @@
 { inputs, pkgs, lib, config, ... }:
 
-let cfg = config.desktop.wm;
+let cfg = config.desktop;
 in with lib; {
   options.desktop.wm.binds = with types;
     mkOption {
@@ -37,5 +37,9 @@ in with lib; {
       }];
     };
 
-  # TODO: assertions ?
+  config = mkIf cfg.enable {
+    # TODO: assertions
+
+    # assertions = [ ];
+  };
 }
