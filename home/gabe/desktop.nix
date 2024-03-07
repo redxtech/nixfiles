@@ -6,6 +6,18 @@
   desktop = {
     wm.wm = "bspwm";
 
+    isLaptop = false;
+
+    hardware = {
+      cpuTempPath =
+        "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp3_input";
+
+      network = {
+        type = "wired";
+        interface = "enp39s0";
+      };
+    };
+
     monitors = [
       {
         name = "DisplayPort-0";

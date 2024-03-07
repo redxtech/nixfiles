@@ -23,7 +23,7 @@ in {
 
   config = let
     inherit (lib) mkDefault attrsToList;
-    inherit (lib.string) concatStringsSep concatMapStringsSep;
+    inherit (lib.strings) concatStringsSep concatMapStringsSep;
     inherit (builtins) listToAttrs map toString;
 
     foldWs = workspaces: (map (ws: ws.name) workspaces);

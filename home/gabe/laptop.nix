@@ -6,6 +6,17 @@
   desktop = {
     wm.wm = "bspwm";
 
+    isLaptop = true;
+
+    hardware = {
+      cpuTempPath = "/sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input";
+
+      network = {
+        type = "wireless";
+        interface = "wlp59s0";
+      };
+    };
+
     monitors = [{
       name = "eDP-1";
       primary = true;
