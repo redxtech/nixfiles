@@ -9,7 +9,7 @@ let
   cfgWM = cfg.wm.bspwm;
   opt = options.desktop;
 in {
-  imports = [ ./dunst.nix ./picom.nix ];
+  imports = [ ./autolock.nix ./dunst.nix ./picom.nix ];
 
   options.desktop.wm.bspwm = {
     enable = lib.mkEnableOption "enable bspwm config";

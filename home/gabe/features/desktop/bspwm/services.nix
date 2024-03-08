@@ -5,26 +5,6 @@
     caffeine = { enable = false; };
 
     clipman = { enable = false; };
-
-    xidlehook = {
-      enable = true;
-
-      detect-sleep = true;
-      not-when-audio = true;
-      not-when-fullscreen = true;
-
-      timers = [
-        {
-          delay = 600;
-          command =
-            "${pkgs.betterlockscreen}/bin/betterlockscreen --lock dimblur";
-        }
-        {
-          delay = 300;
-          command = "${pkgs.xorg.xset}/bin/xset dpms force off";
-        }
-      ];
-    };
   };
 
   systemd.user.services = {
