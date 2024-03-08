@@ -5,7 +5,7 @@ with pkgs;
 with lib;
 writeShellApplication {
   name = "rofi-clipboard";
-  runtimeInputs = [ gnome.gpaste rofi ];
+  runtimeInputs = [ coreutils gnome.gpaste rofi ];
 
   text = builtins.readFile ./rofi-clipboard.sh;
 }

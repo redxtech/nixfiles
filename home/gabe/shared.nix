@@ -151,12 +151,12 @@
             cmd = "${bspwm}/bin/bspc node -f @{parent,brother,first,second}";
             keys = [ "super + {p,b,comma,period}" ];
           }
-          {
-            description =
-              "focus the {next,previous} node in the current desktop";
-            cmd = "${bspwm}/bin/bspc node -f {next,prev}.local.!hidden.window";
-            keys = [ "super + {_,shift + }c" ];
-          }
+          # {
+          #   description =
+          #     "focus the {next,previous} node in the current desktop";
+          #   cmd = "${bspwm}/bin/bspc node -f {next,prev}.local.!hidden.window";
+          #   keys = [ "super + {_,shift + }c" ];
+          # }
           {
             description =
               "focus the {next,previous} desktop in the current monitor";
