@@ -227,13 +227,12 @@
           }
           # multimedia keys
           {
-            description = "${
-                bin playerctl
-              } {play/pause,skip,prev} {spotify,chromium,mpv,general}";
+            description =
+              "playerctl {play/pause,skip,prev} {spotify,firefox,mpv,general}";
             cmd = ''
               ${
                 bin playerctl
-              } --player={spotify,chromium,mpv,""} {play-pause,next,previous}'';
+              } --player={spotify,firefox,mpv,""} {play-pause,next,previous}'';
             keys = [ "{_,shift,ctrl,alt} + XF86Audio{Play,Next,Prev}" ];
           }
           {

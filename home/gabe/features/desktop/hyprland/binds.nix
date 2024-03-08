@@ -102,7 +102,8 @@
       bindl = let
         pctl = "${playerctl}/bin/playerctl";
         spot = "${pctl} --player=$music";
-        chrome = "${pctl} --player=chromium";
+        # chrome = "${pctl} --player=chromium";
+        firefox = "${pctl} --player=firefox";
         mpv = "${pctl} --player=mpv";
         wp = "${wireplumber}/bin/wpctl";
         volume = ''${wp} set-volume "@DEFAULT_AUDIO_SINK@"'';
@@ -113,9 +114,9 @@
         ", XF86AudioNext, exec, ${spot} --next"
         ", XF86AudioPrev, exec, ${spot} --previous"
 
-        "SHIFT, XF86AudioPlay, exec, ${chrome} --play-pause"
-        "SHIFT, XF86AudioNext, exec, ${chrome} --next"
-        "SHIFT, XF86AudioPrev, exec, ${chrome} --previous"
+        "SHIFT, XF86AudioPlay, exec, ${firefox} --play-pause"
+        "SHIFT, XF86AudioNext, exec, ${firefox} --next"
+        "SHIFT, XF86AudioPrev, exec, ${firefox} --previous"
 
         "ALT, XF86AudioPlay, exec, ${mpv} --play-pause"
         "ALT, XF86AudioNext, exec, ${mpv} --next"
