@@ -368,6 +368,19 @@ in {
         ports = [ (mkPort cfg.ports.startpage 3000) ];
       };
 
+      syncthing = {
+        image = "lscr.io/linuxserver/syncthing:latest";
+        environment = defaultEnv;
+        labels = mkLabelsPort "syncthing" cfg.ports.syncthing;
+        ports = [
+          (mkPorts cfg.ports.syncthing)
+          "22000:22000/tcp"
+          "22000:22000/udp"
+          "21027:21027/udp"
+        ];
+        volumes = [ (mkConf "syncthing") (mkData "syncthing") ];
+      };
+
       tautulli = {
         image = "lscr.io/linuxserver/tautulli:latest";
         labels = mkLabels "tautulli";

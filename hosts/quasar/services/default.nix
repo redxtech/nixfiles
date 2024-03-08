@@ -39,6 +39,7 @@ in {
     qdirstat = 9030;
     radarr = 7878;
     startpage = 9009;
+    syncthing = 8384;
     sonarr = 8989;
     tautulli = 8181;
     uptime-kuma = 3001;

@@ -80,6 +80,11 @@
     };
   };
 
+  services.syncthing = {
+    enable = true;
+    tray = true;
+  };
+
   desktop.audio.devices = [
     {
       name = "Schiit Stack";
