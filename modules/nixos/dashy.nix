@@ -43,6 +43,7 @@ in {
     users.groups."${cfg.group}" = { };
     systemd.services.dashy = {
       after = [ "network-online.target" ];
+      requires = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
       preStart = ''
         mkdir -p ${cfg.dataDir}/public

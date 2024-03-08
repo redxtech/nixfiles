@@ -80,10 +80,7 @@
     };
   };
 
-  services.syncthing = {
-    enable = true;
-    tray = true;
-  };
+  services.syncthing.enable = true;
 
   desktop.audio.devices = [
     {
