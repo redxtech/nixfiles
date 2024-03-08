@@ -72,20 +72,6 @@
 
     services.playerctld = { enable = true; };
 
-    xdg.configFile."variety/set_wp.sh" = {
-      text = let
-        set_wp = pkgs.writeShellApplication {
-          name = "set_wp";
-          runtimeInputs = with pkgs; [ betterlockscreen coreutils feh glib ];
-
-          text = ./scripts/set_wp.sh;
-        };
-      in ''
-        ${set_wp}/bin/set_wp "$@"
-      '';
-      executable = true;
-    };
-
     # virt-manager autoconnect
     dconf.settings = {
       "org/virt-manager/virt-manager/connections" = {

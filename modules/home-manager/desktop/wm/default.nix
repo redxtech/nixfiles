@@ -10,6 +10,7 @@ in {
 
     ./binds.nix
     ./rules.nix
+    ./wallpaper.nix
   ];
 
   # TODO:

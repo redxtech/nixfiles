@@ -19,13 +19,6 @@ in with types; {
       description = "List of programs to run once at wm startup";
       example = [ "picom" "nm-applet" "blueman-applet" ];
     };
-    runOnceNoF = mkOption {
-      type = listOf str;
-      default = [ ];
-      description =
-        "List of programs to run once without using pgrep's -f flag";
-      example = [ "variety" ];
-    };
     runWithRule = mkOption {
       type = listOf (submodule {
         options = {
@@ -99,7 +92,6 @@ in with types; {
       inherit (lib) head splitString concatStringsSep;
 
       runOnce = cmd: "! pgrep -f ${head (splitString " " cmd)} && ${cmd}";
-      runOnceNoF = cmd: "! pgrep ${head (splitString " " cmd)} && ${cmd}";
       joinDays = days: sep: concatStringsSep sep (map toString days);
       runDays = { cmd, days }:
         "${pkgs.writeShellScript "run-${cmd}-on-${joinDays days "-"}" ''
@@ -115,7 +107,6 @@ in with types; {
       auto = cfg.autostart;
     in (auto.run # normal autostart
       ++ (map runOnce auto.runOnce) # run once
-      ++ (map runOnceNoF auto.runOnceNoF) # run once without pgrep -f
       ++ (map runDays auto.runDays) # run on specific days
     );
   };

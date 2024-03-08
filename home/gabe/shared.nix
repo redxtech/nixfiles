@@ -334,7 +334,6 @@
         "${xfce.thunar}/bin/thunar --daemon"
         "${solaar}/bin/solaar -w hide"
       ];
-      runOnceNoF = [ "${variety}/bin/variety" ];
       runWithRule = [{
         cmd = "${kitty}/bin/kitty ${btop}/bin/btop";
         window = "kitty";
