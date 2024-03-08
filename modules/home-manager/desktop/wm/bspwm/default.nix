@@ -2,17 +2,14 @@
 
 # TODO:
 # - merge global binds with bspwm binds (extract bspwm only binds to own config)
+# - guard all config with mkIf cfg.bspwm.enable option (or similar)
 
 let
   cfg = config.desktop;
   cfgWM = cfg.wm.bspwm;
   opt = options.desktop;
 in {
-  imports = [
-    ./picom.nix
-
-    ../xorg/dunst.nix
-  ];
+  imports = [ ./dunst.nix ./picom.nix ];
 
   options.desktop.wm.bspwm = {
     enable = lib.mkEnableOption "enable bspwm config";
