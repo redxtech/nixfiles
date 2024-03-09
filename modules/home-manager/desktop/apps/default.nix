@@ -1,6 +1,7 @@
 { inputs, pkgs, lib, config, ... }:
 
-{
+let cfg = config.desktop;
+in {
   imports = [
     inputs.nix-flatpak.homeManagerModules.nix-flatpak
     ./firefox
@@ -27,7 +28,7 @@
     };
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     home.packages = with pkgs;
       [
         arandr # TODO: move to xorg config
