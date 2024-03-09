@@ -14,6 +14,9 @@
     hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
     hyprland-plugins.inputs.hyprland.follows = "hyprland";
 
+    cachix-deploy-flake.url = "github:cachix/cachix-deploy-flake";
+    cachix-deploy-flake.inputs.home-manager.follows = "home-manager";
+
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -31,7 +34,6 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
     devenv.url = "github:cachix/devenv";
     fh.url = "github:DeterminateSystems/fh";
     hardware.url = "github:nixos/nixos-hardware";
@@ -128,6 +130,23 @@
         #   pkgs = pkgsFor.aarch64-linux;
         #   extraSpecialArgs = { inherit inputs outputs; };
         # };
+      };
+
+      defaultPackage = let
+        cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgsFor.x86_64-linux;
+      in cachix-deploy-lib.spec {
+        agents = {
+          voyager = cachix-deploy-lib.nixos {
+            modules = [ ./hosts/voyager ];
+            # pkgs = pkgsFor.x86_64-linux;
+            specialArgs = { inherit inputs outputs; };
+          };
+          deck = cachix-deploy-lib.homeManager { } ({
+            modules = [ ./home/gabe/deck.nix ];
+            pkgs = pkgsFor.x86_64-linux;
+            extraSpecialArgs = { inherit inputs outputs; };
+          });
+        };
       };
     };
 }
