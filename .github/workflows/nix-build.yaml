@@ -41,8 +41,8 @@ jobs:
           # If you chose API tokens for write access OR if you have a private cache
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - run: |
-          mkdir -pv /var/home/gabe/.ssh
-          echo $SOPS_ACTIONS_KEY >> /var/home/gabe/.ssh/id_ed25519
+          mkdir -pv /home/gabe/.ssh
+          echo $SOPS_ACTIONS_KEY >> /home/gabe/.ssh/id_ed25519
       - run: nix build '.#homeConfigurations."gabe@deck".activationPackage' --print-build-logs
       - run: nix-shell --run "echo OK"
 

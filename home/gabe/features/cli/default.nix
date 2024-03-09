@@ -150,10 +150,11 @@ with lib; {
 
       # home manager
       hm = "home-manager --flake $FLAKE";
-      hms = "${hm} switch";
-      hmsb = "${hms} -b backup";
+      hmsb = "${hm} switch -b backup";
       hmb = "${hm} build";
       hmn = "${hm} news";
+
+      hms = "${pkgs.nh}/bin/nh home switch";
 
       # replacements
       cat = mkIf (hasPackage "bat") "bat";
