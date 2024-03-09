@@ -28,11 +28,11 @@ in with types; {
           };
           height = mkOption {
             type = int;
-            example = 1080;
+            default = 1080;
           };
           width = mkOption {
             type = int;
-            example = 1920;
+            default = 1920;
           };
           rate = mkOption {
             type = int;
