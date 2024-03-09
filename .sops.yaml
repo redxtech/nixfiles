@@ -2,6 +2,7 @@ keys:
   # users
   - &users:
     - &gabe age1yscg86yrkxlt6xj4gnmw5l98xwajwph36ye2u5ltfyts3h6kh9dqcs83zj
+    - &gha_flake age1k8v5vq6uv8vjh6alyrzd6y44fq8l8exkqp4es5seef5muqauv5hqkcgk29
   # hosts
   - &hosts:
     - &bastion age1wdy8dlkhxmxgqqfzjqg9e2jz40qkmp9pkvshzxvzz8ytwa255eqqnl2fcs
@@ -41,3 +42,4 @@ creation_rules:
     key_groups:
       - age:
           - *gabe
+          - *gha_flake
