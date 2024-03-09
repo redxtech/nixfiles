@@ -42,12 +42,6 @@
       };
     };
 
-    # modmap for single key rebinds
-    xremap.config.modmap = [{
-      name = "Global";
-      remap = { "CapsLock" = "SUPER_L"; };
-    }];
-
     geoclue2.enable = true;
     gvfs.enable = true;
     tumbler.enable = true;

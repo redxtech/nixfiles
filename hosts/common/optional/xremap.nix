@@ -7,7 +7,7 @@
     withX11 = true;
     config.modmap = [{
       name = "Global";
-      remap = { "CapsLock" = "Super"; }; # globally remap CapsLock to Esc
+      remap = { "CapsLock" = "SUPER_L"; };
     }];
   };
 }

@@ -41,14 +41,6 @@
     ];
   };
 
-  # desktop layout
-  xsession.windowManager.bspwm = {
-    monitors = {
-      "${config.profileVars.primaryMonitor}" =
-        [ "shell" "www" "chat" "music" "files" "video" ];
-    };
-  };
-
   # laptop only polybar stuff
   services.polybar = {
     script = ''
