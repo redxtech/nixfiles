@@ -7,6 +7,7 @@
     ./hardware-configuration.nix
     ./filesystem.nix
     ./services.nix
+    ./cachix.nix
 
     ../common/global
     ../common/users/root

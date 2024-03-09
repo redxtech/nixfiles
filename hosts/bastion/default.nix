@@ -10,7 +10,7 @@
     ./hardware-configuration.nix
     ./filesystem.nix
     ./services.nix
-    # ./backup.nix
+    ./cachix.nix
 
     ../common/global
     ../common/global/auto-upgrade.nix
