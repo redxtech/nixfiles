@@ -46,12 +46,24 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  # passwordless sudo for ps_mem
+  # passwordless sudo for some commands
   security.sudo = {
     enable = true;
 
-    extraRules = [{
-      commands = [
+    extraRules = let
+      mkRule = pkg: cmd: rules: [
+        {
+          command = "${pkg}/bin/${cmd}";
+          options = rules;
+        }
+        {
+          command = "/run/current-system/sw/bin/${cmd}";
+          options = rules;
+        }
+      ];
+      mkNoPwd = pkg: cmd: mkRule pkg cmd [ "NOPASSWD" ];
+    in [{
+      commands = (mkNoPwd pkgs.unixtools.fdisk "fdisk -l") ++ [
         {
           command = "${pkgs.ps_mem}/bin/ps_mem";
           options = [ "NOPASSWD" ];
