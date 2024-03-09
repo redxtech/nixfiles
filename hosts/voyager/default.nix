@@ -52,13 +52,6 @@
     kdeconnect.enable = false;
   };
 
-  backup = {
-    btrfs = {
-      enable = true;
-      subvolumes = { gabe-home = "/home/gabe"; };
-    };
-  };
-
   # virtualisation.docker.storageDriver = "btrfs";
 
   networking.networkmanager.enable = true;
