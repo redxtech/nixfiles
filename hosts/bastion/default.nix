@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ inputs, pkgs, config, ... }:
 
 {
   imports = [
@@ -55,6 +55,13 @@
     kdeconnect.enable = true;
     solaar.enable = true;
     nix-ld.enable = true;
+  };
+
+  backup = {
+    btrfs = {
+      enable = true;
+      subvolumes = { gabe-home = "/home/gabe"; };
+    };
   };
 
   virtualisation.docker.storageDriver = "btrfs";

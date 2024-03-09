@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ inputs, pkgs, config, ... }:
 
 {
   imports = [
@@ -41,6 +41,14 @@
     enable = true;
     domain = "nas.gabedunn.dev";
     paths.config = "/config/pods";
+  };
+
+  backup = {
+    rsync = {
+      enable = true;
+      paths = [ "/config" ];
+      destination = "rsync:/backups/${config.networking.hostName}";
+    };
   };
 
   networking.networkmanager.enable = true;
