@@ -25,6 +25,7 @@ in {
       "voyager" = mkDevice "voyager";
       "quasar" = mkDevice "quasar";
       "rock-hard" = mkDevice "rock-hard";
+      "deck" = mkDevice "deck";
       "sb" = {
         user = "redxtech";
         identityFile = identityFile;

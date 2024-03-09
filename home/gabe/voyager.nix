@@ -3,8 +3,6 @@
 {
   imports = [ ./global ./laptop.nix ./features/desktop/bspwm ];
 
-  colorscheme = inputs.nix-colors.colorSchemes.dracula;
-
   profileVars = {
     enable = true;
 

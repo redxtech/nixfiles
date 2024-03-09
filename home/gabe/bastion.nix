@@ -9,8 +9,6 @@
     ./features/desktop/common/kdeconnect.nix
   ];
 
-  colorscheme = inputs.nix-colors.colorschemes.dracula;
-
   profileVars = {
     enable = true;
 

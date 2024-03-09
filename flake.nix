@@ -118,6 +118,11 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
         };
+        "gabe@deck" = lib.homeManagerConfiguration {
+          modules = [ ./home/gabe/deck.nix ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+        };
         # "gabe@gizmo" = lib.homeManagerConfiguration {
         #   modules = [ ./home/gabe/gizmo.nix ];
         #   pkgs = pkgsFor.aarch64-linux;

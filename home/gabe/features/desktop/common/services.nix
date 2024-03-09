@@ -22,7 +22,7 @@
     };
 
     spotifyd = {
-      enable = true;
+      enable = false;
 
       settings = {
         global = {
