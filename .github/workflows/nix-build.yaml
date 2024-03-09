@@ -28,9 +28,6 @@ jobs:
   # system & home configurations
   home-deck:
     runs-on: ubuntu-latest
-    container:
-      image: ubuntu-latest
-      options: "--user gabe"
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v25
