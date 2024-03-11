@@ -17,7 +17,7 @@
     in rec {
       nrs = "${nr} switch";
       nru = "${nrs} --ask --update";
-      snrs = "sudo nixos-rebuild --flake $FLAKE --switch";
+      snrs = "sudo nixos-rebuild --flake $FLAKE switch";
 
       hms = "${hm} switch";
       hmsu = "${hms} --ask --update";

@@ -49,6 +49,7 @@ with lib; {
       # ltex-ls # spell checking LSP
       lsb-release # get distro info
       lyrics # lyrics in terminal
+      manix # nix documentation tool
       mediainfo # media info
       micro # editor
       navi # cheatsheet
