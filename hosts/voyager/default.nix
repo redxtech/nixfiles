@@ -33,59 +33,19 @@
 
   ];
 
-  networking.hostName = "voyager";
-
-  time.timeZone = "America/Vancouver";
-
-  boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    binfmt.emulatedSystems = [
-      "aarch64-linux"
-      # "i686-linux" 
-      "x86_64-windows"
-    ];
+  base = {
+    enable = true;
+    hostname = "voyager";
+    tz = "America/Vancouver";
   };
 
-  programs = {
-    adb.enable = true;
-    dconf.enable = true;
-    kdeconnect.enable = false;
+  desktop = {
+    enable = true;
+    isLaptop = true;
+    useZen = true;
   };
 
   # virtualisation.docker.storageDriver = "btrfs";
-
-  networking.networkmanager.enable = true;
-
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
-
-  services.printing.enable = true;
-
-  hardware = { opengl.enable = true; };
-
-  services.touchegg.enable = true;
-
-  # dbus packages
-  services.dbus.packages = with pkgs; [ python310Packages.dbus-python ];
-
-  # ensure gnome settings daemon is running
-  services.udev = {
-    packages = with pkgs; [ gnome.gnome-settings-daemon ];
-    # udev rules for moonlander flashing
-    extraRules = ''
-      # rules for allowing users in the video group to change the backlight brightness
-      ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness"
-      ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/%k/brightness"
-
-      # Rules for Oryx web flashing and live training
-      KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
-      KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
-
-      # Wally Flashing rules for the Moonlander and Planck EZ
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11",     MODE:="0666",     SYMLINK+="stm32_dfu"
-    '';
-  };
 
   system.stateVersion = "22.11";
 }

@@ -1,0 +1,111 @@
+{ inputs, pkgs, lib, config, ... }:
+
+let
+  cfg = config.desktop;
+  inherit (lib) mkIf mkOption mkEnableOption;
+in {
+  imports = [ inputs.solaar.nixosModules.default ];
+
+  options.desktop = with lib.types; {
+    enable = mkEnableOption "Enable the desktop environment module.";
+
+    isLaptop = mkOption {
+      type = bool;
+      default = false;
+      description = "Enable laptop-specific settings.";
+    };
+
+    useZen = mkOption {
+      type = bool;
+      default = false;
+      description = "Use the zen kernel.";
+    };
+
+    useSolaar = mkOption {
+      type = bool;
+      default = true;
+      description = "Install the Solaar package for Logitech devices.";
+    };
+  };
+
+  config = let inherit (lib) concatStringsSep mkDefault optional;
+
+  in mkIf cfg.enable {
+    # use zen kernel if enabled
+    boot.kernelPackages = mkIf cfg.useZen pkgs.linuxKernel.packages.linux_zen;
+
+    # solaar config
+    programs.solaar.enable = mkDefault cfg.useSolaar;
+
+    # defaults
+    programs.adb.enable = mkDefault true;
+    programs.dconf.enable = mkDefault true;
+    programs.kdeconnect.enable = mkDefault true;
+    programs.nix-ld.enable = mkDefault true;
+    hardware.bluetooth.enable = mkDefault true;
+    hardware.bluetooth.powerOnBoot = mkDefault true;
+    services.blueman.enable = mkDefault true;
+    services.printing.enable = mkDefault true;
+    services.hardware.openrgb.enable = mkDefault true;
+    hardware.opengl.enable = mkDefault true;
+    services.touchegg.enable = mkDefault cfg.isLaptop;
+
+    # dbus packages
+    services.dbus.packages = with pkgs; [ python310Packages.dbus-python ];
+
+    # udev
+    services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+    services.udev.extraRules = concatStringsSep "\n" ([
+      # rules for allowing users in the video group to change the backlight brightness
+      ''
+        ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness"
+        ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/%k/brightness"
+      ''
+
+      # rule for via firmware flashing
+      ''
+        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+      ''
+
+      # rules for oryx web flashing and live training
+      ''
+        KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
+        KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
+      ''
+      # wally flashing rule for the moonlander and planck ez
+      ''
+        SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11",     MODE:="0666",     SYMLINK+="stm32_dfu"
+      ''
+
+      # rules for lossless adapter
+      ''
+        SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="0337", MODE="0666"
+        SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="102b", MODE="0666"
+      ''
+    ] ++ (optional cfg.useSolaar ''
+      # allows non-root users to have raw access to logitech devices.
+      KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
+
+      ACTION != "add", GOTO="solaar_end"
+      SUBSYSTEM != "hidraw", GOTO="solaar_end"
+
+      ATTRS{idVendor}=="046d", GOTO="solaar_apply" # usb-connected logitech receivers and devices
+
+      ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="6042", GOTO="solaar_apply" # lenovo nano receiver
+
+      KERNELS == "0005:046D:*", GOTO="solaar_apply" # bluetooth-connected Logitech devices
+
+      GOTO="solaar_end"
+
+      LABEL="solaar_apply"
+
+      # allow any seated user to access the receiver.
+      # uaccess: modern ACL-enabled udev
+      TAG+="uaccess"
+
+      # grant members of the "plugdev" group access to receiver (useful for SSH users)
+      MODE="0660", GROUP="plugdev"
+      LABEL="solaar_end"
+    ''));
+  };
+}
