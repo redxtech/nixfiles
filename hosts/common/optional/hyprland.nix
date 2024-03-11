@@ -1,8 +1,6 @@
 { inputs, pkgs, ... }:
 
 {
-  imports = [ inputs.xremap-flake.nixosModules.default ];
-
   environment.systemPackages = with pkgs; [
     dunst
     feh

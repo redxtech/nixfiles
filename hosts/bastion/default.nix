@@ -37,7 +37,7 @@
     ../common/optional/systemd-boot.nix
     ../common/optional/theme.nix
     ../common/optional/virtualization.nix
-    # ../common/optional/xremap.nix
+    ../common/optional/xremap.nix
   ];
 
   networking.hostName = "bastion";
