@@ -66,6 +66,7 @@ in {
     environment.systemPackages =
       let py-pkgs = ps: with ps; [ dbus-python pygobject3 requests ];
       in with pkgs; [
+        btrfs-progs
         curl
         file
         gcc
@@ -99,6 +100,7 @@ in {
     # defaults
     networking.networkmanager.enable = mkDefault true;
     hardware.enableRedistributableFirmware = mkDefault true;
+    services.btrfs.autoScrub.enable = mkDefault true;
     i18n.defaultLocale = mkDefault "en_CA.UTF-8";
     i18n.supportedLocales =
       mkDefault [ "en_CA.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
@@ -111,7 +113,7 @@ in {
           configurationLimit = mkDefault 2;
           consoleMode = "max";
         };
-        loader.timeout = mkDefault 1;
+        timeout = mkDefault 1;
         efi.canTouchEfiVariables = true;
       };
 
@@ -130,6 +132,7 @@ in {
         "vt.global_cursor_default=0"
       ];
 
+      supportedFilesystems = [ "btrfs" ];
       consoleLogLevel = 0;
       initrd.verbose = false;
     };

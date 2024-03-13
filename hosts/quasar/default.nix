@@ -16,7 +16,6 @@
     ../common/users/root
     ../common/users/gabe
 
-    ../common/optional/btrfs.nix
     ../common/optional/gnome.nix
     # ../common/optional/rdp.nix
     ../common/optional/zfs.nix
