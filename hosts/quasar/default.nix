@@ -10,7 +10,6 @@
     ./filesystem.nix
 
     ./services
-    ./acme.nix
 
     ../common/global
     ../common/users/root
@@ -46,18 +45,18 @@
     };
   };
 
-  networking.networkmanager.enable = true;
+  # acme
+  security.acme = {
+    acceptTerms = true;
+    defaults = {
+      email = "gabe+acme@sent.at";
+      dnsResolver = "1.1.1.1:53";
+      dnsProvider = "cloudflare";
+      environmentFile = config.sops.secrets."cloudflare_acme".path;
+    };
+  };
 
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-
-  hardware = { opengl.enable = true; };
-
-  # dbus packages
-  services.dbus.packages = with pkgs; [ python310Packages.dbus-python ];
-
-  # ensure gnome settings daemon is running
-  services.udev = { packages = with pkgs; [ gnome.gnome-settings-daemon ]; };
+  sops.secrets."cloudflare_acme".sopsFile = ./secrets.yaml;
 
   system.stateVersion = "23.11";
 }

@@ -6,6 +6,7 @@
 
     ./hardware-configuration.nix
     ./filesystem.nix
+
     ./services.nix
     ./cachix.nix
 

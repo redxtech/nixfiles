@@ -171,35 +171,43 @@ in {
     };
 
     # defaults
-    programs.adb.enable = mkDefault true;
-    programs.dconf.enable = mkDefault true;
-    programs.gnupg.agent.enable = true;
-    programs.kdeconnect.enable = mkDefault true;
-    programs.nix-ld.enable = mkDefault true;
-    programs.partition-manager.enable = true;
-    programs.xfconf.enable = mkDefault true;
-    services.blueman.enable = mkDefault true;
-    services.hardware.openrgb.enable = mkDefault true;
-    services.printing.enable = mkDefault true;
-    services.ratbagd.enable = mkDefault true;
-    services.touchegg.enable = mkDefault cfg.isLaptop;
-    services.tumbler.enable = mkDefault true;
-    hardware.bluetooth.enable = mkDefault true;
-    hardware.bluetooth.powerOnBoot = mkDefault true;
-    hardware.logitech.wireless.enable = mkDefault true;
-    hardware.logitech.wireless.enableGraphical = mkDefault true;
-    hardware.opengl.enable = mkDefault true;
+    programs = {
+      adb.enable = mkDefault true;
+      dconf.enable = mkDefault true;
+      gnupg.agent.enable = true;
+      kdeconnect.enable = mkDefault true;
+      nix-ld.enable = mkDefault true;
+      partition-manager.enable = true;
+      xfconf.enable = mkDefault true;
+    };
+
+    services = {
+      blueman.enable = mkDefault true;
+      hardware.openrgb.enable = mkDefault true;
+      printing.enable = mkDefault true;
+      ratbagd.enable = mkDefault true;
+      touchegg.enable = mkDefault cfg.isLaptop;
+      tumbler.enable = mkDefault true;
+    };
+
+    hardware = {
+      bluetooth.enable = mkDefault true;
+      bluetooth.powerOnBoot = mkDefault true;
+      logitech.wireless.enable = mkDefault true;
+      logitech.wireless.enableGraphical = mkDefault true;
+      opengl.enable = mkDefault true;
+    };
 
     # audio config (pipewire)
-    sound.enable = true;
-    security.rtkit.enable = true;
-    hardware.pulseaudio.enable = false;
+    sound.enable = mkDefault true;
+    security.rtkit.enable = mkDefault true;
+    hardware.pulseaudio.enable = mkDefault false;
 
     services.pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
+      enable = mkDefault true;
+      alsa.enable = mkDefault true;
+      alsa.support32Bit = mkDefault true;
+      pulse.enable = mkDefault true;
       # jack.enable = true;
     };
 
