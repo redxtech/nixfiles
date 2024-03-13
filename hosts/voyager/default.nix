@@ -12,8 +12,6 @@
     ../common/global
     ../common/users/root
     ../common/users/gabe
-
-    ../common/optional/bspwm.nix
   ];
 
   base = {
@@ -26,6 +24,7 @@
     enable = true;
     isLaptop = true;
     useZen = true;
+    wm = "bspwm";
 
     gaming = {
       enable = true;

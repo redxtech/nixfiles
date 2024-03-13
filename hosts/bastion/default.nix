@@ -15,8 +15,6 @@
     ../common/users/root
     ../common/users/gabe
 
-    ../common/optional/bspwm.nix
-    ../common/optional/hyprland.nix
     # ../common/optional/rdp.nix
   ];
 
@@ -30,6 +28,7 @@
   desktop = {
     enable = true;
     useZen = true;
+    wm = "bspwm";
 
     gaming = {
       enable = true;

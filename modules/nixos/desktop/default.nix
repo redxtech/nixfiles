@@ -8,7 +8,9 @@ in {
     inputs.solaar.nixosModules.default
     inputs.xremap-flake.nixosModules.default
 
+    ./dm.nix
     ./gaming.nix
+    ./wm.nix
   ];
 
   options.desktop = with lib.types; {
@@ -180,6 +182,7 @@ in {
     services.printing.enable = mkDefault true;
     services.ratbagd.enable = mkDefault true;
     services.touchegg.enable = mkDefault cfg.isLaptop;
+    services.tumbler.enable = mkDefault true;
     hardware.bluetooth.enable = mkDefault true;
     hardware.bluetooth.powerOnBoot = mkDefault true;
     hardware.logitech.wireless.enable = mkDefault true;

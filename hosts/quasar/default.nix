@@ -16,7 +16,6 @@
     ../common/users/root
     ../common/users/gabe
 
-    ../common/optional/gnome.nix
     # ../common/optional/rdp.nix
   ];
 
@@ -30,7 +29,10 @@
     fs.zfs = true;
   };
 
-  desktop = { enable = true; };
+  desktop = {
+    enable = true;
+    wm = "gnome";
+  };
 
   nas = {
     enable = true;
