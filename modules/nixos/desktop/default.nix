@@ -50,6 +50,11 @@ in {
     hardware.opengl.enable = mkDefault true;
     services.touchegg.enable = mkDefault cfg.isLaptop;
 
+    # fix for qt6 plugins
+    environment.profileRelativeSessionVariables = {
+      QT_PLUGIN_PATH = mkDefault [ "/lib/qt-6/plugins" ];
+    };
+
     # dbus packages
     services.dbus.packages = with pkgs; [ python310Packages.dbus-python ];
 
