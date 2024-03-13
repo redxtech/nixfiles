@@ -102,6 +102,16 @@ in {
     i18n.supportedLocales =
       mkDefault [ "en_CA.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
 
+    # boot
+    boot.loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = mkDefault 2;
+        consoleMode = "max";
+      };
+      efi.canTouchEfiVariables = true;
+    };
+
     # tailscale
     services.tailscale = mkIf cfg.tailscale {
       enable = true;
