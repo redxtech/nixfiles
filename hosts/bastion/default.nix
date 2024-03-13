@@ -17,9 +17,7 @@
 
     ../common/optional/bspwm.nix
     ../common/optional/hyprland.nix
-    ../common/optional/gaming.nix
     # ../common/optional/rdp.nix
-    ../common/optional/steam-hardware.nix
   ];
 
   base = {
@@ -32,6 +30,11 @@
   desktop = {
     enable = true;
     useZen = true;
+
+    gaming = {
+      enable = true;
+      amd = true;
+    };
   };
 
   backup = {

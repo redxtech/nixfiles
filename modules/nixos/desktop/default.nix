@@ -7,6 +7,8 @@ in {
   imports = [
     inputs.solaar.nixosModules.default
     inputs.xremap-flake.nixosModules.default
+
+    ./gaming.nix
   ];
 
   options.desktop = with lib.types; {

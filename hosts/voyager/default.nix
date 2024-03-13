@@ -14,8 +14,6 @@
     ../common/users/gabe
 
     ../common/optional/bspwm.nix
-    ../common/optional/gaming-prime.nix
-    ../common/optional/steam-hardware.nix
   ];
 
   base = {
@@ -28,6 +26,12 @@
     enable = true;
     isLaptop = true;
     useZen = true;
+
+    gaming = {
+      enable = true;
+      prime = true;
+      nvidia = true;
+    };
   };
 
   # virtualisation.docker.storageDriver = "btrfs";

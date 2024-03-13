@@ -30,10 +30,7 @@
     fs.zfs = true;
   };
 
-  desktop = {
-    enable = true;
-    useZen = false;
-  };
+  desktop = { enable = true; };
 
   nas = {
     enable = true;
