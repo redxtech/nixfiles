@@ -8,7 +8,12 @@ let
   # this avoids accidental auto-upgrades when working locally.
   isClean = inputs.self ? rev;
 in {
-  imports = [ ./nix.nix ./ssh.nix ];
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+
+    ./nix.nix
+    ./ssh.nix
+  ];
 
   options.base = with lib.types; {
     enable = mkEnableOption "Enable the base system module.";
@@ -41,6 +46,9 @@ in {
     networking.hostName = cfg.hostname;
 
     time.timeZone = mkDefault cfg.tz;
+
+    # pass default arts to home-manager modules
+    home-manager.extraSpecialArgs = { inherit inputs outputs; };
 
     # basic packages
     environment.systemPackages = with pkgs; [
