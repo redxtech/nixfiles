@@ -12,7 +12,6 @@
     ./cachix.nix
 
     ../common/global
-    ../common/global/auto-upgrade.nix
     ../common/users/root
     ../common/users/gabe
 
