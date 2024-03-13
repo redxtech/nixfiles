@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, lib, config, ... }:
 
 let
   inherit (lib) mkIf;
@@ -13,7 +13,9 @@ in {
     };
   };
 
-  config = let dockerEnabled = cfg.containerBackend == "docker";
+  config = let
+    inherit (lib) mkDefault;
+    dockerEnabled = cfg.containerBackend == "docker";
   in mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       virt-manager

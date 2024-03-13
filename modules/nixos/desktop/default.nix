@@ -42,7 +42,7 @@ in {
       description = "Install the Solaar package for Logitech devices.";
     };
 
-    remaps = mkOptions {
+    remaps = mkOption {
       type = attrsOf str;
       default = { "CapsLock" = "SUPER_L"; };
       description = "Remap keys using xremap.";

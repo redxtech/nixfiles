@@ -102,14 +102,40 @@ in {
     i18n.supportedLocales =
       mkDefault [ "en_CA.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
 
-    # boot
-    boot.loader = {
-      systemd-boot = {
-        enable = true;
-        configurationLimit = mkDefault 2;
-        consoleMode = "max";
+    # boot config
+    boot = {
+      loader = {
+        systemd-boot = {
+          enable = true;
+          configurationLimit = mkDefault 2;
+          consoleMode = "max";
+        };
+        loader.timeout = mkDefault 1;
+        efi.canTouchEfiVariables = true;
       };
-      efi.canTouchEfiVariables = true;
+
+      plymouth = {
+        enable = true;
+        theme = "colorful_loop";
+        themePackages = with pkgs; [ adi1090x-plymouth-themes ];
+      };
+
+      kernelParams = [
+        "quiet"
+        "loglevel=3"
+        "systemd.show_status=auto"
+        "udev.log_level=3"
+        "rd.udev.log_level=3"
+        "vt.global_cursor_default=0"
+      ];
+
+      consoleLogLevel = 0;
+      initrd.verbose = false;
+    };
+
+    console = {
+      useXkbConfig = true;
+      earlySetup = mkDefault false;
     };
 
     # tailscale
