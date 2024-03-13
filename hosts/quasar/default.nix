@@ -18,7 +18,6 @@
 
     ../common/optional/gnome.nix
     # ../common/optional/rdp.nix
-    ../common/optional/zfs.nix
   ];
 
   networking.hostName = "quasar";
@@ -27,6 +26,8 @@
     enable = true;
     hostname = "quasar";
     tz = "America/Vancouver";
+    fs.btrfs = true;
+    fs.zfs = true;
   };
 
   desktop = {

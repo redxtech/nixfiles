@@ -1,7 +1,7 @@
 { inputs, outputs, pkgs, lib, config, ... }:
 
 let
-  inherit (lib) mkIf mkDefault mkOption mkEnableOption;
+  inherit (lib) mkIf mkDefault mkOption mkEnableOption optional;
   inherit (config.networking) hostName;
   inherit (builtins) map;
   cfg = config.base;
@@ -39,6 +39,19 @@ in {
       type = str;
       default = "America/Vancouver";
       description = "The timezone of the machine.";
+    };
+
+    fs = {
+      btrfs = mkOption {
+        type = bool;
+        default = false;
+        description = "Enable btrfs support.";
+      };
+      zfs = mkOption {
+        type = bool;
+        default = false;
+        description = "Enable zfs support.";
+      };
     };
 
     autoupdate = mkOption {
@@ -100,7 +113,9 @@ in {
     # defaults
     networking.networkmanager.enable = mkDefault true;
     hardware.enableRedistributableFirmware = mkDefault true;
-    services.btrfs.autoScrub.enable = mkDefault true;
+    services.btrfs.autoScrub.enable = mkDefault cfg.fs.btrfs;
+    services.zfs.autoSnapshot.enable = mkDefault cfg.fs.zfs;
+    services.zfs.autoScrub.enable = mkDefault cfg.fs.zfs;
     i18n.defaultLocale = mkDefault "en_CA.UTF-8";
     i18n.supportedLocales =
       mkDefault [ "en_CA.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
@@ -132,7 +147,9 @@ in {
         "vt.global_cursor_default=0"
       ];
 
-      supportedFilesystems = [ "btrfs" ];
+      supportedFilesystems = (optional cfg.fs.btrfs "btrfs")
+        ++ (optional cfg.fs.zfs "zfs");
+      zfs.forceImportRoot = mkIf cfg.fs.zfs (mkDefault false);
       consoleLogLevel = 0;
       initrd.verbose = false;
     };

@@ -6,6 +6,7 @@
       EDITOR = "nvim";
       VISUAL = "nvim";
     };
+    packages = with pkgs; [ rnix-lsp ];
   };
 
   programs.neovim = {
