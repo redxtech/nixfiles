@@ -9,7 +9,6 @@
     ./hardware-configuration.nix
     ./filesystem.nix
     ./services.nix
-    ./cachix.nix
 
     ../common/global
     ../common/users/root
@@ -42,6 +41,8 @@
   };
 
   virtualisation.docker.storageDriver = "btrfs";
+
+  sops.secrets.cachix-agent.sopsFile = ./secrets.yaml;
 
   system.stateVersion = "23.11";
 }

@@ -58,5 +58,7 @@
 
   sops.secrets."cloudflare_acme".sopsFile = ./secrets.yaml;
 
+  sops.secrets.cachix-agent.sopsFile = ./secrets.yaml;
+
   system.stateVersion = "23.11";
 }
