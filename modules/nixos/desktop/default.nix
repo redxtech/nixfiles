@@ -199,9 +199,9 @@ in {
     };
 
     # audio config (pipewire)
-    sound.enable = mkDefault true;
-    security.rtkit.enable = mkDefault true;
-    hardware.pulseaudio.enable = mkDefault false;
+    sound.enable = true;
+    security.rtkit.enable = true;
+    hardware.pulseaudio.enable = false;
 
     services.pipewire = {
       enable = mkDefault true;

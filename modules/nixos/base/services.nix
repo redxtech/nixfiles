@@ -5,16 +5,16 @@ let
   cfg = config.base;
 in {
   options.base.services = let
-    inherit (lib) mkOption;
+    inherit (lib) mkOption types;
 
     mkServiceOpt = name: {
       enable = mkOption {
-        type = bool;
+        type = types.bool;
         default = true;
         description = "Enable the ${name} service.";
       };
     };
-  in with lib.types; {
+  in {
     cockpit = mkServiceOpt "cockpit";
     portainer = mkServiceOpt "portainer";
     startpage = mkServiceOpt "startpage";
@@ -74,12 +74,12 @@ in {
 
       settings.WebService = {
         AllowUnencrypted = mkDefault true;
-        Origins = mkDefault lib.concatStringsSep " " [
+        Origins = mkDefault (lib.concatStringsSep " " [
           "http://localhost:9090"
           "ws://localhost:9090"
           "http://${cfg.hostname}:9090"
           "ws://${cfg.hostname}:9090"
-        ];
+        ]);
       };
     };
 

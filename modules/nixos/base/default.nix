@@ -163,7 +163,6 @@ in {
 
     # cachix-agent
     services.cachix-agent.enable = mkDefault true;
-    sops.secrets.cachix-agent.path = "/etc/cachix-agent.token";
 
     # tailscale
     services.tailscale = mkIf cfg.tailscale {
