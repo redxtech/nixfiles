@@ -32,6 +32,17 @@
 
   networking.hostName = "quasar";
 
+  base = {
+    enable = true;
+    hostname = "quasar";
+    tz = "America/Vancouver";
+  };
+
+  desktop = {
+    enable = true;
+    useZen = false;
+  };
+
   nas = {
     enable = true;
     domain = "nas.gabedunn.dev";
