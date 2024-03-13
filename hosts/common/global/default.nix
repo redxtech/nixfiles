@@ -1,8 +1,5 @@
 # This file (and the global directory) holds config that i use on all hosts
 { inputs, outputs, pkgs, ... }: {
-  imports = [
-    inputs.nix-flatpak.nixosModules.nix-flatpak
-
-    ./cli.nix
-  ] ++ (builtins.attrValues outputs.nixosModules);
+  imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ]
+    ++ (builtins.attrValues outputs.nixosModules);
 }
