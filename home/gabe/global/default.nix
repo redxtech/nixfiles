@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, config, outputs, ... }:
+{ inputs, lib, pkgs, config, ... }:
 
 let inherit (inputs.nix-colors) colorSchemes;
 in {
@@ -12,7 +12,7 @@ in {
     ../features/cli
     # ../features/nvim
     ../features/helix
-  ] ++ (builtins.attrValues outputs.homeManagerModules);
+  ];
 
   systemd.user.startServices = "sd-switch";
 

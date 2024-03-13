@@ -48,7 +48,6 @@
 
   outputs = { self, nixpkgs, home-manager, sops-nix, ... }@inputs:
     let
-      inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
       systems = [ "x86_64-linux" "aarch64-linux" ];
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
@@ -57,79 +56,93 @@
           inherit system;
           config.allowUnfree = true;
         });
-    in {
+    in rec {
       inherit lib;
 
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
-      overlays = import ./overlays { inherit inputs outputs; };
+      overlays = import ./overlays { inherit inputs; };
 
       packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
       devShells =
         forEachSystem (pkgs: import ./shell.nix { inherit pkgs inputs; });
       formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
 
-      nixosConfigurations = let commonModules = [ ./hosts/common ];
+      nixosConfigurations = let
+        commonModules = [ ./hosts/common ]
+          ++ (builtins.attrValues nixosModules);
+        specialArgs = {
+          inherit inputs overlays packages homeManagerModules;
+          realHostNames = [
+            "bastion"
+            "voyager"
+            "quasar"
+            # "gizmo"
+          ];
+        };
       in {
         # main desktop
         bastion = lib.nixosSystem {
+          inherit specialArgs;
           modules = [ ./hosts/bastion ] ++ commonModules;
-          specialArgs = { inherit inputs outputs; };
         };
         # laptop
         voyager = lib.nixosSystem {
+          inherit specialArgs;
           modules = [ ./hosts/voyager ] ++ commonModules;
-          specialArgs = { inherit inputs outputs; };
         };
         # nas & media server
         quasar = lib.nixosSystem {
+          inherit specialArgs;
           modules = [ ./hosts/quasar ] ++ commonModules;
-          specialArgs = { inherit inputs outputs; };
         };
         # # raspi - ??
         # gizmo = lib.nixosSystem {
+        #   inherit specialArgs;
         #   modules = [ ./hosts/gizmo ] ++ commonModules;
-        #   specialArgs = { inherit inputs outputs; };
         # };
         # # nixiso
         # nixiso = lib.nixosSystem {
+        #   inherit specialArgs;
         #   modules = [ ./hosts/nixiso ] ++ commonModules;
         #   system = "x86_64-linux";
-        #   specialArgs = { inherit inputs outputs; };
         # };
       };
 
-      homeConfigurations = {
+      homeConfigurations = let
+        commonModules = (builtins.attrValues homeManagerModules);
+        extraSpecialArgs = { inherit inputs overlays packages; };
+      in {
         "gabe@bastion" = lib.homeManagerConfiguration {
-          modules = [ ./home/gabe/bastion.nix ];
+          inherit extraSpecialArgs;
+          modules = [ ./home/gabe/bastion.nix ] ++ commonModules;
           pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
         };
         "gabe@voyager" = lib.homeManagerConfiguration {
-          modules = [ ./home/gabe/voyager.nix ];
+          inherit extraSpecialArgs;
+          modules = [ ./home/gabe/voyager.nix ] ++ commonModules;
           pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
         };
         "gabe@quasar" = lib.homeManagerConfiguration {
-          modules = [ ./home/gabe/quasar.nix ];
+          inherit extraSpecialArgs;
+          modules = [ ./home/gabe/quasar.nix ] ++ commonModules;
           pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
         };
         "gabe@rock-hard" = lib.homeManagerConfiguration {
-          modules = [ ./home/gabe/rock-hard.nix ];
+          inherit extraSpecialArgs;
+          modules = [ ./home/gabe/rock-hard.nix ] ++ commonModules;
           pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
         };
         "gabe@deck" = lib.homeManagerConfiguration {
-          modules = [ ./home/gabe/deck.nix ];
+          inherit extraSpecialArgs;
+          modules = [ ./home/gabe/deck.nix ] ++ commonModules;
           pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
         };
         # "gabe@gizmo" = lib.homeManagerConfiguration {
+        #   inherit extraSpecialArgs;
         #   modules = [ ./home/gabe/gizmo.nix ];
         #   pkgs = pkgsFor.aarch64-linux;
-        #   extraSpecialArgs = { inherit inputs outputs; };
         # };
       };
 
@@ -140,12 +153,12 @@
           voyager = cachix-deploy-lib.nixos {
             modules = [ ./hosts/voyager ];
             # pkgs = pkgsFor.x86_64-linux;
-            specialArgs = { inherit inputs outputs; };
+            specialArgs = { inherit inputs; };
           };
           deck = cachix-deploy-lib.homeManager { } ({
             modules = [ ./home/gabe/deck.nix ];
             pkgs = pkgsFor.x86_64-linux;
-            extraSpecialArgs = { inherit inputs outputs; };
+            extraSpecialArgs = { inherit inputs; };
           });
         };
       };

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, outputs, ... }:
+{ pkgs, lib, config, realHostNames, ... }:
 
 with lib;
 let
@@ -131,18 +131,16 @@ in {
         '';
       };
 
-      __fish_nixos_rebuild_remote_complete = let
-        realHosts =
-          builtins.removeAttrs outputs.nixosConfigurations [ "nixiso" ];
-        hostnames = concatStringsSep " " (builtins.attrNames realHosts);
-      in {
-        body = ''
-          set -l hostnames ${hostnames}
-          for host in $hostnames
-              echo $host
-          end
-        '';
-      };
+      __fish_nixos_rebuild_remote_complete =
+        let hostnames = concatStringsSep " " realHostNames;
+        in {
+          body = ''
+            set -l hostnames ${hostnames}
+            for host in $hostnames
+                echo $host
+            end
+          '';
+        };
 
       # grep using ripgrep and pass to nvim
       nvimrg =

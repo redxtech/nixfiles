@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, config, outputs, ... }:
+{ inputs, lib, pkgs, config, overlays, ... }:
 
 {
   nix = {
@@ -28,7 +28,7 @@
   };
 
   nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = builtins.attrValues overlays;
     config = {
       allowUnfree = true;
       allowUnfreePredicate = (_: true);

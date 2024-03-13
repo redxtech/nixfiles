@@ -1,14 +1,14 @@
-{ outputs, lib, config, ... }:
+{ lib, config, realHostNames, ... }:
 
 let
-  cfg = config.base;
   inherit (lib) mkIf mkDefault;
+  inherit (builtins) map listToAttrs;
+  cfg = config.base;
 in {
   # options.base = { };
 
   config = let
     inherit (config.networking) hostName;
-    realHosts = builtins.removeAttrs outputs.nixosConfigurations [ "nixiso" ];
     pubKey = host: ../../../hosts/${host}/ssh_host_ed25519_key.pub;
   in mkIf cfg.enable {
     services.openssh = {
@@ -38,10 +38,13 @@ in {
 
     programs.ssh = {
       # each hosts public key
-      knownHosts = builtins.mapAttrs (name: _: {
-        publicKeyFile = pubKey name;
-        extraHostNames = (lib.optional (name == hostName) "localhost");
-      }) realHosts;
+      knownHosts = listToAttrs (map (name: {
+        inherit name;
+        value = {
+          publicKeyFile = pubKey name;
+          extraHostNames = (lib.optional (name == hostName) "localhost");
+        };
+      }) realHostNames);
 
       startAgent = true;
     };

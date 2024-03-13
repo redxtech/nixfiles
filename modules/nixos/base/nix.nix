@@ -1,4 +1,4 @@
-{ inputs, outputs, pkgs, lib, config, ... }:
+{ inputs, pkgs, lib, config, overlays, ... }:
 
 let
   inherit (lib) mkIf;
@@ -7,14 +7,6 @@ in {
   # options.base = { };
 
   config = mkIf cfg.enable {
-    nixpkgs = {
-      overlays = builtins.attrValues outputs.overlays;
-      config = {
-        allowUnfree = true;
-        permittedInsecurePackages = [ "electron-25.9.0" ];
-      };
-    };
-
     nix = {
       settings = {
         trusted-users = [ "root" "@wheel" "gabe" ];
@@ -49,6 +41,14 @@ in {
       # add nixpkgs input to NIX_PATH
       # this lets nix2 commands still use <nixpkgs>
       nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
+    };
+
+    nixpkgs = {
+      overlays = builtins.attrValues overlays;
+      config = {
+        allowUnfree = true;
+        permittedInsecurePackages = [ "electron-25.9.0" ];
+      };
     };
   };
 }

@@ -1,10 +1,12 @@
-{ inputs, outputs, pkgs, lib, config, ... }:
+{ inputs, pkgs, lib, config, overlays, packages, homeManagerModules
+, realHostNames, ... }:
 
 let
   inherit (lib) mkIf mkDefault mkOption mkEnableOption optional;
   inherit (config.networking) hostName;
   inherit (builtins) map;
   cfg = config.base;
+
   # only enable auto upgrade if current config came from a clean tree
   # this avoids accidental auto-upgrades when working locally.
   isClean = inputs.self ? rev;
@@ -73,7 +75,11 @@ in {
     time.timeZone = mkDefault cfg.tz;
 
     # pass default arts to home-manager modules
-    home-manager.extraSpecialArgs = { inherit inputs outputs; };
+    home-manager = {
+      # useGlobalPkgs = true;
+      extraSpecialArgs = { inherit inputs overlays packages realHostNames; };
+      sharedModules = (builtins.attrValues homeManagerModules);
+    };
 
     # basic packages
     environment.systemPackages =
