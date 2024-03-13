@@ -6,7 +6,7 @@
     shell = pkgs.fish;
 
     openssh.authorizedKeys.keys =
-      [ (builtins.readFile ../../../../home/gabe/ssh.pub) ];
+      [ (builtins.readFile ../../../home/gabe/ssh.pub) ];
   };
 
   sops.secrets.root-pw.neededForUsers = true;

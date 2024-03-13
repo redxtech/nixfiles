@@ -1,8 +1,9 @@
 { pkgs, config, ... }:
 
 let
+  inherit (builtins) filter hasAttr readFile;
   ifTheyExist = groups:
-    builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+    filter (group: hasAttr group config.users.groups) groups;
 in {
   users.mutableUsers = false;
   users.users.gabe = {
@@ -24,8 +25,7 @@ in {
       "wireshark"
     ];
 
-    openssh.authorizedKeys.keys =
-      [ (builtins.readFile ../../../../home/gabe/ssh.pub) ];
+    openssh.authorizedKeys.keys = [ (readFile ../../../home/gabe/ssh.pub) ];
 
     packages = with pkgs; [
       home-manager
@@ -52,8 +52,5 @@ in {
   sops.secrets.gabe-pw.neededForUsers = true;
 
   home-manager.users.gabe =
-    import ../../../../home/gabe/${config.networking.hostName}.nix;
-
-  services.geoclue2.enable = true;
-  # security.pam.services = { swaylock = { }; };
+    import ../../../home/gabe/${config.networking.hostName}.nix;
 }

@@ -11,9 +11,7 @@
 
     ./services
 
-    ../common/global
-    ../common/users/root
-    ../common/users/gabe
+    ../common
   ];
 
   networking.hostName = "quasar";

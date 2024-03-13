@@ -7,9 +7,7 @@
     ./hardware-configuration.nix
     ./filesystem.nix
 
-    ../common/global
-    ../common/users/root
-    ../common/users/gabe
+    ../common
   ];
 
   base = {
