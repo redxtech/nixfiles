@@ -10,6 +10,7 @@ in {
 
     ./dm.nix
     ./gaming.nix
+    # ./rdp.nix
     ./wm.nix
   ];
 

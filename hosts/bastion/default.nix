@@ -14,8 +14,6 @@
     ../common/global
     ../common/users/root
     ../common/users/gabe
-
-    # ../common/optional/rdp.nix
   ];
 
   base = {
