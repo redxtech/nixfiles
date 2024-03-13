@@ -98,6 +98,9 @@ in {
         nordzy-cursor-theme
         papirus-icon-theme
         vimix-icon-theme
+
+        # other packages
+        fontforge
       ] ++ cfg.apps;
 
     programs.thunar = {

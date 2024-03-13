@@ -18,7 +18,6 @@
 
     ../common/optional/btrfs.nix
     ../common/optional/gnome.nix
-    ../common/optional/extra.nix
     ../common/optional/fonts.nix
     ../common/optional/pipewire.nix
     ../common/optional/quietboot.nix

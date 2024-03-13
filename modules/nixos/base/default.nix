@@ -62,23 +62,31 @@ in {
     home-manager.extraSpecialArgs = { inherit inputs outputs; };
 
     # basic packages
-    environment.systemPackages = with pkgs; [
-      curl
-      file
-      gcc
-      git
-      htop
-      killall
-      lsb-release
-      man-pages
-      man-pages-posix
-      neovim
-      ps_mem
-      unrar
-      unzip
-      wget
-      xclip
-    ];
+    environment.systemPackages =
+      let py-pkgs = ps: with ps; [ dbus-python pygobject3 requests ];
+      in with pkgs; [
+        curl
+        file
+        gcc
+        git
+        htop
+        killall
+        librsvg
+        lsb-release
+        man-pages
+        man-pages-posix
+        neovim
+        ps_mem
+        sqlite
+        unrar
+        unzip
+        wget
+        xclip
+        w3m
+
+        nodejs
+        (python3.withPackages py-pkgs)
+      ];
 
     # sops
     sops = let
