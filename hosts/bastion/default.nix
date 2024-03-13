@@ -18,7 +18,6 @@
     ../common/optional/bspwm.nix
     ../common/optional/hyprland.nix
     ../common/optional/btrfs.nix
-    ../common/optional/cockpit.nix
     ../common/optional/containers.nix
     ../common/optional/extra.nix
     ../common/optional/fonts.nix

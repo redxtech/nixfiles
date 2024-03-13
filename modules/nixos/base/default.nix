@@ -14,6 +14,7 @@ in {
     inputs.sops-nix.nixosModules.sops
 
     ./cli.nix
+    ./cockpit.nix
     ./nix.nix
     ./ssh.nix
     ./virtualization.nix

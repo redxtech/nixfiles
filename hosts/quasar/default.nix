@@ -17,7 +17,6 @@
     ../common/users/gabe
 
     ../common/optional/btrfs.nix
-    ../common/optional/cockpit.nix
     ../common/optional/containers.nix
     ../common/optional/gnome.nix
     ../common/optional/extra.nix
