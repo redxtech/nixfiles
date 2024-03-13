@@ -19,10 +19,8 @@
     ../common/optional/btrfs.nix
     ../common/optional/cockpit.nix
     ../common/optional/containers.nix
-    ../common/optional/desktop-apps.nix
     ../common/optional/gnome.nix
     ../common/optional/extra.nix
-    # ../common/optional/flatpak.nix
     ../common/optional/fonts.nix
     ../common/optional/pipewire.nix
     ../common/optional/quietboot.nix

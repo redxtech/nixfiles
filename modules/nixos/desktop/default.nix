@@ -18,6 +18,18 @@ in {
       description = "Enable laptop-specific settings.";
     };
 
+    apps = mkOption {
+      type = types.listOf types.package;
+      default = [ ];
+      description = "Desktop applications to install";
+    };
+
+    flatpaks = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "Flatpaks to install";
+    };
+
     useZen = mkOption {
       type = bool;
       default = false;
@@ -55,11 +67,62 @@ in {
       }];
     };
 
+    # desktop apps
+    environment.systemPackages = with pkgs;
+      [
+        # gui apps
+        firefox-devedition-bin
+        flameshot
+        gnome.gnome-software
+        gnome.gpaste
+        kitty
+        mpv
+        obsidian
+        spotifywm
+        vivaldi
+        vscodium
+
+        # thunar tools
+        webp-pixbuf-loader
+        poppler
+        ffmpegthumbnailer
+        freetype
+        libgsf
+        gnome-epub-thumbnailer
+      ] ++ cfg.apps;
+
+    programs.thunar = {
+      enable = true;
+
+      plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+    };
+
+    # flatpak config
+    services.flatpak = {
+      enable = true;
+
+      packages = cfg.flatpaks;
+
+      update.auto = {
+        enable = true;
+        onCalendar = "weekly";
+      };
+    };
+
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal ];
+      config = { common.default = "*"; };
+    };
+
     # defaults
     programs.adb.enable = mkDefault true;
     programs.dconf.enable = mkDefault true;
+    programs.gnupg.agent.enable = true;
     programs.kdeconnect.enable = mkDefault true;
     programs.nix-ld.enable = mkDefault true;
+    programs.partition-manager.enable = true;
+    programs.xfconf.enable = mkDefault true;
     hardware.bluetooth.enable = mkDefault true;
     hardware.bluetooth.powerOnBoot = mkDefault true;
     services.blueman.enable = mkDefault true;

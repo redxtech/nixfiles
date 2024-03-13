@@ -20,9 +20,7 @@
     ../common/optional/btrfs.nix
     ../common/optional/cockpit.nix
     ../common/optional/containers.nix
-    ../common/optional/desktop-apps.nix
     ../common/optional/extra.nix
-    ../common/optional/flatpak.nix
     ../common/optional/fonts.nix
     ../common/optional/gaming.nix
     ../common/optional/logitech.nix
