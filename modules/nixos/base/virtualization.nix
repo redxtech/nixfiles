@@ -4,7 +4,7 @@ let
   inherit (lib) mkIf;
   cfg = config.base;
 in {
-  # options = { };
+  # options.base = { };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
@@ -32,8 +32,8 @@ in {
       # enable docker
       docker.enable = true;
 
-      #   waydroid.enable = true;
-      #   lxd.enable = true;
+      # waydroid.enable = true;
+      # lxd.enable = true;
     };
 
     # enable virt-manager

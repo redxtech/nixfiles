@@ -2,9 +2,9 @@
 
 let
   cfg = config.base;
-  inherit (lib) mkIf;
+  inherit (lib) mkIf mkDefault;
 in {
-  options = { };
+  # options.base = { };
 
   config = let
     inherit (config.networking) hostName;
@@ -34,10 +34,10 @@ in {
       ];
     };
 
-    services.fail2ban.enable = true;
+    services.fail2ban.enable = mkDefault true;
 
     programs.ssh = {
-      # Each hosts public key
+      # each hosts public key
       knownHosts = builtins.mapAttrs (name: _: {
         publicKeyFile = pubKey name;
         extraHostNames = (lib.optional (name == hostName) "localhost");

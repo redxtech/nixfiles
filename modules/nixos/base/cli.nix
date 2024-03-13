@@ -4,7 +4,7 @@ let
   inherit (lib) mkIf;
   cfg = config.base;
 in {
-  options.base.cli = { };
+  # options.base.cli = { };
 
   config = let
   in mkIf cfg.enable {
