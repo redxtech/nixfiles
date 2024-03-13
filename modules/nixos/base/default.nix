@@ -8,7 +8,7 @@ let
   # this avoids accidental auto-upgrades when working locally.
   isClean = inputs.self ? rev;
 in {
-  imports = [ ./nix.nix ];
+  imports = [ ./nix.nix ./ssh.nix ];
 
   options.base = with lib.types; {
     enable = mkEnableOption "Enable the base system module.";

@@ -6,7 +6,6 @@
     # ./auto-upgrade.nix
     ./cli.nix
     ./locale.nix
-    ./openssh.nix
     ./sops.nix
     # ./systemd-initrd.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
