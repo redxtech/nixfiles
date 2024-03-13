@@ -34,6 +34,8 @@ in {
       ];
     };
 
+    services.fail2ban.enable = true;
+
     programs.ssh = {
       # Each hosts public key
       knownHosts = builtins.mapAttrs (name: _: {

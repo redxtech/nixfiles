@@ -22,7 +22,6 @@
     ../common/optional/desktop-apps.nix
     ../common/optional/gnome.nix
     ../common/optional/extra.nix
-    ../common/optional/fail2ban.nix
     # ../common/optional/flatpak.nix
     ../common/optional/fonts.nix
     ../common/optional/pipewire.nix
