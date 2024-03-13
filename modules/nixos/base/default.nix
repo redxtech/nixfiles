@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 
 let
-  inherit (lib) mkIf mkDefault mkOption mkEnableOption;
+  inherit (lib) map mkIf mkDefault mkOption mkEnableOption;
   inherit (config.networking) hostName;
   cfg = config.base;
   # only enable auto upgrade if current config came from a clean tree
@@ -10,6 +10,7 @@ let
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    inputs.sops-nix.nixosModules.sops
 
     ./nix.nix
     ./ssh.nix
@@ -68,6 +69,16 @@ in {
       wget
       xclip
     ];
+
+    # sops
+    sops = let
+      isEd25519 = k: k.type == "ed25519";
+      getKeyPath = k: k.path;
+      keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
+    in {
+      defaultSopsFile = ../secrets.yaml;
+      age.sshKeyPaths = map getKeyPath keys;
+    };
 
     # defaults
     networking.networkmanager.enable = mkDefault true;

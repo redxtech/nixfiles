@@ -4,6 +4,5 @@
     inputs.nix-flatpak.nixosModules.nix-flatpak
 
     ./cli.nix
-    ./sops.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
 }
