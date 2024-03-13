@@ -18,7 +18,6 @@
     ../common/optional/bspwm.nix
     ../common/optional/hyprland.nix
     ../common/optional/btrfs.nix
-    ../common/optional/fonts.nix
     ../common/optional/gaming.nix
     ../common/optional/logitech.nix
     ../common/optional/pipewire.nix
