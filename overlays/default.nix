@@ -1,4 +1,4 @@
-{ outputs, inputs }:
+{ inputs }:
 
 let
   addPatches = pkg: patches:

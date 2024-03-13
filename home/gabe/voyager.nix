@@ -1,4 +1,4 @@
-{ inputs, outputs, pkgs, lib, config, ... }:
+{ inputs, pkgs, lib, config, ... }:
 
 {
   imports = [ ./global ./laptop.nix ./features/desktop/bspwm ];

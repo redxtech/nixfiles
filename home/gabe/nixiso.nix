@@ -1,4 +1,4 @@
-{ inputs, outputs, pkgs, lib, config, ... }:
+{ inputs, pkgs, lib, config, ... }:
 
 {
   imports = [ ./global ./features/desktop/bspwm ];

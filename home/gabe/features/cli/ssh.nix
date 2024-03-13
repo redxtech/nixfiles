@@ -1,6 +1,6 @@
-{ outputs, lib, ... }:
-let hostnames = builtins.attrNames outputs.nixosConfigurations;
-in {
+{ ... }:
+
+{
   programs.ssh = let
     user = "gabe";
     identityFile = "~/.ssh/id_ed25519";
@@ -11,7 +11,6 @@ in {
   in {
     enable = true;
 
-    # TODO: switch to tailscale IPs once it's set up
     matchBlocks = let
       mkDevice = name: {
         user = user;
