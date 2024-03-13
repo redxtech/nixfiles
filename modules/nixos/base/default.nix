@@ -42,8 +42,31 @@ in {
 
     time.timeZone = mkDefault cfg.tz;
 
+    # basic packages
+    environment.systemPackages = with pkgs; [
+      curl
+      file
+      gcc
+      git
+      htop
+      killall
+      lsb-release
+      man-pages
+      man-pages-posix
+      neovim
+      ps_mem
+      unrar
+      unzip
+      wget
+      xclip
+    ];
+
     # defaults
     networking.networkmanager.enable = mkDefault true;
+    hardware.enableRedistributableFirmware = mkDefault true;
+    i18n.defaultLocale = mkDefault "en_CA.UTF-8";
+    i18n.supportedLocales =
+      mkDefault [ "en_CA.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
 
     # tailscale
     services.tailscale = mkIf cfg.tailscale {
