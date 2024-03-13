@@ -70,30 +70,31 @@
         forEachSystem (pkgs: import ./shell.nix { inherit pkgs inputs; });
       formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
 
-      nixosConfigurations = {
+      nixosConfigurations = let commonModules = [ ./hosts/common ];
+      in {
         # main desktop
         bastion = lib.nixosSystem {
-          modules = [ ./hosts/bastion inputs.disko.nixosModules.disko ];
+          modules = [ ./hosts/bastion ] ++ commonModules;
           specialArgs = { inherit inputs outputs; };
         };
         # laptop
         voyager = lib.nixosSystem {
-          modules = [ ./hosts/voyager ];
+          modules = [ ./hosts/voyager ] ++ commonModules;
           specialArgs = { inherit inputs outputs; };
         };
         # nas & media server
         quasar = lib.nixosSystem {
-          modules = [ ./hosts/quasar ];
+          modules = [ ./hosts/quasar ] ++ commonModules;
           specialArgs = { inherit inputs outputs; };
         };
         # # raspi - ??
         # gizmo = lib.nixosSystem {
-        #   modules = [ ./hosts/gizmo ];
+        #   modules = [ ./hosts/gizmo ] ++ commonModules;
         #   specialArgs = { inherit inputs outputs; };
         # };
         # # nixiso
         # nixiso = lib.nixosSystem {
-        #   modules = [ ./hosts/nixiso ];
+        #   modules = [ ./hosts/nixiso ] ++ commonModules;
         #   system = "x86_64-linux";
         #   specialArgs = { inherit inputs outputs; };
         # };

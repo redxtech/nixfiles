@@ -6,8 +6,6 @@
 
     ./hardware-configuration.nix
     ./filesystem.nix
-
-    ../common
   ];
 
   base = {

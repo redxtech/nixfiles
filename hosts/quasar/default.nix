@@ -10,8 +10,6 @@
     ./filesystem.nix
 
     ./services
-
-    ../common
   ];
 
   networking.hostName = "quasar";
