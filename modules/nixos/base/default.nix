@@ -29,6 +29,12 @@ in {
       default = true;
       description = "Enable automatic updates.";
     };
+
+    tailscale = mkOption {
+      type = bool;
+      default = true;
+      description = "Enable tailscale.";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -38,6 +44,19 @@ in {
 
     # defaults
     networking.networkmanager.enable = mkDefault true;
+
+    # tailscale
+    services.tailscale = mkIf cfg.tailscale {
+      enable = true;
+      openFirewall = true;
+      useRoutingFeatures = lib.mkDefault "client";
+    };
+
+    # firewall for tailscale
+    networking.firewall = {
+      checkReversePath = "loose";
+      allowedUDPPorts = [ 41641 ]; # Facilitate firewall punching
+    };
 
     # auto upgrade if enabled
     system.autoUpgrade = kmIf cfg.autoupdate {

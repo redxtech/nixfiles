@@ -9,7 +9,6 @@
     ./openssh.nix
     ./sops.nix
     # ./systemd-initrd.nix
-    ./tailscale.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
 
   home-manager.extraSpecialArgs = { inherit inputs outputs; };
