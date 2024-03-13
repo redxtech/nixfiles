@@ -19,7 +19,6 @@
     ../common/optional/hyprland.nix
     ../common/optional/btrfs.nix
     ../common/optional/gaming.nix
-    ../common/optional/logitech.nix
     ../common/optional/pipewire.nix
     ../common/optional/quietboot.nix
     # ../common/optional/rdp.nix

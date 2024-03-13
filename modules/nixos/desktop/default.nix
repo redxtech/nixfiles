@@ -76,8 +76,10 @@ in {
         gnome.gnome-software
         gnome.gpaste
         kitty
+        logiops
         mpv
         obsidian
+        piper
         spotifywm
         vivaldi
         vscodium
@@ -171,13 +173,16 @@ in {
     programs.nix-ld.enable = mkDefault true;
     programs.partition-manager.enable = true;
     programs.xfconf.enable = mkDefault true;
+    services.blueman.enable = mkDefault true;
+    services.hardware.openrgb.enable = mkDefault true;
+    services.printing.enable = mkDefault true;
+    services.ratbagd.enable = mkDefault true;
+    services.touchegg.enable = mkDefault cfg.isLaptop;
     hardware.bluetooth.enable = mkDefault true;
     hardware.bluetooth.powerOnBoot = mkDefault true;
-    services.blueman.enable = mkDefault true;
-    services.printing.enable = mkDefault true;
-    services.hardware.openrgb.enable = mkDefault true;
+    hardware.logitech.wireless.enable = mkDefault true;
+    hardware.logitech.wireless.enableGraphical = mkDefault true;
     hardware.opengl.enable = mkDefault true;
-    services.touchegg.enable = mkDefault cfg.isLaptop;
 
     # fix for qt6 plugins
     environment.profileRelativeSessionVariables = {
