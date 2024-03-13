@@ -40,37 +40,6 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  # passwordless sudo for some commands
-  security.sudo = {
-    enable = true;
-
-    extraRules = let
-      mkRule = pkg: cmd: rules: [
-        {
-          command = "${pkg}/bin/${cmd}";
-          options = rules;
-        }
-        {
-          command = "/run/current-system/sw/bin/${cmd}";
-          options = rules;
-        }
-      ];
-      mkNoPwd = pkg: cmd: mkRule pkg cmd [ "NOPASSWD" ];
-    in [{
-      commands = (mkNoPwd pkgs.unixtools.fdisk "fdisk -l") ++ [
-        {
-          command = "${pkgs.ps_mem}/bin/ps_mem";
-          options = [ "NOPASSWD" ];
-        }
-        {
-          command = "/run/current-system/sw/bin/ps_mem";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-      groups = [ "wheel" ];
-    }];
-  };
-
   # increase open file limit for sudoers
   security.pam.loginLimits = [
     {
