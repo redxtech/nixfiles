@@ -14,7 +14,6 @@
     ../common/users/gabe
 
     ../common/optional/bspwm.nix
-    ../common/optional/containers.nix
     ../common/optional/extra.nix
     ../common/optional/fonts.nix
     ../common/optional/gaming-prime.nix

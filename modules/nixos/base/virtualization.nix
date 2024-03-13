@@ -4,9 +4,17 @@ let
   inherit (lib) mkIf;
   cfg = config.base;
 in {
-  # options.base = { };
+  options.base = let inherit (lib) mkOption;
+  in with lib.types; {
+    containerBackend = mkOption {
+      type = enum [ "docker" "podman" ];
+      default = "docker";
+      description = "The container backend to use.";
+    };
+  };
 
-  config = mkIf cfg.enable {
+  config = let dockerEnabled = cfg.containerBackend == "docker";
+  in mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       virt-manager
       virt-viewer
@@ -29,11 +37,21 @@ in {
       # allow usb passthrough
       spiceUSBRedirection.enable = true;
 
-      # enable docker
-      docker.enable = true;
-
       # waydroid.enable = true;
       # lxd.enable = true;
+
+      # docker config
+      docker.enable = dockerEnabled;
+
+      # podman config
+      podman = {
+        enable = true;
+        dockerCompat = !dockerEnabled;
+        dockerSocket.enable = !dockerEnabled;
+        defaultNetwork.settings.dns_enabled = true;
+      };
+
+      oci-containers.backend = "docker";
     };
 
     # enable virt-manager
