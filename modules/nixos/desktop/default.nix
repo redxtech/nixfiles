@@ -4,7 +4,10 @@ let
   cfg = config.desktop;
   inherit (lib) mkIf mkOption mkEnableOption;
 in {
-  imports = [ inputs.solaar.nixosModules.default ];
+  imports = [
+    inputs.solaar.nixosModules.default
+    inputs.xremap-flake.nixosModules.default
+  ];
 
   options.desktop = with lib.types; {
     enable = mkEnableOption "Enable the desktop environment module.";
@@ -26,6 +29,12 @@ in {
       default = true;
       description = "Install the Solaar package for Logitech devices.";
     };
+
+    remaps = mkOptions {
+      type = attrsOf str;
+      default = { "CapsLock" = "SUPER_L"; };
+      description = "Remap keys using xremap.";
+    };
   };
 
   config = let inherit (lib) concatStringsSep mkDefault optional;
@@ -36,6 +45,15 @@ in {
 
     # solaar config
     programs.solaar.enable = mkDefault cfg.useSolaar;
+
+    # xremap config
+    services.xremap = {
+      withX11 = true;
+      config.modmap = [{
+        name = "Global";
+        remap = cfg.remaps;
+      }];
+    };
 
     # defaults
     programs.adb.enable = mkDefault true;

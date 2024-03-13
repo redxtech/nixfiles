@@ -28,7 +28,6 @@
     ../common/optional/systemd-boot.nix
     ../common/optional/theme.nix
     ../common/optional/virtualization.nix
-    ../common/optional/xremap.nix
 
   ];
 
