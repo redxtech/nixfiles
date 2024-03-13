@@ -22,8 +22,15 @@
     enable = true;
     hostname = "quasar";
     tz = "America/Vancouver";
-    fs.btrfs = true;
-    fs.zfs = true;
+
+    fs = {
+      btrfs = true;
+      zfs = true;
+    };
+
+    services = {
+      portainer.enable = false; # handled by ./services/containers.nix
+    };
   };
 
   desktop = {

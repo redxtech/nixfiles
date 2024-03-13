@@ -362,12 +362,6 @@ in {
         extraOptions = [ "--network" "host" ];
       };
 
-      startpage = {
-        image = "ghcr.io/redxtech/startpage:latest";
-        labels = mkLabels "startpage";
-        ports = [ (mkPort cfg.ports.startpage 3000) ];
-      };
-
       syncthing = {
         image = "lscr.io/linuxserver/syncthing:latest";
         environment = defaultEnv;

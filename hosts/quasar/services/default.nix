@@ -51,12 +51,16 @@ in {
     downloads = cfg.paths.downloads + ":/downloads";
     media = cfg.paths.media + ":/media";
   in {
-    cockpit.settings.WebService = {
+    # override the default configuration to enable ssl
+    cockpit.settings.WebService = let port = toString cfg.ports.cockpit;
+    in {
       Origins = lib.concatStringsSep " " [
         "https://${cfg.domain}"
         "wss://${cfg.domain}"
-        "http://quasar:${toString cfg.ports.cockpit}"
-        "ws://quasar:${toString cfg.ports.cockpit}"
+        "http://localhost:${port}"
+        "ws://localhost:${port}"
+        "http://quasar:${port}"
+        "ws://quasar:${port}"
       ];
       ProtocolHeader = "X-Forwarded-Proto";
     };

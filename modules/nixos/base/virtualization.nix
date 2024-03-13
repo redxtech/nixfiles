@@ -53,6 +53,7 @@ in {
         defaultNetwork.settings.dns_enabled = true;
       };
 
+      # use docker for oci containers
       oci-containers.backend = "docker";
     };
 

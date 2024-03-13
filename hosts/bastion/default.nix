@@ -8,7 +8,6 @@
 
     ./hardware-configuration.nix
     ./filesystem.nix
-    ./services.nix
 
     ../common/global
     ../common/users/root
