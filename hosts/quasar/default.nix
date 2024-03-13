@@ -30,7 +30,6 @@
     ../common/optional/security.nix
     ../common/optional/systemd-boot.nix
     ../common/optional/theme.nix
-    ../common/optional/virtualization.nix
     ../common/optional/zfs.nix
   ];
 

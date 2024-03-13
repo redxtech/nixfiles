@@ -16,6 +16,7 @@ in {
     ./cli.nix
     ./nix.nix
     ./ssh.nix
+    ./virtualization.nix
   ];
 
   options.base = with lib.types; {
@@ -24,6 +25,12 @@ in {
       type = str;
       default = "nixos";
       description = "The hostname of the machine.";
+    };
+
+    primaryUser = mkOption {
+      type = str;
+      default = "gabe";
+      description = "Primary user for permissions and defaults.";
     };
 
     tz = mkOption {
