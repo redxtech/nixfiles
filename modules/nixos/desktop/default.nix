@@ -89,6 +89,15 @@ in {
         freetype
         libgsf
         gnome-epub-thumbnailer
+
+        # theme packages
+        catppuccin-sddm-corners
+        sddm-chili-theme
+
+        dracula-theme
+        nordzy-cursor-theme
+        papirus-icon-theme
+        vimix-icon-theme
       ] ++ cfg.apps;
 
     programs.thunar = {

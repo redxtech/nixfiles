@@ -24,7 +24,6 @@
     ../common/optional/security.nix
     ../common/optional/steam-hardware.nix
     ../common/optional/systemd-boot.nix
-    ../common/optional/theme.nix
   ];
 
   base = {
