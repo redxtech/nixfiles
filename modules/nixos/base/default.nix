@@ -136,6 +136,17 @@ in {
         '');
     };
 
+    # security
+
+    # enable polkit
+    security.polkit.enable = true;
+    # security.apparmor.enable = mkDefault true;
+    # security.apparmor.killUnconfinedConfinables = mkDefault true;
+
+    # enable antivirus clamav and
+    services.clamav.daemon.enable = true;
+    services.clamav.updater.enable = true;
+
     # pwless sudo
     security.sudo = {
       enable = true;

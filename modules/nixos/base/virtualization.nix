@@ -59,5 +59,10 @@ in {
 
     # dconf, needed for virt-manager
     programs.dconf.enable = true;
+
+    # this is required by podman to run containers in rootless mode.
+    security.unprivilegedUsernsClone =
+      mkDefault config.virtualisation.containers.enable;
+
   };
 }
