@@ -1,8 +1,9 @@
-{ pkgs, lib, config, ... }:
+{ inputs, outputs, pkgs, lib, config, ... }:
 
 let
-  inherit (lib) map mkIf mkDefault mkOption mkEnableOption;
+  inherit (lib) mkIf mkDefault mkOption mkEnableOption;
   inherit (config.networking) hostName;
+  inherit (builtins) map;
   cfg = config.base;
   # only enable auto upgrade if current config came from a clean tree
   # this avoids accidental auto-upgrades when working locally.
@@ -12,6 +13,7 @@ in {
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
 
+    ./cli.nix
     ./nix.nix
     ./ssh.nix
   ];
@@ -75,10 +77,7 @@ in {
       isEd25519 = k: k.type == "ed25519";
       getKeyPath = k: k.path;
       keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
-    in {
-      defaultSopsFile = ../secrets.yaml;
-      age.sshKeyPaths = map getKeyPath keys;
-    };
+    in { age.sshKeyPaths = map getKeyPath keys; };
 
     # defaults
     networking.networkmanager.enable = mkDefault true;
@@ -101,7 +100,7 @@ in {
     };
 
     # auto upgrade if enabled
-    system.autoUpgrade = kmIf cfg.autoupdate {
+    system.autoUpgrade = mkIf cfg.autoupdate {
       enable = isClean;
       dates = "hourly";
       flags = [ "--refresh" ];

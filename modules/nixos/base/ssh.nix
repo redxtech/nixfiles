@@ -1,13 +1,15 @@
 { outputs, lib, config, ... }:
 
-let cfg = config.base;
+let
+  cfg = config.base;
+  inherit (lib) mkIf;
 in {
   options = { };
 
   config = let
     inherit (config.networking) hostName;
     realHosts = builtins.removeAttrs outputs.nixosConfigurations [ "nixiso" ];
-    pubKey = host: ../../${host}/ssh_host_ed25519_key.pub;
+    pubKey = host: ../../../hosts/${host}/ssh_host_ed25519_key.pub;
   in mkIf cfg.enable {
     services.openssh = {
       enable = true;

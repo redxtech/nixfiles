@@ -1,9 +1,12 @@
-{ inputs, outputs, pkgs, ... }:
+{ inputs, outputs, pkgs, lib, config, ... }:
 
-{
+let
+  inherit (lib) mkIf;
+  cfg = config.base;
+in {
   options = { };
 
-  config = mkIf cfg.enabled {
+  config = mkIf cfg.enable {
     nixpkgs = {
       overlays = builtins.attrValues outputs.overlays;
       config = {

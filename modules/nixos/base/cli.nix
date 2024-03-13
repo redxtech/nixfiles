@@ -1,6 +1,8 @@
-{ outputs, lib, config, ... }:
+{ inputs, outputs, pkgs, lib, config, ... }:
 
-let cfg = config.base;
+let
+  inherit (lib) mkIf;
+  cfg = config.base;
 in {
   options.base.cli = { };
 
