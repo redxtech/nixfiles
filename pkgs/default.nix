@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> { } }: rec {
+{ pkgs }:
+
+{
 
   # Packages with an actual source
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };

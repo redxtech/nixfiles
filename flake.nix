@@ -56,18 +56,6 @@
         # inputs.nixos-flake.flakeModule
       ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
-      perSystem = { config, self', inputs', pkgs, system, ... }: {
-        # Per-system attributes can be defined here. The self' and inputs'
-        # module parameters provide easy access to attributes of the same
-        # system.
-
-        packages = import ./pkgs { inherit pkgs; };
-        devShells = import ./shell.nix {
-          inherit pkgs;
-          inputs = inputs';
-        };
-        formatter = pkgs.nixpkgs-fmt;
-      };
 
       flake = let
         lib = nixpkgs.lib // home-manager.lib;
@@ -157,6 +145,23 @@
           #   pkgs = pkgsFor.aarch64-linux;
           # };
         };
+      };
+
+      # per-system attributes can be defined here. the self' and inputs'
+      # module parameters provide easy access to attributes of the same
+      # system.
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
+        packages = {
+          # default = let cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
+          # in cachix-deploy-lib.spec { agents = { }; };
+        } // (import ./pkgs { inherit pkgs; });
+
+        devShells = import ./shell.nix {
+          inherit pkgs;
+          inputs = inputs';
+        };
+
+        formatter = pkgs.nixpkgs-fmt;
       };
     };
 }
