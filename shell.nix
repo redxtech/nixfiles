@@ -20,32 +20,33 @@
     env.NIX_CONFIG =
       "extra-experimental-features = nix-command flakes repl-flake";
   };
-  node = {
-    packages = with pkgs; [ nodejs_latest ];
 
-    languages = {
-      javascript = {
-        enable = true;
-        package = pkgs.nodejs_latest;
-        corepack.enable = true;
-      };
-      typescript.enable = true;
-    };
+  # node = {
+  #   packages = with pkgs; [ nodejs_latest ];
 
-    difftastic.enable = true;
-  };
+  #   languages = {
+  #     javascript = {
+  #       enable = true;
+  #       package = pkgs.nodejs_latest;
+  #       corepack.enable = true;
+  #     };
+  #     typescript.enable = true;
+  #   };
 
-  python = {
-    packages = with pkgs; [ black nodePackages.pyright ];
+  #   difftastic.enable = true;
+  # };
 
-    languages = {
-      python = {
-        enable = true;
-        poetry.enable = true;
-        venv.enable = true;
-      };
-    };
+  # python = {
+  #   packages = with pkgs; [ black nodePackages.pyright ];
 
-    difftastic.enable = true;
-  };
+  #   languages = {
+  #     python = {
+  #       enable = true;
+  #       poetry.enable = true;
+  #       venv.enable = true;
+  #     };
+  #   };
+
+  #   difftastic.enable = true;
+  # };
 }

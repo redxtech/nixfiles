@@ -159,7 +159,15 @@
       # module parameters provide easy access to attributes of the same
       # system.
       perSystem = { config, self', inputs', pkgs, system, ... }: {
-        packages = { } // (import ./pkgs { inherit pkgs; });
+        packages = {
+          default = let cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
+          in cachix-deploy-lib.spec {
+            agents = {
+              bastion = cachix-deploy-lib.nixos
+                self.nixosConfigurations.bastion.config.system.build.toplevel;
+            };
+          };
+        } // (import ./pkgs { inherit pkgs; });
 
         devenv.shells = import ./shell.nix { inherit inputs' pkgs; };
 
