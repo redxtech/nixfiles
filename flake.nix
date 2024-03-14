@@ -129,11 +129,6 @@
           modules = [ ./home/gabe/quasar.nix ] ++ commonModules;
           pkgs = pkgsFor.x86_64-linux;
         };
-        "gabe@rock-hard" = lib.homeManagerConfiguration {
-          inherit extraSpecialArgs;
-          modules = [ ./home/gabe/rock-hard.nix ] ++ commonModules;
-          pkgs = pkgsFor.x86_64-linux;
-        };
         "gabe@deck" = lib.homeManagerConfiguration {
           inherit extraSpecialArgs;
           modules = [ ./home/gabe/deck.nix ] ++ commonModules;
