@@ -132,15 +132,21 @@
         };
 
         deploy = {
-          nodes = {
-            bastion = {
-              hostname = "bastion";
+          nodes = let
+            mkNode = name: system: {
+              hostname = name;
               profiles.system = {
                 user = "gabe";
-                path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos
+                fastConnection = true;
+                path = inputs.deploy-rs.lib.${system}.activate.nixos
                   self.nixosConfigurations.bastion;
+                # remoteBuild = true;
               };
             };
+          in {
+            bastion = mkNode "bastion" "x86_64-linux";
+            # voyager = mkNode "voyager" "x86_64-linux";
+            # quasar = mkNode "quasar" "x86_64-linux";
           };
         };
 
