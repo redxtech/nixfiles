@@ -169,7 +169,8 @@
           };
         } // (import ./pkgs { inherit pkgs; });
 
-        devenv.shells = import ./shell.nix { inherit inputs' pkgs; };
+        devShells = import ./shell.nix { inherit inputs' pkgs; };
+        # devenv.shells = (import ./shell.nix { inherit inputs' pkgs; });
 
         formatter = pkgs.nixpkgs-fmt;
       };

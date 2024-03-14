@@ -1,7 +1,7 @@
 { inputs', pkgs, ... }:
 
 {
-  default = {
+  default = pkgs.mkShell {
     packages = with pkgs; [
       age
       git
@@ -17,9 +17,30 @@
       inputs'.deploy-rs.packages.deploy-rs
     ];
 
-    env.NIX_CONFIG =
-      "extra-experimental-features = nix-command flakes repl-flake";
+    shellHook = ''
+      export NIX_CONFIG="extra-experimental-features = nix-command flakes repl-flake"
+    '';
   };
+
+  # default = {
+  #   packages = with pkgs; [
+  #     age
+  #     git
+  #     gnupg
+  #     home-manager
+  #     neovim
+  #     nix
+  #     sops
+  #     ssh-to-age
+  #     yadm
+
+  #     inputs'.nh.packages.default
+  #     inputs'.deploy-rs.packages.deploy-rs
+  #   ];
+
+  #   env.NIX_CONFIG =
+  #     "extra-experimental-features = nix-command flakes repl-flake";
+  # };
 
   # node = {
   #   packages = with pkgs; [ nodejs_latest ];
