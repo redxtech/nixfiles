@@ -14,7 +14,7 @@
       ssh-to-age
       yadm
 
-      inputs.nh.packages.${pkgs.system}.default
+      inputs.nh.packages.default
     ];
   };
 
