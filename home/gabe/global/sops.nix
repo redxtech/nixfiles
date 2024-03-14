@@ -5,7 +5,7 @@
 
   sops = {
     defaultSopsFile = ../secrets.yaml;
-    age.sshKeyPaths = lib.mkDefault [ /home/gabe/.ssh/id_ed25519 ];
+    age.sshKeyPaths = lib.mkDefault [ "/home/gabe/.ssh/id_ed25519" ];
 
     secrets = {
       bw = { path = "${config.xdg.configHome}/secrets/bw.txt"; };
