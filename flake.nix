@@ -59,13 +59,6 @@
 
       flake = let
         lib = nixpkgs.lib // home-manager.lib;
-        systems = [ "x86_64-linux" "aarch64-linux" ];
-        pkgsFor = lib.genAttrs systems (system:
-          import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          });
-        username = "gabe";
         realHostNames = [
           "bastion"
           "voyager"
@@ -119,31 +112,14 @@
           commonModules = (builtins.attrValues homeManagerModules);
           extraSpecialArgs = { inherit inputs overlays realHostNames; };
         in {
-          "gabe@bastion" = lib.homeManagerConfiguration {
-            inherit extraSpecialArgs;
-            modules = [ ./home/gabe/bastion.nix ] ++ commonModules;
-            pkgs = pkgsFor.x86_64-linux;
-          };
-          "gabe@voyager" = lib.homeManagerConfiguration {
-            inherit extraSpecialArgs;
-            modules = [ ./home/gabe/voyager.nix ] ++ commonModules;
-            pkgs = pkgsFor.x86_64-linux;
-          };
-          "gabe@quasar" = lib.homeManagerConfiguration {
-            inherit extraSpecialArgs;
-            modules = [ ./home/gabe/quasar.nix ] ++ commonModules;
-            pkgs = pkgsFor.x86_64-linux;
-          };
           "gabe@deck" = lib.homeManagerConfiguration {
             inherit extraSpecialArgs;
             modules = [ ./home/gabe/deck.nix ] ++ commonModules;
-            pkgs = pkgsFor.x86_64-linux;
+            pkgs = import nixpkgs {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
           };
-          # "gabe@gizmo" = lib.homeManagerConfiguration {
-          #   inherit extraSpecialArgs;
-          #   modules = [ ./home/gabe/gizmo.nix ];
-          #   pkgs = pkgsFor.aarch64-linux;
-          # };
         };
       };
 
