@@ -38,6 +38,7 @@
     hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
     hyprland-plugins.inputs.hyprland.follows = "hyprland";
 
+    deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
     fh.url = "github:DeterminateSystems/fh";
     hardware.url = "github:nixos/nixos-hardware";
@@ -84,16 +85,19 @@
           # main desktop
           bastion = lib.nixosSystem {
             inherit specialArgs;
+            system = "x86_64-linux";
             modules = [ ./hosts/bastion ] ++ commonModules;
           };
           # laptop
           voyager = lib.nixosSystem {
             inherit specialArgs;
+            system = "x86_64-linux";
             modules = [ ./hosts/voyager ] ++ commonModules;
           };
           # nas & media server
           quasar = lib.nixosSystem {
             inherit specialArgs;
+            system = "x86_64-linux";
             modules = [ ./hosts/quasar ] ++ commonModules;
           };
           # # raspi - ??
@@ -122,16 +126,30 @@
             };
           };
         };
+
+        deploy = {
+          nodes = {
+            bastion = {
+              hostname = "bastion";
+              profiles.system = {
+                user = "gabe";
+                path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos
+                  self.nixosConfigurations.bastion;
+              };
+            };
+          };
+        };
+
+        checks = builtins.mapAttrs
+          (system: deployLib: deployLib.deployChecks self.deploy)
+          inputs.deploy-rs.lib;
       };
 
       # per-system attributes can be defined here. the self' and inputs'
       # module parameters provide easy access to attributes of the same
       # system.
       perSystem = { config, self', inputs', pkgs, system, ... }: {
-        packages = {
-          # default = let cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
-          # in cachix-deploy-lib.spec { agents = { }; };
-        } // (import ./pkgs { inherit pkgs; });
+        packages = { } // (import ./pkgs { inherit pkgs; });
 
         devenv.shells = import ./shell.nix { inherit inputs' pkgs; };
 
