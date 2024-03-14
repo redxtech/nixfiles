@@ -90,7 +90,7 @@ in {
       mangohud
     ];
 
-    nixpkgs.config.nvidia.acceptLicense = mkIf cfg.gaming.nvidia true;
+    nixpkgs.config.nvidia.acceptLicense = true;
 
     nixpkgs.config.packageOverrides = pkgs: {
       steam = pkgs.steam.override {
