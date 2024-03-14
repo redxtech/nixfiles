@@ -56,6 +56,12 @@
           inherit system;
           config.allowUnfree = true;
         });
+      realHostNames = [
+        "bastion"
+        "voyager"
+        "quasar"
+        # "gizmo"
+      ];
     in rec {
       inherit lib;
 
@@ -73,13 +79,7 @@
         commonModules = [ ./hosts/common ]
           ++ (builtins.attrValues nixosModules);
         specialArgs = {
-          inherit inputs overlays packages homeManagerModules;
-          realHostNames = [
-            "bastion"
-            "voyager"
-            "quasar"
-            # "gizmo"
-          ];
+          inherit inputs overlays packages realHostNames homeManagerModules;
         };
       in {
         # main desktop
@@ -112,7 +112,7 @@
 
       homeConfigurations = let
         commonModules = (builtins.attrValues homeManagerModules);
-        extraSpecialArgs = { inherit inputs overlays packages; };
+        extraSpecialArgs = { inherit inputs overlays packages realHostNames; };
       in {
         "gabe@bastion" = lib.homeManagerConfiguration {
           inherit extraSpecialArgs;
@@ -144,23 +144,6 @@
         #   modules = [ ./home/gabe/gizmo.nix ];
         #   pkgs = pkgsFor.aarch64-linux;
         # };
-      };
-
-      defaultPackage = let
-        cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgsFor.x86_64-linux;
-      in cachix-deploy-lib.spec {
-        agents = {
-          voyager = cachix-deploy-lib.nixos {
-            modules = [ ./hosts/voyager ];
-            # pkgs = pkgsFor.x86_64-linux;
-            specialArgs = { inherit inputs; };
-          };
-          deck = cachix-deploy-lib.homeManager { } ({
-            modules = [ ./home/gabe/deck.nix ];
-            pkgs = pkgsFor.x86_64-linux;
-            extraSpecialArgs = { inherit inputs; };
-          });
-        };
       };
     };
 }
