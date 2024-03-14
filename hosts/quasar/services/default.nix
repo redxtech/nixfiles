@@ -65,7 +65,7 @@ in {
       ProtocolHeader = "X-Forwarded-Proto";
     };
 
-    services.traefik.dynamicConfigOptions.http =
+    traefik.dynamicConfigOptions.http =
       lib.mkIf config.services.traefik.enable {
         routers.cockpit = {
           rule = "Host(`${config.nas.domain}`)";

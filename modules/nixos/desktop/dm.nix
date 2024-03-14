@@ -34,10 +34,7 @@ in {
           enable = true;
           autoSuspend = false;
         };
-
-        defaultSession = "none+bspwm";
       };
-
     };
   };
 }
