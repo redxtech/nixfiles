@@ -67,7 +67,7 @@
           "quasar"
           # "gizmo"
         ];
-      in rec {
+      in {
         inherit lib;
 
         nixosModules = import ./modules/nixos;
@@ -77,9 +77,10 @@
 
         nixosConfigurations = let
           commonModules = [ ./hosts/common ]
-            ++ (builtins.attrValues nixosModules);
+            ++ (builtins.attrValues self.nixosModules);
           specialArgs = {
-            inherit inputs overlays realHostNames homeManagerModules;
+            inherit inputs realHostNames;
+            inherit (self) overlays homeManagerModules;
           };
         in {
           # main desktop
@@ -114,8 +115,11 @@
         };
 
         homeConfigurations = let
-          commonModules = (builtins.attrValues homeManagerModules);
-          extraSpecialArgs = { inherit inputs overlays realHostNames; };
+          commonModules = (builtins.attrValues self.homeManagerModules);
+          extraSpecialArgs = {
+            inherit inputs realHostNames;
+            inherit (self) overlays;
+          };
         in {
           "gabe@deck" = lib.homeManagerConfiguration {
             inherit extraSpecialArgs;
