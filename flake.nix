@@ -54,6 +54,7 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         # inputs.nixos-flake.flakeModule
+        inputs.devenv.flakeModule
       ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
@@ -132,10 +133,7 @@
           # in cachix-deploy-lib.spec { agents = { }; };
         } // (import ./pkgs { inherit pkgs; });
 
-        devShells = import ./shell.nix {
-          inherit pkgs;
-          inputs = inputs';
-        };
+        devenv.shells = import ./shell.nix { inherit inputs' pkgs; };
 
         formatter = pkgs.nixpkgs-fmt;
       };
