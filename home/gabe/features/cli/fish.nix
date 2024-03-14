@@ -311,7 +311,7 @@ in {
             owner = "kidonng";
             repo = "nix.fish";
             rev = "ad57d970841ae4a24521b5b1a68121cf385ba71e";
-            sha256 = "sha256-Q77U18KYS/4BY0MUaFh7U/EA3AyidpurdTyR6C86KqI=";
+            sha256 = "sha256-GMV0GyORJ8Tt2S9wTCo2lkkLtetYv0rc19aA5KJbo48=";
           };
         }
         {
