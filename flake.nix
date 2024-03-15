@@ -54,10 +54,7 @@
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, ... }:
     let realHostNames = [ "bastion" "voyager" "quasar" ];
     in flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        # inputs.nixos-flake.flakeModule
-        inputs.devenv.flakeModule
-      ];
+      # imports = [ ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
       flake = let lib = nixpkgs.lib // home-manager.lib;
@@ -158,11 +155,9 @@
           in cachix-deploy-lib.spec {
             agents = let
               common = [ ./hosts/common ]
-                ++ (builtins.attrValues self.nixosModules);
+                ++ (builtins.attrValues (import ./modules/nixos));
             in {
-              bastion = cachix-deploy-lib.nixos {
-                imports = [ ./hosts/bastion ] ++ common;
-              };
+              bastion = cachix-deploy-lib.nixos ([ ./hosts/bastion ] ++ common);
             };
           };
         } // (import ./pkgs { inherit pkgs; });
