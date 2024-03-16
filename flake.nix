@@ -54,7 +54,8 @@
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, ... }:
     let realHostNames = [ "bastion" "voyager" "quasar" ];
     in flake-parts.lib.mkFlake { inherit inputs; } {
-      # imports = [ ];
+      imports = [ ./deploy.nix ];
+
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
       flake = let lib = nixpkgs.lib // home-manager.lib;
@@ -121,46 +122,13 @@
             };
           };
         };
-
-        deploy = {
-          nodes = let
-            mkNode = name: system: {
-              hostname = name;
-              profiles.system = {
-                user = "gabe";
-                fastConnection = true;
-                path = inputs.deploy-rs.lib.${system}.activate.nixos
-                  self.nixosConfigurations.bastion;
-                # remoteBuild = true;
-              };
-            };
-          in {
-            bastion = mkNode "bastion" "x86_64-linux";
-            # voyager = mkNode "voyager" "x86_64-linux";
-            # quasar = mkNode "quasar" "x86_64-linux";
-          };
-        };
-
-        checks = builtins.mapAttrs
-          (system: deployLib: deployLib.deployChecks self.deploy)
-          inputs.deploy-rs.lib;
       };
 
       # per-system attributes can be defined here. the self' and inputs'
       # module parameters provide easy access to attributes of the same
       # system.
       perSystem = { config, self', inputs', pkgs, system, ... }: {
-        packages = {
-          default = let cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
-          in cachix-deploy-lib.spec {
-            agents = let
-              common = [ ./hosts/common ]
-                ++ (builtins.attrValues (import ./modules/nixos));
-            in {
-              bastion = cachix-deploy-lib.nixos ([ ./hosts/bastion ] ++ common);
-            };
-          };
-        } // (import ./pkgs { inherit pkgs; });
+        packages = (import ./pkgs { inherit pkgs; });
 
         devShells = import ./shell.nix { inherit inputs' pkgs; };
         # devenv.shells = (import ./shell.nix { inherit inputs' pkgs; });
