@@ -183,6 +183,7 @@ with lib; {
       rcp = "rclone copy -P --transfers=20";
       rgu = "rg -uu";
       rsync = "rsync --info=progress2 -r";
+      todoist = mkIf (hasPackage "todoist") "todoist --color";
       xclip = "xclip -selection c";
       vrg = mkIf (hasNeovim && hasRipgrep) "nvimrg";
 

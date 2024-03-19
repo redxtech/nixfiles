@@ -100,8 +100,8 @@ in {
             "icon-menu"
             "margin"
             "bspwm"
-            "margin"
             "polywins"
+            "todo"
           ];
           center = concatStringsSep " " [ "player-mpris-tail" ];
           right = concatStringsSep " " (config.profileVars.polybarModulesRight
@@ -608,6 +608,19 @@ in {
             foreground = "\${colours.fg}";
             padding = 1;
           };
+        };
+      };
+      "module/todo" = {
+        type = "custom/script";
+
+        exec =
+          "${pkgs.todoist}/bin/todoist list --filter 'today & !#daily' | ${pkgs.gawk}/bin/awk '{print substr($0, index($0, $6)) \" -> \" $4}'";
+        interval = 60;
+
+        format = "<label>";
+        label = {
+          text = "%output%";
+          padding = 1;
         };
       };
       "module/tray" = {

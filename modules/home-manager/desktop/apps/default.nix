@@ -45,6 +45,7 @@ in {
         multiviewer-for-f1
         neovide
         pavucontrol
+        planify
         playerctl
         plexamp
         qdirstat
