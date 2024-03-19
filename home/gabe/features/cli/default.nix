@@ -78,6 +78,7 @@ with lib; {
       steam-run # run binaries in fhs
       slurm-nm # network monitor
       timer # to help with my ADHD paralysis
+      todoist # todo app client
       tokei # count lines of code in project
       urlencode # url encoder
       xclip # clipboard manager
