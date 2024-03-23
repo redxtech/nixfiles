@@ -93,6 +93,7 @@ in {
     };
   };
 
-  config =
-    mkIf cfg.enable { desktop.hardware.hasBattery = mkDefault cfg.isLaptop; };
+  config = mkIf cfg.enable {
+    desktop.hardware.battery.hasBattery = mkDefault cfg.isLaptop;
+  };
 }

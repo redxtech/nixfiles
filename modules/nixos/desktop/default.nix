@@ -48,6 +48,12 @@ in {
       description = "Install the Solaar package for Logitech devices.";
     };
 
+    remap = mkOption {
+      type = bool;
+      default = false;
+      description = "Remap keys using xremap.";
+    };
+
     remaps = mkOption {
       type = attrsOf str;
       default = { "CapsLock" = "SUPER_L"; };
@@ -66,7 +72,7 @@ in {
 
     # xremap config
     services.xremap = {
-      withX11 = true;
+      withX11 = cfg.remap;
       config.modmap = [{
         name = "Global";
         remap = cfg.remaps;
