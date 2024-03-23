@@ -11,6 +11,10 @@
           desktop = "chat";
           follow = false;
         };
+        vesktop = {
+          desktop = "chat";
+          follow = false;
+        };
         Spotify = { desktop = "music"; };
         obsidian = {
           desktop = "^4";
@@ -341,10 +345,6 @@
           state = "floating";
           workspace = "r-www";
         };
-      }];
-      runDays = [{
-        cmd = "${slack}/bin/slack";
-        days = [ 0 1 2 3 4 ];
       }];
     };
   };
