@@ -53,9 +53,15 @@
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
     let
       realHostNames = [ "bastion" "voyager" "quasar" ];
+
+      extraSpecialArgs = {
+        inherit inputs realHostNames;
+        inherit (self) overlays;
+      };
+
       modules = (import ./modules {
-        inherit inputs;
-        inherit (self) nixosModules homeManagerModules;
+        inherit inputs extraSpecialArgs;
+        inherit (self) nixosModules homeManagerModules lib overlays;
       });
     in flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ ./deploy.nix ];
@@ -108,12 +114,7 @@
           # };
         };
 
-        homeConfigurations = let
-          extraSpecialArgs = {
-            inherit inputs realHostNames;
-            inherit (self) overlays;
-          };
-        in {
+        homeConfigurations = {
           "gabe@deck" = lib.homeManagerConfiguration {
             inherit extraSpecialArgs;
             modules = modules.home-manager.deck;

@@ -3,7 +3,6 @@
 {
   imports = [
     ./langs.nix
-    ./nix.nix
     ./sops.nix
     ./user-theme.nix # TODO: remove in favour of custom theme module
     ../features/cli

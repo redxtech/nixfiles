@@ -1,9 +1,12 @@
-{ inputs, nixosModules, homeManagerModules, ... }:
+{ inputs, lib, nixosModules, homeManagerModules, extraSpecialArgs, overlays, ...
+}:
 
 let
+  nixcfg = (import ../nix.nix { inherit inputs lib overlays; });
   homeCommon = [
     inputs.sops-nix.homeManagerModules.sops
     inputs.nix-flatpak.homeManagerModules.nix-flatpak
+    { config = { inherit (nixcfg) nix; }; }
   ] ++ (builtins.attrValues homeManagerModules);
 in rec {
   nixos = {
@@ -16,7 +19,14 @@ in rec {
       inputs.sops-nix.nixosModules.sops
       inputs.xremap-flake.nixosModules.default
 
-      { config.home-manager.sharedModules = homeCommon; }
+      { config = { inherit (nixcfg) nix nixpkgs; }; }
+      {
+        config.home-manager = {
+          inherit extraSpecialArgs;
+          sharedModules = homeCommon;
+          useGlobalPkgs = true;
+        };
+      }
 
     ] ++ (builtins.attrValues nixosModules);
 
@@ -29,7 +39,6 @@ in rec {
 
       inputs.disko.nixosModules.disko
     ] ++ nixos.common;
-
     voyager = [
       ../hosts/voyager
 
@@ -48,7 +57,6 @@ in rec {
     ] ++ nixos.common;
   };
 
-  home-manager = {
-    deck = [ ../home/gabe/deck.nix ({ imports = homeCommon; }) ];
-  };
+  home-manager = let common = [{ imports = homeCommon; }];
+  in { deck = [ ../home/gabe/deck.nix ] ++ common; };
 }

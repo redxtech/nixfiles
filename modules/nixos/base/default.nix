@@ -1,5 +1,4 @@
-{ inputs, pkgs, lib, config, overlays, packages, homeManagerModules
-, realHostNames, ... }:
+{ inputs, pkgs, lib, config, overlays, ... }:
 
 let
   inherit (lib) mkIf mkDefault mkOption mkEnableOption optional;
@@ -11,14 +10,8 @@ let
   # this avoids accidental auto-upgrades when working locally.
   isClean = inputs.self ? rev;
 in {
-  imports = [
-    ./cli.nix
-    ./nix.nix
-    ./security.nix
-    ./services.nix
-    ./ssh.nix
-    ./virtualization.nix
-  ];
+  imports =
+    [ ./cli.nix ./security.nix ./services.nix ./ssh.nix ./virtualization.nix ];
 
   options.base = with lib.types; {
     enable = mkEnableOption "Enable the base system module.";
@@ -70,12 +63,6 @@ in {
     networking.hostName = cfg.hostname;
 
     time.timeZone = mkDefault cfg.tz;
-
-    # pass default arts to home-manager modules
-    home-manager = {
-      # useGlobalPkgs = true;
-      extraSpecialArgs = { inherit inputs overlays packages realHostNames; };
-    };
 
     # basic packages
     environment.systemPackages =
