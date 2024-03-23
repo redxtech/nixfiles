@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, config, options, ... }:
+{ pkgs, lib, config, options, ... }:
 
 # TODO:
 # - merge global binds with bspwm binds (extract bspwm only binds to own config)

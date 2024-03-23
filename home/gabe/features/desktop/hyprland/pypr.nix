@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   xdg.configFile."hypr/pyprland.toml".source = let toml = pkgs.formats.toml { };

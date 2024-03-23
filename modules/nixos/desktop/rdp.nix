@@ -1,4 +1,4 @@
-{ inputs, pkgs, config, ... }:
+{ pkgs, config, ... }:
 
 let
   inherit mkIf;
