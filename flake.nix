@@ -54,9 +54,9 @@
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
     let
       realHostNames = [ "bastion" "voyager" "quasar" ];
-      modules = (import ./modules/hosts.nix {
+      modules = (import ./modules {
         inherit inputs;
-        inherit (self) nixosModules;
+        inherit (self) nixosModules homeManagerModules;
       });
     in flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ ./deploy.nix ];
@@ -82,19 +82,19 @@
           bastion = lib.nixosSystem {
             inherit specialArgs;
             system = "x86_64-linux";
-            modules = modules.bastion;
+            modules = modules.nixos.bastion;
           };
           # laptop
           voyager = lib.nixosSystem {
             inherit specialArgs;
             system = "x86_64-linux";
-            modules = modules.voyager;
+            modules = modules.nixos.voyager;
           };
           # nas & media server
           quasar = lib.nixosSystem {
             inherit specialArgs;
             system = "x86_64-linux";
-            modules = modules.quasar;
+            modules = modules.nixos.quasar;
           };
           # # raspi - ??
           # gizmo = lib.nixosSystem {
@@ -110,7 +110,6 @@
         };
 
         homeConfigurations = let
-          commonModules = (builtins.attrValues self.homeManagerModules);
           extraSpecialArgs = {
             inherit inputs realHostNames;
             inherit (self) overlays;
@@ -118,7 +117,7 @@
         in {
           "gabe@deck" = lib.homeManagerConfiguration {
             inherit extraSpecialArgs;
-            modules = [ ./home/gabe/deck.nix ] ++ commonModules;
+            modules = modules.home-manager.deck;
             pkgs = import nixpkgs {
               system = "x86_64-linux";
               config.allowUnfree = true;
