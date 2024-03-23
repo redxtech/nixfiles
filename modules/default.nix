@@ -33,10 +33,8 @@ rec {
   };
 
   home-manager = rec {
-    common = [
-      inputs.sops-nix.homeManagerModules.sops
-      inputs.nix-colors.homeManagerModules.default
-    ] ++ (builtins.attrValues homeManagerModules);
+    common = [ inputs.sops-nix.homeManagerModules.sops ]
+      ++ (builtins.attrValues homeManagerModules);
 
     deck = [ ../home/gabe/deck.nix { imports = [ home-manager.common ]; } ];
   };

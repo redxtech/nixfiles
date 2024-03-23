@@ -44,7 +44,6 @@
     hardware.url = "github:nixos/nixos-hardware";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nix-autobahn.url = "github:lassulus/nix-autobahn";
-    nix-colors.url = "github:misterio77/nix-colors";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     rust-overlay.url = "github:oxalica/rust-overlay";
     xremap-flake.url = "github:xremap/nix-flake";

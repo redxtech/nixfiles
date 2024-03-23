@@ -51,20 +51,6 @@ in {
       };
     });
 
-    # https://github.com/NixOS/nix/issues/5567#issuecomment-1193259926
-    # nix = addPatches prev.nix [ ./nix-make-installables-expr-context.patch ];
-    pfetch = prev.pfetch.overrideAttrs (oldAttrs: {
-      version = "unstable-2021-12-10";
-      src = final.fetchFromGitHub {
-        owner = "dylanaraps";
-        repo = "pfetch";
-        rev = "a906ff89680c78cec9785f3ff49ca8b272a0f96b";
-        sha256 = "sha256-9n5w93PnSxF53V12iRqLyj0hCrJ3jRibkw8VK3tFDvo=";
-      };
-      # Add term option, rename de to desktop, add scheme option
-      patches = (oldAttrs.patches or [ ]) ++ [ ./pfetch.patch ];
-    });
-
     rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
     # rofi = prev.rofi-wayland.override { plugins = [ prev.rofi-emoji ]; };
 

@@ -22,7 +22,6 @@
     };
   };
 
-  # TODO: use nix-colors
   xdg.configFile."rio/themes/dracula.toml".text = ''
     [colors]
     background       = '#282A36'

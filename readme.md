@@ -99,7 +99,6 @@ Most relevant user apps daily drivers:
 
 Nixy stuff:
 
-- nix-colors
 - sops-nix
 - home-manager
 - and NixOS and nix itself, of course :)

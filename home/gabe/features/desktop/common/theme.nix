@@ -1,13 +1,7 @@
 { config, pkgs, inputs, ... }:
 
-let
-  inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
-in rec {
-  home.packages = with pkgs;
-    [
-      # theme
-      vimix-cursor-theme
-    ];
+rec {
+  home.packages = with pkgs; [ vimix-cursor-theme ];
 
   fontProfiles = {
     enable = true;
@@ -60,8 +54,6 @@ in rec {
     theme = {
       name = "Dracula";
       package = pkgs.dracula-theme;
-      # name = "${config.colorscheme.slug}";
-      # package = gtkThemeFromScheme { scheme = config.colorscheme; };
     };
 
     iconTheme = {
