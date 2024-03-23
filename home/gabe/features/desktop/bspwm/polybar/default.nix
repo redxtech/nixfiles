@@ -101,7 +101,7 @@ in {
             "margin"
             "bspwm"
             "polywins"
-            "todo"
+            # "todo"
           ];
           center = concatStringsSep " " [ "player-mpris-tail" ];
           right = concatStringsSep " " (config.profileVars.polybarModulesRight

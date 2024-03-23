@@ -35,7 +35,8 @@ in {
         mkNoPwd = pkg: cmd: mkRule pkg cmd [ "NOPASSWD" ];
       in [{
         commands = (mkNoPwd pkgs.unixtools.fdisk "fdisk -l")
-          ++ (mkNoPwd pkgs.ps_mem "ps_mem");
+          ++ (mkNoPwd pkgs.ps_mem "ps_mem")
+          ++ (mkNoPwd pkgs.systemd "systemctl restart xremap.service");
         groups = [ "wheel" ];
       }];
     };
