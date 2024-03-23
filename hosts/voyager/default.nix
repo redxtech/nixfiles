@@ -1,12 +1,7 @@
-{ inputs, pkgs, config, ... }:
+{ pkgs, config, ... }:
 
 {
-  imports = [
-    inputs.hardware.nixosModules.dell-xps-15-7590-nvidia
-
-    ./hardware-configuration.nix
-    ./filesystem.nix
-  ];
+  imports = [ ./hardware-configuration.nix ./filesystem.nix ];
 
   base = {
     enable = true;

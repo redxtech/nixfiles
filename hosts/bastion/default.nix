@@ -1,15 +1,7 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  imports = [
-    inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-amd
-    inputs.hardware.nixosModules.common-pc-ssd
-    inputs.disko.nixosModules.disko
-
-    ./hardware-configuration.nix
-    ./filesystem.nix
-  ];
+  imports = [ ./hardware-configuration.nix ./filesystem.nix ];
 
   base = {
     enable = true;

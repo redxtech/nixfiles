@@ -51,8 +51,13 @@
     # nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, ... }:
-    let realHostNames = [ "bastion" "voyager" "quasar" ];
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
+    let
+      realHostNames = [ "bastion" "voyager" "quasar" ];
+      modules = (import ./modules/hosts.nix {
+        inherit inputs;
+        inherit (self) nixosModules;
+      });
     in flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ ./deploy.nix ];
 
@@ -68,8 +73,6 @@
         overlays = import ./overlays { inherit inputs; };
 
         nixosConfigurations = let
-          commonModules = [ ./hosts/common ]
-            ++ (builtins.attrValues self.nixosModules);
           specialArgs = {
             inherit inputs realHostNames;
             inherit (self) overlays homeManagerModules;
@@ -79,19 +82,19 @@
           bastion = lib.nixosSystem {
             inherit specialArgs;
             system = "x86_64-linux";
-            modules = [ ./hosts/bastion ] ++ commonModules;
+            modules = modules.bastion;
           };
           # laptop
           voyager = lib.nixosSystem {
             inherit specialArgs;
             system = "x86_64-linux";
-            modules = [ ./hosts/voyager ] ++ commonModules;
+            modules = modules.voyager;
           };
           # nas & media server
           quasar = lib.nixosSystem {
             inherit specialArgs;
             system = "x86_64-linux";
-            modules = [ ./hosts/quasar ] ++ commonModules;
+            modules = modules.quasar;
           };
           # # raspi - ??
           # gizmo = lib.nixosSystem {

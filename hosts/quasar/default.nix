@@ -1,11 +1,7 @@
-{ inputs, pkgs, config, ... }:
+{ pkgs, config, ... }:
 
 {
   imports = [
-    inputs.hardware.nixosModules.common-cpu-intel-cpu-only
-    inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
-    inputs.hardware.nixosModules.common-pc-ssd
-
     ./hardware-configuration.nix
     ./filesystem.nix
 
