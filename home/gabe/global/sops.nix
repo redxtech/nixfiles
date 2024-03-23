@@ -1,8 +1,6 @@
-{ inputs, lib, config, ... }:
+{ lib, config, ... }:
 
 {
-  imports = [ inputs.sops-nix.homeManagerModules.sops ];
-
   sops = {
     defaultSopsFile = ../secrets.yaml;
     age.sshKeyPaths = lib.mkDefault [ "/home/gabe/.ssh/id_ed25519" ];

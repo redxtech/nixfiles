@@ -1,9 +1,8 @@
-{ inputs, pkgs, lib, config, ... }:
+{ pkgs, lib, config, ... }:
 
 let cfg = config.desktop;
 in {
   imports = [
-    inputs.nix-flatpak.homeManagerModules.nix-flatpak
     ./firefox
     ./kitty.nix
     ./mpv.nix

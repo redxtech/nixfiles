@@ -99,7 +99,7 @@ in with types; {
   };
 
   config = let
-    inherit (lib) filter length;
+    inherit (lib) head filter length;
     primaryMonitors = (filter (m: m.primary) cfg.monitors);
   in lib.mkIf cfg.enable {
     # ensure exactly one monitor is set to primary
@@ -110,8 +110,7 @@ in with types; {
     }];
 
     # expose primary monitor name
-    desktop.primaryMonitor = lib.mkIf (length primaryMonitors != 0)
-      (builtins.elemAt primaryMonitors 0).name;
+    desktop.primaryMonitor = (head primaryMonitors).name;
 
     # autorandr config
     programs.autorandr = let

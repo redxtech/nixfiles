@@ -12,9 +12,6 @@ let
   isClean = inputs.self ? rev;
 in {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
-    inputs.sops-nix.nixosModules.sops
-
     ./cli.nix
     ./nix.nix
     ./security.nix
@@ -78,7 +75,6 @@ in {
     home-manager = {
       # useGlobalPkgs = true;
       extraSpecialArgs = { inherit inputs overlays packages realHostNames; };
-      sharedModules = (builtins.attrValues homeManagerModules);
     };
 
     # basic packages

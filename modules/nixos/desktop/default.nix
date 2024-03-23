@@ -1,14 +1,10 @@
-{ inputs, pkgs, lib, config, ... }:
+{ pkgs, lib, config, ... }:
 
 let
   cfg = config.desktop;
   inherit (lib) mkIf mkOption mkEnableOption;
 in {
   imports = [
-    inputs.nix-flatpak.nixosModules.nix-flatpak
-    inputs.solaar.nixosModules.default
-    inputs.xremap-flake.nixosModules.default
-
     ./dm.nix
     ./gaming.nix
     # ./rdp.nix

@@ -1,8 +1,24 @@
 { inputs, nixosModules, homeManagerModules, ... }:
 
-rec {
+let
+  homeCommon = [
+    inputs.sops-nix.homeManagerModules.sops
+    inputs.nix-flatpak.homeManagerModules.nix-flatpak
+  ] ++ (builtins.attrValues homeManagerModules);
+in rec {
   nixos = {
-    common = [ ../hosts/common ] ++ (builtins.attrValues nixosModules);
+    common = [
+      ../hosts/common
+
+      inputs.home-manager.nixosModules.home-manager
+      inputs.nix-flatpak.nixosModules.nix-flatpak
+      inputs.solaar.nixosModules.default
+      inputs.sops-nix.nixosModules.sops
+      inputs.xremap-flake.nixosModules.default
+
+      { config.home-manager.sharedModules = homeCommon; }
+
+    ] ++ (builtins.attrValues nixosModules);
 
     bastion = [
       ../hosts/bastion
@@ -32,10 +48,7 @@ rec {
     ] ++ nixos.common;
   };
 
-  home-manager = rec {
-    common = [ inputs.sops-nix.homeManagerModules.sops ]
-      ++ (builtins.attrValues homeManagerModules);
-
-    deck = [ ../home/gabe/deck.nix { imports = [ home-manager.common ]; } ];
+  home-manager = {
+    deck = [ ../home/gabe/deck.nix ({ imports = homeCommon; }) ];
   };
 }
