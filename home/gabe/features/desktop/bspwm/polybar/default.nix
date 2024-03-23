@@ -9,8 +9,21 @@ in {
     player-mpris-tail
   ];
 
-  services.polybar = with config.user-theme; {
+  services.polybar = let
+    inherit (builtins) concatStringsSep elemAt length;
+    inherit (config.desktop) isLaptop;
+    inherit (lib) optional mkIf;
+  in with config.user-theme; {
     enable = true;
+
+    script = ''
+      polybar main &
+
+      ${if (length config.desktop.monitors > 1) then
+        "polybar secondary &"
+      else
+        ""}
+    '';
 
     settings = let
       runFloat = window:
@@ -19,16 +32,33 @@ in {
         "${runFloat "kitty"} ${pkgs.kitty}/bin/kitty --single-instance";
       runBtop = "${kittyRun} ${pkgs.btop}/bin/btop";
       runSlurm =
-        "${kittyRun} -o initial_window_width=79c -o initial_window_height=22c ${pkgs.slurm-nm}/bin/slurm -i ${config.profileVars.network.interface}";
+        "${kittyRun} -o initial_window_width=79c -o initial_window_height=22c ${pkgs.slurm-nm}/bin/slurm -i ${config.desktop.hardware.network.interface}";
       runPS_MEM = ''
         ${kittyRun} ${pkgs.fish}/bin/fish -c "sudo ${pkgs.ps_mem}/bin/ps_mem; read -s -n 1 -p 'echo Press any key to continue...'"'';
       runWttr =
         "${kittyRun} ${pkgs.fish}/bin/fish -c '${pkgs.curl}/bin/curl wttr.in; read -n 1 -p \"echo Press any key to continue...\"'";
 
-      isWired = (config.profileVars.network.type == "wired");
+      isWired = (config.desktop.hardware.network.type == "wired");
 
       rofiScripts = (import ../../rofi/scripts) { inherit pkgs lib config; };
-    in {
+
+      baseModules = ([ "weather" "margin" ]
+        ++ (optional isLaptop [ "backlight" "margin" ]) ++ [
+          # "kdeconnect"
+          # "margin"
+          "pipewire"
+          "margin"
+          "memory"
+          "margin"
+          "temperature"
+          "margin"
+          "cpu"
+          "margin"
+          "network"
+          "margin"
+        ] ++ (optional isLaptop [ "battery" "margin" ])
+        ++ [ "date" "margin" "dnd" ]);
+    in rec {
       "colours" = {
         # named colours
         bg = bg;
@@ -95,7 +125,7 @@ in {
           "Symbols Nerd Font Mono:style=Regular:size=8;2"
         ];
 
-        modules = with builtins; {
+        modules = {
           left = concatStringsSep " " [
             "icon-menu"
             "margin"
@@ -104,14 +134,30 @@ in {
             # "todo"
           ];
           center = concatStringsSep " " [ "player-mpris-tail" ];
-          right = concatStringsSep " " (config.profileVars.polybarModulesRight
-            ++ [ "margin" "tray" "margin" ]);
+          right =
+            concatStringsSep " " (baseModules ++ [ "margin" "tray" "margin" ]);
+        };
+      };
+      "bar/secondary" = mkIf (length config.desktop.monitors > 1) {
+        inherit (config.services.polybar.settings."bar/main")
+          width height line-size offset bottom fixed-center wm-restack
+          override-redirect enable-ipc background foreground cursor font;
+
+        monitor = "${(elemAt config.desktop.monitors 1).name}";
+
+        modules = {
+          left = concatStringsSep " " [ "bspwm" "margin" "polywins-secondary" ];
+          center = config.services.polybar.settings."bar/main".modules.center;
+          right =
+            concatStringsSep " " (baseModules ++ [ "margin" "powermenu" ]);
         };
       };
       "settings" = { screenchange-reload = true; };
       # modules
       "module/backlight" = {
         type = "internal/backlight";
+
+        card = config.desktop.hardware.backlightCard;
 
         enable-scroll = true;
         scroll-interval = -10;
@@ -134,6 +180,10 @@ in {
       };
       "module/battery" = {
         type = "internal/battery";
+
+        battery = config.desktop.hardware.battery.device;
+        adapter = config.desktop.hardware.battery.adapter;
+        full-at = config.desktop.hardware.battery.full-at;
 
         format = {
           charging = {
@@ -437,6 +487,7 @@ in {
         type = "internal/network";
 
         interval = 3;
+        interface-type = config.desktop.hardware.network.type;
 
         animation-packetloss = [ (if isWired then "󰌙" else "󰤮") "" ];
         animation.packetloss = {
@@ -486,10 +537,7 @@ in {
         };
         label = {
           connected = {
-            text = lib.mkDefault (if isWired then
-              "%ifname% %netspeed:07%"
-            else
-              "%essid% %netspeed:07%");
+            text = (if isWired then "%ifname% %netspeed:07%" else "%essid%");
             background = "\${colours.bg-alt}";
             foreground = "\${colours.fg}";
             padding = 1;
@@ -550,13 +598,21 @@ in {
         tail = true;
 
         exec =
-          "${scripts.polywins}/bin/polywins ${config.profileVars.primaryMonitor}";
+          "${scripts.polywins}/bin/polywins ${config.desktop.primaryMonitor}";
 
         format = "<label>";
         label = {
           text = "%output%";
           padding = 1;
         };
+      };
+      "module/polywins-secondary" = mkIf (length config.desktop.monitors > 1) {
+        inherit (config.services.polybar.settings."module/polywins")
+          format label tail type;
+
+        exec = "${scripts.polywins}/bin/polywins ${
+            (elemAt config.desktop.monitors 1).name
+          }";
       };
       "module/powermenu" = {
         type = "custom/text";
@@ -576,6 +632,7 @@ in {
 
         interval = 5;
         warn-temperature = 80;
+        hwmon-path = config.desktop.hardware.cpuTempPath;
 
         format = {
           text = "<label>%{A}";

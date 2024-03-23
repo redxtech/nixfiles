@@ -10,77 +10,6 @@
     ./features/desktop/common/kdeconnect.nix
   ];
 
-  profileVars = {
-    enable = true;
-
-    primaryMonitor = "DisplayPort-0";
-    secondaryMonitor = "DisplayPort-1";
-
-    network = {
-      type = "wired";
-      interface = "enp39s0";
-    };
-
-    hwmonPath = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp3_input";
-
-    polybarModulesRight = [
-      "weather"
-      "margin"
-      # "kdeconnect"
-      # "margin"
-      "pipewire"
-      "margin"
-      "memory"
-      "margin"
-      "temperature"
-      "margin"
-      "cpu"
-      "margin"
-      "network"
-      "margin"
-      "date"
-      "margin"
-      "dnd"
-    ];
-  };
-
-  services.polybar = with lib; {
-    script = ''
-      polybar main &
-      polybar secondary &
-    '';
-
-    settings = {
-      "bar/secondary" = {
-        inherit (config.services.polybar.settings."bar/main")
-          width height line-size offset bottom fixed-center wm-restack
-          override-redirect enable-ipc background foreground cursor font;
-
-        monitor = "${config.profileVars.secondaryMonitor}";
-
-        modules = {
-          left = concatStringsSep " " [ "bspwm" "margin" "polywins-secondary" ];
-          center = config.services.polybar.settings."bar/main".modules.center;
-          right = concatStringsSep " " (config.profileVars.polybarModulesRight
-            ++ [ "margin" "powermenu" ]);
-        };
-      };
-      "module/polywins-secondary" = let
-        scripts = (import ./features/desktop/bspwm/polybar/scripts) {
-          inherit pkgs lib;
-        };
-      in {
-        inherit (config.services.polybar.settings."module/polywins")
-          format label tail type;
-
-        exec =
-          "${scripts.polywins}/bin/polywins ${config.profileVars.secondaryMonitor}";
-      };
-    };
-  };
-
-  services.syncthing.enable = true;
-
   desktop = {
     wm.wm = "bspwm";
 
@@ -191,4 +120,5 @@
     ];
   };
 
+  services.syncthing.enable = true;
 }

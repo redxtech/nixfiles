@@ -3,17 +3,18 @@
 {
   wayland.windowManager.hyprland = with pkgs; {
     settings = {
-      workspace = [
-        "1,monitor:${config.profileVars.primaryMonitor}"
-        "2,monitor:${config.profileVars.primaryMonitor}"
-        "3,monitor:${config.profileVars.primaryMonitor}"
-        "4,monitor:${config.profileVars.primaryMonitor}"
-        "5,monitor:${config.profileVars.primaryMonitor}"
-        "6,monitor:${config.profileVars.primaryMonitor}"
-        "7,monitor:${config.profileVars.secondaryMonitor}"
-        "8,monitor:${config.profileVars.secondaryMonitor}"
-        "9,monitor:${config.profileVars.secondaryMonitor}"
-        "10,monitor:${config.profileVars.secondaryMonitor}"
+      workspace = let inherit (builtins) elemAt;
+      in [
+        "1,monitor:${config.desktop.primaryMonitor}"
+        "2,monitor:${config.desktop.primaryMonitor}"
+        "3,monitor:${config.desktop.primaryMonitor}"
+        "4,monitor:${config.desktop.primaryMonitor}"
+        "5,monitor:${config.desktop.primaryMonitor}"
+        "6,monitor:${config.desktop.primaryMonitor}"
+        "7,monitor:${(elemAt config.desktop.monitors 1).name}"
+        "8,monitor:${(elemAt config.desktop.monitors 1).name}"
+        "9,monitor:${(elemAt config.desktop.monitors 1).name}"
+        "10,monitor:${(elemAt config.desktop.monitors 1).name}"
       ];
 
       windowrule = [

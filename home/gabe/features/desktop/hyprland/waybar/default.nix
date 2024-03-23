@@ -43,17 +43,18 @@
           "urgent" = "";
           "default" = "";
         };
-        persistent-workspaces = {
-          "1" = [ "${config.profileVars.primaryMonitor}" ];
-          "2" = [ "${config.profileVars.primaryMonitor}" ];
-          "3" = [ "${config.profileVars.primaryMonitor}" ];
-          "4" = [ "${config.profileVars.primaryMonitor}" ];
-          "5" = [ "${config.profileVars.primaryMonitor}" ];
-          "6" = [ "${config.profileVars.primaryMonitor}" ];
-          "7" = [ "${config.profileVars.secondaryMonitor}" ];
-          "8" = [ "${config.profileVars.secondaryMonitor}" ];
-          "9" = [ "${config.profileVars.secondaryMonitor}" ];
-          "10" = [ "${config.profileVars.secondaryMonitor}" ];
+        persistent-workspaces = let inherit (builtins) elemAt;
+        in {
+          "1" = [ "${config.desktop.primaryMonitor}" ];
+          "2" = [ "${config.desktop.primaryMonitor}" ];
+          "3" = [ "${config.desktop.primaryMonitor}" ];
+          "4" = [ "${config.desktop.primaryMonitor}" ];
+          "5" = [ "${config.desktop.primaryMonitor}" ];
+          "6" = [ "${config.desktop.primaryMonitor}" ];
+          "7" = [ "${(elemAt config.desktop.monitors 1).name}" ];
+          "8" = [ "${(elemAt config.desktop.monitors 1).name}" ];
+          "9" = [ "${(elemAt config.desktop.monitors 1).name}" ];
+          "10" = [ "${(elemAt config.desktop.monitors 1).name}" ];
         };
       };
 

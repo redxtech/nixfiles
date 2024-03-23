@@ -53,8 +53,8 @@
 
     settings = with pkgs; {
       monitor = [
-        "${config.profileVars.primaryMonitor},2560x1440,0x0,1"
-        "${config.profileVars.secondaryMonitor},2560x1440,2560x0,1"
+        "${config.desktop.primaryMonitor},2560x1440,0x0,1"
+        "${(builtins.elemAt config.desktop.monitors 1).name},2560x1440,2560x0,1"
       ];
 
       input = {
