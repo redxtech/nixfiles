@@ -20,18 +20,19 @@
       inputs.deploy-rs.lib;
   };
 
-  perSystem = { config, self', inputs', pkgs, system, ... }:
-    {
-      # packages = {
-      #   default = let cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
-      #   in cachix-deploy-lib.spec {
-      #     agents = let
-      #       common = [ ./hosts/common ]
-      #         ++ (builtins.attrValues (import ./modules/nixos));
-      #     in {
-      #       bastion = cachix-deploy-lib.nixos ([ ./hosts/bastion ] ++ common);
-      #     };
-      #   };
-      # };
+  perSystem = { config, self', inputs', pkgs, system, ... }: {
+    packages = {
+      default = let
+        cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
+
+        modules = (import ./modules/default.nix {
+          inherit inputs;
+          inherit (self)
+            nixosModules homeManagerModules extraSpecialArgs overlays lib;
+        });
+      in cachix-deploy-lib.spec {
+        agents = { bastion = cachix-deploy-lib.nixos modules.nixos.bastion; };
+      };
     };
+  };
 }

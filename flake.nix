@@ -64,7 +64,7 @@
         inherit (self) nixosModules homeManagerModules lib overlays;
       });
     in flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ ./deploy.nix ];
+      imports = [ ./modules/flake/deploy.nix ./modules/flake/shell.nix ];
 
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
@@ -131,9 +131,6 @@
       # system.
       perSystem = { config, self', inputs', pkgs, system, ... }: {
         packages = (import ./pkgs { inherit pkgs; });
-
-        devShells = import ./shell.nix { inherit inputs' pkgs; };
-        # devenv.shells = (import ./shell.nix { inherit inputs' pkgs; });
 
         formatter = pkgs.nixpkgs-fmt;
       };
