@@ -64,7 +64,11 @@
         inherit (self) nixosModules homeManagerModules lib overlays;
       });
     in flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ ./modules/flake/deploy.nix ./modules/flake/shell.nix ];
+      imports = [
+        ./modules/flake/deploy.nix
+        ./modules/flake/overlays.nix
+        ./modules/flake/shell.nix
+      ];
 
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
