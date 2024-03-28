@@ -6,7 +6,7 @@
       EDITOR = "nvim";
       VISUAL = "nvim";
     };
-    packages = with pkgs; [ rnix-lsp ];
+    # packages = with pkgs; [ ];
   };
 
   programs.neovim = {
@@ -54,7 +54,6 @@
       nodePackages.vls
       nodePackages.vscode-json-languageserver-bin
       python311Packages.debugpy
-      rnix-lsp
       ruff-lsp
       shfmt
       stylua

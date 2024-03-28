@@ -7,7 +7,7 @@
     ./theme.nix
   ];
 
-  home.packages = with pkgs; [ amdgpu_top glxinfo lshw pciutils spotify-tui ];
+  home.packages = with pkgs; [ amdgpu_top glxinfo lshw pciutils ];
 
   xdg = {
     enable = true;

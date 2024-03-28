@@ -433,7 +433,7 @@ in {
 
         click = {
           left = "${scripts.player-mpris-tail}/bin/player-mpris play-pause &";
-          right = "${kittyRun} ${pkgs.spotify-tui}/bin/spt";
+          # right = "${kittyRun} ${pkgs.spotify-tui}/bin/spt"; # TODO: find replacement, spt is dead
           middle = "${scripts.copy-spotify-url}/bin/copy-spotify-url";
         };
 
@@ -462,7 +462,7 @@ in {
 
         click = {
           left = "${scripts.player-mpris-tail}/bin/player-mpris play-pause &";
-          right = "${kittyRun} ${pkgs.spotify-tui}/bin/spt";
+          # right = "${kittyRun} ${pkgs.spotify-tui}/bin/spt"; # TODO: find replacement, spt is dead
           middle = "${scripts.copy-spotify-url}/bin/copy-spotify-url";
         };
 
