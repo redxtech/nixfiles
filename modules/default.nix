@@ -1,11 +1,14 @@
-{ inputs, lib, nixosModules, homeManagerModules, extraSpecialArgs, overlays, ...
-}:
+{ inputs, lib, nixosModules, homeManagerModules, specialArgs, extraSpecialArgs
+, overlays, ... }:
 
 let
   nixcfg = (import ../nix.nix { inherit inputs lib overlays; });
+
   homeCommon = [
+    inputs.hyprland.homeManagerModules.default
     inputs.sops-nix.homeManagerModules.sops
     inputs.nix-flatpak.homeManagerModules.nix-flatpak
+
     { config = { inherit (nixcfg) nix; }; }
   ] ++ (builtins.attrValues homeManagerModules);
 in rec {
@@ -14,6 +17,7 @@ in rec {
       ../hosts/common
 
       inputs.home-manager.nixosModules.home-manager
+      inputs.hyprland.nixosModules.default
       inputs.nix-flatpak.nixosModules.nix-flatpak
       inputs.solaar.nixosModules.default
       inputs.sops-nix.nixosModules.sops
@@ -27,7 +31,6 @@ in rec {
           useGlobalPkgs = true;
         };
       }
-
     ] ++ (builtins.attrValues nixosModules);
 
     bastion = [

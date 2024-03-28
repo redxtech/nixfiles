@@ -1,9 +1,7 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
-    inputs.hyprland.homeManagerModules.default
-
     ./binds.nix
     ./exec.nix
     ./rules.nix
@@ -20,32 +18,28 @@
     ../wayland
   ];
 
-  home.packages = with pkgs;
-    let
-      core = inputs.hyprland.packages.${pkgs.system};
-      contrib = inputs.hyprland-contrib.packages.${pkgs.system};
-    in [
-      core.xdg-desktop-portal-hyprland
+  home.packages = with pkgs; [
+    xdg-desktop-portal-hyprland
 
-      contrib.hdrop
-      contrib.grimblast
-      contrib.scratchpad
-      pyprland
+    hdrop
+    grimblast
+    scratchpad
+    pyprland
 
-      cliphist
-      dunst
-      swww
-      pipewire
-      wireplumber
+    cliphist
+    dunst
+    swww
+    pipewire
+    wireplumber
 
-      qt6.qtwayland
-      libsForQt5.qt5.qtwayland
-    ];
+    qt6.qtwayland
+    libsForQt5.qt5.qtwayland
+  ];
 
   wayland.windowManager.hyprland = {
     enable = true;
 
-    plugins = with inputs.hyprland-plugins.packages.${pkgs.system};
+    plugins = with pkgs;
       [
         # hyprbars
         hyprtrails

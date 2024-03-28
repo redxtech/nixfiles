@@ -26,8 +26,13 @@
 
           plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };
 
+          nh = inputs.nh.packages.${final.system}.default;
+
           nix-autobahn =
             inputs.nix-autobahn.packages.${final.system}.nix-autobahn;
+
+          sddm-catppuccin =
+            inputs.sddm-catppuccin.packages.${final.system}.sddm-catppuccin;
         };
 
       # Modifies existing packages

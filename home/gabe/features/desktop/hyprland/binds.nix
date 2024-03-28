@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   wayland.windowManager.hyprland = with pkgs; {
@@ -11,8 +11,7 @@
       "$explorer" = "${cinnamon.nemo-with-extensions}/bin/nemo";
       "$music" = "${spotifywm}/bin/spotifywm";
 
-      bind = let hypr-contrib = inputs.hyprland-contrib.packages.${pkgs.system};
-      in [
+      bind = [
         # hyprland
         "$mod, Q, killactive"
         "$mod ALT, Q, exit"
@@ -85,9 +84,9 @@
         "$mod SHIFT ALT, H, exec, ${dunst}/bin/dunstctl close-all"
 
         # screenshot
-        ", Print, exec, ${hypr-contrib.grimblast}/bin/grimblast --notify copy area"
-        "SHIFT, Print, exec, ${hypr-contrib.grimblast}/bin/grimblast --notify copy output"
-        "$mod, Print, exec, ${hypr-contrib.grimblast}/bin/grimblast --notify save area - | ${swappy}/bin/swappy -f -"
+        ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copy area"
+        "SHIFT, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copy output"
+        "$mod, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify save area - | ${swappy}/bin/swappy -f -"
       ] ++ (
         # workspaces
         # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}

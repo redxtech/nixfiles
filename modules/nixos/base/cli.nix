@@ -61,7 +61,7 @@ in {
         zoxide
 
         # nix helper, better nixos-rebuild
-        inputs.nh.packages.${pkgs.system}.default
+        nh
       ];
 
       pathsToLink = [ "/share/zsh" ];
