@@ -18,6 +18,7 @@ in rec {
 
       inputs.home-manager.nixosModules.home-manager
       inputs.hyprland.nixosModules.default
+      inputs.nh.nixosModules.default
       inputs.nix-flatpak.nixosModules.nix-flatpak
       inputs.solaar.nixosModules.default
       inputs.sops-nix.nixosModules.sops
