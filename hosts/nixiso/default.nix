@@ -1,8 +1,8 @@
-{ pkgs, inputs, config, ... }:
+{ pkgs, config, ... }:
 
 {
   imports = [
-    inputs.nixos-generators.nixosModules.all-formats
+    # inputs.nixos-generators.nixosModules.all-formats
 
     # ./hardware-configuration.nix
     ./desktop-apps.nix

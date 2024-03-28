@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, config, overlays, ... }:
+{ pkgs, lib, config, overlays, ... }:
 
 let
   inherit (lib) mkIf mkDefault mkOption mkEnableOption optional;
@@ -8,7 +8,8 @@ let
 
   # only enable auto upgrade if current config came from a clean tree
   # this avoids accidental auto-upgrades when working locally.
-  isClean = inputs.self ? rev;
+  isClean = false;
+  # isClean = inputs.self ? rev;
 in {
   imports =
     [ ./cli.nix ./security.nix ./services.nix ./ssh.nix ./virtualization.nix ];

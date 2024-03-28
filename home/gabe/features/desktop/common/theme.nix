@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, ... }:
 
 rec {
   home.packages = with pkgs; [ vimix-cursor-theme ];

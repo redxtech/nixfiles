@@ -142,6 +142,7 @@ with lib; {
       n = "nix-shell -p";
       nb = "nix build";
       # nd = "nix develop -c $SHELL";
+      ndi = "nix develop --impure -c $SHELL";
       ns = "nix shell";
       nf = "nix flake";
       flakeup =
