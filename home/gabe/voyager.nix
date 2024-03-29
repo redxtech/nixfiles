@@ -7,7 +7,6 @@
     wm.wm = "bspwm";
 
     isLaptop = true;
-    remap = true;
 
     hardware = {
       cpuTempPath = "/sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input";

@@ -220,7 +220,7 @@ in {
     };
 
     # dbus packages
-    services.dbus.packages = with pkgs; [ python310Packages.dbus-python ];
+    services.dbus.packages = with pkgs; [ gcr python310Packages.dbus-python ];
 
     # udev
     services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];

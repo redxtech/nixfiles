@@ -6,8 +6,6 @@ with lib; {
     ./fish.nix
     ./git.nix
     ./gpg.nix
-    # ./jujutsu.nix
-    # ./lyrics.nix
     ./neovim.nix
     ./nix-index.nix
     ./programs.nix
