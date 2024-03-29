@@ -5,14 +5,11 @@
     # deploy-rs
     deploy.nodes = lib.mapAttrs (name: value: {
       hostname = name;
-      sshUser = "gabe";
+      sshUser = "root";
       fastConnection = true;
-      profiles.system = {
-        user = "root";
-        path =
-          inputs.deploy-rs.lib.${value.pkgs.stdenv.system}.activate.nixos value;
-      };
       remoteBuild = true;
+      profiles.system.path =
+        inputs.deploy-rs.lib.${value.pkgs.stdenv.system}.activate.nixos value;
     }) self.nixosConfigurations;
 
     checks =

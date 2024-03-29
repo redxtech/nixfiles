@@ -128,7 +128,7 @@ in {
       pkgs.nix-zsh-completions;
 
     programs.zsh = {
-      enableAutosuggestions = mkIf cfg.enableSyntaxCompletionsSuggestions false;
+      autosuggestion.enable = mkIf cfg.enableSyntaxCompletionsSuggestions false;
 
       enableCompletion = mkIf cfg.enableSyntaxCompletionsSuggestions false;
 
