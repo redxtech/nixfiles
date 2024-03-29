@@ -1,4 +1,4 @@
-{ pkgs, lib, config, realHostNames, ... }:
+{ pkgs, lib, config, ... }:
 
 with lib;
 let
@@ -132,7 +132,7 @@ in {
       };
 
       __fish_nixos_rebuild_remote_complete =
-        let hostnames = concatStringsSep " " realHostNames;
+        let hostnames = concatStringsSep " " [ "bastion" "voyager" "quasar" ];
         in {
           body = ''
             set -l hostnames ${hostnames}

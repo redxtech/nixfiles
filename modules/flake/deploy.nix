@@ -21,18 +21,12 @@
   };
 
   perSystem = { config, self', inputs', pkgs, system, ... }: {
-    packages = {
-      default = let
-        cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
-
-        modules = (import ./modules/default.nix {
-          inherit inputs;
-          inherit (self)
-            nixosModules homeManagerModules extraSpecialArgs overlays lib;
-        });
+    packages.default =
+      let cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
       in cachix-deploy-lib.spec {
-        agents = { bastion = cachix-deploy-lib.nixos modules.nixos.bastion; };
+        agents = {
+          bastion = cachix-deploy-lib.nixos self.nixosModules.bastion;
+        };
       };
-    };
   };
 }

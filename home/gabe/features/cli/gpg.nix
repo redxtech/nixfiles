@@ -1,7 +1,8 @@
 { pkgs, config, lib, ... }:
 
 {
-  home.packages = with pkgs; [ gcr pinentry-curses pinentry-gnome3 ];
+  home.packages = with pkgs;
+    if config.gtk.enable then [ gcr pinentry-gnome3 ] else [ pinentry-curses ];
 
   services.gpg-agent = {
     enable = false;

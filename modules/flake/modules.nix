@@ -3,8 +3,6 @@
 let inherit (builtins) attrValues;
 in {
   flake = let
-    realHostNames = [ "bastion" "voyager" "quasar" ];
-
     allNixos = import ../nixos;
     allHomeManager = import ../home-manager;
 
@@ -13,13 +11,7 @@ in {
       inputs.sops-nix.homeManagerModules.sops
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
 
-      {
-        config = {
-          inherit (self.nixCfg) nix;
-
-          _module.args = { inherit realHostNames; };
-        };
-      }
+      { config = { inherit (self.nixCfg) nix; }; }
     ] ++ attrValues allHomeManager;
 
     nixosCommon = [
@@ -36,8 +28,6 @@ in {
       {
         config = {
           inherit (self.nixCfg) nix nixpkgs;
-
-          _module.args = { inherit realHostNames; };
 
           home-manager = {
             sharedModules = homeCommon;

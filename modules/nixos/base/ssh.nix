@@ -1,4 +1,4 @@
-{ lib, config, realHostNames, ... }:
+{ lib, config, ... }:
 
 let
   inherit (lib) mkIf mkDefault;
@@ -44,7 +44,7 @@ in {
           publicKeyFile = pubKey name;
           extraHostNames = (lib.optional (name == hostName) "localhost");
         };
-      }) realHostNames);
+      }) [ "bastion" "voyager" "quasar" ]);
 
       startAgent = true;
     };
