@@ -1,4 +1,4 @@
-{ pkgs, lib, config, overlays, ... }:
+{ pkgs, lib, config, ... }:
 
 let
   inherit (lib) mkIf mkDefault mkOption mkEnableOption optional;

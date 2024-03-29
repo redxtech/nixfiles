@@ -51,80 +51,42 @@
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
-    let
-      realHostNames = [ "bastion" "voyager" "quasar" ];
-
-      extraSpecialArgs = {
-        inherit inputs realHostNames;
-        inherit (self) overlays;
-      };
-
-      modules = (import ./modules {
-        inherit inputs extraSpecialArgs;
-        inherit (self) nixosModules homeManagerModules lib overlays;
-      });
-    in flake-parts.lib.mkFlake { inherit inputs; } {
+    flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./modules/flake/deploy.nix
+        ./modules/flake/nix.nix
+        ./modules/flake/modules.nix
         ./modules/flake/overlays.nix
         ./modules/flake/shell.nix
       ];
 
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
-      flake = let lib = nixpkgs.lib // home-manager.lib;
-      in {
-        inherit lib;
-
-        nixosModules = import ./modules/nixos;
-        homeManagerModules = import ./modules/home-manager;
-
-        overlays = import ./overlays { inherit inputs; };
-
-        nixosConfigurations = let
-          specialArgs = {
-            inherit inputs realHostNames;
-            inherit (self) overlays homeManagerModules;
-          };
-        in {
+      flake = {
+        nixosConfigurations = {
           # main desktop
-          bastion = lib.nixosSystem {
-            inherit specialArgs;
+          bastion = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = modules.nixos.bastion;
+            modules = [ self.nixosModules.bastion ];
           };
           # laptop
-          voyager = lib.nixosSystem {
-            inherit specialArgs;
+          voyager = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = modules.nixos.voyager;
+            modules = [ self.nixosModules.voyager ];
           };
           # nas & media server
-          quasar = lib.nixosSystem {
-            inherit specialArgs;
+          quasar = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = modules.nixos.quasar;
+            modules = [ self.nixosModules.quasar ];
           };
-          # # raspi - ??
-          # gizmo = lib.nixosSystem {
-          #   inherit specialArgs;
-          #   modules = [ ./hosts/gizmo ] ++ commonModules;
-          # };
-          # # nixiso
-          # nixiso = lib.nixosSystem {
-          #   inherit specialArgs;
-          #   modules = [ ./hosts/nixiso ] ++ commonModules;
-          #   system = "x86_64-linux";
-          # };
         };
 
         homeConfigurations = {
-          "gabe@deck" = lib.homeManagerConfiguration {
-            inherit extraSpecialArgs;
-            modules = modules.home-manager.deck;
+          "gabe@deck" = home-manager.lib.homeManagerConfiguration {
+            modules = [ self.homeManagerModules.deck ];
             pkgs = import nixpkgs {
+              inherit (self.nixCfg.nixpkgs) config overlays;
               system = "x86_64-linux";
-              config.allowUnfree = true;
             };
           };
         };
