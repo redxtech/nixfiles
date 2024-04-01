@@ -97,13 +97,10 @@ with lib; {
       # personal packages
       switchup
 
-      # TODO: move these to their own file OR specific dev shells
-      (google-cloud-sdk.withExtraComponents
-        [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
       kubecolor
       kubectl
       kubectx
-      telepresence2
+      # telepresence2
     ];
 
     shellAliases = let
