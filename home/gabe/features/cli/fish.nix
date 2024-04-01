@@ -131,6 +131,25 @@ in {
         '';
       };
 
+      rdeploy = {
+        description = "Remotely deploys a NixOS machine";
+        wraps = "deploy";
+        body = ''
+          deploy --targets "$FLAKE#$argv[1]"
+        '';
+      };
+
+      __fish_rdeploy_complete =
+        let hostnames = concatStringsSep " " [ "bastion" "voyager" "quasar" ];
+        in {
+          body = ''
+            set -l hostnames ${hostnames}
+            for host in $hostnames
+                echo $host
+            end
+          '';
+        };
+
       __fish_nixos_rebuild_remote_complete =
         let hostnames = concatStringsSep " " [ "bastion" "voyager" "quasar" ];
         in {
