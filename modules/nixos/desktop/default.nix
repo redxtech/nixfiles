@@ -186,7 +186,6 @@ in {
 
     services = {
       blueman.enable = mkDefault true;
-      hardware.openrgb.enable = mkDefault true;
       printing.enable = mkDefault true;
       ratbagd.enable = mkDefault true;
       touchegg.enable = mkDefault cfg.isLaptop;
