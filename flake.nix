@@ -47,7 +47,7 @@
     nix-autobahn.url = "github:lassulus/nix-autobahn";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     rust-overlay.url = "github:oxalica/rust-overlay";
-    xremap-flake.url = "github:xremap/nix-flake";
+    xremap-flake.url = "github:redxtech/xremap-flake";
     # nur.url = "github:nix-community/NUR";
   };
 

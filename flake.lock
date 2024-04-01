@@ -2083,16 +2083,16 @@
     "xremap": {
       "flake": false,
       "locked": {
-        "lastModified": 1704342045,
-        "narHash": "sha256-hErjvNZNjsWNeeRVPdEfOQxJPtJCDLvCm8V7SHzXHws=",
+        "lastModified": 1711574442,
+        "narHash": "sha256-RR8SgnlQX8Gz9qwO/wN5NvFWsEQ/vvNdmOxxFojri90=",
         "owner": "k0kubun",
         "repo": "xremap",
-        "rev": "fa6290e2ace4583c65565e81cbd24954cc657e92",
+        "rev": "53a6d0553d58b95777f066e4aeed05ec74c5eaed",
         "type": "github"
       },
       "original": {
         "owner": "k0kubun",
-        "ref": "v0.8.13",
+        "ref": "v0.8.18",
         "repo": "xremap",
         "type": "github"
       }
@@ -2108,16 +2108,16 @@
         "xremap": "xremap"
       },
       "locked": {
-        "lastModified": 1709174954,
-        "narHash": "sha256-zDOC1zhdprASTCT7Wl6yBhvlR4GnLmNnmi13GSXAZSo=",
-        "owner": "xremap",
-        "repo": "nix-flake",
-        "rev": "a064ca61a03ed495881b46eb6753d4198cfbfcf6",
+        "lastModified": 1711997754,
+        "narHash": "sha256-hgehteoNcZKlKDF4zBAopgKEdNtMz6N9PDSgNlUWb9c=",
+        "owner": "redxtech",
+        "repo": "xremap-flake",
+        "rev": "abc72da6c5cf7e3df8aabdb4852630ae215fa1d1",
         "type": "github"
       },
       "original": {
-        "owner": "xremap",
-        "repo": "nix-flake",
+        "owner": "redxtech",
+        "repo": "xremap-flake",
         "type": "github"
       }
     }

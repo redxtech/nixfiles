@@ -68,7 +68,8 @@ in {
 
     # xremap config
     services.xremap = {
-      withX11 = cfg.remap;
+      enable = cfg.remap;
+      withX11 = true;
       config.modmap = [{
         name = "Global";
         remap = cfg.remaps;
