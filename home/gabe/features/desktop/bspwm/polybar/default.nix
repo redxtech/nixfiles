@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
-let scripts = (import ./scripts) { inherit pkgs lib; };
+let
+  scripts = (import ./scripts) { inherit pkgs lib; };
+  rofiScripts = (import ../../rofi/scripts) { inherit pkgs lib config; };
 in {
   home.packages = with scripts; [
     copy-spotify-url
@@ -13,16 +15,16 @@ in {
     inherit (builtins) concatStringsSep elemAt length;
     inherit (config.desktop) isLaptop;
     inherit (lib) optional mkIf;
+
+    multiMonitor = length config.desktop.monitors > 1;
+    getMon = i: (elemAt config.desktop.monitors i);
   in with config.user-theme; {
     enable = true;
 
     script = ''
       polybar main &
 
-      ${if (length config.desktop.monitors > 1) then
-        "polybar secondary &"
-      else
-        ""}
+      ${if multiMonitor then "polybar secondary &" else ""}
     '';
 
     settings = let
@@ -40,9 +42,7 @@ in {
 
       isWired = (config.desktop.hardware.network.type == "wired");
 
-      rofiScripts = (import ../../rofi/scripts) { inherit pkgs lib config; };
-
-      baseModules = ([ "weather" "margin" ]
+      baseModules = [ "weather" "margin" ]
         ++ (optional isLaptop [ "backlight" "margin" ]) ++ [
           # "kdeconnect"
           # "margin"
@@ -57,7 +57,7 @@ in {
           "network"
           "margin"
         ] ++ (optional isLaptop [ "battery" "margin" ])
-        ++ [ "date" "margin" "dnd" ]);
+        ++ [ "date" "margin" "dnd" ];
     in rec {
       "colours" = {
         # named colours
@@ -138,12 +138,12 @@ in {
             concatStringsSep " " (baseModules ++ [ "margin" "tray" "margin" ]);
         };
       };
-      "bar/secondary" = mkIf (length config.desktop.monitors > 1) {
+      "bar/secondary" = mkIf multiMonitor {
         inherit (config.services.polybar.settings."bar/main")
           width height line-size offset bottom fixed-center wm-restack
           override-redirect enable-ipc background foreground cursor font;
 
-        monitor = "${(elemAt config.desktop.monitors 1).name}";
+        monitor = "${(getMon 1).name}";
 
         modules = {
           left = concatStringsSep " " [ "bspwm" "margin" "polywins-secondary" ];
@@ -154,7 +154,7 @@ in {
       };
       "settings" = { screenchange-reload = true; };
       # modules
-      "module/backlight" = {
+      "module/backlight" = mkIf isLaptop {
         type = "internal/backlight";
 
         card = config.desktop.hardware.backlightCard;
@@ -178,7 +178,7 @@ in {
           padding = 1;
         };
       };
-      "module/battery" = {
+      "module/battery" = mkIf isLaptop {
         type = "internal/battery";
 
         battery = config.desktop.hardware.battery.device;
@@ -606,13 +606,11 @@ in {
           padding = 1;
         };
       };
-      "module/polywins-secondary" = mkIf (length config.desktop.monitors > 1) {
+      "module/polywins-secondary" = mkIf multiMonitor {
         inherit (config.services.polybar.settings."module/polywins")
           format label tail type;
 
-        exec = "${scripts.polywins}/bin/polywins ${
-            (elemAt config.desktop.monitors 1).name
-          }";
+        exec = "${scripts.polywins}/bin/polywins ${(getMon 1).name}";
       };
       "module/powermenu" = {
         type = "custom/text";
@@ -712,55 +710,6 @@ in {
           foreground = "\${colours.fg}";
           padding = 1;
         };
-      };
-      "module/updates" = {
-        type = "custom/script";
-
-        interval = 300;
-
-        # device specific: exec, click.left = ""
-
-        format = {
-          underline = "\${colours.updates}";
-          prefix = {
-            text = "󰏔";
-            background = "\${colours.updates}";
-            foreground = "\${colours.bg}";
-            padding = 1;
-          };
-        };
-        label = {
-          text = "%output%";
-          background = "\${colours.bg-alt}";
-          foreground = "\${colours.fg}";
-          padding = 1;
-        };
-      };
-      "module/updates-ipc" = {
-        type = "custom/ipc";
-
-        initial = 1;
-
-        # device specific: hook = [], click.left = ""
-
-        format = {
-          text = "<output>";
-          background = "\${colours.bg-alt}";
-          foreground = "\${colours.fg}";
-          underline = "\${colours.updates}";
-          prefix = {
-            text = "󰏔";
-            background = "\${colours.updates}";
-            foreground = "\${colours.bg}";
-            padding = 1;
-          };
-        };
-      };
-      "module/updates-ipc-interval" = {
-        type = "custom/script";
-        exec =
-          "${pkgs.polybar}/bin/polybar-msg action '#updates-ipc.hook.0' 2>&1 1>/dev/null &";
-        interval = 300;
       };
     };
   };
