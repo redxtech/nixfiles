@@ -131,26 +131,24 @@ in {
         '';
       };
 
+      cdeploy = {
+        description = "Remotely deploys a NixOS machine with cachix-deploy";
+        body = ''
+          set spec $(nix build "$FLAKE#deploy-$argv[1]" --print-out-paths)
+          cachix push gabedunn $spec
+          cachix deploy activate $spec
+        '';
+      };
+
       rdeploy = {
-        description = "Remotely deploys a NixOS machine";
+        description = "Remotely deploys a NixOS machine with deploy-rs";
         wraps = "deploy";
         body = ''
           deploy --targets "$FLAKE#$argv[1]"
         '';
       };
 
-      __fish_rdeploy_complete =
-        let hostnames = concatStringsSep " " [ "bastion" "voyager" "quasar" ];
-        in {
-          body = ''
-            set -l hostnames ${hostnames}
-            for host in $hostnames
-                echo $host
-            end
-          '';
-        };
-
-      __fish_nixos_rebuild_remote_complete =
+      __fish_nixos_remote_complete =
         let hostnames = concatStringsSep " " [ "bastion" "voyager" "quasar" ];
         in {
           body = ''
@@ -392,7 +390,9 @@ in {
       ${pkgs.any-nix-shell}/bin/any-nix-shell fish | source
 
       # add completion for nixos-rebuild-remote
-      complete -c nixos-rebuild-remote -a '(__fish_nixos_rebuild_remote_complete)' -f
+      complete -c nixos-rebuild-remote -a '(__fish_nixos_remote_complete)' -f
+      complete -c cdeploy -a '(__fish_nixos_remote_complete)' -f
+      complete -c rdeploy -a '(__fish_nixos_remote_complete)' -f
     '';
 
     shellInit = language "fish" ''
