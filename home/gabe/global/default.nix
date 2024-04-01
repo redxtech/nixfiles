@@ -5,7 +5,6 @@
     ./langs.nix
     ./sops.nix
     ./user-theme.nix # TODO: remove in favour of custom theme module
-    ../features/cli
   ];
 
   systemd.user.startServices = "sd-switch";

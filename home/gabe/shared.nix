@@ -1,6 +1,8 @@
 { pkgs, lib, config, ... }:
 
 {
+  cli.enable = true;
+
   desktop = {
     enable = true;
 
