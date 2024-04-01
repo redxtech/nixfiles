@@ -1,9 +1,12 @@
 { config, pkgs, lib, ... }:
 
-{
-  home = { sessionVariables = { TERMINAL = "kitty"; }; };
+let
+  inherit (lib) mkIf;
+  cfg = config.desktop;
+in {
+  home = mkIf cfg.enable { sessionVariables = { TERMINAL = "kitty"; }; };
 
-  programs.kitty = {
+  programs.kitty = mkIf cfg.enable {
     enable = true;
 
     # TODO: move to theme module
