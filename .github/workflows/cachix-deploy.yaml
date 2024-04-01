@@ -9,7 +9,7 @@ env:
   CACHIX_ACTIVATE_TOKEN: "${{ secrets.CACHIX_ACTIVATE_TOKEN }}"
 
 jobs:
-  deploys:
+  deploy:
     strategy:
       matrix:
         target:
