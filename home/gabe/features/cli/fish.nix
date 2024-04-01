@@ -415,5 +415,7 @@ in {
   xdg.configFile."fish/env.secrets.fish".text = ''
     set --export YOUTUBE_API_KEY "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.youtube.path})"
     set --export BW_SESSION "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.bw.path})"
+    set --export CACHIX_AUTH_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix.path})"
+    set --export CACHIX_ACTIVATE_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix-activate.path})"
   '';
 }
