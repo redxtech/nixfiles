@@ -1,29 +1,28 @@
-name: "Nix build"
+name: "Nix Build Cache"
 on:
-  pull_request:
   push:
 jobs:
-  # checks:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: cachix/install-nix-action@v20
-  #     - uses: cachix/cachix-action@v12
-  #       with:
-  #         name: gabedunn
-  #         authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-  #     - run: nix flake check --print-build-logs --impure
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v20
+      - uses: cachix/cachix-action@v12
+        with:
+          name: gabedunn
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - run: nix flake check --print-build-logs
 
-  # shell:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: cachix/install-nix-action@v20
-  #     - uses: cachix/cachix-action@v12
-  #       with:
-  #         name: gabedunn
-  #         authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-  #     - run: nix build .#devShells.x86_64-linux.default --print-build-logs --impure
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v20
+      - uses: cachix/cachix-action@v12
+        with:
+          name: gabedunn
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - run: nix build .#devShells.x86_64-linux.default --print-build-logs --impure
 
   # system & home configurations
   # deploy-voyager:
