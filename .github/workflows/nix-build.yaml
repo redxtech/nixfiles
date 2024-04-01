@@ -34,8 +34,6 @@ jobs:
   packages:
     strategy:
       matrix:
-        arch:
-          - x86_64-linux
         package:
           - beekeeper-studio-ultimate
           - cockpit-benchmark
@@ -58,4 +56,4 @@ jobs:
           name: gabedunn
           signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - run: nix build .#packages.${{ matrix.arch }}.${{ matrix.package }} --print-build-logs
+      - run: nix build .#packages.x86_64-linux.${{ matrix.package }} --print-build-logs
