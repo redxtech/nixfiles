@@ -11,6 +11,7 @@
     # nixos-flake.url = "github:srid/nixos-flake";
 
     cachix-deploy-flake.url = "github:cachix/cachix-deploy-flake";
+    cachix-deploy-flake.inputs.nixpkgs.follows = "nixpkgs";
     cachix-deploy-flake.inputs.home-manager.follows = "home-manager";
 
     disko.url = "github:nix-community/disko";

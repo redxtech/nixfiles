@@ -18,4 +18,6 @@
     enable = true;
     name = "deck";
   };
+
+  nix.package = pkgs.nix;
 }
