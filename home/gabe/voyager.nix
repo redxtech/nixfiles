@@ -1,7 +1,13 @@
 { pkgs, lib, config, ... }:
 
 {
-  imports = [ ./global ./shared.nix ./features/desktop/bspwm ];
+  imports = [
+    ./global
+    ./shared.nix
+
+    ./features/desktop/bspwm
+    # ./features/desktop/hyprland
+  ];
 
   desktop = {
     wm.wm = "bspwm";

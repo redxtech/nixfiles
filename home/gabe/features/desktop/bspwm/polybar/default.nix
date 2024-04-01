@@ -14,7 +14,7 @@ in {
   services.polybar = let
     inherit (builtins) concatStringsSep elemAt length;
     inherit (config.desktop) isLaptop;
-    inherit (lib) optional mkIf;
+    inherit (lib) optionals mkIf;
 
     multiMonitor = length config.desktop.monitors > 1;
     getMon = i: (elemAt config.desktop.monitors i);
@@ -43,7 +43,7 @@ in {
       isWired = (config.desktop.hardware.network.type == "wired");
 
       baseModules = [ "weather" "margin" ]
-        ++ (optional isLaptop [ "backlight" "margin" ]) ++ [
+        ++ (optionals isLaptop [ "backlight" "margin" ]) ++ [
           # "kdeconnect"
           # "margin"
           "pipewire"
@@ -56,7 +56,7 @@ in {
           "margin"
           "network"
           "margin"
-        ] ++ (optional isLaptop [ "battery" "margin" ])
+        ] ++ (optionals isLaptop [ "battery" "margin" ])
         ++ [ "date" "margin" "dnd" ];
     in rec {
       "colours" = {
