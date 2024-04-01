@@ -25,8 +25,7 @@
 
   # virtualisation.docker.storageDriver = "btrfs";
 
-  sops.secrets.cachix-agent.sopsFile = ./secrets.yaml;
-  sops.secrets.cachix-agent.path = "/etc/cachix-agent.token";
+  sops.secrets.cachix-agent-voyager.path = "/etc/cachix-agent.token";
 
   system.stateVersion = "22.11";
 }
