@@ -3,7 +3,7 @@
 {
   flake = {
     # deploy-rs
-    deploy.nodes = lib.mapAttrs (name: value: {
+    deploy.nodes = builtins.mapAttrs (name: value: {
       hostname = name;
       sshUser = "root";
       fastConnection = false;
@@ -24,22 +24,56 @@
       mkNixOS = name:
         self.nixosConfigurations.${name}.config.system.build.toplevel;
       mkHome = name: self.homeConfigurations.${name}.activationPackage;
-      mkAgent = name: isHome:
+      mkAgent = name: isNixOS:
         cachix-deploy-lib.spec {
-          agents.${name} = if isHome then mkHome name else mkNixOS name;
+          agents.${name} = if isNixOS then mkNixOS name else mkHome name;
         };
     in {
       packages = {
-        deploy-bastion = mkAgent "bastion" false;
-        deploy-voyager = mkAgent "voyager" false;
-        deploy-quasar = mkAgent "quasar" false;
-        deploy-deck = mkAgent "gabe@deck" true;
-        default = cachix-deploy-lib.spec {
+        deploy-bastion = mkAgent "bastion" true;
+        deploy-voyager = mkAgent "voyager" true;
+        deploy-quasar = mkAgent "quasar" true;
+        deploy-deck = mkAgent "gabe@deck" false;
+
+        deploy-all = cachix-deploy-lib.spec {
           agents = {
             bastion = mkNixOS "bastion";
             voyager = mkNixOS "voyager";
-            deck = mkHome "gabe@deck";
+            quasar = mkNixOS "quasar";
+            # deck = mkHome "gabe@deck";
           };
+        };
+      };
+
+      apps = {
+        # deploy via cachix-deploy with `nix run .#deploy`
+        deploy = {
+          type = "app";
+          program = let
+            deployScript = pkgs.writeShellApplication {
+              name = "deploy";
+              runtimeInputs = with pkgs; [ cachix ];
+              text = ''
+                spec=$(nix build "$FLAKE#deploy-''${1-all}" --print-out-paths)
+                cachix push gabedunn "$spec"
+                cachix deploy activate "$spec"
+              '';
+            };
+          in "${deployScript}/bin/deploy";
+        };
+
+        # deploy via deploy-rs with `nix run .#deploy-rs`
+        deploy-rs = {
+          type = "app";
+          program = let
+            deployScript = pkgs.writeShellApplication {
+              name = "deploy-rs";
+              runtimeInputs = with pkgs; [ deploy-rs ];
+              text = ''
+                deploy --targets "$FLAKE#''${1-$(hostname)}"
+              '';
+            };
+          in "${deployScript}/bin/deploy-rs";
         };
       };
     };
