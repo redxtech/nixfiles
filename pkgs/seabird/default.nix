@@ -1,19 +1,19 @@
 { lib, buildGoModule, fetchFromGitHub, wrapGAppsHook, pkg-config, glib, graphene
 , gobject-introspection, gdk-pixbuf, pango, gtk4, gtksourceview5, libadwaita
-, libxml2, imagemagick }:
+, libxml2, imagemagick, vte-gtk4 }:
 
 buildGoModule rec {
   pname = "seabird";
-  version = "0.0.20";
+  version = "0.2.2";
 
   src = fetchFromGitHub {
     owner = "getseabird";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-HwQi5ZoDs69L2YETGSv0SwC9Ld9aRyCgGIexW7Uo+co=";
+    hash = "sha256-wrZLWDTgcUS8snCqc5rInqitAkrsStL8zmc8vjl4ApQ=";
   };
 
-  vendorHash = "sha256-y5UWQBl56ZFmcK6pq+/HtCR+EY4uRlV6MJQ99GFyjIs=";
+  vendorHash = "sha256-z9l6g5NkAErRQo8oiqwKG9ssm8K2S+eSZBD0w4kO3kc=";
 
   nativeBuildInputs = [ wrapGAppsHook pkg-config glib.dev libxml2 imagemagick ];
   buildInputs = [
@@ -25,6 +25,7 @@ buildGoModule rec {
     gtk4
     gtksourceview5
     libadwaita
+    vte-gtk4
   ];
 
   preBuild = ''
