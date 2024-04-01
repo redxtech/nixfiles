@@ -202,10 +202,10 @@
             "Home Manager" = {
               urls = [{
                 template =
-                  "https://mipmip.github.io/home-manager-option-search/?query={searchTerms}";
+                  "https://home-manager-options.extranix.com/home-manager-option-search/?query={searchTerms}";
               }];
               iconUpdateURL =
-                "https://mipmip.github.io/home-manager-option-search/images/favicon.png";
+                "https://home-manager-options.extranix.com/home-manager-option-search/images/favicon.png";
               updateInterval = updateInterval;
               definedAliases = [ "hm" ];
             };
