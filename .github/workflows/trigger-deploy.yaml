@@ -1,0 +1,25 @@
+name: "Nix Deploy"
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "The target to deploy to"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - bastion
+          - voyager
+          - quasar
+
+env:
+  CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+  CACHIX_ACTIVATE_TOKEN: "${{ secrets.CACHIX_ACTIVATE_TOKEN }}"
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - run: nix run '.#deploy' ${{ inputs.target }}

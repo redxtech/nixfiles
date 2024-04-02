@@ -1,19 +1,9 @@
-name: "Nix Deploy"
+name: "Manual Deploy"
 on:
   push:
     tags:
       - "v*"
   workflow_dispatch:
-    inputs:
-      target:
-        description: "The target to deploy to"
-        required: true
-        default: "bastion"
-        type: choice
-        options:
-          - bastion
-          - voyager
-          - quasar
 
 env:
   CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_AUTH_TOKEN }}"
