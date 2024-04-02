@@ -12,14 +12,44 @@ on:
           - bastion
           - voyager
           - quasar
+      use_self_hosted:
+        description: "Use self-hosted runner"
+        required: false
+        default: true
+        type: boolean
 
 env:
   CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_AUTH_TOKEN }}"
   CACHIX_ACTIVATE_TOKEN: "${{ secrets.CACHIX_ACTIVATE_TOKEN }}"
 
 jobs:
-  deploy:
+  deploy-self-hosted:
     runs-on: self-hosted
+    if: ${{ inputs.use_self_hosted }}
     steps:
       - uses: actions/checkout@v4
+      - run: nix run '.#deploy' ${{ inputs.target }}
+
+  deploy-github:
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.use_self_hosted }}
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+      - uses: actions/checkout@v4
+      - name: Check nix flake inputs
+        uses: DeterminateSystems/flake-checker-action@main
+      - name: Install nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: experimental-features = nix-command flakes repl-flake
+      - name: Run the magic nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v14
+        with:
+          name: gabedunn
+          signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - run: nix run '.#deploy' ${{ inputs.target }}
