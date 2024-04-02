@@ -2108,16 +2108,16 @@
         "xremap": "xremap"
       },
       "locked": {
-        "lastModified": 1711997754,
-        "narHash": "sha256-hgehteoNcZKlKDF4zBAopgKEdNtMz6N9PDSgNlUWb9c=",
-        "owner": "redxtech",
-        "repo": "xremap-flake",
-        "rev": "abc72da6c5cf7e3df8aabdb4852630ae215fa1d1",
+        "lastModified": 1712025160,
+        "narHash": "sha256-L96ZF1Z+OxAta5XPmazFajflppflYw/y588SBWVGjAw=",
+        "owner": "xremap",
+        "repo": "nix-flake",
+        "rev": "38c9a3c4264750f77151369f34590db259454df3",
         "type": "github"
       },
       "original": {
-        "owner": "redxtech",
-        "repo": "xremap-flake",
+        "owner": "xremap",
+        "repo": "nix-flake",
         "type": "github"
       }
     }
