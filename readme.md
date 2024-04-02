@@ -47,7 +47,7 @@ this is where my configuration for everything is related.
   - `home-manager`: home-manager modules, such as custom desktop, window manager, cli, and editor configurations.
   - `flake`: flake-parts modules used for composition, such as shells, overlays, nix config, deployments, etc.
 - `pkgs`: my custom packages. also accessible via `nix build`. you can compose
-  these into your own configuration by using my flake's overlay (soon), or consume them through NUR (soon).
+  these into your own configuration by using my flake's overlay (`github:redxtech/nixfiles#overlays.default`), or consume them through NUR (soon ??).
 
 ## should I use this ?
 

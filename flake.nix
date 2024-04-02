@@ -60,6 +60,7 @@
         ./modules/flake/nix.nix
         ./modules/flake/modules.nix
         ./modules/flake/overlays.nix
+        ./modules/flake/packages.nix
         ./modules/flake/shell.nix
       ];
 
@@ -99,8 +100,6 @@
       # module parameters provide easy access to attributes of the same
       # system.
       perSystem = { config, self', inputs', pkgs, system, ... }: {
-        packages = (import ./pkgs { inherit pkgs; });
-
         formatter = pkgs.nixpkgs-fmt;
       };
     };

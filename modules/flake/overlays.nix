@@ -4,36 +4,35 @@
   flake = {
     overlays = {
       # adds my custom packages
-      additions = final: prev:
-        import ../../pkgs { pkgs = final; } // {
-          plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
-            version = "1.32.8.7639-fb6452ebf";
-            name = "${old.pname}-${version}";
+      additions = final: prev: {
+        plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
+          version = "1.32.8.7639-fb6452ebf";
+          name = "${old.pname}-${version}";
 
-            src = if prev.stdenv.hostPlatform.system == "aarch64-linux" then
-              prev.fetchurl {
-                url =
-                  "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_arm64.deb";
-                sha256 = "";
-              }
-            else
-              prev.fetchurl {
-                url =
-                  "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
-                sha256 = "sha256-jdGVAdvm7kjxTP3CQ5w6dKZbfCRwSy9TrtxRHaV0/cs=";
-              };
-          });
+          src = if prev.stdenv.hostPlatform.system == "aarch64-linux" then
+            prev.fetchurl {
+              url =
+                "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_arm64.deb";
+              sha256 = "";
+            }
+          else
+            prev.fetchurl {
+              url =
+                "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
+              sha256 = "sha256-jdGVAdvm7kjxTP3CQ5w6dKZbfCRwSy9TrtxRHaV0/cs=";
+            };
+        });
 
-          plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };
+        plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };
 
-          nh = inputs.nh.packages.${final.system}.default;
+        nh = inputs.nh.packages.${final.system}.default;
 
-          nix-autobahn =
-            inputs.nix-autobahn.packages.${final.system}.nix-autobahn;
+        nix-autobahn =
+          inputs.nix-autobahn.packages.${final.system}.nix-autobahn;
 
-          sddm-catppuccin =
-            inputs.sddm-catppuccin.packages.${final.system}.sddm-catppuccin;
-        };
+        sddm-catppuccin =
+          inputs.sddm-catppuccin.packages.${final.system}.sddm-catppuccin;
+      };
 
       # Modifies existing packages
       modifications = final: prev: {
