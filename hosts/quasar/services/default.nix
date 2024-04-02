@@ -110,10 +110,23 @@ in {
       };
     };
 
-    hercules-ci-agent = { enable = true; };
+    hercules-ci-agent = {
+      enable = true;
+      settings = {
+        binaryCachesPath =
+          config.sops.secrets.hercules-ci-agent-binary-caches.path;
+        clusterJoinTokenPath =
+          config.sops.secrets.hercules-ci-agent-join-token.path;
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
 
   sops.secrets.ghrunner-system-builder.sopsFile = ../secrets.yaml;
+
+  sops.secrets.hercules-ci-agent-binary-caches.sopsFile = ../secrets.yaml;
+  sops.secrets.hercules-ci-agent-binary-caches.owner = "hercules-ci-agent";
+  sops.secrets.hercules-ci-agent-join-token.sopsFile = ../secrets.yaml;
+  sops.secrets.hercules-ci-agent-join-token.owner = "hercules-ci-agent";
 }
