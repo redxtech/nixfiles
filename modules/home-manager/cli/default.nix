@@ -74,6 +74,7 @@ in {
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
           gallery-dl # image downloader
+          hci # hercules ci tool
           httpie # better curl
           libnotify # desktop notifications
           libwebp # webp support

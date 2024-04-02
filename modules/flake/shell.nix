@@ -9,6 +9,7 @@
         age
         git
         gnupg
+        hci
         home-manager
         neovim
         nix

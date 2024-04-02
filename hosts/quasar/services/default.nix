@@ -110,6 +110,7 @@ in {
       };
     };
 
+    hercules-ci-agent = { enable = true; };
   };
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];

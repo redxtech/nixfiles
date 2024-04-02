@@ -43,6 +43,7 @@
     devenv.url = "github:cachix/devenv";
     fh.url = "github:DeterminateSystems/fh";
     hardware.url = "github:nixos/nixos-hardware";
+    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nix-autobahn.url = "github:lassulus/nix-autobahn";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
@@ -54,6 +55,7 @@
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
+        ./modules/flake/ci.nix
         ./modules/flake/deploy.nix
         ./modules/flake/nix.nix
         ./modules/flake/modules.nix
