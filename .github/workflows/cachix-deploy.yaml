@@ -4,21 +4,38 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      target:
+        description: "The target to deploy to"
+        required: false
+        default: "all"
+        type: choice
+        options:
+          - all
+          - bastion
+          - voyager
+          - quasar
+      use_self_hosted:
+        description: "Use self-hosted runner"
+        required: false
+        default: true
+        type: boolean
 
 env:
   CACHIX_AUTH_TOKEN: "${{ secrets.CACHIX_AUTH_TOKEN }}"
   CACHIX_ACTIVATE_TOKEN: "${{ secrets.CACHIX_ACTIVATE_TOKEN }}"
 
 jobs:
-  deploy:
-    strategy:
-      matrix:
-        target:
-          - bastion
-          - voyager
-          - quasar
-          # - deck
+  deploy-self:
+    runs-on: self-hosted
+    if: ${{ inputs.use_self_hosted }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: nix run '.#deploy' ${{ inputs.target }}
+
+  deploy-github:
     runs-on: ubuntu-latest
+    if: ${{ !inputs.use_self_hosted }}
     steps:
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
@@ -38,4 +55,4 @@ jobs:
           name: gabedunn
           signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - run: nix run '.#deploy' ${{ matrix.target }}
+      - run: nix run '.#deploy' ${{ inputs.target }}
