@@ -38,7 +38,7 @@ buildGoModule rec {
 
     for i in 16 24 48 64 96 128 256 512; do
       mkdir -p $out/share/icons/hicolor/''${i}x''${i}/apps
-      convert -background none -resize ''${i}x''${i} ./icon/seabird.svg $out/share/icons/hicolor/''${i}x''${i}/apps/dev.skynomads.Seabird.png
+      convert -background none -resize ''${i}x''${i} ./internal/icon/seabird.svg $out/share/icons/hicolor/''${i}x''${i}/apps/dev.skynomads.Seabird.png
     done
   '';
 
