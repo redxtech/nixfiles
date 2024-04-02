@@ -1,4 +1,4 @@
-name: "Nix Deploy"
+name: "Continuous Deploy"
 on:
   push:
     tags:
