@@ -42,10 +42,6 @@ jobs:
   deploy-all:
     runs-on: self-hosted
     steps:
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
-        with:
-          tool-cache: true
       - uses: actions/checkout@v4
       - name: Check nix flake inputs
         uses: DeterminateSystems/flake-checker-action@main
