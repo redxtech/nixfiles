@@ -24,6 +24,8 @@ jobs:
         with:
           tool-cache: true
       - uses: actions/checkout@v4
+      - name: Check nix flake inputs
+        uses: DeterminateSystems/flake-checker-action@main
       - name: Install nix
         uses: DeterminateSystems/nix-installer-action@main
         with:
@@ -36,3 +38,26 @@ jobs:
           signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - run: nix run '.#deploy' ${{ matrix.target }}
+
+  deploy-all:
+    runs-on: self-hosted
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+      - uses: actions/checkout@v4
+      - name: Check nix flake inputs
+        uses: DeterminateSystems/flake-checker-action@main
+      - name: Install nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: experimental-features = nix-command flakes repl-flake
+      - name: Run the magic nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v14
+        with:
+          name: gabedunn
+          signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - run: nix run '.#deploy'

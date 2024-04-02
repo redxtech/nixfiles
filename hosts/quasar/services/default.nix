@@ -100,7 +100,18 @@ in {
         UPTIME_KUMA_PORT = toString cfg.ports.uptime-kuma;
       };
     };
+
+    github-runners = {
+      system-builder = {
+        enable = true;
+        name = "system-builder";
+        url = "https://github.com/redxtech/nixfiles";
+        tokenFile = config.sops.secrets.ghrunner-system-builder.path;
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
+
+  sops.secrets.ghrunner-system-builder.sopsFile = ../secrets.yaml;
 }
