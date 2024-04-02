@@ -1,4 +1,4 @@
-name: "Nix Deploy"
+name: "Manual Deploy"
 on:
   workflow_dispatch:
     inputs:
