@@ -54,7 +54,7 @@
               name = "deploy";
               runtimeInputs = with pkgs; [ cachix ];
               text = ''
-                spec=$(nix build "$FLAKE#deploy-''${1-all}" --print-out-paths)
+                spec=$(nix build ".#deploy-''${1-all}" --print-out-paths)
                 cachix push gabedunn "$spec"
                 cachix deploy activate "$spec"
               '';
@@ -70,7 +70,7 @@
               name = "deploy-rs";
               runtimeInputs = with pkgs; [ deploy-rs ];
               text = ''
-                deploy --targets "$FLAKE#''${1-$(hostname)}"
+                deploy --targets ".#''${1-$(hostname)}"
               '';
             };
           in "${deployScript}/bin/deploy-rs";
