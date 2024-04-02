@@ -15,10 +15,10 @@ on:
           - bastion
           - voyager
           - quasar
-      use_self_hosted:
-        description: "Use self-hosted runner"
+      use_github_hosted:
+        description: "Use github-hosted runner"
         required: false
-        default: true
+        default: false
         type: boolean
 
 env:
@@ -28,14 +28,14 @@ env:
 jobs:
   deploy-self:
     runs-on: self-hosted
-    if: ${{ inputs.use_self_hosted }}
+    if: ${{ !inputs.use_github_hosted }}
     steps:
       - uses: actions/checkout@v4
       - run: nix run '.#deploy' ${{ inputs.target }}
 
   deploy-github:
     runs-on: ubuntu-latest
-    if: ${{ !inputs.use_self_hosted }}
+    if: ${{ inputs.use_github_hosted }}
     steps:
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
