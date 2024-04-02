@@ -29,7 +29,7 @@ in {
     };
 
     aliases = mkOption {
-      type = attrsOf string;
+      type = attrsOf str;
       default = { };
       description = "Shell aliases";
       example = {
@@ -39,7 +39,7 @@ in {
     };
 
     env = mkOption {
-      type = attrsOf string;
+      type = attrsOf str;
       default = { };
       description = "Environment variables";
       example = { ENV_VARIABLES = "values"; };
