@@ -18,6 +18,7 @@ in {
     cockpit = 9090;
     dashy = 4000;
     deluge = 8112;
+    hydra = 3333;
     flaresolverr = 8191;
     jackett = 9117;
     jellyfin = 8096;
@@ -109,7 +110,18 @@ in {
         tokenFile = config.sops.secrets.ghrunner-system-builder.path;
       };
     };
+
+    hydra = {
+      enable = true;
+      port = cfg.ports.hydra;
+      hydraURL = "https://hydra.${cfg.domain}:${toString cfg.ports.hydra}";
+      notificationSender = "hydra@localhost";
+      buildMachinesFiles = [ ];
+      useSubstitutes = true;
+    };
   };
+
+  nix.trustedUsers = [ "hydra" ];
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
 

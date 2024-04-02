@@ -67,12 +67,14 @@ in {
     in {
       http = {
         routers = {
+          hydra = mkRouter "hydra";
           portainer = mkRouter "portainer";
           sonarr = mkRouter "sonarr";
           radarr = mkRouter "radarr";
           uptime = mkRouter "uptime";
         };
         services = {
+          hydra = mkService cfg.ports.hydra;
           portainer = mkService cfg.ports.portainer;
           sonarr = mkService cfg.ports.sonarr;
           radarr = mkService cfg.ports.radarr;
