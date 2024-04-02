@@ -1,21 +1,19 @@
 { self, lib, inputs, withSystem, ... }:
 
 {
-  imports = [ inputs.hercules-ci-effects.flakeModule ];
+  imports = [ inputs.hci-effects.flakeModule ];
 
   hercules-ci = {
     flake-update = {
       enable = true;
-      autoMergeMethod = "rebase";
       baseMerge.enable = true;
+      baseMerge.method = "rebase";
       when = {
-        hour = [ 23 ];
+        hour = [ 0 ];
         dayOfWeek = [ "Fri" ];
       };
       flakes = {
         "." = {
-          commitSummary = "chore: update flake inputs";
-          pullRequestTitle = "chore: update flake.lock";
           inputs = [
             "nixpkgs"
             "home-manager"
@@ -26,8 +24,23 @@
             "deploy-rs"
             "rust-overlay"
           ];
+
+          commitSummary = "chore: update flake inputs";
+          pullRequestTitle = "chore: update flake.lock";
         };
       };
     };
   };
+
+  flake.effects = { branch, ... }:
+    withSystem "x86_64-linux" ({ config, hci-effects, pkgs, inputs', ... }:
+      let inherit (hci-effects) runIf runNixOS;
+      in {
+        bastion-build = runIf (branch == "master") (hci-effects.runNixOS {
+          name = "bastion-build";
+          configuration = self.nixosConfigurations.bastion;
+          secretsMap.ssh = "default-ssh";
+          ssh.destination = "bastion";
+        });
+      });
 }

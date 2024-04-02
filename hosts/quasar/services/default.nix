@@ -112,11 +112,12 @@ in {
 
     hercules-ci-agent = {
       enable = true;
-      settings = {
-        binaryCachesPath =
-          config.sops.secrets.hercules-ci-agent-binary-caches.path;
-        clusterJoinTokenPath =
-          config.sops.secrets.hercules-ci-agent-join-token.path;
+      settings = let
+        secretPath = name: config.sops.secrets."hercules-ci-agent-${name}".path;
+      in {
+        binaryCachesPath = secretPath "binary-caches";
+        clusterJoinTokenPath = secretPath "join-token";
+        secretsJsonPath = secretPath "secrets";
       };
     };
   };
@@ -129,4 +130,6 @@ in {
   sops.secrets.hercules-ci-agent-binary-caches.owner = "hercules-ci-agent";
   sops.secrets.hercules-ci-agent-join-token.sopsFile = ../secrets.yaml;
   sops.secrets.hercules-ci-agent-join-token.owner = "hercules-ci-agent";
+  sops.secrets.hercules-ci-agent-secrets.sopsFile = ../secrets.yaml;
+  sops.secrets.hercules-ci-agent-secrets.owner = "hercules-ci-agent";
 }

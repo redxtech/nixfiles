@@ -463,7 +463,7 @@
     "flake-parts_3": {
       "inputs": {
         "nixpkgs-lib": [
-          "hercules-ci-effects",
+          "hci-effects",
           "nixpkgs"
         ]
       },
@@ -705,7 +705,7 @@
         "type": "github"
       }
     },
-    "hercules-ci-effects": {
+    "hci-effects": {
       "inputs": {
         "flake-parts": "flake-parts_3",
         "nixpkgs": "nixpkgs_6"
@@ -724,7 +724,7 @@
         "type": "github"
       }
     },
-    "hercules-ci-effects_2": {
+    "hercules-ci-effects": {
       "inputs": {
         "flake-parts": "flake-parts_5",
         "nixpkgs": [
@@ -1050,7 +1050,7 @@
       "inputs": {
         "flake-compat": "flake-compat_8",
         "flake-parts": "flake-parts_4",
-        "hercules-ci-effects": "hercules-ci-effects_2",
+        "hercules-ci-effects": "hercules-ci-effects",
         "neovim-flake": "neovim-flake",
         "nixpkgs": "nixpkgs_7"
       },
@@ -1725,7 +1725,7 @@
         "fh": "fh",
         "flake-parts": "flake-parts_2",
         "hardware": "hardware",
-        "hercules-ci-effects": "hercules-ci-effects",
+        "hci-effects": "hci-effects",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "hyprland-contrib": "hyprland-contrib",
