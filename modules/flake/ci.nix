@@ -41,7 +41,7 @@
           name = "bastion-build";
           configuration = self.nixosConfigurations.bastion;
           secretsMap.ssh = "default-ssh";
-          ssh.destination = "bastion";
+          ssh.destination = "root@bastion";
         };
       });
   };
