@@ -104,6 +104,35 @@
             };
           in "${tagScript}/bin/tag";
         };
+
+        # tag a ci deploy with `nix run .#tag-ci`
+        tag-ci = {
+          type = "app";
+          program = let
+            tagScript = pkgs.writeShellApplication {
+              name = "tag-ci";
+              runtimeInputs = with pkgs; [ git ];
+              # get the current date, and check if there are
+              # any git tags that start with vyyyy-mm-dd.
+              # if there aren't, then tag the current commit
+              # with the format vyyyy-mm-dd-1. otherwise, increment
+              # the number at the end of the tag. then push the tag
+              text = ''
+                date=$(date +%Y-%m-%d)
+                tag=$(git tag -l "deploy-$date-*" | tail -n 1)
+
+                if [ -z "$tag" ]; then
+                  tag="deploy-$date-1"
+                else
+                  tag=$(echo "$tag" | awk -F- '{print $1"-"$2"-"$3"-"$4+1}')
+                fi
+
+                git tag "$tag" -m "$tag"
+                git push origin "$tag"
+              '';
+            };
+          in "${tagScript}/bin/tag-ci";
+        };
       };
     };
 }
