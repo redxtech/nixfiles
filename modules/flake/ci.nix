@@ -35,7 +35,7 @@
   herculesCI = {
     ciSystems = [ "x86_64-linux" ];
 
-    onPush.default.outputs = withSystem "x86_64-linux"
+    onPush.default.outputs.effects = withSystem "x86_64-linux"
       ({ config, hci-effects, pkgs, inputs', ... }: {
         deploy = lib.mkForce (hci-effects.runNixOS {
           name = "bastion-build";
