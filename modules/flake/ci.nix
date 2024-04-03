@@ -32,16 +32,17 @@
     };
   };
 
-  herculesCI = {
+  herculesCI = { config, ... }: {
     ciSystems = [ "x86_64-linux" ];
 
-    onPush.default.outputs.effects = { tag ? "", ... }:
-      withSystem "x86_64-linux" ({ config, hci-effects, pkgs, inputs', ... }:
+    onPush.default.outputs.effects = withSystem "x86_64-linux"
+      ({ config, hci-effects, pkgs, inputs', ... }:
         let
           inherit (hci-effects) runIf runNixOS;
-          isDeploy = (builtins.match "deploy-(.*)" tag) != null;
+          inherit (builtins) length match;
+          shouldDeploy = length (match "deploy-(.*)" config.repo.tag) != 0;
         in {
-          deploy-bastion = runIf isDeploy (runNixOS {
+          deploy-bastion = runIf shouldDeploy (runNixOS {
             name = "deploy-bastion";
             configuration = self.nixosConfigurations.bastion;
             secretsMap.ssh = "default-ssh";
