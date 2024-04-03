@@ -37,7 +37,7 @@
 
     onPush.default.outputs = withSystem "x86_64-linux"
       ({ config, hci-effects, pkgs, inputs', ... }: {
-        deploy = hci-effects.runNixOS {
+        deploy = lib.mkForce hci-effects.runNixOS {
           name = "bastion-build";
           configuration = self.nixosConfigurations.bastion;
           secretsMap.ssh = "default-ssh";
