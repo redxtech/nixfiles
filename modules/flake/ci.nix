@@ -41,7 +41,13 @@
           name = "bastion-build";
           configuration = self.nixosConfigurations.bastion;
           secretsMap.ssh = "default-ssh";
-          ssh.destination = "root@bastion";
+          ssh.destination = "bastion.colobus-pirate.ts.net";
+          userSetupScript = ''
+            writeSSHKey ssh
+            cat >>~/.ssh/known_hosts <<EOF
+            bastion.colobus-pirate.ts.net ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMH9M36ujLFPqB/3cksmux1MAq+fHUw3tq8ORZ7uPcW/
+            EOF
+          '';
         };
       });
   };
