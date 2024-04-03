@@ -40,7 +40,8 @@
         let
           inherit (hci-effects) runIf runNixOS;
           inherit (builtins) length match;
-          shouldDeploy = length (match "deploy-(.*)" config.repo.tag) != 0;
+          shouldDeploy = length (match "deploy-(.*)" config.herculesCI.repo.tag)
+            != 0;
         in {
           deploy-bastion = runIf shouldDeploy (runNixOS {
             name = "deploy-bastion";
