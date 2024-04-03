@@ -32,17 +32,18 @@
     };
   };
 
-  herculesCI = { hci-effects, branch, ... }: {
+  herculesCI = { branch, ... }: {
     ciSystems = [ "x86_64-linux" ];
 
-    onPush.default.outputs = {
-      deploy = hci-effects.runIf (branch == "master") hci-effects.runNixOS {
-        name = "bastion-build";
-        configuration = self.nixosConfigurations.bastion;
-        secretsMap.ssh = "default-ssh";
-        ssh.destination = "bastion";
-      };
-    };
+    onPush.default.outputs = withSystem "x86_64-linux"
+      ({ config, hci-effects, pkgs, inputs', ... }: {
+        deploy = hci-effects.runIf (branch == "master") hci-effects.runNixOS {
+          name = "bastion-build";
+          configuration = self.nixosConfigurations.bastion;
+          secretsMap.ssh = "default-ssh";
+          ssh.destination = "bastion";
+        };
+      });
   };
 
 }
