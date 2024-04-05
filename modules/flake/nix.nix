@@ -26,6 +26,7 @@
           auto-optimise-store = lib.mkDefault true;
           warn-dirty = false;
           system-features = [ "kvm" "big-parallel" "nixos-test" ];
+          allow-import-from-derivation = true;
         };
         gc = {
           automatic = true;
