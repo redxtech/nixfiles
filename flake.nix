@@ -39,6 +39,7 @@
     hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
     hyprland-plugins.inputs.hyprland.follows = "hyprland";
 
+    attic.url = "github:zhaofengli/attic";
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
     fh.url = "github:DeterminateSystems/fh";

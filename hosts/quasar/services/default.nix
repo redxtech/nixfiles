@@ -10,6 +10,7 @@ in {
   nas.ports = {
     adguard = 9900;
     apprise = 9005;
+    attic = 3090;
     bazarr = 6767;
     calibre = 8805;
     calibre-ssl = 8804;
@@ -120,9 +121,28 @@ in {
         secretsJsonPath = secretPath "secrets";
       };
     };
+
+    atticd = {
+      enable = true;
+      credentialsFile = config.sops.secrets.attic.path;
+
+      settings = {
+        listen = "[::]:${toString cfg.ports.attic}";
+        chunking = {
+          # if 0, chunking is disabled entirely for newly-uploaded NARs.
+          # if 1, all NARs are chunked.
+          nar-size-threshold = 64 * 1024; # 64 KiB
+          min-size = 16 * 1024; # 16 KiB
+          avg-size = 64 * 1024; # 64 KiB
+          max-size = 256 * 1024; # 256 KiB
+        };
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
+
+  sops.secrets.attic.sopsFile = ../secrets.yaml;
 
   sops.secrets.ghrunner-system-builder.sopsFile = ../secrets.yaml;
 
