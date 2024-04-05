@@ -4,14 +4,14 @@
 let
   baseName = "beekeeper-studio";
   pname = "${baseName}-ultimate";
-  version = "4.1.13";
+  version = "4.2.8";
   name = "${pname}-${version}";
 
   src = fetchurl {
     url =
       "https://github.com/beekeeper-studio/ultimate-releases/releases/download/v${version}/Beekeeper-Studio-Ultimate-${version}.AppImage";
     name = "${pname}-${version}.AppImage";
-    sha256 = "sha256-sMfZP4GF+3aaUletYBayBgN1aag0gwZp+/DRMCcen5Q=";
+    sha256 = "sha256-3gpqB6aj8s3zBiUoLXHDbtMcK2adLOL9rPDRZ8NqeaM=";
   };
 
   appimageContents = appimageTools.extractType2 { inherit name src; };
