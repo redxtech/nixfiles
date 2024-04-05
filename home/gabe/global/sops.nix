@@ -10,6 +10,7 @@
       cachix.path = "${config.xdg.configHome}/secrets/cachix.txt";
       cachix-activate.path =
         "${config.xdg.configHome}/secrets/cachix-activate.txt";
+      ds3_save.path = "${config.xdg.configHome}/secrets/ds3_save.txt";
       youtube.path = "${config.xdg.configHome}/secrets/youtube.txt";
       openweathermap.path =
         "${config.xdg.configHome}/secrets/openweathermap.txt";

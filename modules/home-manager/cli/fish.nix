@@ -420,6 +420,7 @@ in {
       set --export BW_SESSION "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.bw.path})"
       set --export CACHIX_AUTH_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix.path})"
       set --export CACHIX_ACTIVATE_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix-activate.path})"
+      set --export DS3_SAVEFILE_LOC "$HOME/$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.ds3_save.path})"
     '';
   };
 }
