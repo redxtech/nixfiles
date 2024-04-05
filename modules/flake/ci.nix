@@ -4,29 +4,60 @@
   imports = [ inputs.hci-effects.flakeModule ];
 
   hercules-ci = {
-    flake-update = {
+    flake-update = let
+      primaryInputs = [
+        "nixpkgs"
+        "home-manager"
+        "flake-parts"
+        "cachix-deploy-flake"
+        "disko"
+        "sddm-catppuccin"
+        "nh"
+        "nixos-generators"
+        "sops-nix"
+        "hyprland"
+        "hyprland-contrib"
+        "hyprland-plugins"
+      ];
+      secondaryInputs = [
+        "attic"
+        "deploy-rs"
+        "devenv"
+        "fh"
+        "flake-schemas"
+        "hardware"
+        "hci-effects"
+        "neovim-nightly-overlay"
+        "nix-flatpak"
+        "rust-overlay"
+        "xremap-flake"
+      ];
+    in {
       enable = true;
       baseMerge.enable = true;
       baseMerge.method = "rebase";
+      createPullRequest = true;
       pullRequestTitle = "chore: update flake.lock";
-      when = {
-        hour = [ 8 ];
-        dayOfWeek = [ "Mon" "Fri" ];
-      };
+      pullRequestBody = ''
+        update `flake.lock`. see the commit message(s) for details.
+
+        updated flake inputs:
+        ${builtins.concatStringsSep "\n"
+        (map (i: "	- ${i}") (primaryInputs ++ secondaryInputs))}
+
+        you may reset this branch by deleting it and re-running the update job.
+
+            git push origin :flake-update
+      '';
       flakes = {
         "." = {
           commitSummary = "chore: update flake inputs";
-          inputs = [
-            "nixpkgs"
-            "home-manager"
-            "hardware"
-            "nixos-generators"
-            "neovim-nightly-overlay"
-            "devenv"
-            "deploy-rs"
-            "rust-overlay"
-          ];
+          inputs = (primaryInputs ++ secondaryInputs);
         };
+      };
+      when = {
+        hour = [ 8 ];
+        dayOfWeek = [ "Mon" "Fri" ];
       };
     };
   };
