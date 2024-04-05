@@ -33,7 +33,7 @@
         deploy-bastion = mkAgent "bastion" true;
         deploy-voyager = mkAgent "voyager" true;
         deploy-quasar = mkAgent "quasar" true;
-        deploy-deck = mkAgent "gabe@deck" false;
+        # deploy-deck = mkAgent "gabe@deck" false;
 
         deploy-all = cachix-deploy-lib.spec {
           agents = {
