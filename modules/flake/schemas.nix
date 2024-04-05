@@ -3,6 +3,7 @@
 let
   schemas = {
     # TODO: define some custom schemas here
+    # https://determinate.systems/posts/flake-schemas/#defining-your-own-schemas
   };
 in {
   # include the schemas from the flake

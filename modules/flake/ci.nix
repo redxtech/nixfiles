@@ -10,8 +10,8 @@
       baseMerge.method = "rebase";
       pullRequestTitle = "chore: update flake.lock";
       when = {
-        hour = [ 0 ];
-        dayOfWeek = [ "Fri" ];
+        hour = [ 8 ];
+        dayOfWeek = [ "Mon" "Fri" ];
       };
       flakes = {
         "." = {
