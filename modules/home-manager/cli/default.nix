@@ -56,6 +56,7 @@ in {
           adguardian # monitor adguard home
           age # encryption
           atool # work with archives
+          attic-client # nix cache
           bitwarden-cli # password manager
           bluetuith # bluetooth manager
           cachix # nix binary cache manager
