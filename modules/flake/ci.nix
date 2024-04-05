@@ -8,7 +8,6 @@
       enable = true;
       baseMerge.enable = true;
       baseMerge.method = "rebase";
-      commitSummary = "chore: update flake inputs";
       pullRequestTitle = "chore: update flake.lock";
       when = {
         hour = [ 0 ];
@@ -16,6 +15,7 @@
       };
       flakes = {
         "." = {
+          commitSummary = "chore: update flake inputs";
           inputs = [
             "nixpkgs"
             "home-manager"
