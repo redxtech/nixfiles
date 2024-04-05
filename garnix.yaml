@@ -1,0 +1,15 @@
+builds:
+  branch: master
+  include:
+    - "*.x86_64-linux.*"
+    - defaultPackage.x86_64-linux
+    - homeConfigurations.*
+    - nixosConfigurations.*
+  exclude:
+    - "apps.*"
+    - "checks.*"
+    - "deploy.*"
+    - "devShell.x86_64-linux"
+    - "package.x86_64-linux.cockpit-*"
+    - "package.x86_64-linux.dank-mono"
+    - "package.x86_64-linux.deploy-all"
