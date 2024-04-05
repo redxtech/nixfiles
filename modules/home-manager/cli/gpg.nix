@@ -6,7 +6,7 @@ let
 in {
   config = mkIf cfg.enable {
     home.packages = with pkgs;
-      if config.gtk.enable then [
+      if config.desktop.enable then [
         gcr
         pinentry-gnome3
       ] else
