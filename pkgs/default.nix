@@ -2,15 +2,13 @@
 
 {
 
-  # Packages with an actual source
+  # packages with an actual source
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
   dashy = pkgs.callPackage ./dashy { };
-  # rgbdaemon = pkgs.callPackage ./rgbdaemon { };
   seabird = pkgs.callPackage ./seabird { };
-  # shellcolord = pkgs.callPackage ./shellcolord { };
   vuetorrent = pkgs.callPackage ./vuetorrent { };
 
-  # Personal scripts
+  # personal scripts
   switchup = pkgs.callPackage ./switchup { };
   nix-inspect = pkgs.callPackage ./nix-inspect { };
   minicava = pkgs.callPackage ./minicava { };
@@ -28,7 +26,4 @@
 
   # font Packages
   dank-mono = pkgs.callPackage ./dank-mono { };
-
-  # My slightly customized plymouth theme, just makes the blue outline white
-  plymouth-nixos-blur = pkgs.callPackage ./plymouth-nixos-blur { };
 }
