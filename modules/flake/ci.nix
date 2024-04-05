@@ -31,7 +31,7 @@
     };
   };
 
-  herculesCI = { herculesCI, ... }: {
+  herculesCI = {
     ciSystems = [ "x86_64-linux" ];
 
     onPush.default.outputs.effects = withSystem "x86_64-linux"
@@ -39,7 +39,9 @@
         let
           inherit (hci-effects) runIf runNixOS;
           inherit (builtins) length match;
-          shouldDeploy = length (match "deploy-(.*)" herculesCI.repo.tag) != 0;
+          shouldDeploy = false;
+          # temp disable until i can figure out how to get the tag
+          # shouldDeploy = length (match "deploy-(.*)" herculesCI.repo.tag) != 0;
         in {
           deploy-bastion = runIf shouldDeploy (runNixOS {
             name = "deploy-bastion";
