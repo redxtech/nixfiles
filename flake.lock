@@ -599,6 +599,21 @@
         "type": "github"
       }
     },
+    "flake-schemas": {
+      "locked": {
+        "lastModified": 1697467827,
+        "narHash": "sha256-j8SR19V1SRysyJwpOBF4TLuAvAjF5t+gMiboN4gYQDU=",
+        "owner": "DeterminateSystems",
+        "repo": "flake-schemas",
+        "rev": "764932025c817d4e500a8d2a4d8c565563923d29",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DeterminateSystems",
+        "repo": "flake-schemas",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1667395993,
@@ -1831,6 +1846,7 @@
         "disko": "disko_2",
         "fh": "fh",
         "flake-parts": "flake-parts_2",
+        "flake-schemas": "flake-schemas",
         "hardware": "hardware",
         "hci-effects": "hci-effects",
         "home-manager": "home-manager",

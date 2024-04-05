@@ -43,6 +43,7 @@
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
     fh.url = "github:DeterminateSystems/fh";
+    flake-schemas.url = "github:DeterminateSystems/flake-schemas";
     hardware.url = "github:nixos/nixos-hardware";
     hci-effects.url = "github:hercules-ci/hercules-ci-effects";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
@@ -62,6 +63,7 @@
         ./modules/flake/modules.nix
         ./modules/flake/overlays.nix
         ./modules/flake/packages.nix
+        ./modules/flake/schemas.nix
         ./modules/flake/shell.nix
       ];
 
