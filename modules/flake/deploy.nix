@@ -1,21 +1,15 @@
 { self, lib, inputs, ... }:
 
 {
-  flake = {
-    # deploy-rs
-    deploy.nodes = builtins.mapAttrs (name: value: {
-      hostname = name;
-      sshUser = "root";
-      fastConnection = false;
-      remoteBuild = true;
-      profiles.system.path =
-        inputs.deploy-rs.lib.${value.pkgs.stdenv.system}.activate.nixos value;
-    }) self.nixosConfigurations;
-
-    checks =
-      builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy)
-      inputs.deploy-rs.lib;
-  };
+  # deploy-rs
+  flake.deploy.nodes = builtins.mapAttrs (name: value: {
+    hostname = name;
+    sshUser = "root";
+    fastConnection = false;
+    remoteBuild = true;
+    profiles.system.path =
+      inputs.deploy-rs.lib.${value.pkgs.stdenv.system}.activate.nixos value;
+  }) self.nixosConfigurations;
 
   perSystem = { config, self', inputs', pkgs, system, ... }:
     let
@@ -29,6 +23,10 @@
           agents.${name} = if isNixOS then mkNixOS name else mkHome name;
         };
     in {
+      # deploy-rs checks
+      checks = inputs.deploy-rs.lib.${system}.deployChecks self.deploy;
+
+      # cachix-deploy specs
       packages = {
         deploy-bastion = mkAgent "bastion" true;
         deploy-voyager = mkAgent "voyager" true;
@@ -45,6 +43,7 @@
         };
       };
 
+      # `nix run` deploy scripts
       apps = {
         # deploy via cachix-deploy with `nix run .#deploy`
         deploy = {
