@@ -18,7 +18,11 @@
     gaming = {
       enable = true;
       amd = true;
-      sunshine = true;
+      sunshine = {
+        enable = true;
+        monitor = "DisplayPort-0";
+        monitorIndex = 1;
+      };
     };
   };
 
