@@ -18,7 +18,7 @@
     gaming = {
       enable = true;
       amd = true;
-      sunlight = true;
+      sunshine = true;
     };
   };
 

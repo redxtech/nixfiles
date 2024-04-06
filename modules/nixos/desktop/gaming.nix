@@ -27,10 +27,10 @@ in {
       description = "Enable NVIDIA driver support.";
     };
 
-    sunlight = mkOption {
+    sunshine = mkOption {
       type = bool;
       default = false;
-      description = "Enable the sunlight host for moonlight streaming.";
+      description = "Enable the sunshine host for moonlight streaming.";
     };
   };
 
@@ -72,7 +72,7 @@ in {
       };
     };
 
-    services.sunshine = mkIf cfg.gaming.sunlight {
+    services.sunshine = mkIf cfg.gaming.sunshine {
       enable = true;
       openFirewall = true;
       capSysAdmin = true;
