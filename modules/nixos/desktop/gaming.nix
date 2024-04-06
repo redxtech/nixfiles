@@ -86,21 +86,22 @@ in {
     hardware.logitech.wireless.enable = true;
     hardware.logitech.wireless.enableGraphical = true;
 
-    environment.systemPackages = with pkgs; [
-      # steam
-      protonup-qt
-      steamcmd
-      steam-tui
-      prismlauncher-qt5
-      protontricks
-      (lutris.override { extraPkgs = p: [ p.wine ]; })
+    environment.systemPackages = with pkgs;
+      [
+        # steam
+        protonup-qt
+        steamcmd
+        steam-tui
+        prismlauncher-qt5
+        protontricks
+        (lutris.override { extraPkgs = p: [ p.wine ]; })
 
-      # games
-      prismlauncher
+        # games
+        prismlauncher
 
-      # tools
-      mangohud
-    ];
+        # tools
+        mangohud
+      ] ++ (lib.optional cfg.gaming.sunshine pkgs.moondeck-buddy);
 
     nixpkgs.config.nvidia.acceptLicense = true;
 
