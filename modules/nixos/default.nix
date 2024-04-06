@@ -4,4 +4,5 @@
   dashy = import ./dashy.nix;
   desktop = import ./desktop;
   nas = import ./nas.nix;
+  sunshine = import ./sunshine.nix;
 }

@@ -26,6 +26,12 @@ in {
       default = false;
       description = "Enable NVIDIA driver support.";
     };
+
+    sunlight = mkOption {
+      type = bool;
+      default = false;
+      description = "Enable the sunlight host for moonlight streaming.";
+    };
   };
 
   config = mkIf (cfg.enable && cfg.gaming.enable) {
@@ -64,6 +70,12 @@ in {
           };
         };
       };
+    };
+
+    services.sunshine = mkIf cfg.gaming.sunlight {
+      enable = true;
+      openFirewall = true;
+      capSysAdmin = true;
     };
 
     # hardware.bumblebee.enable = mkIf cfg.gaming.prime true;
