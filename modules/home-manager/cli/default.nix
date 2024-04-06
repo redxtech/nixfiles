@@ -89,7 +89,7 @@ in {
           neofetch # system info
           nil # nix LSP
           nixd # nix LSP
-          nixfmt # nix formatter
+          nixfmt-classic # nix formatter
           # nix-delegate # distributed nix builds transparently
           nix-autobahn # dynamic executable helper
           nix-du # du for nix store

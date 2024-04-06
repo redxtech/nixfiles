@@ -36,7 +36,7 @@ in {
         gcc
         gnumake
         go
-        nixfmt
+        nixfmt-classic
         shellcheck
 
         # language servers & mason binaries
