@@ -110,12 +110,12 @@
       {
         name = "Arctis 7 Game";
         matches =
-          "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00*stereo-game*";
+          "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00.stereo-game*";
       }
       {
         name = "Arctis 7 Chat";
         matches =
-          "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00*mono-chat*";
+          "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00.mono-chat*";
       }
       {
         name = "Sunshine Client";

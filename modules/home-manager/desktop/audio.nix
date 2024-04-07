@@ -29,15 +29,21 @@ in {
   # write the wireplumber lua config files to rename the devices
   config = let
     mkDevice = { name, matches }: ''
-      table.insert(alsa_monitor.rules, {
-        matches = { { { "node.name", "matches", "${matches}" } } },
-        apply_properties = { ["node.description"] = "${name}" },
-      })
+      {
+        matches = [ { node.name = "~${matches}" } ]
+        actions = { update-props = { node.description = "${name}" } }
+      }
     '';
   in lib.mkIf cfg.enable {
-    xdg.configFile."wireplumber/main.lua.d/51-alsa-rename.lua".text = ''
-      ${lib.concatStringsSep "\n" (map mkDevice config.desktop.audio.devices)}
-    '';
+    xdg.configFile."wireplumber/wireplumber.conf.d/51-alsa-rename.conf".text =
+      lib.mkIf ((builtins.length cfg.audio.devices) != 0) ''
+        monitor.alsa.rules = [
+          ${
+            lib.concatStringsSep "\n"
+            (map mkDevice config.desktop.audio.devices)
+          }
+        ]
+      '';
   };
 
 }
