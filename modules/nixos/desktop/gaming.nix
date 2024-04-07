@@ -87,6 +87,8 @@ in {
       };
     };
 
+    services.udev.packages = [ pkgs.game-devices-udev-rules ];
+
     services.sunshine = mkIf cfg.gaming.sunshine.enable {
       enable = true;
       openFirewall = true;
