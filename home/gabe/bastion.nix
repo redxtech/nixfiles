@@ -108,6 +108,11 @@
         matches = "alsa_output.pci-0000_2e_00*";
       }
       {
+        name = "Ultras";
+        type = "bluetooth";
+        matches = "bluez_output.BC_87_FA_26_3B_97.*";
+      }
+      {
         name = "Arctis 7 Game";
         matches =
           "alsa_output.usb-SteelSeries_SteelSeries_Arctis_7-00.stereo-game*";

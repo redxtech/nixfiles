@@ -77,9 +77,16 @@
     }];
 
     # rename wireplumber devices
-    audio.devices = [{
-      name = "Speakers";
-      matches = "alsa_output.pci-0000_00_1f.3.*";
-    }];
+    audio.devices = [
+      {
+        name = "Speakers";
+        matches = "alsa_output.pci-0000_00_1f.3.*";
+      }
+      {
+        name = "Ultras";
+        type = "bluetooth";
+        matches = "bluez_output.BC_87_FA_26_3B_97.*";
+      }
+    ];
   };
 }
