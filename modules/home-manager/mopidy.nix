@@ -44,8 +44,10 @@ in {
         core.restore_state = true;
         mpd.enabled = false;
         notify.enabled = true;
+        spotify.bitrate = 320;
         bandcamp.discover_tags =
           "Hyperpop, EDM, Electronic, Glitchcore, Drum & Bass, Hip-Hop, Pop";
+        http.hostname = "0.0.0.0";
         iris = rec {
           country = "CA";
           locale = "en_${country}";
