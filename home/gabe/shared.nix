@@ -239,8 +239,8 @@
             cmd = ''
               ${
                 bin playerctl
-              } --player={spotify,firefox,mpv,""} {play-pause,next,previous}'';
-            keys = [ "{_,shift,ctrl,alt} + XF86Audio{Play,Next,Prev}" ];
+              } --player={spotify,firefox,mopidy,mpv,""} {play-pause,next,previous}'';
+            keys = [ "{_,shift,super,ctrl,alt} + XF86Audio{Play,Next,Prev}" ];
           }
           {
             description = "volume {up,down}";
@@ -350,5 +350,10 @@
         };
       }];
     };
+  };
+
+  mopidy = {
+    enable = true;
+    extraConfigFiles = [ config.sops.secrets.mopidy_auth.path ];
   };
 }

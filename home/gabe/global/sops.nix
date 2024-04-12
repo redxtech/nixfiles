@@ -16,6 +16,7 @@
         "${config.xdg.configHome}/secrets/openweathermap.txt";
       "adguardian.fish".path =
         "${config.xdg.configHome}/secrets/adguardian.fish";
+      mopidy_auth.path = "${config.xdg.configHome}/secrets/mopidy_auth.conf";
     };
   };
 }
