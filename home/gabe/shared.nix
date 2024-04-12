@@ -33,6 +33,7 @@
         Subl = { desktop = "*"; };
         flameshot = { state = "floating"; };
         "Blueman-manager" = { state = "floating"; };
+        ".blueman-manager-wrapped" = { state = "floating"; };
         "mpv:*:Webcam" = { state = "floating"; };
         "Kupfer.py" = { focus = true; };
         mplayer2 = { state = "floating"; };

@@ -157,6 +157,7 @@ in {
         prismlauncher-qt5
         protontricks
         (lutris.override { extraPkgs = p: [ p.wine ]; })
+        game-devices-udev-rules
 
         # games
         prismlauncher

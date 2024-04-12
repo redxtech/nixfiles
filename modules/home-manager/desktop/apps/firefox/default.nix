@@ -202,7 +202,7 @@
             "Home Manager" = {
               urls = [{
                 template =
-                  "https://home-manager-options.extranix.com/home-manager-option-search/?query={searchTerms}";
+                  "https://home-manager-options.extranix.com/?query={searchTerms}&release=master";
               }];
               iconUpdateURL =
                 "https://home-manager-options.extranix.com/home-manager-option-search/images/favicon.png";
