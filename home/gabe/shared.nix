@@ -356,4 +356,6 @@
     enable = true;
     extraConfigFiles = [ config.sops.secrets.mopidy_auth.path ];
   };
+
+  services.snapcast.enable = false;
 }

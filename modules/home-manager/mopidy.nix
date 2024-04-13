@@ -52,6 +52,7 @@ in {
           country = "CA";
           locale = "en_${country}";
           snapcast_enabled = false;
+          snapcast_stream = "Mopidy";
         };
       } // cfg.settings;
     };
