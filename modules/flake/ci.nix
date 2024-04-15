@@ -57,7 +57,7 @@
       };
       when = {
         hour = [ 8 ];
-        dayOfWeek = [ "Mon" "Fri" ];
+        dayOfWeek = [ "Fri" ];
       };
     };
   };
