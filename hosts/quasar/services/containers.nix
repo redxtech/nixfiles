@@ -375,6 +375,37 @@ in {
         volumes = [ (mkConf "syncthing") (mkData "syncthing") ];
       };
 
+      tandoor = {
+        image = "vabene1111/recipes";
+        labels = mkLabels "tandoor";
+        environment = defaultEnv // {
+          DB_ENGINE = "django.db.backends.postgresql";
+          POSTGRES_HOST = "tandoor-postgres";
+          POSTGRES_PORT = "5432";
+          POSTGRES_DB = "tandoor";
+        };
+        environmentFiles = [ config.sops.secrets.tandoor_env.path ];
+        ports = [ (mkPort cfg.ports.tandoor 8080) ];
+        volumes = [
+          "${cfg.paths.config}/tandoor/static:/opt/recipes/staticfiles"
+          "${cfg.paths.config}/tandoor/media:/opt/recipes/mediafiles"
+        ];
+        extraOptions = [ "--network" "tandoor" ];
+      };
+
+      tandoor-postgres = {
+        image = "postgres:latest";
+        environment = defaultEnv // {
+          POSTGRES_DB = "tandoor";
+          PGDATA = "/var/lib/postgresql/data/pgdata";
+        };
+        environmentFiles = [ config.sops.secrets.tandoor_env.path ];
+        ports = [ (mkPorts 5432) ];
+        volumes =
+          [ "${cfg.paths.config}/tandoor-postgres:/var/lib/postgresql/data" ];
+        extraOptions = [ "--network" "tandoor" ];
+      };
+
       tautulli = {
         image = "lscr.io/linuxserver/tautulli:latest";
         labels = mkLabels "tautulli";
@@ -410,7 +441,7 @@ in {
   };
 
   system.activationScripts.mkDockerNetworks =
-    let networks = [ "monica" "psend" ];
+    let networks = [ "monica" "psend" "tandoor" ];
     in ''
       for network in ${toString networks}; do
         ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
@@ -423,5 +454,6 @@ in {
   sops.secrets.calibre_pw.sopsFile = ../secrets.yaml;
   sops.secrets.monica_env.sopsFile = ../secrets.yaml;
   sops.secrets.psend_env.sopsFile = ../secrets.yaml;
+  sops.secrets.tandoor_env.sopsFile = ../secrets.yaml;
 }
 

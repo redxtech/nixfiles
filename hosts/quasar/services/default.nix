@@ -42,6 +42,7 @@ in {
     startpage = 9009;
     syncthing = 8384;
     sonarr = 8989;
+    tandoor = 9700;
     tautulli = 8181;
     uptime-kuma = 3001;
   };
