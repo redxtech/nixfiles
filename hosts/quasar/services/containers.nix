@@ -129,6 +129,14 @@ in {
         ports = [ (mkPorts cfg.ports.flaresolverr) ];
       };
 
+      grocy = {
+        image = "lscr.io/linuxserver/grocy:latest";
+        labels = mkLabels "grocy";
+        ports = [ (mkPorts cfg.ports.grocy) ];
+        environment = defaultEnv;
+        volumes = [ (mkConf "grocy") ];
+      };
+
       jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
         labels = mkLabels "jackett";

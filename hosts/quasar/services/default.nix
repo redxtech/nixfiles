@@ -20,6 +20,7 @@ in {
     dashy = 4000;
     deluge = 8112;
     flaresolverr = 8191;
+    grocy = 9283;
     jackett = 9117;
     jellyfin = 8096;
     jellyfin-vue = 8099;
