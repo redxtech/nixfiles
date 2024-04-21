@@ -50,6 +50,7 @@ in {
         lldb
         luajitPackages.jsregexp
         lua-language-server
+        nil
         nodePackages.bash-language-server
         nodePackages.prettier
         nodePackages.pyright

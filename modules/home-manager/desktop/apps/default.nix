@@ -34,6 +34,7 @@ in {
         # audacity
         beekeeper-studio-ultimate
         betterdiscordctl
+        bitwarden-desktop
         deluge
         discord
         dolphin-emu
