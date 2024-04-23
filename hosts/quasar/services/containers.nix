@@ -279,6 +279,25 @@ in {
         extraOptions = [ "--network" "monica" ];
       };
 
+      paperless = {
+        image = "lscr.io/linuxserver/paperless-ngx:latest";
+        labels = mkLabels "paperless";
+        environment = defaultEnv // {
+          REDIS_URL = "redis://paperless-redis:6379";
+        };
+        ports = [ (mkPort cfg.ports.paperless 8000) ];
+        volumes = [ (mkConf "paperless") (mkData "paperless") ];
+        extraOptions = [ "--network" "paperless" ];
+      };
+
+      paperless-redis = {
+        image = "docker.io/redis:7";
+        environment = defaultEnv;
+        ports = [ (mkPorts 6379) ];
+        volumes = [ "${cfg.paths.config}/paperless/redis:/data" ];
+        extraOptions = [ "--network" "paperless" ];
+      };
+
       portainer = {
         image = "portainer/portainer-ee:latest";
         ports = [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
@@ -432,13 +451,11 @@ in {
       # organizr
       # invoice ninja
       # lychee/immich/photoprism
-      # paperless-ngx
       # emulatorjs
       # nextcloud
       # wireguard
       # tubearchivist
       # home-assistant
-      # grocy
       # readarr
       # duplicati/duplicacy
 
@@ -449,7 +466,7 @@ in {
   };
 
   system.activationScripts.mkDockerNetworks =
-    let networks = [ "monica" "psend" "tandoor" ];
+    let networks = [ "monica" "paperless" "psend" "tandoor" ];
     in ''
       for network in ${toString networks}; do
         ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
