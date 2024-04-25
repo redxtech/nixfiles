@@ -6,8 +6,7 @@ let
 in {
   # options.base = { };
 
-  config = let
-  in mkIf cfg.enable {
+  config = mkIf cfg.enable {
     # enable polkit
     security.polkit.enable = true;
     # security.apparmor.enable = mkDefault true;

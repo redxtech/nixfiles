@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 
 let
-  inherit (lib) mkIf mkDefault;
+  inherit (lib) mkIf;
   cfg = config.cli;
 in {
   imports = [

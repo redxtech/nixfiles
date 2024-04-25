@@ -47,6 +47,15 @@ in {
       };
     };
 
+    restic = {
+      enable = mkEnableOption "Enable restic backup";
+      paths = mkOption {
+        type = listOf path;
+        default = [ ];
+        description = "Paths to backup with restic";
+      };
+    };
+
     # TODO: add zfs snapshots
   };
 
@@ -57,7 +66,9 @@ in {
     # include rsync if enabled
       (optional cfg.rsync.enable rsync)
       # include snapper if btrfs backups enabled
-      ++ (optionals cfg.btrfs.enable [ snapper snapper-gui ]);
+      ++ (optionals cfg.btrfs.enable [ snapper snapper-gui ])
+      # include restic if enabled
+      ++ (optionals cfg.restic.enable [ restic ]);
 
     # enable snapper for btrfs snapshot backups
     services.snapper = let
@@ -137,6 +148,17 @@ in {
     in mkIf cfg.rsync.enable {
       timers = mkTimers cfg.rsync.paths;
       services = mkServices cfg.rsync.paths;
+    };
+
+    # enable restic backup
+    users.users.restic = mkIf cfg.restic.enable { isNormalUser = true; };
+
+    security.wrappers.restic = mkIf cfg.restic.enable {
+      source = "${pkgs.restic.out}/bin/restic";
+      owner = "restic";
+      group = "users";
+      permissions = "u=rwx,g=,o=";
+      capabilities = "cap_dac_read_search=+ep";
     };
   };
 }
