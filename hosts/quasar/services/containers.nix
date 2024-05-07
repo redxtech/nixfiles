@@ -282,20 +282,9 @@ in {
       paperless = {
         image = "lscr.io/linuxserver/paperless-ngx:latest";
         labels = mkLabels "paperless";
-        environment = defaultEnv // {
-          REDIS_URL = "redis://paperless-redis:6379";
-        };
+        environment = defaultEnv // { };
         ports = [ (mkPort cfg.ports.paperless 8000) ];
         volumes = [ (mkConf "paperless") (mkData "paperless") ];
-        extraOptions = [ "--network" "paperless" ];
-      };
-
-      paperless-redis = {
-        image = "docker.io/redis:7";
-        environment = defaultEnv;
-        ports = [ (mkPorts 6379) ];
-        volumes = [ "${cfg.paths.config}/paperless/redis:/data" ];
-        extraOptions = [ "--network" "paperless" ];
       };
 
       portainer = {
