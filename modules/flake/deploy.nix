@@ -5,7 +5,7 @@
   flake.deploy.nodes = builtins.mapAttrs (name: value: {
     hostname = name;
     sshUser = "root";
-    fastConnection = false;
+    fastConnection = true;
     remoteBuild = true;
     profiles.system.path =
       inputs.deploy-rs.lib.${value.pkgs.stdenv.system}.activate.nixos value;
