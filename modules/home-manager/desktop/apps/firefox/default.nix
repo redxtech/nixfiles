@@ -270,8 +270,8 @@
       other = {
         id = 1;
         name = "other";
-        userChrome = builtins.readFile ./userChrome.css;
-        userContent = builtins.readFile ./userContent.css;
+        inherit (config.programs.firefox.profiles.gabe)
+          settings userChrome userContent search;
       };
     };
   };
