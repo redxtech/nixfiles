@@ -87,6 +87,9 @@ main() {
 	next | cycle)
 		nextSink
 		;;
+	list)
+		listSinks
+		;;
 	*)
 		echo "unknown command"
 		exit 1

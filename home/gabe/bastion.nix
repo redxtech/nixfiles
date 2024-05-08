@@ -103,10 +103,10 @@
         matches =
           "alsa_output.usb-Schiit_Audio_Schiit_Unison_Modi_Multi_2-00.*";
       }
-      {
-        name = "Speakers";
-        matches = "alsa_output.pci-0000_2e_00*";
-      }
+      # {
+      #   name = "Speakers";
+      #   matches = "alsa_output.pci-0000_2e_00*";
+      # }
       {
         name = "Ultras";
         type = "bluetooth";
