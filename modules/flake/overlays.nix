@@ -25,8 +25,6 @@
 
         plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };
 
-        nh = inputs.nh.packages.${final.system}.default;
-
         nix-autobahn =
           inputs.nix-autobahn.packages.${final.system}.nix-autobahn;
 

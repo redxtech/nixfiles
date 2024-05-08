@@ -15,15 +15,15 @@ in {
         enable = true;
         useBabelfish = true;
       };
-    };
 
-    # nix helper tool (viperML/nh)
-    nh = {
-      enable = true;
-      flake = "/home/${config.base.primaryUser}/Code/nixfiles";
-      clean = {
+      # nix helper tool (viperML/nh)
+      nh = {
         enable = true;
-        extraArgs = "--keep-since 4d --keep 3";
+        flake = "/home/${config.base.primaryUser}/Code/nixfiles";
+        clean = {
+          enable = true;
+          extraArgs = "--keep-since 4d --keep 3";
+        };
       };
     };
 

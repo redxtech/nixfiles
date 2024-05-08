@@ -12,12 +12,12 @@
         hci
         home-manager
         neovim
+        nh
         nix
         sops
         ssh-to-age
         yadm
 
-        inputs'.nh.packages.default
         inputs'.deploy-rs.packages.deploy-rs
       ];
 
@@ -33,12 +33,12 @@
     #       gnupg
     #       home-manager
     #       neovim
+    #       nh
     #       nix
     #       sops
     #       ssh-to-age
     #       yadm
 
-    #       inputs'.nh.packages.default
     #       inputs'.deploy-rs.packages.deploy-rs
     #     ];
 

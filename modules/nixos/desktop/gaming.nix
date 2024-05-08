@@ -154,7 +154,6 @@ in {
         protonup-qt
         steamcmd
         steam-tui
-        prismlauncher-qt5
         protontricks
         (lutris.override { extraPkgs = p: [ p.wine ]; })
         game-devices-udev-rules

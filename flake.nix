@@ -20,9 +20,6 @@
     sddm-catppuccin.url = "github:khaneliman/sddm-catppuccin";
     sddm-catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
-    nh.url = "github:viperML/nh";
-    nh.inputs.nixpkgs.follows = "nixpkgs";
-
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
