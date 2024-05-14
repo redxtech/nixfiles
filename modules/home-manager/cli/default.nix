@@ -76,6 +76,7 @@ in {
           ffmpegthumbnailer # thumbnailer
           gallery-dl # image downloader
           hci # hercules ci tool
+          home-assistant-cli # home assistant cli
           httpie # better curl
           libnotify # desktop notifications
           libwebp # webp support

@@ -17,6 +17,8 @@
       "adguardian.fish".path =
         "${config.xdg.configHome}/secrets/adguardian.fish";
       mopidy_auth.path = "${config.xdg.configHome}/secrets/mopidy_auth.conf";
+      hass_url.path = "${config.xdg.configHome}/secrets/hass_url.txt";
+      hass_token.path = "${config.xdg.configHome}/secrets/hass_token.txt";
     };
   };
 }

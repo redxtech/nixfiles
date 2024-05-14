@@ -28,6 +28,11 @@ in {
         "voyager" = mkDevice "voyager";
         "quasar" = mkDevice "quasar";
         "deck" = mkDevice "deck";
+        "homeassistant" = {
+          user = "hassio";
+          identityFile = identityFile;
+          hostname = "homeassistant";
+        };
         "sb" = {
           user = "redxtech";
           identityFile = identityFile;

@@ -396,6 +396,9 @@ in {
         complete -c nixos-rebuild-remote -a '(__fish_nixos_remote_complete)' -f
         complete -c cdeploy -a '(__fish_nixos_remote_complete)' -f
         complete -c rdeploy -a '(__fish_nixos_remote_complete)' -f
+
+        # add completion for home assistant cli
+        eval (_HASS_CLI_COMPLETE=fish_source ${pkgs.home-assistant-cli}/bin/hass-cli)
       '';
 
       shellInit = language "fish" ''
@@ -421,6 +424,8 @@ in {
       set --export CACHIX_AUTH_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix.path})"
       set --export CACHIX_ACTIVATE_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix-activate.path})"
       set --export DS3_SAVEFILE_LOC "$HOME/$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.ds3_save.path})"
+      set --export HASS_SERVER "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.hass_url.path})"
+      set --export HASS_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.hass_token.path})"
     '';
   };
 }

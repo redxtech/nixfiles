@@ -39,6 +39,7 @@ in {
         ${kittyRun} ${pkgs.fish}/bin/fish -c "sudo ${pkgs.ps_mem}/bin/ps_mem; read -s -n 1 -p 'echo Press any key to continue...'"'';
       runWttr =
         "${kittyRun} ${pkgs.fish}/bin/fish -c '${pkgs.curl}/bin/curl wttr.in; read -n 1 -p \"echo Press any key to continue...\"'";
+      runHA = "${scripts.home-assistant}/bin/home-assistant";
 
       isWired = (config.desktop.hardware.network.type == "wired");
 
@@ -696,9 +697,9 @@ in {
 
         format = {
           underline = "\${colours.weather}";
-          text = "<label>%{A}";
+          text = "<label>%{A}%{A}%{A}";
           prefix = {
-            text = "%{A1:${runWttr}:}󰅟";
+            text = "%{A1:${runWttr}:}%{A3:${runHA} light:}%{A2:${runHA} fan:}󰅟";
             background = "\${colours.weather}";
             foreground = "\${colours.bg}";
             padding = 1;
