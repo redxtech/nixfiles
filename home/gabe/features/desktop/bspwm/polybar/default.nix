@@ -7,8 +7,7 @@ in {
   home.packages = with scripts; [
     copy-spotify-url
     pipewire-control
-    # pipewire-output-tail
-    player-mpris-tail
+    playerctl-tail
   ];
 
   services.polybar = let
@@ -20,6 +19,8 @@ in {
     getMon = i: (elemAt config.desktop.monitors i);
   in with config.user-theme; {
     enable = true;
+
+    package = pkgs.polybarFull;
 
     script = ''
       polybar main &
@@ -59,7 +60,7 @@ in {
           "margin"
         ] ++ (optionals isLaptop [ "battery" "margin" ])
         ++ [ "date" "margin" "dnd" ];
-    in rec {
+    in {
       "colours" = {
         # named colours
         bg = bg;
@@ -134,7 +135,8 @@ in {
             "polywins"
             # "todo"
           ];
-          center = concatStringsSep " " [ "player-mpris-tail" ];
+          center =
+            concatStringsSep " " [ "playerctl-tail" "playerctl-tail-icon" ];
           right =
             concatStringsSep " " (baseModules ++ [ "margin" "tray" "margin" ]);
         };
@@ -425,63 +427,49 @@ in {
           padding = 1;
         };
       };
-      "module/player-mpris-tail" = {
-        type = "custom/script";
+      "module/playerctl-tail" =
+        let pctl = "${scripts.playerctl-tail}/bin/playerctl-tail";
+        in {
+          type = "custom/script";
 
-        exec =
-          "${scripts.player-mpris-tail}/bin/player-mpris --icon-playing \"%{T6}󰏤%{T-}\" --icon-paused \"%{T6}󰐊%{T-}\" --icon-stopped \"%{T6}󰓛%{T-}\" -f '{artist} - {title} {icon}'";
-        tail = true;
+          exec = "${pctl} status";
+          tail = true;
 
-        click = {
-          left = "${scripts.player-mpris-tail}/bin/player-mpris play-pause &";
-          # right = "${kittyRun} ${pkgs.spotify-tui}/bin/spt"; # TODO: find replacement, spt is dead
-          middle = "${scripts.copy-spotify-url}/bin/copy-spotify-url";
-        };
+          click = {
+            left = "${pctl} play-pause &";
+            right = "${pctl} next &";
+            middle = "${scripts.copy-spotify-url}/bin/copy-spotify-url";
+          };
 
-        format = {
-          underline = "\${colours.mpris}";
-          prefix = {
-            text = "󰝚";
-            background = "\${colours.mpris}";
-            foreground = "\${colours.bg}";
+          format = {
+            underline = "\${colours.mpris}";
+            prefix = {
+              text = "󰝚";
+              background = "\${colours.mpris}";
+              foreground = "\${colours.bg}";
+              padding = 1;
+            };
+          };
+          label = {
+            # text = "%output:0:40:...%";
+            text = "%output%";
+            background = "\${colours.bg-alt}";
+            foreground = "\${colours.fg}";
             padding = 1;
           };
         };
+      "module/playerctl-tail-icon" = let
+        pctl = "${scripts.playerctl-tail}/bin/playerctl-tail";
+        pctl-tail = config.services.polybar.settings."module/playerctl-tail";
+      in {
+        inherit (pctl-tail) type tail click;
+
+        exec = "${pctl} icon";
+
+        format = { inherit (pctl-tail.format) underline; };
         label = {
-          # text = "%output:0:40:...%";
-          text = "%output%";
-          background = "\${colours.bg-alt}";
-          foreground = "\${colours.fg}";
-          padding = 1;
-        };
-      };
-      "module/minicava" = {
-        type = "custom/script";
-
-        exec = "${pkgs.minicava}/bin/minicava";
-        tail = true;
-
-        click = {
-          left = "${scripts.player-mpris-tail}/bin/player-mpris play-pause &";
-          # right = "${kittyRun} ${pkgs.spotify-tui}/bin/spt"; # TODO: find replacement, spt is dead
-          middle = "${scripts.copy-spotify-url}/bin/copy-spotify-url";
-        };
-
-        format = {
-          underline = "\${colours.mpris}";
-          prefix = {
-            text = "󰝚";
-            background = "\${colours.mpris}";
-            foreground = "\${colours.bg}";
-            padding = 1;
-          };
-        };
-        label = {
-          # text = "%output:0:40:...%";
-          text = "%output%";
-          background = "\${colours.bg-alt}";
-          foreground = "\${colours.fg}";
-          padding = 1;
+          inherit (pctl-tail.label) text background foreground;
+          padding.right = 1;
         };
       };
       "module/network" = {
