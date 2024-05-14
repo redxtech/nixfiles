@@ -34,17 +34,12 @@ in {
       feh
       firefox-devedition-bin
       flameshot
-      google-chrome
-      insomnia
       kitty
       libsForQt5.kleopatra
       mozillavpn
       mpv
       networkmanagerapplet
       obsidian
-      slack
-      spotifywm
-      vivaldi
       vscodium
     ];
   };

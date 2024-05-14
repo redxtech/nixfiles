@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   programs = {
@@ -19,6 +19,5 @@
     gnome.gnome-software
     kitty
     mpv
-    spotifywm
   ];
 }

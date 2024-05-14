@@ -10,6 +10,7 @@ in {
       inputs.hyprland.homeManagerModules.default
       inputs.sops-nix.homeManagerModules.sops
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
+      inputs.spicetify-nix.homeManagerModules.default
 
       { config = { inherit (self.nixCfg) nix; }; }
     ] ++ attrValues allHomeManager;

@@ -337,7 +337,7 @@
         "${flameshot}/bin/flameshot"
         # "${discord}/bin/discord"
         "${vesktop}/bin/vesktop"
-        "${spotifywm}/bin/spotify"
+        "${config.programs.spicetify.spotifyPackage}/bin/spotify"
         "${xfce.thunar}/bin/thunar --daemon"
         "${solaar}/bin/solaar -w hide"
       ];

@@ -9,7 +9,7 @@
         "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
       "$editor" = "${neovim}/bin/nvim";
       "$explorer" = "${cinnamon.nemo-with-extensions}/bin/nemo";
-      "$music" = "${spotifywm}/bin/spotifywm";
+      "$music" = "${config.programs.spicetify.spotifyPackage}/bin/spotify";
 
       bind = [
         # hyprland

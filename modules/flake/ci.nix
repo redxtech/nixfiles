@@ -29,6 +29,7 @@
         "neovim-nightly-overlay"
         "nix-flatpak"
         "rust-overlay"
+        "spicetify-nix"
         "xremap-flake"
       ];
     in {

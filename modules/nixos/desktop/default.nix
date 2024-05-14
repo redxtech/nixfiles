@@ -85,12 +85,9 @@ in {
         gnome.gnome-software
         gnome.gpaste
         kitty
-        logiops
         mpv
         obsidian
         piper
-        spotifywm
-        vivaldi
         vscodium
 
         # thunar tools

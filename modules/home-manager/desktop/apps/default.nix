@@ -6,6 +6,7 @@ in {
     ./firefox
     ./kitty.nix
     ./mpv.nix
+    ./spotify.nix
     ./rio.nix
     # more
   ];
@@ -52,7 +53,6 @@ in {
         remmina
         seabird
         slack
-        spotifywm
         xdragon
         xfce.exo
         xfce.thunar

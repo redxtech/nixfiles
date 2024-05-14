@@ -30,6 +30,8 @@
 
         sddm-catppuccin =
           inputs.sddm-catppuccin.packages.${final.system}.sddm-catppuccin;
+
+        spicePkgs = inputs.spicetify-nix.packages.${final.system}.default;
       };
 
       # Modifies existing packages

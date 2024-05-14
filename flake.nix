@@ -48,6 +48,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nixneovimplugins.url = "github:NixNeovim/NixNeovimPlugins";
     rust-overlay.url = "github:oxalica/rust-overlay";
+    spicetify-nix.url = "github:the-argus/spicetify-nix";
     xremap-flake.url = "github:xremap/nix-flake";
     # nur.url = "github:nix-community/NUR";
   };
