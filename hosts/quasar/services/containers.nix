@@ -265,6 +265,17 @@ in {
         extraOptions = [ "--network" "monica" ];
       };
 
+      music-assistant = {
+        image = "ghcr.io/music-assistant/server";
+        labels = mkLabels "music-assistant";
+        environment = defaultEnv;
+        volumes = [
+          (cfg.paths.config + "/music-assistant:/data")
+          (cfg.paths.media + "/music:/media")
+        ];
+        extraOptions = [ "--network" "host" "--privileged" ];
+      };
+
       mysql = {
         image = "mysql:latest";
         hostname = "mysql";
