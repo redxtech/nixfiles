@@ -6,7 +6,6 @@
   base = {
     enable = true;
     hostname = "bastion";
-    tz = "America/Vancouver";
     fs.btrfs = true;
   };
 

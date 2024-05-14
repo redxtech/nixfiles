@@ -6,7 +6,6 @@
   base = {
     enable = true;
     hostname = "voyager";
-    tz = "America/Vancouver";
   };
 
   desktop = {

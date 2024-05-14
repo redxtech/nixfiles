@@ -7,6 +7,8 @@
     ./users/root.nix
   ];
 
+  base.tz = "America/Edmonton";
+
   # sops
   sops.defaultSopsFile = ./secrets.yaml;
 }

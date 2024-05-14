@@ -13,7 +13,6 @@
   base = {
     enable = true;
     hostname = "quasar";
-    tz = "America/Vancouver";
 
     fs = {
       btrfs = true;
