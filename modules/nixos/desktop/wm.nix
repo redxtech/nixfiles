@@ -21,12 +21,21 @@ in {
     isGnome = cfg.wm == "gnome";
   in mkIf cfg.enable {
 
-    services.xserver = {
-      enable = true;
-      xkb.layout = "us";
+    services = {
+      xserver = {
+        enable = true;
+        xkb.layout = "us";
 
-      windowManager.bspwm.enable = true;
-      desktopManager.gnome.enable = true;
+        windowManager.bspwm.enable = true;
+        desktopManager.gnome.enable = true;
+
+        # disable suspend and screen blanking
+        serverFlagsSection = ''
+          Option "StandbyTime" "0"
+          Option "SuspendTime" "0"
+          Option "OffTime" "0"
+        '';
+      };
 
       displayManager.defaultSession = {
         bspwm = "none+bspwm";
@@ -41,13 +50,6 @@ in {
           # disableWhileTyping = true;
         };
       };
-
-      # disable suspend and screen blanking
-      serverFlagsSection = ''
-        Option "StandbyTime" "0"
-        Option "SuspendTime" "0"
-        Option "OffTime" "0"
-      '';
     };
 
     programs.hyprland.enable = true;

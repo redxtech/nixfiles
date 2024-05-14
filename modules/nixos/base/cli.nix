@@ -6,8 +6,7 @@ let
 in {
   # options.base.cli = { };
 
-  config = let
-  in mkIf cfg.enable {
+  config = mkIf cfg.enable {
     programs = {
       zsh = { enable = true; };
 

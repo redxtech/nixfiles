@@ -28,10 +28,6 @@
           system-features = [ "kvm" "big-parallel" "nixos-test" ];
           allow-import-from-derivation = true;
         };
-        gc = {
-          automatic = true;
-          options = "--delete-older-than 5d";
-        };
 
         # add each flake input as a registry
         # to make nix3 commands consistent with the flake
