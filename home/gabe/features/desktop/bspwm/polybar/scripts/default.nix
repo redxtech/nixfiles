@@ -8,6 +8,7 @@
   playerctl-tail = pkgs.callPackage ./playerctl-tail { };
   polywins = pkgs.callPackage ./polywins { };
   resize-aspect = pkgs.callPackage ./resize-aspect { };
+  spotify-volume = pkgs.callPackage ./spotify-volume { };
   weather-bar = pkgs.callPackage ./weather-bar { };
 }
 

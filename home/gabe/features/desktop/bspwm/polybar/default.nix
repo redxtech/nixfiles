@@ -441,6 +441,12 @@ in {
             middle = "${scripts.copy-spotify-url}/bin/copy-spotify-url";
           };
 
+          scroll = let spt-vol = "${scripts.spotify-volume}/bin/spotify-volume";
+          in {
+            up = "${spt-vol} +10% &";
+            down = "${spt-vol} -10% &";
+          };
+
           format = {
             underline = "\${colours.mpris}";
             prefix = {
@@ -462,7 +468,7 @@ in {
         pctl = "${scripts.playerctl-tail}/bin/playerctl-tail";
         pctl-tail = config.services.polybar.settings."module/playerctl-tail";
       in {
-        inherit (pctl-tail) type tail click;
+        inherit (pctl-tail) type tail click scroll;
 
         exec = "${pctl} icon";
 
