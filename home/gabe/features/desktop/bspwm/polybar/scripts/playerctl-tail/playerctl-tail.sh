@@ -15,6 +15,8 @@ showIcon() {
 
 showStatus() {
 	while IFS= read -r status; do
+		[ -z "$status" ] || [ "$status" == " - " ] && continue
+
 		printf '%s\n' "$status"
 	done
 }
