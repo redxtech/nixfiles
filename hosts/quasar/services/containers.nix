@@ -239,16 +239,6 @@ in {
         ports = [ (mkPort 1111 5000) ];
       };
 
-      minecraft-breo = {
-        image = "itzg/minecraft-server";
-        ports = [ (mkPort 25566 25565) (mkPort 25576 25575) ];
-        environment = {
-          EULA = "TRUE";
-          MEMORY = "2G";
-        };
-        volumes = [ (cfg.paths.config + "/minecraft-breo:/data") ];
-      };
-
       monica = {
         image = "lscr.io/linuxserver/monica:latest";
         hostname = "monica";
