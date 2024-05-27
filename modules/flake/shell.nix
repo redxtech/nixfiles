@@ -11,7 +11,7 @@
         gnupg
         hci
         home-manager
-        neovim
+        neovim-nightly
         nh
         nix
         sops
@@ -32,7 +32,7 @@
     #       git
     #       gnupg
     #       home-manager
-    #       neovim
+    #       neovim-nightly
     #       nh
     #       nix
     #       sops

@@ -43,7 +43,7 @@
     flake-schemas.url = "github:DeterminateSystems/flake-schemas";
     hardware.url = "github:nixos/nixos-hardware";
     hci-effects.url = "github:hercules-ci/hercules-ci-effects";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     nix-autobahn.url = "github:lassulus/nix-autobahn";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nixneovimplugins.url = "github:NixNeovim/NixNeovimPlugins";

@@ -26,7 +26,7 @@
         "flake-schemas"
         "hardware"
         "hci-effects"
-        "neovim-nightly-overlay"
+        "neovim-nightly"
         "nix-flatpak"
         "rust-overlay"
         "spicetify-nix"

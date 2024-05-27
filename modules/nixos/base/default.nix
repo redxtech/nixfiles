@@ -80,7 +80,7 @@ in {
         lsb-release
         man-pages
         man-pages-posix
-        neovim
+        neovim-nightly
         ps_mem
         sqlite
         unrar

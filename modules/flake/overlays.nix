@@ -5,6 +5,9 @@
     overlays = {
       # adds my custom packages
       additions = final: prev: {
+        # add neovim-nightly to the packages
+        neovim-nightly = inputs.neovim-nightly.packages.${prev.system}.default;
+
         plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
           version = "1.32.8.7639-fb6452ebf";
           name = "${old.pname}-${version}";
@@ -80,9 +83,8 @@
       hyprland-plugins = inputs.hyprland-plugins.overlays.default;
 
       flakehub = inputs.fh.overlays.default;
-      neovim-nightly = inputs.neovim-nightly-overlay.overlay;
-      nix-neovim-plugins = inputs.nixneovimplugins.overlays.default;
       rust-overlay = inputs.rust-overlay.overlays.default;
+      # nix-neovim-plugins = inputs.nixneovimplugins.overlays.default;
       # nur = inputs.nur.overlay;
     };
   };

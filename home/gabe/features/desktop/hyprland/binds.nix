@@ -7,7 +7,7 @@
       "$terminal" = "${kitty}/bin/kitty";
       "$browser" =
         "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
-      "$editor" = "${neovim}/bin/nvim";
+      "$editor" = "${neovim-nightly}/bin/nvim";
       "$explorer" = "${cinnamon.nemo-with-extensions}/bin/nemo";
       "$music" = "${config.programs.spicetify.spotifyPackage}/bin/spotify";
 
