@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./langs.nix
     ./sops.nix
     ./user-theme.nix # TODO: remove in favour of custom theme module
   ];

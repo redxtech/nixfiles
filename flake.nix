@@ -17,6 +17,9 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
+    fenix.url = "github:nix-community/fenix";
+    fenix.inputs.nixpkgs.follows = "nixpkgs";
+
     sddm-catppuccin.url = "github:khaneliman/sddm-catppuccin";
     sddm-catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -46,8 +49,7 @@
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     nix-autobahn.url = "github:lassulus/nix-autobahn";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
-    nixneovimplugins.url = "github:NixNeovim/NixNeovimPlugins";
-    rust-overlay.url = "github:oxalica/rust-overlay";
+    nix-neovim-plugins.url = "github:NixNeovim/NixNeovimPlugins";
     spicetify-nix.url = "github:the-argus/spicetify-nix";
     xremap-flake.url = "github:xremap/nix-flake";
     # nur.url = "github:nix-community/NUR";

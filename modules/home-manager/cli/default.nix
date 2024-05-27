@@ -18,7 +18,7 @@ in {
     ./zsh.nix
   ];
 
-  options.cli = let inherit (lib) mkEnableOption mkOption;
+  options.cli = let inherit (lib) mkOption;
   in with lib.types; {
     enable = lib.mkEnableOption "Enable desktop configuration";
 
@@ -210,6 +210,7 @@ in {
         neofetchk = "neofetch --backend kitty --source $HOME/.config/wall.png";
         "inodes-where" =
           "sudo du --inodes --separate-dirs --one-file-system / | sort -rh | head";
+        npr = "npm run";
         ps_mem = "sudo ps_mem";
         rcp = "rclone copy -P --transfers=20";
         rgu = "rg -uu";
@@ -228,6 +229,7 @@ in {
         KUBECONFIG = "${config.xdg.configHome}/kube/config";
         PF_INFO =
           "ascii title os kernel uptime shell term desktop scheme palette";
+        PNPM_HOME = "${config.xdg.dataHome}/pnpm";
         RANGER_LOAD_DEFAULT_RC = "FALSE";
       } // cfg.env;
     };
