@@ -269,6 +269,15 @@ in {
         extraOptions = [ "--network" "monica" ];
       };
 
+      nest-rtsp = {
+        image = "jakguru/nest-rtsp:master";
+        environment = defaultEnv // {
+          HTTP_PORT = "${toString cfg.ports.nest-rtsp}";
+        };
+        environmentFiles = [ config.sops.secrets.nest-rtsp.path ];
+        extraOptions = [ "--network" "host" "--privileged" ];
+      };
+
       paperless = {
         image = "lscr.io/linuxserver/paperless-ngx:latest";
         labels = mkLabels "paperless";
@@ -457,6 +466,7 @@ in {
   sops.secrets.calibre_user.sopsFile = ../secrets.yaml;
   sops.secrets.calibre_pw.sopsFile = ../secrets.yaml;
   sops.secrets.monica_env.sopsFile = ../secrets.yaml;
+  sops.secrets.nest-rtsp.sopsFile = ../secrets.yaml;
   sops.secrets.psend_env.sopsFile = ../secrets.yaml;
   sops.secrets.tandoor_env.sopsFile = ../secrets.yaml;
 }

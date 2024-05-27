@@ -30,6 +30,7 @@ in {
     lidarr = 8686;
     monica = 6901;
     mysql = 3306;
+    nest-rtsp = 7001;
     netdata = 19999;
     paperless = 9200;
     plex = 32400;
