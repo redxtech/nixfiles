@@ -9,6 +9,7 @@ in {
     ./fish.nix
     ./git.nix
     ./gpg.nix
+    ./langs.nix
     ./neovim.nix
     ./nix-index.nix
     ./programs.nix
