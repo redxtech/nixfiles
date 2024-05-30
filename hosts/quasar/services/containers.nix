@@ -171,7 +171,7 @@ in {
         labels = mkLabels "jellyfin-vue";
         environment = {
           DEFAULT_SERVERS =
-            "http://quasar:8096,https://jellyfin.${cfg.domain},10.0.0.191:8096,demo.jellyfin.org";
+            "http://quasar:8096,https://jellyfin.${cfg.domain},192.168.50.208:8096,demo.jellyfin.org";
           HISTORY_ROUTER_MODE = "1";
         };
         ports = [ (mkPort cfg.ports.jellyfin-vue 80) ];
