@@ -115,6 +115,7 @@ in {
           timer # to help with my ADHD paralysis
           todoist # todo app client
           tokei # count lines of code in project
+          trashy # trash manager
           urlencode # url encoder
           xclip # clipboard manager
           xdg-utils # xdg-open

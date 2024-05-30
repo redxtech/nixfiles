@@ -1,7 +1,6 @@
 { pkgs }:
 
 {
-
   # packages with an actual source
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
   dashy = pkgs.callPackage ./dashy { };

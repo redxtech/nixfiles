@@ -27,44 +27,17 @@ in {
       vimdiffAlias = true;
 
       extraLuaConfig = ''
-        -- bootstrap lazy.nvim, lazyvim and my plugins
+        -- bootstrap lazy.nvim
         require('config.lazy')
       '';
 
-      extraPackages = with pkgs; [
-        cargo
-        gcc
-        gnumake
-        go
-        nixfmt-classic
-        shellcheck
+      neo-lsp = {
+        enable = true;
 
-        # language servers & mason binaries
-        buf-language-server
-        clang-tools
-        deno
-        docker-compose-language-service
-        dockerfile-language-server-nodejs
-        hadolint
-        helm-ls
-        lldb
-        luajitPackages.jsregexp
-        lua-language-server
-        nil
-        nodePackages.bash-language-server
-        nodePackages.prettier
-        nodePackages.pyright
-        nodePackages.typescript-language-server
-        nodePackages.vls
-        nodePackages.vscode-json-languageserver-bin
-        python311Packages.debugpy
-        ruff-lsp
-        shfmt
-        stylua
-        tailwindcss-language-server
-        yaml-language-server
-        vscode-langservers-extracted
-      ];
+        web.deno = true;
+        yaml = { kubernetes = true; };
+        terraform.enable = true;
+      };
     };
   };
 }
