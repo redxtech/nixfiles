@@ -58,6 +58,12 @@ in {
       default = true;
       description = "Enable tailscale.";
     };
+
+    dockerDNS = mkOption {
+      type = listOf str;
+      default = [ ];
+      description = "DNS servers to use for docker";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -153,6 +159,10 @@ in {
 
     # cachix-agent
     services.cachix-agent.enable = mkDefault true;
+
+    # docker dns
+    virtualisation.docker.daemon.settings.dns =
+      mkIf (builtins.length cfg.dockerDNS > 0) cfg.dockerDNS;
 
     # tailscale
     services.tailscale = mkIf cfg.tailscale {
