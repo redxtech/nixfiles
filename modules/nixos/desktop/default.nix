@@ -5,6 +5,7 @@ let
   inherit (lib) mkIf mkOption mkEnableOption;
 in {
   imports = [
+    ./ai.nix
     ./dm.nix
     ./gaming.nix
     # ./rdp.nix

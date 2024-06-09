@@ -15,6 +15,8 @@
     useZen = true;
     wm = "bspwm";
 
+    ai.enable = true;
+
     gaming = {
       enable = true;
       amd = true;
@@ -32,6 +34,8 @@
       subvolumes = { gabe-home = "/home/gabe"; };
     };
   };
+
+  nixpkgs.config.rocmSupport = true;
 
   virtualisation.docker.storageDriver = "btrfs";
 
