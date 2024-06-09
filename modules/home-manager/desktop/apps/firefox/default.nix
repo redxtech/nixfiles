@@ -2,7 +2,10 @@
 
 {
   home = {
-    sessionVariables = { BROWSER = "firefox-developer-edition -p gabe"; };
+    sessionVariables = {
+      BROWSER = "firefox-developer-edition -p gabe";
+      FIREFOX = "firefox-developer-edition -p gabe";
+    };
   };
 
   programs.firefox = {

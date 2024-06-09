@@ -56,6 +56,8 @@ in {
 
         enableZshIntegration = true;
         nix-direnv.enable = true;
+
+        config.load_dotenv = true;
       };
 
       eza = {
