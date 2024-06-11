@@ -39,7 +39,6 @@ in {
       mozillavpn
       mpv
       networkmanagerapplet
-      obsidian
       vscodium
     ];
   };

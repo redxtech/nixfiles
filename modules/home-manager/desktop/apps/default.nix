@@ -45,6 +45,8 @@ in {
         libreoffice
         multiviewer-for-f1
         neovide
+        obsidian
+        obsidian-smart-connect
         pavucontrol
         planify
         playerctl

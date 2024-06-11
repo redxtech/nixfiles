@@ -87,7 +87,6 @@ in {
         gnome.gpaste
         kitty
         mpv
-        obsidian
         piper
         vscodium
 

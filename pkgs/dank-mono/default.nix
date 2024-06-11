@@ -1,6 +1,6 @@
 { lib, stdenvNoCC, fetchFromGitHub }:
 
-stdenvNoCC.mkDerivation rec {
+stdenvNoCC.mkDerivation {
   pname = "dank-mono";
   version = "2020-10-15";
 

@@ -5,6 +5,7 @@
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
   dashy = pkgs.callPackage ./dashy { };
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
+  obsidian-smart-connect = pkgs.callPackage ./obsidian-smart-connect { };
   seabird = pkgs.callPackage ./seabird { };
   vuetorrent = pkgs.callPackage ./vuetorrent { };
 

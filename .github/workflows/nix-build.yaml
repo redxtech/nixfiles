@@ -48,6 +48,7 @@ jobs:
           - cockpit-tailscale
           - cockpit-zfs-manager
           - dashy
+          - obsidian-smart-connect
           - seabird
           - switchup
     runs-on: ubuntu-latest

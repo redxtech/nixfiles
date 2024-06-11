@@ -18,10 +18,7 @@
           follow = false;
         };
         Spotify = { desktop = "music"; };
-        obsidian = {
-          desktop = "^4";
-          state = "floating";
-        };
+        obsidian = { state = "floating"; };
         Plex = { desktop = "video"; };
         plexmediaplayer = { desktop = "video"; };
         Slack = { state = "floating"; };
