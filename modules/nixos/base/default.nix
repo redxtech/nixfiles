@@ -11,8 +11,14 @@ let
   isClean = false;
   # isClean = inputs.self ? rev;
 in {
-  imports =
-    [ ./cli.nix ./security.nix ./services.nix ./ssh.nix ./virtualization.nix ];
+  imports = [
+    ./cli.nix
+    ./gpu.nix
+    ./security.nix
+    ./services.nix
+    ./ssh.nix
+    ./virtualization.nix
+  ];
 
   options.base = with lib.types; {
     enable = mkEnableOption "Enable the base system module.";
