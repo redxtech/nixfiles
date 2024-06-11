@@ -31,7 +31,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs;
       [
-        arandr # TODO: move to xorg config
+        arandr
         # audacity
         beekeeper-studio-ultimate
         betterdiscordctl
@@ -39,6 +39,7 @@ in {
         deluge
         discord
         dolphin-emu
+        ente-desktop
         jellyfin-media-player
         jellyfin-mpv-shim
         kitty
@@ -48,6 +49,7 @@ in {
         obsidian
         obsidian-smart-connect
         pavucontrol
+        piper # gui for ratbagd
         planify
         playerctl
         plexamp
@@ -64,6 +66,7 @@ in {
         via
         vivaldi
         vlc
+        vscodium
 
         # games
         prismlauncher

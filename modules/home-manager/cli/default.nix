@@ -98,7 +98,6 @@ in {
           nix-inspect # see which pkgs are in your PATH
           packagekit # package helper across distros
           pfetch # system info
-          piper # gui for ratbagd
           pipes-rs # pipes screensaver
           playerctl # media player controller
           # poetry # python package manager

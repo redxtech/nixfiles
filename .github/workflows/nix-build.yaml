@@ -48,6 +48,7 @@ jobs:
           - cockpit-tailscale
           - cockpit-zfs-manager
           - dashy
+          - ente-desktop
           - obsidian-smart-connect
           - seabird
           - switchup

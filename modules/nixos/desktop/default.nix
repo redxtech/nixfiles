@@ -87,8 +87,6 @@ in {
         gnome.gpaste
         kitty
         mpv
-        piper
-        vscodium
 
         # thunar tools
         webp-pixbuf-loader
