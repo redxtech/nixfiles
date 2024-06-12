@@ -10,6 +10,19 @@ in {
   in {
     enable = mkEnableOption "Enable YubiAuth";
 
+    installGUIApps = mkOption {
+      type = bool;
+      default = true;
+      description = "Install GUI applications for YubiKey management";
+    };
+
+    notify = mkOption {
+      type = bool;
+      default = true;
+      description =
+        "Enable desktop notifications when yubikey auth requires user interaction";
+    };
+
     login = mkOption {
       type = bool;
       default = true;
@@ -36,11 +49,13 @@ in {
 
   config = mkIf cfg.enable {
     # yibikey required packages
-    environment.systemPackages = with pkgs; [
-      yubikey-personalization
-      yubikey-manager
-      yubico-pam
-    ];
+    environment.systemPackages = with pkgs;
+      [ yubikey-manager yubikey-personalization yubico-pam ]
+      ++ lib.optionals cfg.installGUIApps [
+        yubikey-manager-qt
+        yubikey-personalization-gui
+        yubioath-flutter
+      ];
 
     # enable smartcard support
     hardware.gpgSmartcards.enable = true;
@@ -68,5 +83,35 @@ in {
     environment.etc."u2f-mappings".text =
       mkIf (builtins.length cfg.mappings > 0)
       (lib.concatStringsSep "\n" cfg.mappings);
+
+    # enable desktop notifications for yubikey auth
+    systemd.user = let
+      serviceName = "yubikey-touch-detector";
+      serviceConf = pkgs.writeText "service.conf" ''
+        # show desktop notifications using libnotify
+        YUBIKEY_TOUCH_DETECTOR_LIBNOTIFY=true
+      '';
+    in mkIf cfg.notify {
+      sockets.${serviceName} = {
+        description =
+          "Unix socket activation for YubiKey touch detector service";
+        socketConfig = {
+          ListenStream = "%t/${serviceName}.socket";
+          RemoveOnStop = true;
+        };
+        wantedBy = [ "sockets.target" ];
+      };
+      services.${serviceName} = {
+        description = "Detects when your YubiKey is waiting for a touch";
+        requires = [ "${serviceName}.socket" ];
+        serviceConfig = {
+          ExecStart =
+            "${pkgs.yubikey-touch-detector}/bin/yubikey-touch-detector";
+          EnvironmentFile = "${serviceConf}";
+        };
+        requiredBy = [ "default.target" ];
+        partOf = [ "${serviceName}.socket" ];
+      };
+    };
   };
 }
