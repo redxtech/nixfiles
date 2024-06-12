@@ -11,7 +11,6 @@
         "flake-parts"
         "cachix-deploy-flake"
         "disko"
-        "sddm-catppuccin"
         "nixos-generators"
         "sops-nix"
         "hyprland"

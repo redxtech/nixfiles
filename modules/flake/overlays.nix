@@ -31,9 +31,6 @@
         nix-autobahn =
           inputs.nix-autobahn.packages.${final.system}.nix-autobahn;
 
-        sddm-catppuccin =
-          inputs.sddm-catppuccin.packages.${final.system}.sddm-catppuccin;
-
         spicePkgs = inputs.spicetify-nix.packages.${final.system}.default;
       };
 
