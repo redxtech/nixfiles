@@ -29,7 +29,7 @@ in appimageTools.wrapType2 {
     install -m 444 -D ${appimageContents}/smart-connect.desktop $out/share/applications/smart-connect.desktop
 
     substituteInPlace $out/share/applications/smart-connect.desktop \
-      --replace-fail 'Exec=AppRun --no-sandbox' 'Exec=smart-connect'
+      --replace-fail 'Exec=AppRun --no-sandbox' 'Exec=${pname}'
   '';
 
   meta = with lib; {
