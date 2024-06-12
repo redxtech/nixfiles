@@ -18,6 +18,7 @@ in {
     ./services.nix
     ./ssh.nix
     ./virtualization.nix
+    ./yubikey.nix
   ];
 
   options.base = with lib.types; {
