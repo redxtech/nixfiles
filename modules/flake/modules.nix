@@ -7,7 +7,6 @@ in {
     allHomeManager = import ../home-manager;
 
     homeCommon = [
-      inputs.hyprland.homeManagerModules.default
       inputs.sops-nix.homeManagerModules.sops
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
       inputs.spicetify-nix.homeManagerModules.default
@@ -18,7 +17,6 @@ in {
     nixosCommon = [
       inputs.attic.nixosModules.atticd
       inputs.home-manager.nixosModules.home-manager
-      inputs.hyprland.nixosModules.default
       inputs.nix-flatpak.nixosModules.nix-flatpak
       inputs.solaar.nixosModules.default
       inputs.sops-nix.nixosModules.sops

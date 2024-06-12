@@ -75,10 +75,6 @@
         });
       };
 
-      hyprland = inputs.hyprland.overlays.default;
-      hyprland-contrib = inputs.hyprland-contrib.overlays.default;
-      hyprland-plugins = inputs.hyprland-plugins.overlays.default;
-
       fenix = inputs.fenix.overlays.default;
       flakehub = inputs.fh.overlays.default;
       # nix-neovim-plugins = inputs.nix-neovim-plugins.overlays.default;

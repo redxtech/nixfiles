@@ -13,9 +13,6 @@
         "disko"
         "nixos-generators"
         "sops-nix"
-        "hyprland"
-        "hyprland-contrib"
-        "hyprland-plugins"
       ];
       secondaryInputs = [
         "attic"
