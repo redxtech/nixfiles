@@ -6,7 +6,6 @@ let
 in {
   imports = [
     ./bspwm
-    # ./hyprland
 
     ./binds.nix
     ./rules.nix

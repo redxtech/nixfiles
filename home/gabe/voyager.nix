@@ -6,7 +6,6 @@
     ./shared.nix
 
     ./features/desktop/bspwm
-    # ./features/desktop/hyprland
   ];
 
   desktop = {
