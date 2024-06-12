@@ -98,7 +98,7 @@ in {
 
         # theme packages
         catppuccin-sddm-corners
-        sddm-chili-theme
+        # sddm-chili-theme
 
         dracula-theme
         nordzy-cursor-theme

@@ -81,9 +81,12 @@ in {
     environment.sessionVariables.NIXOS_OZONE_WL = mkIf isHyprland "1";
 
     environment.systemPackages = with pkgs;
-      ([ feh rofi ]
-        ++ (optionals isBspwm [ dunst picom sddm-catppuccin polkit_gnome ])
-        ++ (optionals isHyprland [ dunst picom sddm-catppuccin ])
+      ([ feh rofi ] ++ (optionals isBspwm [
+        dunst
+        picom
+        catppuccin-sddm-corners
+        polkit_gnome
+      ]) ++ (optionals isHyprland [ dunst picom catppuccin-sddm-corners ])
         ++ (optionals isGnome (with gnome; [
           gpaste
           gnome3.gnome-tweaks

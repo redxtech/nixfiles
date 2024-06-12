@@ -20,7 +20,7 @@ in {
     services.displayManager = {
       sddm = mkIf (cfg.dm == "sddm") {
         enable = true;
-        theme = "catppuccin";
+        theme = "catppuccin-sddm-corners";
         wayland.enable = true;
 
         settings = {

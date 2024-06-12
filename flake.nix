@@ -20,9 +20,6 @@
     fenix.url = "github:nix-community/fenix";
     fenix.inputs.nixpkgs.follows = "nixpkgs";
 
-    sddm-catppuccin.url = "github:khaneliman/sddm-catppuccin";
-    sddm-catppuccin.inputs.nixpkgs.follows = "nixpkgs";
-
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 

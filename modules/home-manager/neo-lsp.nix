@@ -98,12 +98,7 @@ in {
           rustfmt
           rust-analyzer # use nightly
         ];
-        python = with pkgs; [
-          black
-          ruff-lsp
-          python3Packages.debugpy
-          nodePackages.pyright
-        ];
+        python = with pkgs; [ black ruff-lsp python3Packages.debugpy pyright ];
         shell = with pkgs; [
           shellcheck
           shfmt
