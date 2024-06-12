@@ -92,15 +92,6 @@ in {
         YUBIKEY_TOUCH_DETECTOR_LIBNOTIFY=true
       '';
     in mkIf cfg.notify {
-      sockets.${serviceName} = {
-        description =
-          "Unix socket activation for YubiKey touch detector service";
-        socketConfig = {
-          ListenStream = "%t/${serviceName}.socket";
-          RemoveOnStop = true;
-        };
-        wantedBy = [ "sockets.target" ];
-      };
       services.${serviceName} = {
         description = "Detects when your YubiKey is waiting for a touch";
         requires = [ "${serviceName}.socket" ];
@@ -111,6 +102,16 @@ in {
         };
         requiredBy = [ "default.target" ];
         partOf = [ "${serviceName}.socket" ];
+      };
+
+      sockets.${serviceName} = {
+        description =
+          "Unix socket activation for YubiKey touch detector service";
+        socketConfig = {
+          ListenStream = "%t/${serviceName}.socket";
+          RemoveOnStop = true;
+        };
+        wantedBy = [ "sockets.target" ];
       };
     };
   };
