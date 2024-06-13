@@ -35,6 +35,12 @@ in {
       description = "Primary user for permissions and defaults.";
     };
 
+    extraGroups = mkOption {
+      type = listOf str;
+      default = [ "plugdev" ];
+      description = "Extra groups to create.";
+    };
+
     tz = mkOption {
       type = str;
       default = "America/Vancouver";
@@ -105,6 +111,12 @@ in {
         nodejs
         (python3.withPackages py-pkgs)
       ];
+
+    # extra groups
+    users.groups = builtins.listToAttrs (map (name: {
+      inherit name;
+      value = { };
+    }) cfg.extraGroups);
 
     # sops
     sops = let
