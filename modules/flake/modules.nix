@@ -24,6 +24,15 @@ in {
 
       ../../hosts/common
 
+      # global stable nixpkgs module for all systems
+      ({ pkgs, ... }: {
+        _module.args.stable = import inputs.nixpkgs-stable {
+          inherit (self.nixCfg.nixpkgs) config overlays;
+          system = pkgs.system;
+        };
+      })
+
+      # shared nixpkgs config for home-manager
       {
         config = {
           inherit (self.nixCfg) nix nixpkgs;

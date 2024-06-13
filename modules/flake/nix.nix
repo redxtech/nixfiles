@@ -43,10 +43,14 @@
     };
   };
 
-  perSystem = { config, self', inputs', pkgs, system, ... }: {
-    _module.args.pkgs = import inputs.nixpkgs {
-      inherit system;
-      inherit (self.nixCfg.nixpkgs) config overlays;
+  perSystem = { config, self', inputs', pkgs, system, ... }:
+    let
+      pkgArgs = {
+        inherit system;
+        inherit (self.nixCfg.nixpkgs) config overlays;
+      };
+    in {
+      _module.args.pkgs = import inputs.nixpkgs pkgArgs;
+      _module.args.stable = import inputs.nixpkgs-stable pkgArgs;
     };
-  };
 }

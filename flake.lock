@@ -1445,6 +1445,22 @@
     },
     "nixpkgs-stable_3": {
       "locked": {
+        "lastModified": 1718208800,
+        "narHash": "sha256-US1tAChvPxT52RV8GksWZS415tTS7PV42KTc2PNDBmc=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cc54fb41d13736e92229c21627ea4f22199fee6b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-24.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-stable_4": {
+      "locked": {
         "lastModified": 1717880976,
         "narHash": "sha256-BRvSCsKtDUr83NEtbGfHLUOdDK0Cgbezj2PtcHnz+sQ=",
         "owner": "NixOS",
@@ -1794,6 +1810,7 @@
         "nix-neovim-plugins": "nix-neovim-plugins",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs_10",
+        "nixpkgs-stable": "nixpkgs-stable_3",
         "solaar": "solaar",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
@@ -1861,7 +1878,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "nixpkgs-stable": "nixpkgs-stable_3"
+        "nixpkgs-stable": "nixpkgs-stable_4"
       },
       "locked": {
         "lastModified": 1718137936,
