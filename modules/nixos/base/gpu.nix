@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, stable, ... }:
 
 let
   inherit (lib) mkIf mkEnableOption;
@@ -13,7 +13,7 @@ in {
   config = mkIf cfg.gpu.enable {
     hardware.opengl = mkIf cfg.gpu.amd.enable {
       enable = true;
-      extraPackages = with pkgs; [
+      extraPackages = with stable; [
         # ROCm OpenCL ICD
         rocmPackages.clr.icd
         ocl-icd

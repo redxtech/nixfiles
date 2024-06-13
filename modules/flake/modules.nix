@@ -27,8 +27,9 @@ in {
       # global stable nixpkgs module for all systems
       ({ pkgs, ... }: {
         _module.args.stable = import inputs.nixpkgs-stable {
-          inherit (self.nixCfg.nixpkgs) config overlays;
+          inherit (self.nixCfg.nixpkgs) overlays;
           system = pkgs.system;
+          config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
         };
       })
 

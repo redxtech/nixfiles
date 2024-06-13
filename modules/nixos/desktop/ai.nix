@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, stable, ... }:
 
 let
   inherit (lib) mkIf;
@@ -32,6 +32,9 @@ in {
     services = {
       ollama = {
         enable = true;
+
+        # use the stable nixpkgs version of ollama to avoid rebuilding
+        package = stable.ollama;
 
         environmentVariables = {
           OLLAMA_ORIGINS =
