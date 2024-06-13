@@ -8,6 +8,7 @@
     hostname = "bastion";
     fs.btrfs = true;
     dockerDNS = [ "192.168.50.1" ];
+    yubiauth.lockOnRemove.enable = true;
   };
 
   desktop = {

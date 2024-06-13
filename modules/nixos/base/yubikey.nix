@@ -35,6 +35,26 @@ in {
       description = "Enable U2F authentication for sudo";
     };
 
+    lockOnRemove = {
+      enable = mkOption {
+        type = bool;
+        default = false;
+        description = "Lock the screen when the YubiKey is removed";
+      };
+
+      userID = mkOption {
+        type = str;
+        default = "1000";
+        description = "The user ID to lock the screen for";
+      };
+
+      DISPLAY = mkOption {
+        type = str;
+        default = ":0";
+        description = "The display to lock the screen on";
+      };
+    };
+
     mappings = mkOption {
       type = listOf str;
       default = [ ];
@@ -78,6 +98,35 @@ in {
         sudo.u2fAuth = cfg.sudo;
       };
     };
+
+    # lock the screen when the yubikey is removed
+    services.udev.extraRules = let
+      authfilePrefix = "/run/user/${cfg.lockOnRemove.userID}/xauth_";
+      lockscript = pkgs.writeShellApplication {
+        name = "lockscript.sh";
+        runtimeEnv = { inherit (cfg.lockOnRemove) DISPLAY; };
+        runtimeInputs = with pkgs; [ betterlockscreen ];
+        text = ''
+          # find the xauth file for the current user
+          # by getting the first file that matches the prefix
+          AUTHFILE=(${authfilePrefix}*)
+          export XAUTHORITY="''${AUTHFILE[0]}"
+
+          betterlockscreen --lock dimblur
+        '';
+      };
+      runCmd =
+        "${pkgs.su}/bin/su - ${config.base.primaryUser} -c '${lockscript}/bin/lockscript.sh'";
+    in mkIf cfg.lockOnRemove.enable ''
+      # lock the screen when the yubikey is removed
+      ACTION=="remove",\
+        ENV{ID_BUS}=="usb",\
+        ENV{PRODUCT}=="3/1050/407/110",\
+        ENV{ID_REVISION}=="0512",\
+        ENV{ID_MODEL_ID}=="0407",\
+        ENV{ID_VENDOR_ID}=="1050",\
+        ENV{ID_VENDOR}=="Yubico", RUN+="${runCmd}"
+    '';
 
     # add u2f mappings if they are defined
     environment.etc."u2f-mappings".text =
