@@ -1,14 +1,22 @@
-{ lib, config, ... }:
+{ pkgs, lib, config, ... }:
 
 let
   inherit (lib) mkIf;
   cfg = config.desktop.ai;
 in {
-  options.desktop.ai = let inherit (lib) mkEnableOption;
+  options.desktop.ai = let
+    inherit (lib) mkEnableOption;
+    mkEnabledOption = description:
+      lib.mkOption {
+        inherit description;
+        type = lib.types.bool;
+        default = true;
+      };
   in {
     enable = mkEnableOption "Enable gaming-related settings.";
 
     web-ui = mkEnableOption "Enable the web UI for Ollama.";
+    lmstudio = mkEnabledOption "Enable LM Studio.";
 
     amd = mkEnableOption "Enable AMD ROCM support.";
     nvidia = mkEnableOption "Enable NVIDIA CUDA support.";
@@ -37,6 +45,9 @@ in {
       #   port = 6000;
       # };
     };
+
+    environment.systemPackages = with pkgs;
+      lib.optionals cfg.lmstudio [ lmstudio ];
   };
 }
 

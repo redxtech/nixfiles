@@ -15,8 +15,6 @@
     useZen = true;
     wm = "bspwm";
 
-    ai.enable = true;
-
     gaming = {
       enable = true;
       amd = true;
@@ -25,6 +23,11 @@
         monitor = "DisplayPort-0";
         monitorIndex = 1;
       };
+    };
+
+    ai = {
+      enable = true;
+      web-ui = true;
     };
   };
 
