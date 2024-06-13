@@ -75,6 +75,10 @@
               label = "hn";
             }
             {
+              url = "http://bastion:6060";
+              label = "ollama";
+            }
+            {
               url = "https://chat.openai.com/?model=gpt-4";
               label = "chatgpt";
             }
