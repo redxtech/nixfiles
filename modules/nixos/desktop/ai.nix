@@ -33,18 +33,25 @@ in {
       ollama = {
         enable = true;
 
-        environmentVariables = { OLLAMA_ORIGINS = "app://obsidian.md*"; };
+        environmentVariables = {
+          OLLAMA_ORIGINS = let origins = [ "app://obsidian.md*" ];
+          in (lib.concatStringsSep "," origins);
+        };
 
         acceleration =
           if cfg.amd then "rocm" else if cfg.nvidia then "cuda" else null;
       };
 
-      # disabled until i update nixpkgs
-      # nextjs-ollama-llm-ui = mkIf cfg.web-ui {
-      #   enable = true;
-      #   port = 6000;
-      # };
+      nextjs-ollama-llm-ui = mkIf cfg.web-ui {
+        enable = true;
+        port = 6060;
+        hostname = "0.0.0.0";
+      };
     };
+
+    # override the service to use the correct binary, until https://github.com/NixOS/nixpkgs/pull/319456 is merged
+    systemd.services.nextjs-ollama-llm-ui.serviceConfig.ExecStart =
+      lib.mkForce "${lib.getExe config.services.nextjs-ollama-llm-ui.package}";
 
     environment.systemPackages = with pkgs;
       lib.optionals cfg.lmstudio [ lmstudio ];
