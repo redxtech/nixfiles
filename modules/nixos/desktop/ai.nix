@@ -34,8 +34,9 @@ in {
         enable = true;
 
         environmentVariables = {
-          OLLAMA_ORIGINS = let origins = [ "app://obsidian.md*" ];
-          in (lib.concatStringsSep "," origins);
+          OLLAMA_ORIGINS =
+            let origins = [ "app://obsidian.md*" "http://bastion:6060" ];
+            in (lib.concatStringsSep "," origins);
         };
 
         acceleration =
