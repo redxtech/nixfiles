@@ -6,6 +6,11 @@
   base = {
     enable = true;
     hostname = "voyager";
+
+    gpu = {
+      enable = true;
+      # nvidia.enable = true;
+    };
   };
 
   desktop = {

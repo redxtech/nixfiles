@@ -35,7 +35,7 @@ in {
 
         acceleration = if config.base.gpu.amd then
           "rocm"
-        else if config.base.gpu.nvidia then
+        else if config.base.gpu.nvidia.enable then
           "cuda"
         else
           null;

@@ -20,6 +20,11 @@
       zfs = true;
     };
 
+    gpu = {
+      enable = true;
+      # nvidia.enable = true;
+    };
+
     services = {
       portainer.enable = false; # handled by ./services/containers.nix
     };
