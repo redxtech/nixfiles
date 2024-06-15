@@ -2,25 +2,28 @@
 
 let
   inherit (lib) mkIf mkEnableOption;
-  cfg = config.base;
+  cfg = config.base.gpu;
 in {
   options.base.gpu = {
     enable = mkEnableOption "GPU support";
 
-    amd = { enable = mkEnableOption "AMD GPU support"; };
+    amd = mkEnableOption "AMD GPU support";
+    nvidia = mkEnableOption "NVIDIA GPU support";
   };
 
-  config = mkIf cfg.gpu.enable {
-    hardware.opengl = mkIf cfg.gpu.amd.enable {
+  config = mkIf cfg.enable {
+    # ensure only one of amd or nvidia is enabled
+    assertions = [{
+      assertion = !(cfg.amd && cfg.nvidia);
+      message = "Only one of AMD or NVIDIA can be enabled.";
+    }];
+
+    hardware.opengl = mkIf cfg.amd {
       enable = true;
-      extraPackages = with stable; [
+      extraPackages = with pkgs; [
         # ROCm OpenCL ICD
         rocmPackages.clr.icd
-        ocl-icd
-
-        # ROCm
         rocm-opencl-icd
-        rocm-runtime-ext
 
         # AMDVLK
         amdvlk

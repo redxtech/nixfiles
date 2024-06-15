@@ -9,6 +9,11 @@
     fs.btrfs = true;
     dockerDNS = [ "192.168.50.1" ];
     yubiauth.lockOnRemove.enable = true;
+
+    gpu = {
+      enable = true;
+      amd = true;
+    };
   };
 
   desktop = {

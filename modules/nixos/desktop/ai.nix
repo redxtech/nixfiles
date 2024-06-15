@@ -17,18 +17,9 @@ in {
 
     web-ui = mkEnableOption "Enable the web UI for Ollama.";
     lmstudio = mkEnabledOption "Enable LM Studio.";
-
-    amd = mkEnableOption "Enable AMD ROCM support.";
-    nvidia = mkEnableOption "Enable NVIDIA CUDA support.";
   };
 
   config = mkIf (cfg.enable) {
-    # ensure only one of amd or nvidia is enabled
-    assertions = [{
-      assertion = !(cfg.amd && cfg.nvidia);
-      message = "Only one of AMD or NVIDIA can be enabled.";
-    }];
-
     services = {
       ollama = {
         enable = true;
@@ -42,8 +33,12 @@ in {
             in (lib.concatStringsSep "," origins);
         };
 
-        acceleration =
-          if cfg.amd then "rocm" else if cfg.nvidia then "cuda" else null;
+        acceleration = if config.base.gpu.amd then
+          "rocm"
+        else if config.base.gpu.nvidia then
+          "cuda"
+        else
+          null;
       };
 
       nextjs-ollama-llm-ui = mkIf cfg.web-ui {
