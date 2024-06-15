@@ -151,6 +151,8 @@ in {
       packages = with pkgs; [
         cantarell-fonts
         dank-mono
+        iosevka
+        iosevka-custom
         (nerdfonts.override {
           fonts = [
             "FiraCode"
