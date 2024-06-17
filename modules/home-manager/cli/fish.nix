@@ -14,12 +14,12 @@ let
   hasKitty = config.programs.kitty.enable;
 in {
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ grc ];
+    home.packages = with pkgs; [ babelfish grc ];
 
     programs.fish = {
       enable = true;
 
-      shellAbbrs = rec {
+      shellAbbrs = {
         # nix
         nsr = "nix run nixpkgs#";
         nsn = "nix shell nixpkgs#";
@@ -42,11 +42,6 @@ in {
         sudp = "sudo";
         yarm = "yarn";
       };
-
-      # shellAliases = rec {
-      #   # Clear screen and scrollback
-      #   clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
-      # };
 
       functions = {
         # disable greeting
@@ -238,6 +233,10 @@ in {
           {
             name = "autopair";
             src = autopair.src;
+          }
+          {
+            name = "bass";
+            src = bass.src;
           }
           {
             name = "coloured-man-pages";
