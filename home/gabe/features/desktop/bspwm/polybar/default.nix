@@ -17,6 +17,7 @@ in {
 
     multiMonitor = length config.desktop.monitors > 1;
     getMon = i: (elemAt config.desktop.monitors i);
+    barFont = "Iosevka Custom";
   in with config.user-theme; {
     enable = true;
 
@@ -98,7 +99,7 @@ in {
       };
       "bar/main" = {
         width = "100%";
-        height = 30;
+        height = 32;
         line-size = 2;
         offset.y = 0;
         bottom = false;
@@ -117,9 +118,9 @@ in {
 
         font = [
           # standard text fonts
-          "DankMono:style=Regular:size=10;2"
-          "DankMono:style=Bold:size=10;2"
-          "DankMono:style=Italic:size=10;2"
+          "${barFont}:style=Regular:weight=100:size=11;3"
+          "${barFont}:style=Bold:size=11;3"
+          "${barFont}:style=Italic:size=11;3"
 
           # icon fonts
           "Symbols Nerd Font Mono:style=Regular:size=10;2"
