@@ -46,6 +46,10 @@ in with types; {
             type = int;
             default = 0;
           };
+          scale = mkOption {
+            type = str;
+            default = "1";
+          };
           hasBar = mkOption {
             type = bool;
             default = true;

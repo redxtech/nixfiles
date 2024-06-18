@@ -37,7 +37,7 @@ in {
     mkDevice = { name, matches, ... }: ''
       {
         matches = [ { node.name = "~${matches}" } ]
-        actions = { update-props = { node.description = "${name}" } }
+        actions = { update-props = { node.description = "${name}", node.nick = "${name}" } }
       }
     '';
     alsa = builtins.filter (d: d.type == "alsa") cfg.audio.devices;
