@@ -7,6 +7,7 @@ in {
   imports = [
     ./bspwm
     ./hyprland
+    ./scripts
 
     ./bar/waybar/default.nix
     ./binds.nix

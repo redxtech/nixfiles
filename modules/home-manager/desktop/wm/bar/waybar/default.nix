@@ -1,24 +1,10 @@
 { config, pkgs, lib, ... }:
 
-{
-  programs.waybar = let
-    pb-scripts = (import
-      ../../../../../../home/gabe/features/desktop/bspwm/polybar/scripts) {
-        inherit pkgs lib;
-      };
-    rofi-scripts =
-      (import ../../../../../../home/gabe/features/desktop/rofi/scripts) {
-        inherit pkgs lib;
-      };
-
-    runFloat = "${pkgs.hyprland}/bin/hyprctl dispatch -- exec [float] ";
-    kittyRun = "${pkgs.kitty}/bin/kitty --single-instance";
-    runHA = "${pb-scripts.home-assistant}/bin/home-assistant";
-    runWttr =
-      "${pkgs.fish}/bin/fish -c '${pkgs.curl}/bin/curl wttr.in; read -n 1 -p \\\"echo Press any key to continue...\\\"'";
-    runPS_MEM =
-      "${pkgs.fish}/bin/fish -c 'sudo ${pkgs.ps_mem}/bin/ps_mem; read -s -n 1 -p \\\"echo Press any key to continue...\\\"'";
-  in {
+let
+  cfg = config.desktop.wm;
+  scripts = cfg.scripts;
+in {
+  programs.waybar = {
     enable = config.wayland.windowManager.hyprland.enable;
 
     style = ./style.css;
@@ -77,12 +63,14 @@
         separate-outputs = true;
       };
 
-      "mpris" = {
+      "mpris" = let spt-vol = scripts.bar.spotify-volume;
+      in {
         format = "{status_icon} {dynamic} {player_icon}";
-        # format = "{status_icon} {artist} - {title} {player_icon}";
-        album-len = 0;
         dynamic-len = 35;
-        on-click-middle = "~/.local/bin/copy-spotify-share";
+        dynamic-order = [ "title" "artist" ];
+        on-click-middle = scripts.general.copy-spotify-url;
+        on-scroll-up = "${spt-vol} +10% &";
+        on-scroll-down = "${spt-vol} -10% &";
         player-icons = {
           default = "󰐊";
           spotify = "";
@@ -93,7 +81,6 @@
           playing = "󰏤";
           paused = "󰐊";
         };
-        interval = 1;
       };
 
       wireplumber = {
@@ -107,16 +94,15 @@
         on-click =
           "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
-        on-click-middle =
-          "${pb-scripts.pipewire-control}/bin/pipewire-control next";
+        on-click-middle = "${scripts.bar.pipewire} next";
       };
 
       memory = {
         # format = "<span bgcolor='#ff79c6'>󰘚</span> {used:0.1f} GiB",
         format = "󰘚 {used:0.1f} GiB";
         interval = 3;
-        on-click = ''${runFloat} "${kittyRun} ${runPS_MEM}"'';
-        # on-click = "hyprctl dispatch exec '[floating] kitty -e btop'";
+        on-click = scripts.general.ps_mem;
+        on-click-right = scripts.general.hdrop-btop;
       };
 
       cpu = {
@@ -124,8 +110,7 @@
         format = " {usage}%";
         interval = 3;
         tooltip = false;
-        on-click =
-          "${pkgs.hyprland}/bin/hyprctl dispatch exec '[floating] kitty -e btop'";
+        on-click = scripts.general.hdrop-btop;
       };
 
       temperature = {
@@ -133,8 +118,7 @@
         # format = "<span bgcolor='#8be9fd'>{icon}</span> {temperatureC}°C";
         format = "{icon} {temperatureC}°C";
         format-icons = [ "󰉬" "" "󰉪" ];
-        on-click =
-          "${pkgs.hyprland}/bin/hyprctl dispatch exec '[floating] kitty -e btop'";
+        on-click = scripts.general.hdrop-btop;
       };
 
       network = {
@@ -192,36 +176,23 @@
       tray = { spacing = 10; };
 
       "custom/media" = {
-        exec = "~/.config/waybar/scripts/mediaplayer.py";
-        format = "{icon} {}";
-        format-icons = {
-          playing = "󰏤";
-          paused = "󰐊";
-        };
-        return-type = "json";
+        exec = "${scripts.bar.playerctl-tail} status";
+        format = "{}";
+        # TODO: add icons, switch script to json return
+        # format = "{icon} {}";
+        # format-icons = { playing = "󰏤"; paused = "󰐊"; };
+        # return-type = "json";
         on-click = "${pkgs.playerctl}/bin/playerctl play-pause";
-        on-click-middle = "${pb-scripts.copy-spotify-url}/bin/copy-spotify-url";
+        on-click-middle = scripts.general.copy-spotify-url;
       };
 
-      "custom/weather" = let
-        script = pkgs.writers.writePython3 "weather-bar" {
-          libraries = with pkgs.python3Packages; [ requests ];
-        } (builtins.readFile ./weather-bar.py);
-      in {
-        # exec = "~/.config/waybar/scripts/weather/weather.sh";
-        exec = ''
-          OPENWEATHER_API_KEY="$(${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/secrets/openweathermap.txt)" ${script} -u metric'';
+      "custom/weather" = {
+        exec = scripts.bar.weather;
         format = "󰖙 {}";
         interval = 600;
-        on-click = ''${runFloat} "${kittyRun} ${runWttr}"'';
-        on-click-right = "${runHA} light";
-        on-click-middle = "${runHA} fan";
-      };
-
-      "custom/kde_connect" = {
-        exec = "~/.config/waybar/scripts/kde_connect.sh -d";
-        format = "󰄡 {}";
-        on-click-right = "${pkgs.kdePackages.kdeconnect-kde}kdeconnect-app &";
+        on-click = scripts.general.wttr;
+        on-click-right = "${scripts.general.ha} light";
+        on-click-middle = "${scripts.general.ha} fan";
       };
 
       "custom/dnd" = let
@@ -247,13 +218,12 @@
 
       "custom/launcher" = {
         format = lib.mkDefault "";
-        on-click = "${pkgs.tofi}/bin/tofi-drun";
+        on-click = scripts.launchers.app-launcher;
       };
 
       "custom/powermenu" = {
         format = "⏻";
-        on-click = "~/.config/rofi/scripts/rofi-powermenu-wl &";
-        click.left = "${rofi-scripts.rofi-powermenu}/bin/rofi-powermenu";
+        on-click = scripts.launchers.powermenu;
       };
     };
 
