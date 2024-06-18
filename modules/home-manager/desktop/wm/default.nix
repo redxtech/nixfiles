@@ -6,7 +6,9 @@ let
 in {
   imports = [
     ./bspwm
+    ./hyprland
 
+    ./bar/waybar/default.nix
     ./binds.nix
     ./rules.nix
     ./wallpaper.nix
