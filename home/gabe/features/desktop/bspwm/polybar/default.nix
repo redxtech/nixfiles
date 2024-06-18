@@ -19,7 +19,7 @@ in {
     getMon = i: (elemAt config.desktop.monitors i);
     barFont = "Iosevka Custom";
   in with config.user-theme; {
-    enable = true;
+    enable = lib.mkIf config.desktop.wm.wm == "bspwm";
 
     package = pkgs.polybarFull;
 

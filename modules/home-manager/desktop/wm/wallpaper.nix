@@ -2,15 +2,15 @@
 
 let
   inherit (lib) mkIf mkOption types;
-  cfg = config.desktop;
+  cfg = config.desktop.wallpaper;
 in {
-  options = {
-    desktop.wallpaper = with types; {
-      dir = mkOption {
-        type = str;
-        default = "${config.home.homeDirectory}/Pictures/Wallpaper";
-        description = "The directory where wallpapers are stored";
-      };
+  options.desktop.wallpaper = with types; {
+    enable = lib.mkEnableOption "Change wallpaper every hour";
+
+    dir = mkOption {
+      type = str;
+      default = "${config.home.homeDirectory}/Pictures/Wallpaper";
+      description = "The directory where wallpapers are stored";
     };
   };
 
@@ -43,7 +43,7 @@ in {
 
               text = ''
                 # set wallpaper to a random image
-                WP="$(find ${cfg.wallpaper.dir} -type f -iregex ".*\.\(png\|jpe?g\)\$" | shuf -n 1)";
+                WP="$(find ${cfg.dir} -type f -iregex ".*\.\(png\|jpe?g\)\$" | shuf -n 1)";
 
                 echo "Setting wallpaper to $WP...";
 

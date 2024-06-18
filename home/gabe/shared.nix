@@ -44,7 +44,6 @@
           runFloat = window:
             "${bspwm}/bin/bspc rule -a ${window} -o state=floating; ";
           kittyRun = "${kitty}/bin/kitty --single-instance ";
-          cfgDir = config.xdg.configHome;
 
           ff =
             "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";

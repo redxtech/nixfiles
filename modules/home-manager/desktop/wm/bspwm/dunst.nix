@@ -7,7 +7,7 @@ in {
   config = lib.mkIf cfg.enable {
     services = {
       dunst = {
-        enable = true;
+        enable = cfg.wm.wm == "bspwm";
 
         iconTheme = {
           package = pkgs.papirus-icon-theme;

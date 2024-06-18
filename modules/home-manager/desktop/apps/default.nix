@@ -3,6 +3,7 @@
 let cfg = config.desktop;
 in {
   imports = [
+    ./default-apps.nix
     ./firefox
     ./kitty.nix
     ./mpv.nix
@@ -96,14 +97,5 @@ in {
 
     xdg.dataFile."fonts".source = config.lib.file.mkOutOfStoreSymlink
       /run/current-system/sw/share/X11/fonts;
-
-    xdg.portal = {
-      enable = true;
-
-      extraPortals = with pkgs; [ xdg-desktop-portal ];
-      xdgOpenUsePortal = false;
-
-      config = { common.default = "*"; };
-    };
   };
 }

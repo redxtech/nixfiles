@@ -6,7 +6,6 @@
 
 let
   cfg = config.desktop;
-  cfgWM = cfg.wm.bspwm;
   opt = options.desktop;
 in {
   imports = [ ./autolock.nix ./dunst.nix ./picom.nix ];
@@ -43,7 +42,7 @@ in {
         fmtFlags flags
       } && ${cmd}";
 
-  in lib.mkIf cfg.enable {
+  in lib.mkIf (cfg.wm.wm == "bspwm") {
     home.packages = with pkgs; [ bspwm sxhkd ];
 
     xsession.enable = true;
@@ -114,5 +113,15 @@ in {
       cheatsheetStr =
         concatStringsSep "\n" (map entryToCheatSheet cfg.wm.binds);
     in cheatsheetStr;
+
+    # use xdg-portal for opening files
+    xdg.portal = {
+      enable = true;
+
+      extraPortals = with pkgs; [ xdg-desktop-portal ];
+      xdgOpenUsePortal = true;
+
+      config = { common.default = "*"; };
+    };
   };
 }
