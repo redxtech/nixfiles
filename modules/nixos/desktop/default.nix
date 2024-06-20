@@ -127,12 +127,6 @@ in {
       };
     };
 
-    xdg.portal = {
-      enable = true;
-      extraPortals = with pkgs; [ xdg-desktop-portal ];
-      config = { common.default = "*"; };
-    };
-
     # font config
     fonts = {
       fontconfig = {

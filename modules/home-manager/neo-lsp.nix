@@ -75,6 +75,8 @@ in {
           gnumake
           trashy
           buf-language-server
+          wl-clipboard
+          xclip
         ];
 
         web = with pkgs;

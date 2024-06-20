@@ -7,7 +7,7 @@
     theme = pkgs.spicePkgs.themes.catppuccin;
     colorScheme = "mocha";
 
-    windowManagerPatch = true;
+    # windowManagerPatch = true;
 
     enabledExtensions = with pkgs.spicePkgs.extensions; [
       bookmark

@@ -43,7 +43,7 @@ in {
       } && ${cmd}";
 
   in lib.mkIf (cfg.wm.wm == "bspwm") {
-    home.packages = with pkgs; [ bspwm sxhkd ];
+    home.packages = with pkgs; [ bspwm sxhkd xclip ];
 
     xsession.enable = true;
 
