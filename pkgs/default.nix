@@ -9,6 +9,7 @@
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
   obsidian-smart-connect = pkgs.callPackage ./obsidian-smart-connect { };
   seabird = pkgs.callPackage ./seabird { };
+  syspower = pkgs.callPackage ./syspower { };
   vuetorrent = pkgs.callPackage ./vuetorrent { };
 
   # personal scripts
