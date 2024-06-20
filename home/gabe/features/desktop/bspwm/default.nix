@@ -4,6 +4,5 @@
 
     ./polybar
     ../rofi
-    ./services.nix
   ];
 }

@@ -125,14 +125,32 @@ in {
       };
     };
 
-    # use xdg-portal for opening files
-    xdg.portal = {
-      enable = true;
+    systemd.user.services = {
+      gpaste = {
+        Unit = {
+          Description = "Start gpaste daemon";
+          After = [ "graphical-session-pre.target" ];
+          PartOf = [ "graphical-session.target" ];
+        };
 
-      extraPortals = with pkgs; [ xdg-desktop-portal ];
-      xdgOpenUsePortal = true;
+        Install = { WantedBy = [ "graphical-session.target" ]; };
 
-      config = { common.default = "*"; };
+        Service = {
+          Type = "dbus";
+          BusName = "org.gnome.GPaste";
+          ExecStart = "${pkgs.gnome.gpaste}/libexec/gpaste/gpaste-daemon";
+        };
+      };
+
+      # use xdg-portal for opening files
+      xdg.portal = {
+        enable = true;
+
+        extraPortals = with pkgs; [ xdg-desktop-portal ];
+        xdgOpenUsePortal = true;
+
+        config = { common.default = "*"; };
+      };
     };
   };
 }

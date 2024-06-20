@@ -29,6 +29,13 @@ in {
           };
         });
       };
+
+      easyeffects = mkOption {
+        type = types.bool;
+        default = true;
+        example = true;
+        description = "Enable EasyEffects";
+      };
     };
   };
 
@@ -43,6 +50,10 @@ in {
     alsa = builtins.filter (d: d.type == "alsa") cfg.audio.devices;
     bluetooth = builtins.filter (d: d.type == "bluetooth") cfg.audio.devices;
   in lib.mkIf cfg.enable {
+    # enable easyeffects
+    services.easyeffects.enable = cfg.audio.easyeffects;
+
+    # write the wireplumber config file
     xdg.configFile."wireplumber/wireplumber.conf.d/51-alsa-rename.conf".text =
       lib.mkIf ((builtins.length cfg.audio.devices) != 0) ''
         monitor.alsa.rules = [

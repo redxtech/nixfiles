@@ -4,8 +4,6 @@
   services = {
     blueman-applet = { enable = false; };
 
-    easyeffects.enable = false;
-
     flameshot = { enable = false; };
 
     keybase = { enable = false; };
