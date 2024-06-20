@@ -3,6 +3,7 @@
 let
   inherit (lib) mkIf mkOption types;
   cfg = config.desktop.wallpaper;
+  wm = config.desktop.wm;
 in {
   options.desktop.wallpaper = with types; {
     enable = lib.mkEnableOption "Change wallpaper every hour";
@@ -36,7 +37,6 @@ in {
               runtimeInputs = with pkgs; [
                 betterlockscreen
                 coreutils
-                feh
                 findutils
                 xorg.xrdb
               ];
@@ -50,13 +50,16 @@ in {
                 # symlink wallpaper to ~/.config/wall.png
                 ln -sfT "$WP" "${config.home.homeDirectory}/.config/wall.png"
 
-                # set wallpaper with feh
-                feh --bg-fill "$WP" 2>/dev/null
+                # set wallpaper with current wm's wallpaper script
+                ${config.desktop.wm.scripts.wm.wallpaper} "$WP" 2>/dev/null
 
                 echo "Wallpaper set to $WP";
 
-                # prepare lockscreen with betterlockscreen
-                betterlockscreen --update "$WP"
+                  # prepare lockscreen with betterlockscreen if using bspwm
+                ${if wm.wm == "bspwm" then
+                  ''betterlockscreen --update "$WP"''
+                else
+                  ""}
               '';
             };
           in "${setWP}/bin/set-wallpaper";

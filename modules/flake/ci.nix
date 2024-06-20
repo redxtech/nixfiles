@@ -26,6 +26,7 @@
         "nix-flatpak"
         "rust-overlay"
         "spicetify-nix"
+        "swww"
         "xremap-flake"
       ];
     in {

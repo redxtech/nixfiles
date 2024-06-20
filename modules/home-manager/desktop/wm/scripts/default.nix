@@ -49,7 +49,9 @@ in {
     wm = {
       lock = scriptOpt "${pkgs.hyprlock}/bin/hyprlock" "Run the screenlocker";
       sleep = scriptOpt
-        "${pkgs.coreutils}/bin/sleep 1 && ${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+        "${pkgs.coreutils}/bin/sleep 1 && ${pkgs.hyprland}/bin/hyprctl dispatch dpms off"
+        "Sleep the screen";
+      wallpaper = scriptOpt "${pkgs.swww}/bin/swww img" "Set the wallpaper";
     };
   };
 

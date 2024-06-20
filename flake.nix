@@ -50,6 +50,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nix-neovim-plugins.url = "github:NixNeovim/NixNeovimPlugins";
     spicetify-nix.url = "github:the-argus/spicetify-nix";
+    swww.url = "github:LGFae/swww";
     xremap-flake.url = "github:xremap/nix-flake";
     # nur.url = "github:nix-community/NUR";
   };

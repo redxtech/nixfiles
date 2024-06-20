@@ -114,6 +114,17 @@ in {
         concatStringsSep "\n" (map entryToCheatSheet cfg.wm.binds);
     in cheatsheetStr;
 
+    # set relevant desktop settings for bspwm
+    desktop = {
+      wallpaper.enable = true;
+      wm.scripts.wm = {
+        wallpaper = "${pkgs.feh}/bin/feh --bg-fill";
+        lock = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock dimblur";
+        sleep =
+          "${pkgs.coreutils}/bin/sleep 1 && ${pkgs.xorg.xset}/bin/xset dpms force off";
+      };
+    };
+
     # use xdg-portal for opening files
     xdg.portal = {
       enable = true;
