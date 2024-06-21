@@ -1,0 +1,193 @@
+Authentication-Results: mail-b.sr.ht; dkim=pass header.d=whynothugo.nl header.i=@whynothugo.nl; dkim=pass header.d=messagingengine.com header.i=@messagingengine.com
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	by mail-b.sr.ht (Postfix) with ESMTPS id 303FC11EE9A
+	for <~exec64/imv-devel@lists.sr.ht>; Sat, 11 Mar 2023 13:29:24 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id F27665C0046;
+	Sat, 11 Mar 2023 08:29:23 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Sat, 11 Mar 2023 08:29:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=whynothugo.nl;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1678541363; x=1678627763; bh=dl
+	38Zug0eDmv7tf/CleP4tIZkKpQb543qqHPH93H1uI=; b=cTADw0DAMjc27p34eJ
+	JDC39XnuPDfIKn1EjFYD9tnl4MvQPLTA2Pblob50oKbMajVnmxcPtg0fvCWiyAaZ
+	QHmtDUfq31OuK8dqaYd8K+Rm/cQ7E6jblFK4aErEcZAuuUeNuXXdXn0hjDgQ0McG
+	lgDE0bZFtO1tG1UNghWAW6NCGXjkRh/KbcM/1Due+ybJo8cxx+f5XhZYZ9VPm6nb
+	Tooa0DHBY1pIIKzyD30epJbjnjLlu7e+8kb5yRVYSXY3mMInV0ajG7EV3YgMXYKy
+	OQN+MN1hYVgQ/0A6kv9001dLNBphzl1t7oZIKl4B16lVfDPwxhjpnctIFLJQ01Oy
+	bapQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1678541363; x=1678627763; bh=dl38Zug0eDmv7
+	tf/CleP4tIZkKpQb543qqHPH93H1uI=; b=R7dMlwu8CD3H4IlVNp8leovt8zSFn
+	kT8dx/3CRXg4fer3ZrJXgYAxShtIgh4trrtt8RF/FMGDsPQtmVQWM9jkzgC8p+tv
+	66EULHgkhmrbkpKYTLHOM5X0/KcTzGtNUssAS5SxEdAdvCg0BGhJKQ9jF68toUCs
+	gMDe9KdWcT40oGuus+DCdjLrZk1OHfP4M8cHoGtxUCJdmotYHNyHknLVa6n0dnHZ
+	SrJvoV1m99XJS3OOMArqvOQBT4WLnOrOdr3ZEhvO5EV3dyiG+QjTg0mgXcGJdu61
+	h73mbD3XH0v5p7Xvtn16OPhsZbCYCGW6NqBI5IHJbZUV7nvzgnK0Ycn7g==
+X-ME-Sender: <xms:M4IMZG_pIo2atZUTyERPfy28FZMiEdB3u3pMM_BWVXCKpbzQRLRb1w>
+    <xme:M4IMZGs64TG4rv7E5gtLm2aCWS_eOZKArvlkviwQVuDmOLjHvFDHd7yBSYfnw_wXX
+    qOHWhHL-YsPqPKUEQ>
+X-ME-Received: <xmr:M4IMZMBZZjPqsNpi4zF5Ol_NaoUDCvP_dt9qfNujkuceIJtmp4wfvM45SgrqrARoC-FIfI4bXTkNc7OcWxey>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvtddgvdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefjuhhgohcuqfhsvhgrlhguohcuuegrrhhrvghrrgcuoehhuhhg
+    ohesfihhhihnohhthhhughhordhnlheqnecuggftrfgrthhtvghrnhepledvheevveetff
+    eigfelhfefkeeujeeigfeiveekteekvdejudelgffhffeuledvnecuffhomhgrihhnpehs
+    rhdrhhhtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    ephhhughhoseifhhihnhhothhhuhhgohdrnhhl
+X-ME-Proxy: <xmx:M4IMZOciGll8BTAdMxny_OB-lqr9KeUqUalnGrWOfHOrs9Kh2Elxlw>
+    <xmx:M4IMZLMqtCYgYimYlHLsaiZ0YvpSeUbLJs-JY6NmEF1slWsvBnzYGg>
+    <xmx:M4IMZImc_XApTj-GMJg10r_bmLPupKZplU7jkMqGIGUFFQTIolJsHQ>
+    <xmx:M4IMZNXu_JJJcCO54y_6XbxojOOyC9AmmnT65TtGBjSNS6dvJ1582A>
+Feedback-ID: i42b9468f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 11 Mar 2023 08:29:23 -0500 (EST)
+From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+To: ~exec64/imv-devel@lists.sr.ht
+Cc: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Subject: [PATCH] Make mouse wheel action configurable
+Date: Sat, 11 Mar 2023 14:29:16 +0100
+Message-Id: <20230311132916.22320-1-hugo@whynothugo.nl>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+The default remains the same behaviour: zoom in/out. The new option
+allows navigating to the next or previous image in the sequence.
+
+Fixes: https://todo.sr.ht/~exec64/imv/33
+---
+ doc/imv.5.txt |  4 ++++
+ src/imv.c     | 59 +++++++++++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 57 insertions(+), 6 deletions(-)
+
+diff --git a/doc/imv.5.txt b/doc/imv.5.txt
+index 3f009fa..4575c2f 100644
+--- a/doc/imv.5.txt
++++ b/doc/imv.5.txt
+@@ -49,6 +49,10 @@ The *[options]* section accepts the following settings:
+ *loop_input* = <true|false>::
+ 	Return to first image after viewing the last one. Defaults to 'true'.
+ 
++*mouse_wheel* = <zoom|navigate>::
++	Action to perform on mouse wheel events. 'navigate' will switch to the next
++	and previous image. Defaults to 'zoom'.
++
+ *overlay* = <true|false>::
+ 	Start with the overlay visible. Defaults to 'false'.
+ 
+diff --git a/src/imv.c b/src/imv.c
+index bca52fd..ca02da0 100644
+--- a/src/imv.c
++++ b/src/imv.c
+@@ -74,6 +74,12 @@ struct internal_event {
+   } data;
+ };
+ 
++
++enum wheel_action {
++  ZOOM,
++  NAVIGATE,
++};
++
+ struct imv {
+   /* set to true to trigger clean exit */
+   bool quit;
+@@ -176,6 +182,9 @@ struct imv {
+   /* the user-specified format strings for the overlay and window title */
+   char *title_text;
+ 
++  /* action to perform on mouse wheel */
++  enum wheel_action wheel_action;
++
+   /* imv subsystems */
+   struct imv_binds *binds;
+   struct imv_navigator *navigator;
+@@ -433,6 +442,30 @@ static void key_handler(struct imv *imv, const struct imv_event *event)
+   imv->need_redraw = true;
+ }
+ 
++static void mouse_wheel_handler(struct imv *imv, const struct imv_event *event) {
++  switch (imv-> wheel_action) {
++    case ZOOM:
++      {
++        double x, y;
++        imv_window_get_mouse_position(imv->window, &x, &y);
++        imv_viewport_zoom(imv->view, imv->current_image, IMV_ZOOM_MOUSE,
++            x, y, -event->data.mouse_scroll.dy);
++      }
++      break;
++    case NAVIGATE:
++      {
++        int index;
++        if (event->data.mouse_scroll.dy > 0) {
++          index = 1;
++        } else {
++          index = -1;
++        }
++        imv_navigator_select_rel(imv->navigator, index);
++        imv_viewport_reset_transform(imv->view);
++      }
++      break;
++  }
++}
+ 
+ static void event_handler(void *data, const struct imv_event *e)
+ {
+@@ -462,12 +495,7 @@ static void event_handler(void *data, const struct imv_event *e)
+       }
+       break;
+     case IMV_EVENT_MOUSE_SCROLL:
+-      {
+-        double x, y;
+-        imv_window_get_mouse_position(imv->window, &x, &y);
+-        imv_viewport_zoom(imv->view, imv->current_image, IMV_ZOOM_MOUSE,
+-            x, y, -e->data.mouse_scroll.dy);
+-      }
++        mouse_wheel_handler(imv, e);
+       break;
+     case IMV_EVENT_CUSTOM:
+       consume_internal_event(imv, e->data.custom);
+@@ -754,6 +782,18 @@ static bool parse_initial_pan(struct imv *imv, const char *pan_params)
+   return true;
+ }
+ 
++static bool parse_mouse_wheel(struct imv *imv, const char *value)
++{
++  if (!strcmp("navigate", value)) {
++    imv->wheel_action = NAVIGATE;
++  } else if (!strcmp("zoom", value)) {
++    imv->wheel_action = ZOOM;
++  } else {
++    return false;
++  }
++  return true;
++}
++
+ static void *pipe_stdin(void *data)
+ {
+   int *fd = data;
+@@ -1604,6 +1644,13 @@ static int handle_ini_value(void *user, const char *section, const char *name,
+       return 1;
+     }
+ 
++    if (!strcmp(name, "mouse_wheel")) {
++      if (!parse_mouse_wheel(imv, value)) {
++        return false;
++      }
++      return 1;
++    }
++
+     /* No matches so far */
+     imv_log(IMV_WARNING, "Ignoring unknown option: %s\n", name);
+     return 1;
+-- 
+2.39.2
+
