@@ -21,6 +21,8 @@ in {
       virt-manager
       virt-viewer
       virtiofsd
+
+      wl-clipboard # for waydroid
     ];
 
     virtualisation = {
@@ -39,7 +41,7 @@ in {
       # allow usb passthrough
       spiceUSBRedirection.enable = true;
 
-      # waydroid.enable = true;
+      waydroid.enable = true;
       # lxd.enable = true;
 
       # docker config
