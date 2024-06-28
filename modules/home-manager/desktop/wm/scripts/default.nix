@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.desktop.wm;
+  cfg = config.desktop;
 
   bar = (import ./bar) { inherit pkgs lib; };
   general = (import ./general) { inherit pkgs lib; };
@@ -42,18 +42,29 @@ in {
       ha = scriptOpt "${general.ha}/bin/home-assistant" "Home Assistant script";
       hdrop-btop =
         scriptOpt "${general.hdrop-btop}/bin/hdrop-btop" "Toggle btop dropdown";
-      ps_mem = scriptOpt "${general.ps_mem}/bin/ps_mem" "Open ps_mem terminal";
+      ps_mem =
+        scriptOpt "${general.ps_mem}/bin/ps_mem_float" "Open ps_mem terminal";
       wttr = scriptOpt "${general.wttr}/bin/wttr" "Open wttr.in terminal";
     };
 
     wm = {
       lock = scriptOpt "${pkgs.hyprlock}/bin/hyprlock" "Run the screenlocker";
       sleep = scriptOpt
-        "${pkgs.coreutils}/bin/sleep 1 && ${pkgs.hyprland}/bin/hyprctl dispatch dpms off"
+        "${pkgs.coreutils}/bin/sleep 0.5 && ${pkgs.hyprland}/bin/hyprctl dispatch dpms off"
         "Sleep the screen";
       wallpaper = scriptOpt "${pkgs.swww}/bin/swww img" "Set the wallpaper";
     };
   };
 
-  config = lib.mkIf cfg.enable { };
+  config = lib.mkIf cfg.enable {
+    home.packages = [
+      bar.playerctl-tail
+      bar.spotify-volume
+      general.ha
+      general.hdrop-btop
+      general.ps_mem
+      launchers.powermenu
+      rofi.archive
+    ];
+  };
 }

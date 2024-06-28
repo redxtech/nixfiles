@@ -330,8 +330,6 @@
       runOnce = [
         "${networkmanagerapplet}/bin/nm-applet --indicator"
         "${blueman}/bin/blueman-applet"
-        "${flameshot}/bin/flameshot"
-        # "${discord}/bin/discord"
         "${vesktop}/bin/vesktop"
         "${config.programs.spicetify.spicedSpotify}/bin/spotify"
         "${xfce.thunar}/bin/thunar --daemon"

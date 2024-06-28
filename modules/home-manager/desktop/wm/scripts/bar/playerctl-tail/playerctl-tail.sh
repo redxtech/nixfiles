@@ -29,6 +29,11 @@ main() {
 	status-once)
 		pctl metadata --format '{{artist}} - {{title}}'
 		;;
+	single)
+		if test "$(pctl status)" == "Playing"; then
+			pctl metadata --format '{{artist}} - {{title}}' | head -n 1
+		fi
+		;;
 	icon)
 		pctl --follow status | showIcon
 		;;
@@ -42,7 +47,7 @@ main() {
 		pctl previous
 		;;
 	*)
-		echo "Usage: $0 {status|play-pause|next|prev}"
+		echo "Usage: $0 {status-once|play-pause|next|prev}"
 		exit 1
 		;;
 	esac

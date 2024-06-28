@@ -1,7 +1,7 @@
 { writeShellApplication, kitty, fish, ps_mem, ... }:
 
 writeShellApplication {
-  name = "ps_mem";
+  name = "ps_mem_float";
 
   runtimeInputs = [ kitty fish ps_mem ];
   text = ''

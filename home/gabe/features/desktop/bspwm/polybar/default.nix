@@ -4,11 +4,7 @@ let
   scripts = (import ./scripts) { inherit pkgs lib; };
   rofiScripts = (import ../../rofi/scripts) { inherit pkgs lib config; };
 in {
-  home.packages = with scripts; [
-    copy-spotify-url
-    pipewire-control
-    playerctl-tail
-  ];
+  home.packages = with scripts; [ copy-spotify-url ];
 
   services.polybar = let
     inherit (builtins) concatStringsSep elemAt length;

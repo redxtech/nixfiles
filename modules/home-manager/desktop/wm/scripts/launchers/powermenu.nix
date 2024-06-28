@@ -28,7 +28,7 @@ writeShellApplication {
     case $answer in
     "$lock")
     	playerctl pause
-    	# hyprlock lock
+    	loginctl lock-session
     	;;
     "$sleep")
     	confirm
