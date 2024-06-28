@@ -334,6 +334,7 @@
         "${config.programs.spicetify.spicedSpotify}/bin/spotify"
         "${xfce.thunar}/bin/thunar --daemon"
         "${solaar}/bin/solaar -w hide"
+        "${udiskie}/bin/udiskie"
       ];
       runWithRule = [{
         cmd = "${kitty}/bin/kitty ${btop}/bin/btop";

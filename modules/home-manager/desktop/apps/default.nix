@@ -91,8 +91,11 @@ in {
     services.flatpak = {
       enable = true;
 
-      packages = [ "com.getpostman.Postman" "com.obsproject.Studio" ]
-        ++ config.desktop.flatpaks;
+      packages = [
+        "com.getpostman.Postman"
+        "com.obsproject.Studio"
+        "io.github.seadve.Kooha"
+      ] ++ config.desktop.flatpaks;
     };
 
     xdg.dataFile."fonts".source = config.lib.file.mkOutOfStoreSymlink

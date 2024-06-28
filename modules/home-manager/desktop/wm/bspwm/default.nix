@@ -83,6 +83,7 @@ in {
       startupPrograms = [
         "${pkgs.bspwm}/bin/bspc wm --reorder-monitors ${flatMonitors}"
         "${config.home.homeDirectory}/.fehbg"
+        "${pkgs.flameshot}/bin/flameshot"
       ] ++ cfg.autostart.processed # global autostart commands
         ++ (map runWithRule
           cfg.autostart.runWithRule); # autostart commands with rules

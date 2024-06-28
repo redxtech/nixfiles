@@ -31,18 +31,22 @@
       "application/x-raw-disk-image" = [ "7zFM.desktop" ];
       "application/octet-stream" = [ "nvim.desktop" "sublime_text.desktop" ];
       "application/toml" = [ "nvim.desktop" "sublime_text.desktop" ];
+      "application/pdf" = [ "zathura.desktop" firefox ];
       "application/x-shellscript" =
         [ "nvim.desktop" "kitty-open.desktop" "sublime_text.desktop" ];
+      "application/x-gnome-saved-search" = [ "thunar.desktop" "nemo.desktop" ];
+      "inode/directory" = [ "thunar.desktop" "nemo.desktop" ];
       "audio/ogg" = [ "mpv.desktop" "vlc.desktop" ];
       "video/mp4" = [ "mpv.desktop" "vlc.desktop" ];
     };
     defaultApplications = {
-      "inode/directory" = [ "thunar.desktop" ];
-      "image/jpeg" = [ "feh.desktop" ];
-      "image/png" = [ "feh.desktop" ];
+      "inode/directory" = [ "nemo.desktop" ];
+      "image/jpeg" = [ "imv-dir.desktop" ];
+      "image/png" = [ "imv-dir.desktop" ];
       "text/plain" = [ "nvim.desktop" ];
       "application/json" = [ "nvim.desktop" ];
-      "application/x-gnome-saved-search" = [ "thunar.desktop" ];
+      "application/pdf" = [ "zathura.desktop" ];
+      "application/x-gnome-saved-search" = [ "nemo.desktop" ];
       "video/mp4" = [ "mpv.desktop" ];
       "x-scheme-handler/postman" = [ "Postman.desktop" ];
       "x-scheme-handler/anytype" = [ "anytype.desktop" ];
