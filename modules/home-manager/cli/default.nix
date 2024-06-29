@@ -137,6 +137,7 @@ in {
           kubecolor
           kubectl
           kubectx
+          kubeseal
           # telepresence2
         ] ++ cfg.packages;
 
@@ -144,7 +145,6 @@ in {
         hasPackage = pname:
           lib.any (p: p ? pname && p.pname == pname) config.home.packages;
         hasRipgrep = hasPackage "ripgrep";
-        hasExa = hasPackage "eza";
         hasNeovim = config.programs.neovim.enable;
         hasKitty = config.programs.kitty.enable;
       in rec {
