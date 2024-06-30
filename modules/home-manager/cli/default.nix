@@ -92,6 +92,7 @@ in {
           nil # nix LSP
           nixd # nix LSP
           nixfmt-classic # nix formatter
+          nixpkgs-review # nixpkgs PR reviewer
           # nix-delegate # distributed nix builds transparently
           nix-autobahn # dynamic executable helper
           nix-du # du for nix store
