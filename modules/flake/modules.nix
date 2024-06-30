@@ -83,6 +83,6 @@ in {
       common = homeCommon;
 
       deck.imports = [ ../../home/gabe/deck.nix ] ++ homeCommon;
-    } // allNixos;
+    } // allHomeManager;
   };
 }
