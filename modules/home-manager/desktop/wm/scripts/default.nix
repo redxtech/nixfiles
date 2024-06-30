@@ -51,6 +51,7 @@ in {
     };
 
     rofi = {
+      archiver = scriptOpt "${rofi.archiver}/bin/archiver" "Archive script";
       convert =
         scriptOpt "${rofi.convert}/bin/convert-image" "Image conversion script";
     };
@@ -72,7 +73,7 @@ in {
       general.hdrop-btop
       general.ps_mem
       launchers.powermenu
-      rofi.archive
+      rofi.archiver
       rofi.convert
     ];
   };
