@@ -9,12 +9,24 @@ writeShellApplication {
     # script to unarchive files using atool
     # usage: unarchive [file]
 
-    unarchive_file() {
-      if [ "$#" -eq 0 ]; then
-        notify-send "no file provided" "please provide a file to unpack" \
+    # send notification
+    notify_send() {
+      title="$1"
+      body="$2"
+      shift 2
+
+      status="$(notify-send "$title" "$body" \
         --icon archive-extract \
         --app-name "unarchiver" \
-        --expire-time 10000
+        --expire-time 10000 \
+        "$@")"
+
+      echo "$status"
+    }
+
+    unarchive_file() {
+      if [ "$#" -eq 0 ]; then
+        notify_send "no file provided" "please provide a file to unpack" --icon error
         return 1
       fi
 
@@ -32,23 +44,12 @@ writeShellApplication {
       extract_status="$?"
       popd >/dev/null
 
-      timeout="10000" # 10 seconds
-
       if [ $extract_status -eq 0 ]; then
-        should_view="$(notify-send "file extracted" "$basename extracted" \
-        --icon archive-extract \
-        --app-name "unarchiver" \
-        --expire-time "$timeout" \
-        --action "default=view result")"
+        should_view="$(notify_send "file extracted" "$basename extracted" --action "default=view result")"
 
-        if [ "$should_view" = "default" ]; then
-          nemo "$nameNoExt"
-        fi
+        [ "$should_view" = "default" ] && nemo "$nameNoExt"
       else
-        notify-send "archive unpacking failed" "failed to extract $basename to $dir" \
-        --icon error \
-        --app-name "unarchiver" \
-        --expire-time "$timeout"
+        notify_send "archive unpacking failed" "failed to extract $basename to $dir" --icon error
       fi
     }
 
