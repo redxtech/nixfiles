@@ -1,0 +1,78 @@
+{ writeShellApplication, imagemagick, tofi, rofiCmd ? "${tofi}/bin/tofi", ... }:
+
+writeShellApplication {
+  name = "convert-image";
+
+  runtimeInputs = [ imagemagick tofi ];
+
+  text = let formats = [ "png" "jpg" "webp" "svg" ];
+  in ''
+    # rofi script to convert images
+    # usage: convert-image [file]
+
+    rofiCmd="${rofiCmd}"
+
+    formats="${builtins.concatStringsSep "\\n" formats}" 
+
+    rofi_cmd () {
+      $rofiCmd --prompt-text "$@" --width=480 --height=360
+    }
+
+    convert-image() {
+      if [ "$#" -eq 0 ]; then
+        notify-send "no file provided" "please provide a file to convert" \
+        --icon error \
+        --app-name "convert-image" \
+        --expire-time 10000
+        return 1
+      fi
+
+      format=$(echo -e "$formats" | rofi_cmd "target format: ")
+
+      if [ -z "$format" ]; then
+        notify-send "no format selected" "please select a format to convert to" \
+        --icon error \
+        --app-name "convert-image" \
+        --expire-time 10000
+        return 1
+      fi
+
+      # set output filename
+      input=$(realpath "$1")
+
+      basename=$(basename "$input")
+      dir=$(dirname "$input")
+      nameNoExt="''${basename%.*}"
+
+      output="$dir/$nameNoExt.$format"
+
+      echo "converting $input to $output"
+
+      # convert image
+      convert "$input" "$output"
+
+      convert_status="$?"
+      timeout="10000" # 10 seconds
+
+      if [ $convert_status -eq 0 ]; then
+        should_view="$(notify-send "image converted" "$basename converted to: $format" \
+        --icon image \
+        --app-name "convert-image" \
+        --expire-time "$timeout" \
+        --action "default=view image")"
+
+        if [ "$should_view" = "default" ]; then
+          nemo "$output"
+        fi
+      else
+        notify-send "image conversion failed" "failed to convert $basename to $format" \
+        --icon error \
+        --app-name "convert-image" \
+        --expire-time "$timeout"
+      fi
+    }
+
+    convert-image "$@"
+  '';
+}
+

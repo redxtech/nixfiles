@@ -6,6 +6,7 @@ let
   bar = (import ./bar) { inherit pkgs lib; };
   general = (import ./general) { inherit pkgs lib; };
   launchers = (import ./launchers) { inherit pkgs lib config; };
+  rofi = (import ./rofi) { inherit pkgs lib config; };
 in {
   options.desktop.wm.scripts = let
     inherit (lib) mkOption types;
@@ -44,7 +45,14 @@ in {
         scriptOpt "${general.hdrop-btop}/bin/hdrop-btop" "Toggle btop dropdown";
       ps_mem =
         scriptOpt "${general.ps_mem}/bin/ps_mem_float" "Open ps_mem terminal";
+      unarchiver =
+        scriptOpt "${general.unarchiver}/bin/unarchiver" "Unarchiver script";
       wttr = scriptOpt "${general.wttr}/bin/wttr" "Open wttr.in terminal";
+    };
+
+    rofi = {
+      convert =
+        scriptOpt "${rofi.convert}/bin/convert-image" "Image conversion script";
     };
 
     wm = {
@@ -65,6 +73,7 @@ in {
       general.ps_mem
       launchers.powermenu
       rofi.archive
+      rofi.convert
     ];
   };
 }

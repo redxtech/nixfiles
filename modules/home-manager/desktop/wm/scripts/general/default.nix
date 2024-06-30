@@ -7,6 +7,7 @@ in {
   ha = callPackage ./home-assistant.nix { };
   hdrop-btop = callPackage ./hdrop-btop.nix { };
   ps_mem = callPackage ./ps_mem.nix { };
+  unarchiver = callPackage ./unarchiver.nix { };
   wttr = callPackage ./wttr.nix { };
 }
 
