@@ -75,6 +75,7 @@ in {
       launchers.powermenu
       rofi.archiver
       rofi.convert
+      rofi.search-icons
     ];
   };
 }

@@ -10,12 +10,10 @@ writeShellApplication {
     # rofi script to convert images
     # usage: convert-image [file]
 
-    rofiCmd="${rofiCmd}"
-
     formats="${builtins.concatStringsSep "\\n" formats}" 
 
     rofi_cmd () {
-      $rofiCmd --prompt-text "$@" --width=480 --height=360
+      ${rofiCmd} --prompt-text "$@" --width=480 --height=360
     }
 
     # send notification

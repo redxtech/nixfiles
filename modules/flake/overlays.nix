@@ -46,8 +46,8 @@
           };
         });
 
-        rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
-        # rofi = prev.rofi-wayland.override { plugins = [ prev.rofi-emoji ]; };
+        # rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
+        rofi = prev.rofi-wayland.override { plugins = [ prev.rofi-emoji ]; };
 
         vivaldi = prev.vivaldi.override {
           commandLineArgs = "--force-dark-mode";
