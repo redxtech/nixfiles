@@ -54,6 +54,7 @@ in {
       archiver = scriptOpt "${rofi.archiver}/bin/archiver" "Archive script";
       convert =
         scriptOpt "${rofi.convert}/bin/convert-image" "Image conversion script";
+      encoder = scriptOpt "${rofi.encoder}/bin/encoder" "Video encoder script";
     };
 
     wm = {
@@ -75,6 +76,7 @@ in {
       launchers.powermenu
       rofi.archiver
       rofi.convert
+      rofi.encoder
       rofi.search-icons
     ];
   };
