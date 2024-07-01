@@ -1,9 +1,10 @@
-{ writeShellApplication, imagemagick, tofi, rofiCmd ? "${tofi}/bin/tofi", ... }:
+{ writeShellApplication, imagemagick, cinnamon, libnotify, tofi
+, rofiCmd ? "${tofi}/bin/tofi", ... }:
 
 writeShellApplication {
   name = "convert-image";
 
-  runtimeInputs = [ imagemagick tofi ];
+  runtimeInputs = [ imagemagick tofi cinnamon.nemo libnotify ];
 
   text = let formats = [ "png" "jpg" "webp" "svg" ];
   in ''
@@ -62,10 +63,7 @@ writeShellApplication {
 
       if [ $convert_status -eq 0 ]; then
         should_view="$(notify_send "image converted" "$basename converted to: $format" --action "default=view image")"
-
-        if [ "$should_view" = "default" ]; then
-          nemo "$output"
-        fi
+        [ "$should_view" = "default" ] && nemo "$output" & disown
       else
         notify_send "image conversion failed" "failed to convert $basename to $format" --icon error
       fi

@@ -1,10 +1,10 @@
-{ writeShellApplication, coreutils, tofi, rofiApp ? tofi
+{ writeShellApplication, coreutils, cinnamon, libnotify, tofi, rofiApp ? tofi
 , rofiCmd ? "${tofi}/bin/tofi", ... }:
 
 writeShellApplication {
   name = "archiver";
 
-  runtimeInputs = [ coreutils rofiApp ];
+  runtimeInputs = [ coreutils rofiApp cinnamon.nemo libnotify ];
 
   text = let
     formats = [
@@ -108,7 +108,7 @@ writeShellApplication {
 
         echo "should_view: $should_view"
 
-        [ "$should_view" = "default" ] && nemo "$output"
+        [ "$should_view" = "default" ] && nemo "$output" & disown
       else
         notify_send "archive creation failed" "failed to create archive at $output" --icon error
       fi

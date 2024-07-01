@@ -1,9 +1,9 @@
-{ writeShellApplication, atool, ... }:
+{ writeShellApplication, atool, cinnamon, libnotify, ... }:
 
 writeShellApplication {
   name = "unarchiver";
 
-  runtimeInputs = [ atool ];
+  runtimeInputs = [ atool cinnamon.nemo libnotify ];
 
   text = ''
     # script to unarchive files using atool
@@ -47,7 +47,7 @@ writeShellApplication {
       if [ $extract_status -eq 0 ]; then
         should_view="$(notify_send "file extracted" "$basename extracted" --action "default=view result")"
 
-        [ "$should_view" = "default" ] && nemo "$nameNoExt"
+        [ "$should_view" = "default" ] && nemo "$nameNoExt" & disown
       else
         notify_send "archive unpacking failed" "failed to extract $basename to $dir" --icon error
       fi
