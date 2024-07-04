@@ -125,6 +125,7 @@ in {
           xorg.xmodmap # keyboard remapper
           yadm # dotfile manager
           yq-go # jq for yaml
+          vcs # video contact sheet
           ventoy # bootable usb creator
           vulnix # nix security checker
           zip # archiver

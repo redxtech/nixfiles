@@ -79,8 +79,8 @@
               label = "ollama";
             }
             {
-              url = "https://chat.openai.com/?model=gpt-4";
-              label = "chatgpt";
+              url = "https://chat.super.fish";
+              label = "chat";
             }
             {
               url = "https://photos.google.com/";

@@ -50,6 +50,7 @@ in {
         obsidian
         obsidian-smart-connect
         pavucontrol
+        peazip # file archiver
         piper # gui for ratbagd
         planify
         playerctl
