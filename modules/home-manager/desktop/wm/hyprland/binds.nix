@@ -70,7 +70,7 @@ in {
         "$mod, Return, exec, $terminal"
         "$mod SHIFT, Return, exec, [floating] $terminal"
         "CTRL, Return, exec, ${pkgs.foot}/bin/footclient"
-        "$mod, SPACE, exec, ${scripts.launchers.app-launcher}"
+        "$mod, SPACE, exec, ${scripts.rofi.app-launcher}"
         "$mod, W, exec, $browser"
         "$mod, G, exec, $explorer"
         "$mod SHIFT, N, exec, ${neovide}/bin/neovide"
@@ -86,8 +86,8 @@ in {
         # focus apps
 
         # rofi
-        "$mod SHIFT, E, exec, ${cfg.scripts.launchers.powermenu}"
-        "$mod, Backspace, exec, ${cfg.scripts.launchers.powermenu}"
+        "$mod SHIFT, E, exec, ${cfg.scripts.wm.powermenu}"
+        "$mod, Backspace, exec, ${cfg.scripts.wm.powermenu}"
 
         # notifications
         "$mod ALT, H, exec, ${dunst}/bin/dunstctl history-pop"

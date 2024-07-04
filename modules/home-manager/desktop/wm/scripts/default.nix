@@ -5,7 +5,6 @@ let
 
   bar = (import ./bar) { inherit pkgs lib; };
   general = (import ./general) { inherit pkgs lib; };
-  launchers = (import ./launchers) { inherit pkgs lib config; };
   rofi = (import ./rofi) { inherit pkgs lib config; };
 in {
   options.desktop.wm.scripts = let
@@ -27,13 +26,6 @@ in {
       weather = scriptOpt "${weather}/bin/weather-bar" "Weather script";
     };
 
-    launchers = with launchers; {
-      app-launcher =
-        scriptOpt "${pkgs.fuzzel}/bin/fuzzel" "The application launcher to use";
-      powermenu =
-        scriptOpt "${powermenu}/bin/powermenu" "The power menu to use";
-    };
-
     general = {
       clipboard = scriptOpt "${general.clipboard}/bin/clipboard"
         "Clipboard history script";
@@ -51,6 +43,8 @@ in {
     };
 
     rofi = {
+      app-launcher =
+        scriptOpt "${pkgs.fuzzel}/bin/fuzzel" "The application launcher to use";
       archiver = scriptOpt "${rofi.archiver}/bin/archiver" "Archive script";
       convert =
         scriptOpt "${rofi.convert}/bin/convert-image" "Image conversion script";
@@ -59,6 +53,8 @@ in {
 
     wm = {
       lock = scriptOpt "${pkgs.hyprlock}/bin/hyprlock" "Run the screenlocker";
+      powermenu =
+        scriptOpt "${rofi.powermenu}/bin/powermenu" "The power menu to use";
       sleep = scriptOpt
         "${pkgs.coreutils}/bin/sleep 0.5 && ${pkgs.hyprland}/bin/hyprctl dispatch dpms off"
         "Sleep the screen";
@@ -73,10 +69,10 @@ in {
       general.ha
       general.hdrop-btop
       general.ps_mem
-      launchers.powermenu
       rofi.archiver
       rofi.convert
       rofi.encoder
+      rofi.powermenu
       rofi.search-icons
     ];
   };
