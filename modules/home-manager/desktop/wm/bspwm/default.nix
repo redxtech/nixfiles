@@ -66,9 +66,35 @@ in {
         focused_border_color = mkDefault "#6c71c4";
       };
 
-      rules = cfg.wm.rules;
+      rules = let
+        inherit (lib) mkIf;
+        mkRule = opts@{ class, title, ws, ... }:
+          let
+            sel = if title == "" then
+              class
+            else
+              "${if class == "" then "*" else class}:*:${title}";
+          in {
+            name = sel;
+            value = {
+              desktop = mkIf (ws != "") ws;
+              state = if opts.float then
+                "floating"
+              else if opts.fullscreen then
+                "fullscreen"
+              else if opts.psuedo then
+                "psuedo_tiled"
+              else
+                "tiled";
+              sticky = mkIf (opts.pin) opts.pin;
+              follow = mkIf (!opts.follow) false;
+              manage = mkIf (!opts.manage) false;
+            };
+          };
+      in lib.listToAttrs (map mkRule cfg.wm.rules);
 
       # some rules need to be set after the rest of the rules
+      # TODO: use new rule.oneShot option
       extraConfig = ''
         bspc rule -a 'firefox-aurora' --one-shot 'desktop=www'
         bspc rule -a '*:*:Open Files' 'desktop=*' 'state=floating'

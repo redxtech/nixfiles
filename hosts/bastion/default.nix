@@ -19,7 +19,7 @@
   desktop = {
     enable = true;
     useZen = true;
-    wm = "bspwm";
+    wm = "hyprland";
 
     gaming = {
       enable = true;

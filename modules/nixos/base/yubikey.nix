@@ -53,6 +53,12 @@ in {
         default = ":0";
         description = "The display to lock the screen on";
       };
+
+      WAYLAND_DISPLAY = mkOption {
+        type = str;
+        default = "wayland-1";
+        description = "The wayland display to lock the screen on";
+      };
     };
 
     mappings = mkOption {
@@ -96,25 +102,44 @@ in {
       services = {
         login.u2fAuth = cfg.login;
         sudo.u2fAuth = cfg.sudo;
+        # hyprlock.u2fAuth = cfg.login;
       };
     };
 
     # lock the screen when the yubikey is removed
     services.udev.extraRules = let
       authfilePrefix = "/run/user/${cfg.lockOnRemove.userID}/xauth_";
-      lockscript = pkgs.writeShellApplication {
-        name = "lockscript.sh";
-        runtimeEnv = { inherit (cfg.lockOnRemove) DISPLAY; };
-        runtimeInputs = with pkgs; [ betterlockscreen ];
-        text = ''
-          # find the xauth file for the current user
-          # by getting the first file that matches the prefix
-          AUTHFILE=(${authfilePrefix}*)
-          export XAUTHORITY="''${AUTHFILE[0]}"
+      scripts = {
+        bspwm = pkgs.writeShellApplication {
+          name = "lockscript.sh";
+          runtimeEnv = { inherit (cfg.lockOnRemove) DISPLAY; };
+          runtimeInputs = with pkgs; [ betterlockscreen ];
+          text = ''
+            # find the xauth file for the current user
+            # by getting the first file that matches the prefix
+            AUTHFILE=(${authfilePrefix}*)
+            export XAUTHORITY="''${AUTHFILE[0]}"
 
-          betterlockscreen --lock dimblur
-        '';
+            betterlockscreen --lock dimblur
+          '';
+        };
+        hyprland = pkgs.writeShellApplication {
+          name = "lockscript.sh";
+          runtimeEnv = { inherit (cfg.lockOnRemove) WAYLAND_DISPLAY; };
+          runtimeInputs = with pkgs; [ hyprlock ];
+          text = ''
+            # find xdg runtime dir for user
+            USERID=$(id -u)
+            XDG_RUNTIME_DIR="/run/user/$USERID"
+            export XDG_RUNTIME_DIR
+
+            hyprlock
+          '';
+        };
       };
+
+      # choose the lockerscript based on the window manager
+      lockscript = scripts.${config.desktop.wm};
       runCmd =
         "${pkgs.su}/bin/su - ${config.base.primaryUser} -c '${lockscript}/bin/lockscript.sh'";
     in mkIf cfg.lockOnRemove.enable ''

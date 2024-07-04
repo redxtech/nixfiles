@@ -10,7 +10,8 @@
   ];
 
   desktop = {
-    wm.wm = "bspwm";
+    wm.wm = "hyprland";
+    wm.hyprland.enable = true;
 
     isLaptop = false;
 
@@ -26,7 +27,7 @@
 
     monitors = [
       {
-        name = "DisplayPort-0";
+        name = "DP-1";
         primary = true;
         height = 1440;
         width = 2560;
@@ -65,21 +66,21 @@
           "00ffffffffffff004c2d7a70523044302b1e0104b53c22783b6eb5ae4f46a626115054bfef80714f810081c081809500a9c0b300010198e200a0a0a0295008403500ba892100001a000000fd003090d6d63b010a202020202020000000fc004c433237473578540a20202020000000ff00484e4d4e4130323030380a20200195020327f144903f1f042309070783010000e305c0006d1a000002013090000000000000e3060501565e00a0a0a029503020350055502100001a6fc200a0a0a055503020350055502100001a5a8780a070384d403020350055502100001a023a801871382d40582c450055502100001e000000000000000000000000000000004f";
       }
       {
-        name = "DisplayPort-1";
+        name = "DP-2";
         height = 1440;
         width = 2560;
         rate = 144;
         x = 2560;
         workspaces = [
           {
-            name = "r-www";
+            name = "music";
             number = 7;
-            icon = "";
+            icon = "󰓇";
           }
           {
-            name = "music";
+            name = "r-www";
             number = 8;
-            icon = "󰙯";
+            icon = "";
           }
           {
             name = "video";

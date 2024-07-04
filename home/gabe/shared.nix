@@ -7,36 +7,99 @@
     enable = true;
 
     wm = {
-      rules = {
-        "firefox-aurora:*:Library" = { state = "floating"; };
-        discord = {
-          desktop = "chat";
+      rules = [
+        {
+          class = "firefox-aurora";
+          title = "Library";
+          float = true;
+        }
+        {
+          title = "Picture.in.Picture";
+          float = true;
+          pin = true;
+        }
+        {
+          title = "File Upload.*";
+          float = true;
+        }
+        {
+          class = "discord|vesktop";
+          ws = "chat";
           follow = false;
-        };
-        vesktop = {
-          desktop = "chat";
+        }
+        {
+          initialTitle = "Spotify";
+          ws = "music";
+        }
+        {
+          class = "kitty_(btop|float)";
+          float = true;
+        }
+        {
+          class = "obsidian";
+          float = true;
+        }
+        {
+          class = "Bitwarden";
+          float = true;
+        }
+        {
+          class = "nemo|thunar";
+          opacity = "0.9 0.8";
+        }
+        {
+          class = "Plex";
+          ws = "video";
+        }
+        {
+          class = "plexmediaplayer";
+          ws = "video";
+        }
+        {
+          class = "Slack";
+          float = true;
+        }
+        {
+          class = "Element";
+          ws = "chat";
           follow = false;
-        };
-        Spotify = { desktop = "music"; };
-        obsidian = { state = "floating"; };
-        Plex = { desktop = "video"; };
-        plexmediaplayer = { desktop = "video"; };
-        Slack = { state = "floating"; };
-        Element = {
-          desktop = "chat";
-          follow = false;
-        };
-        Plexamp = { state = "floating"; };
-        Subl = { desktop = "*"; };
-        flameshot = { state = "floating"; };
-        "Blueman-manager" = { state = "floating"; };
-        ".blueman-manager-wrapped" = { state = "floating"; };
-        "mpv:*:Webcam" = { state = "floating"; };
-        "Kupfer.py" = { focus = true; };
-        mplayer2 = { state = "floating"; };
-        Screenkey = { manage = false; };
-        Yad = { state = "floating"; };
-      };
+        }
+        {
+          class = "Plexamp";
+          float = true;
+        }
+        {
+          class = "pavucontrol";
+          float = true;
+          maxSize = "1400 720";
+        }
+        {
+          class = "nm-connection-editor";
+          float = true;
+        }
+        {
+          class = "Subl";
+          ws = "*";
+        }
+        {
+          class = "flameshot";
+          float = true;
+        }
+        {
+          class = "Blueman-manager";
+          float = true;
+        }
+        {
+          class = ".blueman-manager-wrapped";
+          float = true;
+        }
+        {
+          class = "mpv";
+          title = "Webcam";
+          float = true;
+        }
+
+      ];
 
       binds = with pkgs;
         let
