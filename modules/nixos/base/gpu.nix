@@ -36,11 +36,9 @@ in {
     services.xserver.videoDrivers = (optional cfg.amd "amdgpu")
       ++ (optional cfg.nvidia.enable "nvidia");
 
-    hardware.opengl = with pkgs; {
+    hardware.graphics = with pkgs; {
       enable = true;
-
-      driSupport = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
 
       extraPackages = optionals cfg.amd [
         # ROCm OpenCL ICD

@@ -84,7 +84,7 @@ in {
         firefox-devedition-bin
         flameshot
         gnome.gnome-software
-        gnome.gpaste
+        gpaste
         kitty
         mpv
 
@@ -189,7 +189,7 @@ in {
       bluetooth.powerOnBoot = mkDefault true;
       logitech.wireless.enable = mkDefault true;
       logitech.wireless.enableGraphical = mkDefault true;
-      opengl.enable = mkDefault true;
+      graphics.enable = mkDefault true;
     };
 
     # audio config (pipewire)

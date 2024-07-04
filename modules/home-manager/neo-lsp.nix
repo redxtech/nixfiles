@@ -80,15 +80,13 @@ in {
         ];
 
         web = with pkgs;
-          ([
-            vscode-langservers-extracted
-            nodePackages.vscode-json-languageserver-bin
-          ] ++ (optional cfg.web.typescript
+
+          ([ vscode-langservers-extracted ] ++ (optional cfg.web.typescript
             nodePackages.typescript-language-server)
             ++ (optional cfg.web.biome biome)
             ++ (optionals cfg.web.prettier [ prettierd nodePackages.prettier ])
             ++ (optional cfg.web.eslint nodePackages.eslint)
-            ++ (optional cfg.web.vue nodePackages.volar)
+            ++ (optional cfg.web.vue vscode-extensions.vue.volar)
             ++ (optional cfg.web.svelte nodePackages.svelte-language-server)
             ++ (optional cfg.web.tailwind tailwindcss-language-server)
             ++ (optional cfg.web.deno deno));

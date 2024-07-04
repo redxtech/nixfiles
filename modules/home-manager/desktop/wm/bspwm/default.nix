@@ -139,7 +139,7 @@ in {
         Service = {
           Type = "dbus";
           BusName = "org.gnome.GPaste";
-          ExecStart = "${pkgs.gnome.gpaste}/libexec/gpaste/gpaste-daemon";
+          ExecStart = "${pkgs.gpaste}/libexec/gpaste/gpaste-daemon";
         };
       };
 
