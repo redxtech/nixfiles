@@ -7,6 +7,9 @@ in {
   # options.base.cli = { };
 
   config = mkIf cfg.enable {
+    # fish enables this, but it takes so long to build so i'm disabling it
+    documentation.man.generateCaches = false;
+
     programs = {
       zsh = { enable = true; };
 
