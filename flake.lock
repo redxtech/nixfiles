@@ -1390,11 +1390,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1720600408,
-        "narHash": "sha256-nWFUnssQ05D3vfuYI07kp7hz1aqYxMgvi6h4Xh9iH2U=",
+        "lastModified": 1720638658,
+        "narHash": "sha256-2LiXYPw9o1ul5NJwhNmQn2lqR7qMTTNHIUxmrCSNgRo=",
         "owner": "co-conspirators",
         "repo": "limbo",
-        "rev": "dd75a70c67646f4fea9ad58534ca7e3f68f9d570",
+        "rev": "6f0a5148ac64da73cd8f78a4d885523ab7d5e51c",
         "type": "github"
       },
       "original": {
