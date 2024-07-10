@@ -19,7 +19,13 @@ in {
             fg = colours.fg;
           };
           modules = {
-            left = [ "app-launcher" "notifications" "todo" "music" ];
+            left = [
+              "app-launcher"
+              "notifications"
+              "todo"
+              # "twitch"
+              "music"
+            ];
             center = [ "workspaces" ];
             right = [ "sysmon" "quick-settings" "clock" ];
           };
@@ -87,6 +93,7 @@ in {
             caffeine = {
               icon = { color = colours.blue; };
               activeIcon.color = colours.cyan;
+              toggleCmd = "${pkgs.wlinhibit}/bin/wlinhibit";
             };
             dnd = {
               icon.color = colours.red;
@@ -130,18 +137,18 @@ in {
               headphonesMute.color = colours.blue;
             };
             network = {
-              rampIcons = [
+              rampIcons = with colours; [
                 {
                   name = "wifi";
-                  color = colours.blue;
+                  color = blue;
                 }
                 {
                   name = "wifi-2";
-                  color = colours.blue;
+                  color = blue;
                 }
                 {
                   name = "wifi-1";
-                  color = colours.blue;
+                  color = blue;
                 }
               ];
               offIcon = {
@@ -152,26 +159,26 @@ in {
               ethernetOffIcon.color = colours.red;
             };
             battery = {
-              rampIcons = [
+              rampIcons = with colours; [
                 {
                   name = "battery-4";
-                  color = colours.green;
+                  color = green;
                 }
                 {
                   name = "battery-3";
-                  color = colours.green;
+                  color = green;
                 }
                 {
                   name = "battery-2";
-                  color = colours.green;
+                  color = green;
                 }
                 {
                   name = "battery-1";
-                  color = colours.yellow;
+                  color = yellow;
                 }
                 {
                   name = "battery";
-                  color = colours.red;
+                  color = red;
                 }
               ];
               chargingIcon.color = colours.green;
@@ -192,15 +199,7 @@ in {
             };
           };
           todo.icon.color = colours.red;
-          tray = {
-            ignoredApps = [ ];
-            appIconMappings = { };
-          };
-          twitch = {
-            channels = [ ];
-            clientId = "";
-            clientSecret = "";
-          };
+          twitch.channels = [ "Wirtual" "Wirtual2" "btssmash" ];
           workspaces = {
             monitors = [
               { workspaces = [ 1 2 3 4 5 6 ]; }
