@@ -1,15 +1,15 @@
-{ pkgs }:
+{ pkgs, stable }:
 
 {
   # packages with an actual source
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
-  dashy = pkgs.callPackage ./dashy { };
+  dashy = stable.callPackage ./dashy { };
   ente-desktop = pkgs.callPackage ./ente-desktop { };
   imv-patched = pkgs.callPackage ./imv { };
-  iosevka-custom = pkgs.callPackage ./iosevka-custom { };
+  iosevka-custom = stable.callPackage ./iosevka-custom { };
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
   obsidian-smart-connect = pkgs.callPackage ./obsidian-smart-connect { };
-  seabird = pkgs.callPackage ./seabird { };
+  seabird = stable.callPackage ./seabird { };
   syspower = pkgs.callPackage ./syspower { };
   vuetorrent = pkgs.callPackage ./vuetorrent { };
 

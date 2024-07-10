@@ -1,4 +1,4 @@
-{ iosevka, cores ? 12, ... }:
+{ iosevka, cores ? 8, ... }:
 
 (iosevka.override {
   set = "Custom";
