@@ -1390,11 +1390,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1720376440,
-        "narHash": "sha256-ZBf28pT6Y3oexFvkGsalhbjv9Tu5OisE25CVCh0ewLg=",
+        "lastModified": 1720588678,
+        "narHash": "sha256-Y12YOcoQ0wTnuPdr8zpPvLu9fxdFs8tC/4PaXEwu3Co=",
         "owner": "co-conspirators",
         "repo": "limbo",
-        "rev": "d65213edf89a47728cff3c99080578f3f3dc8e57",
+        "rev": "9c13edaef4f5af9ff5d8b4d9b5b89db0930b8ee5",
         "type": "github"
       },
       "original": {
@@ -1753,7 +1753,7 @@
     },
     "nixpkgs-lib_2": {
       "locked": {
-        "lastModified": 1720116173,
+        "lastModified": 1720303020,
         "narHash": "sha256-Fm2rDDs86sHy0/1jxTOKB1118Q0O3Uc7EC0iXvXKpbI=",
         "type": "tarball",
         "url": "https://github.com/NixOS/nixpkgs/archive/5daf0514482af3f97abaefc78a6606365c9108e2.tar.gz"
