@@ -20,9 +20,12 @@ in {
     # standard colours
     bg = "#282a36";
     bg-alt = "#44475a";
+    bgAlt = bg-alt;
     fg = "#f8f8f2";
     fg-alt = "#6272a4";
+    fgAlt = fg-alt;
     blue = "#6272a4";
+    black = "#21222C";
     cyan = "#8be9fd";
     green = "#50fa7b";
     orange = "#ffb86c";

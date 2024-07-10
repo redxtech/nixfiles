@@ -5,7 +5,8 @@ let
   scripts = cfg.scripts;
 in {
   programs.waybar = {
-    enable = config.wayland.windowManager.hyprland.enable;
+    enable = false;
+    # enable = config.wayland.windowManager.hyprland.enable;
 
     style = ./style.css;
 

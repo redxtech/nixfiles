@@ -1,0 +1,219 @@
+{ config, pkgs, lib, ... }:
+
+let
+  cfg = config.desktop;
+  scripts = cfg.wm.scripts;
+in {
+  config = lib.mkIf cfg.enable {
+    services.limbo = let colours = config.user-theme;
+    in {
+      enable = true;
+
+      settings = {
+        theme.font = "Dank Mono";
+
+        bar = {
+          theme = {
+            bg = colours.bg;
+            sectionBg = colours.bgAlt;
+            fg = colours.fg;
+          };
+          modules = {
+            left = [ "app-launcher" "notifications" "todo" "music" ];
+            center = [ "workspaces" ];
+            right = [ "sysmon" "quick-settings" "clock" ];
+          };
+          appLauncher = {
+            icon = { color = colours.fg; };
+            onPrimaryClick = "${pkgs.fuzzel}/bin/fuzzel";
+          };
+          clock.icon.color = colours.green;
+          notifications = {
+            segments = [ "weather" "todoist" "github" ];
+            weather = {
+              icon = {
+                color = with colours; {
+                  day = yellow;
+                  night = blue;
+                  rain = blue;
+                  snow = fg;
+                  fog = blue;
+                  wind = fg;
+                  cloud = blue;
+                  error = red;
+                };
+              };
+            };
+            todoist.icon.color = colours.red;
+            github.icon.color = colours.fg;
+          };
+          quickSettings = {
+            segments = [
+              "tray"
+              "night-light"
+              "caffeine"
+              "brightness"
+              "dnd"
+              "mic"
+              "volume"
+              "network"
+              "toggle"
+            ];
+            tray.ignoredApps =
+              [ "" "KDE Connect Indicator" "Sunshine" "Spotify" ];
+            nightLight = {
+              dayIcon.color = colours.blue;
+              nightIcon.color = colours.yellow;
+            };
+            brightness = {
+              rampIcons = [
+                {
+                  name = "brightness-down";
+                  color = colours.yellow;
+                }
+                {
+                  name = "brightness-half";
+                  color = colours.yellow;
+                }
+                {
+                  name = "brightness-up";
+                  color = colours.yellow;
+                }
+              ];
+              step = 5.0e-2;
+              onPrimaryClick = "${scripts.general.ha} light";
+              onSecondaryClick = "${scripts.general.ha} fan";
+            };
+            caffeine = {
+              icon = { color = colours.blue; };
+              activeIcon.color = colours.cyan;
+            };
+            dnd = {
+              icon.color = colours.red;
+              dndIcon.color = colours.blue;
+              toggleCmd = "${pkgs.mako}/bin/makoctl mode -t do-not-disturb";
+              statusCmd = "${pkgs.mako}/bin/makoctl mode";
+              historyCmd = "${pkgs.mako}/bin/makoctl restore";
+              dismissCmd = "${pkgs.mako}/bin/makoctl dismiss";
+            };
+            mic = {
+              icon.color = colours.orange;
+              muteIcon.color = colours.blue;
+              onSecondaryClick = "${pkgs.pavucontrol}/bin/pavucontrol --tab=4";
+            };
+            volume = {
+              rampIcons = [
+                {
+                  name = "volumes-3";
+                  color = colours.red;
+                }
+                {
+                  name = "volume-2";
+                  color = colours.red;
+                }
+                {
+                  name = "volume";
+                  color = colours.red;
+                }
+              ];
+              muteIcon.color = colours.blue;
+              headphonesRamp = [
+                {
+                  name = "headphones-off";
+                  color = colours.red;
+                }
+                {
+                  name = "headphones";
+                  color = colours.red;
+                }
+              ];
+              headphonesMute.color = colours.blue;
+            };
+            network = {
+              rampIcons = [
+                {
+                  name = "wifi";
+                  color = colours.blue;
+                }
+                {
+                  name = "wifi-2";
+                  color = colours.blue;
+                }
+                {
+                  name = "wifi-1";
+                  color = colours.blue;
+                }
+              ];
+              offIcon = {
+                name = "wifi-off";
+                color = colours.red;
+              };
+              ethernetIcon.color = colours.cyan;
+              ethernetOffIcon.color = colours.red;
+            };
+            battery = {
+              rampIcons = [
+                {
+                  name = "battery-4";
+                  color = colours.green;
+                }
+                {
+                  name = "battery-3";
+                  color = colours.green;
+                }
+                {
+                  name = "battery-2";
+                  color = colours.green;
+                }
+                {
+                  name = "battery-1";
+                  color = colours.yellow;
+                }
+                {
+                  name = "battery";
+                  color = colours.red;
+                }
+              ];
+              chargingIcon.color = colours.green;
+            };
+            toggle = {
+              icon.color = colours.fg;
+              openIcon.color = colours.fg;
+            };
+          };
+          sysmon = {
+            onPrimaryClick = scripts.general.hdrop-btop;
+            onSecondaryClick = scripts.general.ps_mem;
+            cpu.icon.color = colours.pink;
+            ram.icon.color = colours.purple;
+            temp = {
+              icon.color = colours.red;
+              path = cfg.hardware.cpuTempPath;
+            };
+          };
+          todo.icon.color = colours.red;
+          tray = {
+            ignoredApps = [ ];
+            appIconMappings = { };
+          };
+          twitch = {
+            channels = [ ];
+            clientId = "";
+            clientSecret = "";
+          };
+          workspaces = {
+            monitors = [
+              { workspaces = [ 1 2 3 4 5 6 ]; }
+              { workspaces = [ 7 8 9 10 ]; }
+            ];
+            color = {
+              active = colours.cyan;
+              hasWindows = colours.cyan;
+              normal = colours.blue;
+            };
+          };
+        };
+      };
+    };
+  };
+}

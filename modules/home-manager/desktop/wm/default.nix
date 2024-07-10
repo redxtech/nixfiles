@@ -9,6 +9,7 @@ in {
     ./hyprland
     ./scripts
 
+    ./bar/limbo.nix
     ./bar/waybar/default.nix
     ./binds.nix
     ./rules.nix

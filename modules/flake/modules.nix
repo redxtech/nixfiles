@@ -8,6 +8,7 @@ in {
 
     homeCommon = [
       inputs.hyprland.homeManagerModules.default
+      inputs.limbo.homeManagerModules.default
       inputs.sops-nix.homeManagerModules.sops
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
       inputs.spicetify-nix.homeManagerModules.default
