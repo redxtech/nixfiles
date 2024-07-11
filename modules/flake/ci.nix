@@ -1,35 +1,39 @@
 { self, lib, inputs, withSystem, ... }:
 
-{
+let
+  primaryInputs = [
+    "nixpkgs"
+    "home-manager"
+    "fenix"
+    "hyprland"
+    "hyprland-contrib"
+    "hyprland-plugins"
+    "hyprland-xdph"
+    "neovim-nightly"
+  ];
+  secondaryInputs = [
+    "attic"
+    "cachix-deploy-flake"
+    "deploy-rs"
+    "devenv"
+    "fh"
+    "flake-schemas"
+    "hardware"
+    "hci-effects"
+    "limbo"
+    "nixos-generators"
+    "nix-flatpak"
+    "spicetify-nix"
+    "solaar"
+    "sops-nix"
+    "swww"
+    "xremap-flake"
+  ];
+in {
   imports = [ inputs.hci-effects.flakeModule ];
 
   hercules-ci = {
-    flake-update = let
-      primaryInputs = [
-        "nixpkgs"
-        "home-manager"
-        "flake-parts"
-        "cachix-deploy-flake"
-        "disko"
-        "nixos-generators"
-        "sops-nix"
-      ];
-      secondaryInputs = [
-        "attic"
-        "deploy-rs"
-        "devenv"
-        "fh"
-        "flake-schemas"
-        "hardware"
-        "hci-effects"
-        "neovim-nightly"
-        "nix-flatpak"
-        "rust-overlay"
-        "spicetify-nix"
-        "swww"
-        "xremap-flake"
-      ];
-    in {
+    flake-update = {
       enable = true;
       baseMerge.enable = true;
       baseMerge.method = "rebase";
@@ -84,5 +88,22 @@
             '';
           });
         });
+  };
+
+  perSystem = { config, self', inputs', pkgs, system, ... }: {
+    apps = let
+      mkUpdateScript = inputs: {
+        type = "app";
+        program = pkgs.writeShellScriptBin "update-inputs" ''
+          nix flake lock ${
+            lib.concatStringsSep " "
+            (builtins.map (i: "--update-input ${i}") inputs)
+          }
+        '';
+      };
+    in {
+      update-primary = mkUpdateScript primaryInputs;
+      update-all = mkUpdateScript (primaryInputs ++ secondaryInputs);
+    };
   };
 }
