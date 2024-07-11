@@ -77,6 +77,7 @@ in {
           (mkPorts cfg.ports.calibre) # vnc
           (mkPorts cfg.ports.calibre-ssl) # https vnc
           (mkPort cfg.ports.calibre-server 8081) # web server
+          (mkPorts 8808) # device wireless connection
         ];
         volumes = let
           secretPath = type: "${config.sops.secrets."calibre_${type}".path}";
