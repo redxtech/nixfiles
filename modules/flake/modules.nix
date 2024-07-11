@@ -6,6 +6,14 @@ in {
     allNixos = import ../nixos;
     allHomeManager = import ../home-manager;
 
+    stableNixpkgs = ({ pkgs, ... }: {
+      _module.args.stable = import inputs.nixpkgs-stable {
+        inherit (self.nixCfg.nixpkgs) overlays;
+        system = pkgs.system;
+        config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
+      };
+    });
+
     homeCommon = [
       inputs.hyprland.homeManagerModules.default
       inputs.limbo.homeManagerModules.default
@@ -13,6 +21,10 @@ in {
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
       inputs.spicetify-nix.homeManagerModules.default
 
+      # global stable nixpkgs module for all systems
+      stableNixpkgs
+
+      # shared nixpkgs config for home-manager
       { config = { inherit (self.nixCfg) nix; }; }
     ] ++ attrValues allHomeManager;
 
@@ -28,13 +40,7 @@ in {
       ../../hosts/common
 
       # global stable nixpkgs module for all systems
-      ({ pkgs, ... }: {
-        _module.args.stable = import inputs.nixpkgs-stable {
-          inherit (self.nixCfg.nixpkgs) overlays;
-          system = pkgs.system;
-          config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
-        };
-      })
+      stableNixpkgs
 
       # shared nixpkgs config for home-manager
       {
