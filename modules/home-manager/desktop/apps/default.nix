@@ -57,7 +57,7 @@ in {
         plexamp
         qdirstat
         remmina
-        # seabird
+        seabird
         slack
         xdragon
         xfce.exo
