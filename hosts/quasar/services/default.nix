@@ -127,7 +127,8 @@ in {
     };
 
     atticd = {
-      enable = true;
+      # TODO: enable and figure out how to use
+      enable = false;
       credentialsFile = config.sops.secrets.attic.path;
 
       settings = {

@@ -26,7 +26,7 @@ in {
       lib.mkEnableOption "Enable the window manager configuration module";
 
     wm = mkOption {
-      type = enum [ "bspwm" "hyprland" ];
+      type = nullOr (enum [ "bspwm" "hyprland" ]);
       default = null;
       description = ''
         The window manager to use.

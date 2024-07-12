@@ -87,9 +87,9 @@ in {
         catppuccin-sddm-corners
         polkit_gnome
       ]) ++ (optionals isHyprland [ dunst picom catppuccin-sddm-corners ])
-        ++ (optionals isGnome (with gnome; [
+        ++ (optionals isGnome [
           gpaste
-          gnome3.gnome-tweaks
+          gnome-tweaks
 
           gnomeExtensions.appindicator
           gnomeExtensions.blur-my-shell
@@ -111,6 +111,6 @@ in {
           gnomeExtensions.workspace-indicator-2
           gnomeExtensions.vitals
           gnomeExtensions.x11-gestures
-        ])));
+        ]));
   };
 }
