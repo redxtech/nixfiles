@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -9,7 +9,7 @@
 
   cli.enable = true;
 
-  # enable some services
+  # enable some things
   services.syncthing.enable = true;
 
   # disable some things

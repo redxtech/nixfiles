@@ -51,8 +51,7 @@
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
 
-  programs.neovim.enable = true;
-  programs.git.enable = true;
+  programs.xwayland.enable = true;
 
   # backup = {
   #   rsync = {
