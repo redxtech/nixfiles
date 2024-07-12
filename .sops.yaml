@@ -38,6 +38,12 @@ creation_rules:
           - *gabe
           - *quasar
 
+  - path_regex: hosts/deck/secrets\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
+          - *deck
+
   - path_regex: home/gabe/secrets\.(ya?ml|json|env|ini)$
     key_groups:
       - age:
