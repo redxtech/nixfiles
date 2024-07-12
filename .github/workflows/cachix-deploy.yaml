@@ -15,6 +15,7 @@ on:
           - bastion
           - voyager
           - quasar
+          - deck
       use_github_hosted:
         description: "Use github-hosted runner"
         required: false

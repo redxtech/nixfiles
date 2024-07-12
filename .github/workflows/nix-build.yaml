@@ -49,6 +49,7 @@ jobs:
           - cockpit-zfs-manager
           - dashy
           - ente-desktop
+          - iosevka-custom
           - obsidian-smart-connect
           - seabird
           - switchup
