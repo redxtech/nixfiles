@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 
-with lib;
 let
+  inherit (lib) mkIf;
+
   cfg = config.nas;
   defaultEnv = {
     PUID = toString config.users.users.${cfg.user}.uid;
@@ -30,17 +31,19 @@ let
     {
       "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
     } // (mkLabels name);
+
+  someContainersEnabled = false; # dw about it
 in {
   virtualisation.oci-containers = {
     containers = {
-      # TODO: dash, figure out what to do with it
-      # apprise = {
-      #   image = "lscr.io/linuxserver/apprise-api:latest";
-      #   ports = [ (mkPort cfg.ports.apprise 8000) ];
-      #   labels = mkLabels "apprise";
-      #   environment = defaultEnv;
-      #   volumes = [ (mkConf "apprise") ];
-      # };
+      # TODO: add to dash, figure out what to do with it
+      apprise = mkIf someContainersEnabled {
+        image = "lscr.io/linuxserver/apprise-api:latest";
+        ports = [ (mkPort cfg.ports.apprise 8000) ];
+        labels = mkLabels "apprise";
+        environment = defaultEnv;
+        volumes = [ (mkConf "apprise") ];
+      };
 
       # TODO: setup
       bazarr = {
@@ -130,7 +133,7 @@ in {
         ports = [ (mkPorts cfg.ports.flaresolverr) ];
       };
 
-      grocy = {
+      grocy = mkIf someContainersEnabled {
         image = "lscr.io/linuxserver/grocy:latest";
         labels = mkLabels "grocy";
         ports = [ (mkPorts cfg.ports.grocy) ];
@@ -240,7 +243,7 @@ in {
         ports = [ (mkPort 1111 5000) ];
       };
 
-      monica = {
+      monica = mkIf someContainersEnabled {
         image = "lscr.io/linuxserver/monica:latest";
         hostname = "monica";
         labels = mkLabels "monica";
