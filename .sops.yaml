@@ -8,7 +8,7 @@ keys:
     - &bastion age1wdy8dlkhxmxgqqfzjqg9e2jz40qkmp9pkvshzxvzz8ytwa255eqqnl2fcs
     - &voyager age1adqrqr0jt44l7lp2z7am0elzvkmwhwcp57ra7p4l8yt489yq0p4sehkfe3
     - &quasar age19ke07grxa0eshd3eqhgrahua90yslcdw4ecktsdtcpwd7mw98duszff9x0
-    - &deck age1544nguut4clugmhrc9rjjxckh72xckupm0ygzk2fa5cx8fzpquqq8rac2j
+    - &deck age1yn0dnu32zfw05e4vazgpa0yxj3r8208hqa02sv8hdsfkg0fd83tqaflsym
 
 creation_rules:
   - path_regex: hosts/common/secrets\.(ya?ml|json|env|ini)$
