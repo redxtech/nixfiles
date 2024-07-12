@@ -1,7 +1,7 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, ... }:
 
 let
-  inherit (lib) mkIf optionals;
+  inherit (lib) mkIf;
   cfg = config.desktop;
 in {
   options.desktop = let inherit (lib) mkOption types;
@@ -16,8 +16,8 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
-    services.displayManager = {
+  config.services = mkIf cfg.enable {
+    displayManager = {
       sddm = mkIf (cfg.dm == "sddm") {
         enable = true;
         theme = "catppuccin-sddm-corners";
@@ -29,5 +29,8 @@ in {
         };
       };
     };
+
+    # set gdm to use wayland
+    xserver.displayManager.gdm.wayland = true;
   };
 }
