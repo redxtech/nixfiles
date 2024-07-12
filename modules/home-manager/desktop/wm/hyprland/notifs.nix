@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 
-let cfg = config.desktop;
+let cfg = config.desktop.wm.hyprland;
 in {
   config = lib.mkIf cfg.enable {
     # notification daemon

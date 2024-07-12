@@ -1,8 +1,10 @@
 { config, lib, ... }:
 
-let cfg = config.desktop;
+let
+  cfg = config.desktop;
+  isHyprland = cfg.wm.hyprland.enable;
 in {
-  wayland.windowManager.hyprland = {
+  wayland.windowManager.hyprland = lib.mkIf isHyprland {
     settings = {
       windowrulev2 = let
         inherit (lib) flatten optional;

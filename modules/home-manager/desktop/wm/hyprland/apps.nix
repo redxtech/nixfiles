@@ -4,8 +4,9 @@ let
   inherit (lib) mkIf;
 
   cfg = config.desktop;
+  isHyprland = cfg.wm.hyprland.enable;
 in {
-  config = mkIf cfg.enable {
+  config = mkIf isHyprland {
     home.packages = with pkgs; [
       # kooha # screen recorder
       kdePackages.neochat # matrix client

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, ... }:
 
 let cfg = config.desktop;
 in with lib; {
@@ -37,7 +37,7 @@ in with lib; {
       }];
     };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     # TODO: assertions
 
     # assertions = [ ];

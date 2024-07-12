@@ -1,30 +1,39 @@
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
-{
-  programs.spicetify = {
-    enable = true;
+let
+  cfg = config.desktop;
+  isSpiced = cfg.spicetify.enable;
+in {
+  config = lib.mkIf cfg.enable {
+    # use spicetify if enabled
+    programs.spicetify = lib.mkIf isSpiced {
+      enable = true;
 
-    theme = pkgs.spicePkgs.themes.catppuccin;
-    colorScheme = "mocha";
+      theme = pkgs.spicePkgs.themes.catppuccin;
+      colorScheme = "mocha";
 
-    # windowManagerPatch = true;
+      # windowManagerPatch = true;
 
-    enabledExtensions = with pkgs.spicePkgs.extensions; [
-      bookmark
-      fullAppDisplay
-      keyboardShortcut
-      shuffle
+      enabledExtensions = with pkgs.spicePkgs.extensions; [
+        bookmark
+        fullAppDisplay
+        keyboardShortcut
+        shuffle
 
-      # community extensions
-      fullAlbumDate
-      genre
-      groupSession
-      hidePodcasts
-      lastfm
-      playlistIcons
-      playNext
-      powerBar
-      songStats
-    ];
+        # community extensions
+        fullAlbumDate
+        genre
+        groupSession
+        hidePodcasts
+        lastfm
+        playlistIcons
+        playNext
+        powerBar
+        songStats
+      ];
+    };
+
+    # install spotify if spicetify isn't enabled
+    home.packages = with pkgs; lib.optional (!isSpiced) spotify;
   };
 }

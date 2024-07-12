@@ -9,7 +9,6 @@ in {
     ./mpv.nix
     ./spotify.nix
     ./rio.nix
-    # more
   ];
 
   options = let inherit (lib) mkOption types;
@@ -25,6 +24,12 @@ in {
         type = types.listOf types.str;
         default = [ ];
         description = "Flatpaks to install";
+      };
+
+      spicetify.enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Enable spicetify";
       };
     };
   };

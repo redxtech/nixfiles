@@ -1,8 +1,11 @@
 { config, lib, ... }:
 
-let cfg = config.desktop;
+let
+  cfg = config.desktop;
+
+  isHyprland = cfg.wm.hyprland.enable;
 in {
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf isHyprland {
     programs.hyprlock = let
       monitor = "";
       font_family = "Dank Mono, Symbols Nerd Font";
