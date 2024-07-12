@@ -7,6 +7,8 @@
     enable = true;
     hostname = "deck";
 
+    yubiauth.enable = false;
+
     # gpu = {
     #   enable = true;
     #   amd.enable = true;
