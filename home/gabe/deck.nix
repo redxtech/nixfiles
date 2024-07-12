@@ -7,17 +7,14 @@
     ./features/desktop/gnome
   ];
 
-  home.homeDirectory = "/var/home/${config.home.username}";
-  targets.genericLinux.enable = true;
+  cli.enable = true;
 
-  sops.age.sshKeyPaths = [ "/var/home/gabe/.ssh/id_ed25519" ];
-
+  # enable some services
   services.syncthing.enable = true;
 
-  services.cachix-agent = {
-    enable = true;
-    name = "deck";
-  };
+  # disable some things
+  desktop.spicetify.enable = false;
+  programs.neovim.neo-lsp.enable = false;
 
-  nix.package = pkgs.nix;
+  home.packages = with pkgs; [ moonlight-qt ];
 }

@@ -8,8 +8,6 @@
     ./services
   ];
 
-  networking.hostName = "quasar";
-
   base = {
     enable = true;
     hostname = "quasar";

@@ -44,7 +44,7 @@ in {
           publicKeyFile = pubKey name;
           extraHostNames = (lib.optional (name == hostName) "localhost");
         };
-      }) [ "bastion" "voyager" "quasar" ]);
+      }) [ "bastion" "voyager" "quasar" "deck" ]);
 
       startAgent = true;
     };

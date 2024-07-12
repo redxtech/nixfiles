@@ -32,6 +32,7 @@ in {
       inputs.attic.nixosModules.atticd
       inputs.home-manager.nixosModules.home-manager
       inputs.hyprland.nixosModules.default
+      inputs.jovian.nixosModules.default
       inputs.nix-flatpak.nixosModules.nix-flatpak
       inputs.solaar.nixosModules.default
       inputs.sops-nix.nixosModules.sops
@@ -82,6 +83,14 @@ in {
 
         inputs.hardware.nixosModules.common-cpu-intel-cpu-only
         inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
+        inputs.hardware.nixosModules.common-pc-ssd
+      ] ++ nixosCommon;
+
+      deck.imports = [
+        ../../hosts/deck
+
+        inputs.hardware.nixosModules.common-cpu-amd
+        inputs.hardware.nixosModules.common-gpu-amd
         inputs.hardware.nixosModules.common-pc-ssd
       ] ++ nixosCommon;
     } // allNixos;

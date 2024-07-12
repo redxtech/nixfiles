@@ -32,7 +32,7 @@ in {
       '';
 
       neo-lsp = {
-        enable = true;
+        enable = lib.mkDefault true;
 
         web.deno = true;
         yaml = { kubernetes = true; };

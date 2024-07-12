@@ -45,6 +45,7 @@
     flake-schemas.url = "github:DeterminateSystems/flake-schemas";
     hardware.url = "github:nixos/nixos-hardware";
     hci-effects.url = "github:hercules-ci/hercules-ci-effects";
+    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
     limbo.url = "github:co-conspirators/limbo";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     nix-autobahn.url = "github:lassulus/nix-autobahn";
@@ -87,6 +88,11 @@
           quasar = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [ self.nixosModules.quasar ];
+          };
+          # steamdeck
+          deck = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [ self.nixosModules.deck ];
           };
         };
 
