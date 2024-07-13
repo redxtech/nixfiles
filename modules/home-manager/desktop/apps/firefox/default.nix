@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 
-{
+let cfg = config.programs.firefox;
+in {
   home = {
     sessionVariables = {
       BROWSER = "firefox-developer-edition -p gabe";
@@ -279,6 +280,51 @@
         name = "other";
         inherit (config.programs.firefox.profiles.gabe)
           settings userChrome userContent search;
+      };
+    };
+  };
+
+  xdg.desktopEntries."firefox-developer-edition" = let
+    package = cfg.finalPackage;
+    exe = lib.getExe package;
+  in {
+    name = "Firefox Developer Edition";
+    genericName = "Web Browser";
+    icon = "firefox-developer-edition";
+    categories = [ "Network" "WebBrowser" ];
+
+    exec = "${exe} --name firefox-aurora -p gabe %U";
+
+    settings.TryExec = "firefox-developer-edition";
+    settings.StartupWMClass = "firefox-aurora";
+    startupNotify = true;
+    type = "Application";
+
+    mimeType = [
+      "text/html"
+      "text/xml"
+      "application/xhtml+xml"
+      "application/vnd.mozilla.xul+xml"
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+    ];
+
+    actions = {
+      "new-window" = {
+        name = "New Window";
+        exec = "${exe} -p gabe --new-window %U";
+      };
+      "new-private-window" = {
+        name = "New Private Window";
+        exec = "${exe} -p gabe --private-window %U";
+      };
+      "new-other-window" = {
+        name = "New Other Window";
+        exec = "${exe} -p other --private-window %U";
+      };
+      "profile-manager-window" = {
+        name = "Profile Manager";
+        exec = "${exe} --ProfileManager";
       };
     };
   };
