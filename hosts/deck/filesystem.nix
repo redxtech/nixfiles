@@ -7,6 +7,11 @@
     fsType = "ext4";
   };
 
+  fileSystems."/mnt/sd-card" = {
+    device = "/dev/disk/by-uuid/86c3da4a-ac56-4a98-9736-2d4930f982db";
+    fsType = "ext4";
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/7871-198B";
     fsType = "vfat";
