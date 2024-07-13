@@ -14,6 +14,7 @@
 
   # disable some things
   desktop.spicetify.enable = false;
+  programs.firefox.useCustomCss = false;
   programs.neovim.neo-lsp.enable = false;
 
   home.packages = with pkgs; [ moonlight-qt ];
