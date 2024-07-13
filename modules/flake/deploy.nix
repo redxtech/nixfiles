@@ -31,14 +31,14 @@
         deploy-bastion = mkAgent "bastion" true;
         deploy-voyager = mkAgent "voyager" true;
         deploy-quasar = mkAgent "quasar" true;
-        # deploy-deck = mkAgent "gabe@deck" false;
+        deploy-deck = mkAgent "deck" true;
 
         deploy-all = cachix-deploy-lib.spec {
           agents = {
             bastion = mkNixOS "bastion";
             voyager = mkNixOS "voyager";
             quasar = mkNixOS "quasar";
-            # deck = mkHome "gabe@deck";
+            deck = mkNixOS "deck";
           };
         };
       };
