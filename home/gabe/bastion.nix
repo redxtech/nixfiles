@@ -10,8 +10,11 @@
   ];
 
   desktop = {
-    wm.wm = "hyprland";
-    wm.hyprland.enable = true;
+    wm = {
+      enable = true;
+      wm = "hyprland";
+      hyprland.enable = true;
+    };
 
     isLaptop = false;
 

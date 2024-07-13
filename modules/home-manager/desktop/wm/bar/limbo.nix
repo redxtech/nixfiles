@@ -4,7 +4,7 @@ let
   cfg = config.desktop;
   scripts = cfg.wm.scripts;
 in {
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.wm.enable {
     services.limbo = let colours = config.user-theme;
     in {
       enable = true;

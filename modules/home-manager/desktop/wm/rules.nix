@@ -2,7 +2,7 @@
 
 let
   inherit (lib) mkIf mkOption;
-  cfg = config.desktop;
+  cfg = config.desktop.wm;
 in {
   options.desktop.wm.rules = with lib.types;
     let

@@ -9,7 +9,10 @@
   ];
 
   desktop = {
-    wm.wm = "bspwm";
+    wm = {
+      enable = true;
+      wm = "bspwm";
+    };
 
     isLaptop = true;
 

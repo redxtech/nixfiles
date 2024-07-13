@@ -11,6 +11,11 @@ in with types; {
       readOnly = true;
     };
 
+    enableMonitors = mkOption {
+      type = bool;
+      default = true;
+    };
+
     monitors = mkOption {
       type = listOf (submodule {
         options = {
@@ -105,7 +110,7 @@ in with types; {
   config = let
     inherit (lib) head filter length;
     primaryMonitors = (filter (m: m.primary) cfg.monitors);
-  in lib.mkIf cfg.enable {
+  in lib.mkIf cfg.enableMonitors {
     # ensure exactly one monitor is set to primary
     assertions = [{
       assertion = ((length cfg.monitors) != 0)

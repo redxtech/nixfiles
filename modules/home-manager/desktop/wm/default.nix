@@ -2,7 +2,7 @@
 
 let
   inherit (lib) mkOption types;
-  cfg = config.desktop;
+  cfg = config.desktop.wm;
 in {
   imports = [
     ./bspwm

@@ -1,7 +1,7 @@
-{ pkgs, lib, config, ... }:
+{ config, pkgs, lib, ... }:
 
 let
-  inherit (lib) mkIf mkOption optional;
+  inherit (lib) mkIf mkOption;
   cfg = config.desktop;
 in {
   options.desktop = with lib.types; {
@@ -26,7 +26,7 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf cfg.wm.enable {
     services.xidlehook = {
       enable = true;
 

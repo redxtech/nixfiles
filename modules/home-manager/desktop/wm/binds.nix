@@ -1,6 +1,6 @@
 { config, lib, ... }:
 
-let cfg = config.desktop;
+let cfg = config.desktop.wm;
 in with lib; {
   options.desktop.wm.binds = with types;
     mkOption {
