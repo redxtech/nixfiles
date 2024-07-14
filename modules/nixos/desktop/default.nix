@@ -4,13 +4,7 @@ let
   cfg = config.desktop;
   inherit (lib) mkIf mkOption mkEnableOption;
 in {
-  imports = [
-    ./ai.nix
-    ./dm.nix
-    ./gaming.nix
-    # ./rdp.nix
-    ./wm.nix
-  ];
+  imports = [ ./ai.nix ./dm.nix ./gaming.nix ./wm.nix ];
 
   options.desktop = with lib.types; {
     enable = mkEnableOption "Enable the desktop environment module.";
