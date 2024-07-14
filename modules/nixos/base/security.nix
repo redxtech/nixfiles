@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, pkgs, stable, ... }:
 
 let
   cfg = config.base;
@@ -12,9 +12,13 @@ in {
     # security.apparmor.enable = mkDefault true;
     # security.apparmor.killUnconfinedConfinables = mkDefault true;
 
-    # enable antivirus clamav and
-    services.clamav.daemon.enable = true;
-    services.clamav.updater.enable = true;
+    # enable antivirus clamav
+    services.clamav = {
+      package = stable.clamav;
+      daemon.enable = true;
+      scanner.enable = true;
+      updater.enable = true;
+    };
 
     # pwless sudo
     security.sudo = {
