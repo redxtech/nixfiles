@@ -115,14 +115,6 @@ in {
 
         in workspaces;
 
-        plugin = {
-          hyprexpo = {
-            columns = 3;
-            gap_size = 30;
-            bg_col = "0x282a36";
-          };
-        };
-
         env = [
           "GRIMBLAST_EDITOR,satty"
           "MOZ_ENABLE_WAYLAND,1"
@@ -136,9 +128,6 @@ in {
           "SWWW_TRANSITION_ANGLE,210"
         ];
       };
-
-      # enable hyprland plugins
-      plugins = with pkgs.hyprlandPlugins; [ hyprexpo ];
 
       # import systemd variables
       systemd.variables = [ "--all" ];

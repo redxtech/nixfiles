@@ -77,10 +77,10 @@
 
       fenix = inputs.fenix.overlays.default;
       flakehub = inputs.fh.overlays.default;
-      hyprland = inputs.hyprland.overlays.default;
-      hyprland-contrib = inputs.hyprland-contrib.overlays.default;
-      hyprland-plugins = inputs.hyprland-plugins.overlays.default;
-      hyprland-xdph = inputs.hyprland-xdph.overlays.default;
+      # hyprland = inputs.hyprland.overlays.default;
+      # hyprland-contrib = inputs.hyprland-contrib.overlays.default;
+      # hyprland-plugins = inputs.hyprland-plugins.overlays.default;
+      # hyprland-xdph = inputs.hyprland-xdph.overlays.default;
       limbo = inputs.limbo.overlays.default;
       swww = inputs.swww.overlays.default;
       # nix-neovim-plugins = inputs.nix-neovim-plugins.overlays.default;

@@ -58,11 +58,6 @@ in {
           "$mod, bracketleft, workspace, m-1"
           "$mod, bracketright, workspace, m+1"
 
-          # selector
-          "$mod, Tab, hyprexpo:expo, toggle"
-          # "$mod, grave, hyprexpo:expo, toggle"
-          # "$mod, Tab, exec, ${hyprexpo}/bin/hyprexpo expose"
-
           # lock and sleep
           "$mod SHIFT, L, exec, loginctl lock-session"
           "$mod CTRL, L, exec, loginctl sleep-session"

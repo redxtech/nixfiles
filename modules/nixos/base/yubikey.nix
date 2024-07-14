@@ -94,8 +94,10 @@ in {
       # enable u2f support in pam
       u2f = {
         enable = true;
-        cue = true;
-        authFile = "/etc/u2f-mappings";
+        settings = {
+          cue = true;
+          authFile = "/etc/u2f-mappings";
+        };
       };
 
       # enable u2f for login and sudo
