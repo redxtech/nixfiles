@@ -8,8 +8,6 @@ let
 in {
   config = mkIf isHyprland {
     home.packages = with pkgs; [
-      # kooha # screen recorder
-      kdePackages.neochat # matrix client
       satty # image editor
       wdisplays # monitor manager
     ];
