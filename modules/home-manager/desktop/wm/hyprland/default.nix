@@ -34,6 +34,7 @@ in {
       grimblast
       hyprpicker
       swww
+      wev
       wl-clipboard
       wl-gammarelay-rs
       wlr-randr

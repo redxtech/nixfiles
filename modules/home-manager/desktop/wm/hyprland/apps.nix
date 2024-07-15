@@ -8,6 +8,7 @@ let
 in {
   config = mkIf isHyprland {
     home.packages = with pkgs; [
+      nwg-displays # monitor manager
       satty # image editor
       wdisplays # monitor manager
     ];
