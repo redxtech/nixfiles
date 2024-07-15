@@ -1,4 +1,4 @@
-{ self, lib, inputs, ... }:
+{ self, inputs, ... }:
 
 {
   # deploy-rs
@@ -15,31 +15,29 @@
     let
       cachix-deploy-lib = inputs.cachix-deploy-flake.lib pkgs;
 
-      mkNixOS = name:
-        self.nixosConfigurations.${name}.config.system.build.toplevel;
-      mkHome = name: self.homeConfigurations.${name}.activationPackage;
-      mkAgent = name: isNixOS:
+      mkAgent = name:
         cachix-deploy-lib.spec {
-          agents.${name} = if isNixOS then mkNixOS name else mkHome name;
+          agents.${name} =
+            self.nixosConfigurations.${name}.config.system.build.toplevel;
         };
     in {
       # deploy-rs checks
       checks = inputs.deploy-rs.lib.${system}.deployChecks self.deploy;
 
       # cachix-deploy specs
-      packages = {
-        deploy-bastion = mkAgent "bastion" true;
-        deploy-voyager = mkAgent "voyager" true;
-        deploy-quasar = mkAgent "quasar" true;
-        deploy-deck = mkAgent "deck" true;
+      packages = let
+        bastion = mkAgent "bastion";
+        voyager = mkAgent "voyager";
+        quasar = mkAgent "quasar";
+        deck = mkAgent "deck";
+      in {
+        deploy-bastion = bastion;
+        deploy-voyager = voyager;
+        deploy-quasar = quasar;
+        deploy-deck = deck;
 
         deploy-all = cachix-deploy-lib.spec {
-          agents = {
-            bastion = mkNixOS "bastion";
-            voyager = mkNixOS "voyager";
-            quasar = mkNixOS "quasar";
-            deck = mkNixOS "deck";
-          };
+          agents = { inherit bastion voyager quasar deck; };
         };
       };
 
