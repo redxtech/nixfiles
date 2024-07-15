@@ -137,6 +137,9 @@ in {
     i18n.supportedLocales =
       mkDefault [ "en_CA.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
 
+    # disable networkmanager-wait-online
+    systemd.services.NetworkManager-wait-online.enable = mkDefault false;
+
     # boot config
     boot = {
       loader = {
