@@ -97,6 +97,11 @@ in {
     services.flatpak = {
       enable = true;
 
+      update.auto = {
+        enable = true;
+        onCalendar = "weekly";
+      };
+
       packages = [
         "com.getpostman.Postman"
         "com.obsproject.Studio"

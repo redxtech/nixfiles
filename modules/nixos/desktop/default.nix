@@ -21,12 +21,6 @@ in {
       description = "Desktop applications to install";
     };
 
-    flatpaks = mkOption {
-      type = types.listOf types.str;
-      default = [ ];
-      description = "Flatpaks to install";
-    };
-
     useZen = mkOption {
       type = bool;
       default = false;
@@ -107,18 +101,6 @@ in {
       enable = true;
 
       plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
-    };
-
-    # flatpak config
-    services.flatpak = {
-      enable = true;
-
-      packages = cfg.flatpaks;
-
-      update.auto = {
-        enable = true;
-        onCalendar = "weekly";
-      };
     };
 
     # font config
