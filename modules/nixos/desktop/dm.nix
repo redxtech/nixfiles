@@ -16,22 +16,24 @@ in {
     };
   };
 
-  config.services = mkIf cfg.enable {
-    displayManager = {
-      sddm = mkIf (cfg.dm == "sddm") {
-        enable = true;
-        theme = "catppuccin-sddm-corners";
-        wayland.enable = true;
+  config = mkIf cfg.enable {
+    services = {
+      displayManager = {
+        sddm = mkIf (cfg.dm == "sddm") {
+          enable = true;
+          theme = "catppuccin-sddm-corners";
+          wayland.enable = true;
 
-        settings = {
-          General = { CursorTheme = "Vimix-Cursors"; };
-          Theme = { EnableAvatars = true; };
+          settings = {
+            General = { CursorTheme = "Vimix-Cursors"; };
+            Theme = { EnableAvatars = true; };
+          };
         };
       };
-    };
 
-    # set gdm to use wayland
-    xserver.displayManager.gdm.wayland = true;
+      # set gdm to use wayland
+      xserver.displayManager.gdm.wayland = true;
+    };
 
     # install sddm theme if sddm is enabled
     environment.systemPackages = with pkgs;

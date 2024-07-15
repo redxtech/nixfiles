@@ -4,7 +4,15 @@ let
   cfg = config.base;
   inherit (lib) mkIf mkDefault;
 in {
-  # options.base = { };
+  options.base = {
+    clamav = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Enable ClamAV antivirus";
+      };
+    };
+  };
 
   config = mkIf cfg.enable {
     # enable polkit
@@ -13,7 +21,7 @@ in {
     # security.apparmor.killUnconfinedConfinables = mkDefault true;
 
     # enable antivirus clamav
-    services.clamav = {
+    services.clamav = mkIf config.base.clamav.enable {
       package = stable.clamav;
       daemon.enable = true;
       scanner.enable = true;

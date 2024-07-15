@@ -7,6 +7,7 @@
     enable = true;
     hostname = "deck";
 
+    clamav.enable = false;
     yubiauth.enable = false;
 
     # gpu = {
