@@ -169,16 +169,16 @@ in {
           ExecStart = "${pkgs.gpaste}/libexec/gpaste/gpaste-daemon";
         };
       };
+    };
 
-      # use xdg-portal for opening files
-      xdg.portal = {
-        enable = true;
+    # use xdg-portal for opening files
+    xdg.portal = {
+      enable = true;
 
-        extraPortals = with pkgs; [ xdg-desktop-portal ];
-        xdgOpenUsePortal = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal ];
+      xdgOpenUsePortal = true;
 
-        config.common.default = "*";
-      };
+      config.common.default = "*";
     };
   };
 }
