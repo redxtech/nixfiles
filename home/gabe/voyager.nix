@@ -12,6 +12,7 @@
     wm = {
       enable = true;
       wm = "bspwm";
+      bspwm.enable = true;
     };
 
     isLaptop = true;

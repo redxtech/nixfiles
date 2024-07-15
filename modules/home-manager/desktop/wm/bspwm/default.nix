@@ -6,6 +6,7 @@
 
 let
   cfg = config.desktop;
+  wm = cfg.wm.bspwm;
   opt = options.desktop;
 in {
   imports = [ ./autolock.nix ./dunst.nix ./picom.nix ];
@@ -42,7 +43,7 @@ in {
         fmtFlags flags
       } && ${cmd}";
 
-  in lib.mkIf (cfg.wm.wm == "bspwm") {
+  in lib.mkIf wm.enable {
     home.packages = with pkgs; [ bspwm sxhkd xclip ];
 
     xsession.enable = true;
@@ -176,7 +177,7 @@ in {
         extraPortals = with pkgs; [ xdg-desktop-portal ];
         xdgOpenUsePortal = true;
 
-        config = { common.default = "*"; };
+        config.common.default = "*";
       };
     };
   };

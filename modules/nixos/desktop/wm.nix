@@ -20,14 +20,14 @@ in {
     isHyprland = cfg.wm == "hyprland";
     isGnome = cfg.wm == "gnome";
   in mkIf cfg.enable {
-
     services = {
       xserver = {
         enable = true;
         xkb.layout = "us";
 
-        windowManager.bspwm.enable = true;
-        desktopManager.gnome.enable = true;
+        # enable bspwm or gnome if selected
+        windowManager.bspwm.enable = isBspwm;
+        desktopManager.gnome.enable = isGnome;
 
         # disable suspend and screen blanking
         serverFlagsSection = ''
@@ -52,7 +52,8 @@ in {
       };
     };
 
-    programs.hyprland.enable = true;
+    # enable hyprland if selected
+    programs.hyprland.enable = isHyprland;
 
     systemd = {
       user.services.polkit-gnome-authentication-agent-1 = {
@@ -78,16 +79,12 @@ in {
       '';
     };
 
-    environment.sessionVariables.NIXOS_OZONE_WL = mkIf isHyprland "1";
+    environment.sessionVariables.NIXOS_OZONE_WL =
+      mkIf (isHyprland || isGnome) "1";
 
     environment.systemPackages = with pkgs;
-      ([ feh rofi ] ++ (optionals isBspwm [
-        dunst
-        picom
-        catppuccin-sddm-corners
-        polkit_gnome
-      ]) ++ (optionals isHyprland [ dunst picom catppuccin-sddm-corners ])
-        ++ (optionals isGnome [
+      ([ ] ++ (optionals isBspwm [ dunst picom polkit_gnome ])
+        ++ (optionals isHyprland [ ]) ++ (optionals isGnome [
           gpaste
           gnome-tweaks
 

@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   inherit (lib) mkIf;
@@ -32,5 +32,9 @@ in {
 
     # set gdm to use wayland
     xserver.displayManager.gdm.wayland = true;
+
+    # install sddm theme if sddm is enabled
+    environment.systemPackages = with pkgs;
+      lib.optional (cfg.dm == "sddm") catppuccin-sddm-corners;
   };
 }
