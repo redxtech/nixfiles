@@ -90,16 +90,6 @@
             modules = [ self.nixosModules.deck ];
           };
         };
-
-        homeConfigurations = {
-          "gabe@deck" = home-manager.lib.homeManagerConfiguration {
-            modules = [ self.homeManagerModules.deck ];
-            pkgs = import nixpkgs {
-              inherit (self.nixCfg.nixpkgs) config overlays;
-              system = "x86_64-linux";
-            };
-          };
-        };
       };
 
       # per-system attributes can be defined here. the self' and inputs'
