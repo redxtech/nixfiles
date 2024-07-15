@@ -1,28 +1,25 @@
 { self, lib, inputs, withSystem, ... }:
 
 let
-  primaryInputs = [
-    "nixpkgs"
-    "home-manager"
-    "fenix"
-    "hyprland"
-    "hyprland-contrib"
-    "hyprland-plugins"
-    "hyprland-xdph"
-    "neovim-nightly"
-  ];
+  primaryInputs =
+    [ "nixpkgs" "home-manager" "fenix" "hyprland" "neovim-nightly" ];
   secondaryInputs = [
     "attic"
     "cachix-deploy-flake"
+    "disko"
     "deploy-rs"
     "devenv"
     "fh"
+    "flake-parts"
     "flake-schemas"
     "hardware"
     "hci-effects"
+    "jovian"
     "limbo"
     "nixos-generators"
+    "nix-autobahn"
     "nix-flatpak"
+    "nix-neovim-plugins"
     "spicetify-nix"
     "solaar"
     "sops-nix"
