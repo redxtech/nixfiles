@@ -16,6 +16,7 @@ in {
     };
   in {
     cockpit = mkServiceOpt "cockpit";
+    earlyoom = mkServiceOpt "earlyoom";
     portainer = mkServiceOpt "portainer";
     startpage = mkServiceOpt "startpage";
   };
@@ -82,6 +83,12 @@ in {
         ]);
       };
     };
+
+    services.earlyoom = mkIf cfg.services.earlyoom.enable {
+      enable = true;
+      enableNotifications = true;
+    };
+    systemd.oomd.enable = mkIf cfg.services.earlyoom.enable false;
 
     # extra cockpit modules
     environment.systemPackages = with pkgs;
