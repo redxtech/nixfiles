@@ -19,8 +19,12 @@ in {
   in {
     bar = with bar; {
       pipewire = scriptOpt "${pipewire}/bin/pipewire" "Pipewire control script";
+      pipewire-output-tail =
+        scriptOpt "${pipewire-output-tail}/bin/pipewire-output-tail"
+        "Pipewire output tails script";
       playerctl-tail = scriptOpt "${playerctl-tail}/bin/playerctl-tail"
         "Playerctl tail script";
+      polywins = scriptOpt "${polywins}/bin/polywins" "Polybar windows scripts";
       spotify-volume = scriptOpt "${spotify-volume}/bin/spotify-volume"
         "Script to control Spotify volume";
       weather = scriptOpt "${weather}/bin/weather-bar" "Weather script";

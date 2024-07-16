@@ -10,7 +10,9 @@ in {
     ./scripts
 
     ./bar/limbo.nix
+    ./bar/polybar.nix
     ./bar/waybar/default.nix
+
     ./binds.nix
     ./rules.nix
     ./wallpaper.nix
