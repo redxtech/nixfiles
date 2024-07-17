@@ -1,12 +1,7 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, ... }:
 
 {
-  imports = [
-    ./global
-    ./shared.nix
-
-    ./features/desktop/bspwm
-  ];
+  imports = [ ./global ./shared.nix ];
 
   desktop = {
     wm = {

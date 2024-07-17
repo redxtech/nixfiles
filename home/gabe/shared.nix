@@ -391,8 +391,6 @@
         "${gnupg}/bin/gpgconf --launch gpg-agent"
       ];
       runOnce = [
-        "${networkmanagerapplet}/bin/nm-applet --indicator"
-        "${blueman}/bin/blueman-applet"
         "${vesktop}/bin/vesktop"
         "${config.programs.spicetify.spicedSpotify}/bin/spotify"
         "${xfce.thunar}/bin/thunar --daemon"

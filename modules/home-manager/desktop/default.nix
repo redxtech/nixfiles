@@ -10,6 +10,8 @@ in {
     ./audio.nix
     ./autostart.nix
     ./monitors.nix
+    ./services.nix
+    ./theme.nix
     ./wm
   ];
 
@@ -22,6 +24,13 @@ in {
       description = ''
         Whether the system is a laptop.
       '';
+      example = true;
+    };
+
+    kdeConnect = mkOption {
+      type = bool;
+      default = false;
+      description = "Whether to enable KDE Connect.";
       example = true;
     };
 

@@ -1,13 +1,7 @@
 { pkgs, lib, config, ... }:
 
 {
-  imports = [
-    ./global
-    ./shared.nix
-
-    ./features/desktop/bspwm
-    ./features/desktop/common/kdeconnect.nix
-  ];
+  imports = [ ./global ./shared.nix ];
 
   desktop = {
     wm = {
@@ -17,6 +11,7 @@
     };
 
     isLaptop = false;
+    kdeConnect = true;
 
     hardware = {
       cpuTempPath =

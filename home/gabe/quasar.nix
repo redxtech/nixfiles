@@ -1,11 +1,7 @@
 { pkgs, lib, config, ... }:
 
 {
-  imports = [
-    ./global
-
-    ./features/desktop/gnome
-  ];
+  imports = [ ./global ];
 
   cli.enable = true;
 

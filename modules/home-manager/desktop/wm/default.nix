@@ -56,5 +56,20 @@ in {
     };
   };
 
-  # config = lib.mkIf cfg.enable { assertions = [ ]; };
+  config = lib.mkIf cfg.enable {
+    # assertions = [ ];
+
+    # set some xdg user dirs
+    xdg = {
+      enable = true;
+
+      userDirs = { videos = "$HOME/Videos"; };
+    };
+
+    # set gnome to prefer dark theme
+    dconf = {
+      enable = true;
+      settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+    };
+  };
 }

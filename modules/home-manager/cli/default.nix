@@ -56,6 +56,7 @@ in {
 
           adguardian # monitor adguard home
           age # encryption
+          amdgpu_top # gpu monitor
           atool # work with archives
           attic-client # nix cache
           bitwarden-cli # password manager
@@ -76,6 +77,7 @@ in {
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
           gallery-dl # image downloader
+          glxinfo # opengl info
           hci # hercules ci tool
           home-assistant-cli # home assistant cli
           httpie # better curl
@@ -83,6 +85,7 @@ in {
           libwebp # webp support
           # ltex-ls # spell checking LSP
           lsb-release # get distro info
+          lshw # hardware info
           lyrics # lyrics in terminal
           manix # nix documentation tool
           mediainfo # media info
@@ -98,6 +101,7 @@ in {
           nix-du # du for nix store
           nix-inspect # see which pkgs are in your PATH
           packagekit # package helper across distros
+          pciutils # pci info
           pfetch # system info
           pipes-rs # pipes screensaver
           playerctl # media player controller
