@@ -12,7 +12,6 @@ in {
     ./apps.nix
     ./binds.nix
     ./execs.nix
-    ./nemo.nix
     ./notifs.nix
     ./rules.nix
     ./idle.nix

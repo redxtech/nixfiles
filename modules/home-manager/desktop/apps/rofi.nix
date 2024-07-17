@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
   colours = [ "blue" "cyan" "green" "orange" "red" "yellow" ];

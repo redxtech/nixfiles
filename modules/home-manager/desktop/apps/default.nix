@@ -7,8 +7,10 @@ in {
     ./firefox
     ./kitty.nix
     ./mpv.nix
+    ./nemo.nix
     ./spotify.nix
     ./rio.nix
+    ./rofi.nix
   ];
 
   options = let inherit (lib) mkOption types;
