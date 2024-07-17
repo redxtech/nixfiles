@@ -1,9 +1,5 @@
 { lib, config, pkgs, ... }:
 
 {
-  imports = [
-    ../common
-
-    ../rofi
-  ];
+  imports = [ ../common ];
 }

@@ -53,6 +53,10 @@ in {
       convert =
         scriptOpt "${rofi.convert}/bin/convert-image" "Image conversion script";
       encoder = scriptOpt "${rofi.encoder}/bin/encoder" "Video encoder script";
+      nerd-icons =
+        scriptOpt "${rofi.nerd-icons}/bin/nerd-icons" "Nerd Icon chooser";
+      youtube =
+        scriptOpt "${rofi.youtube}/bin/youtube" "YouTube watch/download script";
     };
 
     wm = {
@@ -76,8 +80,10 @@ in {
       rofi.archiver
       rofi.convert
       rofi.encoder
+      rofi.nerd-icons
       rofi.powermenu
       rofi.search-icons
+      rofi.youtube
     ];
   };
 }
