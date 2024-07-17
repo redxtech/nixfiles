@@ -5,8 +5,6 @@ let
   scripts = cfg.scripts;
 in {
   config = lib.mkIf cfg.bspwm.enable {
-    home.packages = [ scripts.general.copy-spotify-url ];
-
     services.polybar = let
       inherit (builtins) concatStringsSep elemAt length;
       inherit (config.desktop) isLaptop;
@@ -708,16 +706,6 @@ in {
       Unit.After = [ "tray.target" ];
       Install.WantedBy = [ "tray.target" ];
     };
-
-    # window resizing data for jgmenu
-    xdg.configFile."polybar/resize-aspect.csv".text =
-      let resize-aspect = pkgs.callPackage ./scripts/resize-aspect { };
-      in ''
-        16x9,${resize-aspect}/bin/resize-aspect 16 9
-        4x3,${resize-aspect}/bin/resize-aspect 4 3
-        21x9,${resize-aspect}/bin/resize-aspect 12 5
-        Balance,${pkgs.bspwm}/bin/bspc node @parent -r .5
-      '';
   };
 }
 

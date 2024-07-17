@@ -1,6 +1,9 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, pkgs, ... }:
 
-{
+let
+  cfg = config.desktop.wm;
+  scripts = cfg.scripts;
+in {
   cli.enable = true;
 
   desktop = {
@@ -110,12 +113,6 @@
 
           ff =
             "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
-
-          scripts = (import ./features/desktop/rofi/scripts) {
-            inherit pkgs lib config;
-          };
-          pipewire-control = callPackage
-            ./features/desktop/bspwm/polybar/scripts/pipewire-control { };
         in [
           {
             description = "open terminal";
@@ -145,7 +142,7 @@
           }
           {
             description = "rofi powermenu";
-            cmd = "${scripts.rofi-powermenu}/bin/rofi-powermenu";
+            cmd = scripts.wm.powermenu;
             keys = [ "super + BackSpace" "super + shift + e" ];
           }
           {
@@ -303,12 +300,12 @@
           }
           {
             description = "volume {up,down}";
-            cmd = "${pipewire-control}/bin/pipewire-control volume {up,down}";
+            cmd = "${scripts.bar.pipewire} volume {up,down}";
             keys = [ "XF86Audio{Raise,Lower}Volume" ];
           }
           {
             description = "toggle mute";
-            cmd = "${pipewire-control}/bin/pipewire-control toggle-mute";
+            cmd = "${scripts.bar.pipewire} toggle-mute";
             keys = [ "XF86AudioMute" ];
           }
           # function keys
@@ -321,11 +318,6 @@
             description = "screenshot {gui,screen (clipboard)}";
             cmd = "${bin flameshot} {gui,screen -c}";
             keys = [ "{_,shift} + Print" ];
-          }
-          {
-            description = "screenshot selection";
-            cmd = "${scripts.rofi-screenshot}/bin/rofi-screenshot";
-            keys = [ "super + Print" ];
           }
           # shortcut keys
           {
@@ -358,7 +350,7 @@
           }
           {
             description = "copy & paste from clipboard history";
-            cmd = "${scripts.rofi-clipboard}/bin/rofi-clipboard";
+            cmd = scripts.general.clipboard;
             keys = [ "super + c" ];
           }
           # {
