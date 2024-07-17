@@ -63,6 +63,7 @@ in {
           bluetuith # bluetooth manager
           cachix # nix binary cache manager
           cowsay # ascii art
+          cpufetch # cpu info
           cpustat # cpu usage
           # delta # better diff
           dex # desktop entry executor
@@ -110,6 +111,7 @@ in {
           p7zip # zip archiver
           rage # age with rust
           ranger # file manager
+          ramfetch # system info
           rclone # cloud storage manager
           rsync # file transfer
           sd # better sed
