@@ -130,6 +130,44 @@ in {
         };
       };
 
+      spotify-player = {
+        enable = true;
+
+        settings = {
+          playback_window_position = "Bottom";
+          copy_command.command = "${pkgs.wl-clipboard}/bin/wl-copy";
+          border_type = "Rounded";
+
+          notify_streaming_only = true;
+          enable_streaming = "DaemonOnly";
+
+          # app's default client_id
+          client_id = "65b708073fc0480ea92a077233ca87bd";
+
+          default_device = "spotify-player";
+          device = {
+            name = "spotify-player";
+            device_type = "speaker";
+            volume = 70;
+            bitrate = 320;
+            audio_cache = true;
+            normalize = false;
+            autoplay = true;
+          };
+        };
+
+        keymaps = [
+          {
+            command = "FocusNextWindow";
+            key_sequence = "C-l";
+          }
+          {
+            command = "FocusPreviousWindow";
+            key_sequence = "C-h";
+          }
+        ];
+      };
+
       tealdeer = {
         enable = true;
 
