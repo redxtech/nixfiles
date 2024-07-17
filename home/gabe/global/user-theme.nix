@@ -1,5 +1,5 @@
 # A theme format for use in desktop applications and editors
-{ lib, config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   colour = lib.mkOptionType {
     name = "colour";

@@ -6,8 +6,8 @@ let
 in {
   config = lib.mkIf cfg.enable {
     # use spicetify if enabled
-    programs.spicetify = lib.mkIf isSpiced {
-      enable = true;
+    programs.spicetify = {
+      enable = isSpiced;
 
       theme = pkgs.spicePkgs.themes.catppuccin;
       colorScheme = "mocha";
