@@ -34,6 +34,7 @@ in {
         playNext
         powerBar
         savePlaylists
+        sectionMarker
         seekSong
         showQueueDuration
         skipStats

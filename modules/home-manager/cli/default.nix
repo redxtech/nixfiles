@@ -13,6 +13,7 @@ in {
     ./neovim.nix
     ./nix-index.nix
     ./programs.nix
+    ./ranger
     ./services.nix
     ./starship.nix
     ./ssh.nix
@@ -62,6 +63,7 @@ in {
           bitwarden-cli # password manager
           bluetuith # bluetooth manager
           cachix # nix binary cache manager
+          catdoc # doc to text
           cowsay # ascii art
           cpufetch # cpu info
           cpustat # cpu usage
@@ -110,7 +112,6 @@ in {
           prettyping # better ping
           p7zip # zip archiver
           rage # age with rust
-          ranger # file manager
           ramfetch # system info
           rclone # cloud storage manager
           rsync # file transfer
@@ -239,7 +240,6 @@ in {
         PF_INFO =
           "ascii title os kernel uptime shell term desktop scheme palette";
         PNPM_HOME = "${config.xdg.dataHome}/pnpm";
-        RANGER_LOAD_DEFAULT_RC = "FALSE";
       } // cfg.env;
     };
 

@@ -63,7 +63,6 @@ in {
         neofetch
         openssl
         playerctl
-        ranger
         rclone
         ripgrep
         tealdeer

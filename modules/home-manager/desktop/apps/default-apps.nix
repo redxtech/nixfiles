@@ -39,7 +39,8 @@ in {
         "application/x-gnome-saved-search" =
           [ "thunar.desktop" "nemo.desktop" ];
         "application/zip" = [ "peazip.desktop" ];
-        "inode/directory" = [ "thunar.desktop" "nemo.desktop" ];
+        "inode/directory" =
+          [ "thunar.desktop" "nemo.desktop" "ranger.desktop" ];
         "audio/ogg" = [ "mpv.desktop" "vlc.desktop" ];
         "video/mp4" = [ "mpv.desktop" "vlc.desktop" ];
       };
