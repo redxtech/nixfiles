@@ -11,7 +11,7 @@ in {
       kitty = "${pkgs.kitty}/bin/kitty --class kitty_float";
       kittySize = "-o initial_window_width=80c -o initial_window_height=25c";
       fish = "${pkgs.fish}/bin/fish";
-      clamav = "${stable.clamav}/bin/clamscan";
+      clamav = "${pkgs.clamav}/bin/clamscan";
       wrapShell = cmd: "${pkgs.bash}/bin/bash -c '${cmd}'";
 
       # https://github.com/linuxmint/nemo/blob/master/files/usr/share/nemo/actions/sample.nemo_action

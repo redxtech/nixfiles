@@ -22,7 +22,7 @@ in {
 
     # enable antivirus clamav
     services.clamav = mkIf config.base.clamav.enable {
-      package = stable.clamav;
+      package = pkgs.clamav;
       daemon.enable = true;
       scanner.enable = true;
       updater.enable = true;

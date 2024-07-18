@@ -31,7 +31,8 @@
         nix-autobahn =
           inputs.nix-autobahn.packages.${final.system}.nix-autobahn;
 
-        spicePkgs = inputs.spicetify-nix.packages.${final.system}.default;
+        # spicetify packages
+        spicePkgs = inputs.spicetify-nix.legacyPackages.${final.system};
       };
 
       # Modifies existing packages

@@ -16,20 +16,36 @@ in {
 
       enabledExtensions = with pkgs.spicePkgs.extensions; [
         bookmark
-        fullAppDisplay
         keyboardShortcut
         shuffle
 
         # community extensions
+        beautifulLyrics
+        betterGenres
         fullAlbumDate
-        genre
+        fullAppDisplayMod
+        goToSong
         groupSession
         hidePodcasts
         lastfm
+        # oldSidebar
         playlistIcons
+        playlistIntersection
         playNext
         powerBar
+        savePlaylists
+        seekSong
+        showQueueDuration
+        skipStats
         songStats
+        wikify
+        writeify
+      ];
+
+      enabledCustomApps = with pkgs.spicePkgs.apps; [
+        lyricsPlus
+        ncsVisualizer
+        newReleases
       ];
     };
 

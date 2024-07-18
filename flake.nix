@@ -33,6 +33,9 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     attic.url = "github:zhaofengli/attic";
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
@@ -46,7 +49,6 @@
     nix-autobahn.url = "github:lassulus/nix-autobahn";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nix-neovim-plugins.url = "github:NixNeovim/NixNeovimPlugins";
-    spicetify-nix.url = "github:the-argus/spicetify-nix";
     swww.url = "github:LGFae/swww";
     xremap-flake.url = "github:xremap/nix-flake";
     # nur.url = "github:nix-community/NUR";
