@@ -27,7 +27,8 @@ in {
       enable = true;
       settings = { trust-model = "tofu+pgp"; };
       publicKeys = [{
-        source = ../../../home/gabe/pgp.asc; # TODO: put this in a better spot
+        source =
+          ../../../home/gabe/keys/pgp.asc; # TODO: put this in a better spot
         trust = 5;
       }];
     };

@@ -25,7 +25,8 @@ in {
       "wireshark"
     ];
 
-    openssh.authorizedKeys.keys = [ (readFile ../../../home/gabe/ssh.pub) ];
+    openssh.authorizedKeys.keys =
+      [ (readFile ../../../home/gabe/keys/ssh.pub) ];
 
     packages = with pkgs; [
       home-manager
