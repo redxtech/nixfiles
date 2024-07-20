@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./global ];
+  imports = [ ./sops.nix ];
 
   cli.enable = true;
   desktop = {

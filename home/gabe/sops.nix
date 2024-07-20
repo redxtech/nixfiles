@@ -2,7 +2,7 @@
 
 {
   sops = {
-    defaultSopsFile = ../secrets.yaml;
+    defaultSopsFile = ./secrets.yaml;
     age.sshKeyPaths = lib.mkDefault [ "/home/gabe/.ssh/id_ed25519" ];
 
     secrets = {

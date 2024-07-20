@@ -1,8 +1,9 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  imports = [ ./global ./shared.nix ];
+  imports = [ ./sops.nix ./shared.nix ];
 
+  base.enable = true;
   desktop = {
     wm = {
       enable = true;

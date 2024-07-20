@@ -1,7 +1,7 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  imports = [ ./global ];
+  imports = [ ./sops.nix ];
 
   cli.enable = true;
 

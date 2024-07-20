@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 {
-  imports = [ ./global ./shared.nix ];
+  imports = [ ./sops.nix ./shared.nix ];
 
   desktop = {
     wm = {
