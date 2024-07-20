@@ -62,7 +62,10 @@
   #   };
   # };
 
-  sops.secrets.cachix-agent-deck.path = "/etc/cachix-agent.token";
+  sops.secrets.cachix-agent = {
+    path = "/etc/cachix-agent.token";
+    sopsFile = ./secrets.yaml;
+  };
 
   system.stateVersion = "24.05";
 }

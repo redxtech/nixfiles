@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -60,7 +60,10 @@
 
   sops.secrets."cloudflare_acme".sopsFile = ./secrets.yaml;
 
-  sops.secrets.cachix-agent-quasar.path = "/etc/cachix-agent.token";
+  sops.secrets.cachix-agent = {
+    path = "/etc/cachix-agent.token";
+    sopsFile = ./secrets.yaml;
+  };
 
   system.stateVersion = "23.11";
 }
