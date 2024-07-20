@@ -2199,15 +2199,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1717591199,
-        "narHash": "sha256-vvhTzLceQ8PM9O+4bbLPrqRDe+Mf6rqE+qYMXPs5YI0=",
-        "owner": "Svenum",
+        "lastModified": 1721516657,
+        "narHash": "sha256-x16XIXHWE6mzief64kuJ6jIGe6BGOwmwJehkWsXDqz4=",
+        "owner": "redxtech",
         "repo": "Solaar-Flake",
-        "rev": "8e8049204e2d196909a43f78c79f40770555a65e",
+        "rev": "930c8e1e1f98e7e997bded68fe2c65bc07742ddb",
         "type": "github"
       },
       "original": {
-        "owner": "Svenum",
+        "owner": "redxtech",
         "ref": "main",
         "repo": "Solaar-Flake",
         "type": "github"

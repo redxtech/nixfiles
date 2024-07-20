@@ -53,7 +53,7 @@ in {
     boot.kernelPackages = mkIf cfg.useZen pkgs.linuxKernel.packages.linux_zen;
 
     # solaar config
-    programs.solaar.enable = mkDefault cfg.useSolaar;
+    services.solaar.enable = mkDefault cfg.useSolaar;
 
     # xremap config
     services.xremap = {
@@ -217,30 +217,6 @@ in {
         SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="0337", MODE="0666"
         SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="102b", MODE="0666"
       ''
-    ] ++ (optional cfg.useSolaar ''
-      # allows non-root users to have raw access to logitech devices.
-      KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
-
-      ACTION != "add", GOTO="solaar_end"
-      SUBSYSTEM != "hidraw", GOTO="solaar_end"
-
-      ATTRS{idVendor}=="046d", GOTO="solaar_apply" # usb-connected logitech receivers and devices
-
-      ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="6042", GOTO="solaar_apply" # lenovo nano receiver
-
-      KERNELS == "0005:046D:*", GOTO="solaar_apply" # bluetooth-connected Logitech devices
-
-      GOTO="solaar_end"
-
-      LABEL="solaar_apply"
-
-      # allow any seated user to access the receiver.
-      # uaccess: modern ACL-enabled udev
-      TAG+="uaccess"
-
-      # grant members of the "plugdev" group access to receiver (useful for SSH users)
-      MODE="0660", GROUP="plugdev"
-      LABEL="solaar_end"
-    ''));
+    ]);
   };
 }

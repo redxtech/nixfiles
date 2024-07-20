@@ -27,7 +27,7 @@
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
-    solaar.url = "github:Svenum/Solaar-Flake/main";
+    solaar.url = "github:redxtech/Solaar-Flake/main";
     solaar.inputs.nixpkgs.follows = "nixpkgs";
 
     sops-nix.url = "github:Mic92/sops-nix";
