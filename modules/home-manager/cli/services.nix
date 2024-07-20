@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, lib, ... }:
 
 let
   inherit (lib) mkIf;
@@ -10,7 +10,6 @@ in {
       gnome-keyring = { enable = false; };
       # gpg-agent = { enable = false; };
       ssh-agent = { enable = false; };
-      udiskie = { enable = false; };
     };
   };
 }

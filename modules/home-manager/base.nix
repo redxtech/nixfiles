@@ -2,8 +2,7 @@
 
 let cfg = config.base;
 in {
-  options.base = let inherit (lib) mkOption;
-  in { enable = lib.mkEnableOption "Enable base module"; };
+  options.base = { enable = lib.mkEnableOption "Enable base module"; };
 
   config = lib.mkIf cfg.enable {
     # some default home settings
@@ -19,6 +18,14 @@ in {
     # some default programs
     programs.home-manager.enable = true;
     programs.git.enable = true;
+
+    services.udiskie = {
+      enable = false;
+
+      settings = {
+        program_options.terminal = "${pkgs.kitty}/bin/kitty --directory";
+      };
+    };
 
     # use sd-switch to handle service (re)start after change
     systemd.user.startServices = "sd-switch";
