@@ -3,6 +3,7 @@
 {
   imports = [ ./sops.nix ./shared.nix ];
 
+  base.enable = true;
   desktop = {
     wm = {
       enable = true;

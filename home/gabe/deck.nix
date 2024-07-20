@@ -3,6 +3,7 @@
 {
   imports = [ ./sops.nix ];
 
+  base.enable = true;
   cli.enable = true;
   desktop = {
     enable = true;

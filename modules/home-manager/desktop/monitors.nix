@@ -104,6 +104,11 @@ in with types; {
           };
         };
       });
+      default = [ ];
+      example = [{
+        name = "HDMI-1";
+        primary = true;
+      }];
     };
   };
 

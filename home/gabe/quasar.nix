@@ -3,9 +3,8 @@
 {
   imports = [ ./sops.nix ];
 
+  base.enable = true;
   cli.enable = true;
-
-  desktop.monitors = [ ];
 
   home.packages = with pkgs; [ moonlight-qt ];
 }
