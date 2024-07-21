@@ -9,7 +9,7 @@
         neovim-nightly = inputs.neovim-nightly.packages.${final.system}.default;
 
         plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
-          version = "1.32.8.7639-fb6452ebf";
+          version = "1.40.4.8679-424562606";
           name = "${old.pname}-${version}";
 
           src = if prev.stdenv.hostPlatform.system == "aarch64-linux" then
@@ -22,7 +22,7 @@
             prev.fetchurl {
               url =
                 "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
-              sha256 = "sha256-jdGVAdvm7kjxTP3CQ5w6dKZbfCRwSy9TrtxRHaV0/cs=";
+              sha256 = "sha256-wVyA70xqZ9T8brPlzjov2j4C9W+RJYo99hO3VtNBVqw=";
             };
         });
 
@@ -37,16 +37,6 @@
 
       # Modifies existing packages
       modifications = final: prev: {
-        # update the version of the package
-        adguardhome = prev.adguardhome.overrideAttrs (oldAttrs: rec {
-          version = "0.107.43";
-          src = final.fetchurl {
-            url =
-              "https://github.com/AdguardTeam/AdGuardHome/releases/download/v${version}/AdGuardHome_linux_amd64.tar.gz";
-            sha256 = "sha256-Ck4+7HTKVuLykwVEX1rAWWJE+6bT/oIWQ1LTB7Qkls8=";
-          };
-        });
-
         # rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
         rofi = prev.rofi-wayland.override { plugins = [ prev.rofi-emoji ]; };
 
