@@ -13,8 +13,7 @@ in {
 
         fonts = {
           size = 12;
-          # family = config.fontProfiles.monospace.family;
-          family = "Dank Mono";
+          family = config.fontProfiles.monospace.family;
         };
 
         window = {

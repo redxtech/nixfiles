@@ -1,4 +1,4 @@
-{ self, inputs, lib, ... }:
+{ self, inputs, ... }:
 
 let inherit (builtins) attrValues;
 in {

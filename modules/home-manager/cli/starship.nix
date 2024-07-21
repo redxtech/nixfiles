@@ -1,10 +1,10 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, ... }:
 
 let
-  inherit (lib) mkIf concatStrings;
+  inherit (lib) concatStrings;
   cfg = config.cli;
 in {
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.starship = {
       enable = true;
 
@@ -105,7 +105,7 @@ in {
         kubernetes = {
           format = "[$symbol$context/$namespace]($style) ";
           style = "pink";
-          disabled = false;
+          disabled = false; # figure out better way to do this
           detect_folders = [ "ci" ];
         };
 

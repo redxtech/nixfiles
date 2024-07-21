@@ -3,7 +3,7 @@
 let cfg = config.desktop;
 in {
   config = lib.mkIf cfg.enable {
-    home = { sessionVariables = { TERMINAL = "kitty"; }; };
+    home.sessionVariables.TERMINAL = "kitty";
 
     programs.kitty = {
       enable = true;
@@ -100,4 +100,3 @@ in {
     '';
   };
 }
-

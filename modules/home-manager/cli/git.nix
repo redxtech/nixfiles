@@ -1,16 +1,14 @@
 { pkgs, lib, config, ... }:
 
-let
-  inherit (lib) mkIf;
-  cfg = config.cli;
+let cfg = config.cli;
 in {
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      delta
-      git-crypt
-      git-filter-repo
-      git-lfs
-      transcrypt
+      delta # better git diffs
+      git-crypt # encrypt files in git
+      git-filter-repo # rewrite git history
+      git-lfs # large file storage
+      transcrypt # encrypt files in git
     ];
 
     programs = {
@@ -81,13 +79,7 @@ in {
           # };
         };
 
-        includes = [
-          { path = "${config.xdg.configHome}/git/gitconfig.local"; }
-          {
-            condition = "gitdir:${config.home.homeDirectory}/Work/Speechify/";
-            path = "${config.home.homeDirectory}/Work/Speechify/.gitconfig";
-          }
-        ];
+        includes = [{ path = "${config.xdg.configHome}/git/gitconfig.local"; }];
 
         difftastic = {
           enable = true;

@@ -8,8 +8,9 @@
   desktop = {
     enable = true;
 
-    enableMonitors = false;
     isLaptop = true;
+    enableMonitors = false;
+    spicetify.enable = false;
 
     hardware = {
       cpuTempPath =
@@ -37,7 +38,6 @@
   services.syncthing.enable = true;
 
   # disable some things
-  desktop.spicetify.enable = false;
   programs.firefox.useCustomCss = false;
   programs.neovim.neo-lsp.enable = false;
 

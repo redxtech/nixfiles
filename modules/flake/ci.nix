@@ -67,7 +67,6 @@ in {
       ({ config, hci-effects, pkgs, inputs', ... }:
         let
           inherit (hci-effects) runIf runNixOS;
-          inherit (builtins) length match;
           shouldDeploy = false;
           # temp disable until i can figure out how to get the tag
           # shouldDeploy = length (match "deploy-(.*)" herculesCI.repo.tag) != 0;

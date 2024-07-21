@@ -1,6 +1,5 @@
-{ config, pkgs, lib, ... }:
+{ config, ... }:
 
-with lib;
 let cfg = config.nas;
 in {
   services.traefik = {

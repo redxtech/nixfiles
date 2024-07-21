@@ -1,4 +1,4 @@
-{ self, lib, inputs, ... }:
+{ self, inputs, ... }:
 
 {
   imports = [ inputs.devenv.flakeModule ];

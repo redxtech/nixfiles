@@ -46,7 +46,7 @@ in {
     };
   };
 
-  config = let inherit (lib) concatStringsSep mkDefault optional;
+  config = let inherit (lib) concatStringsSep mkDefault;
 
   in mkIf cfg.enable {
     # use zen kernel if enabled

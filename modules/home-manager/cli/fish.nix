@@ -64,7 +64,7 @@ in {
         # list all paths in $PATH
         paths = language "fish" ''
           for path in $PATH
-          echo -- $path
+            echo -- $path
           end
         '';
 
@@ -90,19 +90,17 @@ in {
           wraps = "nix";
           description = "Wraps `nix develop` to run fish instead of bash";
           body = language "fish" ''
-            if status is-interactive
-            and test (count $argv) = 1 -a "$argv[1]" = develop
-
-                # Special case: if there's an initialized .flake directory, use that.
-                if test -d .flake -a -f .flake/flake.nix
+            if status is-interactive and test (count $argv) = 1 -a "$argv[1]" = develop
+              # Special case: if there's an initialized .flake directory, use that.
+              if test -d .flake -a -f .flake/flake.nix
                 announce nix develop $PWD/.flake --command (status fish-path)
-                else
+              else
                 announce nix develop --command (status fish-path)
-                end
+              end
 
-                else
-                command nix $argv
-                end
+            else
+              command nix $argv
+            end
           '';
         };
 
@@ -111,7 +109,7 @@ in {
           description = "Wraps `nix develop` to run fish instead of bash";
           body = language "fish" ''
             if status is-interactive
-            nix develop $argv -c $SHELL
+              nix develop $argv -c $SHELL
             end
           '';
         };
@@ -121,10 +119,10 @@ in {
           wraps = "nixos-rebuild switch";
           body = ''
             nixos-rebuild --flake "$FLAKE#$argv[1]" \
-            --fast \
-            --target-host "root@$argv[1]" \
-            --build-host "root@$argv[1]" \
-            switch
+              --fast \
+              --target-host "root@$argv[1]" \
+              --build-host "root@$argv[1]" \
+              switch
           '';
         };
 
@@ -145,16 +143,17 @@ in {
           '';
         };
 
-        __fish_nixos_remote_complete =
-          let hostnames = concatStringsSep " " [ "bastion" "voyager" "quasar" ];
-          in {
-            body = ''
-              set -l hostnames ${hostnames}
-              for host in $hostnames
+        __fish_nixos_remote_complete = let
+          hostnames =
+            concatStringsSep " " [ "bastion" "voyager" "quasar" "deck" ];
+        in {
+          body = ''
+            set -l hostnames ${hostnames}
+            for host in $hostnames
               echo $host
-              end
-            '';
-          };
+            end
+          '';
+        };
 
         # grep using ripgrep and pass to nvim
         nvimrg =
@@ -181,24 +180,24 @@ in {
             # typically that means to cd to $HOME, but we can be smarter - if you're
             # in a git repo and not in its root, cd to the root.
             if test (count $argv) -eq 0
-            set git_root (git rev-parse --git-dir 2>/dev/null | path dirname)
-            if test $status -eq 0 -a "$git_root" != .
-            cd $git_root
-            return 0
-            end
+              set git_root (git rev-parse --git-dir 2>/dev/null | path dirname)
+              if test $status -eq 0 -a "$git_root" != .
+                cd $git_root
+                return 0
+              end
             end
 
             # Now that's out of the way
             cd $argv
             set cd_status $status
             if test $cd_status -ne 0
-            and gum confirm "Create the directory? ($argv[-1])"
-            echo "Creating directory"
-            command mkdir -p -- $argv[-1]
-            builtin cd $argv[-1]
-            return 0
+              and gum confirm "Create the directory? ($argv[-1])"
+              echo "Creating directory"
+              command mkdir -p -- $argv[-1]
+              builtin cd $argv[-1]
+              return 0
             else
-            return $cd_status
+              return $cd_status
             end
           '';
         };
@@ -402,15 +401,15 @@ in {
       shellInit = language "fish" ''
         # source local env variables
         if test -f ${config.xdg.configHome}/fish/env.local.fish;
-        source ${config.xdg.configHome}/fish/env.local.fish
+          source ${config.xdg.configHome}/fish/env.local.fish
         end
 
         if test -f ${config.xdg.configHome}/fish/env.secrets.fish;
-        source ${config.xdg.configHome}/fish/env.secrets.fish
+          source ${config.xdg.configHome}/fish/env.secrets.fish
         end
 
         if test -f ${config.sops.secrets."adguardian.fish".path};
-        source ${config.sops.secrets."adguardian.fish".path}
+          source ${config.sops.secrets."adguardian.fish".path}
         end
       '';
     };

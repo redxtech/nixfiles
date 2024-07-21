@@ -3,10 +3,6 @@
 let
   inherit (lib) mkIf;
   cfg = config.cli;
-
-  hasPackage = pname:
-    lib.any (p: p ? pname && p.pname == pname) config.home.packages;
-  hasKitty = config.programs.kitty.enable;
 in {
   config = mkIf cfg.enable {
     programs.zsh = {

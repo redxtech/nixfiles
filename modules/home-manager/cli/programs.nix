@@ -8,8 +8,7 @@ in {
     programs = {
       bat = {
         enable = true;
-        config = { theme = "Dracula"; };
-        # config.theme = "base16";
+        config.theme = "Dracula";
       };
 
       btop = {

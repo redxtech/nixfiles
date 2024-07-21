@@ -1,4 +1,4 @@
-{ self, lib, inputs, ... }:
+{ self, inputs, ... }:
 
 {
   imports = [ inputs.flake-parts.flakeModules.easyOverlay ];

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, ... }:
 
 let
   inherit (lib) mkOption types;
@@ -19,8 +19,6 @@ in {
   ];
 
   # TODO:
-  # - set relavant polybar config ?
-  # - configure autolocking
   # - configure dpms
 
   options.desktop.wm = with types; {

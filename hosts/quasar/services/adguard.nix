@@ -1,6 +1,5 @@
-{ config, pkgs, lib, ... }:
+{ config, ... }:
 
-with lib;
 let
   cfg = config.nas;
   defaultEnv = {
@@ -18,8 +17,7 @@ let
   mkTLSstr = "${mkTLstr "services"}";
 in {
   virtualisation.oci-containers.containers = {
-    adguard = let name = "adguard";
-    in {
+    adguard = {
       image = "adguard/adguardhome:latest";
       environment = defaultEnv;
 

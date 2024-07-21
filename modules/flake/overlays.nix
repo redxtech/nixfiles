@@ -1,4 +1,4 @@
-{ self, lib, inputs, ... }:
+{ self, inputs, ... }:
 
 {
   flake = {
@@ -6,7 +6,7 @@
       # adds my custom packages
       additions = final: prev: {
         # add neovim-nightly to the packages
-        neovim-nightly = inputs.neovim-nightly.packages.${prev.system}.default;
+        neovim-nightly = inputs.neovim-nightly.packages.${final.system}.default;
 
         plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
           version = "1.32.8.7639-fb6452ebf";
