@@ -72,9 +72,9 @@ in {
       };
     };
 
-    environment.systemPackages = with pkgs;
-      [
-        clinfo # OpenCL info tool
-      ];
+    environment.systemPackages = with pkgs; [
+      amdgpu_top # gpu monitor
+      clinfo # OpenCL info tool
+    ];
   };
 }

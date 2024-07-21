@@ -84,6 +84,18 @@ in {
           pwd
         '';
 
+        ssh = {
+          description = "Use kitty ssh if in kitty";
+          wraps = "ssh";
+          body = ''
+            if test -n "$KITTY_WINDOW_ID"
+              kitty +kitten ssh $argv
+            else
+              command ssh $argv
+            end
+          '';
+        };
+
         # quick wrapper to make running `nix develop` without any arguments
         # run Fish instead of Bash.
         nix = {
@@ -366,9 +378,6 @@ in {
 
         # kitty integration
         set --global KITTY_INSTALLATION_DIR "${pkgs.kitty}/lib/kitty"
-        set --global KITTY_SHELL_INTEGRATION enabled
-        source "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_conf.d/kitty-shell-integration.fish"
-        set --prepend fish_complete_path "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_completions.d"
 
         # use vim cursors
         set fish_cursor_default     block      blink

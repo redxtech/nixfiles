@@ -89,27 +89,12 @@ in {
       let py-pkgs = ps: with ps; [ dbus-python pygobject3 requests ];
       in with pkgs; [
         btrfs-progs
-        curl
-        file
-        gcc
-        git
-        htop
-        killall
-        librsvg
-        lsb-release
         man-pages
         man-pages-posix
-        neovim-nightly
-        ps_mem
-        sqlite
-        unrar
-        unzip
-        wget
-        xclip
-        w3m
-
         nodejs
         (python3.withPackages py-pkgs)
+        unrar
+        unzip
       ];
 
     # extra groups
@@ -139,6 +124,9 @@ in {
 
     # disable networkmanager-wait-online
     systemd.services.NetworkManager-wait-online.enable = mkDefault false;
+
+    # enable hard-linking in nix store
+    nix.optimise.automatic = mkDefault true;
 
     # boot config
     boot = {

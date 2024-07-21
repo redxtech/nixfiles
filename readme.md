@@ -2,32 +2,32 @@
 
 # my nixOS flake
 
-this is where my configuration for everything is related.
+this is where my configuration for *everything* is related.
 
 ## what is included
 
-- system configuration definitions
-  - my desktop (bastion)
-  - my laptop (voyager)
-  - my nas (quasar)
-- home manger configurations
-  - all of the above systems
-  - my steamdeck (deck)
-- automatic deployments via github actions and cachix-deploy
+- system configuration definitions:
+  - my desktop (`bastion`)
+  - my laptop (`voyager`)
+  - my home server (`quasar`)
+  - my steam deck (`deck`)
+- automatic deployments via github actions and cachix-deploy (also deploy-rs)
 - secrets management via sops-nix
 - custom package definitions
-- custom nixos/home-manager modules and service definitions
-  - modules and configurations for many nas-related services
-  - pick & choose base system & desktop modules for consistency across systems
+- custom nixos & home-manager modules and service definitions
+  - modules and configurations for many nas/homelab related services
+  - configurable base & desktop modules for consistency across systems
+  - custom desktop, window manager, cli, and editor configurations
+  - modules for software that doesn't exist in nixpkgs/home-manager
 
 **highlights**:
 
 - multi-system nixOS & home-manager configuration with **flake-parts** for easy composition
-- rebuild locally with `nrs` (alias for `nh os switch`, improved `sudo nixos-rebuild`),
+- rebuild locally with `nrs` (alias for `nh os switch`, improved `nixos-rebuild`),
   and remotely with `nix run .#deploy [<target>|all]`
 - deployment **secrets** using **sops-nix**
 - **mesh networked** hosts with **tailscale**
-- extensively configured window manager (**bspwm**), cli (**fish**), and editor (**neovim**)
+- extensively configured window manager (**hyprland**), cli (**fish**), and editor (**neovim**)
 
 ## structure
 
@@ -37,13 +37,15 @@ this is where my configuration for everything is related.
   devshell for boostrapping (`nix develop`).
 - `hosts`: nixOS Configurations, accessible via `nixos-rebuild --flake`.
   - `common`: shared configurations consumed by each host.
-  - `bastion`: desktop - 32GB RAM, R9 5900X, RX 7900XT | BSPWM
+  - `bastion`: desktop - 32GB RAM, R9 5900X, RX 7900XT | hyprland
   - `voyager`: dell xps 15 - 16GB RAM, i7 9750H, GTX 1650 | BSPWM
   - `quasar`: home server - 32GB RAM, i7 6700K, GTX 970 | headless
+  - `deck`: steam deck - 16 GB RAM, custom AMD APU | steamOS & gnome
 - `home`: home-manager configuration, acessible via `home-manager --flake`
-  each host has a file, and there's a `common` folder for shared configurations.
+  each host has a file, and there's a `shared.nix` file for shared configurations.
 - `modules`: module definitions consumed by the hosts.
   - `nixos`: nixOS modules, such as custom services, hardware configurations, etc.
+    - `base`, `desktop`, `nas`, and `backup` modules.
   - `home-manager`: home-manager modules, such as custom desktop, window manager, cli, and editor configurations.
   - `flake`: flake-parts modules used for composition, such as shells, overlays, nix config, deployments, etc.
 - `pkgs`: my custom packages. also accessible via `nix build`. you can compose
@@ -85,17 +87,16 @@ relevant systems's SSH host keys.
 
 most relevant user apps daily drivers:
 
-- bspwm + xidlehook + betterlockscreen
-- polybar
+- hyprland + hypridle + hyprlock
+- [limbo](https://github.com/co-conspirators/limbo) (my custom status bar)
 - neovim
 - fish
 - kitty
 - firefox
 - tailscale
 - podman
-- rofi
+- fuzzel/tofi
 - bat + fd + rg
-- kdeconnect
 
 let me know if you have any questions about them :)
 

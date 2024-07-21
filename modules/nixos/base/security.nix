@@ -1,4 +1,4 @@
-{ config, lib, pkgs, stable, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.base;

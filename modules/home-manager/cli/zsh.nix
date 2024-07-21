@@ -76,10 +76,8 @@ in {
           "(btm btop conf docker kitty micro ranger spotifyd spt ssh tmux yadm zsh)";
       };
 
-      shellAliases = rec { shit = "sudo $(fc -ln -1)"; };
-
       zinit = {
-        enable = true;
+        enable = false;
 
         enableSyntaxCompletionsSuggestions = true;
 

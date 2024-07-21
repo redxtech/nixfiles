@@ -5,10 +5,7 @@ let
   cfg = config.mopidy;
 in {
   options.mopidy = with types; {
-    enable = mkOption {
-      default = false;
-      description = "Enable the service";
-    };
+    enable = lib.mkEnableOption "Enable the service";
 
     settings = mkOption {
       type = attrs;

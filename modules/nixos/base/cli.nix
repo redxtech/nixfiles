@@ -11,7 +11,7 @@ in {
     documentation.man.generateCaches = false;
 
     programs = {
-      zsh = { enable = true; };
+      zsh.enable = true;
 
       fish = {
         enable = true;
@@ -34,6 +34,19 @@ in {
         nr = "nh os";
         hm = "nh home";
       in rec {
+        ls = "eza";
+        la = "${ls} -al";
+        ll = "${ls} -l";
+        l = "${ls} -l";
+
+        mkd = "mkdir -pv";
+        mv = "mv -v";
+        rm = "rm -i";
+
+        vim = "nvim";
+        vi = vim;
+        v = vim;
+
         nrs = "${nr} switch";
         nru = "${nrs} --ask --update";
         snrs = "sudo nixos-rebuild --flake $FLAKE switch";
@@ -47,32 +60,36 @@ in {
         atool
         bat
         btop
-        cpustat
-        dex
+        curl
         eza
         fd
         ffmpeg
+        file
         fzf
+        gcc
         gh
         git
+        home-manager
+        htop
         jq
-        lazygit
+        killall
+        lsb-release
         mcfly
         mediainfo
-        micro
+        most
         neofetch
+        neovim-nightly
+        nh
         openssl
-        playerctl
+        procps
+        ps_mem
         rclone
         ripgrep
         tealdeer
         tmux
+        wget
         yadm
-        yt-dlp
         zoxide
-
-        # nix helper, better nixos-rebuild
-        nh
       ];
 
       pathsToLink = [ "/share/zsh" ];

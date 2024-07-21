@@ -9,6 +9,16 @@ in {
   desktop = {
     enable = true;
 
+    apps = with pkgs; [
+      jellyfin-media-player # jellyfin client
+      jellyfin-mpv-shim # jellyfin client for mpv
+      libreoffice # office suite
+      multiviewer-for-f1 # formula 1 viewer
+      plexamp # plex audio player
+      via # keyboard flasher
+      vscodium # oss vs code
+    ];
+
     wm = {
       rules = [
         {
@@ -385,7 +395,7 @@ in {
       runOnce = [
         "${vesktop}/bin/vesktop"
         "${config.programs.spicetify.spicedSpotify}/bin/spotify"
-        "${xfce.thunar}/bin/thunar --daemon"
+        "${thunar}/bin/thunar --daemon"
       ];
       runWithRule = [{
         cmd = "${kitty}/bin/kitty ${btop}/bin/btop";
@@ -396,11 +406,6 @@ in {
         };
       }];
     };
-  };
-
-  mopidy = {
-    enable = true;
-    extraConfigFiles = [ config.sops.secrets.mopidy_auth.path ];
   };
 
   services.snapcast.enable = false;

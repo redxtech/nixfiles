@@ -37,7 +37,6 @@ in {
       wl-clipboard
       wl-gammarelay-rs
       wlr-randr
-      wofi
     ];
 
     # hyprland configuration

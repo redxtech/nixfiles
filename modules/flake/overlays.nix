@@ -50,6 +50,15 @@
         # rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
         rofi = prev.rofi-wayland.override { plugins = [ prev.rofi-emoji ]; };
 
+        # use solaar from the flake
+        solaar = inputs.solaar.packages.${final.system}.default;
+
+        # include plugins with thunar
+        thunar = prev.xfce.thunar.override {
+          thunarPlugins =
+            [ prev.xfce.thunar-archive-plugin prev.xfce.thunar-volman ];
+        };
+
         vivaldi = prev.vivaldi.override {
           commandLineArgs = "--force-dark-mode";
           proprietaryCodecs = true;

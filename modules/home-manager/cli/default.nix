@@ -55,35 +55,32 @@ in {
           comma # install and run programs by sticking a , before them
           distrobox # nice escape hatch, integrates docker images with my environment
 
-          adguardian # monitor adguard home
           age # encryption
-          amdgpu_top # gpu monitor
           atool # work with archives
-          attic-client # nix cache
           bitwarden-cli # password manager
           bluetuith # bluetooth manager
           cachix # nix binary cache manager
           catdoc # doc to text
           cowsay # ascii art
           cpufetch # cpu info
-          cpustat # cpu usage
-          # delta # better diff
           dex # desktop entry executor
           diffsitter # better diff
           dogdns # better dig
           du-dust # better du
           dua # better du
           fd # better find
-          frogmouth # markdown reader
-          fx # better jq
-          figlet # ascii art
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
+          fh # flakehub
+          figlet # ascii art
+          frogmouth # markdown reader
+          fx # better jq
           gallery-dl # image downloader
           glxinfo # opengl info
           hci # hercules ci tool
           home-assistant-cli # home assistant cli
           httpie # better curl
+          hyfetch # neofetch fork
           libnotify # desktop notifications
           libwebp # webp support
           # ltex-ls # spell checking LSP
@@ -93,17 +90,14 @@ in {
           manix # nix documentation tool
           mediainfo # media info
           micro # editor
-          navi # cheatsheet
+          most # pager
           neofetch # system info
-          nil # nix LSP
-          nixd # nix LSP
           nixfmt-classic # nix formatter
           nixpkgs-review # nixpkgs PR reviewer
-          # nix-delegate # distributed nix builds transparently
           nix-autobahn # dynamic executable helper
           nix-du # du for nix store
           nix-inspect # see which pkgs are in your PATH
-          packagekit # package helper across distros
+          onefetch # current repo info
           pciutils # pci info
           pfetch # system info
           pipes-rs # pipes screensaver
@@ -119,13 +113,15 @@ in {
           sshfs # mount remote filesystems
           steam-run # run binaries in fhs
           slurm-nm # network monitor
-          timer # to help with my ADHD paralysis
+          timg # in-terminal image viewer
           todoist # todo app client
           tokei # count lines of code in project
           trashy # trash manager
           urlencode # url encoder
+          unrar # unarchiver
+          unzip # unarchiver
           xclip # clipboard manager
-          xdg-utils # xdg-open
+          xdg-utils # for xdg-open
           xdo # xdotool
           xfce.exo # protocol handler
           xorg.xev # keyboard event viewer
@@ -136,9 +132,6 @@ in {
           ventoy # bootable usb creator
           vulnix # nix security checker
           zip # archiver
-
-          # flakehub
-          fh
 
           # personal packages
           switchup
@@ -155,7 +148,6 @@ in {
           lib.any (p: p ? pname && p.pname == pname) config.home.packages;
         hasRipgrep = hasPackage "ripgrep";
         hasNeovim = config.programs.neovim.enable;
-        hasKitty = config.programs.kitty.enable;
       in rec {
         # main aliaes
         ls = "eza";
@@ -185,8 +177,6 @@ in {
         ndi = "nix develop --impure -c $SHELL";
         ns = "nix shell";
         nf = "nix flake";
-        flakeup =
-          "nix flake update --update-input nixpkgs --update-input home-manager";
 
         # build nixos iso file
         nbsiso = "nix build .#nixosConfigurations.nixiso.config.formats.iso";
@@ -201,11 +191,10 @@ in {
 
         # replacements
         cat = mkIf (hasPackage "bat") "bat";
-        dia = mkIf (hasPackage "dua") "dua interactive";
+        dua = mkIf (hasPackage "dua") "dua interactive";
         kubectl = mkIf (hasPackage "kubecolor") "kubecolor";
         ping = mkIf (hasPackage "prettyping") "prettyping";
         pipes = mkIf (hasPackage "pipes-rs") "piipes-rs";
-        ssh = mkIf hasKitty "kitty +kitten ssh";
 
         # general aliaes
         cik = "clone-in-kitty --type os-window";
@@ -225,6 +214,7 @@ in {
         rcp = "rclone copy -P --transfers=20";
         rgu = "rg -uu";
         rsync = "rsync --info=progress2 -r";
+        shit = "sudo $(fc -ln -1)";
         todoist = mkIf (hasPackage "todoist") "todoist --color";
         xclip = "xclip -selection c";
         vrg = mkIf (hasNeovim && hasRipgrep) "nvimrg";
@@ -244,16 +234,11 @@ in {
     };
 
     programs = {
-      bash = { enable = true; };
-
-      thefuck = {
-        enable = true;
-        # enableInstantMode = true;
-      };
+      bash.enable = true;
+      thefuck.enable = true;
 
       mcfly = {
         enable = true;
-
         keyScheme = "vim";
       };
 

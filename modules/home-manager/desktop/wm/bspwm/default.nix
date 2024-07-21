@@ -44,7 +44,7 @@ in {
       } && ${cmd}";
 
   in lib.mkIf wm.enable {
-    home.packages = with pkgs; [ bspwm sxhkd xclip ];
+    home.packages = with pkgs; [ bspwm sxhkd xclip xdragon ];
 
     xsession.enable = true;
 

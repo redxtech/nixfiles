@@ -27,21 +27,6 @@ in {
 
     openssh.authorizedKeys.keys =
       [ (readFile ../../../home/gabe/keys/ssh.pub) ];
-
-    packages = with pkgs; [
-      home-manager
-
-      discord
-      feh
-      firefox-devedition-bin
-      flameshot
-      kitty
-      libsForQt5.kleopatra
-      mozillavpn
-      mpv
-      networkmanagerapplet
-      vscodium
-    ];
   };
 
   base.yubiauth = {

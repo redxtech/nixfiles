@@ -75,6 +75,8 @@ in {
       '';
 
       shellIntegration.enableZshIntegration = true;
+      shellIntegration.enableFishIntegration = true;
+      shellIntegration.mode = "enabled";
     };
 
     xdg.configFile."kitty/pager.sh".text = ''

@@ -70,38 +70,21 @@ in {
       [
         # gui apps
         firefox-devedition-bin
-        flameshot
         gnome.gnome-software
-        gpaste
         kitty
         mpv
-
-        # thunar tools
-        webp-pixbuf-loader
-        poppler
-        ffmpegthumbnailer
-        freetype
-        libgsf
-        gnome-epub-thumbnailer
 
         # theme packages
         catppuccin-sddm-corners
         # sddm-chili-theme
 
         dracula-theme
-        nordzy-cursor-theme
         papirus-icon-theme
         vimix-icon-theme
 
         # other packages
         fontforge
       ] ++ cfg.apps;
-
-    programs.thunar = {
-      enable = true;
-
-      plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
-    };
 
     # font config
     fonts = {

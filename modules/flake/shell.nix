@@ -7,23 +7,25 @@
     devShells.default = pkgs.mkShell {
       packages = with pkgs; [
         age
+        fh
         git
         gnupg
-        hci
         home-manager
+        neovim-nightly
         nh
         nix
         sops
         ssh-to-age
         yadm
         inputs'.deploy-rs.packages.deploy-rs
-
-        # use the neovim installed with home-manager to ensure binaries are available
-        self.nixosConfigurations.bastion.config.home-manager.users.gabe.programs.neovim.finalPackage
       ];
 
       env.NIX_CONFIG =
         "extra-experimental-features = nix-command flakes repl-flake";
+
+      shellHook = ''
+        alias nrs="nh os switch"
+      '';
     };
   };
 }

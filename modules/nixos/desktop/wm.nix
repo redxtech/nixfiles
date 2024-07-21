@@ -94,7 +94,6 @@ in {
           gnomeExtensions.clipboard-indicator
           gnomeExtensions.docker
           gnomeExtensions.focus-changer
-          gnomeExtensions.forge
           gnomeExtensions.gesture-improvements
           gnomeExtensions.grand-theft-focus
           gnomeExtensions.just-perfection
@@ -102,12 +101,9 @@ in {
           gnomeExtensions.openweather
           gnomeExtensions.pip-on-top
           gnomeExtensions.power-profile-switcher
-          gnomeExtensions.remmina-search-provider
           gnomeExtensions.switch-focus-type
-          # gnomeExtensions.system76-scheduler
           gnomeExtensions.workspace-indicator-2
           gnomeExtensions.vitals
-          gnomeExtensions.x11-gestures
         ]));
   };
 }

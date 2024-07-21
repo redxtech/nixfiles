@@ -14,6 +14,17 @@
     isLaptop = false;
     kdeConnect = true;
 
+    apps = with pkgs; [
+      audacity # audio editor
+      beekeeper-studio-ultimate # database manager
+      deluge # torrent client
+      dolphin-emu # gamecube/wii emulator
+      ente-desktop # photos app
+      neovide # neovim gui
+      seabird # k8s gui
+      vivaldi # web browser
+    ];
+
     hardware = {
       cpuTempPath =
         "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp3_input";
@@ -129,4 +140,9 @@
   };
 
   services.syncthing.enable = true;
+
+  mopidy = {
+    enable = true;
+    extraConfigFiles = [ config.sops.secrets.mopidy_auth.path ];
+  };
 }

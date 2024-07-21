@@ -15,6 +15,7 @@ in {
     ./spotify.nix
     ./thunar.nix
     ./rofi.nix
+    ./zathura.nix
   ];
 
   options = let inherit (lib) mkOption types;
@@ -43,53 +44,22 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs;
       [
-        arandr
-        # audacity
-        beekeeper-studio-ultimate
-        betterdiscordctl
-        bitwarden-desktop
-        deluge
-        discord
-        dolphin-emu
-        ente-desktop
-        jellyfin-media-player
-        jellyfin-mpv-shim
-        kitty
-        libreoffice
-        multiviewer-for-f1
-        neovide
-        obsidian
-        obsidian-smart-connect
-        pavucontrol
+        arandr # arrange and resize
+        bitwarden-desktop # password manager
+        discord # chat app
+        libsForQt5.kleopatra # gpg gui
+        obsidian # notes app
+        pavucontrol # audio control panel
         peazip # file archiver
-        piper # gui for ratbagd
-        planify
-        playerctl
-        plexamp
-        qdirstat
-        qimgv
-        remmina
-        seabird
-        slack
-        xdragon
-        xfce.exo
-        xfce.thunar
-        xfce.thunar-archive-plugin
-        xfce.thunar-volman
-        vesktop
-        via
-        vivaldi
-        vlc
-        vscodium
-
-        # games
-        prismlauncher
+        piper # gui for ratbagd/logitech mouse control
+        prismlauncher # minecraft launcher
+        qdirstat # used storage visualizer
+        qimgv # image viewer
+        xfce.exo # file opener
+        thunar # file manager
+        vesktop # better discord client
+        vlc # video player
       ] ++ config.desktop.apps;
-
-    programs = {
-      feh.enable = true;
-      zathura.enable = true;
-    };
 
     services.playerctld = { enable = true; };
 

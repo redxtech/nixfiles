@@ -47,7 +47,7 @@ in {
           <name>Open folder as root</name>
           <submenu></submenu>
           <unique-id>1654600062096257-1</unique-id>
-          <command>${pkgs.polkit}/bin/pkexec ${pkgs.xfce.thunar}/bin/thunar %f</command>
+          <command>${pkgs.polkit}/bin/pkexec ${pkgs.thunar}/bin/thunar %f</command>
           <description>Opens the folder with root privileges.</description>
           <range></range>
           <patterns>*</patterns>
