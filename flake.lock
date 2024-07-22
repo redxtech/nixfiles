@@ -2199,11 +2199,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1721516657,
-        "narHash": "sha256-x16XIXHWE6mzief64kuJ6jIGe6BGOwmwJehkWsXDqz4=",
+        "lastModified": 1721633755,
+        "narHash": "sha256-gs58fXkVINBqkGXkutmiJPdcGU+m6vtUrZEgk+Uy0LY=",
         "owner": "redxtech",
         "repo": "Solaar-Flake",
-        "rev": "930c8e1e1f98e7e997bded68fe2c65bc07742ddb",
+        "rev": "7adea5c1eaad6f0fd91bceedd1dbe89319d43109",
         "type": "github"
       },
       "original": {
