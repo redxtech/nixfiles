@@ -105,7 +105,8 @@ in {
         kubernetes = {
           format = "[$symbol$context/$namespace]($style) ";
           style = "pink";
-          disabled = false; # figure out better way to do this
+          disabled = true;
+          # figure out better way to do this
           detect_folders = [ "ci" ];
         };
 

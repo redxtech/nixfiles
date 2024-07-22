@@ -20,7 +20,7 @@ in {
       shellAbbrs = {
         # nix
         nd = "nix develop";
-        nsr = "nix run nixpkgs#";
+        nr = "nix run nixpkgs#";
         nsn = "nix shell nixpkgs#";
         nbn = "nix build nixpkgs#";
         nbp =

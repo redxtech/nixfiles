@@ -99,7 +99,7 @@ in {
           nix-inspect # see which pkgs are in your PATH
           onefetch # current repo info
           pciutils # pci info
-          pfetch # system info
+          pfetch-rs # system info
           pipes-rs # pipes screensaver
           playerctl # media player controller
           # poetry # python package manager
