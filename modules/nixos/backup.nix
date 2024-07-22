@@ -129,7 +129,7 @@ in {
               cmd = let
                 command = pkgs.writeShellApplication {
                   name = "backup-rsync-${spath}";
-                  runtimeInputs = with pkgs; [ rsync ];
+                  runtimeInputs = with pkgs; [ openssh rsync ];
                   text = ''
                     rsync \
                     --archive \
