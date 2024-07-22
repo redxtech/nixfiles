@@ -105,4 +105,4 @@ let me know if you have any questions about them :)
 ![fakebusy](https://i.imgur.com/cJzEZJE.png)
 ![clean](https://i.imgur.com/j2cjXrs.jpeg)
 
-that's how my hyprland desktop setup look like (as of july 2024).
+this is how my hyprland desktop setup looks (as of july 2024).
