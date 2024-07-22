@@ -10,6 +10,8 @@ in {
         EDITOR = "nvim";
         VISUAL = "nvim";
       };
+
+      packages = with pkgs; [ nil ];
     };
 
     programs.neovim = {
@@ -25,6 +27,8 @@ in {
       viAlias = true;
       vimAlias = true;
       vimdiffAlias = true;
+
+      extraPackages = with pkgs; [ nil ];
 
       extraLuaConfig = ''
         -- bootstrap lazy.nvim
