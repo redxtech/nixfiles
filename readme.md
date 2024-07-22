@@ -27,7 +27,7 @@ this is where my configuration for *everything* is related.
   and remotely with `nix run .#deploy [<target>|all]`
 - deployment **secrets** using **sops-nix**
 - **mesh networked** hosts with **tailscale**
-- extensively configured window manager (**hyprland**), cli (**fish**), and editor (**neovim**)
+- extensively configured window manager (**hyprland**), cli (**fish** with custom starship prompt), and editor (**neovim**)
 
 ## structure
 
@@ -102,7 +102,7 @@ let me know if you have any questions about them :)
 
 ## unixpornish stuff
 
-![fakebusy](https://i.imgur.com/tHoWWnX.png)
-![clean](https://i.imgur.com/PrKM4QS.jpg)
+![fakebusy](https://i.imgur.com/cJzEZJE.png)
+![clean](https://i.imgur.com/j2cjXrs.jpeg)
 
-that's how my bspwm desktop setup look like (as of 2023 December).
+that's how my hyprland desktop setup look like (as of july 2024).
