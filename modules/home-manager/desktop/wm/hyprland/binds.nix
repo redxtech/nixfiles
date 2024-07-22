@@ -84,6 +84,7 @@ in {
           # rofi
           "$mod SHIFT, E, exec, ${cfg.scripts.wm.powermenu}"
           "$mod, Backspace, exec, ${cfg.scripts.wm.powermenu}"
+          "$mod SHIFT, W, exec, ${cfg.scripts.rofi.choose-wallpaper}"
 
           # notifications
           "$mod ALT, H, exec, ${dunst}/bin/dunstctl history-pop"

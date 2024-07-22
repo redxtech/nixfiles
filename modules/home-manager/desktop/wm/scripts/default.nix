@@ -50,6 +50,9 @@ in {
       app-launcher =
         scriptOpt "${pkgs.fuzzel}/bin/fuzzel" "The application launcher to use";
       archiver = scriptOpt "${rofi.archiver}/bin/archiver" "Archive script";
+      choose-wallpaper =
+        scriptOpt "${rofi.choose-wallpaper}/bin/choose-wallpaper"
+        "Choose a wallpaper";
       convert =
         scriptOpt "${rofi.convert}/bin/convert-image" "Image conversion script";
       encoder = scriptOpt "${rofi.encoder}/bin/encoder" "Video encoder script";
@@ -78,6 +81,7 @@ in {
       general.hdrop-btop
       general.ps_mem
       rofi.archiver
+      rofi.choose-wallpaper
       rofi.convert
       rofi.encoder
       rofi.nerd-icons

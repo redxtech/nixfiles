@@ -3,6 +3,7 @@
 let inherit (pkgs) callPackage;
 in {
   archiver = callPackage ./archiver.nix { };
+  choose-wallpaper = callPackage ./choose-wallpaper.nix { };
   convert = callPackage ./convert-image.nix { };
   encoder = callPackage ./encoder.nix { };
   nerd-icons = callPackage ./nerd-icons { };
