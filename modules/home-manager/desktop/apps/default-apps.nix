@@ -6,6 +6,8 @@ in {
     xdg.mimeApps = let
       vivaldiDesktop = "vivaldi.desktop";
       firefox = "firefox-developer-edition.desktop";
+
+      videos = [ "mpv.desktop" "vlc.desktop" ];
     in {
       enable = true;
 
@@ -42,9 +44,12 @@ in {
         "inode/directory" =
           [ "thunar.desktop" "nemo.desktop" "ranger.desktop" ];
         "audio/ogg" = [ "mpv.desktop" "vlc.desktop" ];
-        "video/mp4" = [ "mpv.desktop" "vlc.desktop" ];
+        "video/mp4" = videos;
+        "video/webm" = videos;
+        "video/x-matroska" = videos;
       };
-      defaultApplications = {
+      defaultApplications = let video = [ "mpv.desktop" ];
+      in {
         "inode/directory" = [ "nemo.desktop" ];
         "image/jpeg" = [ "imv-dir.desktop" ];
         "image/png" = [ "imv-dir.desktop" ];
@@ -52,7 +57,9 @@ in {
         "application/json" = [ "nvim.desktop" ];
         "application/pdf" = [ "zathura.desktop" ];
         "application/x-gnome-saved-search" = [ "nemo.desktop" ];
-        "video/mp4" = [ "mpv.desktop" ];
+        "video/mp4" = video;
+        "video/webm" = video;
+        "video/x-matroska" = video;
         "x-scheme-handler/postman" = [ "Postman.desktop" ];
         "x-scheme-handler/anytype" = [ "anytype.desktop" ];
       };

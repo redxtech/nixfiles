@@ -47,6 +47,7 @@ in {
         arandr # arrange and resize
         bitwarden-desktop # password manager
         discord # chat app
+        kooha # simple screen recorder
         libsForQt5.kleopatra # gpg gui
         obsidian # notes app
         pavucontrol # audio control panel

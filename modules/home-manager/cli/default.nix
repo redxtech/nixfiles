@@ -73,6 +73,7 @@ in {
           ffmpegthumbnailer # thumbnailer
           fh # flakehub
           figlet # ascii art
+          flatpak # flatpak manager
           frogmouth # markdown reader
           fx # better jq
           gallery-dl # image downloader
