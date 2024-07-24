@@ -11,7 +11,7 @@
         git
         gnupg
         home-manager
-        neovim-nightly
+        neovim
         nh
         nix
         sops

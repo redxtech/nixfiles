@@ -31,9 +31,21 @@ in {
       extraPackages = with pkgs; [ nil ];
 
       extraLuaConfig = ''
+        -- required for smart-open.nvim
+        vim.g.sqlite_clib_path = "${pkgs.sqlite.out}/lib/libsqlite3.so"
+
+        vim.g.libgit2_path = "${pkgs.libgit2.lib}/lib/libgit2.so" -- for fugit
+
         -- bootstrap lazy.nvim
         require('config.lazy')
       '';
+
+      extraWrapperArgs = [
+        "--prefix"
+        "LD_LIBRARY_PATH"
+        ":"
+        "${lib.makeLibraryPath [ pkgs.libgit2 ]}"
+      ];
 
       neo-lsp = {
         enable = lib.mkDefault true;

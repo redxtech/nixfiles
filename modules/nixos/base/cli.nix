@@ -78,7 +78,6 @@ in {
         mediainfo
         most
         neofetch
-        neovim-nightly
         nh
         openssl
         procps

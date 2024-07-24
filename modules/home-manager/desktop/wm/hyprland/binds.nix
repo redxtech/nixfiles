@@ -11,7 +11,7 @@ in {
         "$terminal" = "${kitty}/bin/kitty";
         "$browser" =
           "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
-        "$editor" = "${neovim-nightly}/bin/nvim";
+        "$editor" = "${config.programs.neovim.finalPackage}/bin/nvim";
         "$explorer" = "${cinnamon.nemo-with-extensions}/bin/nemo";
         "$music" = "${config.programs.spicetify.spicedSpotify}/bin/spotify";
 
