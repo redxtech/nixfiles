@@ -20,6 +20,7 @@
       deluge # torrent client
       dolphin-emu # gamecube/wii emulator
       ente-desktop # photos app
+      nautilus # file manager
       neovide # neovim gui
       seabird # k8s gui
       vivaldi # web browser

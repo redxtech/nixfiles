@@ -2277,11 +2277,11 @@
         "snowfall-lib": "snowfall-lib"
       },
       "locked": {
-        "lastModified": 1721763900,
-        "narHash": "sha256-6id1oehyNTs9lcQt5y0y45Cr7/aD5NZzFugA4QCI2/4=",
+        "lastModified": 1721808143,
+        "narHash": "sha256-mCobbQYKXg0L1yyOO1v8Df0drzPtTFY7tThG7+6OXWo=",
         "owner": "redxtech",
         "repo": "Solaar-Flake",
-        "rev": "60fabf98a39eff0492dbf955c1c7b9e13063eb80",
+        "rev": "036a679abcb2b7227be1f0e82ca1be16ac94b19b",
         "type": "github"
       },
       "original": {

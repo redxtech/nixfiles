@@ -110,6 +110,7 @@ in {
           ramfetch # system info
           rclone # cloud storage manager
           rsync # file transfer
+          sad # space age sed
           sd # better sed
           sshfs # mount remote filesystems
           steam-run # run binaries in fhs

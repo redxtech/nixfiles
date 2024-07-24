@@ -47,7 +47,6 @@ in {
   };
 
   config = let inherit (lib) concatStringsSep mkDefault;
-
   in mkIf cfg.enable {
     # use zen kernel if enabled
     boot.kernelPackages = mkIf cfg.useZen pkgs.linuxKernel.packages.linux_zen;

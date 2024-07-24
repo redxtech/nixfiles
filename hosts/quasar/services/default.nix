@@ -50,12 +50,7 @@ in {
     uptime-kuma = 3001;
   };
 
-  services = let
-    mkConf = name: cfg.paths.config + "/" + name + ":/config";
-    mkData = name: cfg.paths.data + "/" + name + ":/data";
-    downloads = cfg.paths.downloads + ":/downloads";
-    media = cfg.paths.media + ":/media";
-  in {
+  services = {
     # override the default configuration to enable ssl
     cockpit.settings.WebService = let port = toString cfg.ports.cockpit;
     in {

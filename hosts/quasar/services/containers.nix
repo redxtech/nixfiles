@@ -15,6 +15,7 @@ let
   mkDl = name: cfg.paths.downloads + "/" + name + ":/downloads";
   downloads = cfg.paths.downloads + ":/downloads";
   media = cfg.paths.media + ":/media";
+
   mkPort = host: guest: "${toString host}:${toString guest}";
   mkPorts = port: "${toString port}:${toString port}";
   mkTLstr = name: type: "traefik.http.${type}.${name}"; # make traefik label
