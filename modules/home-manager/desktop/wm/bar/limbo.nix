@@ -65,8 +65,7 @@ in {
               "network"
               "toggle"
             ];
-            tray.ignoredApps =
-              [ "" "KDE Connect Indicator" "Sunshine" "Spotify" ];
+            tray.ignoredApps = [ "KDE Connect Indicator" "Sunshine" ];
             nightLight = {
               dayIcon.color = colours.blue;
               nightIcon.color = colours.yellow;
