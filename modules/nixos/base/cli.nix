@@ -27,6 +27,9 @@ in {
           extraArgs = "--keep-since 4d --keep 3";
         };
       };
+
+      # for fugit2
+      nix-ld.libraries = with pkgs; [ libgit2 ];
     };
 
     environment = {

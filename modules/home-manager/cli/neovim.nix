@@ -17,7 +17,7 @@ in {
     programs.neovim = {
       enable = true;
 
-      package = pkgs.neovim-nightly;
+      # package = pkgs.neovim-nightly;
 
       withNodeJs = true;
       withPython3 = true;
@@ -28,7 +28,18 @@ in {
       vimAlias = true;
       vimdiffAlias = true;
 
-      extraPackages = with pkgs; [ nil ];
+      extraPackages = with pkgs; [
+        nil
+
+        # for nix-reaver
+        nurl
+
+        # for fugit2
+        libgit2
+        gpgme
+        lua5_1
+        lua51Packages.luarocks
+      ];
 
       extraLuaConfig = ''
         -- required for smart-open.nvim

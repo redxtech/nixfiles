@@ -74,6 +74,7 @@ in {
           gnutar
           gnumake
           trashy
+          efm-langserver
           buf-language-server
           wl-clipboard
           xclip
@@ -96,7 +97,8 @@ in {
         rust = with pkgs; [
           cargo # switch to use fenix ?
           rustfmt
-          rust-analyzer # use nightly
+          rust-analyzer-nightly
+          graphviz # for rust-analyzer
         ];
         python = with pkgs; [ black ruff-lsp python3Packages.debugpy pyright ];
         shell = with pkgs; [
