@@ -76,7 +76,7 @@ in {
 
         git_branch = {
           format = " [$branch(:$remote_branch)]($style)";
-          style = "bold green";
+          style = "green";
           symbol = " ";
         };
 
@@ -112,8 +112,8 @@ in {
 
         nix_shell = {
           symbol = " ";
-          style = "bold purple";
-          format = "[$symbol $state()](bold blue) ";
+          style = "purple";
+          format = "[$symbol $state()](blue) ";
         };
 
         nodejs = {
@@ -164,12 +164,12 @@ in {
 
         time = {
           format = "[\\[$time\\]]($style) ";
-          style = "bold cyan";
+          style = "cyan";
           disabled = false;
         };
 
         username = {
-          style_user = "bold cyan";
+          style_user = "cyan";
           style_root = "black bold";
           format = " [\\($user@]($style)";
           disabled = false;

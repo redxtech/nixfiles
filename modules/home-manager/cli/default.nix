@@ -112,6 +112,7 @@ in {
           rsync # file transfer
           sad # space age sed
           sd # better sed
+          sops # secrets manager
           sshfs # mount remote filesystems
           steam-run # run binaries in fhs
           slurm-nm # network monitor

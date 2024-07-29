@@ -59,7 +59,6 @@ in {
           "$mod, bracketright, workspace, m+1"
 
           # lock and sleep
-          "$mod SHIFT, L, exec, loginctl lock-session"
           "$mod CTRL, L, exec, loginctl sleep-session"
 
           # app launchers
