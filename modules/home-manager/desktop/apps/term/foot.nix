@@ -9,7 +9,7 @@ in {
 
       settings = {
         main = {
-          font = "Dank Mono:size=13";
+          font = "${config.fontProfiles.monospace.family}:size=14";
           initial-window-size-chars = "140x40";
         };
         scrollback.lines = 10000;

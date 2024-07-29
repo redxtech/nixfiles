@@ -9,8 +9,8 @@ in {
       enable = true;
 
       monospace = {
-        family = "Dank Mono";
-        package = pkgs.dank-mono;
+        family = "Iosevka Custom";
+        package = pkgs.iosevka-custom;
       };
 
       regular = {
@@ -31,12 +31,14 @@ in {
             "FiraCode"
             "Hack"
             "Inconsolata"
+            "Iosevka"
             # "JetBrainsMono"
             "NerdFontsSymbolsOnly"
             "Noto"
           ];
         })
         inter
+        iosevka-comfy.comfy
         jetbrains-mono
         noto-fonts
         noto-fonts-cjk

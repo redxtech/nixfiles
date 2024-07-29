@@ -8,10 +8,9 @@ in {
     programs.kitty = {
       enable = true;
 
-      # TODO: move to theme module
       theme = "Dracula";
       font = {
-        name = "DankMono-Regular";
+        name = config.fontProfiles.monospace.family;
         size = 13;
       };
 

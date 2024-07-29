@@ -93,7 +93,7 @@ in {
         defaultFonts = {
           serif = [ "Noto Serif" ];
           sansSerif = [ "Noto Sans" ];
-          monospace = [ "Dank Mono" ];
+          monospace = [ "Iosevka Custom" ];
           emoji = [ "Noto Color Emoji" ];
         };
       };

@@ -12,7 +12,7 @@ in {
 
       multiMonitor = length config.desktop.monitors > 1;
       getMon = i: (elemAt config.desktop.monitors i);
-      barFont = "Iosevka Custom";
+      barFont = config.fontProfiles.monospace.family;
     in with config.user-theme; {
       enable = lib.mkIf config.desktop.wm.wm == "bspwm";
 
