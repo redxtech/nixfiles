@@ -5,6 +5,7 @@
   fonts = import ./fonts.nix;
   gammarelay = import ./gammarelay.nix;
   mopidy = import ./mopidy.nix;
+  neovide = import ./neovide.nix;
   neo-lsp = import ./neo-lsp.nix;
   snapcast = import ./snapcast.nix;
   user-theme = import ./user-theme.nix;

@@ -72,6 +72,18 @@ in {
         yaml = { kubernetes = true; };
         terraform.enable = true;
       };
+
+      neovide = {
+        enable = true;
+        settings = {
+          frame = "none";
+          neovim-bin = "/home/gabe/Code/nvim/tu/result/bin/tdev";
+          font = {
+            normal = [ "Iosevka Comfy" "Symbols Nerd Font" ];
+            size = 14.0;
+          };
+        };
+      };
     };
 
     xdg.desktopEntries."neovim" = {
