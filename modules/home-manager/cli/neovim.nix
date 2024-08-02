@@ -11,7 +11,14 @@ in {
         VISUAL = "nvim";
       };
 
-      packages = with pkgs; [ nil ];
+      packages = with pkgs; [
+        nil # nix language server
+
+        # my custom, self-contained neovim config
+        tu
+        tu-dev
+        tu-profile
+      ];
     };
 
     programs.neovim = {

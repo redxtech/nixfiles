@@ -36,6 +36,9 @@
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    tu.url = "github:redxtech/tu";
+    tu.inputs.nixpkgs.follows = "nixpkgs";
+
     attic.url = "github:zhaofengli/attic";
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";

@@ -83,6 +83,7 @@
       # hyprland-xdph = inputs.hyprland-xdph.overlays.default;
       limbo = inputs.limbo.overlays.default;
       swww = inputs.swww.overlays.default;
+      tu = inputs.tu.overlays.default;
       # nix-neovim-plugins = inputs.nix-neovim-plugins.overlays.default;
       # nur = inputs.nur.overlay;
     };
