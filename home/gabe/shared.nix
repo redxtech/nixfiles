@@ -405,6 +405,10 @@ in {
           workspace = "r-www";
         };
       }];
+      runDays = [{
+        cmd = "${teams-for-linux}/bin/teams-for-linux";
+        days = [ 0 1 2 3 4 ];
+      }];
     };
   };
 
