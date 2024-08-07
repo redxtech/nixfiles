@@ -48,7 +48,7 @@ in {
           core = {
             autocrlf = "input";
             trustctime = false;
-            editor = "nvim";
+            editor = "tu";
             filemode = false;
           };
           color = { ui = true; };

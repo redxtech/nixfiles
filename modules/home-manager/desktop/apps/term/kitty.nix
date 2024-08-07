@@ -50,7 +50,7 @@ in {
 
         background_opacity = "0.9";
 
-        editor = "nvim";
+        editor = "tu";
 
         allow_remote_control = "socket-only";
         listen_on = "unix:/tmp/kitty";
@@ -91,7 +91,7 @@ in {
         AUTOCMD_TERMCLOSE_CMD="normal G"
       fi
 
-      exec nvim 63<&0 0</dev/null \
+      exec tu 63<&0 0</dev/null \
         -u NONE \
         -c "map <silent> q :qa!<CR>" \
         -c "set shell=bash scrollback=100000 termguicolors laststatus=0 clipboard+=unnamedplus" \
