@@ -21,9 +21,8 @@ in {
   options.desktop.wm.hyprland = {
     enable = lib.mkEnableOption "enable hyprland config";
 
-    binds = opt.wm.binds;
+    inherit (opt.wm) binds;
     autostart = opt.autostart.run;
-
   };
 
   config = mkIf cfg.enable {
