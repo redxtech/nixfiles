@@ -46,7 +46,7 @@ in {
         mv = "mv -v";
         rm = "rm -i";
 
-        vim = "nvim";
+        vim = "tu";
         vi = vim;
         v = vim;
 

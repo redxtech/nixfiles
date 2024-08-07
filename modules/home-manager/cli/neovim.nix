@@ -7,18 +7,17 @@ in {
   config = mkIf cfg.enable {
     home = {
       sessionVariables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
+        EDITOR = "tu";
+        VISUAL = "tu";
       };
 
-      packages = with pkgs; [
-        nil # nix language server
+      packages = with pkgs; [ nil ];
+    };
 
-        # my custom, self-contained neovim config
-        tu
-        tu-dev
-        tu-profile
-      ];
+    # my custom, self-contained neovim config
+    tu = {
+      enable = true;
+      packageNames = [ "tu" "tu-dev" "tu-profile" ];
     };
 
     programs.neovim = {
@@ -29,11 +28,6 @@ in {
       withNodeJs = true;
       withPython3 = true;
       withRuby = true;
-
-      defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
 
       extraPackages = with pkgs; [
         nil
@@ -77,7 +71,7 @@ in {
         enable = true;
         settings = {
           frame = "none";
-          neovim-bin = "/home/gabe/Code/nvim/tu/result/bin/tdev";
+          neovim-bin = "${config.tu.out.packages.tu}/bin/tu";
           font = {
             normal = [ "Iosevka Comfy" "Symbols Nerd Font" ];
             size = 14.0;
@@ -92,7 +86,7 @@ in {
       comment = "Edit text files";
       icon = "nvim";
       exec =
-        "${config.programs.kitty.package}/bin/kitty ${config.programs.neovim.finalPackage}/bin/nvim %F";
+        "${config.programs.kitty.package}/bin/kitty ${config.tu.out.packages.tu}/bin/tu %F";
       settings.TryExec = "nvim";
       startupNotify = false;
       type = "Application";

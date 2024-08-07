@@ -20,7 +20,7 @@ in {
       inputs.sops-nix.homeManagerModules.sops
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
       inputs.spicetify-nix.homeManagerModules.default
-
+      inputs.tu.homeManagerModules.default
       # global stable nixpkgs module for all systems
       stableNixpkgs
 
