@@ -56,10 +56,11 @@ in {
         prismlauncher # minecraft launcher
         qdirstat # used storage visualizer
         qimgv # image viewer
-        xfce.exo # file opener
+        teams-for-linux # microsoft teams (for linux!)
         thunar # file manager
         vesktop # better discord client
         vlc # video player
+        xfce.exo # file opener
       ] ++ config.desktop.apps;
 
     services.playerctld = { enable = true; };
