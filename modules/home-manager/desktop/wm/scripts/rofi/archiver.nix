@@ -1,10 +1,10 @@
-{ writeShellApplication, coreutils, cinnamon, libnotify, tofi, rofiApp ? tofi
-, rofiCmd ? "${tofi}/bin/tofi", ... }:
+{ writeShellApplication, coreutils, nemo-with-extensions, libnotify, tofi
+, rofiApp ? tofi, rofiCmd ? "${tofi}/bin/tofi", ... }:
 
 writeShellApplication {
   name = "archiver";
 
-  runtimeInputs = [ coreutils rofiApp cinnamon.nemo libnotify ];
+  runtimeInputs = [ coreutils rofiApp nemo-with-extensions libnotify ];
 
   text = let
     formats = [

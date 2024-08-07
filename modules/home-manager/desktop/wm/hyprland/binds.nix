@@ -12,7 +12,7 @@ in {
         "$browser" =
           "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
         "$editor" = "${config.tu.out.packages.tu}/bin/tu";
-        "$explorer" = "${cinnamon.nemo-with-extensions}/bin/nemo";
+        "$explorer" = "${nemo-with-extensions}/bin/nemo";
         "$music" = "${config.programs.spicetify.spicedSpotify}/bin/spotify";
 
         # TODO: get binds from config.desktop.wm.binds

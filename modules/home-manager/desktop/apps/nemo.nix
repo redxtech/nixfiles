@@ -1,11 +1,11 @@
-{ config, lib, pkgs, stable, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.desktop;
   scripts = cfg.wm.scripts;
 in {
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [ cinnamon.nemo-with-extensions ];
+    home.packages = with pkgs; [ nemo-with-extensions ];
 
     xdg.dataFile = let
       kitty = "${pkgs.kitty}/bin/kitty --class kitty_float";

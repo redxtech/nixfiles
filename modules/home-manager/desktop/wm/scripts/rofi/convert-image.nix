@@ -1,10 +1,10 @@
-{ writeShellApplication, imagemagick, cinnamon, libnotify, tofi
+{ writeShellApplication, imagemagick, nemo-with-extensions, libnotify, tofi
 , rofiCmd ? "${tofi}/bin/tofi", ... }:
 
 writeShellApplication {
   name = "convert-image";
 
-  runtimeInputs = [ imagemagick tofi cinnamon.nemo libnotify ];
+  runtimeInputs = [ imagemagick tofi nemo-with-extensions libnotify ];
 
   text = let formats = [ "png" "jpg" "webp" "svg" ];
   in ''

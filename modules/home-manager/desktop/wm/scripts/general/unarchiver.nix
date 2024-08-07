@@ -1,9 +1,9 @@
-{ writeShellApplication, atool, cinnamon, libnotify, ... }:
+{ writeShellApplication, atool, nemo-with-extensions, libnotify, ... }:
 
 writeShellApplication {
   name = "unarchiver";
 
-  runtimeInputs = [ atool cinnamon.nemo libnotify ];
+  runtimeInputs = [ atool nemo-with-extensions libnotify ];
 
   text = ''
     # script to unarchive files using atool

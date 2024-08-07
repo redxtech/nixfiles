@@ -1,10 +1,10 @@
-{ writeShellApplication, coreutils, ffmpeg_7, libnotify, cinnamon, tofi
-, rofiApp ? tofi, rofiCmd ? "${tofi}/bin/tofi", ... }:
+{ writeShellApplication, coreutils, ffmpeg_7, libnotify, nemo-with-extensions
+, tofi, rofiApp ? tofi, rofiCmd ? "${tofi}/bin/tofi", ... }:
 
 writeShellApplication {
   name = "encoder";
 
-  runtimeInputs = [ coreutils ffmpeg_7 libnotify rofiApp cinnamon.nemo ];
+  runtimeInputs = [ coreutils ffmpeg_7 libnotify rofiApp nemo-with-extensions ];
 
   text = let
     presets = [
