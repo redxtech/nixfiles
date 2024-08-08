@@ -112,9 +112,7 @@ in {
 
       deluge = {
         image = "lscr.io/linuxserver/deluge:latest";
-        labels = (mkLabelsPort "deluge" cfg.ports.deluge) // {
-          "com.centurylinklabs.watchtower.enable" = "false";
-        };
+        labels = mkLabelsPort "deluge" cfg.ports.deluge;
         ports = [
           (mkPorts cfg.ports.deluge)
           "6881:6881"
