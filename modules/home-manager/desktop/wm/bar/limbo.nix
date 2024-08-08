@@ -186,6 +186,8 @@ in {
               icon.color = colours.fg;
               openIcon.color = colours.fg;
             };
+            onPrimaryClick =
+              "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
           };
           sysmon = {
             onPrimaryClick = scripts.general.hdrop-btop;

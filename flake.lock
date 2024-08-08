@@ -3778,11 +3778,11 @@
         "vtsls": "vtsls"
       },
       "locked": {
-        "lastModified": 1723077997,
-        "narHash": "sha256-zM5+jKzKOyziUxPYSeBzKY++rLORDazAglTd2jfa2Rs=",
+        "lastModified": 1723141559,
+        "narHash": "sha256-Wjz106efJpBRk4qi+Vry/fEH8FMl2F3ej27JY9JMt/E=",
         "owner": "redxtech",
         "repo": "tu",
-        "rev": "6f4587345957c77cedb7f6e58028410bf3c0ed62",
+        "rev": "25498c7231b8a476aa83a412d6b99f4b15bc6470",
         "type": "github"
       },
       "original": {
