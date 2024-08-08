@@ -442,6 +442,7 @@ in {
       watchtower = {
         image = "containrrr/watchtower:latest";
         environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.watchtower 8080) ];
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 

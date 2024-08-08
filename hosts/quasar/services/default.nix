@@ -48,6 +48,7 @@ in {
     tandoor = 9700;
     tautulli = 8181;
     uptime-kuma = 3001;
+    watchtower = 7700;
   };
 
   services = {
