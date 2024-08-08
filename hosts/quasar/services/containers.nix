@@ -112,7 +112,9 @@ in {
 
       deluge = {
         image = "lscr.io/linuxserver/deluge:latest";
-        labels = mkLabelsPort "deluge" cfg.ports.deluge;
+        labels = (mkLabelsPort "deluge" cfg.ports.deluge) // {
+          "com.centurylinklabs.watchtower.enable" = "false";
+        };
         ports = [
           (mkPorts cfg.ports.deluge)
           "6881:6881"
@@ -435,6 +437,12 @@ in {
           (mkConf "tautulli")
           "${cfg.paths.config}/plex/Plex Media Server/Logs:/Logs"
         ];
+      };
+
+      watchtower = {
+        image = "containrrr/watchtower:latest";
+        environment = defaultEnv;
+        volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 
       # pairdrop
