@@ -16,43 +16,52 @@ in {
       enable = true;
 
       matchBlocks = let
-        mkDevice = name: {
-          inherit identityFile remoteForwards user;
-          hostname = "${name}.colobus-pirate.ts.net";
-          forwardAgent = true;
-        };
+        # default options for all hosts
+        mkHost = args:
+          {
+            inherit identityFile user;
+            identitiesOnly = true;
+          } // args;
+
+        # options for my personal devices
+        mkDevice = name:
+          mkHost {
+            inherit remoteForwards;
+            hostname = "${name}.colobus-pirate.ts.net";
+            # forwardX11 = true;
+            # forwardX11Trusted = true;
+          };
       in {
         bastion = mkDevice "bastion";
         voyager = mkDevice "voyager";
         quasar = mkDevice "quasar";
         deck = mkDevice "deck";
-        homeassistant = {
-          inherit identityFile;
+        homeassistant = mkHost {
           user = "hassio";
           hostname = "homeassistant";
         };
-        sb = {
-          inherit identityFile remoteForwards;
+        sb = mkHost {
           user = "redxtech";
           hostname = "titan.usbx.me";
-          forwardAgent = true;
         };
-        rsync = {
-          inherit identityFile;
+        rsync = mkHost {
           user = "fm1620";
           hostname = "fm1620.rsync.net";
         };
 
         # external services
-        "aur.archlinux.org" = {
+        "aur.archlinux.org" = mkHost {
           user = "aur";
           identityFile = "~/.ssh/aur.pub";
         };
-        "github.com" = {
-          inherit identityFile;
-          identitiesOnly = true;
-        };
+        "github.com" = mkHost { };
       };
+    };
+
+    # ensure public keys are present
+    home.file = {
+      ".ssh/id_rsa_yubikey.pub".source = ../../../home/gabe/keys/gpg.pub;
+      ".ssh/id_ed25519.pub".source = ../../../home/gabe/keys/ssh.pub;
     };
   };
 }
