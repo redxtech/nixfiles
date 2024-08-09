@@ -167,6 +167,7 @@ in {
       (lib.concatStringsSep "\n" cfg.mappings);
 
     # enable desktop notifications for yubikey auth
+    systemd.packages = [ pkgs.yubikey-touch-detector ];
     systemd.user = let
       serviceName = "yubikey-touch-detector";
       serviceConf = pkgs.writeText "service.conf" ''
@@ -182,6 +183,7 @@ in {
             "${pkgs.yubikey-touch-detector}/bin/yubikey-touch-detector";
           EnvironmentFile = "${serviceConf}";
         };
+        path = [ pkgs.gnupg ];
         requiredBy = [ "default.target" ];
         partOf = [ "${serviceName}.socket" ];
       };
