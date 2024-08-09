@@ -83,6 +83,9 @@ in {
         yubioath-flutter
       ];
 
+    # add udev rules for yubikey personalization
+    services.udev.packages = with pkgs; [ yubikey-personalization ];
+
     # enable smartcard support
     hardware.gpgSmartcards.enable = true;
 

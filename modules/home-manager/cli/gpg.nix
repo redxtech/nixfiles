@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   inherit (lib) mkIf;
@@ -42,26 +42,26 @@ in {
         list-options = "show-uid-validity";
         verify-options = "show-uid-validity";
         with-fingerprint = true;
-        # Display key origins and updates
-        #with-key-origin
+        # display key origins and updates
+        # with-key-origin
         require-cross-certification = true;
         no-symkey-cache = true;
         armor = true;
         use-agent = true;
-        throw-keyids = true;
-        # Keyserver URLs
+        # disable recipient key ID in messages (breaks mailvelope)
+        # throw-keyids = true;
         keyserver = [
           "hkps://keys.openpgp.org"
           "hkps://keyserver.ubuntu.com:443"
           "hkps://pgpkeys.eu"
           "hkps://pgp.circl.lu"
         ];
-        # Enable key retrieval using WKD and DANE
+        # enable key retrieval using WKD and DANE
         auto-key-locate = "wkd,dane,local";
         auto-key-retrieve = true;
         trust-model = "tofu+pgp";
-        # Show expired subkeys
-        #list-options show-unusable-subkeys
+        # show expired subkeys
+        # list-options = "show-unusable-subkeys";
       };
 
       scdaemonSettings.disable-ccid = true;
@@ -73,8 +73,8 @@ in {
     };
 
     systemd.user.services = {
-      # Link /run/user/$UID/gnupg to ~/.gnupg-sockets
-      # So that SSH config does not have to know the UID
+      # link /run/user/$UID/gnupg to ~/.gnupg-sockets
+      # so that SSH config does not have to know the UID
       link-gnupg-sockets = {
         Unit = { Description = "link gnupg sockets from /run to /home"; };
         Service = {
