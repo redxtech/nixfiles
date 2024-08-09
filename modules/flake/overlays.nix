@@ -81,6 +81,7 @@
       # hyprland-contrib = inputs.hyprland-contrib.overlays.default;
       # hyprland-plugins = inputs.hyprland-plugins.overlays.default;
       # hyprland-xdph = inputs.hyprland-xdph.overlays.default;
+      # hyprlock = inputs.hyprlock.overlays.default;
       limbo = inputs.limbo.overlays.default;
       swww = inputs.swww.overlays.default;
       # nix-neovim-plugins = inputs.nix-neovim-plugins.overlays.default;

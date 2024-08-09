@@ -53,18 +53,19 @@ in {
       packages = with pkgs;
         [
           comma # install and run programs by sticking a , before them
-          distrobox # nice escape hatch, integrates docker images with my environment
 
           age # encryption
           atool # work with archives
           bitwarden-cli # password manager
           bluetuith # bluetooth manager
+          bottom # top alternative
           cachix # nix binary cache manager
           catdoc # doc to text
           cowsay # ascii art
           cpufetch # cpu info
           dex # desktop entry executor
           diffsitter # better diff
+          distrobox # nice escape hatch, integrates docker images with my environment
           dogdns # better dig
           du-dust # better du
           dua # better du

@@ -46,7 +46,7 @@ in {
           "$mod, S, togglefloating"
           "$mod, Y, pin"
           "$mod, F, fullscreen"
-          "$mod SHIFT, F, fakefullscreen"
+          "$mod SHIFT, F, fullscreenstate"
           "$mod CTRL, J, togglesplit" # dwindle only
           "$mod, P, pseudo" # dwindle only
           "$mod, V, togglespecialworkspace, hidden"
