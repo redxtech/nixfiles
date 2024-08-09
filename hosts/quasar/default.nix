@@ -47,6 +47,8 @@
     };
   };
 
+  hardware.nvidia-container-toolkit.enable = true;
+
   # acme
   security.acme = {
     acceptTerms = true;

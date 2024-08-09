@@ -121,9 +121,7 @@ in {
         enable = true;
 
         # TODO: re-enable
-
         # storageDriver = "zfs";
-        # enableNvidia = true;
       };
 
       oci-containers = { backend = "docker"; };
