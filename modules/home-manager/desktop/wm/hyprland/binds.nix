@@ -10,7 +10,7 @@ in {
         "$mod" = "SUPER";
         "$terminal" = "${kitty}/bin/kitty";
         "$browser" =
-          "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
+          "${config.programs.firefox.finalPackage}/bin/firefox-developer-edition -p gabe";
         "$editor" = "${config.tu.out.packages.tu}/bin/tu";
         "$explorer" = "${nemo-with-extensions}/bin/nemo";
         "$music" = "${config.programs.spicetify.spicedSpotify}/bin/spotify";

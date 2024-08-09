@@ -122,7 +122,7 @@ in {
           kittyRun = "${kitty}/bin/kitty --single-instance ";
 
           ff =
-            "${firefox-devedition-bin}/bin/firefox-developer-edition -p gabe";
+            "${config.programs.firefox.finalPackage}/bin/firefox-developer-edition -p gabe";
         in [
           {
             description = "open terminal";

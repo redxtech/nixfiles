@@ -89,4 +89,3 @@ in {
     };
   };
 }
-# vim: filetype=nix
