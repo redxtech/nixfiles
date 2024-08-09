@@ -407,7 +407,7 @@ in {
       }];
       runDays = [{
         cmd = "${teams-for-linux}/bin/teams-for-linux";
-        days = [ 0 1 2 3 4 ];
+        days = [ 1 2 3 4 5 ]; # monday to friday
       }];
     };
   };
