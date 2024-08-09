@@ -32,8 +32,8 @@ in {
         enable_audio_bell = false;
 
         remember_window_size = false;
-        initial_window_width = "140c";
-        initial_window_height = "40c";
+        initial_window_width = "115c";
+        initial_window_height = "30c";
 
         tab_bar_edge = "bottom";
         tab_bar_style = "powerline";
