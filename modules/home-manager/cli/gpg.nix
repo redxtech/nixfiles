@@ -1,16 +1,29 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf optionals optionalString;
   cfg = config.cli;
+
+  pinentryPkgs =
+    (optionals config.desktop.enable (with pkgs; [ gcr pinentry-gnome3 ]))
+    ++ (optionals (!config.desktop.enable) (with pkgs; [ pinentry-curses ]));
+
+  # TODO: remove after https://github.com/nix-community/home-manager/pull/5720 is merged
+  agentCfg = config.services.gpg-agent;
+  gpgPkg = config.programs.gpg.package;
+  gpgSshSupportStr = ''
+    ${gpgPkg}/bin/gpg-connect-agent --quiet updatestartuptty /bye > /dev/null
+  '';
+  gpgInitStr = ''
+    GPG_TTY="$(tty)"
+    export GPG_TTY
+  '' + optionalString agentCfg.enableSshSupport gpgSshSupportStr;
+  gpgFishInitStr = ''
+    set -gx GPG_TTY (tty)
+  '' + optionalString agentCfg.enableSshSupport gpgSshSupportStr;
 in {
   config = mkIf cfg.enable {
-    home.packages = with pkgs;
-      if config.desktop.enable then [
-        gcr
-        pinentry-gnome3
-      ] else
-        [ pinentry-curses ];
+    home.packages = with pkgs; [ gpgme ] ++ pinentryPkgs;
 
     services.gpg-agent = {
       enable = true;
@@ -21,7 +34,16 @@ in {
       else
         pkgs.pinentry-curses;
       enableExtraSocket = true;
+
+      enableBashIntegration = false;
+      enableZshIntegration = false;
+      enableFishIntegration = false;
     };
+
+    # do it ourselves until PR merged
+    programs.bash.initExtra = gpgInitStr;
+    programs.zsh.initExtra = gpgInitStr;
+    programs.fish.interactiveShellInit = gpgFishInitStr;
 
     programs.gpg = {
       enable = true;
@@ -71,6 +93,21 @@ in {
         trust = 5;
       }];
     };
+
+    # add native messaging hosts for firefox
+    programs.firefox.nativeMessagingHosts = with pkgs;
+      mkIf config.programs.firefox.enable [ gpgme ];
+
+    # enable gpgme in firefox
+    home.file.".mozilla/native-messaging-hosts/gpgmejson.json".source =
+      let toJSON = pkgs.formats.json { };
+      in toJSON.generate "gpgmejson.json" {
+        name = "gpgmejson";
+        description = "JavaScript binding for GnuPG";
+        path = "${pkgs.gpgme}/bin/gpgme-json";
+        type = "stdio";
+        allowed_extensions = [ "jid1-AQqSMBYb0a8ADg@jetpack" ];
+      };
 
     systemd.user.services = {
       # link /run/user/$UID/gnupg to ~/.gnupg-sockets

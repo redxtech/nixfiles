@@ -388,10 +388,7 @@ in {
     };
 
     autostart = with pkgs; {
-      run = [
-        "${sftpman}/bin/sftpman mount_all"
-        "${gnupg}/bin/gpgconf --launch gpg-agent"
-      ];
+      run = [ "${sftpman}/bin/sftpman mount_all" ];
       runOnce = [
         "${vesktop}/bin/vesktop"
         "${config.programs.spicetify.spicedSpotify}/bin/spotify"
