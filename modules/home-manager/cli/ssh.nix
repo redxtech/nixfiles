@@ -54,7 +54,8 @@ in {
           user = "aur";
           identityFile = "~/.ssh/aur.pub";
         };
-        "github.com" = mkHost { };
+        "github.com" =
+          mkHost { identityFile = [ identityFile "~/.ssh/id_ed25519" ]; };
       };
     };
 
