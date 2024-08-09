@@ -7,7 +7,7 @@ in {
   config = mkIf cfg.enable {
     programs.ssh = let
       user = "gabe";
-      identityFile = "~/.ssh/id_ed25519";
+      identityFile = "~/.ssh/id_rsa_yubikey.pub";
       remoteForwards = [{
         bind.address = "/%d/.gnupg-sockets/S.gpg-agent";
         host.address = "/%d/.gnupg-sockets/S.gpg-agent.extra";
@@ -17,38 +17,40 @@ in {
 
       matchBlocks = let
         mkDevice = name: {
-          user = user;
-          identityFile = identityFile;
+          inherit identityFile remoteForwards user;
           hostname = "${name}.colobus-pirate.ts.net";
           forwardAgent = true;
-          remoteForwards = remoteForwards;
         };
       in {
-        "bastion" = mkDevice "bastion";
-        "voyager" = mkDevice "voyager";
-        "quasar" = mkDevice "quasar";
-        "deck" = mkDevice "deck";
-        "homeassistant" = {
+        bastion = mkDevice "bastion";
+        voyager = mkDevice "voyager";
+        quasar = mkDevice "quasar";
+        deck = mkDevice "deck";
+        homeassistant = {
+          inherit identityFile;
           user = "hassio";
-          identityFile = identityFile;
           hostname = "homeassistant";
         };
-        "sb" = {
+        sb = {
+          inherit identityFile remoteForwards;
           user = "redxtech";
-          identityFile = identityFile;
           hostname = "titan.usbx.me";
           forwardAgent = true;
-          remoteForwards = remoteForwards;
         };
         rsync = {
+          inherit identityFile;
           user = "fm1620";
-          identityFile = identityFile;
           hostname = "fm1620.rsync.net";
         };
-        "aur" = {
+
+        # external services
+        "aur.archlinux.org" = {
           user = "aur";
-          identityFile = "~/.ssh/aur";
-          # hostname = "titan.usbx.me";
+          identityFile = "~/.ssh/aur.pub";
+        };
+        "github.com" = {
+          inherit identityFile;
+          identitiesOnly = true;
         };
       };
     };

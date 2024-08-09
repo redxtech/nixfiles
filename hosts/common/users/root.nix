@@ -7,6 +7,7 @@
 
     openssh.authorizedKeys.keys = [
       (builtins.readFile ../../../home/gabe/keys/ssh.pub)
+      (builtins.readFile ../../../home/gabe/keys/gpg.pub)
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE1SeMUvFtcjtMbD+Kz7mGI1OSQ8ga18BflxAwzw/wLt quasar hercules-ci-agent ssh key"
     ];
   };

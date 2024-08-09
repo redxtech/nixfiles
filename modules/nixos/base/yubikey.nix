@@ -108,6 +108,9 @@ in {
       };
     };
 
+    # enable smartcard support
+    services.pcscd.enable = true;
+
     # lock the screen when the yubikey is removed
     services.udev.extraRules = let
       authfilePrefix = "/run/user/${cfg.lockOnRemove.userID}/xauth_";

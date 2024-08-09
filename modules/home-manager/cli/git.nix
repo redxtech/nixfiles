@@ -18,7 +18,7 @@ in {
         package = pkgs.hub;
 
         userName = "Gabe Dunn";
-        userEmail = "gabe@sent.at";
+        userEmail = "gabe@gabedunn.dev";
 
         aliases = {
           last = "log -1 --stat";
@@ -41,7 +41,7 @@ in {
 
         signing = {
           signByDefault = true;
-          key = null; # TODO: get per-device keys
+          key = "1FBF2D806C456BB6";
         };
 
         extraConfig = {
@@ -79,7 +79,13 @@ in {
           # };
         };
 
-        includes = [{ path = "${config.xdg.configHome}/git/gitconfig.local"; }];
+        includes = [
+          { path = "${config.xdg.configHome}/git/gitconfig.local"; }
+          {
+            condition = "gitdir:${config.home.homeDirectory}/Work/Restiv/";
+            path = "${config.home.homeDirectory}/Work/Restiv/.gitconfig";
+          }
+        ];
 
         difftastic = {
           enable = true;

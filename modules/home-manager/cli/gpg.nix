@@ -13,7 +13,7 @@ in {
         [ pinentry-curses ];
 
     services.gpg-agent = {
-      enable = false;
+      enable = true;
       enableSshSupport = true;
       sshKeys = [ "11148591F2B2026E9B2227BD5C7A1973A2838278" ];
       pinentryPackage = if config.desktop.enable then

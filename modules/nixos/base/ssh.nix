@@ -46,7 +46,7 @@ in {
         };
       }) [ "bastion" "voyager" "quasar" "deck" ]);
 
-      startAgent = true;
+      startAgent = false;
     };
   };
 }

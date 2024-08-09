@@ -25,8 +25,10 @@ in {
       "wireshark"
     ];
 
-    openssh.authorizedKeys.keys =
-      [ (readFile ../../../home/gabe/keys/ssh.pub) ];
+    openssh.authorizedKeys.keys = [
+      (readFile ../../../home/gabe/keys/gpg.pub)
+      (readFile ../../../home/gabe/keys/ssh.pub)
+    ];
   };
 
   base.yubiauth = {
