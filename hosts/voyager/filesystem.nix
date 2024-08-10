@@ -34,5 +34,4 @@
 
   swapDevices =
     [{ device = "/dev/disk/by-uuid/6bd41642-5a8c-4292-be4b-c7b74b4d44ac"; }];
-
 }

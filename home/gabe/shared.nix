@@ -16,7 +16,7 @@ in {
       multiviewer-for-f1 # formula 1 viewer
       plexamp # plex audio player
       via # keyboard flasher
-      vscodium # oss vs code
+      vscode-fhs # vs-code with fhs environment
     ];
 
     wm = {
@@ -67,6 +67,11 @@ in {
         {
           class = "plexmediaplayer";
           ws = "video";
+        }
+        {
+          class = "teams-for-linux";
+          ws = "r-www";
+          float = true;
         }
         {
           class = "Slack";
