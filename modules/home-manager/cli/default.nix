@@ -167,6 +167,7 @@ in {
         vi = vim;
         v = vim;
         svim = "sudo -e";
+        nrt = "nix run $HOME/Code/nvim/tu";
 
         grep = "grep --color=auto";
         diff = "diff --color=auto";
