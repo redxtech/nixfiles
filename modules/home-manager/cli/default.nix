@@ -116,6 +116,7 @@ in {
           sops # secrets manager
           sshfs # mount remote filesystems
           steam-run # run binaries in fhs
+          sl # teehee
           slurm-nm # network monitor
           timg # in-terminal image viewer
           todoist # todo app client
