@@ -1,37 +1,59 @@
-{ config, lib, pkgs, modulesPath, ... }:
-
 {
-  boot = {
-    loader.efi.efiSysMountPoint = "/boot/efi";
-
-    initrd = {
-      systemd.enable = true;
-
-      # setup keyfile
-      secrets = { "/crypto_keyfile.bin" = null; };
-      # enable swap on luks
-      luks.devices = {
-        "luks-56051129-eb6d-4e41-b9e3-f4a6f2a35d0a" = {
-          device = "/dev/disk/by-uuid/56051129-eb6d-4e41-b9e3-f4a6f2a35d0a";
-          keyFile = "/crypto_keyfile.bin";
+  disko.devices.disk.main = {
+    type = "disk";
+    device = "/dev/nvme0n1";
+    # device = "/dev/disk/by-uuid/xxx";
+    content = {
+      type = "gpt";
+      partitions = {
+        ESP = {
+          priority = 1;
+          name = "ESP";
+          start = "1M";
+          end = "4096M";
+          type = "EF00";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+          };
+        };
+        root = {
+          size = "100%";
+          content = {
+            type = "btrfs";
+            extraArgs =
+              [ "-f" "--nodesize" "8192" ]; # Override existing partition
+            # Subvolumes must set a mountpoint in order to be mounted,
+            # unless their parent is mounted
+            mountpoint = "/partition-root";
+            subvolumes = {
+              # Subvolume name is different from mountpoint
+              "/rootfs" = { mountpoint = "/"; };
+              # Subvolume name is the same as the mountpoint
+              "/home" = {
+                mountOptions = [ "compress=zstd" ];
+                mountpoint = "/home";
+              };
+              # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
+              "/home/gabe" = { };
+              # Parent is not mounted so the mountpoint must be set
+              "/nix" = {
+                mountOptions = [ "compress=zstd" "noatime" ];
+                mountpoint = "/nix";
+              };
+            };
+          };
+        };
+        swap = {
+          size = "38G";
+          content = {
+            type = "swap";
+            discardPolicy = "both";
+            resumeDevice = true; # resume from hiberation from this device
+          };
         };
       };
     };
   };
-
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/6266c14d-0c06-4fe1-ac9f-49eaf2310252";
-    fsType = "ext4";
-  };
-
-  boot.initrd.luks.devices."luks-24fe8a73-27ce-431b-a16d-ca5dccadcd5c".device =
-    "/dev/disk/by-uuid/24fe8a73-27ce-431b-a16d-ca5dccadcd5c";
-
-  fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-uuid/EF04-7245";
-    fsType = "vfat";
-  };
-
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/6bd41642-5a8c-4292-be4b-c7b74b4d44ac"; }];
 }

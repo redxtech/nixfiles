@@ -5,11 +5,12 @@ in {
   flake = let
     allNixos = import ../nixos;
     allHomeManager = import ../home-manager;
+    hardware = inputs.hardware.nixosModules;
 
     stableNixpkgs = ({ pkgs, ... }: {
       _module.args.stable = import inputs.nixpkgs-stable {
         inherit (self.nixCfg.nixpkgs) overlays;
-        system = pkgs.system;
+        inherit (pkgs) system;
         config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
       };
     });
@@ -58,40 +59,41 @@ in {
     nixosModules = {
       common = nixosCommon;
 
-      bastion.imports = [
-        ../../hosts/bastion
+      bastion.imports = with hardware;
+        [
+          ../../hosts/bastion
 
-        inputs.hardware.nixosModules.common-cpu-amd
-        inputs.hardware.nixosModules.common-gpu-amd
-        inputs.hardware.nixosModules.common-pc-ssd
+          common-cpu-amd
+          common-gpu-amd
+          common-pc-ssd
 
-        inputs.disko.nixosModules.disko
-      ] ++ nixosCommon;
+          inputs.disko.nixosModules.disko
+        ] ++ nixosCommon;
 
-      voyager.imports = [
-        ../../hosts/voyager
+      voyager.imports = with hardware;
+        [
+          ../../hosts/voyager
 
-        inputs.hardware.nixosModules.dell-xps-15-7590-nvidia
-        inputs.hardware.nixosModules.common-cpu-intel-cpu-only
-        inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
-        inputs.hardware.nixosModules.common-pc-ssd
-      ] ++ nixosCommon;
+          framework.framework-16-7040-amd
+        ] ++ nixosCommon;
 
-      quasar.imports = [
-        ../../hosts/quasar
+      quasar.imports = with hardware;
+        [
+          ../../hosts/quasar
 
-        inputs.hardware.nixosModules.common-cpu-intel-cpu-only
-        inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
-        inputs.hardware.nixosModules.common-pc-ssd
-      ] ++ nixosCommon;
+          common-cpu-intel-cpu-only
+          common-gpu-nvidia-nonprime
+          common-pc-ssd
+        ] ++ nixosCommon;
 
-      deck.imports = [
-        ../../hosts/deck
+      deck.imports = with hardware;
+        [
+          ../../hosts/deck
 
-        inputs.hardware.nixosModules.common-cpu-amd
-        inputs.hardware.nixosModules.common-gpu-amd
-        inputs.hardware.nixosModules.common-pc-ssd
-      ] ++ nixosCommon;
+          common-cpu-amd
+          common-gpu-amd
+          common-pc-ssd
+        ] ++ nixosCommon;
     } // allNixos;
 
     homeManagerModules = {
