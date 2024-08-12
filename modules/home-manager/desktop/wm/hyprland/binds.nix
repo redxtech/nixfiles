@@ -64,7 +64,7 @@ in {
           # app launchers
           "$mod, Return, exec, $terminal"
           "$mod SHIFT, Return, exec, [floating] $terminal"
-          "CTRL, Return, exec, ${pkgs.foot}/bin/footclient"
+          "$mod CTRL, Return, exec, ${pkgs.foot}/bin/footclient"
           "$mod, SPACE, exec, ${scripts.rofi.app-launcher}"
           "$mod, W, exec, $browser"
           "$mod, G, exec, $explorer"

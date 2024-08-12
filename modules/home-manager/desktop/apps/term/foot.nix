@@ -18,6 +18,7 @@ in {
           blink = true;
         };
         mouse.hide-when-typing = true;
+        tweak.font-monospace-warn = false;
         colors = {
           background = "282a36";
           foreground = "f8f8f2";
