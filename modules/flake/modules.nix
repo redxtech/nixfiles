@@ -74,7 +74,7 @@ in {
         [
           ../../hosts/voyager
 
-          framework.framework-16-7040-amd
+          framework-16-7040-amd
 
           inputs.disko.nixosModules.disko
         ] ++ nixosCommon;
