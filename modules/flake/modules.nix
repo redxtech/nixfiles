@@ -75,6 +75,8 @@ in {
           ../../hosts/voyager
 
           framework.framework-16-7040-amd
+
+          inputs.disko.nixosModules.disko
         ] ++ nixosCommon;
 
       quasar.imports = with hardware;
