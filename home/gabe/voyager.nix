@@ -7,24 +7,28 @@
   desktop = {
     wm = {
       enable = true;
-      wm = "bspwm";
-      bspwm.enable = true;
+      wm = "hyprland";
+      hyprland.enable = true;
     };
 
     isLaptop = true;
 
     hardware = {
-      cpuTempPath = "/sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input";
+      cpuTempPath =
+        "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon6/temp1_input";
 
       network = {
         type = "wireless";
-        interface = "wlp59s0";
+        interface = "wlp4s0";
       };
     };
 
     monitors = [{
-      name = "eDP-1";
+      name = "eDP-2";
       primary = true;
+      height = 1600;
+      width = 2560;
+      rate = 165;
       workspaces = [
         {
           name = "shell";
@@ -71,8 +75,7 @@
           number = 10;
         }
       ];
-      fingerprint =
-        "00ffffffffffff004d10ba1400000000161d0104a52213780ede50a3544c99260f505400000001010101010101010101010101010101ac3780a070383e403020350058c210000018000000000000000000000000000000000000000000fe004d57503154804c513135364d31000000000002410332001200000a010a202000d3";
+      fingerprint = "";
     }];
 
     # rename wireplumber devices
