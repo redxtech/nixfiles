@@ -63,6 +63,7 @@
         ./modules/flake/ci.nix
         ./modules/flake/deploy.nix
         ./modules/flake/nix.nix
+        ./modules/flake/nixiso.nix
         ./modules/flake/modules.nix
         ./modules/flake/overlays.nix
         ./modules/flake/packages.nix
@@ -94,12 +95,15 @@
             system = "x86_64-linux";
             modules = [ self.nixosModules.deck ];
           };
+          # iso for usb stick
+          nixiso = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit self; };
+            modules = [ self.nixosModules.nixiso ];
+          };
         };
       };
 
-      # per-system attributes can be defined here. the self' and inputs'
-      # module parameters provide easy access to attributes of the same
-      # system.
       perSystem = { config, self', inputs', pkgs, system, ... }: {
         formatter = pkgs.nixpkgs-fmt;
       };

@@ -96,6 +96,12 @@ in {
           common-gpu-amd
           common-pc-ssd
         ] ++ nixosCommon;
+
+      nixiso.imports = [
+        ../../hosts/nixiso
+
+        inputs.disko.nixosModules.disko
+      ];
     } // allNixos;
 
     homeManagerModules = {
