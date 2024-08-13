@@ -50,7 +50,6 @@ jobs:
           - dashy
           - ente-desktop
           - iosevka-custom
-          - obsidian-smart-connect
           - seabird
           - switchup
     runs-on: ubuntu-latest

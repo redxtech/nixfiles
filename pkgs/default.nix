@@ -8,7 +8,6 @@
   imv-patched = pkgs.callPackage ./imv { };
   iosevka-custom = stable.callPackage ./iosevka-custom { };
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
-  obsidian-smart-connect = pkgs.callPackage ./obsidian-smart-connect { };
   seabird = stable.callPackage ./seabird { };
   syspower = pkgs.callPackage ./syspower { };
   vuetorrent = pkgs.callPackage ./vuetorrent { };
