@@ -202,10 +202,12 @@ in {
           todo.icon.color = colours.red;
           twitch.channels = [ "Wirtual" "Wirtual2" "btssmash" ];
           workspaces = {
-            monitors = [
+            monitors = if (!cfg.isLaptop) then [
               { workspaces = [ 1 2 3 4 5 6 ]; }
               { workspaces = [ 7 8 9 10 ]; }
-            ];
+            ] else [{
+              workspaces = [ 1 2 3 4 5 6 7 8 9 10 ];
+            }];
             color = {
               active = colours.cyan;
               hasWindows = colours.cyan;

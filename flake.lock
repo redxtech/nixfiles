@@ -1955,11 +1955,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1720639387,
-        "narHash": "sha256-o2/v3/A4m3cpfzXtm1/E4ZvPr0UkGv2EdVgZxpmGyos=",
+        "lastModified": 1723527741,
+        "narHash": "sha256-36IXBSsm0YrLnwMWP3u+O49oNilr/1L4jgZ+I1Ah5J8=",
         "owner": "co-conspirators",
         "repo": "limbo",
-        "rev": "f9da0496fe65c1edb0615d12bf68ef94439731ac",
+        "rev": "eaca1f355bf6a62306f36da105f5a58f046baa5c",
         "type": "github"
       },
       "original": {
