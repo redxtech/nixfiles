@@ -97,6 +97,24 @@ in {
           '';
         };
 
+        tat = {
+          description = "Open or attach to a tmux session";
+          argumentNames = [ "session" ];
+          body = ''
+            if test "$session" = "ls";
+            	tmux ls
+            	exit
+            end
+
+            # if no argument is passed, use $USER
+            if test -z "$session"
+            	set session "$USER"
+            end
+
+            tmux new -A -s "$session"
+          '';
+        };
+
         # quick wrapper to make running `nix develop` without any arguments
         # run Fish instead of Bash.
         nix = {
