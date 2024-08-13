@@ -6,7 +6,7 @@ keys:
   # hosts
   - &hosts:
     - &bastion age1wdy8dlkhxmxgqqfzjqg9e2jz40qkmp9pkvshzxvzz8ytwa255eqqnl2fcs
-    - &voyager age1adqrqr0jt44l7lp2z7am0elzvkmwhwcp57ra7p4l8yt489yq0p4sehkfe3
+    - &voyager age1yn5zkzs03v0lvf6ltc77eqa0mkjux6v60z8s5ejwrnkfzpk5xvdqh3ea43
     - &quasar age19ke07grxa0eshd3eqhgrahua90yslcdw4ecktsdtcpwd7mw98duszff9x0
     - &deck age1yn0dnu32zfw05e4vazgpa0yxj3r8208hqa02sv8hdsfkg0fd83tqaflsym
 
