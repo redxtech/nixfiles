@@ -11,6 +11,7 @@ this is where my configuration for *everything* is related.
   - my laptop (`voyager`)
   - my home server (`quasar`)
   - my steam deck (`deck`)
+  - custom installation/recovery media (`nixiso`)
 - automatic deployments via github actions and cachix-deploy (also deploy-rs)
 - secrets management via sops-nix
 - custom package definitions
@@ -19,6 +20,10 @@ this is where my configuration for *everything* is related.
   - configurable base & desktop modules for consistency across systems
   - custom desktop, window manager, cli, and editor configurations
   - modules for software that doesn't exist in nixpkgs/home-manager
+- custom shell, accessible from anywhere with `nix develop --impure github:redxtech/nixfiles#remote`
+  - includes important cli tools
+  - configures nix to use flakes and nix-command
+  - starship prompt
 
 **highlights**:
 
@@ -31,14 +36,14 @@ this is where my configuration for *everything* is related.
 
 ## structure
 
-> this section is not updated in-sync with the actual repository, but should give a good idea of what to expect
+> this section is not updated in-sync with the actual repository, but should give a decent idea of what to expect
 
 - `flake.nix`: entrypoint for hosts and home configurations. also exposes a
   devshell for boostrapping (`nix develop`).
 - `hosts`: nixOS Configurations, accessible via `nixos-rebuild --flake`.
-  - `common`: shared configurations consumed by each host.
+  - `common`: shared configurations consumed by each host. users, etc.
   - `bastion`: desktop - 32GB RAM, R9 5900X, RX 7900XT | hyprland
-  - `voyager`: dell xps 15 - 16GB RAM, i7 9750H, GTX 1650 | BSPWM
+  - `voyager`: framework 16 - 32GB RAM, R9 7940HS, RX 7700S | hyprland
   - `quasar`: home server - 32GB RAM, i7 6700K, GTX 970 | headless
   - `deck`: steam deck - 16 GB RAM, custom AMD APU | steamOS & gnome
 - `home`: home-manager configuration, acessible via `home-manager --flake`
