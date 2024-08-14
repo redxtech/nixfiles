@@ -89,9 +89,9 @@ in {
           res = w: h: "${toString w}x${toString h}";
           pos = x: y: "${toString x}x${toString y}";
           mkMonitor = { name, height, width, rate, x, y, scale, ... }:
-            ("${name},${res width height}@${toString rate},${
-                pos x y
-              },${scale}");
+            "${name},${res width height}@${toString rate},${pos x y},${
+              toString scale
+            }";
 
           monitors = map mkMonitor config.desktop.monitors;
         in monitors
@@ -104,7 +104,7 @@ in {
           # generate workspace string
           mkWorkspace = monitor:
             { name, number, ... }:
-            ("${toString number},monitor:${monitor},defaultName:${name}");
+            "${toString number},monitor:${monitor},defaultName:${name}";
 
           # get list of workspaces for a monitor
           mkMonitor = { name, workspaces, ... }:

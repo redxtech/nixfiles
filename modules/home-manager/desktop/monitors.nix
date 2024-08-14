@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 
 let
-  inherit (lib) mkOption types;
+  inherit (lib) mkIf mkOption types;
   cfg = config.desktop;
 in with types; {
   # list of monitors & their workspaces
@@ -43,6 +43,11 @@ in with types; {
             type = int;
             default = 60;
           };
+          vrr = mkOption {
+            type = bool;
+            default = false;
+            description = "Enable variable refresh rate";
+          };
           x = mkOption {
             type = int;
             default = 0;
@@ -52,8 +57,8 @@ in with types; {
             default = 0;
           };
           scale = mkOption {
-            type = str;
-            default = "1";
+            type = float;
+            default = 1.0;
           };
           hasBar = mkOption {
             type = bool;
@@ -115,6 +120,8 @@ in with types; {
   config = let
     inherit (lib) head filter length;
     primaryMonitors = (filter (m: m.primary) cfg.monitors);
+    isWayland = cfg.wm.hyprland.enable;
+    isX11 = !isWayland;
   in lib.mkIf cfg.enableMonitors {
     # ensure exactly one monitor is set to primary
     assertions = [{
@@ -132,10 +139,9 @@ in with types; {
 
       mkAutorandrConf =
         { name, enable, primary, height, width, rate, x, y, ... }: {
-          name = name;
+          inherit name;
           value = {
-            enable = enable;
-            primary = primary;
+            inherit enable primary;
             mode = "${toString width}x${toString height}";
             rate = "${toString rate}.00";
             position = "${toString x}x${toString y}";
@@ -143,19 +149,40 @@ in with types; {
         };
 
       mkAutorandrFingerprint = { name, fingerprint, ... }: {
-        name = name;
+        inherit name;
         value = fingerprint;
       };
 
       autorandrConf = listToAttrs (map mkAutorandrConf cfg.monitors);
       autorandrFpts = listToAttrs (map mkAutorandrFingerprint cfg.monitors);
-    in {
+    in mkIf isX11 {
       enable = (length cfg.monitors) != 0;
 
       profiles.default = {
         config = autorandrConf;
         fingerprint = autorandrFpts;
       };
+    };
+
+    services.kanshi = let
+      mkKanshiOutput = { name, height, width, rate, vrr, x, y, scale, ... }: {
+        inherit scale;
+        criteria = name;
+        mode = "${toString width}x${toString height}@${toString rate}";
+        position = "${toString x},${toString y}";
+        adaptiveSync = vrr;
+      };
+    in mkIf isWayland {
+      enable = true;
+
+      systemdTarget = "hyprland-session.target";
+
+      settings = [{
+        profile = {
+          name = "default";
+          outputs = map mkKanshiOutput cfg.monitors;
+        };
+      }];
     };
   };
 }
