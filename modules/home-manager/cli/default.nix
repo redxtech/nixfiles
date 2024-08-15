@@ -87,6 +87,7 @@ in {
           libwebp # webp support
           # ltex-ls # spell checking LSP
           lsb-release # get distro info
+          lsof # list open files
           lshw # hardware info
           lyrics # lyrics in terminal
           manix # nix documentation tool
