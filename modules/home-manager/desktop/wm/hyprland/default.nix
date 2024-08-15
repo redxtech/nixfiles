@@ -48,7 +48,12 @@ in {
         input = {
           follow_mouse = 1;
 
-          touchpad = { natural_scroll = "no"; };
+          touchpad = {
+            disable_while_typing = true;
+            natural_scroll = true;
+            middle_button_emulation = true;
+            scroll_factor = 0.5;
+          };
 
           repeat_rate = 40;
           repeat_delay = 240;
@@ -82,7 +87,7 @@ in {
 
         gestures = {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          workspace_swipe = "off";
+          workspace_swipe = true;
         };
 
         monitor = let
