@@ -72,6 +72,7 @@ in {
           fd # better find
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
+          ffsend # file sharing
           fh # flakehub
           figlet # ascii art
           flatpak # flatpak manager
@@ -233,6 +234,7 @@ in {
 
       sessionVariables = {
         DIRENV_LOG_FORMAT = "";
+        FFSEND_HOST = "send.super.fish";
         KUBECONFIG = "${config.xdg.configHome}/kube/config";
         PF_INFO =
           "ascii title os kernel uptime shell term desktop scheme palette";
