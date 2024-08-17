@@ -140,6 +140,7 @@ in {
       ratbagd.enable = mkDefault true;
       touchegg.enable = mkDefault cfg.isLaptop;
       tumbler.enable = mkDefault true;
+      upower.enable = mkDefault cfg.isLaptop;
     };
 
     hardware = {
