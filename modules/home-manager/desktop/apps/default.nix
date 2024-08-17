@@ -14,6 +14,7 @@ in {
     ./nemo.nix
     ./spotify.nix
     ./thunar.nix
+    ./thunderbird.nix
     ./rofi.nix
     ./zathura.nix
   ];

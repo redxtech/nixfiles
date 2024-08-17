@@ -41,6 +41,17 @@ in {
           follow = false;
         }
         {
+          class = "thunderbird";
+          ws = "files";
+          follow = false;
+        }
+        {
+          class = "thunderbird";
+          title = "Write.*";
+          float = true;
+          ws = "*";
+        }
+        {
           initialTitle = "Spotify";
           ws = "music";
         }
