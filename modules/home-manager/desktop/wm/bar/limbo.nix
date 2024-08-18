@@ -2,9 +2,10 @@
 
 let
   cfg = config.desktop;
-  scripts = cfg.wm.scripts;
+  inherit (cfg.wm) scripts;
+  inherit (lib) mkIf singleton optional;
 in {
-  config = lib.mkIf cfg.wm.enable {
+  config = mkIf cfg.wm.enable {
     services.limbo = let colours = config.user-theme;
     in {
       enable = true;
@@ -14,9 +15,8 @@ in {
 
         bar = {
           theme = {
-            bg = colours.bg;
+            inherit (colours) bg fg;
             sectionBg = colours.bgAlt;
-            fg = colours.fg;
           };
           modules = {
             left = [
@@ -27,11 +27,33 @@ in {
               "music"
             ];
             center = [ "workspaces" ];
-            right = [ "sysmon" "quick-settings" "clock" ];
+            right = [ "sysmon" "quick-settings" ]
+              ++ optional cfg.isLaptop "battery" ++ singleton "clock";
           };
           appLauncher = {
             icon = { color = colours.fg; };
             onPrimaryClick = "${pkgs.fuzzel}/bin/fuzzel";
+          };
+          battery = {
+            rampIcons = with colours; [
+              {
+                name = "battery-4";
+                color = green;
+              }
+              {
+                name = "battery-3";
+                color = green;
+              }
+              {
+                name = "battery-2";
+                color = yellow;
+              }
+              {
+                name = "battery-1";
+                color = red;
+              }
+            ];
+            chargingIcon.color = colours.green;
           };
           clock.icon.color = colours.green;
           notifications = {
