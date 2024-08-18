@@ -52,8 +52,9 @@
           icon = "󰉋";
         }
         {
-          name = "five";
+          name = "music";
           number = 5;
+          icon = "󰓇";
         }
         {
           name = "six";

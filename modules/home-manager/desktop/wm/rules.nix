@@ -18,6 +18,13 @@ in {
           type = bool;
           example = toString (!default);
         };
+      mkInt = description:
+        mkOption {
+          inherit description;
+          type = nullOr int;
+          default = null;
+          example = "1";
+        };
     in mkOption {
       type = listOf (submodule {
         options = {
@@ -28,6 +35,7 @@ in {
 
           # which workspace/desktop to send the window to
           ws = mkStr "Workspace to send window" "1";
+          wsNum = mkInt "Workspace number to send window";
 
           # window state
           float = mkBool "Float the window" false;

@@ -37,7 +37,7 @@ in {
         }
         {
           class = "discord|vesktop";
-          ws = "chat";
+          wsNum = 3;
           follow = false;
         }
         {
