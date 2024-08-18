@@ -56,7 +56,7 @@ in {
             inherit font_family monitor;
             text = ''cmd[update:1000] date +"%-I:%M%p"'';
             font_size = 80;
-            position = "40, 0";
+            position = "40, 90";
             halign = "left";
             valign = "bottom";
           }
@@ -67,7 +67,7 @@ in {
             text =
               "cmd[update:5000] ${cfg.wm.scripts.bar.playerctl-tail} status-once | sed 's/&/&amp;/g'";
             font_size = 20;
-            position = "50, 20";
+            position = "50, 40";
             halign = "left";
             valign = "bottom";
           }

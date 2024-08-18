@@ -1955,11 +1955,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1723946694,
-        "narHash": "sha256-8ZpU9sTmmclRh5PULRf6xh6L5U3ysBilaXzv1jnj5B0=",
+        "lastModified": 1723960673,
+        "narHash": "sha256-LSfZ/Mynicm6fdvqWbQkcqK6VABC6/NJFJqWxYQb8WQ=",
         "owner": "co-conspirators",
         "repo": "limbo",
-        "rev": "1f4e8fd73490faf9be8c44d5751a70a0e1ceb06a",
+        "rev": "23a8613c7259ae9e5862838880221c8ae645abe8",
         "type": "github"
       },
       "original": {
@@ -3778,11 +3778,11 @@
         "vtsls": "vtsls"
       },
       "locked": {
-        "lastModified": 1723712011,
-        "narHash": "sha256-0mV4p0lDCxDgnGFie/7WnVGZqvsDwvNkg8i/IUsEk7M=",
+        "lastModified": 1723961046,
+        "narHash": "sha256-dDDitAWW1xE7Q9gbf9FrwowxG1x2SS0OQ71kW88fetM=",
         "owner": "redxtech",
         "repo": "tu",
-        "rev": "0f6be4456476ed40d438c42144e848b6b5fcc656",
+        "rev": "b6eb66b899a2f4be62e1a8efc588ef3a47d02ff2",
         "type": "github"
       },
       "original": {

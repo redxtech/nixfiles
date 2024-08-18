@@ -3,7 +3,7 @@
 let
   cfg = config.desktop;
   inherit (cfg.wm) scripts;
-  inherit (lib) mkIf singleton optional;
+  inherit (lib) mkIf optional;
 in {
   config = mkIf cfg.wm.enable {
     services.limbo = let colours = config.user-theme;
@@ -19,16 +19,11 @@ in {
             sectionBg = colours.bgAlt;
           };
           modules = {
-            left = [
-              "app-launcher"
-              "notifications"
-              "todo"
-              # "twitch"
-              "music"
-            ];
+            left = [ "app-launcher" "notifications" ]
+              ++ optional (!cfg.isLaptop) "todo" ++ [ "music" ];
             center = [ "workspaces" ];
             right = [ "sysmon" "quick-settings" ]
-              ++ optional cfg.isLaptop "battery" ++ singleton "clock";
+              ++ optional cfg.isLaptop "battery" ++ [ "clock" ];
           };
           appLauncher = {
             icon = { color = colours.fg; };
@@ -178,6 +173,8 @@ in {
               };
               ethernetIcon.color = colours.cyan;
               ethernetOffIcon.color = colours.red;
+              onPrimaryClick =
+                "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
             };
             battery = {
               rampIcons = with colours; [
@@ -208,8 +205,6 @@ in {
               icon.color = colours.fg;
               openIcon.color = colours.fg;
             };
-            onPrimaryClick =
-              "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
           };
           sysmon = {
             onPrimaryClick = scripts.general.hdrop-btop;
