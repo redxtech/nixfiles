@@ -20,7 +20,7 @@ in {
 
       interval = mkOption {
         type = str;
-        default = "hourly";
+        default = "daily";
         description = "Interval for btrfs snapshots via snapper";
       };
     };

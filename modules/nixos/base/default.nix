@@ -113,7 +113,8 @@ in {
     # defaults
     networking.networkmanager.enable = mkDefault true;
     hardware.enableRedistributableFirmware = mkDefault true;
-    services.btrfs.autoScrub.enable = mkDefault cfg.fs.btrfs;
+    # not necessary until running really low on storage
+    # services.btrfs.autoScrub.enable = mkDefault cfg.fs.btrfs;
     services.zfs.autoSnapshot.enable = mkDefault cfg.fs.zfs;
     services.zfs.autoScrub.enable = mkDefault cfg.fs.zfs;
     services.geoclue2.enable = mkDefault true;
