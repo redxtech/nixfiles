@@ -39,6 +39,9 @@
     paths.config = "/config/pods";
   };
 
+  monitoring.enable = true;
+  monitoring.isHost = true;
+
   backup = {
     rsync = {
       enable = true;

@@ -37,6 +37,8 @@
     };
   };
 
+  monitoring.enable = true;
+
   backup = {
     btrfs = {
       enable = true;

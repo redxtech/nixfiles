@@ -12,7 +12,6 @@ in {
       megasync = { enable = false; };
 
       network-manager-applet.enable = true;
-      plex-mpv-shim.enable = true;
 
       playerctld.enable = true;
       # redshift.enable = false;

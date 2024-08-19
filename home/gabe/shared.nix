@@ -11,7 +11,6 @@ in {
 
     apps = with pkgs; [
       jellyfin-media-player # jellyfin client
-      jellyfin-mpv-shim # jellyfin client for mpv
       libreoffice # office suite
       multiviewer-for-f1 # formula 1 viewer
       plexamp # plex audio player

@@ -27,6 +27,8 @@
     };
   };
 
+  monitoring.enable = true;
+
   backup = {
     btrfs = {
       enable = false; # TODO: enable

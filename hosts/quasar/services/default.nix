@@ -47,7 +47,7 @@ in {
     sonarr = 8989;
     tandoor = 9700;
     tautulli = 8181;
-    uptime-kuma = 3001;
+    uptime-kuma = 3301;
     watchtower = 7700;
   };
 
