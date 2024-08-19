@@ -26,6 +26,9 @@ in {
 
         # webtorrent
         p = "script-binding webtorrent/toggle-info";
+
+        # osc
+        tab = "script-binding uosc/toggle-ui";
       };
 
       config = {
@@ -55,6 +58,11 @@ in {
           videos = true;
           audio = true;
           ignore_hidden = true;
+        };
+        uosc = {
+          border = "yes";
+          top_bar = "always";
+          top_bar_controls = "no";
         };
         visualizer = { name = "showwaves"; };
       };

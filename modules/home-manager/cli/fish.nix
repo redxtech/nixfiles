@@ -103,7 +103,7 @@ in {
           body = ''
             if test "$session" = "ls";
             	tmux ls
-            	exit
+            	return
             end
 
             # if no argument is passed, use $USER

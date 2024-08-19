@@ -52,6 +52,8 @@ in {
       services.prometheus = {
         enable = true;
         port = ports.prometheus;
+
+        extraFlags = [ "--web.enable-remote-write-receiver" ];
       };
     })
 

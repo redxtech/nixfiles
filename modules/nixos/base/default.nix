@@ -31,7 +31,7 @@ in {
 
     domain = mkOption {
       type = str;
-      default = "short.af";
+      default = "sucha.foo";
       description = "The domain cluster";
     };
 
