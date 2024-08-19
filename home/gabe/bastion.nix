@@ -24,6 +24,7 @@
       nautilus # file manager
       neovide # neovim gui
       seabird # k8s gui
+      telegram-desktop # telegram
       vivaldi # web browser
     ];
 
