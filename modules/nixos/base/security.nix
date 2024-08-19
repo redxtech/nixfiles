@@ -2,6 +2,7 @@
 
 let
   cfg = config.base;
+  inherit (cfg) hostname domain;
   inherit (lib) mkEnableOption mkIf mkDefault;
 in {
   options.base = {
@@ -72,5 +73,27 @@ in {
         }
       ];
     };
+
+    # acme
+    security.acme = {
+      acceptTerms = true;
+      defaults = {
+        email = "acme-${hostname}@gabe.super.fish";
+        dnsResolver = "1.1.1.1:53";
+        dnsProvider = "cloudflare";
+        environmentFile = config.sops.secrets.cloudflare_acme.path;
+      };
+      # ssl certs for each host
+      certs = {
+        "${hostname}-${domain}" = {
+          domain = "${hostname}.${domain}";
+          extraDomainNames = [ "*.${hostname}.${domain}" ];
+          group =
+            mkIf config.services.traefik.enable config.services.traefik.group;
+        };
+      };
+    };
+
+    sops.secrets.cloudflare_acme.sopsFile = ../../../hosts/common/secrets.yaml;
   };
 }

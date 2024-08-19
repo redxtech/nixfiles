@@ -29,6 +29,12 @@ in {
       description = "The hostname of the machine.";
     };
 
+    domain = mkOption {
+      type = str;
+      default = "short.af";
+      description = "The domain cluster";
+    };
+
     primaryUser = mkOption {
       type = str;
       default = "gabe";
