@@ -1,8 +1,8 @@
-{ lib, config, ... }:
+{ config, lib, hostnames, ... }:
 
 let
   inherit (lib) mkIf mkDefault;
-  inherit (builtins) map listToAttrs;
+  inherit (builtins) filter map listToAttrs;
   cfg = config.base;
 in {
   # options.base = { };
@@ -38,13 +38,15 @@ in {
 
     programs.ssh = {
       # each hosts public key
-      knownHosts = listToAttrs (map (name: {
-        inherit name;
-        value = {
-          publicKeyFile = pubKey name;
-          extraHostNames = (lib.optional (name == hostName) "localhost");
-        };
-      }) [ "bastion" "voyager" "quasar" "deck" ]);
+      knownHosts =
+        let filteredHosts = filter (hostname: hostname != "nixiso") hostnames;
+        in listToAttrs (map (name: {
+          inherit name;
+          value = {
+            publicKeyFile = pubKey name;
+            extraHostNames = lib.optional (name == hostName) "localhost";
+          };
+        }) filteredHosts);
 
       startAgent = false;
     };

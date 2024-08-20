@@ -7,13 +7,17 @@ in {
     allHomeManager = import ../home-manager;
     hardware = inputs.hardware.nixosModules;
 
-    stableNixpkgs = ({ pkgs, ... }: {
+    hostnames = {
+      _module.args.hostnames = builtins.attrNames self.nixosConfigurations;
+    };
+
+    stableNixpkgs = { pkgs, ... }: {
       _module.args.stable = import inputs.nixpkgs-stable {
         inherit (self.nixCfg.nixpkgs) overlays;
         inherit (pkgs) system;
         config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
       };
-    });
+    };
 
     homeCommon = [
       inputs.hyprland.homeManagerModules.default
@@ -24,6 +28,7 @@ in {
       inputs.tu.homeManagerModules.default
       # global stable nixpkgs module for all systems
       stableNixpkgs
+      hostnames
 
       # shared nixpkgs config for home-manager
       { config = { inherit (self.nixCfg) nix; }; }
@@ -42,6 +47,7 @@ in {
 
       # global stable nixpkgs module for all systems
       stableNixpkgs
+      hostnames
 
       # shared nixpkgs config for home-manager
       {

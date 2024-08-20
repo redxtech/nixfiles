@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, pkgs, hostnames, ... }:
 
 let
   inherit (lib) mkIf concatStringsSep;
@@ -174,12 +174,9 @@ in {
           '';
         };
 
-        __fish_nixos_remote_complete = let
-          hostnames =
-            concatStringsSep " " [ "bastion" "voyager" "quasar" "deck" ];
-        in {
+        __fish_nixos_remote_complete = {
           body = ''
-            set -l hostnames ${hostnames}
+            set -l hostnames ${concatStringsSep " " hostnames}
             for host in $hostnames
               echo $host
             end
