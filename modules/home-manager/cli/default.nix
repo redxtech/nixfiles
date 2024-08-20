@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, inputs, pkgs, lib, ... }:
 
 let
   inherit (lib) mkIf;
@@ -73,7 +73,7 @@ in {
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
           ffsend # file sharing
-          fh # flakehub
+          inputs.fh.packages.${system}.fh # flakehub
           figlet # ascii art
           flatpak # flatpak manager
           frogmouth # markdown reader

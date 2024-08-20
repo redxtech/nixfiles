@@ -23,9 +23,7 @@
       # nvidia.enable = true;
     };
 
-    services = {
-      portainer.enable = false; # handled by ./services/containers.nix
-    };
+    services.portainer.enable = false; # handled by ./services/containers.nix
   };
 
   desktop = {

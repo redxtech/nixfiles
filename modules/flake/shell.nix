@@ -9,7 +9,9 @@
       devShells.default = pkgs.mkShell {
         packages = with pkgs; [
           age
-          fh
+          cachix
+          deploy-rs
+          inputs'.fh.packages.fh
           git
           gnupg
           home-manager
@@ -36,6 +38,8 @@
         packages = with pkgs; [
           bat
           btop
+          cachix
+          deploy-rs
           dua
           eza
           fd
@@ -53,7 +57,7 @@
         ];
 
         scripts = let x = exec: { inherit exec; };
-        in builtins.mapAttrs (name: cmd: { exec = cmd; }) rec {
+        in builtins.mapAttrs (name: cmd: { exec = cmd; }) {
           ls = "eza --group-directories-first";
           la = "ls -al";
           l = "ls -l";

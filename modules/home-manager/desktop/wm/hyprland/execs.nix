@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  inherit (config.desktop.autostart) run runOnce;
+  inherit (config.desktop.autostart) run runOnce processed;
   cfg = config.desktop.wm.hyprland;
 
   mkBG = cmd: "${cmd} &";
@@ -36,7 +36,7 @@ in {
               socat - "UNIX-CONNECT:/tmp/hypr/''${HYPRLAND_INSTANCE_SIGNATURE}/.socket2.sock" | while read -r line; do handle "$line"; done
             '';
           })
-        ] ++ runOnceBG;
+        ] ++ runOnceBG ++ processed;
       };
     };
 }

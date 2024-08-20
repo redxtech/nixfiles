@@ -45,6 +45,7 @@ in {
 
           # window flags
           pin = mkBool "Pin the window" false;
+          size = mkStr "Size of the window" "1200 800";
           maxSize = mkStr "Max size of the window" "1200 800";
           opacity = mkStr "Opacity of the window" "0.85 0.75";
           follow = mkBool "Focus the window on open" true;

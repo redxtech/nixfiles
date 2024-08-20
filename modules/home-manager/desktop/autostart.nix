@@ -85,14 +85,10 @@ in with types; {
   };
 
   config = lib.mkIf cfg.enable {
-    # assertions = [ ];
-
     desktop.autostart.processed = let
       inherit (builtins) map;
-      inherit (lib) head splitString concatStringsSep;
 
-      runOnce = cmd: "! pgrep -f ${head (splitString " " cmd)} && ${cmd}";
-      joinDays = days: sep: concatStringsSep sep (map toString days);
+      joinDays = days: sep: lib.concatStringsSep sep (map toString days);
       runDays = { cmd, days }:
         "${pkgs.writeShellScript "run-${cmd}-on-${joinDays days "-"}" ''
           RUN_DAYS="${joinDays days " "}"
@@ -103,12 +99,7 @@ in with types; {
               ;;
           esac
         ''}";
-
-      auto = cfg.autostart;
-    in (auto.run # normal autostart
-      ++ (map runOnce auto.runOnce) # run once
-      ++ (map runDays auto.runDays) # run on specific days
-    );
+    in map runDays cfg.autostart.runDays;
   };
 }
 

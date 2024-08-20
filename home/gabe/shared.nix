@@ -46,6 +46,7 @@ in {
         {
           class = "discord|vesktop";
           wsNum = 3;
+          tile = true;
           follow = false;
         }
         {
@@ -62,14 +63,31 @@ in {
         {
           initialTitle = "Spotify";
           ws = "music";
+          tile = true;
+        }
+        {
+          class = "kitty";
+          tile = true;
         }
         {
           class = "kitty_(btop|float)";
           float = true;
         }
         {
+          class = "foot(client)?";
+          tile = true;
+        }
+        {
+          class = "thunderbird";
+          tile = true;
+        }
+        {
           class = "obsidian";
           float = true;
+        }
+        {
+          class = "neovide";
+          tile = true;
         }
         {
           class = "Bitwarden";
@@ -77,6 +95,7 @@ in {
         }
         {
           class = "nemo|thunar";
+          tile = true;
           opacity = "0.9 0.8";
         }
         {
@@ -89,8 +108,8 @@ in {
         }
         {
           class = "teams-for-linux";
-          ws = "r-www";
-          float = true;
+          wsNum = 8;
+          tile = true;
         }
         {
           class = "Slack";
@@ -100,6 +119,11 @@ in {
           class = "Element";
           ws = "chat";
           follow = false;
+        }
+        {
+          class = "steam";
+          title = "^(Steam)$";
+          size = "1800 1200";
         }
         {
           class = "Plexamp";
@@ -132,10 +156,21 @@ in {
         }
         {
           class = "mpv";
+          tile = true;
+        }
+        {
+          class = "feh|qimgv|imv";
+          tile = true;
+        }
+        {
+          class = "mpv";
           title = "Webcam";
           float = true;
         }
-
+        {
+          class = "gamescope";
+          fullscreen = true;
+        }
       ];
 
       binds = with pkgs;

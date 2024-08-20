@@ -32,11 +32,16 @@ in {
           ++ optional opts.psuedo "psuedo,${sel}"
           ++ optional opts.pin "pin,${sel}"
           ++ optional (!opts.follow) "noinitialfocus,${sel}"
+          ++ optional (opts.size != "") "size ${opts.size},${sel}"
           ++ optional (opts.maxSize != "") "maxsize ${opts.maxSize},${sel}"
           ++ optional (opts.opacity != "") "opacity ${opts.opacity},${sel}";
 
         rules = flatten (map mkWindowRule2 cfg.wm.rules);
-      in rules;
+      in [
+        # default all floating
+        "float,class:(.*)"
+        "float,title:(.*)"
+      ] ++ rules;
 
       layerrule = [
         "blur,waybar"
