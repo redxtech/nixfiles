@@ -12,8 +12,8 @@ in {
     programs.ranger.rifle = [
       # web
       {
-        condition = "ext x?html?, has firefox-developer-edition, X, flag f";
-        command = ''firefox-developer-edition -p gabe -- "$@"'';
+        condition = "ext x?html?, has firefox-nightly, X, flag f";
+        command = ''firefox-nightly -- "$@"'';
       }
       {
         condition = "ext x?html?, has lynx, terminal";

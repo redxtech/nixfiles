@@ -2,7 +2,7 @@
 
 let
   cfg = config.desktop.wm;
-  scripts = cfg.scripts;
+  inherit (cfg) scripts;
 in {
   wayland.windowManager.hyprland = with pkgs;
     lib.mkIf cfg.hyprland.enable {
@@ -10,7 +10,7 @@ in {
         "$mod" = "SUPER";
         "$terminal" = "${kitty}/bin/kitty";
         "$browser" =
-          "${config.programs.firefox.finalPackage}/bin/firefox-developer-edition -p gabe";
+          "${config.programs.firefox.finalPackage}/bin/firefox-nightly";
         "$editor" = "${config.tu.out.packages.tu}/bin/tu";
         "$explorer" = "${nemo-with-extensions}/bin/nemo";
         "$music" = "${config.programs.spicetify.spicedSpotify}/bin/spotify";

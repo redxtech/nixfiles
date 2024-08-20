@@ -97,7 +97,7 @@ in {
       # some rules need to be set after the rest of the rules
       # TODO: use new rule.oneShot option
       extraConfig = ''
-        bspc rule -a 'firefox-aurora' --one-shot 'desktop=www'
+        bspc rule -a 'firefox-nightly' --one-shot 'desktop=www'
         bspc rule -a '*:*:Open Files' 'desktop=*' 'state=floating'
         bspc rule -a '*:*:File Upload' 'desktop=*' 'state=floating'
         bspc rule -a '*:*:Picture in picture' 'state=floating'

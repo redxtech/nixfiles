@@ -21,8 +21,17 @@ in {
     wm = {
       rules = [
         {
-          class = "firefox-aurora";
-          title = "Library";
+          class = "firefox-nightly";
+          tile = true;
+        }
+        {
+          class = "firefox-nightly";
+          title = "Enter name of file to save to...";
+          float = true;
+        }
+        {
+          class = "firefox-nightly";
+          title = ".*(Bitwarden Password Manager).*";
           float = true;
         }
         {
@@ -136,8 +145,7 @@ in {
             "${bspwm}/bin/bspc rule -a ${window} -o state=floating; ";
           kittyRun = "${kitty}/bin/kitty --single-instance ";
 
-          ff =
-            "${config.programs.firefox.finalPackage}/bin/firefox-developer-edition -p gabe";
+          ff = "${config.programs.firefox.finalPackage}/bin/firefox-nightly";
         in [
           {
             description = "open terminal";

@@ -5,7 +5,7 @@ in {
   config = lib.mkIf cfg.enable {
     xdg.mimeApps = let
       vivaldiDesktop = "vivaldi.desktop";
-      firefox = "firefox-developer-edition.desktop";
+      firefox = "firefox-nightly.desktop";
 
       videos = [ "mpv.desktop" "vlc.desktop" ];
     in {

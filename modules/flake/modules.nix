@@ -9,6 +9,7 @@ in {
 
     hostnames = {
       _module.args.hostnames = builtins.attrNames self.nixosConfigurations;
+      _module.args.inputs = inputs;
     };
 
     stableNixpkgs = { pkgs, ... }: {

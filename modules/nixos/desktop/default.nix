@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 let
   cfg = config.desktop;
@@ -68,7 +68,7 @@ in {
     environment.systemPackages = with pkgs;
       [
         # gui apps
-        firefox-devedition-bin
+        inputs.firefox.packages.${system}.firefox-nightly-bin
         gnome.gnome-software
         kitty
         mpv

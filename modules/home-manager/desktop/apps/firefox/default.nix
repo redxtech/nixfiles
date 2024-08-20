@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, inputs, pkgs, lib, ... }:
 
 let cfg = config.programs.firefox;
 in {
@@ -12,16 +12,16 @@ in {
 
   config = {
     home = {
-      sessionVariables = {
-        BROWSER = "firefox-developer-edition -p gabe";
-        FIREFOX = "firefox-developer-edition -p gabe";
+      sessionVariables = rec {
+        BROWSER = "firefox-nightly";
+        FIREFOX = BROWSER;
       };
     };
 
     programs.firefox = {
       enable = true;
 
-      package = pkgs.firefox-devedition-bin;
+      package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
 
       profiles = {
         gabe = {
@@ -144,6 +144,7 @@ in {
             engines = let updateInterval = 24 * 60 * 60 * 1000; # every day
             in {
               "Kagi" = {
+                inherit updateInterval;
                 urls = [
                   { template = "https://kagi.com/search?q={searchTerms}"; }
                   {
@@ -153,16 +154,15 @@ in {
                   }
                 ];
                 iconUpdateURL = "https://assets.kagi.com/v2/favicon-32x32.png";
-                updateInterval = updateInterval;
                 definedAliases = [ "@kagi" "@k" ];
               };
               "NixOS Wiki" = {
+                inherit updateInterval;
                 urls = [{
                   template =
                     "https://nixos.wiki/index.php?search={searchTerms}";
                 }];
                 iconUpdateURL = "https://nixos.wiki/favicon.png";
-                updateInterval = updateInterval;
                 definedAliases = [ "nw" ];
               };
               "Nix Packages" = {
@@ -222,66 +222,66 @@ in {
                 definedAliases = [ "nx" ];
               };
               "Home Manager" = {
+                inherit updateInterval;
                 urls = [{
                   template =
                     "https://home-manager-options.extranix.com/?query={searchTerms}&release=master";
                 }];
                 iconUpdateURL =
                   "https://home-manager-options.extranix.com/home-manager-option-search/images/favicon.png";
-                updateInterval = updateInterval;
                 definedAliases = [ "hm" ];
               };
               "Arch Wiki" = {
+                inherit updateInterval;
                 urls = [{
                   template =
                     "https://wiki.archlinux.org/index.php?search={searchTerms}";
                 }];
                 iconUpdateURL = "https://wiki.archlinux.org/favicon.ico";
-                updateInterval = updateInterval;
                 definedAliases = [ "aw" ];
               };
               "Arch Packages" = {
+                inherit updateInterval;
                 urls = [{
                   template = "https://archlinux.org/packages/?q={searchTerms}";
                 }];
                 iconUpdateURL = "https://archlinux.org/static/favicon.ico";
-                updateInterval = updateInterval;
                 definedAliases = [ "ap" ];
               };
               "AUR" = {
+                inherit updateInterval;
                 urls = [{
                   template =
                     "https://aur.archlinux.org/packages?O=0&K={searchTerms}";
                 }];
                 iconUpdateURL =
                   "https://aur.archlinux.org/static/images/favicon.ico";
-                updateInterval = updateInterval;
                 definedAliases = [ "aur" ];
               };
               "NPM" = {
+                inherit updateInterval;
                 urls = [{
                   template = "https://www.npmjs.com/package/{searchTerms}";
                 }];
                 iconUpdateURL =
                   "https://static-production.npmjs.com/b0f1a8318363185cc2ea6a40ac23eeb2.png";
-                updateInterval = updateInterval;
                 definedAliases = [ "@npm" ];
               };
               "YouTube" = {
+                inherit updateInterval;
                 urls = [{
                   template =
                     "https://www.youtube.com/results?search_query={searchTerms}";
                 }];
                 iconUpdateURL =
                   "https://www.youtube.com/s/desktop/85bdacdc/img/favicon_32x32.png";
-                updateInterval = updateInterval;
                 definedAliases = [ "yt" ];
               };
               "Amazon CA" = {
+                inherit updateInterval;
                 urls =
                   [{ template = "https://www.amazon.ca/s?k={searchTerms}"; }];
                 iconUpdateURL = "https://www.amazon.ca/favicon.ico";
-                updateInterval = updateInterval;
                 definedAliases = [ "@a" ];
               };
               "Bing".metaData.alias = "@b";
@@ -299,19 +299,18 @@ in {
       };
     };
 
-    xdg.desktopEntries."firefox-developer-edition" = let
+    xdg.desktopEntries."firefox-nightly" = let
       package = cfg.finalPackage;
       exe = lib.getExe package;
     in {
-      name = "Firefox Developer Edition";
+      name = "Firefox Nightly";
       genericName = "Web Browser";
-      icon = "firefox-developer-edition";
+      icon = "firefox-nightly";
       categories = [ "Network" "WebBrowser" ];
 
-      exec = "${exe} --name firefox-aurora -p gabe %U";
+      exec = "${exe} %U";
 
-      settings.TryExec = "firefox-developer-edition";
-      settings.StartupWMClass = "firefox-aurora";
+      settings.TryExec = "firefox-nightly";
       startupNotify = true;
       type = "Application";
 
@@ -327,11 +326,11 @@ in {
       actions = {
         "new-window" = {
           name = "New Window";
-          exec = "${exe} -p gabe --new-window %U";
+          exec = "${exe} --new-window %U";
         };
         "new-private-window" = {
           name = "New Private Window";
-          exec = "${exe} -p gabe --private-window %U";
+          exec = "${exe} --private-window %U";
         };
         "new-other-window" = {
           name = "New Other Window";
@@ -344,18 +343,17 @@ in {
       };
     };
 
-    xdg.mimeApps.defaultApplications =
-      let firefox = "firefox-developer-edition.desktop";
+    xdg.mimeApps.defaultApplications = let firefox = "firefox-nightly.desktop";
 
-      in {
-        "text/html" = [ firefox ];
-        "text/xml" = [ firefox ];
-        "x-scheme-handler/http" = [ firefox ];
-        "x-scheme-handler/https" = [ firefox ];
+    in {
+      "text/html" = [ firefox ];
+      "text/xml" = [ firefox ];
+      "x-scheme-handler/http" = [ firefox ];
+      "x-scheme-handler/https" = [ firefox ];
 
-        "x-scheme-handler/about" = [ firefox ];
-        "x-scheme-handler/unknown" = [ firefox ];
-        "x-scheme-handler/webcal" = [ firefox ];
-      };
+      "x-scheme-handler/about" = [ firefox ];
+      "x-scheme-handler/unknown" = [ firefox ];
+      "x-scheme-handler/webcal" = [ firefox ];
+    };
   };
 }
