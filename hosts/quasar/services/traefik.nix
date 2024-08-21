@@ -66,7 +66,6 @@ in {
     in {
       http = {
         routers = {
-          attic = mkRouter "attic";
           nest = mkRouter "nest";
           portainer = mkRouter "portainer";
           sonarr = mkRouter "sonarr";
@@ -74,7 +73,6 @@ in {
           uptime = mkRouter "uptime";
         };
         services = {
-          attic = mkService cfg.ports.attic;
           nest = mkService cfg.ports.nest-rtsp;
           portainer = mkService cfg.ports.portainer;
           sonarr = mkService cfg.ports.sonarr;

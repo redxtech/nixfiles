@@ -42,7 +42,6 @@
     tu.url = "github:redxtech/tu";
     tu.inputs.nixpkgs.follows = "nixpkgs";
 
-    attic.url = "github:zhaofengli/attic";
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
     fh.url = "github:DeterminateSystems/fh";

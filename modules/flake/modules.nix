@@ -36,7 +36,6 @@ in {
     ] ++ attrValues allHomeManager;
 
     nixosCommon = [
-      inputs.attic.nixosModules.atticd
       inputs.home-manager.nixosModules.home-manager
       inputs.hyprland.nixosModules.default
       inputs.jovian.nixosModules.default

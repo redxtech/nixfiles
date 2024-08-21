@@ -10,7 +10,6 @@ in {
   nas.ports = {
     adguard = 9900;
     apprise = 9005;
-    attic = 3090;
     bazarr = 6767;
     calibre = 8805;
     calibre-ssl = 8804;
@@ -28,16 +27,12 @@ in {
     kiwix = 9060;
     ladder = 1313;
     lidarr = 8686;
-    monica = 6901;
-    mysql = 3306;
     nest-rtsp = 7001;
     netdata = 19999;
     paperless = 9200;
     plex = 32400;
     portainer = 9000;
     portainer-agent = 9001;
-    psend = 9010;
-    psend-mysql = 9910;
     prowlarr = 9696;
     qbit = 8810;
     qdirstat = 9030;
@@ -77,23 +72,6 @@ in {
           [{ url = "http://localhost:${toString config.nas.ports.cockpit}"; }];
       };
 
-    netdata = {
-      enable = false;
-
-      group = "docker";
-
-      python.extraPackages = ps:
-        with ps; [
-          psycopg2
-          docker
-          dnspython
-          numpy
-          pandas
-        ];
-
-      config = { web."default port" = toString cfg.ports.netdata; };
-    };
-
     uptime-kuma = {
       enable = true;
       settings = {
@@ -121,29 +99,9 @@ in {
         secretsJsonPath = secretPath "secrets";
       };
     };
-
-    atticd = {
-      # TODO: enable and figure out how to use
-      enable = false;
-      credentialsFile = config.sops.secrets.attic.path;
-
-      settings = {
-        listen = "[::]:${toString cfg.ports.attic}";
-        chunking = {
-          # if 0, chunking is disabled entirely for newly-uploaded NARs.
-          # if 1, all NARs are chunked.
-          nar-size-threshold = 64 * 1024; # 64 KiB
-          min-size = 16 * 1024; # 16 KiB
-          avg-size = 64 * 1024; # 64 KiB
-          max-size = 256 * 1024; # 256 KiB
-        };
-      };
-    };
   };
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
-
-  sops.secrets.attic.sopsFile = ../secrets.yaml;
 
   sops.secrets.ghrunner-system-builder.sopsFile = ../secrets.yaml;
 

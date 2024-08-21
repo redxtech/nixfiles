@@ -244,36 +244,6 @@ in {
         ports = [ (mkPort 1111 5000) ];
       };
 
-      monica = mkIf someContainersEnabled {
-        image = "lscr.io/linuxserver/monica:latest";
-        hostname = "monica";
-        labels = mkLabels "monica";
-        environment = defaultEnv // {
-          # APP_URL = "https://monica.${cfg.domain}";
-          DB_HOST = "mysql";
-          DB_USERNAME = "monica";
-          DB_DATABASE = "monica";
-        };
-        environmentFiles = [ config.sops.secrets.monica_env.path ];
-        ports = [ (mkPort cfg.ports.monica 80) ];
-        volumes = [ (mkConf "monica") ];
-        extraOptions = [ "--network" "monica" ];
-      };
-
-      mysql = {
-        image = "mysql:latest";
-        hostname = "mysql";
-        environment = defaultEnv // {
-          MYSQL_RANDOM_ROOT_PASSWORD = "true";
-          MYSQL_DATABASE = "monica";
-          MYSQL_USER = "monica";
-        };
-        environmentFiles = [ config.sops.secrets.monica_env.path ];
-        ports = [ (mkPort cfg.ports.mysql 3306) ];
-        volumes = [ (mkConf "mysql") ];
-        extraOptions = [ "--network" "monica" ];
-      };
-
       nest-rtsp = {
         image = "jakguru/nest-rtsp:master";
         environment = defaultEnv // {
@@ -307,30 +277,6 @@ in {
           "/var/run/docker.sock:/var/run/docker.sock"
           "/:/host"
         ];
-      };
-
-      psend = {
-        image = "lscr.io/linuxserver/projectsend:latest";
-        labels = mkLabels "psend";
-        environment = defaultEnv // { MAX_UPLOAD = "10240"; };
-        # environmentFiles = [ config.sops.secrets.psend_env.path ];
-        ports = [ (mkPort cfg.ports.psend 80) ];
-        volumes = [ (mkConf "psend") (mkData "psend") ];
-        extraOptions = [ "--network" "psend" ];
-      };
-
-      psend-mysql = {
-        image = "mysql:latest";
-        hostname = "psend-mysql";
-        environment = defaultEnv // {
-          MYSQL_RANDOM_ROOT_PASSWORD = "true";
-          MYSQL_DATABASE = "projectsend";
-          MYSQL_USER = "projectsend";
-        };
-        environmentFiles = [ config.sops.secrets.psend_env.path ];
-        ports = [ (mkPort cfg.ports.psend-mysql 3306) ];
-        volumes = [ "${cfg.paths.config}/psend-mysql:/var/lib/mysql" ];
-        extraOptions = [ "--network" "psend" ];
       };
 
       prowlarr = {
@@ -466,7 +412,7 @@ in {
   };
 
   system.activationScripts.mkDockerNetworks =
-    let networks = [ "monica" "paperless" "psend" "tandoor" ];
+    let networks = [ "paperless" "tandoor" ];
     in ''
       for network in ${toString networks}; do
         ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
@@ -477,9 +423,7 @@ in {
   sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
   sops.secrets.calibre_user.sopsFile = ../secrets.yaml;
   sops.secrets.calibre_pw.sopsFile = ../secrets.yaml;
-  sops.secrets.monica_env.sopsFile = ../secrets.yaml;
   sops.secrets.nest-rtsp.sopsFile = ../secrets.yaml;
-  sops.secrets.psend_env.sopsFile = ../secrets.yaml;
   sops.secrets.tandoor_env.sopsFile = ../secrets.yaml;
 }
 

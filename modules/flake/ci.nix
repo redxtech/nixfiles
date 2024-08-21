@@ -4,7 +4,6 @@ let
   primaryInputs =
     [ "nixpkgs" "home-manager" "fenix" "hyprland" "neovim-nightly" ];
   secondaryInputs = [
-    "attic"
     "cachix-deploy-flake"
     "disko"
     "deploy-rs"
