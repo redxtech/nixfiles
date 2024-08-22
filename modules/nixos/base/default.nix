@@ -117,14 +117,13 @@ in {
     in { age.sshKeyPaths = map getKeyPath keys; };
 
     # defaults
-    networking.networkmanager.enable = mkDefault true;
     hardware.enableRedistributableFirmware = mkDefault true;
-    # not necessary until running really low on storage
-    # services.btrfs.autoScrub.enable = mkDefault cfg.fs.btrfs;
-    services.zfs.autoSnapshot.enable = mkDefault cfg.fs.zfs;
+    services.dbus.implementation = "broker";
     services.zfs.autoScrub.enable = mkDefault cfg.fs.zfs;
     services.geoclue2.enable = mkDefault true;
     services.gvfs.enable = mkDefault true;
+    services.irqbalance.enable = mkDefault true;
+    services.zfs.autoSnapshot.enable = mkDefault cfg.fs.zfs;
     i18n.defaultLocale = mkDefault "en_CA.UTF-8";
     i18n.supportedLocales =
       mkDefault [ "en_CA.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
@@ -147,11 +146,18 @@ in {
         efi.canTouchEfiVariables = true;
       };
 
+      initrd = {
+        verbose = false;
+        systemd.enable = true;
+      };
+
       plymouth = {
         enable = true;
         theme = "colorful_loop";
         themePackages = with pkgs; [ adi1090x-plymouth-themes ];
       };
+
+      tmp.useTmpfs = true;
 
       kernelParams = [
         "quiet"
@@ -162,11 +168,12 @@ in {
         "vt.global_cursor_default=0"
       ];
 
+      binfmt.emulatedSystems = [ "aarch64-linux" "x86_64-windows" ];
+
       supportedFilesystems = (optional cfg.fs.btrfs "btrfs")
         ++ (optional cfg.fs.zfs "zfs");
       zfs.forceImportRoot = mkIf cfg.fs.zfs (mkDefault false);
       consoleLogLevel = 0;
-      initrd.verbose = false;
     };
 
     console = {
@@ -174,12 +181,20 @@ in {
       earlySetup = mkDefault false;
     };
 
+    systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
+
     # cachix-agent
     services.cachix-agent.enable = mkDefault true;
 
-    # docker dns
-    virtualisation.docker.daemon.settings.dns =
-      mkIf (builtins.length cfg.dockerDNS > 0) cfg.dockerDNS;
+    # docker changes 
+    virtualisation.docker = {
+      # fix	dns
+      daemon.settings.dns =
+        mkIf (builtins.length cfg.dockerDNS > 0) cfg.dockerDNS;
+
+      # disable iptables
+      # extraOptions = "--iptables=False";
+    };
 
     # tailscale
     services.tailscale = mkIf cfg.tailscale {
@@ -188,10 +203,26 @@ in {
       useRoutingFeatures = lib.mkDefault "client";
     };
 
-    # firewall for tailscale
-    networking.firewall = {
-      checkReversePath = "loose";
-      allowedUDPPorts = [ 41641 ]; # Facilitate firewall punching
+    # network stuff
+    networking = {
+      networkmanager = {
+        enable = mkDefault true;
+        wifi.backend = "iwd";
+      };
+
+      # nftables.enable = mkDefault true; # TODO: enable when fixed in docker
+
+      # firewall for tailscale
+      firewall = {
+        checkReversePath = "loose";
+        allowedUDPPorts = [ 41641 ]; # Facilitate firewall punching
+      };
+    };
+
+    # use newer switch-to-configuration
+    system.switch = {
+      enable = false;
+      enableNg = true;
     };
 
     # auto upgrade if enabled

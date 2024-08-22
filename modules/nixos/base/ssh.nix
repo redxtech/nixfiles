@@ -5,8 +5,6 @@ let
   inherit (builtins) filter map listToAttrs;
   cfg = config.base;
 in {
-  # options.base = { };
-
   config = let
     inherit (config.networking) hostName;
     pubKey = host: ../../../hosts/${host}/ssh_host_ed25519_key.pub;
@@ -34,7 +32,15 @@ in {
       ];
     };
 
-    services.fail2ban.enable = mkDefault true;
+    services.fail2ban = {
+      enable = mkDefault true;
+      maxretry = 5;
+      ignoreIP = [
+        # TODO: pull from network module
+        "100.127.248.117" # bastion
+        "100.107.238.120" # voyager
+      ];
+    };
 
     programs.ssh = {
       # each hosts public key
