@@ -23,7 +23,10 @@ in {
     # enable antivirus clamav
     services.clamav = mkIf config.base.clamav.enable {
       package = pkgs.clamav;
+
       daemon.enable = true;
+      daemon.settings.ExcludePath =
+        [ "/home/(w-_)+/.local/share/Steam/steamapps/" ];
       scanner.enable = true;
       updater.enable = true;
       fangfrisch.enable = cfg.clamav.fangfrisch;

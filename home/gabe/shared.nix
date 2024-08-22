@@ -74,26 +74,6 @@ in {
           float = true;
         }
         {
-          class = "foot(client)?";
-          tile = true;
-        }
-        {
-          class = "thunderbird";
-          tile = true;
-        }
-        {
-          class = "obsidian";
-          float = true;
-        }
-        {
-          class = "neovide";
-          tile = true;
-        }
-        {
-          class = "Bitwarden";
-          float = true;
-        }
-        {
           class = "nemo|thunar";
           tile = true;
           opacity = "0.9 0.8";
@@ -112,10 +92,6 @@ in {
           tile = true;
         }
         {
-          class = "Slack";
-          float = true;
-        }
-        {
           class = "Element";
           ws = "chat";
           follow = false;
@@ -126,41 +102,13 @@ in {
           size = "1800 1200";
         }
         {
-          class = "Plexamp";
-          float = true;
-        }
-        {
           class = "pavucontrol";
           float = true;
           maxSize = "1400 720";
         }
         {
-          class = "nm-connection-editor";
-          float = true;
-        }
-        {
           class = "Subl";
           ws = "*";
-        }
-        {
-          class = "flameshot";
-          float = true;
-        }
-        {
-          class = "Blueman-manager";
-          float = true;
-        }
-        {
-          class = ".blueman-manager-wrapped";
-          float = true;
-        }
-        {
-          class = "mpv";
-          tile = true;
-        }
-        {
-          class = "feh|qimgv|imv";
-          tile = true;
         }
         {
           class = "mpv";
@@ -171,7 +119,20 @@ in {
           class = "gamescope";
           fullscreen = true;
         }
-      ];
+      ] ++ (map (class: {
+        inherit class;
+        tile = true;
+      }) [
+        "feh"
+        "qimgv"
+        "imv"
+        "mpv"
+        "neovide"
+        "foot(client)?"
+        "obsidian"
+        "thunderbird"
+        "virt-manager"
+      ]);
 
       binds = with pkgs;
         let

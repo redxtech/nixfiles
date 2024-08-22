@@ -174,6 +174,13 @@ in {
           '';
         };
 
+        hclients = {
+          description = "List important information about hyprctl clients";
+          body = ''
+            hyprctl clients -j | jq '.[] | {class,title,initialClass,initialTitle,workspace}'
+          '';
+        };
+
         __fish_nixos_remote_complete = {
           body = ''
             set -l hostnames ${concatStringsSep " " hostnames}
