@@ -8,6 +8,7 @@ in {
     programs.ssh = let
       user = "gabe";
       identityFile = "~/.ssh/id_rsa_yubikey.pub";
+      identityFiles = [ identityFile "~/.ssh/id_ed25519" ];
       remoteForwards = [{
         bind.address = "/%d/.gnupg-sockets/S.gpg-agent";
         host.address = "/%d/.gnupg-sockets/S.gpg-agent.extra";
@@ -27,6 +28,7 @@ in {
         mkDevice = name:
           mkHost {
             inherit remoteForwards;
+            identityFile = identityFiles;
             hostname = "${name}.colobus-pirate.ts.net";
             # forwardX11 = true;
             # forwardX11Trusted = true;

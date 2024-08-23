@@ -61,6 +61,7 @@ in {
         thunar # file manager
         vesktop # better discord client
         vlc # video player
+        warp # file transfer
         xfce.exo # file opener
       ] ++ config.desktop.apps;
 

@@ -289,7 +289,7 @@ in {
 
         settings = {
           output =
-            "'[%(release_date>%Y,upload_date>%Y|Unknown)s] %(creator)s - %(title)s.%(ext)s'";
+            "'[%(release_date>%Y-%m-%d,upload_date>%Y-%m-%d|Unknown)s] %(creator)s - %(title)s.%(ext)s'";
           # format = "best";
           concurrent-fragments = 5;
           write-thumbnail = true;

@@ -225,6 +225,8 @@ in {
         shit = "sudo $(fc -ln -1)";
         todoist = mkIf (hasPackage "todoist") "todoist --color";
         xclip = "xclip -selection c";
+        yt-dlp-docker = let image = "docker.io/bxggs/yt-dlp";
+        in "docker run -it --rm -v ./:/data ${image}";
         vrg = mkIf (hasNeovim && hasRipgrep) "nvimrg";
 
         # fun
