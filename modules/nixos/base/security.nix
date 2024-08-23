@@ -88,7 +88,7 @@ in {
       };
       # ssl certs for each host
       certs = {
-        "${hostname}-${domain}" = {
+        "${hostname}.${domain}" = {
           domain = "${hostname}.${domain}";
           extraDomainNames = [ "*.${hostname}.${domain}" ];
           group =

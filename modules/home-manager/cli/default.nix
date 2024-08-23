@@ -64,6 +64,7 @@ in {
           cowsay # ascii art
           cpufetch # cpu info
           dex # desktop entry executor
+          dig # dns utils
           diffsitter # better diff
           distrobox # nice escape hatch, integrates docker images with my environment
           dogdns # better dig

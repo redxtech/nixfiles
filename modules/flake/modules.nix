@@ -7,16 +7,15 @@ in {
     allHomeManager = import ../home-manager;
     hardware = inputs.hardware.nixosModules;
 
-    hostnames = {
-      _module.args.hostnames = builtins.attrNames self.nixosConfigurations;
-      _module.args.inputs = inputs;
-    };
-
-    stableNixpkgs = { pkgs, ... }: {
-      _module.args.stable = import inputs.nixpkgs-stable {
-        inherit (self.nixCfg.nixpkgs) overlays;
-        inherit (pkgs) system;
-        config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
+    extraArgs = { pkgs, ... }: {
+      _module.args = {
+        inherit self inputs;
+        hostnames = builtins.attrNames self.nixosConfigurations;
+        stable = import inputs.nixpkgs-stable {
+          inherit (self.nixCfg.nixpkgs) overlays;
+          inherit (pkgs) system;
+          config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
+        };
       };
     };
 
@@ -27,9 +26,8 @@ in {
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
       inputs.spicetify-nix.homeManagerModules.default
       inputs.tu.homeManagerModules.default
-      # global stable nixpkgs module for all systems
-      stableNixpkgs
-      hostnames
+
+      extraArgs
 
       # shared nixpkgs config for home-manager
       { config = { inherit (self.nixCfg) nix; }; }
@@ -45,9 +43,7 @@ in {
 
       ../../hosts/common
 
-      # global stable nixpkgs module for all systems
-      stableNixpkgs
-      hostnames
+      extraArgs
 
       # shared nixpkgs config for home-manager
       {
