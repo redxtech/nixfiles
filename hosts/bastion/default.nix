@@ -37,6 +37,12 @@
     };
   };
 
+  network = {
+    enable = true;
+    ip = "192.168.50.152";
+    tunnelID = "10f40833-b341-4f16-9920-2b5796744e15";
+  };
+
   monitoring.enable = true;
 
   backup = {

@@ -4,6 +4,8 @@ let
   inherit (lib) mkIf;
 
   cfg = config.nas;
+  cfgNet = config.network;
+
   defaultEnv = {
     PUID = toString config.users.users.${cfg.user}.uid;
     PGID = toString config.users.groups.${cfg.group}.gid;
@@ -23,7 +25,7 @@ let
   mkTLSstr = name: "${mkTLstr name "services"}"; # make traefik router label
   mkLabels = name: {
     "traefik.enable" = "true";
-    "${mkTLRstr name}.rule" = "Host(`${name}.${cfg.domain}`)";
+    "${mkTLRstr name}.rule" = "Host(`${name}.${cfgNet.address}`)";
     "${mkTLRstr name}.entrypoints" = "websecure";
     "${mkTLRstr name}.tls" = "true";
     "${mkTLRstr name}.tls.certresolver" = "cloudflare";
@@ -91,7 +93,7 @@ in {
 
       calibre-web = {
         image = "lscr.io/linuxserver/calibre-web:latest";
-        labels = mkLabels "calibre-web";
+        labels = mkLabels "books";
         environment = defaultEnv // {
           DOCKER_MODS = "linuxserver/mods:universal-calibre";
         };
@@ -134,14 +136,6 @@ in {
         ports = [ (mkPorts cfg.ports.flaresolverr) ];
       };
 
-      grocy = mkIf someContainersEnabled {
-        image = "lscr.io/linuxserver/grocy:latest";
-        labels = mkLabels "grocy";
-        ports = [ (mkPorts cfg.ports.grocy) ];
-        environment = defaultEnv;
-        volumes = [ (mkConf "grocy") ];
-      };
-
       jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
         labels = mkLabels "jackett";
@@ -175,8 +169,7 @@ in {
         image = "ghcr.io/jellyfin/jellyfin-vue:unstable";
         labels = mkLabels "jellyfin-vue";
         environment = {
-          DEFAULT_SERVERS =
-            "http://quasar:8096,https://jellyfin.${cfg.domain},192.168.50.208:8096,demo.jellyfin.org";
+          DEFAULT_SERVERS = "https://jellyfin.quasar.sucha.foo";
           HISTORY_ROUTER_MODE = "1";
         };
         ports = [ (mkPort cfg.ports.jellyfin-vue 80) ];
@@ -194,7 +187,7 @@ in {
 
       kiwix = {
         image = "ghcr.io/kiwix/kiwix-serve:latest";
-        # labels = mkLabelsPort "kiwix" cfg.ports.kiwix;
+        # labels = mkLabelsPort "wiki" cfg.ports.kiwix;
         volumes = [ (cfg.paths.downloads + "/deluge/zim:/data") ];
         ports = [ (mkPort cfg.ports.kiwix 8080) ];
         cmd = [
@@ -236,47 +229,27 @@ in {
         ports = [ (mkPort cfg.ports.ladder 5000) ];
       };
 
-      ladder-alt = {
-        image = "wasimaster/13ft:latest";
-        labels = (mkLabels "13ft") // {
-          "${mkTLRstr "13ft"}.rule" = "Host(`13ft.short.af`)";
-        };
-        ports = [ (mkPort 1111 5000) ];
-      };
-
-      nest-rtsp = {
-        image = "jakguru/nest-rtsp:master";
-        environment = defaultEnv // {
-          HTTP_PORT = "${toString cfg.ports.nest-rtsp}";
-        };
-        environmentFiles = [ config.sops.secrets.nest-rtsp.path ];
-        extraOptions = [ "--network" "host" "--privileged" ];
-      };
-
       paperless = {
         image = "lscr.io/linuxserver/paperless-ngx:latest";
-        labels = mkLabels "paperless";
-        environment = defaultEnv // { };
+        labels = mkLabels "docs";
+        environment = defaultEnv // {
+          PAPERLESS_URL = "https://docs.${cfgNet.address}";
+        };
         ports = [ (mkPort cfg.ports.paperless 8000) ];
         volumes = [ (mkConf "paperless") (mkData "paperless") ];
       };
 
       portainer = {
-        image = "portainer/portainer-ee:latest";
-        ports = [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
-        volumes =
-          [ "/var/run/docker.sock:/var/run/docker.sock" (mkData "portainer") ];
-        extraOptions = [ "--network" "host" ];
+        # set options not covered by base module
+        ports = lib.mkForce [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
+        volumes = lib.mkForce [
+          "/var/run/docker.sock:/var/run/docker.sock"
+          (mkData "portainer")
+        ];
       };
 
       portainer-agent = {
-        image = "portainer/agent:latest";
-        ports = [ (mkPort cfg.ports.portainer-agent 9001) ];
-        volumes = [
-          "/var/lib/docker/volumes:/var/lib/docker/volumes"
-          "/var/run/docker.sock:/var/run/docker.sock"
-          "/:/host"
-        ];
+        ports = lib.mkForce [ (mkPort cfg.ports.portainer-agent 9001) ];
       };
 
       prowlarr = {
@@ -306,10 +279,21 @@ in {
       qdirstat = {
         image = "lscr.io/linuxserver/qdirstat:latest";
         environment = defaultEnv // {
+          FILE__CUSTOM_USER = config.sops.secrets.qdirstat_user.path;
+          FILE__PASSWORD = config.sops.secrets.qdirstat_pw.path;
           CUSTOM_PORT = "${toString cfg.ports.qdirstat}";
         };
+        # labels = (mkLabelsPort "qdirstat" cfg.ports.qdirstat);
         ports = [ (mkPorts cfg.ports.qdirstat) ];
-        volumes = [ (mkConf "qdirstat") "/:/data:ro" ];
+        volumes = let
+          secretPath = type: "${config.sops.secrets."qdirstat_${type}".path}";
+          mkSecretMnt = type: "${secretPath type}:${secretPath type}";
+        in [
+          (mkConf "qdirstat")
+          (mkSecretMnt "user")
+          (mkSecretMnt "pw")
+          "/:/data:ro"
+        ];
       };
 
       radarr = {
@@ -386,7 +370,6 @@ in {
       watchtower = {
         image = "containrrr/watchtower:latest";
         environment = defaultEnv;
-        ports = [ (mkPort cfg.ports.watchtower 8080) ];
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 
@@ -423,7 +406,8 @@ in {
   sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
   sops.secrets.calibre_user.sopsFile = ../secrets.yaml;
   sops.secrets.calibre_pw.sopsFile = ../secrets.yaml;
-  sops.secrets.nest-rtsp.sopsFile = ../secrets.yaml;
+  sops.secrets.qdirstat_user.sopsFile = ../secrets.yaml;
+  sops.secrets.qdirstat_pw.sopsFile = ../secrets.yaml;
   sops.secrets.tandoor_env.sopsFile = ../secrets.yaml;
 }
 

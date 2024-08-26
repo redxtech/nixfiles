@@ -22,8 +22,6 @@
       enable = true;
       # nvidia.enable = true;
     };
-
-    services.portainer.enable = false; # handled by ./services/containers.nix
   };
 
   desktop = {
@@ -35,6 +33,20 @@
     enable = true;
     domain = "nas.gabedunn.dev";
     paths.config = "/config/pods";
+  };
+
+  network = {
+    enable = true;
+    isHost = true;
+    ip = "192.168.50.208";
+    tunnelID = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
+
+    services = {
+      grafana = 3000;
+      radarr = 7878;
+      sonarr = 8989;
+      uptime = 3301;
+    };
   };
 
   monitoring.enable = true;

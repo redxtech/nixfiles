@@ -1,7 +1,9 @@
 { pkgs, lib, config, ... }:
 
 with lib;
-let cfg = config.nas;
+let
+  cfg = config.nas;
+  cfgNet = config.network;
 in {
   imports =
     [ ./adguard.nix ./containers.nix ./dashboard.nix ./plex.nix ./traefik.nix ];
@@ -19,7 +21,6 @@ in {
     dashy = 4000;
     deluge = 8112;
     flaresolverr = 8191;
-    grocy = 9283;
     jackett = 9117;
     jellyfin = 8096;
     jellyfin-vue = 8099;
@@ -27,8 +28,6 @@ in {
     kiwix = 9060;
     ladder = 1313;
     lidarr = 8686;
-    nest-rtsp = 7001;
-    netdata = 19999;
     paperless = 9200;
     plex = 32400;
     portainer = 9000;
@@ -42,41 +41,15 @@ in {
     sonarr = 8989;
     tandoor = 9700;
     tautulli = 8181;
-    uptime-kuma = 3301;
-    watchtower = 7700;
+    uptime = 3301;
   };
 
   services = {
-    # override the default configuration to enable ssl
-    cockpit.settings.WebService = let port = toString cfg.ports.cockpit;
-    in {
-      Origins = lib.concatStringsSep " " [
-        "https://${cfg.domain}"
-        "wss://${cfg.domain}"
-        "http://localhost:${port}"
-        "ws://localhost:${port}"
-        "http://quasar:${port}"
-        "ws://quasar:${port}"
-      ];
-      ProtocolHeader = "X-Forwarded-Proto";
-    };
-
-    traefik.dynamicConfigOptions.http =
-      lib.mkIf config.services.traefik.enable {
-        routers.cockpit = {
-          rule = "Host(`${config.nas.domain}`)";
-          service = "cockpit";
-          entrypoints = [ "websecure" ];
-        };
-        services.cockpit.loadBalancer.servers =
-          [{ url = "http://localhost:${toString config.nas.ports.cockpit}"; }];
-      };
-
     uptime-kuma = {
       enable = true;
       settings = {
         UPTIME_KUMA_HOST = "0.0.0.0";
-        UPTIME_KUMA_PORT = toString cfg.ports.uptime-kuma;
+        UPTIME_KUMA_PORT = toString cfg.ports.uptime;
       };
     };
 
@@ -103,12 +76,13 @@ in {
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
 
-  sops.secrets.ghrunner-system-builder.sopsFile = ../secrets.yaml;
-
-  sops.secrets.hercules-ci-agent-binary-caches.sopsFile = ../secrets.yaml;
-  sops.secrets.hercules-ci-agent-binary-caches.owner = "hercules-ci-agent";
-  sops.secrets.hercules-ci-agent-join-token.sopsFile = ../secrets.yaml;
-  sops.secrets.hercules-ci-agent-join-token.owner = "hercules-ci-agent";
-  sops.secrets.hercules-ci-agent-secrets.sopsFile = ../secrets.yaml;
-  sops.secrets.hercules-ci-agent-secrets.owner = "hercules-ci-agent";
+  sops.secrets = {
+    ghrunner-system-builder.sopsFile = ../secrets.yaml;
+    hercules-ci-agent-binary-caches.sopsFile = ../secrets.yaml;
+    hercules-ci-agent-binary-caches.owner = "hercules-ci-agent";
+    hercules-ci-agent-join-token.sopsFile = ../secrets.yaml;
+    hercules-ci-agent-join-token.owner = "hercules-ci-agent";
+    hercules-ci-agent-secrets.sopsFile = ../secrets.yaml;
+    hercules-ci-agent-secrets.owner = "hercules-ci-agent";
+  };
 }

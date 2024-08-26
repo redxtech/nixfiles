@@ -1,6 +1,10 @@
 { config, ... }:
 
-let cfg = config.nas;
+let
+  cfg = config.nas;
+  cfgNet = config.network;
+
+  inherit (cfgNet) address;
 in {
   services.dashy = {
     enable = true;
@@ -52,70 +56,70 @@ in {
             {
               title = "Plex";
               icon = "hl-plex";
-              url = "https://plex.${cfg.domain}/web/index.html";
+              url = "https://plex.${address}/web/index.html";
               description = "Media server";
             }
             {
               title = "Jellyseerr";
               icon =
                 "https://raw.githubusercontent.com/Fallenbagel/jellyseerr/develop/public/os_icon.svg";
-              url = "https://jellyseerr.${cfg.domain}";
+              url = "https://jellyseerr.${address}";
               description = "Request movies and tv shows";
             }
             {
               title = "Jellyfin";
               icon = "hl-jellyfin";
-              url = "https://jellyfin.${cfg.domain}";
+              url = "https://jellyfin.${address}";
               description = "Open source media server";
             }
             {
               title = "Jellyfin Vue";
               icon =
                 "https://github.com/jellyfin/jellyfin-vue/blob/master/frontend/public/icon.png?raw=true";
-              url = "https://jellyfin-vue.${cfg.domain}";
+              url = "https://jellyfin-vue.${address}";
               description = "Alternate jellyfin web ui";
             }
             {
               title = "Sonarr";
               icon = "hl-sonarr";
-              url = "https://sonarr.${cfg.domain}";
+              url = "https://sonarr.${address}";
               description = "Automatically downloads tv shows";
             }
             {
               title = "Radarr";
               icon = "hl-radarr";
-              url = "https://radarr.${cfg.domain}";
+              url = "https://radarr.${address}";
               description = "Automatically downloads movies";
             }
             {
               title = "Prowlarr";
               icon = "hl-prowlarr";
-              url = "https://prowlarr.${cfg.domain}";
+              url = "https://prowlarr.${address}";
               description = "Automatically configures indexers for *arr apps";
             }
             {
               title = "Jackett";
               icon = "hl-jackett";
-              url = "https://radarr.${cfg.domain}";
+              url = "https://radarr.${address}";
               description = "Normalizes tracker searches for *arr apps";
             }
             {
               title = "Deluge";
               icon = "hl-deluge";
-              url = "https://deluge.${cfg.domain}";
+              url = "https://deluge.${address}";
               description = "Torrent client";
             }
             {
               title = "qBit";
               icon = "hl-qbittorrent";
-              url = "https://qbit.${cfg.domain}";
+              url = "https://qbit.${address}";
               description = "Torrent client";
             }
             {
               title = "Calibre";
               icon =
                 "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-icon.png";
-              url = "https://calibre.${cfg.domain}";
+              url = "https://calibre.${address}";
               description = "Powerful ebook software";
               statusCheckAcceptCodes = "401";
             }
@@ -123,7 +127,7 @@ in {
               title = "Calibre Web";
               icon =
                 "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-icon.png";
-              url = "https://calibre-web.${cfg.domain}";
+              url = "https://books.${address}";
               description = "Calibre web interface";
             }
             {
@@ -148,7 +152,7 @@ in {
           items = [
             {
               title = "Dashy";
-              url = "https://dash.${cfg.domain}";
+              url = "https://dash.${address}";
               # icon = "hl-dashy"; # Broken for some reason
               icon =
                 "https://raw.githubusercontent.com/walkxcode/Dashboard-Icons/main/png/dashy.png";
@@ -156,49 +160,42 @@ in {
             }
             {
               title = "Cockpit";
-              url = "https://${cfg.domain}";
+              url = "https://cockpit.${address}";
               icon = "hl-cockpit";
               description = "Server management interface";
             }
             {
               title = "Portainer";
-              url = "http://quasar:9000";
+              url = "https://portainer.${address}";
               icon = "hl-portainer";
               description = "Docker management interface";
             }
             {
               title = "Startpage";
-              url = "https://startpage.${cfg.domain}";
+              url = "https://startpage.${address}";
               icon = "https://startpage.nas.gabedunn.dev/icon.svg";
               description = "Custom startpage";
             }
             {
               title = "Traefik";
-              url = "http://quasar:8080";
+              url = "https://traefik.${address}";
               icon = "hl-traefik";
               description = "Reverse proxy";
             }
             {
               title = "Adguard Home";
-              url = "https://adguard.${cfg.domain}";
+              url = "https://adguard.${address}";
               icon =
                 "https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/client/public/assets/favicon.png";
               description = "Network-wide, DNS level adblocking";
             }
             {
               title = "Flaresolverr";
-              url = "https://Flaresolverr.${cfg.domain}";
+              url = "https://flaresolverr.${address}";
               icon =
                 "https://raw.githubusercontent.com/FlareSolverr/FlareSolverr/master/resources/flaresolverr_logo.png";
               description = "Cloudflare bypass";
             }
-            # rec {
-            #   title = "Nix cache";
-            #   url = "https://cache.${cfg.domain}";
-            #   statusCheckUrl = "${url}/nix-cache-info";
-            #   icon =
-            #     "https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nix-snowflake.svg";
-            # }
           ];
         }
         {
@@ -213,27 +210,14 @@ in {
           };
           items = [
             # {
-            #   title = "NextCloud";
-            #   url = "https://cloud.${cfg.domain}";
-            #   icon =
-            #     "https://raw.githubusercontent.com/nextcloud/server/master/core/img/favicon.svg";
-            #   description = "Cloud";
-            # }
-            # {
-            #   title = "Grocy";
-            #   url = "https://grocy.${cfg.domain}";
-            #   icon = "hl-grocy";
-            #   description = "ERP - beyond the fridge";
-            # }
-            # {
             #   title = "Home Assistant";
-            #   url = "https://ha.${cfg.domain}";
+            #   url = "https://ha.${address}";
             #   icon = "hl-home-assistant";
             #   description = "Home automation";
             # }
             # {
             #   title = "Apprise";
-            #   url = "https://apprise.${cfg.domain}";
+            #   url = "https://apprise.${address}";
             #   icon =
             #     "https://github.com/caronc/apprise/blob/master/apprise/assets/themes/default/apprise-info-256x256.png?raw=true";
             #   description = "Notification service";
@@ -251,21 +235,16 @@ in {
             hideForGuests = true;
           };
           items = [
-            # {
-            #   title = "Netdata";
-            #   url = "https://netdata.${cfg.domain}";
-            #   icon = "hl-netdata";
-            # }
+            {
+              title = "Grafana";
+              url = "https://grafana.${address}";
+              icon = "hl-grafana";
+            }
             {
               title = "Tautulli";
-              url = "https://tautulli.${cfg.domain}";
+              url = "https://tautulli.${address}";
               icon = "hl-tautulli";
             }
-            # {
-            #   title = "Grafana";
-            #   url = "https://grafana.${cfg.domain}";
-            #   icon = "hl-grafana";
-            # }
             {
               title = "qDirStat";
               url = "http://quasar:${toString cfg.ports.qdirstat}";

@@ -3,6 +3,7 @@
 let
   inherit (lib) mkIf mkDefault;
   cfg = config.base;
+  cfgNet = config.network;
 in {
   options.base.services = let
     inherit (lib) mkOption types;
@@ -27,15 +28,33 @@ in {
       mkData = name:
         "${config.users.users.${cfg.primaryUser}.home}/Documents/pod-config/"
         + name + ":/data";
+
+      mkTLstr = name: "traefik.http.routers.${name}"; # make traefik label
+      mkTLSstr = name:
+        "traefik.http.services.${name}"; # make traefik router label
+
+      mkLabels = name: {
+        "traefik.enable" = "true";
+        "${mkTLstr name}.rule" = "Host(`${name}.${cfgNet.address}`)";
+        "${mkTLstr name}.entrypoints" = "websecure";
+        "${mkTLstr name}.tls" = "true";
+        "${mkTLstr name}.tls.certresolver" = "cloudflare";
+      };
+      mkLabelsPort = name: port:
+        {
+          "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
+        } // (mkLabels name);
     in {
       containers = {
         startpage = mkIf cfg.services.startpage.enable {
           image = "ghcr.io/redxtech/startpage";
+          labels = mkLabels "startpage";
           ports = [ "9009:3000" ];
         };
 
         portainer = mkIf cfg.services.portainer.enable {
           image = "portainer/portainer-ee:latest";
+          labels = mkLabelsPort "portainer" 9000;
           ports = [ "8000:8000" (mkPorts 9000) ];
           volumes = [
             "/var/run/docker.sock:/var/run/docker.sock"
@@ -75,11 +94,16 @@ in {
 
       settings.WebService = {
         AllowUnencrypted = mkDefault true;
+        ProtocolHeader = "X-Forwarded-Proto";
         Origins = mkDefault (lib.concatStringsSep " " [
           "http://localhost:9090"
           "ws://localhost:9090"
           "http://${cfg.hostname}:9090"
           "ws://${cfg.hostname}:9090"
+          "https://${cfgNet.address}"
+          "wss://${cfgNet.address}"
+          "https://cockpit.${cfgNet.address}"
+          "wss://cockpit.${cfgNet.address}"
         ]);
       };
     };
