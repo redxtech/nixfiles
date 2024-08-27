@@ -30,7 +30,8 @@ in {
         "${mkTLRstr}.entrypoints" = "websecure";
         "${mkTLRstr}.tls" = "true";
         "${mkTLSstr}.loadbalancer.server.port" = "${port}";
-        "${mkTLRstr}.rule" = "HostRegexp(`^([a-z-]\\.)?(${host}|${hostDNS})$`)";
+        "${mkTLRstr}.rule" =
+          "HostRegexp(`^([a-z-]+\\.)?(${host}|${hostDNS})$`)";
       };
 
       ports = [
@@ -68,4 +69,6 @@ in {
       inherit (config.services.traefik) group;
     };
   };
+
+  networking.firewall.allowedTCPPorts = [ 853 ];
 }
