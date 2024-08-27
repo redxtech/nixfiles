@@ -85,6 +85,7 @@ in {
 
       finalServices = cfg.services // {
         # universal services
+        alloy = 12346;
         cockpit = 9090;
         traefik = 8080;
 
@@ -92,7 +93,7 @@ in {
         dash = host 4000;
         grafana = host 3000;
         prometheus = host 9090;
-        # loki = 3100;
+        loki = host 3002;
       };
     };
   };

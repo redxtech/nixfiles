@@ -26,7 +26,7 @@ in {
     };
   };
 
-  config = mkIf cfg.wm.enable {
+  config = mkIf (cfg.wm.wm == "bspwm") {
     services.xidlehook = {
       enable = true;
 
