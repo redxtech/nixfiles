@@ -29,6 +29,7 @@ in {
     ladder = 1313;
     lidarr = 8686;
     paperless = 9200;
+    pdf = 9208;
     plex = 32400;
     portainer = 9000;
     portainer-agent = 9001;

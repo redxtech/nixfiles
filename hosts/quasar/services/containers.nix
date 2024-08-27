@@ -312,6 +312,20 @@ in {
         extraOptions = [ "--network" "host" ];
       };
 
+      signaturepdf = {
+        image = "ghcr.io/redxtech/signaturepdf:master";
+        labels = mkLabels "pdf";
+        environment = defaultEnv // {
+          SERVERNAME = "pdf.${cfgNet.address}";
+          UPLOAD_MAX_FILESIZE = "64M";
+          POST_MAX_SIZE = "64M";
+          DEFAULT_LANGUAGE = "en_CA.UTF-8";
+          PDF_STORAGE_ENCRYPTION = "true";
+        };
+        ports = [ (mkPort cfg.ports.pdf 80) ];
+        volumes = [ (mkData "pdf") ];
+      };
+
       syncthing = {
         image = "lscr.io/linuxserver/syncthing:latest";
         environment = defaultEnv;

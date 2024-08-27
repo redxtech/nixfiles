@@ -24,13 +24,9 @@ in {
 
           originRequest.noTLSVerify = true;
           credentialsFile = config.sops.secrets.cloudflared_tunnel_creds.path;
-          # warp-routing.enabled = true;
         };
       };
     };
-
-    # enable warp routing client
-    # services.cloudflare-warp.enable = true;
 
     sops.secrets.cloudflared_tunnel_creds = {
       inherit (config.services.cloudflared) group;
