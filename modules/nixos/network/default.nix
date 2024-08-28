@@ -73,7 +73,7 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
+  config = {
     network = {
       hostname = config.networking.hostName;
       address = "${config.networking.hostName}.${cfg.domain}";
