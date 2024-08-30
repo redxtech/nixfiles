@@ -49,7 +49,7 @@ in {
       };
     };
 
-    systemd.user.services.blueman-applet.Unit = mkIf config.xsession.enable {
+    systemd.user.services.blueman-applet.Unit = mkIf (!config.xsession.enable) {
       Requires = mkForce [ "graphical-session-pre.target" ];
       After = mkForce [ "graphical-session-pre.target" ];
     };
