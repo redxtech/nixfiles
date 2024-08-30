@@ -219,6 +219,9 @@ in {
       };
     };
 
+    # needed for iwd
+    services.gnome.gnome-keyring.enable = true;
+
     # use newer switch-to-configuration
     system.switch = {
       enable = false;
