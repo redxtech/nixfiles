@@ -3810,11 +3810,11 @@
         "vtsls": "vtsls"
       },
       "locked": {
-        "lastModified": 1724979860,
-        "narHash": "sha256-fKc9PSvAGNNJg6Ew8gxCEyjzZriB6azdrFxWmqEE068=",
+        "lastModified": 1724983897,
+        "narHash": "sha256-adCXmree5vo1Zklxvxh1mmm5n6Pi9DOwLB/bg0LGxH8=",
         "owner": "redxtech",
         "repo": "tu",
-        "rev": "772aa597f1a8d1beb9365a01a7e4c877e9c72b51",
+        "rev": "a81c1fee73cb68f8554938776eb738dc455012b0",
         "type": "github"
       },
       "original": {
