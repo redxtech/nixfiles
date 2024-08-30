@@ -38,7 +38,7 @@
         overlays = builtins.attrValues self.overlays;
         config = {
           allowUnfree = true;
-          permittedInsecurePackages = [ "electron-25.9.0" ];
+          permittedInsecurePackages = [ "electron-29.4.6" ];
           nvidia.acceptLicense = true;
         };
       };

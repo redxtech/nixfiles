@@ -1,8 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, stable, ... }:
 
 let
   cfg = config.desktop.wm;
-  scripts = cfg.scripts;
+  inherit (cfg) scripts;
 in {
   cli.enable = true;
 
@@ -422,7 +422,7 @@ in {
         };
       }];
       runDays = [{
-        cmd = "${teams-for-linux}/bin/teams-for-linux";
+        cmd = "${stable.teams-for-linux}/bin/teams-for-linux";
         days = [ 1 2 3 4 5 ]; # monday to friday
       }];
     };

@@ -51,25 +51,12 @@ in {
     # use zen kernel if enabled
     boot.kernelPackages = mkIf cfg.useZen pkgs.linuxKernel.packages.linux_zen;
 
-    # solaar config
-    services.solaar.enable = mkDefault cfg.useSolaar;
-
-    # xremap config
-    services.xremap = {
-      enable = cfg.remap;
-      withX11 = true;
-      config.modmap = [{
-        name = "Global";
-        remap = cfg.remaps;
-      }];
-    };
-
     # desktop apps
     environment.systemPackages = with pkgs;
       [
         # gui apps
         inputs.firefox.packages.${system}.firefox-nightly-bin
-        gnome.gnome-software
+        gnome-software
         kitty
         mpv
 
@@ -138,9 +125,19 @@ in {
       blueman.enable = mkDefault true;
       printing.enable = mkDefault true;
       ratbagd.enable = mkDefault true;
+      solaar.enable = mkDefault cfg.useSolaar;
       touchegg.enable = mkDefault cfg.isLaptop;
       tumbler.enable = mkDefault true;
       upower.enable = mkDefault cfg.isLaptop;
+
+      xremap = {
+        enable = cfg.remap;
+        withX11 = true;
+        config.modmap = [{
+          name = "Global";
+          remap = cfg.remaps;
+        }];
+      };
     };
 
     hardware = {
@@ -184,7 +181,7 @@ in {
 
     # udev
     services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-    services.udev.extraRules = concatStringsSep "\n" ([
+    services.udev.extraRules = concatStringsSep "\n" [
       # rules for allowing users in the video group to change the backlight brightness
       ''
         ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness"
@@ -211,6 +208,6 @@ in {
         SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="0337", MODE="0666"
         SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="102b", MODE="0666"
       ''
-    ]);
+    ];
   };
 }

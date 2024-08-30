@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, lib, pkgs, stable, ... }:
 
 let cfg = config.desktop;
 in {
@@ -57,7 +57,7 @@ in {
         prismlauncher # minecraft launcher
         qdirstat # used storage visualizer
         qimgv # image viewer
-        teams-for-linux # microsoft teams (for linux!)
+        stable.teams-for-linux # microsoft teams (for linux!)
         thunar # file manager
         vesktop # better discord client
         vlc # video player

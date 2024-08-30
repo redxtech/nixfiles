@@ -3,7 +3,7 @@
 let cfg = config.desktop;
 in {
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [ betterbird birdtray thunderbird ];
+    home.packages = with pkgs; [ thunderbird ];
 
     programs.thunderbird = {
       enable = true;
