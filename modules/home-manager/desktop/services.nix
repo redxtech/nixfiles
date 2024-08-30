@@ -49,9 +49,16 @@ in {
       };
     };
 
-    systemd.user.services.blueman-applet.Unit = mkIf (!config.xsession.enable) {
-      Requires = mkForce [ "graphical-session-pre.target" ];
-      After = mkForce [ "graphical-session-pre.target" ];
+    systemd.user.services = mkIf (!config.xsession.enable) {
+      blueman-applet.Unit = {
+        Requires = mkForce [ "graphical-session-pre.target" ];
+        After = mkForce [ "graphical-session-pre.target" ];
+      };
+
+      network-manager-applet.Unit = {
+        Requires = mkForce [ "graphical-session-pre.target" ];
+        After = mkForce [ "graphical-session-pre.target" ];
+      };
     };
 
     # hide all desktop entries, except for org.kde.kdeconnect.settings
