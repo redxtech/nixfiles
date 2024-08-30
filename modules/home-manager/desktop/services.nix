@@ -1,8 +1,10 @@
 { config, lib, pkgs, ... }:
 
-let cfg = config.desktop;
+let
+  inherit (lib) mkIf mkForce;
+  cfg = config.desktop;
 in {
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services = {
       blueman-applet.enable = true;
 
@@ -41,14 +43,19 @@ in {
         };
       };
 
-      kdeconnect = lib.mkIf cfg.kdeConnect {
+      kdeconnect = mkIf cfg.kdeConnect {
         enable = true;
         indicator = true;
       };
     };
 
+    systemd.user.services.blueman-applet.Unit = mkIf config.xsession.enable {
+      Requires = mkForce [ "graphical-session-pre.target" ];
+      After = mkForce [ "graphical-session-pre.target" ];
+    };
+
     # hide all desktop entries, except for org.kde.kdeconnect.settings
-    xdg.desktopEntries = lib.mkIf cfg.kdeConnect {
+    xdg.desktopEntries = mkIf cfg.kdeConnect {
       "org.kde.kdeconnect.sms" = {
         exec = "";
         name = "KDE Connect SMS";
