@@ -9,6 +9,10 @@
       enable = true;
       wm = "hyprland";
       hyprland.enable = true;
+      rules = [{
+        initialTitle = "Spotify";
+        ws = "music";
+      }];
     };
 
     isLaptop = false;

@@ -62,7 +62,6 @@ in {
         }
         {
           initialTitle = "Spotify";
-          ws = "music";
           tile = true;
         }
         {
@@ -123,13 +122,13 @@ in {
         inherit class;
         tile = true;
       }) [
+        "google-chrome"
         "feh"
         "qimgv"
         "imv"
         "mpv"
         "neovide"
         "foot(client)?"
-        "obsidian"
         "thunderbird"
         "virt-manager"
       ]);
