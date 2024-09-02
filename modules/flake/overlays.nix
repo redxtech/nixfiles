@@ -9,7 +9,7 @@
         neovim-nightly = inputs.neovim-nightly.packages.${final.system}.default;
 
         plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
-          version = "1.40.4.8679-424562606";
+          version = "1.40.5.8921-836b34c27";
           name = "${old.pname}-${version}";
 
           src = if prev.stdenv.hostPlatform.system == "aarch64-linux" then
@@ -22,14 +22,13 @@
             prev.fetchurl {
               url =
                 "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
-              sha256 = "sha256-wVyA70xqZ9T8brPlzjov2j4C9W+RJYo99hO3VtNBVqw=";
+              sha256 = "sha256-B/c9/wAQTkJ+Uzz7oLKzczAYx7U8DFB8DbvT/kwTKjo=";
             };
         });
 
         plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };
 
-        nix-autobahn =
-          inputs.nix-autobahn.packages.${final.system}.nix-autobahn;
+        inherit (inputs.nix-autobahn.packages.${final.system}) nix-autobahn;
 
         # spicetify packages
         spicePkgs = inputs.spicetify-nix.legacyPackages.${final.system};
