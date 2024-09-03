@@ -40,7 +40,6 @@
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     tu.url = "github:redxtech/tu";
-    tu.inputs.nixpkgs.follows = "nixpkgs";
 
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
