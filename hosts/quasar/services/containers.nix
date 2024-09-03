@@ -136,6 +136,14 @@ in {
         ports = [ (mkPorts cfg.ports.flaresolverr) ];
       };
 
+      grocy = {
+        image = "lscr.io/linuxserver/grocy:latest";
+        labels = mkLabels "grocy";
+        environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.grocy 80) ];
+        volumes = [ (mkConf "grocy") ];
+      };
+
       jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
         labels = mkLabels "jackett";
@@ -375,12 +383,13 @@ in {
           ${pkgs.docker}/bin/docker network create --driver bridge $network
       done
     '';
-
-  sops.secrets."ddclient.conf".sopsFile = ../secrets.yaml;
-  sops.secrets.calibre_user.sopsFile = ../secrets.yaml;
-  sops.secrets.calibre_pw.sopsFile = ../secrets.yaml;
-  sops.secrets.qdirstat_user.sopsFile = ../secrets.yaml;
-  sops.secrets.qdirstat_pw.sopsFile = ../secrets.yaml;
-  sops.secrets.tandoor_env.sopsFile = ../secrets.yaml;
+  sops.secrets = {
+    "ddclient.conf".sopsFile = ../secrets.yaml;
+    calibre_user.sopsFile = ../secrets.yaml;
+    calibre_pw.sopsFile = ../secrets.yaml;
+    qdirstat_user.sopsFile = ../secrets.yaml;
+    qdirstat_pw.sopsFile = ../secrets.yaml;
+    tandoor_env.sopsFile = ../secrets.yaml;
+  };
 }
 

@@ -4,6 +4,8 @@ with lib;
 let
   cfg = config.nas;
   cfgNet = config.network;
+
+  mkData = name: cfg.paths.data + "/" + name;
 in {
   imports =
     [ ./adguard.nix ./containers.nix ./dashboard.nix ./plex.nix ./traefik.nix ];
@@ -21,6 +23,7 @@ in {
     dashy = 4000;
     deluge = 8112;
     flaresolverr = 8191;
+    grocy = 8400;
     jackett = 9117;
     jellyfin = 8096;
     jellyfin-vue = 8099;
@@ -46,14 +49,6 @@ in {
   };
 
   services = {
-    uptime-kuma = {
-      enable = true;
-      settings = {
-        UPTIME_KUMA_HOST = "0.0.0.0";
-        UPTIME_KUMA_PORT = toString cfg.ports.uptime;
-      };
-    };
-
     github-runners = {
       system-builder = {
         enable = true;
@@ -71,6 +66,14 @@ in {
         binaryCachesPath = secretPath "binary-caches";
         clusterJoinTokenPath = secretPath "join-token";
         secretsJsonPath = secretPath "secrets";
+      };
+    };
+
+    uptime-kuma = {
+      enable = true;
+      settings = {
+        UPTIME_KUMA_HOST = "0.0.0.0";
+        UPTIME_KUMA_PORT = toString cfg.ports.uptime;
       };
     };
   };
