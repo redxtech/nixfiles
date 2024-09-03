@@ -4,65 +4,66 @@ let
   cfg = config.network;
   enabled = cfg.enable && cfg.isHost;
 
-  inherit (cfg) domain;
+  inherit (cfg) address domain hostIP;
+
+  port = toString 53;
 in {
   config = lib.mkIf enabled {
-    services.bind = {
+    services.coredns = {
       enable = true;
 
-      forwarders = [
-        # local adguard home
-        "0.0.0.0 port 1053"
-      ];
-
-      cacheNetworks = [
-        "192.168.1.0/24"
-        "192.168.50.0/24"
-        "10.0.0.0/24"
-        "127.0.0.0/24"
-        "::1/128"
-      ];
-
-      zones = let
-        mkZone = { name, ip }: {
-          name = "${name}.${domain}";
-          master = true;
-          file = pkgs.writeText "${name}.${domain}.zone" ''
-            $TTL 3600
-
-            $ORIGIN ${name}.${domain}.
-            @               IN      SOA     ns.${name}.${domain}. info.${domain}. (
-                                            2024082302      ; serial
-                                            12h             ; refresh
-                                            15m             ; retry
-                                            3w              ; expire
-                                            2h              ; minimum ttl
-                                            )
-
-                            IN      NS      ns.${name}.${domain}.
-
-            ns              IN      A       ${ip}
-
-            ; -- add dns records below
-
-            @               IN      A       ${ip}
-            *               IN      A       ${ip}
-          '';
-        };
-
+      config = let
         enabledHosts = builtins.filter (host:
           host != "nixiso"
           && self.nixosConfigurations.${host}.config.network.enable) hostnames;
-        zonePairs = map (host:
-          mkZone {
-            name = host;
-            inherit (self.nixosConfigurations.${host}.config.network) ip;
-          }) enabledHosts;
-      in zonePairs;
+
+        zonePairs = map (hostname: {
+          inherit hostname;
+          inherit (self.nixosConfigurations.${hostname}.config.network) ip;
+        }) enabledHosts;
+
+        mkZoneFile = hostname: ip:
+          pkgs.writeText "${hostname}.${domain}.zone" ''
+            $TTL 3600
+
+            $ORIGIN ${hostname}.${domain}.
+            @     IN      SOA    ns.${hostname}.${domain}. info.${domain}. (
+                                 2024090300      ; serial
+                                 12h             ; refresh
+                                 15m             ; retry
+                                 3w              ; expire
+                                 2h              ; minimum ttl
+                                 )
+
+                  IN      NS     ns.${hostname}.${domain}.
+
+            ns    IN      A      ${ip}
+
+            ; -- add dns records below
+
+            @     IN      A      ${ip}
+            *     IN      A      ${ip}
+          '';
+
+        zoneEntries = map ({ hostname, ip }: ''
+          ${hostname}.${domain}:${port} {
+            file ${mkZoneFile hostname ip}
+            log
+          }
+        '') zonePairs;
+      in ''
+        .:${port} {
+          forward . tls://${hostIP} { tls_servername dns.${address} }
+          cache
+          log
+        }
+
+        ${lib.concatStringsSep "\n" zoneEntries}
+      '';
     };
 
     networking = {
-      resolvconf.useLocalResolver = true;
+      resolvconf.useLocalResolver = false;
 
       firewall.allowedTCPPorts = [ 53 ];
       firewall.allowedUDPPorts = [ 53 ];

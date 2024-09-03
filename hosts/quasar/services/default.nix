@@ -13,6 +13,7 @@ in {
   # TODO: group by type & use consistent values
   nas.ports = {
     adguard = 9900;
+    adguarddns = 1053;
     apprise = 9005;
     bazarr = 6767;
     calibre = 8805;

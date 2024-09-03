@@ -92,7 +92,7 @@ in {
         # host only
         dash = host 4000;
         grafana = host 3000;
-        prometheus = host 9090;
+        prometheus = host 3001;
         loki = host 3002;
       };
     };

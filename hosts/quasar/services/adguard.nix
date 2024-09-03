@@ -14,6 +14,7 @@ let
   host = "${name}.${address}";
   hostDNS = "dns.${address}";
   port = toString cfg.ports.adguard;
+  portDNS = toString cfg.ports.adguarddns;
 
   webports = "${port}:${port}";
   mkTLstr = type: "traefik.http.${type}.${name}";
@@ -36,17 +37,17 @@ in {
 
       ports = [
         webports # frontend
-        "1053:53/tcp" # DNS
-        "1053:53/udp" # DNS
+        "${portDNS}:53/tcp" # DNS
+        "${portDNS}:53/udp" # DNS
         # "67:67/udp" # DHCP
         # "68:68/tcp" # DHCP
         # "68:68/udp" # DHCP
         # "80:80/tcp" # DNS over HTTPS
         "1443:1443/tcp" # DNS over HTTPS
         "1443:1443/udp" # DNS over HTTPS
-        "853:853/tcp" # DNS over TLS
         "784:784/udp" # DNS over QUIC
         "853:853/udp" # DNS over QUIC
+        "853:853/tcp" # DNS over TLS
         "8853:8853/udp" # DNS over QUIC
         # "5443:5443/tcp" # DNScrypt
         # "5443:5443/udp" # DNScrypt
@@ -69,6 +70,8 @@ in {
       inherit (config.services.traefik) group;
     };
   };
-
-  networking.firewall.allowedTCPPorts = [ 853 ];
+  networking.firewall = {
+    allowedTCPPorts = [ 853 ];
+    allowedUDPPorts = [ 853 ];
+  };
 }
