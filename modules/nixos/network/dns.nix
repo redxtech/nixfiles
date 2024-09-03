@@ -7,8 +7,6 @@ let
   inherit (cfg) domain;
 in {
   config = lib.mkIf enabled {
-    networking.nameservers = [ cfg.hostIP ];
-
     services.bind = {
       enable = true;
 
@@ -17,8 +15,13 @@ in {
         "0.0.0.0 port 1053"
       ];
 
-      cacheNetworks =
-        [ "10.0.0.0/24" "192.168.50.0/24" "127.0.0.0/24" "::1/128" ];
+      cacheNetworks = [
+        "192.168.1.0/24"
+        "192.168.50.0/24"
+        "10.0.0.0/24"
+        "127.0.0.0/24"
+        "::1/128"
+      ];
 
       zones = let
         mkZone = { name, ip }: {
