@@ -189,11 +189,10 @@ in {
     # docker changes 
     virtualisation.docker = {
       # fix	dns
-      daemon.settings.dns =
-        mkIf (builtins.length cfg.dockerDNS > 0) cfg.dockerDNS;
-
-      # disable iptables
-      # extraOptions = "--iptables=False";
+      daemon.settings = {
+        dns = mkIf (builtins.length cfg.dockerDNS > 0) cfg.dockerDNS;
+        metrics-addr = "0.0.0.0:9323";
+      };
     };
 
     # tailscale

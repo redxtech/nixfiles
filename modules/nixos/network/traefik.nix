@@ -16,6 +16,12 @@ in {
         api.insecure = true;
         api.dashboard = true;
 
+        metrics.prometheus = {
+          addEntryPointsLabels = true;
+          addRoutersLabels = true;
+          addServicesLabels = true;
+        };
+
         entryPoints = {
           web = {
             address = ":80";

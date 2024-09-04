@@ -2,10 +2,11 @@
 
 let
   cfg = config.monitoring;
+  cfgNet = config.network;
   inherit (cfg) ports;
+  inherit (cfgNet) hostname;
   inherit (lib) mkIf mkOption mkEnableOption types;
 
-  hostname = config.networking.hostName;
   grafanaHost = "quasar";
   p = toString;
 in {
@@ -45,6 +46,14 @@ in {
             http_port = ports.grafana;
             # Grafana needs to know on which domain and URL it's running
             domain = grafanaHost;
+          };
+
+          smtp = {
+            enabled = true;
+            from_address = "grafana@sucha.foo";
+            host = "$__file{${config.sops.secrets.grafana_smtp_host.path}}";
+            user = "$__file{${config.sops.secrets.grafana_smtp_user.path}}";
+            password = "$__file{${config.sops.secrets.grafana_smtp_pw.path}}";
           };
         };
       };
@@ -91,6 +100,18 @@ in {
 
         extraFlags = [ "--server.http-listen-port=${toString ports.loki}" ];
       };
+
+      sops.secrets = let
+        mkSecret = {
+          sopsFile = ../../../hosts/quasar/secrets.yaml;
+          group = config.users.users.grafana.group;
+          mode = "0440";
+        };
+      in {
+        grafana_smtp_pw = mkSecret;
+        grafana_smtp_user = mkSecret;
+        grafana_smtp_host = mkSecret;
+      };
     })
 
     {
@@ -101,114 +122,132 @@ in {
         extraFlags = [ "--server.http.listen-addr=0.0.0.0:${p ports.alloy}" ];
 
         configPath = let
+          mkScraper = name: address: ''
+            prometheus.scrape "${name}" {
+              targets = [{ __address__   = "${address}" }]
+              forward_to      = [prometheus.relabel.filter_metrics.receiver]
+            }
+          '';
+          mkLocalScraper = name: port:
+            mkScraper name "127.0.0.1:${toString port}";
+          mkExportarr = name: port: mkLocalScraper "${name}_exportarr" port;
+
           alloyConfig = pkgs.writeText "alloy-config.json"
             (builtins.concatStringsSep "\n" [
               ''
                 prometheus.exporter.unix "${hostname}" { }
 
                 prometheus.scrape "scrape_metrics" {
-                	targets         = prometheus.exporter.unix.${hostname}.targets
-                	forward_to      = [prometheus.relabel.filter_metrics.receiver]
-                	scrape_interval = "10s"
+                  targets         = prometheus.exporter.unix.${hostname}.targets
+                  forward_to      = [prometheus.relabel.filter_metrics.receiver]
+                  scrape_interval = "10s"
                 }
 
                 prometheus.scrape "${hostname}_docker" {
-                	targets    = discovery.docker.${hostname}.targets
-                	forward_to = [prometheus.relabel.filter_metrics.receiver]
+                  targets    = discovery.docker.${hostname}.targets
+                  forward_to = [prometheus.relabel.filter_metrics.receiver]
                 }
-
+              ''
+              (mkLocalScraper "docker" 9323)
+              (mkLocalScraper "traefik" 8080)
+              (mkLocalScraper "coredns" 3201)
+              (mkLocalScraper "adguard" 3202)
+              (mkLocalScraper "unpoller" 9130)
+              (mkExportarr "sonarr" 9707)
+              (mkExportarr "radarr" 9708)
+              ''
                 prometheus.relabel "filter_metrics" {
-                	rule {
-                		action        = "drop"
-                		source_labels = ["env"]
-                		regex         = "dev"
-                	}
+                  rule {
+                    action        = "drop"
+                    source_labels = ["env"]
+                    regex         = "dev"
+                  }
 
-                	forward_to = [prometheus.remote_write.metrics_service.receiver]
+                  forward_to = [prometheus.remote_write.metrics_service.receiver]
                 }
 
                 prometheus.remote_write "metrics_service" {
-                	endpoint {
-                		url = "http://${grafanaHost}:${
-                    p ports.prometheus
-                  }/api/v1/write"
-                	}
+                  endpoint {
+                    url = "http://${grafanaHost}:${
+                      p ports.prometheus
+                    }/api/v1/write"
+                  }
                 }
               ''
               ''
                 discovery.docker "${hostname}" {
-                	host = "unix:///var/run/docker.sock"
+                  host = "unix:///var/run/docker.sock"
                 }
 
                 discovery.relabel "docker" {
-                	targets = [{
-                		__address__ = "unix:///var/run/docker.sock",
-                	}]
-                	rule {
-                		source_labels = ["__meta_docker_container_name"]
-                		regex = "/(.*)"
-                		target_label = "container_name"
-                	}
-                	rule {
-                		source_labels = ["__meta_docker_container_id"]
-                		target_label = "container_id"
-                	}
+                  targets = [{
+                    __address__ = "unix:///var/run/docker.sock",
+                  }]
+                  rule {
+                    source_labels = ["__meta_docker_container_name"]
+                    regex = "/(.*)"
+                    target_label = "container_name"
+                  }
+                  rule {
+                    source_labels = ["__meta_docker_container_id"]
+                    target_label = "container_id"
+                  }
                 }
 
                 discovery.relabel "journal" {
-                	targets = []
-                	rule {
-                		source_labels = ["__journal_systemd_unit"]
-                		target_label = "unit"
-                	}
+                  targets = []
+                  rule {
+                    source_labels = ["__journal_systemd_unit"]
+                    target_label = "unit"
+                  }
                 }
               ''
               ''
                 local.file_match "local_files" {
-                	path_targets = [{
-                		"__path__" = "/var/log/*.log",
-                		"job" = "varlogs",
-                	}]
-                	sync_period = "5s"
+                  path_targets = [{
+                    "__path__" = "/var/log/*.log",
+                    "job" = "varlogs",
+                  }]
+                  sync_period = "5s"
                 }
 
                 loki.source.file "log_scraper" {
-                	targets    = local.file_match.local_files.targets
-                	forward_to = [loki.process.filter_logs.receiver]
-                	tail_from_end = true
+                  targets    = local.file_match.local_files.targets
+                  forward_to = [loki.process.filter_logs.receiver]
+                  tail_from_end = true
                 }
 
                 loki.process "filter_logs" {
-                	stage.drop {
-                		source = ""
-                		expression  = ".*Connection closed by authenticating user root"
-                		drop_counter_reason = "noisy"
-                	}
-                	stage.static_labels {
-                	  values = {
+                  stage.drop {
+                    source = ""
+                    expression  = ".*Connection closed by authenticating user root"
+                    drop_counter_reason = "noisy"
+                  }
+                  stage.static_labels {
+                    values = {
                       "app" = "varlogs",
                       "host" = "${hostname}",
                     }
-                	}
-                	forward_to = [loki.write.grafana_loki.receiver]
+                  }
+                  forward_to = [loki.write.grafana_loki.receiver]
                 }
               ''
               ''
                 loki.source.docker "docker_logs" {
-                	host       = "unix:///var/run/docker.sock"
-                	targets    = discovery.docker.${hostname}.targets
-                	labels     = {
+                  host       = "unix:///var/run/docker.sock"
+                  targets    = discovery.docker.${hostname}.targets
+                  labels     = {
                     "app" = "docker",
                     "host" = "${hostname}",
                   }
-                	forward_to = [loki.write.grafana_loki.receiver]
-                	relabel_rules = discovery.relabel.docker.rules
+                  forward_to = [loki.write.grafana_loki.receiver]
+                  relabel_rules = discovery.relabel.docker.rules
                 }
 
                 loki.source.journal "${hostname}_journal" {
-                	forward_to = [loki.write.grafana_loki.receiver]
-                	relabel_rules = discovery.relabel.journal.rules
-                	labels     = {
+                  forward_to = [loki.write.grafana_loki.receiver]
+                  relabel_rules = discovery.relabel.journal.rules
+                  labels     = {
                     "app" = "journal",
                     "host" = "${hostname}",
                   }
@@ -216,14 +255,11 @@ in {
               ''
               ''
                 loki.write "grafana_loki" {
-                	endpoint {
-                		url = "http://${grafanaHost}:${p ports.loki}/loki/api/v1/push"
-
-                		// basic_auth {
-                		//  username = "admin"
-                		//  password = "admin"
-                		// }
-                	}
+                  endpoint {
+                    url = "http://${grafanaHost}:${
+                      p ports.loki
+                    }/loki/api/v1/push"
+                  }
                 }
               ''
             ]);

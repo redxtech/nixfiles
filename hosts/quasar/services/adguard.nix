@@ -16,7 +16,8 @@ let
   port = toString cfg.ports.adguard;
   portDNS = toString cfg.ports.adguarddns;
 
-  webports = "${port}:${port}";
+  mkPorts = port: "${toString port}:${toString port}";
+  webports = mkPorts port;
   mkTLstr = type: "traefik.http.${type}.${name}";
   mkTLRstr = "${mkTLstr "routers"}";
   mkTLSstr = "${mkTLstr "services"}";
@@ -61,6 +62,21 @@ in {
         }:/certs/${host}"
       ];
     };
+
+    adguard-exporter = {
+      image = "docker.io/ebrianne/adguard-exporter:latest";
+      environment = defaultEnv // {
+        adguard_protocol = "http";
+        adguard_hostname = "127.0.0.1";
+        adguard_port = port;
+        interval = "10s";
+        log_limit = "10000";
+        server_port = toString cfg.ports.adguard-exporter;
+      };
+      environmentFiles = [ config.sops.secrets.adguard_exporter.path ];
+      ports = [ (mkPorts cfg.ports.adguard-exporter) ];
+      extraOptions = [ "--network" "host" ];
+    };
   };
 
   security.acme.certs = {
@@ -70,6 +86,9 @@ in {
       inherit (config.services.traefik) group;
     };
   };
+
+  sops.secrets.adguard_exporter.sopsFile = ../secrets.yaml;
+
   networking.firewall = {
     allowedTCPPorts = [ 853 ];
     allowedUDPPorts = [ 853 ];

@@ -14,6 +14,7 @@ in {
   nas.ports = {
     adguard = 9900;
     adguarddns = 1053;
+    adguard-exporter = 3202;
     apprise = 9005;
     bazarr = 6767;
     calibre = 8805;
@@ -46,6 +47,7 @@ in {
     sonarr = 8989;
     tandoor = 9700;
     tautulli = 8181;
+    unpoller = 9130;
     uptime = 3301;
   };
 

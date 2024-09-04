@@ -7,6 +7,7 @@ let
   inherit (cfg) address domain hostIP;
 
   port = toString 53;
+  prometheusPort = toString 3201;
 in {
   config = lib.mkIf enabled {
     services.coredns = {
@@ -48,12 +49,14 @@ in {
         zoneEntries = map ({ hostname, ip }: ''
           ${hostname}.${domain}:${port} {
             file ${mkZoneFile hostname ip}
+            prometheus 127.0.0.1:${prometheusPort}
             log
           }
         '') zonePairs;
       in ''
         .:${port} {
           forward . tls://${hostIP} { tls_servername dns.${address} }
+          prometheus 127.0.0.1:${prometheusPort}
           cache
           log
         }

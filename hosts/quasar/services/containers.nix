@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 let
-  inherit (lib) mkIf;
-
   cfg = config.nas;
   cfgNet = config.network;
+
+  inherit (cfgNet) address;
 
   defaultEnv = {
     PUID = toString config.users.users.${cfg.user}.uid;
@@ -35,12 +35,20 @@ let
       "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
     } // (mkLabels name);
 
-  someContainersEnabled = false; # dw about it
+  mkExportarr = name: port: {
+    image = "ghcr.io/onedr0p/exportarr:v2.0";
+    cmd = [ name ];
+    environment = defaultEnv // {
+      PORT = toString port;
+      URL = "https://${name}.${address}";
+    };
+    environmentFiles = [ config.sops.secrets."exportarr_${name}".path ];
+    ports = [ (mkPorts port) ];
+  };
 in {
   virtualisation.oci-containers = {
     containers = {
-      # TODO: add to dash, figure out what to do with it
-      apprise = mkIf someContainersEnabled {
+      apprise = {
         image = "lscr.io/linuxserver/apprise-api:latest";
         ports = [ (mkPort cfg.ports.apprise 8000) ];
         labels = mkLabels "apprise";
@@ -48,7 +56,6 @@ in {
         volumes = [ (mkConf "apprise") ];
       };
 
-      # TODO: setup
       bazarr = {
         image = "lscr.io/linuxserver/bazarr:latest";
         labels = mkLabels "bazarr";
@@ -312,6 +319,8 @@ in {
         extraOptions = [ "--network" "host" ];
       };
 
+      radarr-exportarr = mkExportarr "radarr" 9708;
+
       sonarr = {
         image = "lscr.io/linuxserver/sonarr:latest";
         environment = defaultEnv;
@@ -319,6 +328,8 @@ in {
         volumes = [ (mkConf "sonarr") downloads media ];
         extraOptions = [ "--network" "host" ];
       };
+
+      sonarr-exportarr = mkExportarr "sonarr" 9707;
 
       signaturepdf = {
         image = "ghcr.io/redxtech/signaturepdf:master";
@@ -358,6 +369,19 @@ in {
         ];
       };
 
+      unpoller = {
+        image = "ghcr.io/unpoller/unpoller:latest";
+        labels = mkLabels "unpoller";
+        environment = defaultEnv // {
+          UP_UNIFI_DEFAULT_URL = "https://unifi";
+          UP_INFLUXDB_DISABLE = "true";
+          UP_UNIFI_DEFAULT_SAVE_DPI = "true";
+        };
+        environmentFiles = [ config.sops.secrets."unpoller.env".path ];
+        ports = [ (mkPorts cfg.ports.unpoller) ];
+        volumes = [ (mkConf "unpoller") ];
+      };
+
       watchtower = {
         image = "containrrr/watchtower:latest";
         environment = defaultEnv;
@@ -387,9 +411,12 @@ in {
     "ddclient.conf".sopsFile = ../secrets.yaml;
     calibre_user.sopsFile = ../secrets.yaml;
     calibre_pw.sopsFile = ../secrets.yaml;
+    exportarr_sonarr.sopsFile = ../secrets.yaml;
+    exportarr_radarr.sopsFile = ../secrets.yaml;
     qdirstat_user.sopsFile = ../secrets.yaml;
     qdirstat_pw.sopsFile = ../secrets.yaml;
     tandoor_env.sopsFile = ../secrets.yaml;
+    "unpoller.env".sopsFile = ../secrets.yaml;
   };
 }
 
