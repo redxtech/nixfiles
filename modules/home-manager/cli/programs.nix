@@ -70,9 +70,8 @@ in {
         enable = true;
 
         colors = with config.user-theme; {
-          bg = bg;
+          inherit bg fg;
           "bg+" = bg-alt;
-          fg = fg;
           "fg+" = fg;
           hl = purple;
           "hl+" = purple;
@@ -283,6 +282,8 @@ in {
 
         '';
       };
+
+      yazi.enable = true;
 
       yt-dlp = {
         enable = true;

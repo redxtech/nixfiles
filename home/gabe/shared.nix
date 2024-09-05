@@ -124,11 +124,12 @@ in {
       }) [
         "google-chrome"
         "feh"
+        "foot(client)?"
         "qimgv"
         "imv"
         "mpv"
         "neovide"
-        "foot(client)?"
+        "Postman"
         "thunderbird"
         "virt-manager"
       ]);

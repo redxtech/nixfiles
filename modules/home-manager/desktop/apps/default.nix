@@ -54,6 +54,7 @@ in {
         pavucontrol # audio control panel
         peazip # file archiver
         piper # gui for ratbagd/logitech mouse control
+        postman # api client
         prismlauncher # minecraft launcher
         qdirstat # used storage visualizer
         qimgv # image viewer
