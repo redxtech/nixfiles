@@ -7,17 +7,21 @@ in {
     allHomeManager = import ../home-manager;
     hardware = inputs.hardware.nixosModules;
 
-    extraArgs = { pkgs, ... }: {
-      _module.args = {
-        inherit self inputs;
-        hostnames = builtins.attrNames self.nixosConfigurations;
-        stable = import inputs.nixpkgs-stable {
+    extraArgs = { pkgs, ... }:
+      let
+        pkgArgs = {
           inherit (self.nixCfg.nixpkgs) overlays;
           inherit (pkgs) system;
           config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
         };
+      in {
+        _module.args = {
+          inherit self inputs;
+          stable = import inputs.nixpkgs-stable pkgArgs;
+          small = import inputs.nixpkgs-stable pkgArgs;
+          hostnames = builtins.attrNames self.nixosConfigurations;
+        };
       };
-    };
 
     homeCommon = [
       inputs.hyprland.homeManagerModules.default

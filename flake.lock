@@ -2786,6 +2786,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-small": {
+      "locked": {
+        "lastModified": 1725622710,
+        "narHash": "sha256-6+zidwZUjLDokXgeqKMCgXl9cdqbG+ln1kf8/tX6yek=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "5a24308c384447887fe59453dd23b5cb09079593",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable-small",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1710695816,
@@ -3356,6 +3372,7 @@
         "nix-neovim-plugins": "nix-neovim-plugins",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs_11",
+        "nixpkgs-small": "nixpkgs-small",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "solaar": "solaar",
         "sops-nix": "sops-nix",

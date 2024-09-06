@@ -1,4 +1,4 @@
-{ pkgs, stable }:
+{ pkgs, stable, small }:
 
 {
   # packages with an actual source

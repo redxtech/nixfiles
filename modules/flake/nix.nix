@@ -54,5 +54,6 @@
     in {
       _module.args.pkgs = import inputs.nixpkgs pkgArgs;
       _module.args.stable = import inputs.nixpkgs-stable pkgArgs;
+      _module.args.small = import inputs.nixpkgs-small pkgArgs;
     };
 }

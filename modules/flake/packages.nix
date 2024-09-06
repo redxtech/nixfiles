@@ -3,8 +3,8 @@
 {
   imports = [ inputs.flake-parts.flakeModules.easyOverlay ];
 
-  perSystem = { config, self', inputs', pkgs, stable, system, ... }: {
-    packages = (import ../../pkgs { inherit pkgs stable; });
+  perSystem = { config, self', inputs', pkgs, stable, small, system, ... }: {
+    packages = (import ../../pkgs { inherit pkgs stable small; });
 
     overlayAttrs = config.packages;
   };
