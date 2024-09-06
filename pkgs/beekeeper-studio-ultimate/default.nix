@@ -1,5 +1,4 @@
-{ pkgs ? import <nixpkgs> { system = builtins.currentSystem; }, lib ? pkgs.lib
-, fetchurl ? pkgs.fetchurl, appimageTools ? pkgs.appimageTools }:
+{ lib, fetchurl, appimageTools }:
 
 let
   baseName = "beekeeper-studio";

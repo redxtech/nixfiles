@@ -180,7 +180,7 @@ in {
     services.dbus.packages = with pkgs; [ gcr python310Packages.dbus-python ];
 
     # udev
-    services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+    services.udev.packages = with pkgs; [ gnome-settings-daemon ];
     services.udev.extraRules = concatStringsSep "\n" [
       # rules for allowing users in the video group to change the backlight brightness
       ''
