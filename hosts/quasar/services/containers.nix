@@ -163,15 +163,11 @@ in {
         image = "lscr.io/linuxserver/jellyfin:latest";
         labels = mkLabelsPort "jellyfin" cfg.ports.jellyfin;
         environment = defaultEnv // {
-          JELLYFIN_PublishedServerUrl = "10.0.0.191";
+          JELLYFIN_PublishedServerUrl = "jellyfin.${address}";
           NVIDIA_VISIBLE_DEVICES = "all";
         };
-        ports = [
-          (mkPorts cfg.ports.jellyfin)
-          (mkPorts 8920)
-          "${mkPorts 7359}/udp"
-          "${mkPorts 1900}/udp"
-        ];
+        ports =
+          [ (mkPorts cfg.ports.jellyfin) (mkPorts 8920) "${mkPorts 7359}/udp" ];
         volumes = [
           (mkConf "jellyfin")
           # "${cfg.paths.config}/jellyfin/custom-web:/usr/share/jellyfin/web"

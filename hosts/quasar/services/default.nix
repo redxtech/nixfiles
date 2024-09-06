@@ -1,14 +1,16 @@
 { pkgs, lib, config, ... }:
 
 with lib;
-let
-  cfg = config.nas;
-  cfgNet = config.network;
-
-  mkData = name: cfg.paths.data + "/" + name;
+let cfg = config.nas;
 in {
-  imports =
-    [ ./adguard.nix ./containers.nix ./dashboard.nix ./plex.nix ./traefik.nix ];
+  imports = [
+    ./adguard.nix
+    ./containers.nix
+    ./dashboard.nix
+    ./home-assistant
+    ./plex.nix
+    ./traefik.nix
+  ];
 
   # TODO: group by type & use consistent values
   nas.ports = {
@@ -25,6 +27,7 @@ in {
     dashy = 4000;
     deluge = 8112;
     flaresolverr = 8191;
+    homeassistant = 8123;
     grocy = 8400;
     jackett = 9117;
     jellyfin = 8096;
