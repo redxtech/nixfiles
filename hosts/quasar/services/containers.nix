@@ -244,6 +244,14 @@ in {
         ports = [ (mkPort cfg.ports.ladder 5000) ];
       };
 
+      lidarr = {
+        image = "lscr.io/linuxserver/lidarr:latest";
+        environment = defaultEnv;
+        ports = [ (mkPorts cfg.ports.lidarr) ];
+        volumes = [ (mkConf "lidarr") downloads media ];
+        extraOptions = [ "--network" "host" ];
+      };
+
       paperless = {
         image = "lscr.io/linuxserver/paperless-ngx:latest";
         labels = mkLabels "docs";
@@ -388,7 +396,6 @@ in {
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 
-      # lidarr
       # airsonic (advanced?)
       # invoice ninja
       # ente/lychee/immich/photoprism
