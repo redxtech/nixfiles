@@ -28,6 +28,9 @@
   cockpit-zfs-manager = pkgs.callPackage ./cockpit/zfs-manager { };
   libvirt-dbus = pkgs.callPackage ./libvirt-dbus { }; # for cockpit-machines
 
+  # home assistant components
+  home-assistant-grocy = pkgs.callPackage ./home-assistant/grocy { };
+
   # font Packages
   dank-mono = pkgs.callPackage ./dank-mono { };
 }

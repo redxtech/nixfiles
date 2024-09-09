@@ -47,7 +47,7 @@ in {
           unit_system = "metric";
 
           external_url = "https://ha.quasar.sucha.foo";
-          internal_url = "http://quasar:8123";
+          internal_url = "https://ha.quasar.sucha.foo";
 
           latitude = "!secret latitude";
           longitude = "!secret longitude";
@@ -64,6 +64,8 @@ in {
         localtuya
         spook
         waste_collection_schedule
+
+        pkgs.home-assistant-grocy
       ];
 
       customLovelaceModules =
