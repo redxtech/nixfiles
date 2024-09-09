@@ -70,7 +70,6 @@ in {
 
       customLovelaceModules =
         with pkgs.home-assistant-custom-lovelace-modules; [
-          android-tv-card
           apexcharts-card
           atomic-calendar-revive
           button-card
@@ -83,6 +82,7 @@ in {
           multiple-entity-row
           mushroom
           template-entity-row
+          universal-remote-card
         ];
     };
 
