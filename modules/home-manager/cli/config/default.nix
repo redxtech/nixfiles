@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, lib, ... }:
 
 let
   inherit (lib) mkIf;
@@ -6,5 +6,11 @@ let
 in {
   config = mkIf cfg.enable {
     xdg.configFile = { "lyrics-in-terminal/lyrics.cfg".source = ./lyrics.cfg; };
+
+    sops.secrets.streamrip = {
+      sopsFile = ../../../../home/gabe/secrets.yaml;
+      path = "${config.xdg.configHome}/streamrip/config.toml";
+      mode = "0740";
+    };
   };
 }

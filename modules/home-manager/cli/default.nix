@@ -119,6 +119,7 @@ in {
           sops # secrets manager
           sshfs # mount remote filesystems
           steam-run # run binaries in fhs
+          streamrip # download music
           sl # teehee
           slurm-nm # network monitor
           timg # in-terminal image viewer
