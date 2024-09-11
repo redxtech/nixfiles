@@ -99,10 +99,10 @@
             modules = [ self.nixosModules.deck ];
           };
           # iso for usb stick
-          nixiso = nixpkgs.lib.nixosSystem {
+          nixiso = nixpkgs.lib.nixosSystem rec {
             system = "x86_64-linux";
-            specialArgs = { inherit self; };
-            modules = [ self.nixosModules.nixiso ];
+            specialArgs = { inherit inputs self system; };
+            modules = [ ./hosts/nixiso/default.nix ];
           };
         };
       };
