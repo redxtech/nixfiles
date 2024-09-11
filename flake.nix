@@ -54,6 +54,7 @@
     nix-autobahn.url = "github:lassulus/nix-autobahn";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nix-neovim-plugins.url = "github:NixNeovim/NixNeovimPlugins";
+    nix-serve-ng.url = "github:aristanetworks/nix-serve-ng";
     swww.url = "github:LGFae/swww";
     xremap-flake.url = "github:xremap/nix-flake";
     # nur.url = "github:nix-community/NUR";

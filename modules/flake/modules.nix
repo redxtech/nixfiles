@@ -41,6 +41,7 @@ in {
       inputs.home-manager.nixosModules.home-manager
       inputs.hyprland.nixosModules.default
       inputs.jovian.nixosModules.default
+      inputs.nix-serve-ng.nixosModules.default
       inputs.solaar.nixosModules.default
       inputs.sops-nix.nixosModules.sops
       inputs.xremap-flake.nixosModules.default
