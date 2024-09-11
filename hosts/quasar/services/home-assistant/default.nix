@@ -55,6 +55,10 @@ in {
 
           media_dirs.media = "/pool/media";
         };
+
+        automation = "!include automations.yaml";
+        # scenes = "!include scenes.yaml";
+        # scripts = "!include scripts.yaml";
       };
 
       customComponents = with pkgs.home-assistant-custom-components; [

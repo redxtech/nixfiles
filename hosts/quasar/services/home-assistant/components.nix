@@ -133,6 +133,9 @@ in {
       "minecraft_server"
       "mobile_app"
       "moon"
+      "mqtt"
+      "mqtt_json"
+      "mqtt_room"
       "my"
       "network"
       "nextbus"
@@ -216,6 +219,7 @@ in {
       "whois"
       "wiz"
       "zeroconf"
+      "zha"
       "zone"
     ];
   };
