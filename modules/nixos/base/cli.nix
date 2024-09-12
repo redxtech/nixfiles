@@ -37,7 +37,7 @@ in {
         nr = "nh os";
         hm = "nh home";
       in rec {
-        ls = "eza";
+        ls = "eza --group-directories-first";
         la = "${ls} -al";
         ll = "${ls} -l";
         l = "${ls} -l";

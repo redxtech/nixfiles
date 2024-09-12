@@ -448,13 +448,13 @@ in {
 
     # file writing
     xdg.configFile."fish/env.secrets.fish".text = ''
-      set --export YOUTUBE_API_KEY "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.youtube.path})"
-      set --export BW_SESSION "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.bw.path})"
-      set --export CACHIX_AUTH_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix.path})"
-      set --export CACHIX_ACTIVATE_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix-activate.path})"
-      set --export DS3_SAVEFILE_LOC "$HOME/$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.ds3_save.path})"
-      set --export HASS_SERVER "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.hass_url.path})"
-      set --export HASS_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.hass_token.path})"
+      set --export YOUTUBE_API_KEY "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.youtube.path} 2>/dev/null)"
+      set --export BW_SESSION "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.bw.path} 2>/dev/null)"
+      set --export CACHIX_AUTH_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix.path} 2>/dev/null)"
+      set --export CACHIX_ACTIVATE_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix-activate.path} 2>/dev/null)"
+      set --export DS3_SAVEFILE_LOC "$HOME/$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.ds3_save.path} 2>/dev/null)"
+      set --export HASS_SERVER "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.hass_url.path} 2>/dev/null)"
+      set --export HASS_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.hass_token.path} 2>/dev/null)"
     '';
   };
 }

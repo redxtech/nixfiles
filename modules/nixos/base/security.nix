@@ -10,6 +10,8 @@ in {
       enable = mkEnableOption "Enable ClamAV antivirus" // { default = true; };
       fangfrisch = mkEnableOption "Enable fangfrisch" // { default = true; };
     };
+
+    acme.enable = mkEnableOption "Enable ACME cert gen" // { default = true; };
   };
 
   config = mkIf cfg.enable {
@@ -78,7 +80,7 @@ in {
     };
 
     # acme
-    security.acme = {
+    security.acme = mkIf cfg.acme.enable {
       acceptTerms = true;
       defaults = {
         email = "acme-${hostname}@gabe.super.fish";

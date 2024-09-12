@@ -1,15 +1,10 @@
 { pkgs, lib, config, ... }:
 
 let
-  inherit (lib) mkIf mkDefault mkOption mkEnableOption optional;
-  inherit (config.networking) hostName;
   inherit (builtins) map;
-  cfg = config.base;
+  inherit (lib) mkIf mkDefault mkOption mkEnableOption optional;
 
-  # only enable auto upgrade if current config came from a clean tree
-  # this avoids accidental auto-upgrades when working locally.
-  isClean = false;
-  # isClean = inputs.self ? rev;
+  cfg = config.base;
 in {
   imports = [
     ./cli.nix
@@ -66,11 +61,7 @@ in {
       };
     };
 
-    autoupdate = mkOption {
-      type = bool;
-      default = true;
-      description = "Enable automatic updates.";
-    };
+    boot.enable = mkEnableOption "Enable boot config" // { default = true; };
 
     tailscale = mkOption {
       type = bool;
@@ -135,7 +126,7 @@ in {
     nix.optimise.automatic = mkDefault true;
 
     # boot config
-    boot = {
+    boot = mkIf cfg.boot.enable {
       loader = {
         systemd-boot = {
           enable = true;
@@ -225,27 +216,6 @@ in {
     system.switch = {
       enable = false;
       enableNg = true;
-    };
-
-    # auto upgrade if enabled
-    system.autoUpgrade = mkIf cfg.autoupdate {
-      enable = isClean;
-      dates = "hourly";
-      flags = [ "--refresh" ];
-      flake = "github:redxtech/nixfiles#${hostName}";
-    };
-
-    # Only run if current config (self) is older than the new one.
-    systemd.services.nixos-upgrade = lib.mkIf config.system.autoUpgrade.enable {
-      serviceConfig.ExecCondition = lib.getExe
-        (pkgs.writeShellScriptBin "check-date" ''
-          lastModified() {
-            nix flake metadata "$1" --refresh --json | ${
-              lib.getExe pkgs.jq
-            } '.lastModified'
-          }
-          test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "self")"
-        '');
     };
   };
 }

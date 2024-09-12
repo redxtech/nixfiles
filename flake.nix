@@ -57,7 +57,7 @@
     nix-serve-ng.url = "github:aristanetworks/nix-serve-ng";
     swww.url = "github:LGFae/swww";
     xremap-flake.url = "github:xremap/nix-flake";
-    # nur.url = "github:nix-community/NUR";
+    nur.url = "github:nix-community/NUR";
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
@@ -99,10 +99,9 @@
             modules = [ self.nixosModules.deck ];
           };
           # iso for usb stick
-          nixiso = nixpkgs.lib.nixosSystem rec {
+          nixiso = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            specialArgs = { inherit inputs self system; };
-            modules = [ ./hosts/nixiso/default.nix ];
+            modules = [ self.nixosModules.nixiso ];
           };
         };
       };

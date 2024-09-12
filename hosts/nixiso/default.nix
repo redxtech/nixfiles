@@ -1,14 +1,8 @@
-{ self, config, lib, pkgs, system, inputs, ... }:
+{ self, config, lib, pkgs, ... }:
 
-let inherit (self.inputs) nixpkgs;
+let inherit (lib) mkDefault mkForce;
 in {
-  imports = [
-    # ./filesystem.nix
-    # self.inputs.disko.nixosModules.disko
-
-    "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
-    "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
-  ];
+  imports = [ ./filesystem.nix ./packages.nix ];
 
   config = {
     # disko stuff
@@ -16,10 +10,24 @@ in {
     # disko.devices.disk.main.imageSize = "10G";
     # boot.loader.systemd-boot.enable = true;
 
-    networking.hostName = "nixiso";
+    base = {
+      enable = true;
+      hostname = "nixiso";
+
+      acme.enable = false;
+      boot.enable = false;
+      clamav.enable = false;
+      virtualisation.enable = false;
+
+      services = {
+        cockpit.enable = false;
+        portainer.enable = false;
+        startpage.enable = false;
+      };
+    };
 
     nixpkgs = {
-      hostPlatform = lib.mkDefault "x86_64-linux";
+      hostPlatform = mkDefault "x86_64-linux";
       config.allowUnfree = true;
     };
 
@@ -47,67 +55,58 @@ in {
     boot = {
       kernelPackages = pkgs.linuxPackages_zen;
       supportedFilesystems =
-        [ "btrfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" "ext4" ];
+        [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" "ext4" ];
     };
 
     networking.networkmanager.enable = true;
     hardware.bluetooth.enable = true; # enables support for Bluetooth
 
+    services = {
+      qemuGuest.enable = true;
+      openssh.settings.PermitRootLogin = mkForce "yes";
+
+      xremap = {
+        enable = true;
+        withX11 = true;
+        config.modmap = [{
+          name = "Global";
+          remap = { "CapsLock" = "SUPER_L"; };
+        }];
+      };
+
+      displayManager.autoLogin.user = mkForce "gabe";
+    };
+
+    programs.thunar.enable = true;
+    programs.dconf.enable = true;
+
+    # gnome power settings do not turn off screen
+    systemd = {
+      services.sshd.wantedBy = mkForce [ "multi-user.target" ];
+      targets = {
+        sleep.enable = false;
+        suspend.enable = false;
+        hibernate.enable = false;
+        hybrid-sleep.enable = false;
+      };
+    };
+
+    # force set passwords for users
+    users.extraUsers.gabe.hashedPassword = mkForce
+      "$y$j9T$.xOwShfMrSOABFsHFEPz2/$Lms67feYjaQm4IKR4EWFmIoDqffK5KsmVcfZCMJaXv0";
+    users.extraUsers.root.hashedPassword = mkForce
+      "$y$j9T$Nj51AtexfLEZR1DisZK7i0$adHDufm64FBLYWtxLQwC6uvHv0faz8pXCv6IFodMwV8";
+
     # set the install closure path for offline installation
     # environment.etc."install-closure".source = "${closureInfo}/store-paths";
 
-    environment.systemPackages =
-      let inherit (self.inputs.tu.packages.${pkgs.system}) tu;
-      in with pkgs; [
-        # cli tools to have on the iso
-        atool
-        bat
-        btop
-        curl
-        dua
-        eza
-        fd
-        file
-        fzf
-        git
-        htop
-        jq
-        lsb-release
-        neovim
-        parted
-        procps
-        ps_mem
-        ripgrep
-        rsync
-        tealdeer
-        tmux
-        tu
-        wget
-        zoxide
-
-        # gui apps
-        firefox-bin
-        gparted
-        google-chrome
-
-        # system
-        btrfs-progs
-      ];
+    system.activationScripts.touchFishHistory = ''
+      touch /home/gabe/.local/share/fish/fish_history
+    '';
 
     environment.sessionVariables = {
       FLAKE_PATH = "${self}";
       NIXPKGS_ALLOW_UNFREE = "1";
-    };
-
-    environment.shellAliases = {
-      ls = "eza --group-directories-first";
-      la = "ls -al";
-      l = "ls -l";
-      vim = "tu";
-
-      mkd = "mkdir -pv";
-      mv = "mv -v";
-      rm = "rm -i";
     };
   };
 }

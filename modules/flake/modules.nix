@@ -1,6 +1,8 @@
 { self, inputs, ... }:
 
-let inherit (builtins) attrValues;
+let
+  inherit (builtins) attrValues attrNames;
+  inherit (inputs) nixpkgs;
 in {
   flake = let
     allNixos = import ../nixos;
@@ -17,9 +19,10 @@ in {
       in {
         _module.args = {
           inherit self inputs;
+          inherit (pkgs) system;
           stable = import inputs.nixpkgs-stable pkgArgs;
           small = import inputs.nixpkgs-stable pkgArgs;
-          hostnames = builtins.attrNames self.nixosConfigurations;
+          hostnames = attrNames self.nixosConfigurations;
         };
       };
 
@@ -28,6 +31,7 @@ in {
       inputs.limbo.homeManagerModules.default
       inputs.sops-nix.homeManagerModules.sops
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
+      inputs.nur.hmModules.nur
       inputs.spicetify-nix.homeManagerModules.default
       inputs.tu.homeManagerModules.default
 
@@ -105,10 +109,13 @@ in {
         ] ++ nixosCommon;
 
       nixiso.imports = [
-        ../../hosts/nixiso
-
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
         inputs.disko.nixosModules.disko
-      ];
+        inputs.nur.nixosModules.nur
+
+        ../../hosts/nixiso
+      ] ++ nixosCommon;
     } // allNixos;
 
     homeManagerModules = {

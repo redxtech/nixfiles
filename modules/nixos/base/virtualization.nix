@@ -4,8 +4,12 @@ let
   inherit (lib) mkIf;
   cfg = config.base;
 in {
-  options.base = let inherit (lib) mkOption;
+  options.base = let inherit (lib) mkOption mkEnableOption;
   in with lib.types; {
+    virtualisation.enable = mkEnableOption "Enable virtualisation" // {
+      default = true;
+    };
+
     containerBackend = mkOption {
       type = enum [ "docker" "podman" ];
       default = "docker";
@@ -16,7 +20,7 @@ in {
   config = let
     inherit (lib) mkDefault;
     dockerEnabled = cfg.containerBackend == "docker";
-  in mkIf cfg.enable {
+  in mkIf (cfg.enable && cfg.virtualisation.enable) {
     environment.systemPackages = with pkgs; [
       virt-manager
       virt-viewer
