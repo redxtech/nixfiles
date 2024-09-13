@@ -38,9 +38,7 @@ in {
               false;
             "browser.newtabpage.activity-stream.showSponsored" = false;
             "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-            # "browser.newtab.url" = "http://localhost:9009";
             "general.smoothScroll" = true;
-            "browser.startup.homepage" = "http://localhost:9009";
             "browser.startup.page" = 3;
             "browser.toolbars.bookmarks.visibility" = "never";
             "browser.urlbar.update2.engineAliasRefresh" = true;
