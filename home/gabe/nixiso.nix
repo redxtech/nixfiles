@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [ ./sops.nix ];
@@ -156,9 +156,12 @@
           "nemo.desktop"
           "vesktop.desktop"
           "gparted.desktop"
+          "org.gnome.Settings.desktop"
         ];
         welcome-dialog-last-shown-version = "46.4";
       };
+      "/org/gnome/desktop/session".idle-delay = lib.hm.gvariant.mkUint32 0;
+      "org/gnome/desktop/wm/keybindings".close = [ "<Super>q" ];
       "org/gnome/settings-daemon/plugins/media-keys" = {
         custom-keybindings = [
           "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
@@ -177,7 +180,6 @@
           binding = "<Super>w";
           command = "firefox-nightly";
         };
-      "org/gnome/desktop/wm/keybindings".close = [ "<Super>q" ];
     };
   };
 
