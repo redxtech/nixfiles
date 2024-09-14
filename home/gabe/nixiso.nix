@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [ ./sops.nix ];
@@ -158,9 +158,7 @@
           "gparted.desktop"
           "org.gnome.Settings.desktop"
         ];
-        welcome-dialog-last-shown-version = "46.4";
       };
-      "/org/gnome/desktop/session".idle-delay = lib.hm.gvariant.mkUint32 0;
       "org/gnome/desktop/wm/keybindings".close = [ "<Super>q" ];
       "org/gnome/settings-daemon/plugins/media-keys" = {
         custom-keybindings = [

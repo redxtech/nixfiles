@@ -26,7 +26,6 @@
 
     # zfs pools
     "/pool" = mkZfs "pool";
-    "/pool/cloud" = mkZfs "pool/cloud";
     "/pool/data" = mkZfs "pool/data";
     "/pool/downloads" = mkZfs "pool/downloads";
     "/pool/media" = mkZfs "pool/media";
