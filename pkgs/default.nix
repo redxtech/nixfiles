@@ -30,6 +30,10 @@
 
   # home assistant components
   home-assistant-grocy = pkgs.callPackage ./home-assistant/grocy { };
+  home-assistant-lovelace-bubble-card =
+    pkgs.callPackage ./home-assistant/bubble-card { };
+  home-assistant-lovelace-ha-firemote =
+    pkgs.callPackage ./home-assistant/ha-firemote { };
 
   # font Packages
   dank-mono = pkgs.callPackage ./dank-mono { };

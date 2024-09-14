@@ -28,7 +28,7 @@ in buildHomeAssistantComponent rec {
 
   meta = with lib; {
     changelog =
-      "https://github.com/custom-components/grocy/releases/tag/${version}";
+      "https://github.com/custom-components/grocy/releases/tag/v${version}";
     description = "Custom Grocy integration for Home Assistant";
     homepage = "https://github.com/custom-components/grocy";
     maintainers = with maintainers; [ redxtech ];

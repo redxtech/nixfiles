@@ -94,6 +94,7 @@ in {
       "homeassistant"
       "homeassistant_alerts"
       "homekit"
+      "homekit_controller"
       "html5"
       "http"
       "image"

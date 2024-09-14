@@ -73,7 +73,7 @@ in {
       ];
 
       customLovelaceModules =
-        with pkgs.home-assistant-custom-lovelace-modules; [
+        (with pkgs.home-assistant-custom-lovelace-modules; [
           apexcharts-card
           atomic-calendar-revive
           button-card
@@ -87,7 +87,10 @@ in {
           mushroom
           template-entity-row
           universal-remote-card
-        ];
+        ]) ++ (with pkgs; [
+          home-assistant-lovelace-bubble-card
+          home-assistant-lovelace-ha-firemote
+        ]);
     };
 
     services.postgresql = {
