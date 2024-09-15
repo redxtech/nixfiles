@@ -32,10 +32,14 @@
   home-assistant-grocy = pkgs.callPackage ./home-assistant/grocy { };
   home-assistant-spotcast = pkgs.callPackage ./home-assistant/spotcast { };
   home-assistant-var = pkgs.callPackage ./home-assistant/var { };
+  home-assistant-lovelace-custom-brand-icons =
+    pkgs.callPackage ./home-assistant/custom-brand-icons { };
   home-assistant-lovelace-bubble-card =
     pkgs.callPackage ./home-assistant/bubble-card { };
   home-assistant-lovelace-ha-firemote =
     pkgs.callPackage ./home-assistant/ha-firemote { };
+  home-assistant-lovelace-waze-travel-time =
+    pkgs.callPackage ./home-assistant/waze-travel-time { };
 
   # font Packages
   dank-mono = pkgs.callPackage ./dank-mono { };

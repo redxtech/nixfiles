@@ -62,58 +62,45 @@ in {
           sp_key = "!secret spotcast_gabe_sp_key";
         };
 
-        var = {
-          spt_bastion = {
-            friendly_name = "Spotify - Bastion";
-            initial_value = "!secret spotify_bastion_id";
-            entity_picture = "mdi:desktop-classic";
-            unique_id = "var_spotify_device_bastion_id";
+        var = let
+          mkSpotifyDevice = id: name: icon: {
+            friendly_name = "Spotify - ${name}";
+            initial_value = "!secret spotify_${id}_id";
+            entity_picture = "mdi:${icon}";
+            unique_id = "var_spotify_device_${id}_id";
           };
-          spt_gabes_phone = {
-            friendly_name = "Spotify - Gabe's Phone";
-            initial_value = "!secret spotify_gabes_phone_id";
-            entity_picture = "mdi:cellphone";
-            unique_id = "var_spotify_device_gabes_phone_id";
-          };
-          spt_bedroom_speaker = {
-            friendly_name = "Spotify - Bedroom Speaker";
-            initial_value = "!secret spotify_bedroom_speaker_id";
-            entity_picture = "mdi:cast-audio";
-            unique_id = "var_spotify_device_bedroom_speaker_id";
-          };
-          spt_kitchen_speaker = {
-            friendly_name = "Spotify - Kitchen Speaker";
-            initial_value = "!secret spotify_kitchen_speaker_id";
-            entity_picture = "mdi:cast-audio";
-            unique_id = "var_spotify_device_kitchen_speaker_id";
-          };
-          spt_living_room_tv = {
-            friendly_name = "Spotify - Living Room TV";
-            initial_value = "!secret spotify_living_room_tv_id";
-            entity_picture = "mdi:television-speaker";
-            unique_id = "var_spotify_device_living_room_tv_id";
-          };
-          spt_pl_censorship = {
-            friendly_name = "Spotify Playlist - Censorship";
-            initial_value =
-              "spotify:playlist:1SEjsahPsn1pEGgyJ6mInM?si=194d6c996a0e4f17";
+          mkSpotifyPlaylist = id: name: uri: {
+            friendly_name = "Spotify Playlist - ${name}";
+            initial_value = "spotify:playlist:${uri}";
             entity_picture = "mdi:playlist-music";
-            unique_id = "var_spotify_playlist_censorship_uri";
+            unique_id = "var_spotify_playlist_${id}_uri";
           };
-          spt_pl_masterlist = {
-            friendly_name = "Spotify Playlist - The Master List";
-            initial_value =
-              "spotify:playlist:33cMTnKfvqpaDFB38ZKQb4?si=bd1615420cd848cc";
-            entity_picture = "mdi:playlist-music";
-            unique_id = "var_spotify_playlist_masterlist_uri";
+          mkGrocyId = id: name: num: {
+            friendly_name = "Grocy - ${name}";
+            initial_value = num;
+            entity_picture = "mdi:account";
+            unique_id = "var_grocy_${id}_id";
           };
-          spt_pl_dope = {
-            friendly_name = "Spotify Playlist - Dope, I Mean";
-            initial_value =
-              "spotify:playlist:29nSH89xCUvByNnMujjZZw?si=576717e26f9947ce";
-            entity_picture = "mdi:playlist-music";
-            unique_id = "var_spotify_playlist_dope_uri";
-          };
+        in {
+          spt_bastion = mkSpotifyDevice "bastion" "Bastion" "desktop-classic";
+          spt_gabes_phone =
+            mkSpotifyDevice "gabes_phone" "Gabe's Phone" "cellphone";
+          spt_bedroom_speaker =
+            mkSpotifyDevice "bedroom_speaker" "Bedroom Speaker" "cast-audio";
+          spt_kitchen_speaker =
+            mkSpotifyDevice "kitchen_speaker" "Kitchen Speaker" "cast-audio";
+          spt_living_room_tv =
+            mkSpotifyDevice "living_room_tv" "Living Room TV" "television-box";
+          spt_pl_censorship = mkSpotifyPlaylist "censorship" "Censorship"
+            "1SEjsahPsn1pEGgyJ6mInM";
+          spt_pl_masterlist = mkSpotifyPlaylist "masterlist" "The Master List"
+            "33cMTnKfvqpaDFB38ZKQb4";
+          spt_pl_dope =
+            mkSpotifyPlaylist "dope" "Dope, I Mean" "29nSH89xCUvByNnMujjZZw";
+          grocy_gabe_id = mkGrocyId "gabe" "Gabe" 1;
+          grocy_2_id = mkGrocyId "2" "Two" 2;
+          grocy_3_id = mkGrocyId "3" "Three" 3;
+          grocy_4_id = mkGrocyId "4" "Four" 4;
         };
 
         automation = "!include automations.yaml";
@@ -150,7 +137,9 @@ in {
           universal-remote-card
         ]) ++ (with pkgs; [
           home-assistant-lovelace-bubble-card
+          home-assistant-lovelace-custom-brand-icons
           home-assistant-lovelace-ha-firemote
+          home-assistant-lovelace-waze-travel-time
         ]);
     };
 
