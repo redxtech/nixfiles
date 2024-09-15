@@ -29,6 +29,8 @@
   libvirt-dbus = pkgs.callPackage ./libvirt-dbus { }; # for cockpit-machines
 
   # home assistant components
+  home-assistant-dwains-dashboard =
+    pkgs.callPackage ./home-assistant/dwains-dashboard { };
   home-assistant-grocy = pkgs.callPackage ./home-assistant/grocy { };
   home-assistant-spotcast = pkgs.callPackage ./home-assistant/spotcast { };
   home-assistant-var = pkgs.callPackage ./home-assistant/var { };
@@ -38,6 +40,8 @@
     pkgs.callPackage ./home-assistant/bubble-card { };
   home-assistant-lovelace-ha-firemote =
     pkgs.callPackage ./home-assistant/ha-firemote { };
+  home-assistant-lovelace-horizon-card =
+    pkgs.callPackage ./home-assistant/horizon-card { };
   home-assistant-lovelace-waze-travel-time =
     pkgs.callPackage ./home-assistant/waze-travel-time { };
 

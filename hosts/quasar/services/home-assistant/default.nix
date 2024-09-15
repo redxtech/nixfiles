@@ -115,6 +115,7 @@ in {
         spook
         waste_collection_schedule
       ]) ++ (with pkgs; [
+        home-assistant-dwains-dashboard
         home-assistant-grocy
         home-assistant-spotcast
         home-assistant-var
@@ -139,6 +140,7 @@ in {
           home-assistant-lovelace-bubble-card
           home-assistant-lovelace-custom-brand-icons
           home-assistant-lovelace-ha-firemote
+          home-assistant-lovelace-horizon-card
           home-assistant-lovelace-waze-travel-time
         ]);
     };
