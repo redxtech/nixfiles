@@ -30,6 +30,8 @@
 
   # home assistant components
   home-assistant-grocy = pkgs.callPackage ./home-assistant/grocy { };
+  home-assistant-spotcast = pkgs.callPackage ./home-assistant/spotcast { };
+  home-assistant-var = pkgs.callPackage ./home-assistant/var { };
   home-assistant-lovelace-bubble-card =
     pkgs.callPackage ./home-assistant/bubble-card { };
   home-assistant-lovelace-ha-firemote =
