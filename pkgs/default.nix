@@ -18,6 +18,11 @@
   minicava = pkgs.callPackage ./minicava { };
   lyrics = pkgs.python3Packages.callPackage ./lyrics { };
 
+  # python packages
+  python-music-assistant =
+    pkgs.python3Packages.callPackage ./python/music-assistant { };
+  soundcloudpy = pkgs.python3Packages.callPackage ./python/soundcloudpy { };
+
   # cockpit modules
   cockpit-benchmark = pkgs.callPackage ./cockpit/benchmark { };
   cockpit-docker = pkgs.callPackage ./cockpit/docker { };
