@@ -128,8 +128,9 @@ in {
         configPath = let
           mkScraper = name: address: ''
             prometheus.scrape "${name}" {
-              targets = [{ __address__   = "${address}" }]
-              forward_to      = [prometheus.relabel.filter_metrics.receiver]
+              targets     = [{ __address__   = "${address}" }]
+              job_name    = "integrations/${name}"
+              forward_to  = [prometheus.relabel.filter_metrics.receiver]
             }
           '';
           mkLocalScraper = name: port:
@@ -184,17 +185,15 @@ in {
                 }
 
                 discovery.relabel "docker" {
-                  targets = [{
-                    __address__ = "unix:///var/run/docker.sock",
-                  }]
+                  targets = [{ __address__ = "unix:///var/run/docker.sock" }]
                   rule {
                     source_labels = ["__meta_docker_container_name"]
-                    regex = "/(.*)"
-                    target_label = "container_name"
+                    regex         = "/(.*)"
+                    target_label  = "container_name"
                   }
                   rule {
                     source_labels = ["__meta_docker_container_id"]
-                    target_label = "container_id"
+                    target_label  = "container_id"
                   }
                 }
 
@@ -202,7 +201,7 @@ in {
                   targets = []
                   rule {
                     source_labels = ["__journal_systemd_unit"]
-                    target_label = "unit"
+                    target_label  = "unit"
                   }
                 }
               ''
@@ -210,26 +209,26 @@ in {
                 local.file_match "local_files" {
                   path_targets = [{
                     "__path__" = "/var/log/*.log",
-                    "job" = "varlogs",
+                    "job"      = "varlogs",
                   }]
-                  sync_period = "5s"
+                  sync_period  = "5s"
                 }
 
                 loki.source.file "log_scraper" {
-                  targets    = local.file_match.local_files.targets
-                  forward_to = [loki.process.filter_logs.receiver]
+                  targets       = local.file_match.local_files.targets
+                  forward_to    = [loki.process.filter_logs.receiver]
                   tail_from_end = true
                 }
 
                 loki.process "filter_logs" {
                   stage.drop {
-                    source = ""
-                    expression  = ".*Connection closed by authenticating user root"
+                    source              = ""
+                    expression          = ".*Connection closed by authenticating user root"
                     drop_counter_reason = "noisy"
                   }
                   stage.static_labels {
                     values = {
-                      "app" = "varlogs",
+                      "app"  = "varlogs",
                       "host" = "${hostname}",
                     }
                   }
@@ -241,18 +240,18 @@ in {
                   host       = "unix:///var/run/docker.sock"
                   targets    = discovery.docker.${hostname}.targets
                   labels     = {
-                    "app" = "docker",
+                    "app"  = "docker",
                     "host" = "${hostname}",
                   }
-                  forward_to = [loki.write.grafana_loki.receiver]
+                  forward_to    = [loki.write.grafana_loki.receiver]
                   relabel_rules = discovery.relabel.docker.rules
                 }
 
                 loki.source.journal "${hostname}_journal" {
-                  forward_to = [loki.write.grafana_loki.receiver]
+                  forward_to    = [loki.write.grafana_loki.receiver]
                   relabel_rules = discovery.relabel.journal.rules
-                  labels     = {
-                    "app" = "journal",
+                  labels        = {
+                    "app"  = "journal",
                     "host" = "${hostname}",
                   }
                 }
