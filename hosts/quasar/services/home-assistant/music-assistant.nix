@@ -28,7 +28,7 @@ in {
       labels = mkLabels "mass" // {
         "traefik.http.services.mass.loadbalancer.server.port" = "8095";
       };
-      ports = [ (mkPorts cfg.ports.music-assistant) (mkPorts 8097) ];
+      ports = map mkPorts [ cfg.ports.music-assistant 8097 5090 5091 3483 ];
       volumes = [
         "${cfg.paths.config}/music-assistant-server:/data"
         "${cfg.paths.media}:/media"
