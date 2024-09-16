@@ -31,9 +31,9 @@ let
     "${mkTLRstr name}.tls.certresolver" = "cloudflare";
   };
   mkLabelsPort = name: port:
-    {
+    (mkLabels name) // {
       "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
-    } // (mkLabels name);
+    };
 
   mkExportarr = name: port: {
     image = "ghcr.io/onedr0p/exportarr:v2.0";

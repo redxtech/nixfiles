@@ -127,6 +127,7 @@ in {
       "lovelace"
       "manual"
       "map"
+      "media_extractor"
       "media_player"
       "media_source"
       "met"

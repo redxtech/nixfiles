@@ -4,7 +4,7 @@ let
   cfg = config.nas;
   mkConf = name: cfg.paths.config + "/" + name;
 in {
-  imports = [ ./components.nix ];
+  imports = [ ./components.nix ./music-assistant.nix ];
 
   config = lib.mkIf cfg.enable {
     network.services.ha = 8123;
@@ -117,6 +117,7 @@ in {
       ]) ++ (with pkgs; [
         home-assistant-dwains-dashboard
         home-assistant-grocy
+        # home-assistant-music-assistant
         home-assistant-spotcast
         home-assistant-var
       ]);

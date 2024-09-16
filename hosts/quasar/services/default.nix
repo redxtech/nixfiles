@@ -36,6 +36,7 @@ in {
     kiwix = 9060;
     ladder = 1313;
     lidarr = 8686;
+    music-assistant = 8095;
     paperless = 9200;
     pdf = 9208;
     plex = 32400;
