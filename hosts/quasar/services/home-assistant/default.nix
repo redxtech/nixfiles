@@ -4,7 +4,7 @@ let
   cfg = config.nas;
   mkConf = name: cfg.paths.config + "/" + name;
 in {
-  imports = [ ./components.nix ./music-assistant.nix ];
+  imports = [ ./components.nix ./db.nix ./music-assistant.nix ];
 
   config = lib.mkIf cfg.enable {
     network.services.ha = 8123;
@@ -115,7 +115,7 @@ in {
         spook
         waste_collection_schedule
       ]) ++ (with pkgs; [
-        home-assistant-dwains-dashboard
+        # home-assistant-dwains-dashboard # NOTE: re-enable when issue #829 is fixed
         home-assistant-grocy
         home-assistant-music-assistant
         home-assistant-spotcast
