@@ -401,14 +401,13 @@ in {
     };
   };
 
-  system.activationScripts.mkDockerNetworks =
-    let networks = [ "paperless" "tandoor" ];
-    in ''
-      for network in ${toString networks}; do
-        ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
-          ${pkgs.docker}/bin/docker network create --driver bridge $network
-      done
-    '';
+  system.activationScripts.mkDockerNetworks = let networks = [ "paperless" ];
+  in ''
+    for network in ${toString networks}; do
+      ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
+        ${pkgs.docker}/bin/docker network create --driver bridge $network
+    done
+  '';
   sops.secrets = {
     "ddclient.conf".sopsFile = ../secrets.yaml;
     calibre_user.sopsFile = ../secrets.yaml;
@@ -417,7 +416,6 @@ in {
     exportarr_radarr.sopsFile = ../secrets.yaml;
     qdirstat_user.sopsFile = ../secrets.yaml;
     qdirstat_pw.sopsFile = ../secrets.yaml;
-    tandoor_env.sopsFile = ../secrets.yaml;
     "unpoller.env".sopsFile = ../secrets.yaml;
   };
 }
