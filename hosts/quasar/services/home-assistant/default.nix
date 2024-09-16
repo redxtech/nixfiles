@@ -117,7 +117,7 @@ in {
       ]) ++ (with pkgs; [
         home-assistant-dwains-dashboard
         home-assistant-grocy
-        # home-assistant-music-assistant
+        home-assistant-music-assistant
         home-assistant-spotcast
         home-assistant-var
       ]);

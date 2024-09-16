@@ -37,6 +37,8 @@
   home-assistant-dwains-dashboard =
     pkgs.callPackage ./home-assistant/dwains-dashboard { };
   home-assistant-grocy = pkgs.callPackage ./home-assistant/grocy { };
+  home-assistant-music-assistant =
+    pkgs.callPackage ./home-assistant/music-assistant { };
   home-assistant-spotcast = pkgs.callPackage ./home-assistant/spotcast { };
   home-assistant-var = pkgs.callPackage ./home-assistant/var { };
   home-assistant-lovelace-custom-brand-icons =
