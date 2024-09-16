@@ -83,6 +83,16 @@ in {
           } // builtins.mapAttrs (name: _: mkRouter name) cfg.finalServices;
           services = builtins.mapAttrs (_: mkService) cfg.finalServices;
 
+          middlewares = {
+            homeassistant-allow-iframe.headers = {
+              contentSecurityPolicy = "frame-ancestors ha.${address}";
+              customResponseHeaders = {
+                "X-Frame-Options" = "";
+                "X-XSS-Protection" = "1";
+              };
+            };
+          };
+
           serversTransports.ignorecert.insecureSkipVerify = true;
         };
       };

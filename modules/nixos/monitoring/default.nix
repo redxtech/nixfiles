@@ -101,6 +101,10 @@ in {
         extraFlags = [ "--server.http-listen-port=${toString ports.loki}" ];
       };
 
+      # set grafana to use allow-iframe middleware
+      services.traefik.dynamicConfigOptions.http.routers.grafana.middlewares =
+        [ "homeassistant-allow-iframe" ];
+
       sops.secrets = let
         mkSecret = {
           sopsFile = ../../../hosts/quasar/secrets.yaml;

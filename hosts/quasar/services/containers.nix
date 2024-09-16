@@ -23,6 +23,7 @@ let
   mkTLstr = name: type: "traefik.http.${type}.${name}"; # make traefik label
   mkTLRstr = name: "${mkTLstr name "routers"}"; # make traefik router label
   mkTLSstr = name: "${mkTLstr name "services"}"; # make traefik router label
+  mkTLHstr = name: "${mkTLstr name "middlewares"}.headers"; # middleware label
   mkLabels = name: {
     "traefik.enable" = "true";
     "${mkTLRstr name}.rule" = "Host(`${name}.${cfgNet.address}`)";
@@ -65,10 +66,7 @@ in {
       };
 
       calibre = let
-        mkHStr = header:
-          "${
-            mkTLstr "calibre" "middlewares"
-          }.headers.customrequestheaders.${header}";
+        mkHstr = header: "${mkTLHstr "calibre"}.customrequestheaders.${header}";
       in {
         image = "lscr.io/linuxserver/calibre:latest";
         labels = (mkLabelsPort "calibre" cfg.ports.calibre-ssl) // {
@@ -76,9 +74,9 @@ in {
             "ignorecert@file";
           "${mkTLSstr "calibre"}.loadbalancer.server.scheme" = "https";
           "${mkTLRstr "calibre"}.middlewares" = "calibre@docker";
-          "${mkHStr "Cross-Origin-Embedder-Policy"}" = "require-corp";
-          "${mkHStr "Cross-Origin-Opener-Policy"}" = "same-origin";
-          "${mkHStr "Cross-Origin-Resource-Policy"}" = "same-site";
+          "${mkHstr "Cross-Origin-Embedder-Policy"}" = "require-corp";
+          "${mkHstr "Cross-Origin-Opener-Policy"}" = "same-origin";
+          "${mkHstr "Cross-Origin-Resource-Policy"}" = "same-site";
         };
         environment = defaultEnv // {
           FILE__CUSTOM_USER = config.sops.secrets.calibre_user.path;
@@ -100,7 +98,9 @@ in {
 
       calibre-web = {
         image = "lscr.io/linuxserver/calibre-web:latest";
-        labels = mkLabels "books";
+        labels = mkLabels "books" // {
+          "${mkTLRstr "books"}.middlewares" = "homeassistant-allow-iframe@file";
+        };
         environment = defaultEnv // {
           DOCKER_MODS = "linuxserver/mods:universal-calibre";
         };
