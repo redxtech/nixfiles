@@ -59,6 +59,14 @@ in {
         prismlauncher # minecraft launcher
         qdirstat # used storage visualizer
         qimgv # image viewer
+        (tauon.overrideAttrs (oldAttrs: {
+          buildInputs = oldAttrs.buildInputs ++ [ librespot ];
+          pythonPath = oldAttrs.pythonPath ++ [ python-tekore ];
+          makeWrapperArgs = oldAttrs.makeWrapperArgs ++ [
+            "--prefix PATH : ${lib.makeBinPath [ librespot ]}"
+            "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ librespot ]}"
+          ];
+        }))
         stable.teams-for-linux # microsoft teams (for linux!)
         thunar # file manager
         vesktop # better discord client
