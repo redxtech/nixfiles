@@ -9,21 +9,14 @@
         neovim-nightly = inputs.neovim-nightly.packages.${final.system}.default;
 
         plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
-          version = "1.40.5.8921-836b34c27";
+          version = "1.41.0.8992-8463ad060";
           name = "${old.pname}-${version}";
 
-          src = if prev.stdenv.hostPlatform.system == "aarch64-linux" then
-            prev.fetchurl {
-              url =
-                "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_arm64.deb";
-              sha256 = "";
-            }
-          else
-            prev.fetchurl {
-              url =
-                "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
-              sha256 = "sha256-B/c9/wAQTkJ+Uzz7oLKzczAYx7U8DFB8DbvT/kwTKjo=";
-            };
+          src = prev.fetchurl {
+            url =
+              "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
+            hash = "sha256-ldBJz2nqlzcx/FvKzMCgXkVO0omcojlU9sq6fAiknD8=";
+          };
         });
 
         plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };

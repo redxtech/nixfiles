@@ -1,7 +1,11 @@
 { pkgs, lib, config, ... }:
 
 with lib;
-let cfg = config.nas;
+let
+  cfg = config.nas;
+  cfgNet = config.network;
+
+  inherit (cfgNet) address;
 in {
   imports = [
     ./adguard.nix
@@ -37,6 +41,7 @@ in {
     ladder = 1313;
     lidarr = 8686;
     music-assistant = 8095;
+    navidrome = 4533;
     paperless = 9200;
     pdf = 9208;
     plex = 32400;
@@ -53,6 +58,8 @@ in {
     unpoller = 9130;
     uptime = 3301;
   };
+
+  network.services = { music = cfg.ports.navidrome; };
 
   services = {
     github-runners = {
@@ -75,6 +82,24 @@ in {
       };
     };
 
+    navidrome = {
+      enable = true;
+
+      openFirewall = true;
+      settings = {
+        Address = "0.0.0.0";
+        BaseURL = "https://music.${address}";
+        DataFolder = "${cfg.paths.config}/navidrome";
+        MusicFolder = "${cfg.paths.media}/music";
+
+        # advanced settings
+        EnableGravatar = true;
+        Jukebox.Enabled = true;
+        LastFM2.Enabled = true;
+        Prometheus.Enabled = true;
+      };
+    };
+
     uptime-kuma = {
       enable = true;
       settings = {
@@ -83,6 +108,9 @@ in {
       };
     };
   };
+
+  systemd.services.navidrome.serviceConfig.EnvironmentFile =
+    config.sops.secrets.navidrome_env.path;
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
 
@@ -94,5 +122,6 @@ in {
     hercules-ci-agent-join-token.owner = "hercules-ci-agent";
     hercules-ci-agent-secrets.sopsFile = ../secrets.yaml;
     hercules-ci-agent-secrets.owner = "hercules-ci-agent";
+    navidrome_env.sopsFile = ../secrets.yaml;
   };
 }
