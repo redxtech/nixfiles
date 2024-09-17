@@ -94,6 +94,7 @@ in {
 
         # advanced settings
         EnableGravatar = true;
+        EnableSharing = true;
         Jukebox.Enabled = true;
         LastFM2.Enabled = true;
         Prometheus.Enabled = true;

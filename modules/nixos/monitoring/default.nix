@@ -138,8 +138,8 @@ in {
             mkScraper name "127.0.0.1:${toString port}";
           mkExportarr = name: port: mkLocalScraper "${name}_exportarr" port;
 
-          alloyConfig = with cfgNAS.ports;
-            pkgs.writeText "alloy-config.json" (builtins.concatStringsSep "\n" [
+          alloyConfig = pkgs.writeText "alloy-config.json"
+            (builtins.concatStringsSep "\n" [
               ''
                 prometheus.exporter.unix "${hostname}" { }
 
@@ -157,9 +157,9 @@ in {
               (mkLocalScraper "docker" 9323)
               (mkLocalScraper "traefik" 8080)
               (mkLocalScraper "coredns" 3201)
-              (mkLocalScraper "adguard" adguard-exporter)
-              (mkLocalScraper "unpoller" unpoller)
-              (mkLocalScraper "navidrome" navidrome)
+              (mkLocalScraper "adguard" 3202)
+              (mkLocalScraper "unpoller" 9130)
+              (mkLocalScraper "navidrome" 4533)
               (mkExportarr "sonarr" 9707)
               (mkExportarr "radarr" 9708)
               ''

@@ -26,9 +26,10 @@ in appimageTools.wrapType2 {
   '';
 
   meta = with lib; {
-    description = "";
-    homepage = "";
-    changelog = "";
+    description = "Music Assistant Companion App";
+    homepage = "https://github.com/music-assistant/companion";
+    changelog =
+      "https://github.com/music-assistant/companion/releases/tag/v${version}";
     license = licenses.mit;
     maintainers = with maintainers; [ redxtech ];
     platforms = [ "x86_64-linux" ];

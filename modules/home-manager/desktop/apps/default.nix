@@ -48,6 +48,7 @@ in {
         arandr # arrange and resize
         bitwarden-desktop # password manager
         discord # chat app
+        feishin # music player
         kooha # simple screen recorder
         libsForQt5.kleopatra # gpg gui
         obsidian # notes app
