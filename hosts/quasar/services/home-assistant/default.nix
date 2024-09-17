@@ -16,8 +16,6 @@ in {
       lovelaceConfigWritable = true;
       openFirewall = true;
 
-      extraPackages = python3Packages: with python3Packages; [ psycopg2 ];
-
       config = {
         default_config = { };
         recorder.db_url = "postgresql://@/hass";
@@ -55,6 +53,13 @@ in {
 
           media_dirs.media = "/pool/media";
         };
+
+        device_tracker = [{
+          platform = "unifi_direct";
+          host = "192.168.1.1";
+          username = "!secret unifi_user";
+          password = "!secret unifi_pass";
+        }];
 
         spotcast = {
           country = "CA";
@@ -107,6 +112,12 @@ in {
         scene = "!include scenes.yaml";
         script = "!include scripts.yaml";
       };
+
+      extraPackages = python3Packages:
+        with python3Packages; [
+          psycopg2
+          pkgs.python-unifi-ap
+        ];
 
       customComponents = (with pkgs.home-assistant-custom-components; [
         better_thermostat
