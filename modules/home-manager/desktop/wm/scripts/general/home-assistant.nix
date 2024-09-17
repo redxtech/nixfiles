@@ -8,11 +8,12 @@ writeShellApplication {
     export HASS_SERVER="$(cat "$HOME"/.config/secrets/hass_url.txt)"
     export HASS_TOKEN="$(cat "$HOME"/.config/secrets/hass_token.txt)"
 
-    LIGHT_ID="light.in_wall_600w_dimmer"
-    FAN_ID="fan.bedroom_fan"
+    LIGHT_ID="fan.bedroom_fan_switch" # TODO: switch to light once installed
+    FAN_ID="fan.bedroom_fan_2_switch"
 
     toggle_light () {
-      hass-cli service call light.toggle --arguments entity_id=$LIGHT_ID
+      # hass-cli service call light.toggle --arguments entity_id=$LIGHT_ID
+      hass-cli service call fan.toggle --arguments entity_id=$LIGHT_ID
     }
 
     toggle_fan () {
