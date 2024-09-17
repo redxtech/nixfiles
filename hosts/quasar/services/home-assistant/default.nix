@@ -4,7 +4,7 @@ let
   cfg = config.nas;
   mkConf = name: cfg.paths.config + "/" + name;
 in {
-  imports = [ ./components.nix ./db.nix ./music-assistant.nix ];
+  imports = [ ./components.nix ./db.nix ./music-assistant.nix ./zigbee.nix ];
 
   config = lib.mkIf cfg.enable {
     network.services.ha = 8123;
