@@ -36,22 +36,25 @@
 
   # home assistant components
   home-assistant-dwains-dashboard =
-    pkgs.callPackage ./home-assistant/dwains-dashboard { };
-  home-assistant-grocy = pkgs.callPackage ./home-assistant/grocy { };
+    pkgs.callPackage ./home-assistant/components/dwains-dashboard { };
+  home-assistant-grocy = pkgs.callPackage ./home-assistant/components/grocy { };
   home-assistant-music-assistant =
-    pkgs.callPackage ./home-assistant/music-assistant { };
-  home-assistant-spotcast = pkgs.callPackage ./home-assistant/spotcast { };
-  home-assistant-var = pkgs.callPackage ./home-assistant/var { };
+    pkgs.callPackage ./home-assistant/components/music-assistant { };
+  home-assistant-spotcast =
+    pkgs.callPackage ./home-assistant/components/spotcast { };
+  home-assistant-var = pkgs.callPackage ./home-assistant/components/var { };
+
+  # home assistant lovelace cards
   home-assistant-lovelace-custom-brand-icons =
-    pkgs.callPackage ./home-assistant/custom-brand-icons { };
+    pkgs.callPackage ./home-assistant/lovelace/custom-brand-icons { };
   home-assistant-lovelace-bubble-card =
-    pkgs.callPackage ./home-assistant/bubble-card { };
+    pkgs.callPackage ./home-assistant/lovelace/bubble-card { };
   home-assistant-lovelace-ha-firemote =
-    pkgs.callPackage ./home-assistant/ha-firemote { };
+    pkgs.callPackage ./home-assistant/lovelace/ha-firemote { };
   home-assistant-lovelace-horizon-card =
-    pkgs.callPackage ./home-assistant/horizon-card { };
+    pkgs.callPackage ./home-assistant/lovelace/horizon-card { };
   home-assistant-lovelace-waze-travel-time =
-    pkgs.callPackage ./home-assistant/waze-travel-time { };
+    pkgs.callPackage ./home-assistant/lovelace/waze-travel-time { };
 
   # font Packages
   dank-mono = pkgs.callPackage ./dank-mono { };

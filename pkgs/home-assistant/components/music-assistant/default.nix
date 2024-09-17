@@ -2,7 +2,7 @@
 
 let
   music-assistant =
-    python3Packages.callPackage ../../python/music-assistant { };
+    python3Packages.callPackage ../../../python/music-assistant { };
 in buildHomeAssistantComponent rec {
   owner = "music-assistant";
   version = "2024.9.1";
