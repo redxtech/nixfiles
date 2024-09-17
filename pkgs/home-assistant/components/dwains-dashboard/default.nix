@@ -13,8 +13,10 @@ buildHomeAssistantComponent rec {
   };
 
   meta = with lib; {
-    changelog = "";
-    description = "";
+    changelog =
+      "https://github.com/dwainscheeren/dwains-lovelace-dashboard/releases/tag/v${version}";
+    description =
+      "An fully auto generating Home Assistant UI dashboard for desktop, tablet and mobile by Dwains for desktop, tablet, mobile";
     homepage = "https://github.com/dwainscheeren/dwains-lovelace-dashboard";
     maintainers = with maintainers; [ redxtech ];
     license = licenses.cc-by-nc-nd-40;

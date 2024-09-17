@@ -26,7 +26,6 @@ let
     buildPhase = ''
       export HOME=$(mktemp -d)
       yarn --offline build
-      ls -al ./deps/frontend
       cp -r deps/frontend $out/
     '';
 

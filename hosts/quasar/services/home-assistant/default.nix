@@ -108,6 +108,9 @@ in {
           grocy_4_id = mkGrocyId "4" "Four" 4;
         };
 
+        frontend.extra_module_url =
+          [ "/local/nixos-lovelace-modules/card-mod.js" ];
+
         automation = "!include automations.yaml";
         scene = "!include scenes.yaml";
         script = "!include scripts.yaml";
@@ -126,9 +129,14 @@ in {
         spook
         waste_collection_schedule
       ]) ++ (with pkgs; [
+        home-assistant-browser-mod
         # home-assistant-dwains-dashboard # NOTE: re-enable when issue #829 is fixed
         home-assistant-grocy
+        (home-assistant-mail-and-packages.override {
+          customConfigDir = "${cfg.paths.config}/homeassistant";
+        })
         home-assistant-music-assistant
+        home-assistant-pirate-weather
         home-assistant-spotcast
         home-assistant-var
       ]);
@@ -150,9 +158,13 @@ in {
           universal-remote-card
         ]) ++ (with pkgs; [
           home-assistant-lovelace-bubble-card
+          home-assistant-lovelace-card-tools
+          # home-assistant-lovelace-config-template-card
           home-assistant-lovelace-custom-brand-icons
+          home-assistant-lovelace-grocy-chores-card
           home-assistant-lovelace-ha-firemote
           home-assistant-lovelace-horizon-card
+          # home-assistant-lovelace-layout-card
           home-assistant-lovelace-waze-travel-time
         ]);
     };

@@ -59,6 +59,7 @@ in {
       # "dlink"
       "dominos" # could be huge
       "energy"
+      "environment_canada"
       "epic_games_store"
       "esphome"
       "event"
@@ -184,6 +185,7 @@ in {
       "sendgrid"
       "sensor"
       "serial"
+      "seventeentrack"
       "shell_command"
       "sms"
       "smtp"
