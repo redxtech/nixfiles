@@ -104,7 +104,7 @@ in {
       in toJSON.generate "gpgmejson.json" {
         name = "gpgmejson";
         description = "JavaScript binding for GnuPG";
-        path = "${pkgs.gpgme}/bin/gpgme-json";
+        path = "${pkgs.gpgme.dev}/bin/gpgme-json";
         type = "stdio";
         allowed_extensions = [ "jid1-AQqSMBYb0a8ADg@jetpack" ];
       };
