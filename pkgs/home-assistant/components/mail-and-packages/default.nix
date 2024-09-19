@@ -21,15 +21,9 @@ in buildHomeAssistantComponent rec {
   src = fetchFromGitHub {
     inherit owner;
     repo = "Home-Assistant-Mail-And-Packages";
-    rev = version;
-    hash = "sha256-y46pRIMzJBFef+26UZWGgXtQCvmIdpFNb3+5dX+e+us=";
+    rev = "2f57315e7ef13a2a786549516a6ab16d89e413f1";
+    hash = "sha256-RKvDQpehiw6eZloe/ugY1Etir/0TzcTMbDozQnyTW98=";
   };
-
-  # FIXME: this is a bad hack
-  # but it works until https://github.com/moralmunky/Home-Assistant-Mail-And-Packages/issues/975 is resolved
-  postInstall = ''
-    ln -s ${customConfigDir}/.storage/mail_and_packages/images/ $out/custom_components/mail_and_packages/images
-  '';
 
   propagatedBuildInputs = with python3Packages; [ imageio python-resize-image ];
 

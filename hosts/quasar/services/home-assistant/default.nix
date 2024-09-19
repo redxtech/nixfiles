@@ -61,6 +61,15 @@ in {
           password = "!secret unifi_pass";
         }];
 
+        shell_command = let
+          hass-home = config.services.home-assistant.configDir;
+          notify-bastion = pkgs.writeShellScript "notify-bastion" ''
+            ${pkgs.openssh}/bin/ssh -i ${hass-home}/.ssh/id_ed25519 gabe@bastion "notify-send '$1' '$2' --icon home --app-name 'Home Assistant'"
+          '';
+        in {
+          notify_bastion = ''${notify-bastion} "{{ title }}" "{{ message }}"'';
+        };
+
         spotcast = {
           country = "CA";
           sp_dc = "!secret spotcast_gabe_sp_dc";

@@ -130,6 +130,7 @@ in {
         "mpv"
         "neovide"
         "Postman"
+        "tauonmb"
         "thunderbird"
         "virt-manager"
       ]);
