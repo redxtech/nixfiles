@@ -20,8 +20,7 @@
           inputs'.fh.packages.fh
         ];
 
-        env.NIX_CONFIG =
-          "extra-experimental-features = nix-command flakes repl-flake";
+        env.NIX_CONFIG = "extra-experimental-features = nix-command flakes";
 
         shellHook = ''
           alias ls="eza --group-directories-first"
@@ -57,8 +56,7 @@
             inputs'.fh.packages.fh
           ];
 
-          env.NIX_CONFIG =
-            "extra-experimental-features = nix-command flakes repl-flake";
+          env.NIX_CONFIG = "extra-experimental-features = nix-command flakes";
 
           shellHook = ''
             alias ls="eza --group-directories-first"

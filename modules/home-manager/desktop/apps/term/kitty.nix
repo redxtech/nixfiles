@@ -8,7 +8,7 @@ in {
     programs.kitty = {
       enable = true;
 
-      theme = "Dracula";
+      themeFile = "Dracula";
       font = {
         name = config.fontProfiles.monospace.family;
         size = 13;

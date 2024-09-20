@@ -6,7 +6,7 @@
       nix = {
         settings = {
           trusted-users = [ "root" "@wheel" "gabe" ];
-          experimental-features = [ "nix-command" "flakes" "repl-flake" ];
+          experimental-features = [ "nix-command" "flakes" ];
           substituters = [
             "https://cache.nixos.org"
             "https://nix-community.cachix.org"
