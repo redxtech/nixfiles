@@ -92,10 +92,18 @@ in {
     };
 
     # force set passwords for users
-    users.extraUsers.gabe.hashedPassword = mkForce
-      "$y$j9T$.xOwShfMrSOABFsHFEPz2/$Lms67feYjaQm4IKR4EWFmIoDqffK5KsmVcfZCMJaXv0";
-    users.extraUsers.root.hashedPassword = mkForce
-      "$y$j9T$Nj51AtexfLEZR1DisZK7i0$adHDufm64FBLYWtxLQwC6uvHv0faz8pXCv6IFodMwV8";
+    users.extraUsers = let
+      mkISOUser = pw: {
+        hashedPassword = mkForce pw;
+        hashedPasswordFile = mkForce null;
+      };
+      isoUsers = builtins.mapAttrs (_: pw: mkISOUser pw);
+    in isoUsers {
+      gabe =
+        "$y$j9T$.xOwShfMrSOABFsHFEPz2/$Lms67feYjaQm4IKR4EWFmIoDqffK5KsmVcfZCMJaXv0";
+      root =
+        "$y$j9T$Nj51AtexfLEZR1DisZK7i0$adHDufm64FBLYWtxLQwC6uvHv0faz8pXCv6IFodMwV8";
+    };
 
     # set the install closure path for offline installation
     # environment.etc."install-closure".source = "${closureInfo}/store-paths";

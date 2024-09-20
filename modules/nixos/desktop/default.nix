@@ -148,6 +148,13 @@ in {
       graphics.enable = mkDefault true;
     };
 
+    systemd.user.services.mpris-proxy = mkIf config.hardware.bluetooth.enable {
+      description = "Mpris proxy";
+      after = [ "network.target" "sound.target" ];
+      wantedBy = [ "default.target" ];
+      serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+    };
+
     # audio config (pipewire)
     security.rtkit.enable = true;
     hardware.pulseaudio.enable = false;

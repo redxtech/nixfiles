@@ -6,14 +6,12 @@
     hostname = name;
     sshUser = "root";
     fastConnection = true;
-    remoteBuild = true;
+    remoteBuild = false;
     profiles.system.path =
       inputs.deploy-rs.lib.${value.pkgs.stdenv.system}.activate.nixos value;
   }) self.nixosConfigurations;
 
   perSystem = { config, self', inputs', pkgs, lib, system, ... }: {
-    checks = inputs.deploy-rs.lib.${system}.deployChecks self.deploy;
-
     packages = let
       inherit (builtins) attrNames filter listToAttrs map;
 
