@@ -52,8 +52,6 @@ in {
     home = {
       packages = with pkgs;
         [
-          comma # install and run programs by sticking a , before them
-
           age # encryption
           atool # work with archives
           bitwarden-cli # password manager
@@ -61,8 +59,10 @@ in {
           bottom # top alternative
           cachix # nix binary cache manager
           catdoc # doc to text
+          comma # install and run programs by sticking a , before them
           cowsay # ascii art
           cpufetch # cpu info
+          inputs.deploy-rs.packages.${system}.deploy-rs # remote deploy
           dex # desktop entry executor
           dig # dns utils
           diffsitter # better diff

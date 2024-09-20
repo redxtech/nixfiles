@@ -51,9 +51,9 @@ in {
     qbit = 8810;
     qdirstat = 9030;
     radarr = 7878;
+    sonarr = 8989;
     startpage = 9009;
     syncthing = 8384;
-    sonarr = 8989;
     tautulli = 8181;
     unpoller = 9130;
     uptime = 3301;

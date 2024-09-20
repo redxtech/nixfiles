@@ -106,6 +106,11 @@ in {
               "$mod SHIFT, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
             ]) 10));
 
+        bindr = [
+          "$mod ALT, Alt_L, exec, ${cfg.scripts.general.ha} light"
+          "$mod SHIFT ALT, Alt_L, exec, ${cfg.scripts.general.ha} fan"
+        ];
+
         bindl = let
           pctl = "${playerctl}/bin/playerctl";
           spot = "${pctl} --player=spotify";
