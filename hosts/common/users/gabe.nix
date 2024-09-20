@@ -16,6 +16,7 @@ in {
       "deluge"
       "docker"
       "git"
+      "hass"
       "input"
       "libvirtd"
       "network"

@@ -209,6 +209,7 @@ in {
         # general aliaes
         cik = "clone-in-kitty --type os-window";
         ck = cik;
+        deploy = "deploy -s";
         dirties = "watch -d grep -e Dirty: -e Writeback: /proc/meminfo";
         jc = "journalctl -xeu";
         jcu = "journalctl --user -xeu";

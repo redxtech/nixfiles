@@ -403,6 +403,9 @@ in {
 
   system.activationScripts.mkDockerNetworks = let networks = [ "paperless" ];
   in ''
+    # gracefully exit if docker isn't running
+    ${pkgs.docker}/bin/docker ps >/dev/null 2>&1 || (echo "docker is not running" && return)
+
     for network in ${toString networks}; do
       ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
         ${pkgs.docker}/bin/docker network create --driver bridge $network

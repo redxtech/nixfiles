@@ -7,6 +7,7 @@
     sshUser = "root";
     fastConnection = true;
     remoteBuild = false;
+    skipChecks = true;
     profiles.system.path =
       inputs.deploy-rs.lib.${value.pkgs.stdenv.system}.activate.nixos value;
   }) self.nixosConfigurations;
