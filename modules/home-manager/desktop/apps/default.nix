@@ -49,6 +49,7 @@ in {
         bitwarden-desktop # password manager
         discord # chat app
         feishin # music player
+        jellyfin-mpv-shim # jellyfin mpv integration
         kooha # simple screen recorder
         libsForQt5.kleopatra # gpg gui
         obsidian # notes app

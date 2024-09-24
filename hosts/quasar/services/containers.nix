@@ -151,6 +151,14 @@ in {
         volumes = [ (mkConf "grocy") ];
       };
 
+      ha-fusion = {
+        image = "ghcr.io/matt8707/ha-fusion:latest";
+        labels = mkLabels "fusion";
+        environment = defaultEnv // { HASS_URL = "https://ha.${address}"; };
+        volumes = [ "${cfg.paths.config}/ha-fusion:/app/data" ];
+        ports = [ (mkPorts 5050) ];
+      };
+
       jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
         labels = mkLabels "jackett";

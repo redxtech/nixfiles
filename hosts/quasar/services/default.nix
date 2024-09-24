@@ -61,52 +61,50 @@ in {
 
   network.services = { music = cfg.ports.navidrome; };
 
-  services = {
-    github-runners = {
-      system-builder = {
-        enable = true;
-        name = "system-builder";
-        url = "https://github.com/redxtech/nixfiles";
-        tokenFile = config.sops.secrets.ghrunner-system-builder.path;
-      };
-    };
-
-    hercules-ci-agent = {
+  services.github-runners = {
+    system-builder = {
       enable = true;
-      settings = let
-        secretPath = name: config.sops.secrets."hercules-ci-agent-${name}".path;
-      in {
-        binaryCachesPath = secretPath "binary-caches";
-        clusterJoinTokenPath = secretPath "join-token";
-        secretsJsonPath = secretPath "secrets";
-      };
+      name = "system-builder";
+      url = "https://github.com/redxtech/nixfiles";
+      tokenFile = config.sops.secrets.ghrunner-system-builder.path;
     };
+  };
 
-    navidrome = {
-      enable = true;
-
-      openFirewall = true;
-      settings = {
-        Address = "0.0.0.0";
-        BaseURL = "https://music.${address}";
-        DataFolder = "${cfg.paths.config}/navidrome";
-        MusicFolder = "${cfg.paths.media}/music";
-
-        # advanced settings
-        EnableGravatar = true;
-        EnableSharing = true;
-        Jukebox.Enabled = true;
-        LastFM2.Enabled = true;
-        Prometheus.Enabled = true;
-      };
+  services.hercules-ci-agent = {
+    enable = true;
+    settings = let
+      secretPath = name: config.sops.secrets."hercules-ci-agent-${name}".path;
+    in {
+      binaryCachesPath = secretPath "binary-caches";
+      clusterJoinTokenPath = secretPath "join-token";
+      secretsJsonPath = secretPath "secrets";
     };
+  };
 
-    uptime-kuma = {
-      enable = true;
-      settings = {
-        UPTIME_KUMA_HOST = "0.0.0.0";
-        UPTIME_KUMA_PORT = toString cfg.ports.uptime;
-      };
+  services.navidrome = {
+    enable = true;
+
+    openFirewall = true;
+    settings = {
+      Address = "0.0.0.0";
+      BaseURL = "https://music.${address}";
+      DataFolder = "${cfg.paths.config}/navidrome";
+      MusicFolder = "${cfg.paths.media}/music";
+
+      # advanced settings
+      EnableGravatar = true;
+      EnableSharing = true;
+      Jukebox.Enabled = true;
+      LastFM2.Enabled = true;
+      Prometheus.Enabled = true;
+    };
+  };
+
+  services.uptime-kuma = {
+    enable = true;
+    settings = {
+      UPTIME_KUMA_HOST = "0.0.0.0";
+      UPTIME_KUMA_PORT = toString cfg.ports.uptime;
     };
   };
 
