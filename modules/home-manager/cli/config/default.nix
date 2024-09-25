@@ -5,7 +5,10 @@ let
   cfg = config.cli;
 in {
   config = mkIf cfg.enable {
-    xdg.configFile = { "lyrics-in-terminal/lyrics.cfg".source = ./lyrics.cfg; };
+    xdg.configFile = {
+      "ente/config.yaml".source = ./ente.yaml;
+      "lyrics-in-terminal/lyrics.cfg".source = ./lyrics.cfg;
+    };
 
     sops.secrets.streamrip = {
       sopsFile = ../../../../home/gabe/secrets.yaml;

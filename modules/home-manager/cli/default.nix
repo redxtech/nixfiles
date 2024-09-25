@@ -70,6 +70,7 @@ in {
           dogdns # better dig
           du-dust # better du
           dua # better du
+          ente-cli # manage ente from cli
           fd # better find
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
@@ -239,6 +240,7 @@ in {
 
       sessionVariables = {
         DIRENV_LOG_FORMAT = "";
+        ENTE_CLI_CONFIG_PATH = "${config.xdg.configHome}/ente/config.yaml";
         FFSEND_HOST = "send.super.fish";
         KUBECONFIG = "${config.xdg.configHome}/kube/config";
         PF_INFO =
