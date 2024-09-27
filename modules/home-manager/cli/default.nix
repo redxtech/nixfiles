@@ -86,7 +86,9 @@ in {
           home-assistant-cli # home assistant cli
           httpie # better curl
           hyfetch # neofetch fork
+          kdePackages.kwallet # kde secrets manager
           libnotify # desktop notifications
+          libsecret # secrets manager
           libwebp # webp support
           # ltex-ls # spell checking LSP
           lsb-release # get distro info

@@ -399,12 +399,9 @@ in {
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 
-      # airsonic (advanced?)
       # invoice ninja
-      # ente/lychee/immich/photoprism
       # wireguard
       # tubearchivist
-      # home-assistant
       # duplicati/duplicacy
     };
   };

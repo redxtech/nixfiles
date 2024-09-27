@@ -122,9 +122,12 @@ in {
         inherit class;
         tile = true;
       }) [
-        "google-chrome"
+        "beekeeper-studio"
+        "ente"
         "feh"
+        "feishin"
         "foot(client)?"
+        "google-chrome"
         "qimgv"
         "imv"
         "mpv"
