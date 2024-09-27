@@ -49,116 +49,187 @@ in {
 
     restic = {
       enable = mkEnableOption "Enable restic backup";
-      paths = mkOption {
-        type = listOf path;
-        default = [ ];
-        description = "Paths to backup with restic";
+      backups = {
+        config = {
+          enable = mkEnableOption "Enable configuration backup";
+
+          repoFile = mkOption {
+            type = path;
+            description = "Path to restic repository file";
+          };
+
+          passFile = mkOption {
+            type = path;
+            description = "Path to restic repository password file";
+          };
+
+          extraPaths = mkOption {
+            type = listOf path;
+            default = [ ];
+            description = "Extra paths to include in config backup";
+          };
+        };
+        home = {
+          enable = mkEnableOption "Enable home folder backup";
+
+          repoFile = mkOption {
+            type = path;
+            description = "Path to restic repository file";
+          };
+
+          passFile = mkOption {
+            type = path;
+            description = "Path to restic repository password file";
+          };
+
+          extraPaths = mkOption {
+            type = listOf path;
+            default = [ ];
+            description = "Extra paths to include in home folder backup";
+          };
+        };
       };
     };
 
     # TODO: add zfs snapshots
   };
 
-  config = let backupsEnabled = cfg.rsync.enable || cfg.btrfs.enable;
-  in mkIf backupsEnabled {
-    # include cli tools for enabled backup methods
-    environment.systemPackages = with pkgs;
-    # include rsync if enabled
-      (optional cfg.rsync.enable rsync)
-      # include snapper if btrfs backups enabled
-      ++ (optionals cfg.btrfs.enable [ snapper snapper-gui ])
-      # include restic if enabled
-      ++ (optionals cfg.restic.enable [ restic ]);
+  config = lib.mkMerge [
+    (mkIf cfg.btrfs.enable {
+      environment.systemPackages = with pkgs; [ snapper snapper-gui ];
 
-    # enable snapper for btrfs snapshot backups
-    services.snapper = let
-      mkSnapperConfig = { name, value }: {
-        inherit name;
-        value = {
-          SUBVOLUME = value;
-          TIMELINE_CREATE = true;
-          TIMELINE_CLEANUP = true;
+      # enable snapper for btrfs snapshot backups
+      services.snapper = let
+        mkSnapperConfig = { name, value }: {
+          inherit name;
+          value = {
+            SUBVOLUME = value;
+            TIMELINE_CREATE = true;
+            TIMELINE_CLEANUP = true;
+          };
         };
+      in mkIf cfg.btrfs.enable {
+        snapshotInterval = cfg.btrfs.interval;
+
+        configs =
+          listToAttrs (map mkSnapperConfig (attrsToList cfg.btrfs.subvolumes));
       };
-    in mkIf cfg.btrfs.enable {
-      snapshotInterval = cfg.btrfs.interval;
+    })
 
-      configs =
-        listToAttrs (map mkSnapperConfig (attrsToList cfg.btrfs.subvolumes));
-    };
+    (mkIf cfg.rsync.enable {
+      environment.systemPackages = with pkgs; [ rsync ];
 
-    # enable rsync backup
-    systemd = let
-      dropFirst = str: substring 1 (lib.stringLength str - 1) str;
-      slugPath = path: lib.replaceStrings [ "/" ] [ "-" ] (dropFirst path);
+      # enable rsync backup
+      systemd = let
+        dropFirst = str: substring 1 (lib.stringLength str - 1) str;
+        slugPath = path: lib.replaceStrings [ "/" ] [ "-" ] (dropFirst path);
 
-      mkTimer = { description, service, schedule }: {
-        inherit description;
+        mkTimer = { description, service, schedule }: {
+          inherit description;
+          timerConfig = {
+            Unit = service;
+            OnCalendar = schedule;
+          };
+          wantedBy = [ "timers.target" ];
+        };
+        mkTimers = paths:
+          listToAttrs (map (path:
+            let spath = slugPath path;
+            in {
+              name = "backup-rsync-${spath}";
+              value = mkTimer {
+                description = "Trigger backup with rsync for ${spath}";
+                service = "backup-rsync-${spath}.service";
+                schedule = cfg.rsync.interval;
+              };
+            }) paths);
+
+        mkService = { description, cmd }: {
+          inherit description;
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = cmd;
+          };
+        };
+        mkServices = paths:
+          listToAttrs (map (path:
+            let spath = slugPath path;
+            in {
+              name = "backup-rsync-${spath}";
+              value = mkService {
+                description = "Backup ${spath} to rsync destination";
+                cmd = let
+                  command = pkgs.writeShellApplication {
+                    name = "backup-rsync-${spath}";
+                    runtimeInputs = with pkgs; [ openssh rsync ];
+                    text = ''
+                      rsync \
+                      --archive \
+                      --compress \
+                      --delete \
+                      --inplace \
+                      --partial \
+                      --progress \
+                      --verbose \
+                      ${path} ${cfg.rsync.destination}/${spath}
+                    '';
+                  };
+                in "${command}/bin/backup-rsync-${spath}";
+              };
+            }) paths);
+      in mkIf cfg.rsync.enable {
+        timers = mkTimers cfg.rsync.paths;
+        services = mkServices cfg.rsync.paths;
+      };
+    })
+
+    (mkIf cfg.restic.enable {
+      environment.systemPackages = with pkgs; [ restic ];
+
+      # enable restic backup
+      services.restic.backups = let
+        inherit (cfg.restic) backups;
         timerConfig = {
-          Unit = service;
-          OnCalendar = schedule;
+          OnCalendar = "daily";
+          Persistent = true;
         };
-        wantedBy = [ "timers.target" ];
-      };
-      mkTimers = paths:
-        listToAttrs (map (path:
-          let spath = slugPath path;
-          in {
-            name = "backup-rsync-${spath}";
-            value = mkTimer {
-              description = "Trigger backup with rsync for ${spath}";
-              service = "backup-rsync-${spath}.service";
-              schedule = cfg.rsync.interval;
-            };
-          }) paths);
+      in {
+        config = mkIf backups.config.enable {
+          inherit timerConfig;
+          repositoryFile = backups.config.repoFile;
+          passwordFile = backups.config.passFile;
+          paths = [ "/var/lib" ] ++ backups.config.extraPaths;
+          initialize = true;
+        };
+        home = mkIf backups.home.enable {
+          inherit timerConfig;
+          repositoryFile = backups.home.repoFile;
+          passwordFile = backups.home.passFile;
+          paths = [ "/home" ] ++ backups.home.extraPaths;
+          exclude = [
+            "/home/*/.cache"
+            "/home/*/.local/share/Steam"
+            "/home/*/.steam"
 
-      mkService = { description, cmd }: {
-        inherit description;
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = cmd;
+            "/home/**/node_modules"
+            "/home/**/.venv"
+          ];
+          initialize = true;
         };
       };
-      mkServices = paths:
-        listToAttrs (map (path:
-          let spath = slugPath path;
-          in {
-            name = "backup-rsync-${spath}";
-            value = mkService {
-              description = "Backup ${spath} to rsync destination";
-              cmd = let
-                command = pkgs.writeShellApplication {
-                  name = "backup-rsync-${spath}";
-                  runtimeInputs = with pkgs; [ openssh rsync ];
-                  text = ''
-                    rsync \
-                    --archive \
-                    --compress \
-                    --delete \
-                    --inplace \
-                    --partial \
-                    --progress \
-                    --verbose \
-                    ${path} ${cfg.rsync.destination}/${spath}
-                  '';
-                };
-              in "${command}/bin/backup-rsync-${spath}";
-            };
-          }) paths);
-    in mkIf cfg.rsync.enable {
-      timers = mkTimers cfg.rsync.paths;
-      services = mkServices cfg.rsync.paths;
-    };
 
-    # enable restic backup
-    users.users.restic = mkIf cfg.restic.enable { isNormalUser = true; };
+      users.users.restic = {
+        isNormalUser = true;
+        createHome = false;
+      };
 
-    security.wrappers.restic = mkIf cfg.restic.enable {
-      source = "${pkgs.restic.out}/bin/restic";
-      owner = "restic";
-      group = "users";
-      permissions = "u=rwx,g=,o=";
-      capabilities = "cap_dac_read_search=+ep";
-    };
-  };
+      security.wrappers.restic = {
+        source = "${pkgs.restic.out}/bin/restic";
+        owner = "restic";
+        group = "users";
+        permissions = "u=rwx,g=,o=";
+        capabilities = "cap_dac_read_search=+ep";
+      };
+    })
+  ];
 }

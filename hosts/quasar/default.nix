@@ -54,18 +54,35 @@
   monitoring.isHost = true;
 
   backup = {
+    restic = {
+      enable = true;
+      backups = {
+        config = {
+          enable = true;
+          repoFile = config.sops.secrets.restic_repository_config.path;
+          passFile = config.sops.secrets.restic_password.path;
+          extraPaths = [ "/config" ];
+        };
+      };
+    };
+
     rsync = {
       enable = true;
-      paths = [ "/config" ];
+      paths = [ "/config" "/var/lib" ];
       destination = "rsync:/backups/${config.networking.hostName}";
     };
   };
 
   hardware.nvidia-container-toolkit.enable = true;
 
-  sops.secrets.cachix-agent = {
-    path = "/etc/cachix-agent.token";
-    sopsFile = ./secrets.yaml;
+  sops.secrets = {
+    cachix-agent = {
+      path = "/etc/cachix-agent.token";
+      sopsFile = ./secrets.yaml;
+    };
+    restic_password.sopsFile = ./secrets.yaml;
+    restic_repository_config.sopsFile = ./secrets.yaml;
+    restic_repository_home.sopsFile = ./secrets.yaml;
   };
 
   system.stateVersion = "23.11";

@@ -50,15 +50,36 @@
       enable = true;
       subvolumes = { gabe-home = "/home/gabe"; };
     };
+
+    restic = {
+      enable = true;
+      backups = {
+        config = {
+          enable = true;
+          repoFile = config.sops.secrets.restic_repository_config.path;
+          passFile = config.sops.secrets.restic_password.path;
+        };
+        home = {
+          enable = true;
+          repoFile = config.sops.secrets.restic_repository_home.path;
+          passFile = config.sops.secrets.restic_password.path;
+        };
+      };
+    };
   };
 
   nixpkgs.config.rocmSupport = true;
 
   virtualisation.docker.storageDriver = "btrfs";
 
-  sops.secrets.cachix-agent = {
-    path = "/etc/cachix-agent.token";
-    sopsFile = ./secrets.yaml;
+  sops.secrets = {
+    cachix-agent = {
+      path = "/etc/cachix-agent.token";
+      sopsFile = ./secrets.yaml;
+    };
+    restic_password.sopsFile = ./secrets.yaml;
+    restic_repository_config.sopsFile = ./secrets.yaml;
+    restic_repository_home.sopsFile = ./secrets.yaml;
   };
 
   system.stateVersion = "23.11";
