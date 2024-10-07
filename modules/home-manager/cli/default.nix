@@ -53,6 +53,7 @@ in {
       packages = with pkgs;
         [
           age # encryption
+          ani-cli # anime tool
           atool # work with archives
           bitwarden-cli # password manager
           bluetuith # bluetooth manager

@@ -37,6 +37,7 @@ in {
           d = "diff";
           c = "commit";
           p = "push";
+          r = "remote -v";
         };
 
         signing = {

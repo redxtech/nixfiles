@@ -123,7 +123,7 @@ in {
 
     services = {
       blueman.enable = mkDefault true;
-      printing.enable = mkDefault true;
+      printing.enable = mkDefault false;
       ratbagd.enable = mkDefault true;
       solaar.enable = mkDefault cfg.useSolaar;
       touchegg.enable = mkDefault cfg.isLaptop;
