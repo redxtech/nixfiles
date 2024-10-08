@@ -9,13 +9,13 @@
         neovim-nightly = inputs.neovim-nightly.packages.${final.system}.default;
 
         plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
-          version = "1.41.0.8992-8463ad060";
+          version = "1.41.0.8994-f2c27da23";
           name = "${old.pname}-${version}";
 
           src = prev.fetchurl {
             url =
               "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
-            hash = "sha256-ldBJz2nqlzcx/FvKzMCgXkVO0omcojlU9sq6fAiknD8=";
+            hash = "sha256-e1COeawdR0pCF+qQ/xkTn/716iM9kB/fXom5MWHQ0YI=";
           };
         });
 
