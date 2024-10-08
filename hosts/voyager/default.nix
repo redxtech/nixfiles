@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ./filesystem.nix ];
@@ -22,7 +22,7 @@
     wm = "hyprland";
 
     gaming = {
-      enable = false; # TODO: enable
+      enable = true;
       amd = true;
     };
   };
@@ -34,6 +34,16 @@
       enable = false; # TODO: enable
       subvolumes.gabe-home = "/home/gabe";
     };
+    restic = {
+      enable = true;
+      backups = {
+        home = {
+          enable = true;
+          repoFile = config.sops.secrets.restic_repository_home.path;
+          passFile = config.sops.secrets.restic_password.path;
+        };
+      };
+    };
   };
 
   # nixpkgs.config.rocmSupport = true;
@@ -42,9 +52,14 @@
 
   boot.loader.systemd-boot.configurationLimit = lib.mkDefault 2;
 
-  sops.secrets.cachix-agent = {
-    path = "/etc/cachix-agent.token";
-    sopsFile = ./secrets.yaml;
+  sops.secrets = {
+    cachix-agent = {
+      path = "/etc/cachix-agent.token";
+      sopsFile = ./secrets.yaml;
+    };
+    restic_password.sopsFile = ./secrets.yaml;
+    restic_repository_config.sopsFile = ./secrets.yaml;
+    restic_repository_home.sopsFile = ./secrets.yaml;
   };
 
   system.stateVersion = "24.05";

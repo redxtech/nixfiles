@@ -53,6 +53,7 @@ in {
             natural_scroll = true;
             middle_button_emulation = true;
             scroll_factor = 0.5;
+            tap-to-click = true;
           };
 
           repeat_rate = 40;
