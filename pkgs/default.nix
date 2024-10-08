@@ -18,6 +18,7 @@
   nix-inspect = pkgs.callPackage ./nix-inspect { };
   minicava = pkgs.callPackage ./minicava { };
   lyrics = pkgs.python3Packages.callPackage ./lyrics { };
+  reboot-to-windows = pkgs.callPackage ./reboot-to-windows { };
 
   # python packages
   python-music-assistant =

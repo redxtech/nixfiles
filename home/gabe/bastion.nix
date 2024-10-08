@@ -27,6 +27,7 @@
       google-chrome # web browser
       nautilus # file manager
       neovide # neovim gui
+      reboot-to-windows # reboot to windows
       seabird # k8s gui
       telegram-desktop # telegram
       vivaldi # web browser
