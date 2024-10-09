@@ -3,16 +3,31 @@
 let
   inherit (lib) mkIf;
   cfg = config.desktop;
+  gaming = config.desktop.gaming;
 in {
   options.desktop.gaming = let inherit (lib) mkOption mkEnableOption;
   in with lib.types; {
     enable = mkEnableOption "Enable gaming-related settings.";
 
-    prime = mkOption {
-      type = bool;
-      default = cfg.isLaptop;
-      defaultText = "config.desktop.isLaptop";
-      description = "Enable NVIDIA PRIME support.";
+    prime = {
+      enable = mkOption {
+        type = bool;
+        default = cfg.isLaptop;
+        defaultText = "config.desktop.isLaptop";
+        description = "Enable NVIDIA PRIME support.";
+      };
+
+      internal = mkOption {
+        type = nullOr str;
+        default = null;
+        description = "PCI ID of the internal GPU.";
+      };
+
+      dedicated = mkOption {
+        type = nullOr str;
+        default = null;
+        description = "PCI ID of the dedicated GPU.";
+      };
     };
 
     amd = mkOption {
@@ -49,14 +64,29 @@ in {
     };
   };
 
-  config = mkIf (cfg.enable && cfg.gaming.enable) {
+  config = mkIf (cfg.enable && gaming.enable) {
+    assertions = [
+      {
+        assertion = gaming.prime.enable -> gaming.prime.internal != null;
+        message = "prime.internal must be set if prime.enable is true";
+      }
+      {
+        assertion = gaming.prime.enable -> gaming.prime.dedicated != null;
+        message = "prime.dedicated must be set if prime.enable is true";
+      }
+    ];
+
     programs = {
       steam = {
         enable = true;
 
         remotePlay.openFirewall = true;
         dedicatedServer.openFirewall = true;
-        gamescopeSession.enable = true;
+        extest.enable = true;
+        gamescopeSession = {
+          enable = true;
+          env.DRI_PRIME = mkIf gaming.prime.enable gaming.prime.dedicated;
+        };
       };
 
       gamescope = {
@@ -64,7 +94,7 @@ in {
         capSysNice = true;
 
         # requires `hardware.nvidia.prime.offload.enable`.
-        env = mkIf cfg.gaming.prime {
+        env = mkIf (gaming.nvidia && gaming.prime.enable) {
           __NV_PRIME_RENDER_OFFLOAD = "1";
           __VK_LAYER_NV_optimus = "NVIDIA_only";
           __GLX_VENDOR_LIBRARY_NAME = "nvidia";
@@ -81,7 +111,7 @@ in {
           gpu = {
             apply_gpu_optimisations = "accept-responsibility";
             gpu_device = 0;
-            amd_performance_level = mkIf cfg.gaming.amd "high";
+            amd_performance_level = mkIf gaming.amd "high";
           };
         };
       };
@@ -89,7 +119,7 @@ in {
 
     services.udev.packages = [ pkgs.game-devices-udev-rules ];
 
-    services.sunshine = mkIf cfg.gaming.sunshine.enable {
+    services.sunshine = mkIf gaming.sunshine.enable {
       enable = true;
       openFirewall = true;
       capSysAdmin = true;
@@ -105,7 +135,7 @@ in {
             in (firstChar + (lib.concatStrings restChars));
         in (capitalize config.networking.hostName);
 
-        output_name = cfg.gaming.sunshine.monitorIndex;
+        output_name = gaming.sunshine.monitorIndex;
       };
 
       applications = {
@@ -120,7 +150,7 @@ in {
           #   name = "Desktop (Resized)";
           #   prep-cmd = [{
           #     do = ''
-          #       ${pkgs.bash}/bin/bash -c "${pkgs.xorg.xrandr}/bin/xrandr --output ${cfg.gaming.sunshine.monitor} --mode \"''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}\" --rate ''${SUNSHINE_CLIENT_FPS}"
+          #       ${pkgs.bash}/bin/bash -c "${pkgs.xorg.xrandr}/bin/xrandr --output ${gaming.sunshine.monitor} --mode \"''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}\" --rate ''${SUNSHINE_CLIENT_FPS}"
           #     '';
           #     undo = "${pkgs.autorandr}/bin/autorandr --change";
           #   }];
@@ -140,13 +170,19 @@ in {
       };
     };
 
-    # hardware.bumblebee.enable = mkIf cfg.gaming.prime true;
-    hardware.nvidia.prime.offload.enable = mkIf cfg.gaming.prime true;
+    # hardware.bumblebee.enable = mkIf gaming.prime.enable true;
+    hardware.nvidia.prime.offload.enable = mkIf gaming.prime.enable true;
     hardware.steam-hardware.enable = true;
     hardware.xpadneo.enable = true;
     hardware.xone.enable = true;
     hardware.logitech.wireless.enable = true;
     hardware.logitech.wireless.enableGraphical = true;
+
+    environment.sessionVariables = mkIf (gaming.amd && gaming.prime.enable) {
+      DRI_PRIME = gaming.prime.internal;
+      DRI_PRIME_INTERNAL = gaming.prime.internal;
+      DRI_PRIME_DEDICATED = gaming.prime.dedicated;
+    };
 
     environment.systemPackages = with pkgs;
       [
@@ -159,16 +195,18 @@ in {
         game-devices-udev-rules
 
         # games
+        heroic
         prismlauncher
 
         # tools
         mangohud
-      ] ++ (lib.optional cfg.gaming.sunshine.enable pkgs.moondeck-buddy);
+      ] ++ (lib.optional gaming.sunshine.enable pkgs.moondeck-buddy);
 
     nixpkgs.config.nvidia.acceptLicense = true;
 
     nixpkgs.config.packageOverrides = pkgs: {
       steam = pkgs.steam.override {
+        extraEnv.DRI_PRIME = mkIf gaming.prime.enable gaming.prime.dedicated;
         extraPkgs = pkgs:
           with pkgs; [
             xorg.libXcursor

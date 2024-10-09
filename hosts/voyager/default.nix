@@ -24,6 +24,12 @@
     gaming = {
       enable = true;
       amd = true;
+
+      prime = {
+        enable = true;
+        internal = "pci-0000_c4_00_0";
+        dedicated = "pci-0000_03_00_0";
+      };
     };
   };
 

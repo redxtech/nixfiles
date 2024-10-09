@@ -96,11 +96,6 @@ in {
           follow = false;
         }
         {
-          class = "steam";
-          title = "^(Steam)$";
-          size = "1800 1200";
-        }
-        {
           class = "pavucontrol";
           float = true;
           maxSize = "1400 720";
@@ -128,11 +123,13 @@ in {
         "feishin"
         "foot(client)?"
         "google-chrome"
+        "heroic"
         "qimgv"
         "imv"
         "mpv"
         "neovide"
         "Postman"
+        "steam"
         "tauonmb"
         "thunderbird"
         "virt-manager"
