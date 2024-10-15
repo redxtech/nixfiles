@@ -178,6 +178,10 @@ in {
       };
     };
 
+    services.auto-cpufreq.enable = mkIf cfg.isLaptop true;
+    services.power-profiles-daemon.enable = mkIf cfg.isLaptop false;
+    services.tlp.enable = mkIf cfg.isLaptop false;
+
     # fix for qt6 plugins
     environment.profileRelativeSessionVariables = {
       QT_PLUGIN_PATH = mkDefault [ "/lib/qt-6/plugins" ];

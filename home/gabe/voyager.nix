@@ -9,6 +9,7 @@
       enable = true;
       wm = "hyprland";
       hyprland.enable = true;
+      autolock.timeout = 300;
 
       rules = [{
         initialTitle = "Spotify";

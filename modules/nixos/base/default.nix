@@ -86,9 +86,11 @@ in {
       let py-pkgs = ps: with ps; [ dbus-python pygobject3 requests ];
       in with pkgs; [
         btrfs-progs
+        lm_sensors
         man-pages
         man-pages-posix
         nodejs
+        powertop
         (python3.withPackages py-pkgs)
         unrar
         unzip

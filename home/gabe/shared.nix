@@ -422,10 +422,7 @@ in {
           workspace = "r-www";
         };
       }];
-      runDays = [{
-        cmd = "${stable.teams-for-linux}/bin/teams-for-linux";
-        days = [ 1 2 3 4 5 ]; # monday to friday
-      }];
+      runDays = [ ];
     };
   };
 

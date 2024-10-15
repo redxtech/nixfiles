@@ -34,6 +34,9 @@ in {
       fangfrisch.enable = cfg.clamav.fangfrisch;
     };
 
+    # only run clamdscan when AC is connected
+    systemd.services.clamdscan.unitConfig.ConditionACPower = true;
+
     security = {
       # enable polkit
       polkit.enable = true;

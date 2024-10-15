@@ -19,48 +19,52 @@ writeShellApplication {
 
     lock=" Lock"
     sleep=" Sleep"
+    hibernate=" Hibernate"
     logout="󰍃 Logout"
     restart=" Restart"
     shutdown="⏻ Shutdown"
     cancel="󰕌 Cancel"
 
-    options="$lock\n$sleep\n$logout\n$restart\n$shutdown\n$cancel"
+    options="$lock\n$sleep\n$hibernate\n$logout\n$restart\n$shutdown\n$cancel"
 
     confirm() {
-    	confirmation="$(echo -e "Yes\nNo" | rofi_cmd "Are you sure? ")"
+      confirmation="$(echo -e "Yes\nNo" | rofi_cmd "Are you sure? ")"
 
-    	if [[ "$confirmation" != "Yes" ]]; then
-    		exit 0
-    	fi
+      if [[ "$confirmation" != "Yes" ]]; then
+        exit 0
+      fi
     }
 
     answer="$(echo -e "$options" | rofi_cmd "Action: ")"
 
     case $answer in
     "$lock")
-    	playerctl pause
-    	loginctl lock-session
-    	;;
+      playerctl pause
+      loginctl lock-session
+      ;;
     "$sleep")
-    	confirm
-    	sleep 1 && hyprctl dispatch dpms off
-      # TODO: suspending?
-    	;;
+      confirm
+      sleep 1 && hyprctl dispatch dpms off
+      ;;
+    "$hibernate")
+      confirm
+      sleep 1 && systemctl hibernate
+      ;;
     "$logout")
-    	confirm
-    	hyprctl dispatch exit
-    	;;
+      confirm
+      hyprctl dispatch exit
+      ;;
     "$restart")
-    	confirm
-    	systemctl reboot
-    	;;
+      confirm
+      systemctl reboot
+      ;;
     "$shutdown")
-    	confirm
-    	systemctl poweroff
-    	;;
+      confirm
+      systemctl poweroff
+      ;;
     "$cancel")
-    	exit 0
-    	;;
+      exit 0
+      ;;
     esac
   '';
 }

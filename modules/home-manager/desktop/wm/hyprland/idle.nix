@@ -20,6 +20,10 @@ in {
             timeout = 2 * cfg.autolock.timeout;
             on-timeout = cfg.scripts.wm.sleep;
           }
+          (lib.mkIf config.desktop.isLaptop {
+            timeout = 3 * cfg.autolock.timeout;
+            on-timeout = "${pkgs.systemd}/bin/systemctl suspend";
+          })
         ];
       };
     };
