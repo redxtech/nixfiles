@@ -80,6 +80,7 @@ in {
           figlet # ascii art
           flatpak # flatpak manager
           frogmouth # markdown reader
+          fusee-launcher # switch rcm loader
           fx # better jq
           gallery-dl # image downloader
           glxinfo # opengl info

@@ -250,8 +250,8 @@ in {
             src = fetchFromGitHub {
               owner = "jorgebucaran";
               repo = "fisher";
-              rev = "2efd33ccd0777ece3f58895a093f32932bd377b6";
-              sha256 = "sha256-e8gIaVbuUzTwKtuMPNXBT5STeddYqQegduWBtURLT3M=";
+              rev = "1f0dc2b4970da160605638cb0f157079660d6e04";
+              hash = "sha256-pR5RKU+zIb7CS0Y6vjx2QIZ8Iu/3ojRfAcAdjCOxl1U=";
             };
           }
           {
@@ -300,7 +300,7 @@ in {
               owner = "redxtech";
               repo = "fish-not-vim";
               rev = "1a506e9a436ec58c9e7eee9e24d2b02d0a90677f";
-              sha256 = "sha256-HnvsGSgfooelWzmUC8xVTSGYkwd07br8ewcCSfkIanQ=";
+              hash = "sha256-HnvsGSgfooelWzmUC8xVTSGYkwd07br8ewcCSfkIanQ=";
             };
           }
           {
@@ -309,7 +309,7 @@ in {
               owner = "redxtech";
               repo = "fyshtemd";
               rev = "54898ce07333d1a7a0cd8821793a1a86cffca902";
-              sha256 = "sha256-P/zC/6l3DPHLJErsi4/3ExTSoSo+Xj+ZhUmjsaUoKjc=";
+              hash = "sha256-P/zC/6l3DPHLJErsi4/3ExTSoSo+Xj+ZhUmjsaUoKjc=";
             };
           }
           {
@@ -317,8 +317,8 @@ in {
             src = fetchFromGitHub {
               owner = "redxtech";
               repo = "tacklebox";
-              rev = "5cefd87a4c04856d3479a3799172db130a6fdfa9";
-              sha256 = "sha256-XZgnc+PN8yc6nkPPPC+kRtUIKf+e9ltBfHebxhNbnCI=";
+              rev = "d7fbff2fa196b194485f87a6060e1c6de9a03c8e";
+              hash = "sha256-2FmCkbYUEWMv0lUk6TpWktXkRbYSDCcogcBMDdUhIFM=";
             };
           }
           {
@@ -327,7 +327,7 @@ in {
               owner = "redxtech";
               repo = "fish-unix-simple";
               rev = "04906ee89f3cb5f912789d051302f13a53869be1";
-              sha256 = "sha256-TwgqpnwJO6dSyPcRf8xbM+o0YGjg8NVOUcED5+tSNHs=";
+              hash = "sha256-TwgqpnwJO6dSyPcRf8xbM+o0YGjg8NVOUcED5+tSNHs=";
             };
           }
           {
@@ -336,7 +336,7 @@ in {
               owner = "gazorby";
               repo = "fish-abbreviation-tips";
               rev = "8ed76a62bb044ba4ad8e3e6832640178880df485";
-              sha256 = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
+              hash = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
             };
           }
           {
@@ -344,8 +344,8 @@ in {
             src = fetchFromGitHub {
               owner = "paldepind";
               repo = "projectdo";
-              rev = "918ee7a95ca795097fe887d3b6ffe844b8b13ca5";
-              sha256 = "sha256-C458NdUwND2ahoXW4kT4B/Mu3FdEHsjifE/SyWDWdiE=";
+              rev = "c23dd73d9eed4632baf8551c9ee6c272c45144d3";
+              hash = "sha256-j8wR+s1cMVMcNYXcVxmSf14UuHsRNq112jrMmevN9Dg=";
             };
           }
           {
@@ -354,7 +354,7 @@ in {
               owner = "kidonng";
               repo = "nix.fish";
               rev = "ad57d970841ae4a24521b5b1a68121cf385ba71e";
-              sha256 = "sha256-GMV0GyORJ8Tt2S9wTCo2lkkLtetYv0rc19aA5KJbo48=";
+              hash = "sha256-GMV0GyORJ8Tt2S9wTCo2lkkLtetYv0rc19aA5KJbo48=";
             };
           }
           {
@@ -363,7 +363,7 @@ in {
               owner = "oh-my-fish";
               repo = "plugin-archlinux";
               rev = "1fd975f852bc2bd398e3cfd19780650b23233c27";
-              sha256 = "sha256-Q77U18KYS/4BY0MUaFh7U/EA3AyidpurdTyR6C86KqI=";
+              hash = "sha256-Q77U18KYS/4BY0MUaFh7U/EA3AyidpurdTyR6C86KqI=";
             };
           }
           {
@@ -372,7 +372,7 @@ in {
               owner = "oh-my-fish";
               repo = "plugin-bak";
               rev = "93ce665e1e0ae405a4bbee102f782646e03cdfb6";
-              sha256 = "sha256-5BeSsy2JFkaKfXOtscJZVoaSK4FO8H6MXuV43uKd4TI=";
+              hash = "sha256-5BeSsy2JFkaKfXOtscJZVoaSK4FO8H6MXuV43uKd4TI=";
             };
           }
           {
@@ -381,7 +381,7 @@ in {
               owner = "lusiadas";
               repo = "insist";
               rev = "63ba665443b414b927d4628621668881bbed56af";
-              sha256 = "sha256-J+pRBHOkWusAkFQ5oGMILpgSQmTNCSN22UfUTs3qnpg=";
+              hash = "sha256-J+pRBHOkWusAkFQ5oGMILpgSQmTNCSN22UfUTs3qnpg=";
             };
           }
         ];
