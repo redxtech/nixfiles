@@ -72,6 +72,8 @@ in {
           du-dust # better du
           dua # better du
           ente-cli # manage ente from cli
+          espflash # esp flashing tool
+          esptool # esp flashing tool
           fd # better find
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
