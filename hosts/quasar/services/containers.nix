@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, self, ... }:
 
 let
   cfg = config.nas;
@@ -12,11 +12,8 @@ let
     TZ = cfg.timezone;
   };
 
-  mkConf = name: cfg.paths.config + "/" + name + ":/config";
-  mkData = name: cfg.paths.data + "/" + name + ":/data";
-  mkDl = name: cfg.paths.downloads + "/" + name + ":/downloads";
-  downloads = cfg.paths.downloads + ":/downloads";
-  media = cfg.paths.media + ":/media";
+  paths = self.lib.nas.paths cfg.paths;
+  inherit (paths) mkConf mkData mkDl downloads media;
 
   mkPort = host: guest: "${toString host}:${toString guest}";
   mkPorts = port: "${toString port}:${toString port}";
@@ -35,6 +32,8 @@ let
     (mkLabels name) // {
       "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
     };
+
+  mkHomepage = self.lib.containers.labels.mkHomepage;
 
   mkExportarr = name: port: {
     image = "ghcr.io/onedr0p/exportarr:v2.0";

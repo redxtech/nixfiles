@@ -61,7 +61,10 @@
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+    let
+      mkLib = nixpkgs: nixpkgs.lib.extend (final: prev: (import ./lib final));
+      customLib = mkLib nixpkgs;
+    in flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./modules/flake/ci.nix
         ./modules/flake/deploy.nix
@@ -104,6 +107,8 @@
             modules = [ self.nixosModules.nixiso ];
           };
         };
+
+        lib = customLib;
       };
 
       perSystem = { config, self', inputs', pkgs, system, ... }: {
