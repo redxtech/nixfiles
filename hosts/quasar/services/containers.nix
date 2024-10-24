@@ -131,6 +131,14 @@ in {
         volumes = [ (mkConf "deluge") (mkDl "deluge") ];
       };
 
+      espresense-companion = {
+        image = "espresense/espresense-companion:latest";
+        labels = mkLabels "espc";
+        environment = defaultEnv;
+        ports = [ (mkPorts cfg.ports.espresense-companion) (mkPorts 8268) ];
+        volumes = [ "${(mkConf "espresense")}/espresense" ];
+      };
+
       flaresolverr = {
         image = "ghcr.io/flaresolverr/flaresolverr:latest";
         labels = mkLabels "flaresolverr";

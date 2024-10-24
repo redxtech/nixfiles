@@ -41,6 +41,25 @@ in {
           api_key = "!secret sendgrid_api_key";
         }];
 
+        sensor = [
+          {
+            name = "Gabe's Phone BLE";
+            platform = "mqtt_room";
+            device_id = "!secret espresense_gabe_phone";
+            state_topic = "!secret espresense_gabe_phone_topic";
+            timeout = 60;
+            away_timeout = 120;
+          }
+          {
+            name = "Gabe's Watch BLE";
+            platform = "mqtt_room";
+            device_id = "!secret espresense_gabe_watch";
+            state_topic = "!secret espresense_gabe_watch_topic";
+            timeout = 60;
+            away_timeout = 120;
+          }
+        ];
+
         lovelace.mode = "yaml";
 
         homeassistant = {

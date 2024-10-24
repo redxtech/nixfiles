@@ -14,6 +14,7 @@ in {
     extraGroups = [ "wheel" "video" "audio" ] ++ ifTheyExist [
       "data"
       "deluge"
+      "dialout"
       "docker"
       "git"
       "hass"

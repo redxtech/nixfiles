@@ -13,15 +13,27 @@ in {
       dataDir = cfg.paths.config + "/mosquitto";
       listeners = [{
         port = 1883;
-        users.homeassistant = {
-          acl = [
-            "readwrite $SYS/#"
-            "readwrite zigbee2mqtt/#"
-            "readwrite homeassistant/#"
-            "readwrite hass/#"
-          ];
-          passwordFile =
-            config.sops.secrets.mosquitto_homeassistant_password.path;
+        users = {
+          espresense = {
+            acl = [
+              "readwrite $SYS/#"
+              "readwrite espresense/#"
+              "readwrite homeassistant/#"
+            ];
+            passwordFile =
+              config.sops.secrets.mosquitto_espresense_password.path;
+          };
+          homeassistant = {
+            acl = [
+              "readwrite $SYS/#"
+              "readwrite zigbee2mqtt/#"
+              "readwrite espresense/#"
+              "readwrite homeassistant/#"
+              "readwrite hass/#"
+            ];
+            passwordFile =
+              config.sops.secrets.mosquitto_homeassistant_password.path;
+          };
         };
       }];
     };
@@ -52,6 +64,8 @@ in {
     networking.firewall.allowedTCPPorts = [ 1883 ];
 
     sops.secrets = {
+      mosquitto_espresense_password.sopsFile =
+        ../../../../hosts/quasar/secrets.yaml;
       mosquitto_homeassistant_password.sopsFile =
         ../../../../hosts/quasar/secrets.yaml;
       zigbee2mqtt_secrets = {
