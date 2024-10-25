@@ -48,7 +48,6 @@ in {
             device_id = "!secret espresense_gabe_phone";
             state_topic = "!secret espresense_gabe_phone_topic";
             timeout = 60;
-            away_timeout = 120;
           }
           {
             name = "Gabe's Watch BLE";
@@ -56,7 +55,6 @@ in {
             device_id = "!secret espresense_gabe_watch";
             state_topic = "!secret espresense_gabe_watch_topic";
             timeout = 60;
-            away_timeout = 120;
           }
         ];
 
@@ -153,6 +151,7 @@ in {
         spook
         waste_collection_schedule
       ]) ++ (with pkgs; [
+        home-assistant-bermuda
         home-assistant-browser-mod
         # home-assistant-dwains-dashboard # NOTE: re-enable when issue #829 is fixed
         home-assistant-grocy

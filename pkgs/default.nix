@@ -38,6 +38,8 @@
   libvirt-dbus = pkgs.callPackage ./libvirt-dbus { }; # for cockpit-machines
 
   # home assistant components
+  home-assistant-bermuda =
+    pkgs.callPackage ./home-assistant/components/bermuda { };
   home-assistant-browser-mod =
     pkgs.callPackage ./home-assistant/components/browser-mod { };
   home-assistant-dwains-dashboard =

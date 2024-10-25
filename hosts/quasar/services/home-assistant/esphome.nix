@@ -11,5 +11,10 @@ in {
       address = "0.0.0.0";
       openFirewall = true;
     };
+
+    systemd.services.esphome.serviceConfig.EnvironmentFile =
+      config.sops.secrets.esphome_env.path;
+
+    sops.secrets.esphome_env.sopsFile = ../../secrets.yaml;
   };
 }
