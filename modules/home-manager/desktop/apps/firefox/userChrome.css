@@ -116,7 +116,7 @@
 
 /* or make the top bar position absolute */
 #navigator-toolbox {
-  position: absolute;
+  position: absolute !important;
   width: var(--gd-head-width);
   margin-top: 0 !important;
 }
@@ -311,9 +311,14 @@
   pointer-events: none;
 }
 
-#nav-bar:not([urlbar-exceeds-toolbar-bounds]) #urlbar-container {
+#urlbar:not(#urlbar[open]) {
   pointer-events: none;
   opacity: 0;
+}
+
+
+#nav-bar-customization-target {
+  flex-direction: row-reverse;
 }
 
 #urlbar-container {
@@ -349,9 +354,7 @@
   padding: 0;
   margin: 0 !important;
 
-  position: unset !important;
-  top: 0 !important;
-  left: 0 !important;
+  transform: translate(-50%, -50%);
 }
 
 #urlbar-background,
