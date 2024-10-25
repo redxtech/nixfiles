@@ -114,12 +114,6 @@ in {
             entity_picture = "mdi:playlist-music";
             unique_id = "var_spotify_playlist_${id}_uri";
           };
-          mkGrocyId = id: name: num: {
-            friendly_name = "Grocy - ${name}";
-            initial_value = num;
-            entity_picture = "mdi:account";
-            unique_id = "var_grocy_${id}_id";
-          };
         in {
           spt_bastion = mkSpotifyDevice "bastion" "Bastion" "desktop-classic";
           spt_gabes_phone =
@@ -136,10 +130,6 @@ in {
             "33cMTnKfvqpaDFB38ZKQb4";
           spt_pl_dope =
             mkSpotifyPlaylist "dope" "Dope, I Mean" "29nSH89xCUvByNnMujjZZw";
-          grocy_gabe_id = mkGrocyId "gabe" "Gabe" 1;
-          grocy_2_id = mkGrocyId "2" "Two" 2;
-          grocy_3_id = mkGrocyId "3" "Three" 3;
-          grocy_4_id = mkGrocyId "4" "Four" 4;
         };
 
         frontend.extra_module_url =

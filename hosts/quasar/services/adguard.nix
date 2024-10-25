@@ -1,40 +1,35 @@
-{ config, ... }:
+{ config, self, ... }:
 
 let
   cfg = config.nas;
-  defaultEnv = {
-    PUID = toString config.users.users.${cfg.user}.uid;
-    PGID = toString config.users.groups.${cfg.group}.gid;
-    TZ = cfg.timezone;
-  };
+  cfgNet = config.network;
 
-  inherit (config.network) address;
+  inherit (cfgNet) address;
+  inherit (self.lib.containers) mkPorts;
+  inherit (self.lib.containers.labels.traefik address) mkLabelsPort mkTLRstr;
 
   name = "adguard";
   host = "${name}.${address}";
   hostDNS = "dns.${address}";
   port = toString cfg.ports.adguard;
   portDNS = toString cfg.ports.adguarddns;
-
-  mkPorts = port: "${toString port}:${toString port}";
   webports = mkPorts port;
-  mkTLstr = type: "traefik.http.${type}.${name}";
-  mkTLRstr = "${mkTLstr "routers"}";
-  mkTLSstr = "${mkTLstr "services"}";
+
+  defaultEnv = {
+    PUID = toString config.users.users.${cfg.user}.uid;
+    PGID = toString config.users.groups.${cfg.group}.gid;
+    TZ = cfg.timezone;
+  };
 in {
   virtualisation.oci-containers.containers = {
     adguard = {
       image = "adguard/adguardhome:latest";
       environment = defaultEnv;
 
-      labels = {
-        "traefik.enable" = "true";
-        "${mkTLRstr}.entrypoints" = "websecure";
-        "${mkTLRstr}.tls" = "true";
-        "${mkTLSstr}.loadbalancer.server.port" = "${port}";
-        "${mkTLRstr}.rule" =
+      labels = removeAttrs (mkLabelsPort "adguard" port // {
+        "${mkTLRstr name}.rule" =
           "HostRegexp(`^([a-z-]+\\.)?(${host}|${hostDNS})$`)";
-      };
+      }) [ "${mkTLRstr name}.tls.certresolver" ];
 
       ports = [
         webports # frontend

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ config, self, pkgs, lib, ... }:
 
 let
   inherit (lib) mkIf mkDefault;
@@ -24,26 +24,13 @@ in {
 
   config = mkIf cfg.enable {
     virtualisation.oci-containers = let
-      mkPorts = port: "${toString port}:${toString port}";
+      inherit (self.lib.containers) mkPorts;
+      inherit (self.lib.containers.labels.traefik cfgNet.address)
+        mkLabels mkLabelsPort;
+
       mkData = name:
         "${config.users.users.${cfg.primaryUser}.home}/Documents/pod-config/"
         + name + ":/data";
-
-      mkTLstr = name: "traefik.http.routers.${name}"; # make traefik label
-      mkTLSstr = name:
-        "traefik.http.services.${name}"; # make traefik router label
-
-      mkLabels = name: {
-        "traefik.enable" = "true";
-        "${mkTLstr name}.rule" = "Host(`${name}.${cfgNet.address}`)";
-        "${mkTLstr name}.entrypoints" = "websecure";
-        "${mkTLstr name}.tls" = "true";
-        "${mkTLstr name}.tls.certresolver" = "cloudflare";
-      };
-      mkLabelsPort = name: port:
-        {
-          "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
-        } // (mkLabels name);
     in {
       containers = {
         startpage = mkIf cfg.services.startpage.enable {

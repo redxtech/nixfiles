@@ -33,7 +33,6 @@ in {
     espresense-companion = 8267;
     flaresolverr = 8191;
     homeassistant = 8123;
-    grocy = 8400;
     jackett = 9117;
     jellyfin = 8096;
     jellyfin-vue = 8099;

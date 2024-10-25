@@ -1,6 +1,26 @@
 { lib, ... }:
 
 {
+  # traefik labels
+  traefik = address: rec {
+    mkTLstr = name: type: "traefik.http.${type}.${name}"; # make traefik label
+    mkTLRstr = name: "${mkTLstr name "routers"}"; # make traefik router label
+    mkTLSstr = name: "${mkTLstr name "services"}"; # make traefik router label
+    mkTLHstr = name: "${mkTLstr name "middlewares"}.headers"; # middleware label
+    mkLabels = name: {
+      "traefik.enable" = "true";
+      "${mkTLRstr name}.rule" = "Host(`${name}.${address}`)";
+      "${mkTLRstr name}.entrypoints" = "websecure";
+      "${mkTLRstr name}.tls" = "true";
+      "${mkTLRstr name}.tls.certresolver" = "cloudflare";
+    };
+    mkLabelsPort = name: port:
+      (mkLabels name) // {
+        "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
+      };
+  };
+
+  # homepage dashboard labels
   mkHomepage = { container ? null, ... }@service:
     let
       inherit (lib.attrsets) attrsToList hasAttr;
@@ -25,6 +45,4 @@
       mainLabels = listToAttrs (map attrToLabel labelsNoWidget);
       widgetLabels = listToAttrs (map attrToWidget labelsWidget);
     in mainLabels // widgetLabels;
-
-  # TODO: traefik labels
 }

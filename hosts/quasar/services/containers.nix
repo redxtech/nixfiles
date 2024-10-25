@@ -6,34 +6,17 @@ let
 
   inherit (cfgNet) address;
 
+  inherit (self.lib.nas.paths cfg.paths) mkConf mkData mkDl downloads media;
+  inherit (self.lib.containers) mkPort mkPorts;
+  inherit (self.lib.containers.labels) mkHomepage;
+  inherit (self.lib.containers.labels.traefik address)
+    mkLabels mkLabelsPort mkTLRstr mkTLSstr mkTLHstr;
+
   defaultEnv = {
     PUID = toString config.users.users.${cfg.user}.uid;
     PGID = toString config.users.groups.${cfg.group}.gid;
     TZ = cfg.timezone;
   };
-
-  paths = self.lib.nas.paths cfg.paths;
-  inherit (paths) mkConf mkData mkDl downloads media;
-
-  mkPort = host: guest: "${toString host}:${toString guest}";
-  mkPorts = port: "${toString port}:${toString port}";
-  mkTLstr = name: type: "traefik.http.${type}.${name}"; # make traefik label
-  mkTLRstr = name: "${mkTLstr name "routers"}"; # make traefik router label
-  mkTLSstr = name: "${mkTLstr name "services"}"; # make traefik router label
-  mkTLHstr = name: "${mkTLstr name "middlewares"}.headers"; # middleware label
-  mkLabels = name: {
-    "traefik.enable" = "true";
-    "${mkTLRstr name}.rule" = "Host(`${name}.${cfgNet.address}`)";
-    "${mkTLRstr name}.entrypoints" = "websecure";
-    "${mkTLRstr name}.tls" = "true";
-    "${mkTLRstr name}.tls.certresolver" = "cloudflare";
-  };
-  mkLabelsPort = name: port:
-    (mkLabels name) // {
-      "${mkTLSstr name}.loadbalancer.server.port" = "${toString port}";
-    };
-
-  mkHomepage = self.lib.containers.labels.mkHomepage;
 
   mkExportarr = name: port: {
     image = "ghcr.io/onedr0p/exportarr:v2.0";
@@ -50,9 +33,9 @@ in {
     containers = {
       apprise = {
         image = "lscr.io/linuxserver/apprise-api:latest";
-        ports = [ (mkPort cfg.ports.apprise 8000) ];
         labels = mkLabels "apprise";
         environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.apprise 8000) ];
         volumes = [ (mkConf "apprise") ];
       };
 
@@ -148,14 +131,6 @@ in {
           CAPTCHA_SOLVER = "none";
         };
         ports = [ (mkPorts cfg.ports.flaresolverr) ];
-      };
-
-      grocy = {
-        image = "lscr.io/linuxserver/grocy:latest";
-        labels = mkLabels "grocy";
-        environment = defaultEnv;
-        ports = [ (mkPort cfg.ports.grocy 80) ];
-        volumes = [ (mkConf "grocy") ];
       };
 
       ha-fusion = {
