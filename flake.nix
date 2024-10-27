@@ -55,12 +55,15 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nix-neovim-plugins.url = "github:NixNeovim/NixNeovimPlugins";
     nix-serve-ng.url = "github:aristanetworks/nix-serve-ng";
+    quickgui.url =
+      "https://flakehub.com/f/quickemu-project/quickgui/1.2.10.tar.gz";
     swww.url = "github:LGFae/swww";
     xremap-flake.url = "github:xremap/nix-flake";
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware
+    , quickgui, ... }:
     let
       mkLib = nixpkgs: nixpkgs.lib.extend (final: prev: (import ./lib final));
       customLib = mkLib nixpkgs;

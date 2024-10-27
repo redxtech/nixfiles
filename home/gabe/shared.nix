@@ -127,6 +127,7 @@ in {
         "qimgv"
         "imv"
         "mpv"
+        "MQTT-Explorer"
         "neovide"
         "Postman"
         "steam"

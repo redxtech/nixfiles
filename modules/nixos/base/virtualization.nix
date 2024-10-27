@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, inputs, ... }:
 
 let
   inherit (lib) mkIf;
@@ -20,12 +20,15 @@ in {
   config = let
     inherit (lib) mkDefault;
     dockerEnabled = cfg.containerBackend == "docker";
+    quickgui = inputs.quickgui.packages.${pkgs.system}.default;
   in mkIf (cfg.enable && cfg.virtualisation.enable) {
     environment.systemPackages = with pkgs; [
       virt-manager
       virt-viewer
       virtiofsd
 
+      quickemu # qemu helper
+      quickgui # gui for quickemu
       wl-clipboard # for waydroid
     ];
 
