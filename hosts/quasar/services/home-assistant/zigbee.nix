@@ -45,6 +45,7 @@ in {
       settings = {
         frontend.port = 7800;
         serial.port = "/dev/ttyUSB0";
+        permit_join = false;
 
         homeassistant = config.services.home-assistant.enable;
         advanced.network_key = "!secrets.yaml network_key";

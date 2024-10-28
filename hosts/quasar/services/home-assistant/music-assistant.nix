@@ -5,15 +5,20 @@ let
   cfgNet = config.network;
 
   inherit (self.lib.containers) mkPorts;
-  inherit (self.lib.containers.labels.traefik cfgNet.address) mkLabels;
+  inherit (self.lib.containers.labels.traefik cfgNet.address) mkAllLabelsPort;
 in {
   config = {
     network.services.mass = 8095;
 
     virtualisation.oci-containers.containers.mass = {
       image = "ghcr.io/music-assistant/server:latest";
-      labels = mkLabels "mass" // {
-        "traefik.http.services.mass.loadbalancer.server.port" = "8095";
+      labels = mkAllLabelsPort "mass" cfg.ports.music-assistant {
+        name = "music assistant";
+        group = "home";
+        icon = "sh-music-assistant.svg";
+        href = "https://mass.${cfgNet.address}";
+        desc = "music contoller";
+        weight = -70;
       };
       ports = map mkPorts [ cfg.ports.music-assistant 8097 5090 5091 3483 ];
       volumes = [

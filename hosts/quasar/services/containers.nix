@@ -10,7 +10,7 @@ let
   inherit (self.lib.containers) mkPort mkPorts;
   inherit (self.lib.containers.labels) mkHomepage;
   inherit (self.lib.containers.labels.traefik address)
-    mkLabels mkLabelsPort mkTLRstr mkTLSstr mkTLHstr;
+    mkAllLabels mkAllLabelsPort mkTLRstr mkTLSstr mkTLHstr;
 
   defaultEnv = {
     PUID = toString config.users.users.${cfg.user}.uid;
@@ -33,7 +33,13 @@ in {
     containers = {
       apprise = {
         image = "lscr.io/linuxserver/apprise-api:latest";
-        labels = mkLabels "apprise";
+        labels = mkAllLabels "apprise" {
+          name = "apprise";
+          group = "services";
+          icon = "mdi-bullhorn";
+          href = "https://apprise.${address}";
+          desc = "notification service";
+        };
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.apprise 8000) ];
         volumes = [ (mkConf "apprise") ];
@@ -41,7 +47,19 @@ in {
 
       bazarr = {
         image = "lscr.io/linuxserver/bazarr:latest";
-        labels = mkLabels "bazarr";
+        labels = mkAllLabels "bazarr" {
+          name = "bazarr";
+          group = "arr";
+          icon = "bazarr.svg";
+          href = "https://bazarr.${address}";
+          desc = "subtitles downloader";
+          weight = -90;
+          widget = {
+            type = "bazarr";
+            url = "https://bazarr.${address}";
+            key = "{{HOMEPAGE_VAR_BAZARR}}";
+          };
+        };
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.bazarr 6767) ];
         volumes = [ (mkConf "bazarr") media ];
@@ -51,7 +69,13 @@ in {
         mkHstr = header: "${mkTLHstr "calibre"}.customrequestheaders.${header}";
       in {
         image = "lscr.io/linuxserver/calibre:latest";
-        labels = (mkLabelsPort "calibre" cfg.ports.calibre-ssl) // {
+        labels = mkAllLabelsPort "calibre" cfg.ports.calibre-ssl {
+          name = "calibre";
+          group = "media";
+          icon = "calibre.svg";
+          href = "https://calibre.${address}";
+          desc = "ebook manager";
+        } // {
           "${mkTLSstr "calibre"}.loadbalancer.serverstransport" =
             "ignorecert@file";
           "${mkTLSstr "calibre"}.loadbalancer.server.scheme" = "https";
@@ -80,7 +104,20 @@ in {
 
       calibre-web = {
         image = "lscr.io/linuxserver/calibre-web:latest";
-        labels = mkLabels "books" // {
+        labels = mkAllLabels "books" {
+          name = "calibre web";
+          group = "media";
+          icon = "calibre-web.svg";
+          href = "https://books.${address}";
+          desc = "ebook manager";
+          weight = -50;
+          widget = {
+            type = "calibreweb";
+            url = "https://books.${address}";
+            username = "{{HOMEPAGE_VAR_CALIBREWEB_USERNAME}}";
+            password = "{{HOMEPAGE_VAR_CALIBREWEB_PASSWORD}}";
+          };
+        } // {
           "${mkTLRstr "books"}.middlewares" = "homeassistant-allow-iframe@file";
         };
         environment = defaultEnv // {
@@ -103,7 +140,18 @@ in {
 
       deluge = {
         image = "lscr.io/linuxserver/deluge:latest";
-        labels = mkLabelsPort "deluge" cfg.ports.deluge;
+        labels = mkAllLabelsPort "deluge" cfg.ports.deluge {
+          name = "deluge";
+          group = "download";
+          icon = "deluge.svg";
+          href = "https://deluge.${address}";
+          desc = "torrent client";
+          widget = {
+            type = "deluge";
+            url = "https://deluge.${address}";
+            password = "{{HOMEPAGE_VAR_DELUGE}}";
+          };
+        };
         ports = [
           (mkPorts cfg.ports.deluge)
           "6881:6881"
@@ -116,7 +164,14 @@ in {
 
       espresense-companion = {
         image = "espresense/espresense-companion:latest";
-        labels = mkLabels "espc";
+        labels = mkAllLabels "espc" {
+          name = "espresense companion";
+          group = "home";
+          icon = "https://avatars.githubusercontent.com/u/89139441?s=200&v=4";
+          href = "https://espc.${address}";
+          desc = "room presence ui";
+          weight = -70;
+        };
         environment = defaultEnv;
         ports = [ (mkPorts cfg.ports.espresense-companion) (mkPorts 8268) ];
         volumes = [ "${(mkConf "espresense")}/espresense" ];
@@ -124,7 +179,13 @@ in {
 
       flaresolverr = {
         image = "ghcr.io/flaresolverr/flaresolverr:latest";
-        labels = mkLabels "flaresolverr";
+        labels = mkAllLabels "flaresolverr" {
+          name = "flaresolverr";
+          group = "arr";
+          icon = "flaresolverr.svg";
+          href = "https://flaresolverr.${address}";
+          desc = "cloudflare challenge resolver";
+        };
         environment = defaultEnv // {
           LOG_LEVEL = "info";
           LOG_HTML = "false";
@@ -135,7 +196,14 @@ in {
 
       ha-fusion = {
         image = "ghcr.io/matt8707/ha-fusion:latest";
-        labels = mkLabels "fusion";
+        labels = mkAllLabels "fusion" {
+          name = "ha fusion";
+          group = "home";
+          icon =
+            "https://raw.githubusercontent.com/matt8707/addon-ha-fusion/refs/heads/main/icon.png";
+          href = "https://fusion.${address}";
+          desc = "home assistant dashboard";
+        };
         environment = defaultEnv // { HASS_URL = "https://ha.${address}"; };
         volumes = [ "${cfg.paths.config}/ha-fusion:/app/data" ];
         ports = [ (mkPorts 5050) ];
@@ -143,7 +211,13 @@ in {
 
       jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
-        labels = mkLabels "jackett";
+        labels = mkAllLabels "jackett" {
+          name = "jackett";
+          group = "arr";
+          icon = "jackett.svg";
+          href = "https://jackett.${address}";
+          desc = "arr indexer proxy";
+        };
         environment = defaultEnv // { AUTO_UPDATE = "true"; };
         ports = [ (mkPort cfg.ports.jackett 9117) ];
         volumes = [ (mkConf "jackett") downloads ];
@@ -151,7 +225,21 @@ in {
 
       jellyfin = {
         image = "lscr.io/linuxserver/jellyfin:latest";
-        labels = mkLabelsPort "jellyfin" cfg.ports.jellyfin;
+        labels = mkAllLabelsPort "jellyfin" cfg.ports.jellyfin {
+          name = "jellyfin";
+          group = "media";
+          icon = "jellyfin.svg";
+          href = "https://jellyfin.${address}";
+          desc = "media server";
+          weight = -90;
+          widget = {
+            type = "jellyfin";
+            url = "https://jellyfin.${address}";
+            key = "{{HOMEPAGE_VAR_JELLYFIN}}";
+            enableBlocks = "true";
+            enableNowPlaying = "false";
+          };
+        };
         environment = defaultEnv // {
           JELLYFIN_PublishedServerUrl = "jellyfin.${address}";
           NVIDIA_VISIBLE_DEVICES = "all";
@@ -168,7 +256,15 @@ in {
 
       jellyfin-vue = {
         image = "ghcr.io/jellyfin/jellyfin-vue:unstable";
-        labels = mkLabels "jellyfin-vue";
+        labels = mkAllLabels "jellyfin-vue" {
+          name = "jellyfin vue";
+          group = "media";
+          icon =
+            "https://raw.githubusercontent.com/jellyfin/jellyfin-vue/refs/heads/master/frontend/public/icon.svg";
+          href = "https://jellyfin-vue.${address}";
+          desc = "jellyfin web ui";
+          weight = 9;
+        };
         environment = {
           DEFAULT_SERVERS = "https://jellyfin.quasar.sucha.foo";
           HISTORY_ROUTER_MODE = "1";
@@ -179,7 +275,19 @@ in {
 
       jellyseerr = {
         image = "fallenbagel/jellyseerr:latest";
-        labels = mkLabelsPort "jellyseerr" cfg.ports.jellyseerr;
+        labels = mkAllLabelsPort "jellyseerr" cfg.ports.jellyseerr {
+          name = "jellyseerr";
+          group = "media";
+          icon = "jellyseerr.svg";
+          href = "https://jellyseerr.${address}";
+          desc = "media request manager";
+          weight = -60;
+          widget = {
+            type = "jellyseerr";
+            url = "https://jellyseerr.${address}";
+            key = "{{HOMEPAGE_VAR_JELLYSEERR}}";
+          };
+        };
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
@@ -188,7 +296,13 @@ in {
 
       kiwix = {
         image = "ghcr.io/kiwix/kiwix-serve:latest";
-        # labels = mkLabelsPort "wiki" cfg.ports.kiwix;
+        labels = mkHomepage {
+          name = "kiwix";
+          group = "media";
+          icon = "kiwix.svg";
+          href = "http://quasar:${toString cfg.ports.kiwix}";
+          desc = "offline encyclopedia";
+        };
         volumes = [ (cfg.paths.downloads + "/deluge/zim:/data") ];
         ports = [ (mkPort cfg.ports.kiwix 8080) ];
         cmd = [
@@ -225,12 +339,31 @@ in {
 
       ladder = {
         image = "wasimaster/13ft:latest";
-        labels = mkLabels "ladder";
+        labels = mkAllLabels "ladder" {
+          name = "13ft ladder";
+          group = "utils";
+          icon = "mdi-ladder";
+          href = "https://ladder.${address}";
+          desc = "home assistant dashboard";
+        };
         ports = [ (mkPort cfg.ports.ladder 5000) ];
       };
 
       lidarr = {
         image = "lscr.io/linuxserver/lidarr:latest";
+        labels = mkHomepage {
+          name = "lidarr";
+          group = "arr";
+          icon = "lidarr.svg";
+          href = "https://lidarr.${address}";
+          desc = "music downloader";
+          weight = -100;
+          widget = {
+            type = "lidarr";
+            url = "https://lidarr.${address}";
+            key = "{{HOMEPAGE_VAR_LIDARR}}";
+          };
+        };
         environment = defaultEnv;
         ports = [ (mkPorts cfg.ports.lidarr) ];
         volumes = [ (mkConf "lidarr") downloads media ];
@@ -239,7 +372,20 @@ in {
 
       paperless = {
         image = "lscr.io/linuxserver/paperless-ngx:latest";
-        labels = mkLabels "docs";
+        labels = mkAllLabels "docs" {
+          name = "paperless";
+          group = "media";
+          icon = "paperless.svg";
+          href = "https://docs.${address}";
+          desc = "document management";
+          weight = -30;
+          widget = {
+            type = "paperlessngx";
+            url = "https://docs.${address}";
+            username = "{{HOMEPAGE_VAR_PAPERLESS_USER}}";
+            password = "{{HOMEPAGE_VAR_PAPERLESS_PASS}}";
+          };
+        };
         environment = defaultEnv // {
           PAPERLESS_URL = "https://docs.${cfgNet.address}";
         };
@@ -262,7 +408,19 @@ in {
 
       prowlarr = {
         image = "lscr.io/linuxserver/prowlarr:latest";
-        labels = mkLabelsPort "prowlarr" cfg.ports.prowlarr;
+        labels = mkAllLabelsPort "prowlarr" cfg.ports.prowlarr {
+          name = "prowlarr";
+          group = "arr";
+          icon = "prowlarr.svg";
+          href = "https://prowlarr.${address}";
+          desc = "arr indexer proxy";
+          weight = -80;
+          widget = {
+            type = "prowlarr";
+            url = "https://prowlarr.${address}";
+            key = "{{HOMEPAGE_VAR_PROWLARR}}";
+          };
+        };
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.prowlarr 9696) ];
         volumes = [ (mkConf "prowlarr") downloads media ];
@@ -271,7 +429,19 @@ in {
 
       qbit = {
         image = "lscr.io/linuxserver/qbittorrent:latest";
-        labels = mkLabelsPort "qbit" cfg.ports.qbit;
+        labels = mkAllLabelsPort "qbit" cfg.ports.qbit {
+          name = "qbit";
+          group = "download";
+          icon = "qbittorrent.svg";
+          href = "https://qbit.${address}";
+          desc = "torrent client";
+          widget = {
+            type = "qbittorrent";
+            url = "https://qbit.${address}";
+            username = "{{HOMEPAGE_VAR_QBIT_USER}}";
+            password = "{{HOMEPAGE_VAR_QBIT_PASS}}";
+          };
+        };
         environment = defaultEnv // {
           WEBUI_PORT = "${toString cfg.ports.qbit}";
         };
@@ -291,7 +461,13 @@ in {
           FILE__PASSWORD = config.sops.secrets.qdirstat_pw.path;
           CUSTOM_PORT = "${toString cfg.ports.qdirstat}";
         };
-        # labels = (mkLabelsPort "qdirstat" cfg.ports.qdirstat);
+        labels = mkAllLabelsPort "qdirstat" cfg.ports.qdirstat {
+          name = "qdirstat";
+          group = "utils";
+          icon = "qdirstat.svg";
+          href = "https://qdirstat.${address}";
+          desc = "disk usage statistics";
+        };
         ports = [ (mkPorts cfg.ports.qdirstat) ];
         volumes = let
           secretPath = type: "${config.sops.secrets."qdirstat_${type}".path}";
@@ -306,6 +482,19 @@ in {
 
       radarr = {
         image = "lscr.io/linuxserver/radarr:latest";
+        labels = mkHomepage {
+          name = "radarr";
+          group = "media";
+          icon = "radarr.svg";
+          href = "https://radarr.${address}";
+          desc = "movie downloader";
+          weight = -70;
+          widget = {
+            type = "radarr";
+            url = "https://radarr.${address}";
+            key = "{{HOMEPAGE_VAR_RADARR}}";
+          };
+        };
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.radarr 7878) ];
         volumes = [ (mkConf "radarr") downloads media ];
@@ -317,6 +506,19 @@ in {
       sonarr = {
         image = "lscr.io/linuxserver/sonarr:latest";
         environment = defaultEnv;
+        labels = mkHomepage {
+          name = "sonarr";
+          group = "media";
+          icon = "sonarr.svg";
+          href = "https://sonarr.${address}";
+          desc = "tv downloader";
+          weight = -80;
+          widget = {
+            type = "sonarr";
+            url = "https://sonarr.${address}";
+            key = "{{HOMEPAGE_VAR_SONARR}}";
+          };
+        };
         ports = [ (mkPort cfg.ports.sonarr 8989) ];
         volumes = [ (mkConf "sonarr") downloads media ];
         extraOptions = [ "--network" "host" ];
@@ -326,7 +528,13 @@ in {
 
       signaturepdf = {
         image = "ghcr.io/redxtech/signaturepdf:master";
-        labels = mkLabels "pdf";
+        labels = mkAllLabels "pdf" {
+          name = "pdf";
+          group = "utils";
+          icon = "mdi-signature";
+          href = "https://pdf.${address}";
+          desc = "pdf signing and other tools";
+        };
         environment = defaultEnv // {
           SERVERNAME = "pdf.${cfgNet.address}";
           UPLOAD_MAX_FILESIZE = "64M";
@@ -341,7 +549,13 @@ in {
       syncthing = {
         image = "lscr.io/linuxserver/syncthing:latest";
         environment = defaultEnv;
-        labels = mkLabelsPort "syncthing" cfg.ports.syncthing;
+        labels = mkAllLabelsPort "syncthing" cfg.ports.syncthing {
+          name = "syncthing";
+          group = "services";
+          icon = "syncthing.svg";
+          href = "https://syncthing.${address}";
+          desc = "file syncing";
+        };
         ports = [
           (mkPorts cfg.ports.syncthing)
           "22000:22000/tcp"
@@ -353,7 +567,13 @@ in {
 
       tautulli = {
         image = "lscr.io/linuxserver/tautulli:latest";
-        labels = mkLabels "tautulli";
+        labels = mkAllLabels "tautulli" {
+          name = "tautulli";
+          group = "monitoring";
+          icon = "tautulli.svg";
+          href = "https://tautulli.${address}";
+          desc = "plex stats page";
+        };
         environment = defaultEnv;
         ports = [ (mkPorts cfg.ports.tautulli) ];
         volumes = [
@@ -364,7 +584,13 @@ in {
 
       unpoller = {
         image = "ghcr.io/unpoller/unpoller:latest";
-        labels = mkLabels "unpoller";
+        labels = mkAllLabels "unpoller" {
+          name = "unpoller";
+          group = "services";
+          icon = "https://i.imgur.com/VBHV26V.png";
+          href = "https://unpoller.${address}";
+          desc = "unifi device poller";
+        };
         environment = defaultEnv // {
           UP_UNIFI_DEFAULT_URL = "https://unifi";
           UP_INFLUXDB_DISABLE = "true";
@@ -377,7 +603,22 @@ in {
 
       watchtower = {
         image = "containrrr/watchtower:latest";
-        environment = defaultEnv;
+        labels = mkAllLabels "watchtower" {
+          name = "watchtower";
+          group = "services";
+          icon = "watchtower.svg";
+          href = "https://watchtower.${address}";
+          desc = "docker container updating";
+          weight = -100;
+          widget = {
+            type = "watchtower";
+            url = "https://watchtower.${address}";
+            key = "{{HOMEPAGE_VAR_WATCHTOWER}}";
+          };
+        };
+        environment = defaultEnv // { WATCHTOWER_HTTP_API_METRICS = "true"; };
+        environmentFiles = [ config.sops.secrets."watchtower_env".path ];
+        ports = [ (mkPort cfg.ports.watchtower 8080) ];
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 
@@ -407,6 +648,7 @@ in {
     qdirstat_user.sopsFile = ../secrets.yaml;
     qdirstat_pw.sopsFile = ../secrets.yaml;
     "unpoller.env".sopsFile = ../secrets.yaml;
+    watchtower_env.sopsFile = ../secrets.yaml;
   };
 }
 

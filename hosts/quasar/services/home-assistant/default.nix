@@ -9,6 +9,7 @@ in {
     ./db.nix
     ./esphome.nix
     ./music-assistant.nix
+    ./node-red.nix
     ./zigbee.nix
   ];
 
@@ -41,21 +42,21 @@ in {
           api_key = "!secret sendgrid_api_key";
         }];
 
-        sensor = [
-          {
-            name = "Gabe's Phone BLE";
+        sensor = let
+          mkBLE = name: id: {
+            name = "${name} BLE";
             platform = "mqtt_room";
-            device_id = "!secret espresense_gabe_phone";
-            state_topic = "!secret espresense_gabe_phone_topic";
+            device_id = "!secret espresense_${id}";
+            state_topic = "!secret espresense_${id}_topic";
             timeout = 60;
-          }
-          {
-            name = "Gabe's Watch BLE";
-            platform = "mqtt_room";
-            device_id = "!secret espresense_gabe_watch";
-            state_topic = "!secret espresense_gabe_watch_topic";
-            timeout = 60;
-          }
+          };
+        in [
+          (mkBLE "Gabe's Phone" "gabe_phone")
+          (mkBLE "Gabe's Watch" "gabe_watch")
+          (mkBLE "Cam's Phone" "cam_phone")
+          (mkBLE "Kira's Phone" "kira_phone")
+          # (mkBLE "Marc's Phone" "marc_phone")
+          # (mkBLE "Keir's Phone" "keir_phone")
         ];
 
         lovelace.mode = "yaml";

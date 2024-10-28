@@ -12,6 +12,7 @@ in {
     ./containers.nix
     ./dashboard.nix
     ./home-assistant
+    ./homepage.nix
     ./plex.nix
     ./traefik.nix
   ];
@@ -33,6 +34,7 @@ in {
     espresense-companion = 8267;
     flaresolverr = 8191;
     homeassistant = 8123;
+    homepage = 8082;
     jackett = 9117;
     jellyfin = 8096;
     jellyfin-vue = 8099;
@@ -57,6 +59,7 @@ in {
     tautulli = 8181;
     unpoller = 9130;
     uptime = 3301;
+    watchtower = 3400;
   };
 
   network.services = { music = cfg.ports.navidrome; };

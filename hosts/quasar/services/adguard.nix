@@ -6,7 +6,7 @@ let
 
   inherit (cfgNet) address;
   inherit (self.lib.containers) mkPorts;
-  inherit (self.lib.containers.labels.traefik address) mkLabelsPort mkTLRstr;
+  inherit (self.lib.containers.labels.traefik address) mkAllLabelsPort mkTLRstr;
 
   name = "adguard";
   host = "${name}.${address}";
@@ -26,7 +26,20 @@ in {
       image = "adguard/adguardhome:latest";
       environment = defaultEnv;
 
-      labels = removeAttrs (mkLabelsPort "adguard" port // {
+      labels = removeAttrs (mkAllLabelsPort "adguard" port {
+        name = "adguard";
+        group = "network";
+        icon = "adguard-home.svg";
+        href = "https://adguard.${address}";
+        desc = "dns level adblocking";
+        weight = -90;
+        widget = {
+          type = "adguard";
+          url = "https://adguard.${address}";
+          username = "{{HOMEPAGE_VAR_ADGUARD_USER}}";
+          password = "{{HOMEPAGE_VAR_ADGUARD_PASS}}";
+        };
+      } // {
         "${mkTLRstr name}.rule" =
           "HostRegexp(`^([a-z-]+\\.)?(${host}|${hostDNS})$`)";
       }) [ "${mkTLRstr name}.tls.certresolver" ];

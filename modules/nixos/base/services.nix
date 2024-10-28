@@ -26,7 +26,7 @@ in {
     virtualisation.oci-containers = let
       inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik cfgNet.address)
-        mkLabels mkLabelsPort;
+        mkAllLabels mkAllLabelsPort;
 
       mkData = name:
         "${config.users.users.${cfg.primaryUser}.home}/Documents/pod-config/"
@@ -35,13 +35,33 @@ in {
       containers = {
         startpage = mkIf cfg.services.startpage.enable {
           image = "ghcr.io/redxtech/startpage";
-          labels = mkLabels "startpage";
+          labels = mkAllLabels "startpage" {
+            name = "startpage";
+            group = "utils";
+            icon =
+              "https://raw.githubusercontent.com/redxtech/excalith-start-page/master/public/icon.svg";
+            href = "https://startpage.${cfgNet.address}";
+            desc = "custom startpage";
+          };
           ports = [ "9009:3000" ];
         };
 
         portainer = mkIf cfg.services.portainer.enable {
           image = "portainer/portainer-ee:latest";
-          labels = mkLabelsPort "portainer" 9000;
+          labels = mkAllLabelsPort "portainer" 9000 {
+            name = "portainer";
+            group = "admin";
+            icon = "portainer.svg";
+            href = "https://portainer.${cfgNet.address}";
+            desc = "docker management interface";
+            weight = -90;
+            widget = {
+              type = "portainer";
+              url = "https://portainer.${cfgNet.address}";
+              env = "3";
+              key = "{{HOMEPAGE_VAR_PORTAINER}}";
+            };
+          };
           ports = [ "8000:8000" (mkPorts 9000) ];
           volumes = [
             "/var/run/docker.sock:/var/run/docker.sock"
