@@ -114,6 +114,7 @@ in {
       "integration"
       "intent"
       "ios"
+      "ipp"
       "isal"
       "jellyfin"
       "keyboard"

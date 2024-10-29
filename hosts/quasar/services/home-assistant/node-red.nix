@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let cfg = config.nas;
 in {
@@ -10,6 +10,21 @@ in {
 
       openFirewall = true;
       withNpmAndGcc = true;
+
+      configFile = config.sops.secrets.node-red.path;
+    };
+
+    systemd.services.node-red.path = with pkgs; [
+      bash
+      git
+      nodejs
+      nodePackages.npm
+    ];
+
+    sops.secrets.node-red = {
+      sopsFile = ../../secrets.yaml;
+      mode = "0440";
+      group = config.users.users.node-red.group;
     };
   };
 }

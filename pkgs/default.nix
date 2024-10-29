@@ -49,6 +49,8 @@
     pkgs.callPackage ./home-assistant/components/mail-and-packages { };
   home-assistant-music-assistant =
     pkgs.callPackage ./home-assistant/components/music-assistant { };
+  home-assistant-node-red =
+    pkgs.callPackage ./home-assistant/components/node-red { };
   home-assistant-pirate-weather =
     pkgs.callPackage ./home-assistant/components/pirate-weather { };
   home-assistant-spotcast =
