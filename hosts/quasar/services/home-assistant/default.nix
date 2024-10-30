@@ -214,6 +214,13 @@ in {
       '';
     };
 
+    services.wyoming.openwakeword = {
+      enable = true;
+      package = pkgs.wyoming-openwakeword.override {
+        python3Packages = pkgs.python311Packages;
+      };
+    };
+
     sops.secrets."homeassistant_secrets.yaml" = {
       sopsFile = ../../../../hosts/quasar/secrets.yaml;
       path = "${config.services.home-assistant.configDir}/secrets.yaml";

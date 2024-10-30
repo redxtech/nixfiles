@@ -3,6 +3,8 @@
 let cfg = config.nas;
 in {
   config = lib.mkIf cfg.enable {
+    # https://www.home-assistant.io/integrations/x
+    # https://search.nixos.org/options?channel=unstable&show=services.home-assistant.extraComponents&type=packages&query=services.home-assistant.extraComponents
     services.home-assistant.extraComponents = [
       "accuweather"
       "adguard"
@@ -229,6 +231,7 @@ in {
       "websocket_api"
       "whois"
       "wiz"
+      "wyoming"
       "zeroconf"
       "zha"
       "zone"

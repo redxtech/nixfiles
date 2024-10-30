@@ -245,8 +245,6 @@ in {
         download:
         services:
         utils:
-          style: row
-          columns: 3
         arr:
           style: row
           columns: 3
