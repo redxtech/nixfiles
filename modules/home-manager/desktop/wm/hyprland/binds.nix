@@ -66,6 +66,7 @@ in {
           "$mod SHIFT, Return, exec, [floating] $terminal"
           "$mod CTRL, Return, exec, ${pkgs.foot}/bin/footclient"
           "$mod, SPACE, exec, ${scripts.rofi.app-launcher}"
+          "$mod SHIFT, S, exec, $terminal -e ssh quasar"
           "$mod, W, exec, $browser"
           "$mod, G, exec, $explorer"
           "$mod SHIFT, N, exec, ${neovide}/bin/neovide"

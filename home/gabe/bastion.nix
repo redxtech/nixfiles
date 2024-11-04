@@ -30,6 +30,7 @@
       reboot-to-windows # reboot to windows
       seabird # k8s gui
       telegram-desktop # telegram
+      vdhcoapp # download helper
       vivaldi # web browser
     ];
 

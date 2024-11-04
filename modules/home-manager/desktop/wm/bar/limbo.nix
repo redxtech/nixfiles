@@ -73,7 +73,6 @@ in {
           quickSettings = {
             segments = [
               "tray"
-              "night-light"
               "caffeine"
               "brightness"
               "dnd"

@@ -16,13 +16,13 @@ let
 in buildHomeAssistantComponent rec {
   owner = "moralmunky";
   domain = "mail_and_packages";
-  version = "0.4.0";
+  version = "0.4.1-b1";
 
   src = fetchFromGitHub {
     inherit owner;
     repo = "Home-Assistant-Mail-And-Packages";
-    rev = "2f57315e7ef13a2a786549516a6ab16d89e413f1";
-    hash = "sha256-RKvDQpehiw6eZloe/ugY1Etir/0TzcTMbDozQnyTW98=";
+    rev = version;
+    hash = "sha256-rrSTcidUindtVdiRvFZK3UOQR95sYs7UqacXqUR76Ro=";
   };
 
   propagatedBuildInputs = with python3Packages; [ imageio python-resize-image ];
