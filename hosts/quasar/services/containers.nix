@@ -154,9 +154,11 @@ in {
         };
         ports = [
           (mkPorts cfg.ports.deluge)
-          "6881:6881"
+          (mkPorts 6881)
+          (mkPorts 58846)
+          (mkPorts 61442)
           "6881:6881/udp"
-          "58846:58846"
+          "61442:61442/udp"
         ];
         environment = defaultEnv;
         volumes = [ (mkConf "deluge") (mkDl "deluge") ];

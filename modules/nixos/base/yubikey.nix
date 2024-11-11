@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, stable, lib, ... }:
 
 let
   inherit (lib) mkIf;
@@ -75,7 +75,7 @@ in {
 
   config = mkIf cfg.enable {
     # yibikey required packages
-    environment.systemPackages = with pkgs;
+    environment.systemPackages = with stable;
       [ yubikey-manager yubikey-personalization yubico-pam ]
       ++ lib.optionals cfg.installGUIApps [
         yubikey-manager-qt
@@ -84,7 +84,7 @@ in {
       ];
 
     # add udev rules for yubikey personalization
-    services.udev.packages = with pkgs; [ yubikey-personalization ];
+    services.udev.packages = with stable; [ yubikey-personalization ];
 
     # enable smartcard support
     hardware.gpgSmartcards.enable = true;

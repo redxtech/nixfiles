@@ -73,6 +73,7 @@
     };
   };
 
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia-container-toolkit.enable = true;
 
   sops.secrets = {

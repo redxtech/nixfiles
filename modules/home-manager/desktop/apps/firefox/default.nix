@@ -292,7 +292,12 @@ in {
           id = 1;
           name = "other";
           inherit (config.programs.firefox.profiles.gabe)
-            settings userChrome userContent search;
+            settings userChrome userContent;
+
+          search = {
+            inherit (config.programs.firefox.profiles.gabe.search)
+              force default order engines;
+          };
         };
       };
     };

@@ -94,15 +94,15 @@ in {
           gnomeExtensions.clipboard-indicator
           gnomeExtensions.docker
           gnomeExtensions.focus-changer
-          gnomeExtensions.gesture-improvements
+          # gnomeExtensions.gesture-improvements # TODO: find replacement
           gnomeExtensions.grand-theft-focus
           gnomeExtensions.just-perfection
           gnomeExtensions.no-titlebar-when-maximized
-          gnomeExtensions.openweather
+          # gnomeExtensions.openweather
           gnomeExtensions.pip-on-top
           gnomeExtensions.power-profile-switcher
           gnomeExtensions.switch-focus-type
-          gnomeExtensions.workspace-indicator-2
+          # gnomeExtensions.workspace-indicator-2
           gnomeExtensions.vitals
         ]));
   };

@@ -43,7 +43,6 @@ in {
       extraPackages = optionals cfg.amd [
         # ROCm OpenCL ICD
         rocmPackages.clr.icd
-        rocm-opencl-icd
 
         # AMDVLK
         amdvlk

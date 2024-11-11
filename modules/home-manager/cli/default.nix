@@ -101,6 +101,7 @@ in {
           lyrics # lyrics in terminal
           manix # nix documentation tool
           mediainfo # media info
+          megatools # mega.io cli
           micro # editor
           most # pager
           neofetch # system info

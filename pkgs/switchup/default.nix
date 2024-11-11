@@ -1,6 +1,4 @@
-{ lib, stdenv, fetchFromGitHub, curl, gh, unzip, p7zip }:
-
-with lib;
+{ stdenv, fetchFromGitHub, curl, gh, unzip, p7zip }:
 
 stdenv.mkDerivation rec {
   pname = "switchup";
