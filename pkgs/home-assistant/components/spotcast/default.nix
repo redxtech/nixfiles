@@ -1,18 +1,21 @@
-{ lib, buildHomeAssistantComponent, fetchFromGitHub }:
+{ lib, buildHomeAssistantComponent, fetchFromGitHub, python3Packages }:
 
 buildHomeAssistantComponent rec {
   owner = "fondberg";
   domain = "spotcast";
-  version = "3.8.1";
+  version = "4.0.0";
 
   src = fetchFromGitHub {
     inherit owner;
     repo = domain;
     rev = "v${version}";
-    hash = "sha256-Z+H3H64fhwdJQ2+7xfx2oBzWRMdDtm/fSBJkHOUd9LY=";
+    hash = "sha256-6KLxawikEWNybYJuq2tUpdOmxG9PgYky1tF3r7iz6OU=";
   };
 
+  propagatedBuildInputs = with python3Packages; [ spotipy ];
+
   dontBuild = true;
+  doCheck = false; # TODO: use pythonRelaxDepsHook instead
 
   meta = with lib; {
     changelog = "https://github.com/fondberg/spotcast/releases/tag/v${version}";
