@@ -19,8 +19,7 @@ in {
 
       decoration = {
         rounding = 0;
-
-        drop_shadow = "no";
+        shadow.enabled = false;
 
         blur = {
           enabled = "yes";
