@@ -43,9 +43,6 @@
 
     services = {
       grafana = 3000;
-      lidarr = 8686;
-      radarr = 7878;
-      sonarr = 8989;
       uptime = 3301;
     };
   };

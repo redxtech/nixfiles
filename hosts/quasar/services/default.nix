@@ -33,6 +33,7 @@ in {
     deluge = 8112;
     espresense-companion = 8267;
     flaresolverr = 8191;
+    flood = 8113;
     homeassistant = 8123;
     homepage = 8082;
     jackett = 9117;
@@ -50,7 +51,8 @@ in {
     portainer = 9000;
     portainer-agent = 9001;
     prowlarr = 9696;
-    qbit = 8810;
+    qbit = 8811;
+    qbit-alt = 8810;
     qdirstat = 9030;
     radarr = 7878;
     sonarr = 8989;
@@ -63,6 +65,14 @@ in {
   };
 
   network.services = { music = cfg.ports.navidrome; };
+
+  services.flood = {
+    enable = true;
+    openFirewall = true;
+
+    port = cfg.ports.flood;
+    extraArgs = [ "" ];
+  };
 
   services.github-runners = {
     system-builder = {

@@ -29,6 +29,8 @@ let
     ports = [ (mkPorts port) ];
   };
 in {
+  network.services = { inherit (cfg.ports) lidarr radarr sonarr flood; };
+
   virtualisation.oci-containers = {
     containers = {
       apprise = {
@@ -136,32 +138,6 @@ in {
         volumes = [
           "${config.sops.secrets."ddclient.conf".path}:/defaults/ddclient.conf"
         ];
-      };
-
-      deluge = {
-        image = "lscr.io/linuxserver/deluge:latest";
-        labels = mkAllLabelsPort "deluge" cfg.ports.deluge {
-          name = "deluge";
-          group = "download";
-          icon = "deluge.svg";
-          href = "https://deluge.${address}";
-          desc = "torrent client";
-          widget = {
-            type = "deluge";
-            url = "https://deluge.${address}";
-            password = "{{HOMEPAGE_VAR_DELUGE}}";
-          };
-        };
-        ports = [
-          (mkPorts cfg.ports.deluge)
-          (mkPorts 6881)
-          (mkPorts 58846)
-          (mkPorts 61442)
-          "6881:6881/udp"
-          "61442:61442/udp"
-        ];
-        environment = defaultEnv;
-        volumes = [ (mkConf "deluge") (mkDl "deluge") ];
       };
 
       espresense-companion = {
@@ -431,15 +407,15 @@ in {
 
       qbit = {
         image = "lscr.io/linuxserver/qbittorrent:latest";
-        labels = mkAllLabelsPort "qbit" cfg.ports.qbit {
+        labels = mkAllLabelsPort "torrent" cfg.ports.qbit {
           name = "qbit";
           group = "download";
           icon = "qbittorrent.svg";
-          href = "https://qbit.${address}";
+          href = "https://torrent.${address}";
           desc = "torrent client";
           widget = {
             type = "qbittorrent";
-            url = "https://qbit.${address}";
+            url = "https://torrent.${address}";
             username = "{{HOMEPAGE_VAR_QBIT_USER}}";
             password = "{{HOMEPAGE_VAR_QBIT_PASS}}";
           };
@@ -447,10 +423,35 @@ in {
         environment = defaultEnv // {
           WEBUI_PORT = "${toString cfg.ports.qbit}";
         };
-        ports = [ (mkPorts cfg.ports.qbit) "6882:6882" "6882:6882/udp" ];
+        ports = [ (mkPorts cfg.ports.qbit) "6881:6881" "6881:6881/udp" ];
         volumes = [
           (mkConf "qbit")
-          (mkData "qbit")
+          (cfg.paths.downloads + "/deluge:/downloads")
+          "${pkgs.vuetorrent}/var/www/vuetorrent:/vuetorrent:ro"
+        ];
+      };
+
+      qbit-alt = {
+        image = "lscr.io/linuxserver/qbittorrent:latest";
+        labels = mkAllLabelsPort "qbit" cfg.ports.qbit-alt {
+          name = "qbit alt";
+          group = "download";
+          icon = "qbittorrent.svg";
+          href = "https://qbit.${address}";
+          desc = "alternate torrent client";
+          widget = {
+            type = "qbittorrent";
+            url = "https://qbit.${address}";
+            username = "{{HOMEPAGE_VAR_QBIT_ALT_USER}}";
+            password = "{{HOMEPAGE_VAR_QBIT_ALT_PASS}}";
+          };
+        };
+        environment = defaultEnv // {
+          WEBUI_PORT = "${toString cfg.ports.qbit-alt}";
+        };
+        ports = [ (mkPorts cfg.ports.qbit-alt) "6882:6882" "6882:6882/udp" ];
+        volumes = [
+          (mkConf "qbit-alt")
           (cfg.paths.downloads + "/qbit:/downloads")
           "${pkgs.vuetorrent}/var/www/vuetorrent:/vuetorrent:ro"
         ];
@@ -647,6 +648,7 @@ in {
     calibre_pw.sopsFile = ../secrets.yaml;
     exportarr_sonarr.sopsFile = ../secrets.yaml;
     exportarr_radarr.sopsFile = ../secrets.yaml;
+    flood_env.sopsFile = ../secrets.yaml;
     qdirstat_user.sopsFile = ../secrets.yaml;
     qdirstat_pw.sopsFile = ../secrets.yaml;
     "unpoller.env".sopsFile = ../secrets.yaml;

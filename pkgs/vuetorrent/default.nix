@@ -2,12 +2,12 @@
 
 stdenv.mkDerivation rec {
   pname = "vuetorrent";
-  version = "2.6.0";
+  version = "2.18.0";
 
   src = fetchzip {
     url =
       "https://github.com/VueTorrent/VueTorrent/releases/download/v${version}/vuetorrent.zip";
-    hash = "sha256-GMvkhfuyggTq0TIOSh4y3kZh6SiSubHbS4MqeU/KchQ=";
+    hash = "sha256-Z+N1RgcF67R6hWEfmfBls1+YLWkhEJQuOVqXXJCyptE=";
   };
 
   installPhase = ''
