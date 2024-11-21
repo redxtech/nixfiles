@@ -37,6 +37,7 @@ in {
     homeassistant = 8123;
     homepage = 8082;
     jackett = 9117;
+    jdownloader = 5800;
     jellyfin = 8096;
     jellyfin-vue = 8099;
     jellyseerr = 5055;

@@ -201,6 +201,23 @@ in {
         volumes = [ (mkConf "jackett") downloads ];
       };
 
+      jdownloader = {
+        image = "jlesage/jdownloader-2:latest";
+        environment = defaultEnv // {
+          USER_ID = toString config.users.users.${cfg.user}.uid;
+          GROUP_ID = toString config.users.groups.${cfg.group}.gid;
+          KEEP_APP_RUNNING = "1";
+          # DARK_MODE = "1";
+          WEB_LISTENING_PORT = "${toString cfg.ports.jdownloader}";
+        };
+        environmentFiles = [ config.sops.secrets."jdownloader_env".path ];
+        ports = [ (mkPorts cfg.ports.jdownloader) ];
+        volumes = [
+          (mkConf "jdownloader")
+          (cfg.paths.downloads + "/jdownloader:/output")
+        ];
+      };
+
       jellyfin = {
         image = "lscr.io/linuxserver/jellyfin:latest";
         labels = mkAllLabelsPort "jellyfin" cfg.ports.jellyfin {
@@ -648,7 +665,7 @@ in {
     calibre_pw.sopsFile = ../secrets.yaml;
     exportarr_sonarr.sopsFile = ../secrets.yaml;
     exportarr_radarr.sopsFile = ../secrets.yaml;
-    flood_env.sopsFile = ../secrets.yaml;
+    jdownloader_env.sopsFile = ../secrets.yaml;
     qdirstat_user.sopsFile = ../secrets.yaml;
     qdirstat_pw.sopsFile = ../secrets.yaml;
     "unpoller.env".sopsFile = ../secrets.yaml;
