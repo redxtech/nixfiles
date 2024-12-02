@@ -110,6 +110,7 @@ in {
           nix-autobahn # dynamic executable helper
           nix-du # du for nix store
           nix-inspect # see which pkgs are in your PATH
+          nix-update # update hashes in nix files
           onefetch # current repo info
           pciutils # pci info
           pfetch-rs # system info
