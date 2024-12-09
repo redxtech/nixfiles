@@ -3,7 +3,6 @@
 {
   # packages with an actual source
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
-  dashy = stable.callPackage ./dashy { };
   ente-cli = pkgs.callPackage ./ente-cli { };
   ente-desktop = pkgs.callPackage ./ente-desktop { };
   imv-patched = pkgs.callPackage ./imv { };

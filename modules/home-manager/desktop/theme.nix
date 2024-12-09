@@ -20,32 +20,22 @@ in {
 
       symbols = {
         family = "Nerd Fonts Symbols";
-        package =
-          pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; };
+        package = pkgs.nerd-fonts.symbols-only;
       };
 
-      extraFonts = with pkgs; [
-        cantarell-fonts
-        (nerdfonts.override {
-          fonts = [
-            "FiraCode"
-            "Hack"
-            "Inconsolata"
-            "Iosevka"
-            # "JetBrainsMono"
-            "NerdFontsSymbolsOnly"
-            "Noto"
-          ];
-        })
-        inter
-        iosevka-comfy.comfy
-        jetbrains-mono
-        noto-fonts
-        noto-fonts-cjk-sans
-        noto-fonts-emoji
-        noto-fonts-extra
-        xkcd-font
-      ];
+      extraFonts = with pkgs;
+        [
+          cantarell-fonts
+          inter
+          iosevka-comfy.comfy
+          jetbrains-mono
+          noto-fonts
+          noto-fonts-cjk-sans
+          noto-fonts-emoji
+          noto-fonts-extra
+          xkcd-font
+        ]
+        ++ (with nerd-fonts; [ fira-code hack inconsolata symbols-only noto ]);
     };
 
     gtk = {

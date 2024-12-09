@@ -118,17 +118,17 @@ in {
 
       fontDir.enable = true;
 
-      packages = with pkgs; [
-        cantarell-fonts
-        dank-mono
-        iosevka
-        iosevka-custom
-        (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" "Noto" ]; })
-        noto-fonts
-        noto-fonts-cjk-sans
-        noto-fonts-emoji
-        noto-fonts-extra
-      ];
+      packages = with pkgs;
+        [
+          cantarell-fonts
+          dank-mono
+          iosevka
+          iosevka-custom
+          noto-fonts
+          noto-fonts-cjk-sans
+          noto-fonts-emoji
+          noto-fonts-extra
+        ] ++ (with nerd-fonts; [ noto symbols-only ]);
     };
   };
 }

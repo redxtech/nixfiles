@@ -10,7 +10,6 @@ in {
   imports = [
     ./adguard.nix
     ./containers.nix
-    ./dashboard.nix
     ./home-assistant
     ./homepage.nix
     ./plex.nix
@@ -29,7 +28,6 @@ in {
     calibre-server = 8806;
     calibre-web = 8807;
     cockpit = 9090;
-    dashy = 4000;
     deluge = 8112;
     espresense-companion = 8267;
     flaresolverr = 8191;

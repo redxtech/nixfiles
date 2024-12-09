@@ -1,9 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, small, ... }:
 
 let
   cfg = config.desktop;
 
-  bar = (import ./bar) { inherit pkgs lib; };
+  bar = (import ./bar) { inherit pkgs lib small; };
   general = (import ./general) { inherit pkgs lib; };
   rofi = (import ./rofi) { inherit pkgs lib config; };
 in {

@@ -75,7 +75,7 @@ in {
           gnumake
           trashy
           efm-langserver
-          buf-language-server
+          buf
           wl-clipboard
           xclip
         ];

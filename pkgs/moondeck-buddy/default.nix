@@ -12,9 +12,9 @@ let
     hash = "sha256-FteDRbjv4YTuLkdUxSrusXgNm0xpuqN+EAvjSGAq4rY=";
   };
 
-  appimageContents = appimageTools.extractType2 { inherit name src; };
+  appimageContents = appimageTools.extractType2 { inherit pname version src; };
 in appimageTools.wrapType2 {
-  inherit name src;
+  inherit pname version src;
 
   multiArch = false; # no 32bit needed
   extraPkgs = pkgs:
@@ -23,7 +23,6 @@ in appimageTools.wrapType2 {
   extraInstallCommands = ''
     install -m 555 -D ${appimageContents}/usr/bin/MoonDeckStream $out/bin/moondeck-stream-${version}
 
-    ln -s $out/bin/${name} $out/bin/${pname}
     ln -s $out/bin/moondeck-stream-${version} $out/bin/moondeck-stream
 
     install -m 444 -D ${appimageContents}/MoonDeckBuddy.desktop $out/share/applications/${pname}.desktop

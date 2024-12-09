@@ -35,8 +35,8 @@ in {
       default = { };
       description = "Shell aliases";
       example = {
-        ls = "exa";
-        la = "exa -la";
+        ls = "eza";
+        la = "eza -la";
       };
     };
 

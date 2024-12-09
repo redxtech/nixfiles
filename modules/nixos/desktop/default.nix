@@ -87,27 +87,19 @@ in {
 
       fontDir.enable = true;
 
-      packages = with pkgs; [
-        cantarell-fonts
-        dank-mono
-        iosevka
-        iosevka-custom
-        (nerdfonts.override {
-          fonts = [
-            "FiraCode"
-            "Hack"
-            "Inconsolata"
-            "JetBrainsMono"
-            "NerdFontsSymbolsOnly"
-            "Noto"
-          ];
-        })
-        jetbrains-mono
-        noto-fonts
-        noto-fonts-cjk-sans
-        noto-fonts-emoji
-        noto-fonts-extra
-      ];
+      packages = with pkgs;
+        [
+          cantarell-fonts
+          dank-mono
+          iosevka
+          iosevka-custom
+          jetbrains-mono
+          noto-fonts
+          noto-fonts-cjk-sans
+          noto-fonts-emoji
+          noto-fonts-extra
+        ]
+        ++ (with nerd-fonts; [ fira-code hack inconsolata symbols-only noto ]);
     };
 
     # defaults

@@ -12,17 +12,15 @@ let
     hash = "sha256-6HXc0QXmgjbamrTI53u8SfbDPKnwr4TgOcuX+NBTQFY=";
   };
 
-  appimageContents = appimageTools.extractType2 { inherit name src; };
+  appimageContents = appimageTools.extractType2 { inherit pname version src; };
 in appimageTools.wrapType2 {
-  inherit name src;
+  inherit pname version src;
 
   multiArch = false; # no 32bit needed
   extraPkgs = pkgs:
     appimageTools.defaultFhsEnvArgs.multiPkgs pkgs ++ [ pkgs.bash ];
 
   extraInstallCommands = ''
-    ln -s $out/bin/${name} $out/bin/${pname}
-
     install -m 444 -D ${appimageContents}/ente.desktop $out/share/applications/ente.desktop
     cp -r ${appimageContents}/usr/share/icons $out/share
 
