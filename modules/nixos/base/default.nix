@@ -189,10 +189,13 @@ in {
     };
 
     # tailscale
-    services.tailscale = mkIf cfg.tailscale {
+    services.tailscale = let flags = [ "--advertise-exit-node" "--ssh" ];
+    in mkIf cfg.tailscale {
       enable = true;
       openFirewall = true;
-      useRoutingFeatures = lib.mkDefault "client";
+      useRoutingFeatures = lib.mkDefault "both";
+      extraUpFlags = flags;
+      extraSetFlags = flags;
     };
 
     # network stuff
