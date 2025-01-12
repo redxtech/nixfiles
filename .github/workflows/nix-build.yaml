@@ -47,7 +47,6 @@ jobs:
           - cockpit-machines
           - cockpit-tailscale
           - cockpit-zfs-manager
-          - dashy
           - ente-desktop
           - iosevka-custom
           - seabird
