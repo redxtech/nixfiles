@@ -46,8 +46,6 @@
   home-assistant-grocy = pkgs.callPackage ./home-assistant/components/grocy { };
   home-assistant-mail-and-packages =
     pkgs.callPackage ./home-assistant/components/mail-and-packages { };
-  home-assistant-music-assistant =
-    pkgs.callPackage ./home-assistant/components/music-assistant { };
   home-assistant-node-red =
     pkgs.callPackage ./home-assistant/components/node-red { };
   home-assistant-pirate-weather =

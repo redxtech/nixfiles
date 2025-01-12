@@ -31,7 +31,7 @@ in {
       inputs.limbo.homeManagerModules.default
       inputs.sops-nix.homeManagerModules.sops
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
-      inputs.nur.hmModules.nur
+      inputs.nur.modules.homeManager.default
       inputs.spicetify-nix.homeManagerModules.default
       inputs.tu.homeManagerModules.default
 

@@ -160,7 +160,6 @@ in {
         (home-assistant-mail-and-packages.override {
           customConfigDir = "${cfg.paths.config}/homeassistant";
         })
-        home-assistant-music-assistant
         home-assistant-node-red
         home-assistant-pirate-weather
         home-assistant-spotcast

@@ -147,6 +147,7 @@ in {
       "mqtt_json"
       "mqtt_room"
       "mqtt_statestream"
+      "music_assistant"
       "my"
       "network"
       "nextbus"

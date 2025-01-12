@@ -88,8 +88,6 @@ in {
       package = pkgs.cockpit.overrideAttrs (old: {
         # remove packagekit and selinux, don't work on NixOS
         postBuild = ''
-          ${old.postBuild}
-
           rm -rf \
             dist/packagekit \
             dist/selinux
