@@ -1,18 +1,18 @@
-{ lib, buildHomeAssistantComponent, python3Packages, fetchFromGitHub }:
+{ lib, buildHomeAssistantComponent, python313Packages, fetchFromGitHub }:
 
 buildHomeAssistantComponent rec {
   owner = "zachowj";
   domain = "nodered";
-  version = "4.1.1";
+  version = "4.1.2";
 
   src = fetchFromGitHub {
     inherit owner;
     repo = "hass-node-red";
     rev = "v${version}";
-    hash = "sha256-uiS1GC5YGARyAIOMj6zu92ZLSiRnr6O8R8EK53MCjzU=";
+    hash = "sha256-qRQ4NMKmZUQ9wSYR8i8TPbQc3y69Otp7FSdGuwph14c=";
   };
 
-  propagatedBuildInputs = with python3Packages; [ colorlog ];
+  propagatedBuildInputs = with python313Packages; [ colorlog ];
 
   meta = with lib; {
     changelog =

@@ -1,30 +1,31 @@
-{ lib, buildHomeAssistantComponent, python3Packages, fetchFromGitHub }:
+{ lib, buildHomeAssistantComponent, python313Packages, fetchFromGitHub
+, fetchPypi, fetchpatch }:
 
 let
-  pygrocy = python3Packages.buildPythonPackage rec {
-    pname = "pygrocy";
-    version = "2.0.0";
+  pygrocy2 = python313Packages.buildPythonPackage rec {
+    pname = "pygrocy2";
+    version = "2.4.0";
     src = fetchFromGitHub {
-      owner = "sebrut";
+      owner = "flipper";
       repo = "pygrocy";
-      rev = "v${version}";
-      hash = "sha256-7ZJmeBqd9oPWW62AI6XKIyAJVzjspKrcQ/IZuf/EsxQ=";
+      tag = "v${version}";
+      hash = "sha256-2YDu1G6rAJYVGoiopbYybenQGP1VIs4ULP69iVvuTgk=";
     };
     doCheck = false;
   };
 in buildHomeAssistantComponent rec {
   owner = "custom-components";
   domain = "grocy";
-  version = "4.11.1";
+  version = "2025.1.1";
 
   src = fetchFromGitHub {
     inherit owner;
     repo = domain;
-    rev = "v${version}";
-    hash = "sha256-gQaDXnREXIHWcpI1lLVwejrePPK5kk0FALBnGAta/Os=";
+    tag = version;
+    hash = "sha256-g8VGVGgIPivxWk9vbvR90VgTB/VGfZhEtNOwIjdy04s=";
   };
 
-  propagatedBuildInputs = with python3Packages; [ deprecation pygrocy ];
+  propagatedBuildInputs = with python313Packages; [ deprecation pygrocy2 ];
 
   meta = with lib; {
     changelog =

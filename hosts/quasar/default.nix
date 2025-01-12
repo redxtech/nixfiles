@@ -73,6 +73,8 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia-container-toolkit.enable = true;
 
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+
   sops.secrets = {
     cachix-agent = {
       path = "/etc/cachix-agent.token";

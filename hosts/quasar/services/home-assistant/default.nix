@@ -139,8 +139,8 @@ in {
         script = "!include scripts.yaml";
       };
 
-      extraPackages = python3Packages:
-        with python3Packages; [
+      extraPackages = python313Packages:
+        with python313Packages; [
           psycopg2
           pkgs.python-unifi-ap
         ];

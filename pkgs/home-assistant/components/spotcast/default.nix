@@ -1,9 +1,9 @@
-{ lib, buildHomeAssistantComponent, fetchFromGitHub, python3Packages }:
+{ lib, buildHomeAssistantComponent, fetchFromGitHub, python313Packages }:
 
 buildHomeAssistantComponent rec {
   owner = "fondberg";
   domain = "spotcast";
-  version = "4.0.0";
+  version = "4.0.0"; # TODO: update to 5.0.0 after beta
 
   src = fetchFromGitHub {
     inherit owner;
@@ -12,7 +12,7 @@ buildHomeAssistantComponent rec {
     hash = "sha256-6KLxawikEWNybYJuq2tUpdOmxG9PgYky1tF3r7iz6OU=";
   };
 
-  propagatedBuildInputs = with python3Packages; [ spotipy ];
+  propagatedBuildInputs = with python313Packages; [ spotipy ];
 
   dontBuild = true;
   doCheck = false; # TODO: use pythonRelaxDepsHook instead

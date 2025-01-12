@@ -28,7 +28,7 @@ in {
       "bluetooth"
       "bluetooth_adapters"
       "bluetooth_le_tracker"
-      "bluetooth_tracker"
+      # "bluetooth_tracker"
       "broadlink"
       # "browser"
       "button"

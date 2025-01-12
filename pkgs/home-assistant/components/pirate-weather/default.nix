@@ -1,7 +1,7 @@
-{ lib, buildHomeAssistantComponent, python3Packages, fetchFromGitHub }:
+{ lib, buildHomeAssistantComponent, python313Packages, fetchFromGitHub }:
 
 let
-  python-forecastio = python3Packages.buildPythonPackage {
+  python-forecastio = python313Packages.buildPythonPackage {
     pname = "python-forecastio";
     version = "1.4.0";
     src = fetchFromGitHub {
@@ -14,16 +14,19 @@ let
 in buildHomeAssistantComponent rec {
   owner = "Pirate-Weather";
   domain = "pirateweather";
-  version = "1.5.8";
+  version = "1.6.3";
 
   src = fetchFromGitHub {
     inherit owner;
     repo = "pirate-weather-ha";
     rev = "v${version}";
-    hash = "sha256-l9QhQ5FQcoSBdtLnFjDV0S8KgiDQ7r+T55NKnTqwLr0=";
+    hash = "sha256-jRe5KH3Rl2Vf22f7lI05p1IRecIrtH9ozsHh4qWHxP4=";
   };
 
-  propagatedBuildInputs = with python3Packages; [ colorlog python-forecastio ];
+  propagatedBuildInputs = with python313Packages; [
+    colorlog
+    python-forecastio
+  ];
 
   meta = with lib; {
     changelog =
