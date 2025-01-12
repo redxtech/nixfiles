@@ -57,9 +57,6 @@ in {
         obsidian # notes app
         pavucontrol # audio control panel
         peazip # file archiver
-        piper # gui for ratbagd/logitech mouse control
-        postman # api client
-        prismlauncher # minecraft launcher
         qdirstat # used storage visualizer
         qimgv # image viewer
         (tauon.overrideAttrs (oldAttrs: {
@@ -70,7 +67,6 @@ in {
             "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ librespot ]}"
           ];
         }))
-        stable.teams-for-linux # microsoft teams (for linux!)
         thunar # file manager
         vesktop # better discord client
         vlc # video player

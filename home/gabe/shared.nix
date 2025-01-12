@@ -4,16 +4,26 @@ let
   cfg = config.desktop.wm;
   inherit (cfg) scripts;
 in {
-  cli.enable = true;
+  cli = {
+    enable = true;
+    packages = with pkgs;
+      [
+        audible-cli # interact with audible
+      ];
+  };
 
   desktop = {
     enable = true;
 
     apps = with pkgs; [
       jellyfin-media-player # jellyfin client
+      libation # audible client
       libreoffice # office suite
       multiviewer-for-f1 # formula 1 viewer
+      piper # gui for ratbagd/logitech mouse control
+      postman # api client
       plexamp # plex audio player
+      prismlauncher # minecraft launcher
       via # keyboard flasher
       vscode-fhs # vs-code with fhs environment
     ];

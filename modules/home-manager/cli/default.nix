@@ -54,6 +54,7 @@ in {
         [
           age # encryption
           ani-cli # anime tool
+          appimage-run # run appimages
           atool # work with archives
           bitwarden-cli # password manager
           bluetuith # bluetooth manager
