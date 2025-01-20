@@ -44,7 +44,6 @@ in {
     nixosCommon = [
       inputs.home-manager.nixosModules.home-manager
       inputs.hyprland.nixosModules.default
-      inputs.jovian.nixosModules.default
       inputs.nix-serve-ng.nixosModules.default
       inputs.solaar.nixosModules.default
       inputs.sops-nix.nixosModules.sops
@@ -96,15 +95,6 @@ in {
 
           common-cpu-intel-cpu-only
           common-gpu-nvidia-nonprime
-          common-pc-ssd
-        ] ++ nixosCommon;
-
-      deck.imports = with hardware;
-        [
-          ../../hosts/deck
-
-          common-cpu-amd
-          common-gpu-amd
           common-pc-ssd
         ] ++ nixosCommon;
 

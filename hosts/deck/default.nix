@@ -21,27 +21,6 @@
     wm = "gnome";
   };
 
-  jovian = {
-    steam = {
-      enable = true;
-      autoStart = true;
-      desktopSession = "gnome";
-      user = "gabe";
-    };
-
-    devices.steamdeck = {
-      enable = true;
-      autoUpdate = true;
-    };
-
-    hardware.has.amd.gpu = true;
-
-    decky-loader = {
-      enable = true;
-      # extraPackages = [ ];
-    };
-  };
-
   # environment.systemPackages = with pkgs; [ ];
 
   # Enable automatic login for the user.

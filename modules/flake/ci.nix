@@ -13,7 +13,6 @@ let
     "flake-schemas"
     "hardware"
     "hci-effects"
-    "jovian"
     "limbo"
     "nixos-generators"
     "nix-autobahn"
