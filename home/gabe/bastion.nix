@@ -146,6 +146,8 @@
         matches = "*sink-sunshine-stereo*";
       }
     ];
+
+    autostart.runOnce = [ "${pkgs.moondeck-buddy}/bin/MoonDeckBuddy" ];
   };
 
   services.syncthing.enable = true;

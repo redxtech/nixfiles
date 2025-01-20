@@ -166,6 +166,13 @@ in {
             ];
             image-path = "steam.png";
           }
+          {
+            name = "MoonDeckStream";
+            command = "${pkgs.moondeck-buddy}/bin/MoonDeckStream";
+            image-path = "steam.png";
+            auto-detach = "false";
+            wait-all = "false";
+          }
         ];
       };
     };
