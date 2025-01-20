@@ -7,7 +7,7 @@
   ente-desktop = pkgs.callPackage ./ente-desktop { };
   imv-patched = pkgs.callPackage ./imv { };
   iosevka-custom = stable.callPackage ./iosevka-custom { };
-  moondeck-buddy = pkgs.kdePackages.callPackage ./moondeck-buddy { };
+  moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
   seabird = stable.callPackage ./seabird { };
   syspower = pkgs.callPackage ./syspower { };
   vuetorrent = pkgs.callPackage ./vuetorrent { };

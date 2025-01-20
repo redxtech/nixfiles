@@ -49,6 +49,7 @@ jobs:
           - cockpit-zfs-manager
           - ente-desktop
           - iosevka-custom
+          - moondeck-buddy
           - seabird
           - switchup
     runs-on: ubuntu-latest
