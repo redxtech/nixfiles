@@ -4,16 +4,16 @@
 
 buildGoModule rec {
   pname = "seabird";
-  version = "0.2.2";
+  version = "0.5.1";
 
   src = fetchFromGitHub {
     owner = "getseabird";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-wrZLWDTgcUS8snCqc5rInqitAkrsStL8zmc8vjl4ApQ=";
+    hash = "sha256-y+QIBqU3kAxedhWLnu07m9HQOCgHfOvVscIxxWtUcZo=";
   };
 
-  vendorHash = "sha256-z9l6g5NkAErRQo8oiqwKG9ssm8K2S+eSZBD0w4kO3kc=";
+  vendorHash = "sha256-4o9z4XjtW7kNHAb8L0kuq9rgQzTwvAAXcl6+RIGjmqI=";
 
   nativeBuildInputs = [ wrapGAppsHook pkg-config glib.dev libxml2 imagemagick ];
   buildInputs = [
