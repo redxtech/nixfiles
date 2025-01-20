@@ -10,7 +10,6 @@
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
   seabird = stable.callPackage ./seabird { };
   syspower = pkgs.callPackage ./syspower { };
-  vuetorrent = pkgs.callPackage ./vuetorrent { };
 
   # personal scripts
   switchup = pkgs.callPackage ./switchup { };

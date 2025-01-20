@@ -35,6 +35,7 @@ in {
           pop = "stash pop";
           s = "status";
           d = "diff";
+          ds = "diff --staged";
           c = "commit";
           p = "push";
           r = "remote -v";
