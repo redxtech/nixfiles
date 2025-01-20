@@ -82,16 +82,22 @@ in {
 
         remotePlay.openFirewall = true;
         dedicatedServer.openFirewall = true;
-        extest.enable = true;
+        localNetworkGameTransfers.openFirewall = true;
+
+        protontricks.enable = true;
+
         gamescopeSession = {
           enable = true;
           env.DRI_PRIME = mkIf gaming.prime.enable gaming.prime.dedicated;
         };
+
+        extraPackages = with pkgs; [ mangohud ];
+        extraCompatPackages = with pkgs; [ proton-ge-bin ];
       };
 
       gamescope = {
         enable = true;
-        capSysNice = true;
+        capSysNice = false; # doesn't work inside of steam
 
         # requires `hardware.nvidia.prime.offload.enable`.
         env = mkIf (gaming.nvidia && gaming.prime.enable) {
