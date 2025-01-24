@@ -49,6 +49,12 @@ in {
         description = "Enable the sunshine host for moonlight streaming.";
       };
 
+      enableMoonDeckBuddy = mkOption {
+        type = bool;
+        default = true;
+        description = "Enable the moondeck buddy companion app.";
+      };
+
       monitor = mkOption {
         type = str;
         default = "DisplayPort-0";
@@ -182,6 +188,20 @@ in {
         ];
       };
     };
+
+    # enable moondeck-buddy if selected
+    systemd.user.services.moondeck-buddy =
+      mkIf (gaming.sunshine.enable && gaming.sunshine.enableMoonDeckBuddy) {
+        unitConfig = {
+          Description = "MoonDeckBuddy";
+          After = [ "graphical-session.target" ];
+        };
+        serviceConfig = {
+          ExecStart = "${pkgs.moondeck-buddy}/bin/MoonDeckBuddy";
+          Restart = "on-failure";
+        };
+        wantedBy = [ "graphical-session.target" ];
+      };
 
     # hardware.bumblebee.enable = mkIf gaming.prime.enable true;
     hardware.nvidia.prime.offload.enable = mkIf gaming.prime.enable true;
