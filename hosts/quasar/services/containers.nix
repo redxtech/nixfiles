@@ -444,7 +444,7 @@ in {
         volumes = [
           (mkConf "qbit")
           (cfg.paths.downloads + "/deluge:/downloads")
-          "${pkgs.vuetorrent}/var/www/vuetorrent:/vuetorrent:ro"
+          "${pkgs.vuetorrent}/share/vuetorrent:/vuetorrent:ro"
         ];
       };
 
@@ -470,7 +470,7 @@ in {
         volumes = [
           (mkConf "qbit-alt")
           (cfg.paths.downloads + "/qbit:/downloads")
-          "${pkgs.vuetorrent}/var/www/vuetorrent:/vuetorrent:ro"
+          "${pkgs.vuetorrent}/share/vuetorrent:/vuetorrent:ro"
         ];
       };
 

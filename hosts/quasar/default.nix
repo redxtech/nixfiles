@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, ... }:
 
 {
   imports = [
@@ -28,6 +28,9 @@
     enable = true;
     wm = "gnome";
   };
+
+  # disable display manager, since it's headless
+  systemd.units."display-manager.service".enable = lib.mkForce false;
 
   nas = {
     enable = true;
