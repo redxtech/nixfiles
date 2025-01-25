@@ -92,11 +92,11 @@ in {
           CUSTOM_PORT = "${toString cfg.ports.calibre}";
           CUSTOM_HTTPS_PORT = "${toString cfg.ports.calibre-ssl}";
         };
-        ports = [
-          (mkPorts cfg.ports.calibre) # vnc
-          (mkPorts cfg.ports.calibre-ssl) # https vnc
-          (mkPort cfg.ports.calibre-server 8081) # web server
-          (mkPorts 8808) # device wireless connection
+        ports = with cfg.ports; [
+          (mkPorts calibre) # vnc
+          (mkPorts calibre-ssl) # https vnc
+          (mkPorts calibre-device) # device wireless connection
+          (mkPort calibre-server 8081) # web server
         ];
         volumes = let
           secretPath = type: "${config.sops.secrets."calibre_${type}".path}";
@@ -659,6 +659,9 @@ in {
         ${pkgs.docker}/bin/docker network create --driver bridge $network
     done
   '';
+
+  networking.firewall.allowedTCPPorts = with cfg.ports; [ calibre-device ];
+
   sops.secrets = {
     "ddclient.conf".sopsFile = ../secrets.yaml;
     calibre_user.sopsFile = ../secrets.yaml;
