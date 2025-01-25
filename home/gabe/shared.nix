@@ -71,7 +71,7 @@ in {
           ws = "*";
         }
         {
-          initialTitle = "Spotify";
+          initialTitle = "Spotify Premium";
           tile = true;
         }
         {

@@ -12,7 +12,7 @@
       autolock.timeout = 300;
 
       rules = [{
-        initialTitle = "Spotify";
+        initialTitle = "Spotify Premium";
         wsNum = 5;
       }];
     };
