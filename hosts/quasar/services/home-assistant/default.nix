@@ -149,7 +149,7 @@ in {
         better_thermostat
         prometheus_sensor
         localtuya
-        tuya_local
+        # tuya_local
         spook
         waste_collection_schedule
       ]) ++ (with pkgs; [
@@ -163,6 +163,7 @@ in {
         home-assistant-node-red
         home-assistant-pirate-weather
         home-assistant-spotcast
+        home-assistant-tuya_local
         home-assistant-var
       ]);
 

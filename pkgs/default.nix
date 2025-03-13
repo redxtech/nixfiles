@@ -51,6 +51,8 @@
     pkgs.callPackage ./home-assistant/components/pirate-weather { };
   home-assistant-spotcast =
     pkgs.callPackage ./home-assistant/components/spotcast { };
+  home-assistant-tuya_local =
+    pkgs.callPackage ./home-assistant/components/tuya_local { };
   home-assistant-var = pkgs.callPackage ./home-assistant/components/var { };
 
   # home assistant lovelace cards
