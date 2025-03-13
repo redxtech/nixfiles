@@ -22,10 +22,11 @@ writeShellApplication {
     hibernate=" Hibernate"
     logout="󰍃 Logout"
     restart=" Restart"
+    windows=" Reboot to Windows"
     shutdown="⏻ Shutdown"
     cancel="󰕌 Cancel"
 
-    options="$lock\n$sleep\n$hibernate\n$logout\n$restart\n$shutdown\n$cancel"
+    options="$lock\n$sleep\n$hibernate\n$logout\n$restart\n$windows\n$shutdown\n$cancel"
 
     confirm() {
       confirmation="$(echo -e "Yes\nNo" | rofi_cmd "Are you sure? ")"
@@ -57,6 +58,10 @@ writeShellApplication {
     "$restart")
       confirm
       systemctl reboot
+      ;;
+    "$windows")
+      confirm
+      systemctl reboot --boot-loader-entry=auto-windows
       ;;
     "$shutdown")
       confirm
