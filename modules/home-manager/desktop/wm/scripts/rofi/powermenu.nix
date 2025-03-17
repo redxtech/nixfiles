@@ -21,12 +21,12 @@ writeShellApplication {
     sleep=" Sleep"
     hibernate=" Hibernate"
     logout="󰍃 Logout"
-    restart=" Restart"
+    reboot=" Reboot"
     windows=" Reboot to Windows"
     shutdown="⏻ Shutdown"
     cancel="󰕌 Cancel"
 
-    options="$lock\n$sleep\n$hibernate\n$logout\n$restart\n$windows\n$shutdown\n$cancel"
+    options="$lock\n$sleep\n$hibernate\n$logout\n$reboot\n$windows\n$shutdown\n$cancel"
 
     confirm() {
       confirmation="$(echo -e "Yes\nNo" | rofi_cmd "Are you sure? ")"
@@ -55,7 +55,7 @@ writeShellApplication {
       confirm
       hyprctl dispatch exit
       ;;
-    "$restart")
+    "$reboot")
       confirm
       systemctl reboot
       ;;

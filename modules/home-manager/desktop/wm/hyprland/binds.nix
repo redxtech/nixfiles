@@ -63,7 +63,7 @@ in {
 
           # app launchers
           "$mod, Return, exec, $terminal"
-          "$mod SHIFT, Return, exec, [floating] $terminal"
+          "$mod SHIFT, Return, exec, [float] $terminal"
           "$mod CTRL, Return, exec, ${pkgs.foot}/bin/footclient"
           "$mod, SPACE, exec, ${scripts.rofi.app-launcher}"
           "$mod SHIFT, S, exec, $terminal -e ssh quasar"
