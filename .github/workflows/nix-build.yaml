@@ -27,9 +27,7 @@ jobs:
       - name: Install nix
         uses: DeterminateSystems/nix-installer-action@main
         with:
-          extra-conf: experimental-features = nix-command flakes repl-flake
-      - name: Run the magic nix cache
-        uses: DeterminateSystems/magic-nix-cache-action@main
+          extra-conf: experimental-features = nix-command flakes
       - uses: cachix/cachix-action@v14
         with:
           name: gabedunn
