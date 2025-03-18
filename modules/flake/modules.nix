@@ -33,7 +33,7 @@ in {
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
       inputs.nur.modules.homeManager.default
       inputs.spicetify-nix.homeManagerModules.default
-      inputs.tu.homeManagerModules.default
+      inputs.tu.homeModules.default
 
       extraArgs
 
