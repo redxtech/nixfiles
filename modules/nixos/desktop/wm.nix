@@ -40,7 +40,7 @@ in {
       displayManager.defaultSession = {
         bspwm = "none+bspwm";
         gnome = "gnome";
-        hyprland = "hyprland";
+        hyprland = "hyprland-uwsm";
       }.${cfg.wm};
 
       libinput = {
@@ -59,6 +59,11 @@ in {
 
       package = hyprpkgs.hyprland;
       portalPackage = hyprpkgs.xdg-desktop-portal-hyprland;
+
+      withUWSM = true;
+
+      # custom module for hyprpolkitagent
+      polkitAgent.enable = true;
     };
 
     xdg.portal = {
@@ -71,21 +76,6 @@ in {
     };
 
     systemd = {
-      user.services.polkit-gnome-authentication-agent-1 = {
-        description = "polkit-gnome-authentication-agent-1";
-        wantedBy = [ "graphical-session.target" ];
-        wants = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
-        serviceConfig = {
-          Type = "simple";
-          ExecStart =
-            "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-        };
-      };
-
       # fix shutdown taking a long time
       # https://gist.github.com/worldofpeace/27fcdcb111ddf58ba1227bf63501a5fe
       extraConfig = ''

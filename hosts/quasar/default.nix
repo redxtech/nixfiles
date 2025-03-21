@@ -73,6 +73,9 @@
     };
   };
 
+  # disable sudo password on server
+  security.sudo.wheelNeedsPassword = false;
+
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia-container-toolkit.enable = true;
 

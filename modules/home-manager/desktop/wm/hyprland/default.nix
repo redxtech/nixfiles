@@ -1,7 +1,7 @@
-{ config, lib, pkgs, options, ... }:
+{ config, inputs, lib, pkgs, options, ... }:
 
 let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf strings;
   inherit (builtins) map;
 
   cfg = config.desktop.wm.hyprland;
@@ -27,6 +27,11 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      # hyprland ecosystem
+      hyprprop # xprop replacement
+      hyprshade # blue light filter tool
+      hyprsysteminfo # small gui for system info
+
       # tools
       clipman
       grimblast
@@ -137,10 +142,26 @@ in {
           "SWWW_TRANSITION_STEP,2"
           "SWWW_TRANSITION_ANGLE,210"
         ];
+
+        plugin = {
+          hyprexpo = {
+            columns = 3;
+            gap_size = 15;
+            bg_col = "rgb(${strings.removePrefix "#" config.user-theme.bg})";
+            workspace_method = "first 1";
+
+            gesture_fingers = 3;
+            gesture_positive = false; # positive = down. negative = up.
+          };
+        };
       };
 
+      plugins =
+        with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system};
+        [ hyprexpo ];
+
       systemd = {
-        enable = true;
+        enable = false;
 
         # import systemd variables
         variables = [ "--all" ];

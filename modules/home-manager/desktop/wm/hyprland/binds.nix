@@ -31,7 +31,6 @@ in {
           "$mod, J, movefocus, d"
           "$mod ALT, J, cyclenext, prev"
           "$mod ALT, K, cyclenext"
-          "$mod, grave, focuscurrentorlast"
           "$mod, Tab, workspace, previous"
 
           # move windows
@@ -57,6 +56,9 @@ in {
           "$mod, mouse_up, workspace, m+1"
           "$mod, bracketleft, workspace, m-1"
           "$mod, bracketright, workspace, m+1"
+
+          # hyprexpo toggle
+          "$mod, grave, hyprexpo:expo, toggle"
 
           # lock and sleep
           "$mod CTRL, L, exec, loginctl sleep-session"
@@ -91,8 +93,8 @@ in {
           "$mod SHIFT ALT, H, exec, ${dunst}/bin/dunstctl close-all"
 
           # screenshot
-          ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copy area"
-          "SHIFT, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify save area - | ${satty}/bin/satty -f -"
+          ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify --freeze copy area"
+          "SHIFT, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify --freeze save area - | ${satty}/bin/satty -f -"
           "CTRL, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify copy output - | ${satty}/bin/satty -f -"
           "$mod, Print, exec, ${pkgs.grimblast}/bin/grimblast --notify save output - | ${satty}/bin/satty -f -"
         ] ++ (
