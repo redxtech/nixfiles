@@ -42,6 +42,10 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
 
+      # use packages from nixos module
+      package = null;
+      portalPackage = null;
+
       settings = {
         "$mod" = "SUPER";
 
@@ -135,8 +139,12 @@ in {
         ];
       };
 
-      # import systemd variables
-      systemd.variables = [ "--all" ];
+      systemd = {
+        enable = true;
+
+        # import systemd variables
+        variables = [ "--all" ];
+      };
     };
 
     # enable xsession
@@ -154,18 +162,5 @@ in {
     };
 
     services.gammarelay.enable = true;
-
-    # use hyprland as default xdg portal
-    xdg.portal = {
-      enable = true;
-
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-        xdg-desktop-portal-gtk
-      ];
-      xdgOpenUsePortal = true;
-
-      config.common.default = "*";
-    };
   };
 }

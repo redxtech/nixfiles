@@ -101,10 +101,6 @@ in {
         condition = "mime ^image, has feh, X, flag f, !ext gif";
         command = ''${prog "feh"}/bin/feh -- "$@"'';
       }
-      {
-        condition = "mime ^image, has imv, X, flag f";
-        command = ''${prog "imv"}/bin/imv-dir -- "$@"'';
-      }
 
       # documents
       {

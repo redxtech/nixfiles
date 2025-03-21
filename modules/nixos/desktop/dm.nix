@@ -25,7 +25,7 @@ in {
           wayland.enable = true;
 
           settings = {
-            General = { CursorTheme = "Vimix-Cursors"; };
+            General = { CursorTheme = "Vimix-cursors"; };
             Theme = { EnableAvatars = true; };
           };
         };

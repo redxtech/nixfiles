@@ -10,7 +10,7 @@
       wm = "hyprland";
       hyprland.enable = true;
       rules = [{
-        initialTitle = "Spotify Premium";
+        class = "spotify";
         ws = "music";
       }];
     };

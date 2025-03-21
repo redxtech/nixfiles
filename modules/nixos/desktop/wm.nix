@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ inputs, pkgs, lib, config, ... }:
 
 let
   inherit (lib) mkIf optionals;
@@ -53,7 +53,22 @@ in {
     };
 
     # enable hyprland if selected
-    programs.hyprland.enable = isHyprland;
+    programs.hyprland = let hyprpkgs = inputs.hyprland.packages.${pkgs.system};
+    in {
+      enable = isHyprland;
+
+      package = hyprpkgs.hyprland;
+      portalPackage = hyprpkgs.xdg-desktop-portal-hyprland;
+    };
+
+    xdg.portal = {
+      enable = true;
+
+      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+      xdgOpenUsePortal = true;
+
+      config.common.default = "*";
+    };
 
     systemd = {
       user.services.polkit-gnome-authentication-agent-1 = {

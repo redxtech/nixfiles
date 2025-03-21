@@ -107,53 +107,6 @@ in {
         }
       ];
     };
-
-    # image viewer
-    programs.imv = {
-      enable = true;
-      package = pkgs.imv-patched;
-
-      settings = with config.user-theme; {
-        options = {
-          background = bg;
-          overlay_text_color = fg;
-          overlay_background_color = bg-alt;
-          overlay_font = "Dank Mono:16";
-          mouse_wheel = "navigate";
-        };
-        binds = { };
-      };
-    };
-
-    xdg.desktopEntries."imv" = {
-      name = "Imv";
-      genericName = "Image Viewer";
-      comment = "Fast freeiamge-based image viewer";
-      icon = "multimedia-photo-viewer";
-      exec = "${config.programs.imv.package}/bin/imv %U";
-      type = "Application";
-      categories = [ "Graphics" "2DGraphics" "Viewer" ];
-      mimeType = [
-        "image/bmp"
-        "image/gif"
-        "image/jpeg"
-        "image/jpg"
-        "image/pjpeg"
-        "image/png"
-        "image/tiff"
-        "image/x-bmp"
-        "image/x-pcx"
-        "image/x-png"
-        "image/x-portable-anymap"
-        "image/x-portable-bitmap"
-        "image/x-portable-graymap"
-        "image/x-portable-pixmap"
-        "image/x-tga"
-        "image/x-xbitmap"
-        "image/heif"
-        "image/avif"
-      ];
-    };
   };
 }
 

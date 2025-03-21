@@ -3,7 +3,7 @@
 
 let
   pname = "moondeck-buddy";
-  version = "1.6.3";
+  version = "1.7.1";
 
   inherit (kdePackages) qtbase wrapQtAppsHook;
   qtEnv = with qt6;
@@ -16,7 +16,7 @@ in stdenv.mkDerivation {
     repo = pname;
     tag = "v${version}";
     fetchSubmodules = true;
-    hash = "sha256-CcORcojz3jh1UZpq5qjDv+YktXC+F8t+r7E1SFyFkmw=";
+    hash = "sha256-7lMtywWVTH+ZJO7BDG9PgN/phyob7so9/h6ShK6Ml04=";
   };
 
   buildInputs = [ cmake ninja procps xorg.libXrandr qtbase qtEnv ];

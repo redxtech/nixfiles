@@ -61,7 +61,6 @@ in {
         qimgv # image viewer
         (tauon.overrideAttrs (oldAttrs: {
           buildInputs = oldAttrs.buildInputs ++ [ librespot ];
-          pythonPath = oldAttrs.pythonPath ++ [ python-tekore ];
           makeWrapperArgs = oldAttrs.makeWrapperArgs ++ [
             "--prefix PATH : ${lib.makeBinPath [ librespot ]}"
             "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ librespot ]}"

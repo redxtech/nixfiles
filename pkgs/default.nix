@@ -5,11 +5,11 @@
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
   ente-cli = pkgs.callPackage ./ente-cli { };
   ente-desktop = pkgs.callPackage ./ente-desktop { };
-  imv-patched = pkgs.callPackage ./imv { };
   iosevka-custom = stable.callPackage ./iosevka-custom { };
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
   seabird = stable.callPackage ./seabird { };
   syspower = pkgs.callPackage ./syspower { };
+  vimix-hyprcursor = pkgs.callPackage ./vimix-hyprcursor { };
 
   # personal scripts
   switchup = pkgs.callPackage ./switchup { };
@@ -22,7 +22,6 @@
   python-music-assistant =
     pkgs.python3Packages.callPackage ./python/music-assistant { };
   soundcloudpy = pkgs.python3Packages.callPackage ./python/soundcloudpy { };
-  python-tekore = pkgs.python3Packages.callPackage ./python/tekore { };
   python-unifi-ap = pkgs.python3Packages.callPackage ./python/unifi-ap { };
 
   # cockpit modules

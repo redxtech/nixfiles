@@ -3,7 +3,7 @@
 let cfg = config.desktop;
 in {
   config = lib.mkIf cfg.enable rec {
-    home.packages = with pkgs; [ vimix-cursor-theme ];
+    home.packages = with pkgs; [ vimix-cursors ];
 
     fontProfiles = {
       enable = true;
@@ -81,8 +81,13 @@ in {
     };
 
     home.pointerCursor = {
-      name = "Vimix-Cursors";
-      package = pkgs.vimix-cursor-theme;
+      name = "Vimix-cursors";
+      package = pkgs.vimix-cursors;
+
+      hyprcursor = {
+        enable = true;
+        size = 32;
+      };
 
       gtk.enable = true;
 

@@ -28,9 +28,19 @@ in {
       };
     };
 
+    users.users.cloudflared = {
+      isSystemUser = true;
+      group = "cloudflared";
+    };
+    users.groups.cloudflared = { };
+
+    systemd.services.cloudflared.serviceConfig = {
+      DynamicUser = lib.mkForce false;
+      User = config.users.users.cloudflared.name;
+    };
+
     sops.secrets.cloudflared_tunnel_creds = {
-      inherit (config.services.cloudflared) group;
-      owner = config.services.cloudflared.user;
+      owner = config.systemd.services.cloudflared.serviceConfig.User;
       sopsFile = ../../../hosts/${cfg.hostname}/secrets.yaml;
     };
   };

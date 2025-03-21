@@ -71,7 +71,7 @@ in {
           ws = "*";
         }
         {
-          initialTitle = "Spotify Premium";
+          class = "spotify";
           tile = true;
         }
         {
@@ -135,7 +135,6 @@ in {
         "google-chrome"
         "heroic"
         "qimgv"
-        "imv"
         "mpv"
         "Minecraft*"
         "MQTT-Explorer"

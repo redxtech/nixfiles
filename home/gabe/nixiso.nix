@@ -219,8 +219,8 @@
   };
 
   home.pointerCursor = {
-    name = "Vimix-Cursors";
-    package = pkgs.vimix-cursor-theme;
+    name = "Vimix-cursors";
+    package = pkgs.vimix-cursors;
     gtk.enable = true;
     x11 = {
       enable = true;

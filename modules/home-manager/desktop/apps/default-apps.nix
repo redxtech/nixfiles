@@ -7,21 +7,17 @@ in {
       vivaldiDesktop = "vivaldi.desktop";
       firefox = "firefox-nightly.desktop";
 
+      images = [ "qimgv.desktop" "feh.desktop" "org.gnome.gThumb.desktop" ];
       videos = [ "mpv.desktop" "vlc.desktop" ];
     in {
       enable = true;
 
       associations.added = {
-        "image/jpeg" = [ "feh.desktop" "org.gnome.gThumb.desktop" ];
-        "image/png" = [ "feh.desktop" "org.gnome.gThumb.desktop" ];
-        "image/gif" = [ "feh.desktop" ];
-        "image/svg+xml" = [
-          "feh.desktop"
-          "nvim.desktop"
-          "sublime_text.desktop"
-          firefox
-          vivaldiDesktop
-        ];
+        "image/jpeg" = images;
+        "image/png" = images;
+        "image/gif" = images;
+        "image/svg+xml" = images
+          ++ [ "nvim.desktop" "sublime_text.desktop" firefox vivaldiDesktop ];
         "application/xml" = [ "nvim.desktop" "sublime_text.desktop" ];
         "text/plain" = [ "nvim.desktop" "sublime_text.desktop" ];
         "text/html" =
@@ -48,11 +44,14 @@ in {
         "video/webm" = videos;
         "video/x-matroska" = videos;
       };
-      defaultApplications = let video = [ "mpv.desktop" ];
+      defaultApplications = let
+        image = [ "qimgv.desktop" ];
+        video = [ "mpv.desktop" ];
       in {
         "inode/directory" = [ "nemo.desktop" ];
-        "image/jpeg" = [ "imv-dir.desktop" ];
-        "image/png" = [ "imv-dir.desktop" ];
+        "image/jpeg" = image;
+        "image/png" = image;
+        "image/gif" = image;
         "text/plain" = [ "nvim.desktop" ];
         "application/json" = [ "nvim.desktop" ];
         "application/pdf" = [ "zathura.desktop" ];
