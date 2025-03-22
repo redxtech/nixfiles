@@ -65,12 +65,6 @@
         };
       };
     };
-
-    rsync = {
-      enable = true;
-      paths = [ "/config" "/var/lib" ];
-      destination = "rsync:/backups/${config.networking.hostName}";
-    };
   };
 
   # disable sudo password on server
