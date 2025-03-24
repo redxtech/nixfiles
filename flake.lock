@@ -2026,11 +2026,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1742253791,
-        "narHash": "sha256-pkre62wZzRkk+btKQn2sK5A2Nb2Z0LSa7cCoSEKMDao=",
+        "lastModified": 1742764791,
+        "narHash": "sha256-2/fTgJbIseGkTN1/inDZjX3QGpO9N3gVm0D72F+zGSo=",
         "owner": "co-conspirators",
         "repo": "limbo",
-        "rev": "0a054d5dbee102f86592a7c83ed9c05deee876ab",
+        "rev": "5078036db1439580fe57d48379be080243a05778",
         "type": "github"
       },
       "original": {
@@ -2893,11 +2893,11 @@
     },
     "nixpkgs_7": {
       "locked": {
-        "lastModified": 1740916017,
-        "narHash": "sha256-Ze/3XCElkVljFCnBKezLldOz2ZaGp7eozxRqFzACnMI=",
+        "lastModified": 1742707865,
+        "narHash": "sha256-RVQQZy38O3Zb8yoRJhuFgWo/iDIDj0hEdRTVfhOtzRk=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "b58e19b11fe72175fd7a9e014a4786a91e99da5f",
+        "rev": "dd613136ee91f67e5dba3f3f41ac99ae89c5406b",
         "type": "github"
       },
       "original": {

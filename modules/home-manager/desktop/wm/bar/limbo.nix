@@ -118,6 +118,14 @@ in {
               historyCmd = "${pkgs.mako}/bin/makoctl restore";
               dismissCmd = "${pkgs.mako}/bin/makoctl dismiss";
             };
+            notifs = let swaync = pkgs.swaynotificationcenter;
+            in {
+              icon.color = colours.red;
+              notifsIcon.color = colours.blue;
+              showCmd = "${swaync}/bin/swaync-client -t -sw";
+              statusCmd = "${swaync}/bin/swaync-client -D";
+              toggleCmd = "${swaync}/bin/swaync-client -d";
+            };
             mic = {
               icon.color = colours.orange;
               muteIcon.color = colours.blue;
