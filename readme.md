@@ -100,7 +100,7 @@ most relevant user apps daily drivers:
 - firefox
 - tailscale
 - podman
-- fuzzel/tofi
+- fuzzel
 - bat + fd + rg
 
 let me know if you have any questions about them :)
