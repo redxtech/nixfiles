@@ -2,6 +2,7 @@
 
 {
   # packages with an actual source
+  app2unit = pkgs.callPackage ./app2unit { };
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
   ente-cli = pkgs.callPackage ./ente-cli { };
   ente-desktop = pkgs.callPackage ./ente-desktop { };

@@ -38,7 +38,7 @@
       }) agents);
     in deploy-agents // {
       deploy-all = cachix-deploy-lib.spec {
-        agents = { inherit (agents) bastion voyager quasar deck; };
+        agents = { inherit (agents) bastion voyager quasar; };
       };
     };
 
