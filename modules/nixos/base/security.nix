@@ -9,6 +9,8 @@ in {
     clamav = {
       enable = mkEnableOption "Enable ClamAV antivirus" // { default = true; };
       fangfrisch = mkEnableOption "Enable fangfrisch" // { default = true; };
+
+      daily = mkEnableOption "Enable daily scans" // { default = true; };
     };
 
     acme.enable = mkEnableOption "Enable ACME cert gen" // { default = true; };
@@ -29,9 +31,15 @@ in {
       daemon.enable = true;
       daemon.settings.ExcludePath =
         [ "/home/(w-_)+/.local/share/Steam/steamapps/" ];
-      scanner.enable = true;
       updater.enable = true;
       fangfrisch.enable = cfg.clamav.fangfrisch;
+
+      scanner = {
+        enable = true;
+
+        # run weekly or daily
+        interval = mkIf (!cfg.clamav.daily) "Mon, *-*-* 04:00:00";
+      };
     };
 
     # only run clamdscan when AC is connected

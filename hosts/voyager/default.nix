@@ -12,6 +12,8 @@
       enable = true;
       amd = true;
     };
+
+    clamav.daily = false;
   };
 
   desktop = {
