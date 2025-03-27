@@ -425,7 +425,8 @@ in {
         "${thunar}/bin/thunar --daemon"
         "${pkgs.mako}/bin/mako"
         "${swww}/bin/swww-daemon"
-        "${wl-clipboard}/bin/wl-paste -t text --watch clipman store --no-persist"
+        "${wl-clipboard}/bin/wl-paste --type text  --watch cliphist store"
+        "${wl-clipboard}/bin/wl-paste --type image --watch cliphist store"
 
         "${
           (writeShellApplication {

@@ -1,10 +1,10 @@
-{ writeShellApplication, wl-clipboard, clipman, tofi, ... }:
+{ writeShellApplication, wl-clipboard, cliphist, fuzzel, ... }:
 
 writeShellApplication {
   name = "clipboard";
 
-  runtimeInputs = [ wl-clipboard clipman tofi ];
+  runtimeInputs = [ wl-clipboard cliphist fuzzel ];
   text = ''
-    clipman pick --tool CUSTOM --tool-args "tofi --width 1280 --height 720"
+    cliphist list | fuzzel --dmenu --with-nth=2 --prompt "copy > " --width 60 | cliphist decode | wl-copy
   '';
 }

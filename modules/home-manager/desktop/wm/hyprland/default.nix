@@ -35,7 +35,7 @@ in {
 
       # tools
       app2unit
-      clipman
+      cliphist
       grimblast
       hyprpicker
       swww

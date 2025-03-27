@@ -29,6 +29,16 @@
 
       # Modifies existing packages
       modifications = final: prev: {
+        fuzzel = prev.fuzzel.overrideAttrs (oldAttrs: {
+          src = prev.fetchFromGitea {
+            domain = "codeberg.org";
+            owner = "dnkl";
+            repo = "fuzzel";
+            rev = "8e5ba7124faa59d644e43ea4f3a1702efe8270b5";
+            hash = "sha256-Mops/SnnFPcKSzGmPUMUAL1tTklGYnaEiuZ1DBBB7/U=";
+          };
+        });
+
         # rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
         rofi = prev.rofi-wayland.override { plugins = [ prev.rofi-emoji ]; };
 
