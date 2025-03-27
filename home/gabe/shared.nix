@@ -420,20 +420,37 @@ in {
     };
 
     autostart = with pkgs; {
-      run = [ "${sftpman}/bin/sftpman mount_all" ];
-      runOnce = [
-        "${vesktop}/bin/vesktop"
-        "${config.programs.spicetify.spicedSpotify}/bin/spotify"
+      desktop = [ "vesktop.desktop" "spotify.desktop" ];
+      services = [
         "${thunar}/bin/thunar --daemon"
+        "${pkgs.mako}/bin/mako"
+        "${swww}/bin/swww-daemon"
+        "${wl-clipboard}/bin/wl-paste -t text --watch clipman store --no-persist"
+
+        "${
+          (writeShellApplication {
+            name = "monitor_connection_fix";
+            runtimeInputs = [ coreutils socat ];
+            text = ''
+              handle() {
+                case $1 in monitoradded*)
+                  # loop through workspaces for each monitor and move them to where they should be
+                  for ws in 1 2 3 4 5 6; do
+                    hyprctl dispatch moveworkspacetomonitor $ws 0
+                  done
+                  for ws in 7 8 9 10; do
+                    hyprctl dispatch moveworkspacetomonitor $ws 1
+                  done
+                esac
+              }
+
+              # listen on hyprland sock, send all results to the handle function
+              socat - "UNIX-CONNECT:/tmp/hypr/''${HYPRLAND_INSTANCE_SIGNATURE}/.socket2.sock" | while read -r line; do handle "$line"; done
+            '';
+          })
+        }/bin/monitor_connection_fix"
       ];
-      runWithRule = [{
-        cmd = "${kitty}/bin/kitty ${btop}/bin/btop";
-        window = "kitty";
-        flags = {
-          state = "floating";
-          workspace = "r-www";
-        };
-      }];
+      run = [ "${sftpman}/bin/sftpman mount_all" ];
       runDays = [ ];
     };
   };

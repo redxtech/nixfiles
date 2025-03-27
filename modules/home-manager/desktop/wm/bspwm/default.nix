@@ -19,9 +19,9 @@ in {
   };
 
   config = let
-    inherit (lib) mkDefault attrsToList;
+    inherit (lib) mkDefault;
     inherit (lib.strings) concatStringsSep concatMapStringsSep;
-    inherit (builtins) listToAttrs map toString;
+    inherit (builtins) listToAttrs map;
 
     foldWs = workspaces: (map (ws: ws.name) workspaces);
     mkMonitor = { name, workspaces, ... }: {
@@ -30,18 +30,6 @@ in {
     };
     monitorsWS = listToAttrs (map mkMonitor cfg.monitors);
     flatMonitors = concatStringsSep " " (map (m: m.name) cfg.monitors);
-
-    fmtFlags = flags:
-      concatStringsSep " " (map ({ name, value }:
-        (if name == "workspace" then
-          "'desktop=${toString value}'"
-        else
-          "'${name}=${toString value}'")) (attrsToList flags));
-
-    runWithRule = { cmd, window, flags }:
-      "${pkgs.bspwm}/bin/bspc rule --add ${window} --one-shot ${
-        fmtFlags flags
-      } && ${cmd}";
 
   in lib.mkIf wm.enable {
     home.packages = with pkgs; [ bspwm sxhkd xclip xdragon ];
@@ -111,9 +99,7 @@ in {
         "${pkgs.bspwm}/bin/bspc wm --reorder-monitors ${flatMonitors}"
         "${config.home.homeDirectory}/.fehbg"
         "${pkgs.flameshot}/bin/flameshot"
-      ] ++ cfg.autostart.processed # global autostart commands
-        ++ (map runWithRule
-          cfg.autostart.runWithRule); # autostart commands with rules
+      ] ++ cfg.autostart.processed; # global autostart commands
     };
 
     services.sxhkd = let

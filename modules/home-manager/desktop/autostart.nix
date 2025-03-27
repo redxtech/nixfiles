@@ -7,45 +7,25 @@ let
 in with types; {
   # list of autostart programs
   options.desktop.autostart = {
+    desktop = mkOption {
+      type = listOf str;
+      default = [ ];
+      description =
+        "List of apps to run on every wm startup. Desktop entry name or command are supported.";
+      example = [ "spotify" "discord" "nm-applet" ];
+    };
+    services = mkOption {
+      type = listOf str;
+      default = [ ];
+      description =
+        "List of services to run on every wm startup. Desktop entry name or command are supported.";
+      example = [ "gpg-agent --daemon" "thunar --daemon" ];
+    };
     run = mkOption {
       type = listOf str;
       default = [ ];
       description = "List of programs to run on every wm startup";
-      example = [ "~/.fehbg" "xset r rate 240 50" "gpg-agent --daemon" ];
-    };
-    runOnce = mkOption {
-      type = listOf str;
-      default = [ ];
-      description = "List of programs to run once at wm startup";
-      example = [ "picom" "nm-applet" "blueman-applet" ];
-    };
-    runWithRule = mkOption {
-      type = listOf (submodule {
-        options = {
-          cmd = mkOption {
-            type = str;
-            default = null;
-          };
-
-          window = mkOption {
-            type = str;
-            default = null;
-            description = "The window to match";
-            example = "firefox";
-          };
-
-          flags = mkOption {
-            type = attrsOf (oneOf [ bool int str ]);
-            default = { };
-            description = "The flags to set on the window";
-            example = {
-              state = "floating";
-              sticky = true;
-              hidden = true;
-            };
-          };
-        };
-      });
+      example = [ "~/.fehbg" "xset r rate 240 50" ];
     };
     runDays = mkOption {
       type = listOf (submodule {

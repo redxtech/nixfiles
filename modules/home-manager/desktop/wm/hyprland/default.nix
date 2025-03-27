@@ -28,11 +28,13 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       # hyprland ecosystem
+      hyprland-qtutils # qt utils for hyprland
       hyprprop # xprop replacement
       hyprshade # blue light filter tool
       hyprsysteminfo # small gui for system info
 
       # tools
+      app2unit
       clipman
       grimblast
       hyprpicker
@@ -141,12 +143,13 @@ in {
           "SWWW_TRANSITION_FPS,60"
           "SWWW_TRANSITION_STEP,2"
           "SWWW_TRANSITION_ANGLE,210"
+          "APP2UNIT_SLICES,a=app-graphical.slice b=background-graphical.slice s=session-graphical.slice"
         ];
 
         plugin = {
           hyprexpo = {
             columns = 3;
-            gap_size = 15;
+            gap_size = 10;
             bg_col = "rgb(${strings.removePrefix "#" config.user-theme.bg})";
             workspace_method = "first 1";
 
@@ -162,8 +165,6 @@ in {
 
       systemd = {
         enable = false;
-
-        # import systemd variables
         variables = [ "--all" ];
       };
     };

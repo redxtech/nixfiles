@@ -9,14 +9,10 @@ in {
       settings = {
         "$mod" = "SUPER";
         "$terminal" = "${kitty}/bin/kitty";
-        "$browser" =
-          "${config.programs.firefox.finalPackage}/bin/firefox-nightly";
-        "$editor" = "${config.tu.out.packages.tu}/bin/tu";
-        "$explorer" = "${nemo-with-extensions}/bin/nemo";
-        "$music" = "${config.programs.spicetify.spicedSpotify}/bin/spotify";
 
         # TODO: get binds from config.desktop.wm.binds
-        bind = [
+        bind = let a2u = "${app2unit}/bin/app2unit -s a";
+        in [
           # hyprland
           "$mod, Q, killactive"
           "$mod ALT, Q, exit"
@@ -64,33 +60,25 @@ in {
           "$mod CTRL, L, exec, loginctl sleep-session"
 
           # app launchers
-          "$mod, Return, exec, $terminal"
-          "$mod SHIFT, Return, exec, [float] $terminal"
-          "$mod CTRL, Return, exec, ${pkgs.foot}/bin/footclient"
-          "$mod, SPACE, exec, ${scripts.rofi.app-launcher}"
-          "$mod SHIFT, S, exec, $terminal -e ssh quasar"
-          "$mod, W, exec, $browser"
-          "$mod, G, exec, $explorer"
-          "$mod SHIFT, N, exec, ${neovide}/bin/neovide"
+          "$mod, Return, exec, ${a2u} kitty.desktop"
+          "$mod SHIFT, Return, exec, [float] ${a2u} kitty.desktop"
+          "$mod CTRL, Return, exec, ${a2u} ${pkgs.foot}/bin/footclient"
+          "$mod, SPACE, exec, ${a2u} ${scripts.rofi.app-launcher}"
+          "$mod SHIFT, S, exec, ${a2u} $terminal -e ssh quasar"
+          "$mod, W, exec, ${a2u} firefox-nightly.desktop"
+          "$mod, G, exec, ${a2u} nemo.desktop"
+          "$mod SHIFT, N, exec, ${a2u} neovide.desktop"
 
           # terminal apps
-          "$mod, M, exec, ${scripts.general.hdrop-btop}"
-          "$mod, N, exec, ${hdrop}/bin/hdrop -c obsidian ${pkgs.obsidian}/bin/obsidian"
-          "$mod, R, exec, $terminal --class kitty_float ranger"
-
-          # stuff
-          "$mod, C, exec, ${cfg.scripts.general.clipboard}"
-
-          # focus apps
+          "$mod, M, exec, ${a2u} ${scripts.general.hdrop-btop}"
+          "$mod, N, exec, ${a2u} ${hdrop}/bin/hdrop -c obsidian ${pkgs.obsidian}/bin/obsidian"
+          "$mod, R, exec, ${a2u} $terminal --class kitty_float ranger"
 
           # rofi
-          "$mod SHIFT, E, exec, ${cfg.scripts.wm.powermenu}"
-          "$mod, Backspace, exec, ${cfg.scripts.wm.powermenu}"
-          "$mod SHIFT, W, exec, ${cfg.scripts.rofi.choose-wallpaper}"
-
-          # notifications
-          "$mod ALT, H, exec, ${dunst}/bin/dunstctl history-pop"
-          "$mod SHIFT ALT, H, exec, ${dunst}/bin/dunstctl close-all"
+          "$mod, C, exec, ${a2u} ${cfg.scripts.general.clipboard}"
+          "$mod SHIFT, E, exec, ${a2u} ${cfg.scripts.wm.powermenu}"
+          "$mod, Backspace, exec, ${a2u} ${cfg.scripts.wm.powermenu}"
+          "$mod SHIFT, W, exec, ${a2u} ${cfg.scripts.rofi.choose-wallpaper}"
 
           # screenshot
           ", Print, exec, ${pkgs.grimblast}/bin/grimblast --notify --freeze copy area"

@@ -6,6 +6,7 @@ writeShellApplication {
 
   runtimeInputs = [ coreutils hyprland rofiApp systemd playerctl ];
 
+  # TODO: change logout to use loginctl terminate-session "$XDG_SESSION_ID" or uwsm stop
   text = ''
     # rofi script to show the powermenu
     # usage: powermenu
@@ -21,12 +22,12 @@ writeShellApplication {
     sleep=" Sleep"
     hibernate=" Hibernate"
     logout="󰍃 Logout"
-    reboot=" Reboot"
+    restart=" Restart"
     windows=" Reboot to Windows"
     shutdown="⏻ Shutdown"
     cancel="󰕌 Cancel"
 
-    options="$lock\n$sleep\n$hibernate\n$logout\n$reboot\n$windows\n$shutdown\n$cancel"
+    options="$lock\n$sleep\n$hibernate\n$logout\n$restart\n$windows\n$shutdown\n$cancel"
 
     confirm() {
       confirmation="$(echo -e "Yes\nNo" | rofi_cmd "Are you sure? ")"
@@ -55,7 +56,7 @@ writeShellApplication {
       confirm
       hyprctl dispatch exit
       ;;
-    "$reboot")
+    "$restart")
       confirm
       systemctl reboot
       ;;

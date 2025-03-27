@@ -20,6 +20,7 @@ in {
         main = {
           font = "Dank Mono:weight=bold:size=24,Symbols Nerd Font:size=24";
           icon-theme = "Papirus-Dark";
+          launch-prefix = "${pkgs.app2unit}/bin/app2unit --fuzzel-compat --";
         };
         # https://github.com/dracula/fuzzel/blob/main/fuzzel.ini
         colors = {
