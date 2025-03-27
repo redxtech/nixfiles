@@ -116,6 +116,7 @@
 
 /* or make the top bar position absolute */
 #navigator-toolbox {
+	z-index: 1000 !important;
   position: absolute !important;
   width: var(--gd-head-width);
   margin-top: 0 !important;
@@ -329,7 +330,7 @@
   display: flex;
   padding: 0;
   margin: 0 !important;
-  box-shadow: 0 0 16px #0004;
+	pointer-events: none;
 
   width: var(--urlbar-container-width) !important;
   max-width: var(--urlbar-container-width);
@@ -354,7 +355,10 @@
   padding: 0;
   margin: 0 !important;
 
+	pointer-events: all;
+
   transform: translate(-50%, -50%);
+	box-shadow: 0 0 16px #0004;
 }
 
 #urlbar-background,
