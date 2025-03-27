@@ -8,8 +8,8 @@
 
   home.stateVersion = "24.11";
 
-  programs.firefox.profiles.gabe.extensions =
-    with config.nur.repos.rycee.firefox-addons; [
+  programs.firefox.profiles.gabe.extensions.packages =
+    with pkgs.nur.repos.rycee.firefox-addons; [
       sidebery
       bitwarden
       ublock-origin

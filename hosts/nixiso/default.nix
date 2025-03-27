@@ -6,7 +6,7 @@ in {
 
   config = {
     # disko stuff
-    system.stateVersion = config.system.nixos.version;
+    system.stateVersion = config.system.nixos.release;
     # disko.devices.disk.main.imageSize = "10G";
     # boot.loader.systemd-boot.enable = true;
 
