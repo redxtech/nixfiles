@@ -127,6 +127,7 @@ in {
         inherit class;
         tile = true;
       }) [
+        "ancify launcher.desktop.exe"
         "beekeeper-studio"
         "ente"
         "feh"
@@ -135,6 +136,7 @@ in {
         "google-chrome"
         "heroic"
         "qimgv"
+        "net.lutris.Lutris"
         "mpv"
         "Minecraft*"
         "MQTT-Explorer"

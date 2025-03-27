@@ -224,7 +224,10 @@ in {
         steamcmd
         steam-tui
         protontricks
-        (lutris.override { extraPkgs = p: [ p.wine ]; })
+        umu-launcher
+        (lutris.override {
+          extraPkgs = p: [ p.proton-ge-bin p.umu-launcher p.wine ];
+        })
         game-devices-udev-rules
 
         # games
