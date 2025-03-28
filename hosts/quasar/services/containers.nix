@@ -33,6 +33,20 @@ in {
 
   virtualisation.oci-containers = {
     containers = {
+      actual = {
+        image = "ghcr.io/actualbudget/actual:latest";
+        labels = mkAllLabels "actual" {
+          name = "actual";
+          group = "utils";
+          icon = "actual-budget.svg";
+          href = "https://actual.${address}";
+          desc = "actual budget";
+        };
+        environment = defaultEnv;
+        ports = [ (mkPorts cfg.ports.actual) ];
+        volumes = [ (mkConf "actual") ];
+      };
+
       apprise = {
         image = "lscr.io/linuxserver/apprise-api:latest";
         labels = mkAllLabels "apprise" {

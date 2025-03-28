@@ -94,11 +94,6 @@ in {
                 href = "https://esphome.${cfgNet.address}";
                 description = "esphome dashboard";
                 weight = -90;
-                widget = {
-                  type = "esphome";
-                  url = "https://esphome.${cfgNet.address}";
-                  key = "{{HOMEPAGE_VAR_ESPHOME}}";
-                };
               };
             }
             {

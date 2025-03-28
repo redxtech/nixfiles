@@ -18,6 +18,7 @@ in {
 
   # TODO: group by type & use consistent values
   nas.ports = {
+    actual = 5006;
     adguard = 9900;
     adguarddns = 1053;
     adguard-exporter = 3202;
