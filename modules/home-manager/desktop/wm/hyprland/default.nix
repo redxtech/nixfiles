@@ -113,7 +113,7 @@ in {
           monitors = map mkMonitor config.desktop.monitors;
         in monitors
         # default for unknown monitors, place right of existing monitors
-        ++ lib.singleton "monitor=,preferred,auto,1";
+        ++ [ "HDMI-A-1,preferred,auto,1,mirror,DP-1" ",preferred,auto,1" ];
 
         workspace = let
           inherit (config.desktop) monitors;
