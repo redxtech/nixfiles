@@ -139,11 +139,10 @@ in {
         script = "!include scripts.yaml";
       };
 
-      extraPackages = python313Packages:
-        with python313Packages; [
-          psycopg2
-          pkgs.python-unifi-ap
-        ];
+      extraPackages = python3Packages: [
+        python3Packages.psycopg2
+        pkgs.python-unifi-ap
+      ];
 
       customComponents = (with pkgs.home-assistant-custom-components; [
         better_thermostat

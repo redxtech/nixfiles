@@ -1,9 +1,10 @@
-{ lib, python3Packages, fetchurl }:
+{ lib, fetchurl, buildPythonPackage, setuptools, aiohttp, paramiko }:
 
-python3Packages.buildPythonPackage rec {
+let version = "0.0.1";
+in buildPythonPackage {
   pname = "unifi-ap";
-  version = "0.0.1";
   format = "wheel";
+  inherit version;
 
   src = fetchurl {
     url =
@@ -11,8 +12,8 @@ python3Packages.buildPythonPackage rec {
     hash = "sha256-+qpWRqxSQX/4L19HPAe8P0fyJqAtnRVFBhJmCw0UUGk=";
   };
 
-  build-system = with python3Packages; [ setuptools ];
-  dependencies = with python3Packages; [ aiohttp paramiko ];
+  build-system = [ setuptools ];
+  dependencies = [ aiohttp paramiko ];
   pythonImportsCheck = [ "unifi_ap" ];
 
   meta = with lib; {

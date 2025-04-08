@@ -129,8 +129,8 @@ in {
             default = "Kagi";
             order = [
               "Kagi"
-              "DuckDuckGo"
-              "Google"
+              "ddg"
+              "google"
               "NixOS Wiki"
               "Nix Packages"
               "Nix Options"
@@ -151,7 +151,7 @@ in {
                     type = "application/x-suggestions+json";
                   }
                 ];
-                iconUpdateURL = "https://assets.kagi.com/v2/favicon-32x32.png";
+                icon = "https://assets.kagi.com/v2/favicon-32x32.png";
                 definedAliases = [ "@kagi" "@k" ];
               };
               "NixOS Wiki" = {
@@ -160,7 +160,7 @@ in {
                   template =
                     "https://nixos.wiki/index.php?search={searchTerms}";
                 }];
-                iconUpdateURL = "https://nixos.wiki/favicon.png";
+                icon = "https://nixos.wiki/favicon.png";
                 definedAliases = [ "nw" ];
               };
               "Nix Packages" = {
@@ -225,7 +225,7 @@ in {
                   template =
                     "https://home-manager-options.extranix.com/?query={searchTerms}&release=master";
                 }];
-                iconUpdateURL =
+                icon =
                   "https://home-manager-options.extranix.com/home-manager-option-search/images/favicon.png";
                 definedAliases = [ "hm" ];
               };
@@ -235,7 +235,7 @@ in {
                   template =
                     "https://wiki.archlinux.org/index.php?search={searchTerms}";
                 }];
-                iconUpdateURL = "https://wiki.archlinux.org/favicon.ico";
+                icon = "https://wiki.archlinux.org/favicon.ico";
                 definedAliases = [ "aw" ];
               };
               "Arch Packages" = {
@@ -243,7 +243,7 @@ in {
                 urls = [{
                   template = "https://archlinux.org/packages/?q={searchTerms}";
                 }];
-                iconUpdateURL = "https://archlinux.org/static/favicon.ico";
+                icon = "https://archlinux.org/static/favicon.ico";
                 definedAliases = [ "ap" ];
               };
               "AUR" = {
@@ -252,8 +252,7 @@ in {
                   template =
                     "https://aur.archlinux.org/packages?O=0&K={searchTerms}";
                 }];
-                iconUpdateURL =
-                  "https://aur.archlinux.org/static/images/favicon.ico";
+                icon = "https://aur.archlinux.org/static/images/favicon.ico";
                 definedAliases = [ "aur" ];
               };
               "NPM" = {
@@ -261,17 +260,17 @@ in {
                 urls = [{
                   template = "https://www.npmjs.com/package/{searchTerms}";
                 }];
-                iconUpdateURL =
+                icon =
                   "https://static-production.npmjs.com/b0f1a8318363185cc2ea6a40ac23eeb2.png";
                 definedAliases = [ "@npm" ];
               };
-              "YouTube" = {
+              youtube = {
                 inherit updateInterval;
                 urls = [{
                   template =
                     "https://www.youtube.com/results?search_query={searchTerms}";
                 }];
-                iconUpdateURL =
+                icon =
                   "https://www.youtube.com/s/desktop/85bdacdc/img/favicon_32x32.png";
                 definedAliases = [ "yt" ];
               };
@@ -279,12 +278,12 @@ in {
                 inherit updateInterval;
                 urls =
                   [{ template = "https://www.amazon.ca/s?k={searchTerms}"; }];
-                iconUpdateURL = "https://www.amazon.ca/favicon.ico";
+                icon = "https://www.amazon.ca/favicon.ico";
                 definedAliases = [ "@a" ];
               };
-              "Bing".metaData.alias = "@b";
-              "Google".metaData.alias = "@g";
-              # "Amazon".metaData.alias = "@a";
+              bing.metaData.alias = "@b";
+              google.metaData.alias = "@g";
+              # amazon.metaData.alias = "@a";
             };
           };
         };

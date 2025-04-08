@@ -1,7 +1,4 @@
-{ lib, buildHomeAssistantComponent, fetchFromGitHub,
-
-# dependencies
-python313Packages }:
+{ lib, buildHomeAssistantComponent, fetchFromGitHub, python313Packages }:
 
 buildHomeAssistantComponent rec {
   owner = "make-all";
