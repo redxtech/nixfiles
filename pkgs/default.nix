@@ -42,7 +42,6 @@
     pkgs.callPackage ./home-assistant/components/browser-mod { };
   home-assistant-dwains-dashboard =
     pkgs.callPackage ./home-assistant/components/dwains-dashboard { };
-  home-assistant-grocy = pkgs.callPackage ./home-assistant/components/grocy { };
   home-assistant-mail-and-packages =
     pkgs.callPackage ./home-assistant/components/mail-and-packages { };
   home-assistant-node-red =
@@ -64,8 +63,6 @@
     pkgs.callPackage ./home-assistant/lovelace/config-template-card { };
   home-assistant-lovelace-custom-brand-icons =
     pkgs.callPackage ./home-assistant/lovelace/custom-brand-icons { };
-  home-assistant-lovelace-grocy-chores-card =
-    pkgs.callPackage ./home-assistant/lovelace/grocy-chores-card { };
   home-assistant-lovelace-ha-firemote =
     pkgs.callPackage ./home-assistant/lovelace/ha-firemote { };
   home-assistant-lovelace-horizon-card =

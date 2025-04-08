@@ -156,7 +156,6 @@ in {
         home-assistant-bermuda
         home-assistant-browser-mod
         # home-assistant-dwains-dashboard # NOTE: re-enable when issue #829 is fixed
-        home-assistant-grocy
         (home-assistant-mail-and-packages.override {
           customConfigDir = "${cfg.paths.config}/homeassistant";
         })
@@ -187,7 +186,6 @@ in {
           home-assistant-lovelace-card-tools
           # home-assistant-lovelace-config-template-card
           home-assistant-lovelace-custom-brand-icons
-          home-assistant-lovelace-grocy-chores-card
           home-assistant-lovelace-ha-firemote
           home-assistant-lovelace-horizon-card
           # home-assistant-lovelace-layout-card
