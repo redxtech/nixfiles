@@ -2,14 +2,14 @@
 
 let
   pname = "ente-desktop";
-  version = "1.7.4";
+  version = "1.7.11";
   name = "${pname}-${version}";
 
   src = fetchurl {
     url =
       "https://github.com/ente-io/photos-desktop/releases/download/v${version}/ente-${version}-x86_64.AppImage";
     name = "${name}.AppImage";
-    hash = "sha256-6HXc0QXmgjbamrTI53u8SfbDPKnwr4TgOcuX+NBTQFY=";
+    hash = "sha256-c0ivgA0y9UiSTJadlizdkOM7FKfdRq+nsenuYf8fjEQ=";
   };
 
   appimageContents = appimageTools.extractType2 { inherit pname version src; };
