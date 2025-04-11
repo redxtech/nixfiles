@@ -61,9 +61,6 @@ in {
         mpv
 
         # theme packages
-        catppuccin-sddm-corners
-        # sddm-chili-theme
-
         dracula-theme
         papirus-icon-theme
         vimix-icon-theme
