@@ -9,14 +9,12 @@
   iosevka-custom = stable.callPackage ./iosevka-custom { };
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
   seabird = stable.callPackage ./seabird { };
-  syspower = pkgs.callPackage ./syspower { };
   vimix-hyprcursor = pkgs.callPackage ./vimix-hyprcursor { };
 
   # personal scripts
   switchup = pkgs.callPackage ./switchup { };
   nix-inspect = pkgs.callPackage ./nix-inspect { };
   minicava = pkgs.callPackage ./minicava { };
-  lyrics = pkgs.python3Packages.callPackage ./lyrics { };
   reboot-to-windows = pkgs.callPackage ./reboot-to-windows { };
 
   # python packages

@@ -1,16 +1,30 @@
-{ stdenv, fetchFromGitHub, curl, gh, unzip, p7zip }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  curl,
+  gh,
+  unzip,
+  p7zip,
+  nix-update-script,
+}:
 
 stdenv.mkDerivation rec {
   pname = "switchup";
-  version = "v0.0.1";
+  version = "nightly-unstable-2024-03-02";
   src = fetchFromGitHub {
     owner = "redxtech";
     repo = "switchup";
-    rev = "80096cae493f1ce713602ccc1b2479045384869d";
-    hash = "sha256-o1hkufkn/QYPx62L+Zl6WZFp5fJECe/qZiUGd2T9jzE=";
+    rev = "c064674b280b341eb3d7b9f4b76b12bd89f81d02";
+    hash = "sha256-A5bOwoQJE1GAcCKyweVb4rjkWJ2d8T4JI/+WT4Empnw=";
   };
 
-  propagatedBuildInputs = [ curl gh unzip p7zip ];
+  propagatedBuildInputs = [
+    curl
+    gh
+    unzip
+    p7zip
+  ];
 
   installPhase = ''
     install -dm 755 $out/bin
@@ -19,4 +33,16 @@ stdenv.mkDerivation rec {
     cp --no-preserve='ownership' ${src}/bin/switchup $out/bin
     cp -r --no-preserve='ownership' ${src}/share/switchup $out/share
   '';
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = [ "--version=branch" ];
+  };
+
+  meta = with lib; {
+    description = "Script to create an SD card for a modded Nintendo Switch";
+    homepage = "https://github.com/redxtech/switchup";
+    license = licenses.mit;
+    platforms = platforms.linux;
+    maintainers = with maintainers; [ redxtech ];
+  };
 }

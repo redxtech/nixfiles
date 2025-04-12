@@ -1,6 +1,22 @@
-{ lib, buildGoModule, fetchFromGitHub, wrapGAppsHook, pkg-config, glib, graphene
-, gobject-introspection, gdk-pixbuf, pango, gtk4, gtksourceview5, libadwaita
-, libxml2, imagemagick, vte-gtk4 }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  wrapGAppsHook,
+  pkg-config,
+  glib,
+  graphene,
+  gobject-introspection,
+  gdk-pixbuf,
+  pango,
+  gtk4,
+  gtksourceview5,
+  libadwaita,
+  libxml2,
+  imagemagick,
+  vte-gtk4,
+  nix-update-script,
+}:
 
 buildGoModule rec {
   pname = "seabird";
@@ -15,7 +31,13 @@ buildGoModule rec {
 
   vendorHash = "sha256-4o9z4XjtW7kNHAb8L0kuq9rgQzTwvAAXcl6+RIGjmqI=";
 
-  nativeBuildInputs = [ wrapGAppsHook pkg-config glib.dev libxml2 imagemagick ];
+  nativeBuildInputs = [
+    wrapGAppsHook
+    pkg-config
+    glib.dev
+    libxml2
+    imagemagick
+  ];
   buildInputs = [
     glib.dev
     graphene
@@ -41,6 +63,8 @@ buildGoModule rec {
       convert -background none -resize ''${i}x''${i} ./internal/icon/seabird.svg $out/share/icons/hicolor/''${i}x''${i}/apps/dev.skynomads.Seabird.png
     done
   '';
+
+  passthru.updateScript = nix-update-script { };
 
   meta = with lib; {
     description = "Native Kubernetes desktop client.";

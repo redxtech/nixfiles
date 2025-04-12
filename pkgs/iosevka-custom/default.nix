@@ -1,4 +1,8 @@
-{ iosevka, cores ? 8, ... }:
+{
+  iosevka,
+  cores ? 8,
+  ...
+}:
 
 (iosevka.override {
   set = "Custom";
@@ -25,9 +29,10 @@
       };
     };
   };
-}).overrideAttrs (oldAttrs: {
-  # takes previous buildPhase and substitites "$NIX_BUILD_CORES" with the number of cores
-  buildPhase =
-    builtins.replaceStrings [ "$NIX_BUILD_CORES" ] [ "${toString cores}" ]
-    oldAttrs.buildPhase;
-})
+}).overrideAttrs
+  (oldAttrs: {
+    # takes previous buildPhase and substitites "$NIX_BUILD_CORES" with the number of cores
+    buildPhase =
+      builtins.replaceStrings [ "$NIX_BUILD_CORES" ] [ "${toString cores}" ]
+        oldAttrs.buildPhase;
+  })

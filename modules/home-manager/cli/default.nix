@@ -99,7 +99,6 @@ in {
           lsb-release # get distro info
           lsof # list open files
           lshw # hardware info
-          lyrics # lyrics in terminal
           manix # nix documentation tool
           mediainfo # media info
           megatools # mega.io cli

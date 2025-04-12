@@ -1,16 +1,18 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, makeWrapper
-, cava
-, gnused
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  makeWrapper,
+  cava,
+  gnused,
+  nix-update-script,
 }:
 
 with lib;
 
 stdenv.mkDerivation {
   pname = "minicava";
-  version = "0.1";
+  version = "0-unstable-2023-01-28";
   src = fetchFromGitHub {
     owner = "Misterio77";
     repo = "minicava";
@@ -26,11 +28,15 @@ stdenv.mkDerivation {
   installPhase = ''
     install -Dm 0755 minicava.sh $out/bin/minicava
     wrapProgram $out/bin/minicava --set PATH \
-      "${makeBinPath [
-        cava
-        gnused
-      ]}"
+      "${
+        makeBinPath [
+          cava
+          gnused
+        ]
+      }"
   '';
+
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch" ]; };
 
   meta = {
     description = "A miniature cava sound visualizer";

@@ -1,8 +1,14 @@
-{ lib, stdenv, fetchFromGitHub, nix-update-script, hyprcursor }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  nix-update-script,
+  hyprcursor,
+}:
 
 stdenv.mkDerivation {
   pname = "vimix-hyprcursor";
-  version = "2024-10-20";
+  version = "0-unstable-2024-09-20";
 
   src = fetchFromGitHub {
     owner = "BlackFuffey";
@@ -27,7 +33,9 @@ stdenv.mkDerivation {
     runHook postBuild
   '';
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = nix-update-script {
+    extraArgs = [ "--version=branch" ];
+  };
 
   meta = {
     description = "Vimix theme for Hyprcursor";

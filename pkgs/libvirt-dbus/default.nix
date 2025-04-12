@@ -1,5 +1,15 @@
-{ lib, stdenv, fetchFromGitLab, meson, pkg-config, glib, libvirt, libvirt-glib
-, docutils, ninja }:
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  meson,
+  pkg-config,
+  glib,
+  libvirt,
+  libvirt-glib,
+  docutils,
+  ninja,
+}:
 
 stdenv.mkDerivation rec {
   pname = "libvirt-dbus";
@@ -14,8 +24,17 @@ stdenv.mkDerivation rec {
 
   mesonFlags = [ "-Dsystem_user=root" ];
 
-  nativeBuildInputs = [ meson pkg-config docutils ninja ];
-  buildInputs = [ glib libvirt libvirt-glib ];
+  nativeBuildInputs = [
+    meson
+    pkg-config
+    docutils
+    ninja
+  ];
+  buildInputs = [
+    glib
+    libvirt
+    libvirt-glib
+  ];
 
   meta = with lib; {
     description = "DBus protocol binding for libvirt native C API";

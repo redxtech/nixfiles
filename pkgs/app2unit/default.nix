@@ -1,22 +1,36 @@
-{ lib, stdenv, fetchFromGitHub, coreutils, xdg-terminal-exec, libnotify }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  coreutils,
+  xdg-terminal-exec,
+  libnotify,
+  nix-update-script,
+}:
 
 stdenv.mkDerivation {
   pname = "app2unit";
-  version = "2025-03-18";
+  version = "0-unstable-2025-04-03";
 
   src = fetchFromGitHub {
     owner = "Vladimir-csp";
     repo = "app2unit";
-    rev = "b9c13a696f5af7518550cad8184fe817650f520d";
-    hash = "sha256-Xv2+yKBvl88wAP256R4GGCaeIQzn70MXDJAi0UzSxx8=";
+    rev = "44b5da8a6f1e5449d3c2a8b63dc54875bb7e10af";
+    hash = "sha256-SJVGMES0tmdAhh2u8IpGAITtSnDrgSfOQbDX9RhOc/M=";
   };
 
-  buildInputs = [ coreutils xdg-terminal-exec libnotify ];
+  buildInputs = [
+    coreutils
+    xdg-terminal-exec
+    libnotify
+  ];
 
   installPhase = ''
     mkdir -p $out/bin
     cp app2unit $out/bin
   '';
+
+  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch" ]; };
 
   meta = {
     description = "A simple app launcher for X11 and Wayland";
