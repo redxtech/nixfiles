@@ -24,6 +24,7 @@ in {
       postman # api client
       plexamp # plex audio player
       prismlauncher # minecraft launcher
+      r2modman # mod manager
       via # keyboard flasher
       vscode-fhs # vs-code with fhs environment
     ];
@@ -138,7 +139,7 @@ in {
         "qimgv"
         "net.lutris.Lutris"
         "mpv"
-        "Minecraft*"
+        "Minecraft\\*\\s(\\d\\.?)+"
         "MQTT-Explorer"
         "neovide"
         "org.prismlauncher.PrismLauncher"
@@ -146,7 +147,7 @@ in {
         "steam"
         "tauonmb"
         "thunderbird"
-        "virt-manager"
+        "\\.?virt-manager(-wrapped)?"
       ]);
 
       binds = with pkgs;
