@@ -41,7 +41,7 @@
   network = {
     enable = true;
     isHost = true;
-    ip = "192.168.1.191";
+    ip = "192.168.50.208";
     tunnelID = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
 
     services = {
