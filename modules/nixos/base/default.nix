@@ -44,7 +44,7 @@ in {
 
     tz = mkOption {
       type = str;
-      default = "America/Vancouver";
+      default = "America/Edmonton";
       description = "The timezone of the machine.";
     };
 
