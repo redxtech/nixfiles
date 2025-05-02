@@ -11,7 +11,7 @@
   base = {
     enable = true;
     hostname = "quasar";
-    dockerDNS = [ "192.168.1.1" ];
+    dockerDNS = [ "192.168.50.1" ];
 
     fs = {
       btrfs = true;

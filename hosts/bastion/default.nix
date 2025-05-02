@@ -7,7 +7,7 @@
     enable = true;
     hostname = "bastion";
     fs.btrfs = true;
-    dockerDNS = [ "192.168.1.1" ];
+    dockerDNS = [ "192.168.50.1" ];
     yubiauth.lockOnRemove.enable = true;
 
     gpu = {
