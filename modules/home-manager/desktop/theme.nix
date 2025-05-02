@@ -81,8 +81,8 @@ in {
     };
 
     home.pointerCursor = {
-      name = "Vimix-cursors";
-      package = pkgs.vimix-cursors;
+      name = "Vimix Cursors";
+      package = pkgs.vimix-hyprcursor;
 
       hyprcursor = {
         enable = true;

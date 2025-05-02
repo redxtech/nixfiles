@@ -100,7 +100,7 @@ in {
           rust-analyzer-nightly
           graphviz # for rust-analyzer
         ];
-        python = with pkgs; [ black ruff-lsp python3Packages.debugpy pyright ];
+        python = with pkgs; [ black ruff python3Packages.debugpy pyright ];
         shell = with pkgs; [
           shellcheck
           shfmt

@@ -169,7 +169,7 @@ in {
         }
       '';
 
-      initExtra = ''
+      initContent = ''
         ${optionalString cfg.enableSyntaxCompletionsSuggestions ''
           zinit wait lucid for \
             atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \

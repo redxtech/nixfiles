@@ -29,7 +29,7 @@ in {
       enable = true;
       enableSshSupport = true;
       sshKeys = [ "11148591F2B2026E9B2227BD5C7A1973A2838278" ];
-      pinentryPackage = if config.desktop.enable then
+      pinentry.package = if config.desktop.enable then
         pkgs.pinentry-gnome3
       else
         pkgs.pinentry-curses;
@@ -42,7 +42,7 @@ in {
 
     # do it ourselves until PR merged
     programs.bash.initExtra = gpgInitStr;
-    programs.zsh.initExtra = gpgInitStr;
+    programs.zsh.initContent = gpgInitStr;
     programs.fish.interactiveShellInit = gpgFishInitStr;
 
     programs.gpg = {

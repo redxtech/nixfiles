@@ -43,7 +43,7 @@ in {
         };
       };
 
-      initExtra = ''
+      initContent = ''
         # more zsh options
         setopt append_history             # each shell adds its history on exit
         setopt extended_glob              # include #, ^, & ~ in globbing
