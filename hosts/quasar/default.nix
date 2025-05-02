@@ -24,13 +24,7 @@
     };
   };
 
-  desktop = {
-    enable = true;
-    wm = "gnome";
-  };
-
-  # disable display manager, since it's headless
-  systemd.units."display-manager.service".enable = lib.mkForce false;
+  services.xremap.enable = false;
 
   nas = {
     enable = true;

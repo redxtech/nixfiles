@@ -121,7 +121,7 @@ in {
 
       xremap = {
         enable = cfg.remap;
-        withX11 = true;
+        withHypr = true;
         config.modmap = [{
           name = "Global";
           remap = cfg.remaps;
