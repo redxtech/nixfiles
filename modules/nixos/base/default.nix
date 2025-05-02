@@ -163,8 +163,10 @@ in {
 
       binfmt.emulatedSystems = [ "aarch64-linux" "x86_64-windows" ];
 
-      supportedFilesystems = (optional cfg.fs.btrfs "btrfs")
-        ++ (optional cfg.fs.zfs "zfs");
+      supportedFilesystems = {
+        btrfs = mkIf cfg.fs.btrfs true;
+        zfs = mkIf cfg.fs.zfs true;
+      };
       zfs.forceImportRoot = mkIf cfg.fs.zfs (mkDefault false);
       consoleLogLevel = 0;
     };

@@ -53,9 +53,18 @@ in {
 
     # ensure latest kernel & filesystem pkgs are installed
     boot = {
-      kernelPackages = pkgs.linuxPackages_zen;
-      supportedFilesystems =
-        [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" "ext4" ];
+      kernelPackages = pkgs.linuxPackages_latest;
+      supportedFilesystems = {
+        btrfs = true;
+        cifs = true;
+        ext4 = true;
+        f2fs = true;
+        ntfs = true;
+        reiserfs = true;
+        vfat = true;
+        xfs = true;
+        zfs = false;
+      };
     };
 
     networking.networkmanager.enable = true;
