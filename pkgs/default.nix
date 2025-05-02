@@ -18,9 +18,6 @@
   reboot-to-windows = pkgs.callPackage ./reboot-to-windows { };
 
   # python packages
-  python-music-assistant =
-    pkgs.python3Packages.callPackage ./python/music-assistant { };
-  soundcloudpy = pkgs.python3Packages.callPackage ./python/soundcloudpy { };
   python-unifi-ap = pkgs.python3Packages.callPackage ./python/unifi-ap { };
 
   # cockpit modules
