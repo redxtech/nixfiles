@@ -30,16 +30,12 @@ in {
         lastfm
         # oldSidebar
         playlistIcons
-        playlistIntersection
-        playNext
+        # playNext
         powerBar
-        savePlaylists
         seekSong
         showQueueDuration
-        skipStats
+        # skipStats
         songStats
-        wikify
-        writeify
       ];
 
       enabledCustomApps = with pkgs.spicePkgs.apps; [
