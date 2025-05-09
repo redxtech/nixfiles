@@ -9,6 +9,7 @@ in {
   config = mkIf isHyprland {
     home.packages = with pkgs; [
       nwg-displays # monitor manager
+      nwg-look # theme manager
       satty # image editor
       wdisplays # monitor manager
     ];

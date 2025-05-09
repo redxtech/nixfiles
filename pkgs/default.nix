@@ -9,6 +9,7 @@
   iosevka-custom = stable.callPackage ./iosevka-custom { };
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
   seabird = stable.callPackage ./seabird { };
+  vimix-cursor-theme = pkgs.callPackage ./vimix-cursor-theme { };
   vimix-hyprcursor = pkgs.callPackage ./vimix-hyprcursor { };
 
   # personal scripts
