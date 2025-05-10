@@ -139,7 +139,7 @@ in {
         "qimgv"
         "net.lutris.Lutris"
         "mpv"
-        "Minecraft\\*\\s(\\d\\.?)+"
+        "Minecraft\\*?\\s(\\d\\.?)+"
         "MQTT-Explorer"
         "neovide"
         "org.prismlauncher.PrismLauncher"
