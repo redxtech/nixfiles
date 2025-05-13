@@ -43,7 +43,7 @@
     tunnelID = "10f40833-b341-4f16-9920-2b5796744e15";
   };
 
-  networking.firewall.allowedTCPPorts = [ 25565 ];
+  networking.firewall.allowedTCPPorts = [ 25565 24454 ];
 
   monitoring.enable = true;
 
