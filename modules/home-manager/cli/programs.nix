@@ -283,8 +283,6 @@ in {
         '';
       };
 
-      yazi.enable = true;
-
       yt-dlp = {
         enable = true;
 

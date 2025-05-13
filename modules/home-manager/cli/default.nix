@@ -17,6 +17,7 @@ in {
     ./services.nix
     ./starship.nix
     ./ssh.nix
+    ./yazi.nix
     ./zsh.nix
   ];
 
