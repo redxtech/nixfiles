@@ -1,22 +1,14 @@
-{ pkgs, lib, config, stable, ... }:
+{ config, lib, stable, ... }:
 
 let
   inherit (lib) mkIf;
   cfg = config.desktop.ai;
 in {
-  options.desktop.ai = let
-    inherit (lib) mkEnableOption;
-    mkEnabledOption = description:
-      lib.mkOption {
-        inherit description;
-        type = lib.types.bool;
-        default = true;
-      };
+  options.desktop.ai = let inherit (lib) mkEnableOption;
   in {
     enable = mkEnableOption "Enable gaming-related settings.";
 
     web-ui = mkEnableOption "Enable the web UI for Ollama.";
-    lmstudio = mkEnabledOption "Enable LM Studio.";
   };
 
   config = mkIf (cfg.enable) {
@@ -51,9 +43,6 @@ in {
     # override the service to use the correct binary, until https://github.com/NixOS/nixpkgs/pull/319456 is merged
     systemd.services.nextjs-ollama-llm-ui.serviceConfig.ExecStart =
       lib.mkForce "${lib.getExe config.services.nextjs-ollama-llm-ui.package}";
-
-    environment.systemPackages = with pkgs;
-      lib.optionals cfg.lmstudio [ lmstudio ];
   };
 }
 

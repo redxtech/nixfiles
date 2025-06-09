@@ -148,7 +148,6 @@ in {
           yadm # dotfile manager
           yq-go # jq for yaml
           vcs # video contact sheet
-          ventoy # bootable usb creator
           vulnix # nix security checker
           zip # archiver
 
@@ -260,7 +259,11 @@ in {
 
     programs = {
       bash.enable = true;
-      thefuck.enable = true;
+
+      pay-respects = {
+        enable = true;
+        enableFishIntegration = true;
+      };
 
       mcfly = {
         enable = true;

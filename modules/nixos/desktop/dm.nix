@@ -36,7 +36,7 @@ in {
       };
 
       # set gdm to use wayland
-      xserver.displayManager.gdm.wayland = true;
+      displayManager.gdm.wayland = true;
     };
   };
 }

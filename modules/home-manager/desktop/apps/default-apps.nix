@@ -4,7 +4,6 @@ let cfg = config.desktop;
 in {
   config = lib.mkIf cfg.enable {
     xdg.mimeApps = let
-      vivaldiDesktop = "vivaldi.desktop";
       firefox = "firefox-nightly.desktop";
 
       images = [ "qimgv.desktop" "feh.desktop" "org.gnome.gThumb.desktop" ];
@@ -17,11 +16,10 @@ in {
         "image/png" = images;
         "image/gif" = images;
         "image/svg+xml" = images
-          ++ [ "nvim.desktop" "sublime_text.desktop" firefox vivaldiDesktop ];
+          ++ [ "nvim.desktop" "sublime_text.desktop" firefox ];
         "application/xml" = [ "nvim.desktop" "sublime_text.desktop" ];
         "text/plain" = [ "nvim.desktop" "sublime_text.desktop" ];
-        "text/html" =
-          [ firefox vivaldiDesktop "nvim.desktop" "sublime_text.desktop" ];
+        "text/html" = [ firefox "nvim.desktop" "sublime_text.desktop" ];
         "application/javascript" = [ "nvim.desktop" "sublime_text.desktop" ];
         "application/json" = [
           "org.gnome.TextEditor.desktop"

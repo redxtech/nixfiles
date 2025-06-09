@@ -30,7 +30,6 @@ in {
           "class_g = 'Bar'"
           "class_g = 'slop'"
           "class_g = 'mpv'"
-          "class_g = 'Vivaldi-stable'"
           "class_g = 'plexmediaplayer'"
           "class_g = 'vlc'"
           "class_g = 'Io.github.celluloid_player.Celluloid'"

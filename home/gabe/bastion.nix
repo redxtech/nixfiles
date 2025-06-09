@@ -31,7 +31,6 @@
       seabird # k8s gui
       telegram-desktop # telegram
       vdhcoapp # download helper
-      vivaldi # web browser
     ];
 
     hardware = {

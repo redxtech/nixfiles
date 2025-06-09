@@ -7,21 +7,23 @@ in {
     services.mako = {
       enable = true;
 
-      format = ''<span weight="bold" size="x-large">%s - %a</span>\n%b'';
+      settings = {
+        format = ''<span weight="bold" size="x-large">%s - %a</span>\n%b'';
 
-      font = "NotoSans Nerd Font Regular 12";
-      width = 400;
+        font = "NotoSans Nerd Font Regular 12";
+        width = 400;
 
-      textColor = config.user-theme.purple;
-      backgroundColor = "${config.user-theme.bg}B0";
-      borderColor = config.user-theme.purple;
-      borderSize = 2;
-      padding = "8";
-      margin = "5";
-      iconPath = "${pkgs.papirus-icon-theme}/share/icons/Papirus-Dark";
+        text-color = config.user-theme.purple;
+        background-color = "${config.user-theme.bg}B0";
+        border-color = config.user-theme.purple;
+        border-size = 2;
+        padding = "8";
+        margin = "5";
+        icon-path = "${pkgs.papirus-icon-theme}/share/icons/Papirus-Dark";
 
-      defaultTimeout = 5000; # 5 seconds
-      maxVisible = -1;
+        default-timeout = 5000; # 5 seconds
+        max-visible = -1;
+      };
 
       extraConfig = with config.user-theme; ''
         on-button-middle=dismiss-all

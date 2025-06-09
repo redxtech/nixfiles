@@ -27,7 +27,6 @@ in {
 
         # enable bspwm or gnome if selected
         windowManager.bspwm.enable = isBspwm;
-        desktopManager.gnome.enable = isGnome;
 
         # disable suspend and screen blanking
         serverFlagsSection = ''
@@ -36,6 +35,8 @@ in {
           Option "OffTime" "0"
         '';
       };
+
+      desktopManager.gnome.enable = isGnome;
 
       displayManager.defaultSession = {
         bspwm = "none+bspwm";

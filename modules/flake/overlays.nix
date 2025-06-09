@@ -51,12 +51,6 @@
             [ prev.xfce.thunar-archive-plugin prev.xfce.thunar-volman ];
         };
 
-        vivaldi = prev.vivaldi.override {
-          commandLineArgs = "--force-dark-mode";
-          proprietaryCodecs = true;
-          # enableWidevine = true; # TODO: vivaldi crashes when this is enabled, need to fix
-        };
-
         zinit = prev.zinit.overrideAttrs (oldAttrs: {
           installPhase = ''
             outdir="$out/share/$pname"
