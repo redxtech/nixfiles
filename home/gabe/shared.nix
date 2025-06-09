@@ -130,6 +130,7 @@ in {
       }) [
         "ancify launcher.desktop.exe"
         "beekeeper-studio"
+        "com.obsproject.Studio"
         "ente"
         "feh"
         "feishin"

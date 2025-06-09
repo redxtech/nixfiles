@@ -100,5 +100,17 @@ in {
 
     xdg.dataFile."fonts".source = config.lib.file.mkOutOfStoreSymlink
       /run/current-system/sw/share/X11/fonts;
+
+    xdg.desktopEntries."obs" = {
+      name = "OBS Studio";
+      genericName = "Streaming/Recording Software";
+      comment = "Free and Open Source Streaming/Recording Software";
+      icon = "com.obsproject.Studio";
+      exec = "${pkgs.flatpak}/bin/flatpak run com.obsproject.Studio";
+      settings.StartupNotify = "true";
+      settings.StartupWMClass = "obs";
+      type = "Application";
+      categories = [ "AudioVideo" "Recorder" ];
+    };
   };
 }
