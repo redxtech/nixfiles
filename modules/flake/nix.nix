@@ -27,6 +27,7 @@
           warn-dirty = false;
           system-features = [ "kvm" "big-parallel" "nixos-test" ];
           allow-import-from-derivation = true;
+					download-buffer-size = 1073741824;
         };
 
         # add each flake input as a registry
