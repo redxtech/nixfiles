@@ -139,7 +139,7 @@ in {
         environment = defaultEnv // {
           DOCKER_MODS = "linuxserver/mods:universal-calibre";
         };
-        ports = [ (mkPort cfg.ports.calibre-web 8083) ];
+        ports = [ (mkPorts cfg.ports.calibre-web) ];
         volumes = [
           (mkConf "calibre-web")
           (cfg.paths.config + "/calibre/Calibre Library:/books")

@@ -27,7 +27,7 @@ in {
     calibre = 8805;
     calibre-ssl = 8804;
     calibre-server = 8806;
-    calibre-web = 8807;
+    calibre-web = 8083;
     calibre-device = 8808;
     cockpit = 9090;
     deluge = 8112;
