@@ -137,7 +137,9 @@ in {
           "${mkTLRstr "books"}.middlewares" = "homeassistant-allow-iframe@file";
         };
         environment = defaultEnv // {
-          DOCKER_MODS = "linuxserver/mods:universal-calibre";
+          DOCKER_MODS =
+            "linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install";
+          INSTALL_PIP_PACKAGES = "jsonschema";
         };
         ports = [ (mkPorts cfg.ports.calibre-web) ];
         volumes = [

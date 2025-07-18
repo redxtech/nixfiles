@@ -81,13 +81,7 @@ in {
           # };
         };
 
-        includes = [
-          { path = "${config.xdg.configHome}/git/gitconfig.local"; }
-          {
-            condition = "gitdir:${config.home.homeDirectory}/Work/Restiv/";
-            path = "${config.home.homeDirectory}/Work/Restiv/.gitconfig";
-          }
-        ];
+        includes = [{ path = "${config.xdg.configHome}/git/gitconfig.local"; }];
 
         difftastic = {
           enable = true;
