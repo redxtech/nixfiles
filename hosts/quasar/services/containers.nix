@@ -454,9 +454,14 @@ in {
           };
         };
         environment = defaultEnv // {
-          WEBUI_PORT = "${toString cfg.ports.qbit}";
+          WEBUI_PORT = toString cfg.ports.qbit;
+          TORRENTING_PORT = toString cfg.ports.qbit-torrent;
         };
-        ports = [ (mkPorts cfg.ports.qbit) "6881:6881" "6881:6881/udp" ];
+        ports = [
+          (mkPorts cfg.ports.qbit)
+          (mkPorts cfg.ports.qbit-torrent)
+          "${mkPorts cfg.ports.qbit-torrent}/udp"
+        ];
         volumes = [
           (mkConf "qbit")
           (cfg.paths.downloads + "/deluge:/downloads")
@@ -480,9 +485,14 @@ in {
           };
         };
         environment = defaultEnv // {
-          WEBUI_PORT = "${toString cfg.ports.qbit-alt}";
+          WEBUI_PORT = toString cfg.ports.qbit-alt;
+          TORRENTING_PORT = toString cfg.ports.qbit-alt-torrent;
         };
-        ports = [ (mkPorts cfg.ports.qbit-alt) "6882:6882" "6882:6882/udp" ];
+        ports = [
+          (mkPorts cfg.ports.qbit-alt)
+          (mkPorts cfg.ports.qbit-alt-torrent)
+          "${mkPorts cfg.ports.qbit-alt-torrent}/udp"
+        ];
         volumes = [
           (mkConf "qbit-alt")
           (cfg.paths.downloads + "/qbit:/downloads")

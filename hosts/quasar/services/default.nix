@@ -53,7 +53,9 @@ in {
     portainer-agent = 9001;
     prowlarr = 9696;
     qbit = 8811;
+    qbit-torrent = 46881;
     qbit-alt = 8810;
+    qbit-alt-torrent = 6882;
     qdirstat = 9030;
     radarr = 7878;
     sonarr = 8989;
