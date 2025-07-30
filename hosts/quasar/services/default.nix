@@ -39,6 +39,7 @@ in {
     jackett = 9117;
     jdownloader = 5800;
     jellyfin = 8096;
+    jellyfin-alt = 8098;
     jellyfin-vue = 8099;
     jellyseerr = 5055;
     kiwix = 9060;

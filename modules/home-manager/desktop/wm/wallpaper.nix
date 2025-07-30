@@ -28,6 +28,7 @@ in {
 
       services.wallpaper = {
         Unit.Description = "Change wallpaper to random image";
+        Install.WantedBy = [ "graphical-session.target" ];
         Service = {
           Type = "oneshot";
           ExecStart = let

@@ -265,6 +265,27 @@ in {
         ];
       };
 
+      jellyfin-alt = {
+        image = "lscr.io/linuxserver/jellyfin:latest";
+        labels = mkAllLabels "jellyfin-alt" {
+          name = "jellyfin alt";
+          group = "media";
+          icon = "jellyfin.svg";
+          href = "https://jellyfin-alt.${address}";
+          desc = "media server";
+          weight = -100;
+        };
+        environment = defaultEnv // {
+          JELLYFIN_PublishedServerUrl = "jellyfin-alt.${address}";
+          NVIDIA_VISIBLE_DEVICES = "all";
+        };
+        ports = [ (mkPort cfg.ports.jellyfin-alt 8096) ];
+        volumes = [
+          (mkConf "jellyfin-alt")
+          (cfg.paths.downloads + "/qbit:/downloads")
+        ];
+      };
+
       jellyfin-vue = {
         image = "ghcr.io/jellyfin/jellyfin-vue:unstable";
         labels = mkAllLabels "jellyfin-vue" {
