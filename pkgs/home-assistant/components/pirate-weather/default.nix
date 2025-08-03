@@ -4,6 +4,15 @@ let
   python-forecastio = python313Packages.buildPythonPackage {
     pname = "python-forecastio";
     version = "1.4.0";
+
+    pyproject = true;
+    buildSystem = with python313Packages; [ setuptools ];
+    propagatedBuildInputs = with python313Packages; [
+      setuptools
+      requests
+      responses
+    ];
+
     src = fetchFromGitHub {
       owner = "ZeevG";
       repo = "python-forecast.io";

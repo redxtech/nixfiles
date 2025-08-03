@@ -61,7 +61,7 @@ in {
       # "dlink"
       "dominos" # could be huge
       "energy"
-      "environment_canada"
+      # "environment_canada" # broken (python-imageio)
       "epic_games_store"
       "esphome"
       "event"

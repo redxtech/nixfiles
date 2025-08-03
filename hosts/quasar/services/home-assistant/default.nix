@@ -155,9 +155,6 @@ in {
         home-assistant-bermuda
         home-assistant-browser-mod
         # home-assistant-dwains-dashboard # NOTE: re-enable when issue #829 is fixed
-        (home-assistant-mail-and-packages.override {
-          customConfigDir = "${cfg.paths.config}/homeassistant";
-        })
         home-assistant-node-red
         home-assistant-pirate-weather
         home-assistant-spotcast
@@ -210,13 +207,6 @@ in {
         host   hass  hass  samehost      trust
         host   hass  hass  bastion       scram-sha-256
       '';
-    };
-
-    services.wyoming.openwakeword = {
-      enable = true;
-      package = pkgs.wyoming-openwakeword.override {
-        python3Packages = pkgs.python311Packages;
-      };
     };
 
     sops.secrets."homeassistant_secrets.yaml" = {

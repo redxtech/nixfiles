@@ -76,13 +76,11 @@ in {
       config.common.default = "*";
     };
 
-    systemd = {
-      # fix shutdown taking a long time
-      # https://gist.github.com/worldofpeace/27fcdcb111ddf58ba1227bf63501a5fe
-      extraConfig = ''
-        DefaultTimeoutStopSec=10s
-        DefaultTimeoutStartSec=10s
-      '';
+    # fix shutdown taking a long time
+    # https://gist.github.com/worldofpeace/27fcdcb111ddf58ba1227bf63501a5fe
+    systemd.settings.Manager = {
+      DefaultTimeoutStopSec = "10s";
+      DefaultTimeoutStartSec = "10s";
     };
 
     environment.sessionVariables.NIXOS_OZONE_WL =

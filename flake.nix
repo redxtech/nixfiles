@@ -33,9 +33,6 @@
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
-    solaar.url = "github:redxtech/Solaar-Flake/main";
-    solaar.inputs.nixpkgs.follows = "nixpkgs";
-
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -58,6 +55,7 @@
     nix-serve-ng.url = "github:aristanetworks/nix-serve-ng";
     quickgui.url =
       "https://flakehub.com/f/quickemu-project/quickgui/1.2.10.tar.gz";
+    solaar.url = "github:Svenum/Solaar-Flake/main";
     swww.url = "github:LGFae/swww";
     xremap-flake.url = "github:xremap/nix-flake";
     nur.url = "github:nix-community/NUR";

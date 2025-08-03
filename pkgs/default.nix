@@ -38,8 +38,6 @@
     pkgs.callPackage ./home-assistant/components/browser-mod { };
   home-assistant-dwains-dashboard =
     pkgs.callPackage ./home-assistant/components/dwains-dashboard { };
-  home-assistant-mail-and-packages =
-    pkgs.callPackage ./home-assistant/components/mail-and-packages { };
   home-assistant-node-red =
     pkgs.callPackage ./home-assistant/components/node-red { };
   home-assistant-pirate-weather =

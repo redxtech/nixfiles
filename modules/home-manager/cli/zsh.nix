@@ -10,7 +10,7 @@ in {
 
       autocd = true;
       defaultKeymap = "viins";
-      dotDir = ".config/zsh";
+      dotDir = config.xdg.configHome + "/zsh";
 
       history = {
         expireDuplicatesFirst = true;
@@ -18,7 +18,7 @@ in {
         ignoreAllDups = false;
         ignoreDups = true;
         ignoreSpace = true;
-        path = "${config.xdg.dataHome}/zsh/zsh_history";
+        path = config.xdg.dataHome + "/zsh/zsh_history";
         share = true;
         save = 100000;
       };

@@ -84,7 +84,7 @@ in {
           figlet # ascii art
           flatpak # flatpak manager
           frogmouth # markdown reader
-          fusee-launcher # switch rcm loader
+          fusee-nano # switch rcm loader
           fx # better jq
           gallery-dl # image downloader
           glxinfo # opengl info
@@ -154,8 +154,10 @@ in {
           # personal packages
           switchup
 
-          kubecolor
+          # k8s packages
           kubectl
+          kubectl-cnpg
+          kubecolor
           kubectx
           kubeseal
           # telepresence2

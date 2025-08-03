@@ -49,7 +49,7 @@ in {
         bitwarden-desktop # password manager
         discord # chat app
         feishin # music player
-        firefox-devedition-bin
+        firefox-devedition
         stable.jellyfin-mpv-shim # jellyfin mpv integration
         kooha # simple screen recorder
         libsForQt5.kleopatra # gpg gui
