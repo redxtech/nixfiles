@@ -61,6 +61,7 @@ in {
     radarr = 7878;
     sonarr = 8989;
     startpage = 9009;
+    stirling-pdf = 8844;
     syncthing = 8384;
     tautulli = 8181;
     unpoller = 9130;
@@ -68,7 +69,10 @@ in {
     watchtower = 3400;
   };
 
-  network.services = { music = cfg.ports.navidrome; };
+  network.services = {
+    music = cfg.ports.navidrome;
+    stirling = cfg.ports.stirling-pdf;
+  };
 
   services.flood = {
     enable = true;
@@ -114,6 +118,15 @@ in {
       Jukebox.Enabled = true;
       LastFM2.Enabled = true;
       Prometheus.Enabled = true;
+    };
+  };
+
+  services.stirling-pdf = {
+    enable = true;
+
+    environment = {
+      SERVER_PORT = cfg.ports.stirling-pdf;
+      DISABLE_ADDITIONAL_FEATURES = "false";
     };
   };
 
