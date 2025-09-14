@@ -64,6 +64,7 @@ in {
           "$mod SHIFT, Return, exec, [float] ${a2u} kitty.desktop"
           "$mod CTRL, Return, exec, ${a2u} ${pkgs.foot}/bin/footclient"
           "$mod, SPACE, exec, ${a2u} ${scripts.rofi.app-launcher}"
+          "$mod SHIFT, SPACE, exec, ${a2u} ${scripts.rofi.app-launcher-alt}"
           "$mod SHIFT, S, exec, ${a2u} $terminal -e ssh quasar"
           "$mod, W, exec, ${a2u} firefox-nightly.desktop"
           "$mod, G, exec, ${a2u} nemo.desktop"

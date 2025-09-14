@@ -47,6 +47,11 @@ in {
         enable = true;
         indicator = true;
       };
+
+      vicinae = {
+        enable = true;
+        autoStart = true;
+      };
     };
 
     systemd.user.services = mkIf (!config.xsession.enable) {

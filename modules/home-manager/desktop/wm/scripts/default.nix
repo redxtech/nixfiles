@@ -49,6 +49,9 @@ in {
     rofi = {
       app-launcher =
         scriptOpt "${pkgs.fuzzel}/bin/fuzzel" "The application launcher to use";
+      app-launcher-alt =
+        scriptOpt "${config.services.vicinae.package}/bin/vicinae"
+        "The application launcher to use";
       archiver = scriptOpt "${rofi.archiver}/bin/archiver" "Archive script";
       choose-wallpaper =
         scriptOpt "${rofi.choose-wallpaper}/bin/choose-wallpaper"

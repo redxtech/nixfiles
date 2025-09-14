@@ -57,6 +57,7 @@
       "https://flakehub.com/f/quickemu-project/quickgui/1.2.10.tar.gz";
     solaar.url = "github:Svenum/Solaar-Flake/main";
     swww.url = "github:LGFae/swww";
+    vicinae.url = "github:tomromeo/vicinae-nix";
     xremap-flake.url = "github:xremap/nix-flake";
     nur.url = "github:nix-community/NUR";
   };
