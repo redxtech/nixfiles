@@ -27,7 +27,10 @@ in {
       };
 
       services.wallpaper = {
-        Unit.Description = "Change wallpaper to random image";
+        Unit = {
+          Description = "Change wallpaper to random image";
+          After = [ "graphical-session.target" ];
+        };
         Install.WantedBy = [ "graphical-session.target" ];
         Service = {
           Type = "oneshot";

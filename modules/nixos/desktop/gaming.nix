@@ -236,6 +236,9 @@ in {
 
         # tools
         mangohud
+
+        # controller compad
+        SDL2
       ] ++ (lib.optional gaming.sunshine.enable pkgs.moondeck-buddy);
 
     nixpkgs.config.nvidia.acceptLicense = true;

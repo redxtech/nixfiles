@@ -28,7 +28,7 @@ in {
               hyprland =
                 config.programs.uwsm.waylandCompositors.hyprland.binPath;
             in ''
-              ${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd "uwsm start -S -F ${hyprland}"
+              ${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd "uwsm start -F ${hyprland}"
             '';
             user = "greeter";
           };
