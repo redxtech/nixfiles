@@ -39,8 +39,7 @@
           };
         });
 
-        # rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
-        rofi = prev.rofi-wayland.override { plugins = [ prev.rofi-emoji ]; };
+        rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
 
         # use solaar from the flake
         solaar = inputs.solaar.packages.${final.system}.default;

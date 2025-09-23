@@ -16,7 +16,7 @@ in {
     enable = true;
 
     apps = with pkgs; [
-      jellyfin-media-player # jellyfin client
+      # jellyfin-media-player # jellyfin client
       libation # audible client
       libreoffice # office suite
       multiviewer-for-f1 # formula 1 viewer

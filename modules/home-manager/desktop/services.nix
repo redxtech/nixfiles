@@ -51,6 +51,13 @@ in {
       vicinae = {
         enable = true;
         autoStart = true;
+
+        settings = {
+          faviconService = "twenty"; # twenty | google | none
+          popToRootOnClose = true;
+          rootSearch.searchFiles = false;
+          theme.name = "dracula";
+        };
       };
     };
 

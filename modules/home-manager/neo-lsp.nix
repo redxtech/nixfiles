@@ -116,7 +116,7 @@ in {
             ++ (optional cfg.yaml.ansible ansible-language-server)
             ++ (optionals cfg.yaml.kubernetes [ kubectl helm-ls ])
             ++ (optionals cfg.yaml.docker [
-              dockerfile-language-server-nodejs
+              dockerfile-language-server
               docker-compose-language-service
               hadolint
             ]));

@@ -52,8 +52,7 @@ in {
         firefox-devedition
         stable.jellyfin-mpv-shim # jellyfin mpv integration
         kooha # simple screen recorder
-        libsForQt5.kleopatra # gpg gui
-        mqtt-explorer # mqtt client
+        kdePackages.kleopatra # gpg gui
         obsidian # notes app
         pavucontrol # audio control panel
         peazip # file archiver

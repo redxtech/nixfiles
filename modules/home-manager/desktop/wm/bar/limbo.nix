@@ -241,5 +241,7 @@ in {
         };
       };
     };
+
+    systemd.user.services.limbo.Unit.X-Restart-Triggers = lib.mkForce [ ];
   };
 }
