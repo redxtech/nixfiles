@@ -97,10 +97,12 @@ in {
           new_on_top = false;
         };
 
-        gestures = {
-          # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          workspace_swipe = true;
-        };
+        gesture = [
+          "3,horizontal,workspace"
+          "3,vertical,dispatcher,hyprexpo:expo,toggle"
+          "3,pinch,fullscreen"
+          "4,pinch,fullscreen"
+        ];
 
         monitor = let
           res = w: h: "${toString w}x${toString h}";
