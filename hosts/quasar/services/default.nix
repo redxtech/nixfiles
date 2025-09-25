@@ -43,6 +43,7 @@ in {
     jellyfin-vue = 8099;
     jellyseerr = 5055;
     kiwix = 9060;
+    koinsights = 8820;
     ladder = 1313;
     lidarr = 8686;
     music-assistant = 8095;

@@ -119,7 +119,7 @@ in {
       };
 
       calibre-web = {
-        image = "lscr.io/linuxserver/calibre-web:latest";
+        image = "crocodilestick/calibre-web-automated:latest";
         labels = mkAllLabels "books" {
           name = "calibre web";
           group = "media";
@@ -141,10 +141,13 @@ in {
             "linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install";
           INSTALL_PIP_PACKAGES = "jsonschema";
         };
+        environmentFiles =
+          [ config.sops.secrets.CALIBRE_WEB_HARDCOVER_KEY.path ];
         ports = [ (mkPorts cfg.ports.calibre-web) ];
         volumes = [
           (mkConf "calibre-web")
-          (cfg.paths.config + "/calibre/Calibre Library:/books")
+          (cfg.paths.config + "/calibre/Calibre Library:/calibre-library")
+          (cfg.paths.config + "/calibre-web-ingest:/cwa-book-ingest")
         ];
       };
 
@@ -367,6 +370,20 @@ in {
           "wikivoyage_en_all_maxi_2022-06.zim"
           "wiktionary_en_all_maxi_2022-02.zim"
         ];
+      };
+
+      koinsights = {
+        image = "ghcr.io/georgesg/koinsight:latest";
+        labels = mkAllLabels "koinsight" {
+          group = "media";
+          icon = "mdi-book-information-variant";
+          name = "koinsight";
+          href = "https://koinsight.${address}";
+          desc = "reading metrics";
+          weight = -60;
+        };
+        ports = [ (mkPort cfg.ports.koinsights 3000) ];
+        volumes = [ (cfg.paths.config + "koinsight:/app/data") ];
       };
 
       ladder = {
@@ -711,6 +728,7 @@ in {
 
   sops.secrets = {
     "ddclient.conf".sopsFile = ../secrets.yaml;
+    CALIBRE_WEB_HARDCOVER_KEY.sopsFile = ../secrets.yaml;
     calibre_user.sopsFile = ../secrets.yaml;
     calibre_pw.sopsFile = ../secrets.yaml;
     exportarr_sonarr.sopsFile = ../secrets.yaml;
