@@ -7,7 +7,7 @@
     enable = true;
     hostname = "bastion";
     fs.btrfs = true;
-    dockerDNS = [ "192.168.50.1" ];
+    dockerDNS = [ "192.168.1.1" ];
     yubiauth.lockOnRemove.enable = true;
 
     gpu = {
@@ -39,7 +39,7 @@
 
   network = {
     enable = true;
-    ip = "192.168.50.151";
+    ip = "192.168.1.55";
     tunnelID = "10f40833-b341-4f16-9920-2b5796744e15";
   };
 

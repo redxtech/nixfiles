@@ -11,7 +11,7 @@
   base = {
     enable = true;
     hostname = "quasar";
-    dockerDNS = [ "192.168.50.1" ];
+    dockerDNS = [ "192.168.1.1" ];
 
     fs = {
       btrfs = true;
@@ -35,7 +35,7 @@
   network = {
     enable = true;
     isHost = true;
-    ip = "192.168.50.208";
+    ip = "192.168.1.191";
     tunnelID = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
 
     services = {
