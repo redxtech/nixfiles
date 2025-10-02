@@ -12,6 +12,9 @@ in {
       openFirewall = true;
       listenPort = cfg.ports.homepage;
 
+      allowedHosts =
+        "home.${cfgNet.address};quasar:${toString cfg.ports.homepage}";
+
       docker.default = {
         host = "localhost";
         port = "2375";
