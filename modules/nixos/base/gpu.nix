@@ -43,12 +43,7 @@ in {
       extraPackages = optionals cfg.amd [
         # ROCm OpenCL ICD
         rocmPackages.clr.icd
-
-        # AMDVLK
-        amdvlk
       ];
-
-      extraPackages32 = optionals cfg.amd [ driversi686Linux.amdvlk ];
     };
 
     # from https://nixos.wiki/wiki/Nvidia

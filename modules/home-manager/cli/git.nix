@@ -86,7 +86,7 @@ in {
         difftastic = {
           enable = true;
 
-          background = "dark";
+          options.background = "dark";
           # display = "inline";
         };
 
