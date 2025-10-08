@@ -15,6 +15,7 @@ in {
       }];
     in {
       enable = true;
+      enableDefaultConfig = false;
 
       matchBlocks = let
         # default options for all hosts
@@ -30,6 +31,7 @@ in {
             inherit remoteForwards;
             identityFile = identityFiles;
             hostname = "${name}.colobus-pirate.ts.net";
+            forwardAgent = true;
             # forwardX11 = true;
             # forwardX11Trusted = true;
           };
@@ -58,6 +60,20 @@ in {
         };
         "github.com" =
           mkHost { identityFile = [ identityFile "~/.ssh/id_ed25519" ]; };
+
+        # default options for all hosts
+        "*" = {
+          forwardAgent = false;
+          addKeysToAgent = "no";
+          compression = false;
+          serverAliveInterval = 0;
+          serverAliveCountMax = 3;
+          hashKnownHosts = false;
+          userKnownHostsFile = "~/.ssh/known_hosts";
+          controlMaster = "no";
+          controlPath = "~/.ssh/master-%r@%n:%p";
+          controlPersist = "no";
+        };
       };
     };
 
