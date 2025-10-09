@@ -155,6 +155,7 @@ in {
         home-assistant-bermuda
         home-assistant-browser-mod
         # home-assistant-dwains-dashboard # NOTE: re-enable when issue #829 is fixed
+        home-assistant-iphonedetect
         home-assistant-node-red
         home-assistant-pirate-weather
         home-assistant-spotcast

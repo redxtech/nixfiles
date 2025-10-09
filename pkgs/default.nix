@@ -38,6 +38,8 @@
     pkgs.callPackage ./home-assistant/components/browser-mod { };
   home-assistant-dwains-dashboard =
     pkgs.callPackage ./home-assistant/components/dwains-dashboard { };
+  home-assistant-iphonedetect =
+    pkgs.callPackage ./home-assistant/components/iphonedetect { };
   home-assistant-node-red =
     pkgs.callPackage ./home-assistant/components/node-red { };
   home-assistant-pirate-weather =
