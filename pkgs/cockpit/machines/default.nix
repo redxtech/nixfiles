@@ -2,12 +2,12 @@
 
 stdenv.mkDerivation rec {
   pname = "cockpit-machines";
-  version = "305";
+  version = "341";
 
   src = fetchzip {
     url =
       "https://github.com/cockpit-project/cockpit-machines/releases/download/${version}/cockpit-machines-${version}.tar.xz";
-    sha256 = "sha256-K9ga9b79po5lBsNuSqkojyugDIw7nnRORcybuJdv3JU=";
+    hash = "sha256-Tsv18wAN02zQEerIeHAvfs5e0cIWfi7nQey8n1Hv6HI=";
   };
 
   nativeBuildInputs = [ gettext ];
@@ -27,6 +27,6 @@ stdenv.mkDerivation rec {
     license = licenses.lgpl21;
     homepage = "https://github.com/cockpit-project/cockpit-machines";
     platforms = platforms.linux;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ redxtech ];
   };
 }

@@ -1,29 +1,43 @@
-{ lib, stdenv, fetchzip }:
+{ lib, fetchFromGitHub, buildNpmPackage, python2, nodePackages, sass
+, webpack-cli }:
 
-stdenv.mkDerivation rec {
+buildNpmPackage {
   pname = "cockpit-docker";
-  version = "2.0.3";
+  version = "0-unstable-2024-03-02";
 
-  src = fetchzip {
-    url =
-      "https://github.com/mrevjd/cockpit-docker/releases/download/v${version}/cockpit-docker.tar.gz";
-    sha256 = "sha256-rm3ySTk8W7oUb8sK/oYe5l6S0H01JSaUqIrQkda1U6M=";
+  src = fetchFromGitHub {
+    owner = "pk5ls20";
+    repo = "cockpit-docker-upstream-mrevjd";
+    rev = "a8e2880074efc8fc1225139d87c00566ceb0ce24";
+    hash = "sha256-IIsj5GWgJmjBFmvYgY4qAnYQv4iCsJfSWwZNkfiTLS4=";
   };
+
+  npmDepsHash = "sha256-i/xCb6rVSHdF5YRIQgDOEeHlqaxzO/VLJPW3UWPsxeQ=";
+  makeCacheWritable = true;
+
+  nativeBuildInputs = [ webpack-cli nodePackages.sass ];
+
+  prePatch = ''
+    substituteInPlace package.json --replace-fail '"node-sass": "^4.13.1",' ' '
+  '';
+
+  buildPhase = ''
+    webpack
+  '';
 
   installPhase = ''
     mkdir -p $out/share/cockpit
-
-    cp -r $src $out/share/cockpit/docker
+    cp -r dist/docker $out/share/cockpit/docker
   '';
 
-  dontBuild = true;
+  NODE_OPTIONS = [ "--openssl-legacy-provider" ];
 
   meta = with lib; {
     description = "Cockpit UI for docker containers";
     license = licenses.lgpl21;
-    homepage = "https://github.com/mrevjd/cockpit-docker";
+    homepage = "https://github.com/pk5ls20/cockpit-docker-upstream-mrevjd";
     platforms = platforms.linux;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ redxtech ];
   };
 }
 

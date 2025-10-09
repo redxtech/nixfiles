@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
     license = licenses.lgpl21;
     homepage = "https://github.com/spotsnel/cockpit-tailscale";
     platforms = platforms.linux;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ redxtech ];
   };
 }
 

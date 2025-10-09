@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
     license = licenses.lgpl3Only;
     homepage = "https://github.com/leroycep/cockpit-zfs-manager";
     platforms = platforms.linux;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ redxtech ];
   };
 }
 

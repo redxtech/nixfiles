@@ -3,12 +3,12 @@ let
 
 in stdenv.mkDerivation rec {
   pname = "cockpit-file-sharing";
-  version = "3.3.4";
+  version = "4.3.1-2";
 
   src = fetchurl {
     url =
-      "https://github.com/45Drives/cockpit-file-sharing/releases/download/v${version}/cockpit-file-sharing_${version}-1focal_all.deb";
-    sha256 = "sha256-/XXuFpAVlkLeNmOHC0bvxbsl3d+YPhoXJsAInUsM8n4=";
+      "https://github.com/45Drives/cockpit-file-sharing/releases/download/v${version}/cockpit-file-sharing_${version}bookworm_all.deb";
+    hash = "sha256-EuWJhbMfyd9xdUyS8HRD+kF1Sb5/K90Bj1pEbdcmn/U=";
   };
 
   nativeBuildInputs = [ dpkg ];
@@ -26,7 +26,7 @@ in stdenv.mkDerivation rec {
     description = "Cockpit UI for managing shares";
     homepage = "https://github.com/45Drives/cockpit-file-sharing";
     license = licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = with lib.maintainers; [ redxtech ];
     platforms = platforms.linux;
   };
 }

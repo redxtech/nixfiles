@@ -2,12 +2,12 @@
 
 stdenv.mkDerivation rec {
   pname = "cockpit-podman";
-  version = "83";
+  version = "114";
 
   src = fetchzip {
     url =
       "https://github.com/cockpit-project/cockpit-podman/releases/download/${version}/cockpit-podman-${version}.tar.xz";
-    sha256 = "sha256-mFD1xd7C6Adkn6yXlfVvtJ4aKRhL/EFTl9h51Yle+3g=";
+    hash = "sha256-L2+TijBnHemKtZw7V71WIwdbP9dGnnYrUiCBExLiLFg=";
   };
 
   nativeBuildInputs = [ gettext ];
@@ -27,7 +27,7 @@ stdenv.mkDerivation rec {
     license = licenses.lgpl21;
     homepage = "https://github.com/cockpit-project/cockpit-podman";
     platforms = platforms.linux;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ redxtech ];
   };
 }
 

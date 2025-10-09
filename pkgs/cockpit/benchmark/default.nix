@@ -1,14 +1,14 @@
 { lib, stdenv, dpkg, fetchurl }:
-let
 
-in stdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
   pname = "cockpit-benchmark";
-  version = "2.1.0";
+  version = "2.1.1";
 
+  # todo: build from source? 2.1.2 doesn't provide prebuilt
   src = fetchurl {
     url =
-      "https://github.com/45Drives/cockpit-benchmark/releases/download/v${version}/cockpit-benchmark_${version}-2focal_all.deb";
-    sha256 = "sha256-TLMmDCtPJ1C8k2ArWBpCqFj0y+JiHf9ijRgjftlr8c8=";
+      "https://github.com/45Drives/cockpit-benchmark/releases/download/v${version}/cockpit-benchmark_${version}-1focal_all.deb";
+    sha256 = "sha256-6RRjbxU5NbcyjI4WYSaOYyYGYhi9x8ejLlFuJkLhd0M=";
   };
 
   nativeBuildInputs = [ dpkg ];
@@ -26,7 +26,7 @@ in stdenv.mkDerivation rec {
     description = "Cockpit UI for benchmarking storage";
     homepage = "https://github.com/45Drives/cockpit-benchmark";
     license = licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = with lib.maintainers; [ redxtech ];
     platforms = platforms.linux;
   };
 }
