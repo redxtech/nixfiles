@@ -40,6 +40,9 @@ in {
         text-color=${fg}
         background-color=${red}B0
         border-color=${color5}
+
+        [app-name=blueman summary~="(WF-1000XM5|Ultra(-LE)?)$" body~="(Disc|C)onnected$"]
+        invisible=1
       '';
     };
 
