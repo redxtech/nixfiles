@@ -81,6 +81,28 @@ in {
         volumes = [ (mkConf "bazarr") media ];
       };
 
+      beszel = {
+        image = "henrygd/beszel:latest";
+        labels = mkAllLabels "beszel" { };
+        ports = [ (mkPorts cfg.ports.beszel) ];
+        volumes = [ "${cfg.paths.config}/beszel:/beszel_data" ];
+      };
+
+      beszel-agent = {
+        image = "henrygd/beszel-agent:latest";
+        environment = {
+          LISTEN = "/beszel_socket/beszel.sock";
+          HUB_URL = "http://localhost:${toString cfg.ports.beszel}";
+        };
+        environmentFiles = [ config.sops.secrets."beszel_env".path ];
+        volumes = [
+          "${cfg.paths.config}/beszel-agent:/var/lib/beszel-agent"
+          "${cfg.paths.config}/beszel-agent/beszel_socket:/beszel_socket"
+          "/var/run/docker.sock:/var/run/docker.sock:ro"
+        ];
+        extraOptions = [ "--network" "host" ];
+      };
+
       calibre = let
         mkHstr = header: "${mkTLHstr "calibre"}.customrequestheaders.${header}";
       in {
@@ -728,6 +750,7 @@ in {
 
   sops.secrets = {
     "ddclient.conf".sopsFile = ../secrets.yaml;
+    beszel_env.sopsFile = ../secrets.yaml;
     CALIBRE_WEB_HARDCOVER_KEY.sopsFile = ../secrets.yaml;
     calibre_user.sopsFile = ../secrets.yaml;
     calibre_pw.sopsFile = ../secrets.yaml;

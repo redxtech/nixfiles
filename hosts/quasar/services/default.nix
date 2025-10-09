@@ -13,6 +13,7 @@ in {
     ./home-assistant
     ./homepage.nix
     ./plex.nix
+    ./pocket-id.nix
     ./traefik.nix
   ];
 
@@ -24,6 +25,7 @@ in {
     adguard-exporter = 3202;
     apprise = 9005;
     bazarr = 6767;
+    beszel = 8090;
     calibre = 8805;
     calibre-ssl = 8804;
     calibre-server = 8806;
@@ -51,6 +53,7 @@ in {
     paperless = 9200;
     pdf = 9208;
     plex = 32400;
+    pocket-id = 1411;
     portainer = 9000;
     portainer-agent = 9001;
     prowlarr = 9696;
