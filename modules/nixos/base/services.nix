@@ -97,19 +97,20 @@ in {
       port = mkDefault 9090;
       openFirewall = true;
 
+      allowed-origins = [
+        "http://localhost:9090"
+        "ws://localhost:9090"
+        "http://${cfg.hostname}:9090"
+        "ws://${cfg.hostname}:9090"
+        "https://${cfgNet.address}"
+        "wss://${cfgNet.address}"
+        "https://cockpit.${cfgNet.address}"
+        "wss://cockpit.${cfgNet.address}"
+      ];
+
       settings.WebService = {
         AllowUnencrypted = mkDefault true;
         ProtocolHeader = "X-Forwarded-Proto";
-        Origins = mkDefault (lib.concatStringsSep " " [
-          "http://localhost:9090"
-          "ws://localhost:9090"
-          "http://${cfg.hostname}:9090"
-          "ws://${cfg.hostname}:9090"
-          "https://${cfgNet.address}"
-          "wss://${cfgNet.address}"
-          "https://cockpit.${cfgNet.address}"
-          "wss://cockpit.${cfgNet.address}"
-        ]);
       };
     };
 
@@ -127,6 +128,7 @@ in {
         cockpit-file-sharing
         cockpit-machines
         cockpit-tailscale
+        kexec-tools
         libvirt-dbus
         virt-manager
       ];

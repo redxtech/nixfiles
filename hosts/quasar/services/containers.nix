@@ -372,7 +372,7 @@ in {
         ];
       };
 
-      koinsights = {
+      koinsight = {
         image = "ghcr.io/georgesg/koinsight:latest";
         labels = mkAllLabels "koinsight" {
           group = "media";
@@ -383,7 +383,7 @@ in {
           weight = -60;
         };
         ports = [ (mkPort cfg.ports.koinsights 3000) ];
-        volumes = [ (cfg.paths.config + "koinsight:/app/data") ];
+        volumes = [ (cfg.paths.config + "/koinsight:/app/data") ];
       };
 
       ladder = {
