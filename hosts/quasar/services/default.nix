@@ -72,6 +72,7 @@ in {
 
   network.services = {
     music = cfg.ports.navidrome;
+    n8n = config.services.n8n.settings.port;
     stirling = cfg.ports.stirling-pdf;
   };
 
@@ -120,6 +121,13 @@ in {
       LastFM2.Enabled = true;
       Prometheus.Enabled = true;
     };
+  };
+
+  services.n8n = {
+    enable = true;
+
+    openFirewall = true;
+    webhookUrl = "https://n8n.${cfgNet.address}";
   };
 
   services.stirling-pdf = {
