@@ -12,8 +12,10 @@ in {
       openFirewall = true;
       listenPort = cfg.ports.homepage;
 
-      allowedHosts =
-        "home.${cfgNet.address};quasar:${toString cfg.ports.homepage}";
+      allowedHosts = lib.concatStringsSep "," [
+        "home.${cfgNet.address}"
+        "quasar:${toString cfg.ports.homepage}"
+      ];
 
       docker.default = {
         host = "localhost";
@@ -27,7 +29,6 @@ in {
             cpu = true;
             cputemp = true;
             memory = true;
-            disk = "${cfg.paths.pool}";
             uptime = true;
             units = "metric";
           };
@@ -115,11 +116,6 @@ in {
               href = "https://ha.${cfgNet.address}";
               description = "system control panel";
               weight = -100;
-              widget = {
-                type = "homeassistant";
-                url = "https://ha.${cfgNet.address}";
-                key = "{{HOMEPAGE_VAR_HOMEASSISTANT}}";
-              };
             };
           }];
         }
@@ -140,12 +136,12 @@ in {
             {
               "unifi controller" = {
                 icon = "unifi.svg";
-                href = "https://unifi";
+                href = "https://192.168.1.1";
                 description = "unifi network controller";
                 weight = -80;
                 widget = {
                   type = "unifi";
-                  url = "https://unifi";
+                  url = "https://192.168.1.1";
                   username = "{{HOMEPAGE_VAR_UNIFI_USER}}";
                   password = "{{HOMEPAGE_VAR_UNIFI_PASS}}";
                 };
@@ -195,11 +191,27 @@ in {
               };
             }
             {
+              "beszel" = {
+                icon = "beszel.svg";
+                href = "https://beszel.${cfgNet.address}";
+                description = "docker monitoring";
+                weight = -70;
+                widget = {
+                  type = "beszel";
+                  url = "http://${cfg.hostname}:${toString cfg.ports.beszel}";
+                  username = "{{HOMEPAGE_VAR_BESZEL_USER}}";
+                  password = "{{HOMEPAGE_VAR_BESZEL_PASS}}";
+                  systemId = "{{HOMEPAGE_VAR_BESZEL_SYSTEMID}}";
+                  version = "2";
+                };
+              };
+            }
+            {
               loki = {
                 icon = "loki.svg";
                 href = "https://loki.${cfgNet.address}";
                 description = "logs aggregator";
-                weight = -70;
+                weight = -60;
               };
             }
           ];
