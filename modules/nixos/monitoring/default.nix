@@ -3,7 +3,7 @@
 let
   cfg = config.monitoring;
   cfgNet = config.network;
-  cfgNAS = config.nas;
+
   inherit (cfg) ports;
   inherit (cfgNet) hostname;
   inherit (lib) mkIf mkOption mkEnableOption types;
@@ -42,11 +42,14 @@ in {
         enable = true;
 
         settings = {
+          auth.oauth_allow_insecure_email_lookup = true;
+
           server = {
             http_addr = "0.0.0.0";
             http_port = ports.grafana;
             # Grafana needs to know on which domain and URL it's running
-            domain = grafanaHost;
+            domain = "grafana.${cfgNet.address}";
+            root_url = "https://grafana.${cfgNet.address}";
           };
 
           smtp = {

@@ -6,7 +6,7 @@ let
 
   inherit (cfgNet) address;
 
-  inherit (self.lib.nas.paths cfg.paths) mkConf mkData mkDl downloads media;
+  inherit (self.lib.nas.paths cfg.paths) mkConf mkData downloads media;
   inherit (self.lib.containers) mkPort mkPorts;
   inherit (self.lib.containers.labels) mkHomepage;
   inherit (self.lib.containers.labels.traefik address)
@@ -84,6 +84,7 @@ in {
       beszel = {
         image = "henrygd/beszel:latest";
         labels = mkAllLabels "beszel" { };
+        environment.APP_URL = "https://beszel.${address}";
         ports = [ (mkPorts cfg.ports.beszel) ];
         volumes = [ "${cfg.paths.config}/beszel:/beszel_data" ];
       };
@@ -461,7 +462,7 @@ in {
       };
 
       paperless = {
-        image = "lscr.io/linuxserver/paperless-ngx:latest";
+        image = "ghcr.io/paperless-ngx/paperless-ngx:latest";
         labels = mkAllLabels "docs" {
           name = "paperless";
           group = "media";
@@ -478,9 +479,23 @@ in {
         };
         environment = defaultEnv // {
           PAPERLESS_URL = "https://docs.${cfgNet.address}";
+          PAPERLESS_REDIS = "redis://paperless-redis:6379";
         };
+        environmentFiles = [ config.sops.secrets."paperless_env".path ];
         ports = [ (mkPort cfg.ports.paperless 8000) ];
-        volumes = [ (mkConf "paperless") (mkData "paperless") ];
+        volumes = [
+          "${cfg.paths.config}/paperless-ngx:/usr/src/paperless/data"
+          "${cfg.paths.data}/paperless-ngx/media:/usr/src/paperless/media"
+          "${cfg.paths.data}/paperless-ngx/consume:/usr/src/paperless/consume"
+          "${cfg.paths.data}/paperless-ngx/export:/usr/src/paperless/export"
+        ];
+        extraOptions = [ "--network" "paperless" ];
+      };
+
+      paperless-redis = {
+        image = "docker.io/library/redis:8";
+        volumes = [ "${cfg.paths.config}/paperless-ngx-redis:/data" ];
+        extraOptions = [ "--network" "paperless" ];
       };
 
       portainer = {
@@ -776,6 +791,7 @@ in {
     exportarr_sonarr.sopsFile = ../secrets.yaml;
     exportarr_radarr.sopsFile = ../secrets.yaml;
     jdownloader_env.sopsFile = ../secrets.yaml;
+    paperless_env.sopsFile = ../secrets.yaml;
     qdirstat_user.sopsFile = ../secrets.yaml;
     qdirstat_pw.sopsFile = ../secrets.yaml;
     "unpoller.env".sopsFile = ../secrets.yaml;

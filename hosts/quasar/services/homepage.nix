@@ -198,7 +198,8 @@ in {
                 weight = -70;
                 widget = {
                   type = "beszel";
-                  url = "http://${cfg.hostname}:${toString cfg.ports.beszel}";
+                  url =
+                    "http://${cfgNet.hostname}:${toString cfg.ports.beszel}";
                   username = "{{HOMEPAGE_VAR_BESZEL_USER}}";
                   password = "{{HOMEPAGE_VAR_BESZEL_PASS}}";
                   systemId = "{{HOMEPAGE_VAR_BESZEL_SYSTEMID}}";
