@@ -30,6 +30,7 @@ in {
     openssh.authorizedKeys.keys = [
       (readFile ../../../home/gabe/keys/gpg.pub)
       (readFile ../../../home/gabe/keys/ssh.pub)
+      (readFile ../../../home/gabe/keys/id_n8n_ed25519.pub)
     ];
   };
 

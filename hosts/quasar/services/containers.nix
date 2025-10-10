@@ -441,6 +441,25 @@ in {
         extraOptions = [ "--network" "host" ];
       };
 
+      n8n = {
+        image = "docker.n8n.io/n8nio/n8n:latest";
+        # user = "${cfg.user}:${cfg.group}";
+        labels = mkAllLabels "n8n" {
+          name = "n8n";
+          group = "utils";
+          icon = "n8n.svg";
+          href = "https://n8n.${address}";
+          desc = "workflow automation";
+          weight = -90;
+        };
+        environment = defaultEnv // {
+          WEBHOOK_URL = "https://n8n.${address}";
+          N8N_PORT = toString cfg.ports.n8n;
+          N8N_DATA_TABLES_MAX_SIZE_BYTES = "1073741824";
+        };
+        volumes = [ "${cfg.paths.config}/n8n:/home/node/.n8n" ];
+      };
+
       paperless = {
         image = "lscr.io/linuxserver/paperless-ngx:latest";
         labels = mkAllLabels "docs" {
