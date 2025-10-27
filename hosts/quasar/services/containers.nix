@@ -666,6 +666,45 @@ in {
 
       sonarr-exportarr = mkExportarr "sonarr" 9707;
 
+      scrutiny = {
+        image = "ghcr.io/analogj/scrutiny:master-omnibus";
+        labels = mkAllLabels "scrutiny" {
+          name = "scrutiny";
+          group = "monitoring";
+          icon = "scrutiny.svg";
+          href = "https://scrutiny.${address}";
+          desc = "storage health monitoring";
+        };
+        environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.scrutiny 8080) ];
+        volumes = [
+          "/run/udev:/run/udev:ro"
+          "${cfg.paths.config}/scrutiny:/opt/scrutiny/config"
+          "${cfg.paths.config}/scrutiny-influx:/opt/scrutiny/influxdb"
+        ];
+        extraOptions = let
+          mkDev = name: "/dev/${name}";
+          names = [
+            "sda"
+            "sdb"
+            "sdc"
+            "sdd"
+            "sde"
+            "sdf"
+            "sdg"
+            "sdh"
+            "sdi"
+            "sdj"
+            "sdk"
+            "sdl"
+            "sdm"
+            "sdn"
+            "nvme0"
+          ];
+          args = lib.flatten (map (name: [ "--device" "${mkDev name}" ]) names);
+        in [ "--cap-add" "SYS_RAWIO" "--cap-add" "SYS_ADMIN" ] ++ args;
+      };
+
       signaturepdf = {
         image = "ghcr.io/redxtech/signaturepdf:master";
         labels = mkAllLabels "pdf" {

@@ -64,6 +64,7 @@ in {
     qbit-alt-torrent = 6882;
     qdirstat = 9030;
     radarr = 7878;
+    scrutiny = 6080;
     sonarr = 8989;
     startpage = 9009;
     stirling-pdf = 8844;
