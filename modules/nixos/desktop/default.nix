@@ -105,6 +105,7 @@ in {
       dconf.enable = mkDefault true;
       gnupg.agent.enable = true;
       kdeconnect.enable = mkDefault true;
+      localsend.enable = true;
       nix-ld.enable = mkDefault true;
       partition-manager.enable = true;
       xfconf.enable = mkDefault true;

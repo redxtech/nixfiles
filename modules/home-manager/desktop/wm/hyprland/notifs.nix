@@ -43,6 +43,9 @@ in {
 
         [app-name=blueman summary~="(WF-1000XM5|Ultra(-LE)?)$" body~="(Disc|C)onnected$"]
         invisible=1
+
+        [app-name="KDE Connect" summary="Home Assistant" body="Updating sensors"]
+        invisible=1
       '';
     };
 

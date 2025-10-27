@@ -29,8 +29,16 @@ in {
       package = pkgs.clamav;
 
       daemon.enable = true;
-      daemon.settings.ExcludePath =
-        [ "/home/(w-_)+/.local/share/Steam/steamapps/" ];
+      daemon.settings.ExcludePath = [
+        "^/dev"
+        "^/proc"
+        "^/sys"
+        "^/run"
+        "^/var/"
+        "^/nix/store/"
+        "^/pool/media/"
+        "^/home/(w-_)+/.local/share/Steam/steamapps/"
+      ];
       updater.enable = true;
       fangfrisch.enable = cfg.clamav.fangfrisch;
 

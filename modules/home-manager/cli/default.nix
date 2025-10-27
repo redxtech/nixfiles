@@ -112,6 +112,7 @@ in {
           nix-du # du for nix store
           nix-inspect # see which pkgs are in your PATH
           nix-update # update hashes in nix files
+          omnix # better cli for nix
           onefetch # current repo info
           pciutils # pci info
           pfetch-rs # system info
