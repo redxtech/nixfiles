@@ -17,54 +17,53 @@ in {
 
         package = pkgs.hub;
 
-        userName = "Gabe Dunn";
-        userEmail = "gabe@gabedunn.dev";
+        settings = {
+          user.name = "Gabe Dunn";
+          user.email = "gabe@gabedunn.dev";
 
-        aliases = {
-          last = "log -1 --stat";
-          cp = "cherry-pick";
-          co = "checkout";
-          cl = "clone";
-          ci = "commit";
-          st = "status -sb";
-          br = "branch";
-          unstage = "reset HEAD --";
-          dc = "diff --cached";
-          lg =
-            "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all";
-          pop = "stash pop";
-          s = "status";
-          d = "diff";
-          ds = "diff --staged";
-          c = "commit";
-          p = "push";
-          r = "remote -v";
-        };
+          aliases = {
+            last = "log -1 --stat";
+            cp = "cherry-pick";
+            co = "checkout";
+            cl = "clone";
+            ci = "commit";
+            st = "status -sb";
+            br = "branch";
+            unstage = "reset HEAD --";
+            dc = "diff --cached";
+            lg =
+              "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all";
+            pop = "stash pop";
+            s = "status";
+            d = "diff";
+            ds = "diff --staged";
+            c = "commit";
+            p = "push";
+            r = "remote -v";
+          };
 
-        signing = {
-          signByDefault = true;
-          key = "1FBF2D806C456BB6";
-        };
-
-        extraConfig = {
           core = {
             autocrlf = "input";
             trustctime = false;
             editor = "tu";
             filemode = false;
           };
-          color = { ui = true; };
+
+          color.ui = true;
+
           filter.lfs = {
             clean = "git-lfs clean -- %f";
             smudge = "git-lfs smudge -- %f";
             process = "git-lfs filter-process";
             required = true;
           };
-          hub = { protocol = "ssh"; };
-          init = { defaultBranch = "master"; };
-          pull = { rebase = true; };
-          push = { default = "matching"; };
-          tag = { forceSignAnnotated = true; };
+
+          hub.protocol = "ssh";
+          init.defaultBranch = "main";
+          pull.rebase = true;
+          push.default = "matching";
+          tag.forceSignAnnotated = true;
+
           # merge = { tool = "nvim -d"; };
           # mergetool = {
           #   keeptemporaries = false;
@@ -81,36 +80,40 @@ in {
           # };
         };
 
-        includes = [{ path = "${config.xdg.configHome}/git/gitconfig.local"; }];
-
-        difftastic = {
-          enable = true;
-
-          options.background = "dark";
-          # display = "inline";
+        signing = {
+          signByDefault = true;
+          key = "1FBF2D806C456BB6";
         };
 
-        delta = {
-          enable = false;
+        includes = [{ path = "${config.xdg.configHome}/git/gitconfig.local"; }];
+      };
 
-          options = {
-            features = "side-by-side line-numbers decorations";
-            # TODO: fix these getting formatted improperly
-            # plus_style = "syntax #003800";
-            # minus_style = "syntax #3f0001";
-            navigate = true;
-            decorations = {
-              commit-decoration-style = "bold yellow box ul";
-              file-style = "bold yellow ul";
-              file-decoration-style = "none";
-              hunk-header-decoration-style = "cyan box ul";
-            };
-            line-numbers = {
-              line-numbers-left-style = "cyan";
-              line-numbers-right-style = "cyan";
-              line-numbers-minus-style = 124;
-              line-numbers-plus-style = 28;
-            };
+      difftastic = {
+        enable = true;
+        git.enable = true;
+        options.background = "dark";
+      };
+
+      delta = {
+        enable = false;
+
+        options = {
+          features = "side-by-side line-numbers decorations";
+          # TODO: fix these getting formatted improperly
+          # plus_style = "syntax #003800";
+          # minus_style = "syntax #3f0001";
+          navigate = true;
+          decorations = {
+            commit-decoration-style = "bold yellow box ul";
+            file-style = "bold yellow ul";
+            file-decoration-style = "none";
+            hunk-header-decoration-style = "cyan box ul";
+          };
+          line-numbers = {
+            line-numbers-left-style = "cyan";
+            line-numbers-right-style = "cyan";
+            line-numbers-minus-style = 124;
+            line-numbers-plus-style = 28;
           };
         };
       };
@@ -163,8 +166,8 @@ in {
         enable = true;
         settings = {
           user = {
-            name = config.programs.git.userName;
-            email = config.programs.git.userEmail;
+            name = config.programs.git.settings.user.name;
+            email = config.programs.git.settings.user.email;
           };
         };
       };

@@ -184,7 +184,6 @@ in {
       "search"
       "season"
       "select"
-      "sendgrid"
       "sensor"
       "serial"
       "seventeentrack"

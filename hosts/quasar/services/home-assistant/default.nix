@@ -34,12 +34,16 @@ in {
         };
 
         notify = [{
-          name = "SendGrid";
-          platform = "sendgrid";
+          name = "Email";
+          platform = "smtp";
           sender = "homeassistant@sucha.foo";
           sender_name = "Home Assistant";
-          recipient = "!secret sendgrid_default_recipient";
-          api_key = "!secret sendgrid_api_key";
+          recipient = "!secret smtp_default_recipient";
+          server = "!secret smtp_server";
+          port = "!secret smtp_port";
+          username = "!secret smtp_username";
+          password = "!secret smtp_password";
+          encryption = "tls";
         }];
 
         sensor = let
