@@ -113,7 +113,7 @@ in {
           admin = [{
             cockpit = {
               icon = "sh-cockpit.svg";
-              href = "https://ha.${cfgNet.address}";
+              href = "https://cockpit.${cfgNet.address}";
               description = "system control panel";
               weight = -100;
             };
@@ -160,6 +160,7 @@ in {
                 widget = {
                   type = "grafana";
                   url = "https://grafana.${cfgNet.address}";
+                  version = "2";
                   username = "{{HOMEPAGE_VAR_GRAFANA_USER}}";
                   password = "{{HOMEPAGE_VAR_GRAFANA_PASS}}";
                 };
@@ -187,23 +188,6 @@ in {
                   type = "uptimekuma";
                   url = "https://uptime.${cfgNet.address}";
                   slug = "main";
-                };
-              };
-            }
-            {
-              "beszel" = {
-                icon = "beszel.svg";
-                href = "https://beszel.${cfgNet.address}";
-                description = "docker monitoring";
-                weight = -70;
-                widget = {
-                  type = "beszel";
-                  url =
-                    "http://${cfgNet.hostname}:${toString cfg.ports.beszel}";
-                  username = "{{HOMEPAGE_VAR_BESZEL_USER}}";
-                  password = "{{HOMEPAGE_VAR_BESZEL_PASS}}";
-                  systemId = "{{HOMEPAGE_VAR_BESZEL_SYSTEMID}}";
-                  version = "2";
                 };
               };
             }

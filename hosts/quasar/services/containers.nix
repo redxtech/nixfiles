@@ -83,7 +83,22 @@ in {
 
       beszel = {
         image = "henrygd/beszel:latest";
-        labels = mkAllLabels "beszel" { };
+        labels = mkAllLabels "beszel" {
+          name = "beszel";
+          group = "monitoring";
+          icon = "beszel.svg";
+          href = "https://beszel.${address}";
+          desc = "docker monitoring";
+          weight = -70;
+          widget = {
+            type = "beszel";
+            url = "http://${cfgNet.hostname}:${toString cfg.ports.beszel}";
+            username = "{{HOMEPAGE_VAR_BESZEL_USER}}";
+            password = "{{HOMEPAGE_VAR_BESZEL_PASS}}";
+            systemId = "{{HOMEPAGE_VAR_BESZEL_SYSTEMID}}";
+            version = "2";
+          };
+        };
         environment.APP_URL = "https://beszel.${address}";
         ports = [ (mkPorts cfg.ports.beszel) ];
         volumes = [ "${cfg.paths.config}/beszel:/beszel_data" ];
