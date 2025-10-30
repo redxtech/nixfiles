@@ -2,10 +2,6 @@
 
 let
   cfg = config.desktop;
-  configurationFileFormat = pkgs.formats.keyValue {
-    listsAsDuplicateKeys = true;
-    mkKeyValue = lib.generators.mkKeyValueDefault { } " = ";
-  };
   ghosttyShaders = pkgs.fetchFromGitHub {
     owner = "sahaj-b";
     repo = "ghostty-cursor-shaders";
@@ -14,10 +10,10 @@ let
   };
 in {
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [ ghostty ];
+    programs.ghostty = {
+      enable = true;
 
-    xdg.configFile."ghostty/config".source =
-      configurationFileFormat.generate "ghostty" {
+      settings = {
         theme = "Dracula";
         background-opacity = 0.8;
         background-opacity-cells = true;
@@ -39,6 +35,11 @@ in {
         custom-shader = [ "${ghosttyShaders}/cursor_sweep.glsl" ];
       };
 
+      enableFishIntegration = true;
+      installBatSyntax = true;
+      installVimSyntax = true;
+    };
+
     systemd.user.services.ghostty = {
       Unit = {
         Description = "ghostty daemon";
@@ -53,7 +54,7 @@ in {
         ReloadSignal = "SIGUSR2";
         BusName = "com.mitchellh.ghostty";
         ExecStart =
-          "${pkgs.ghostty}/bin/ghostty --gtk-single-instance=true --initial-window=false";
+          "${config.programs.ghostty.package}/bin/ghostty --gtk-single-instance=true --initial-window=false";
       };
     };
   };
