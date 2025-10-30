@@ -8,7 +8,7 @@ in {
     ./term/alacritty.nix
     ./term/foot.nix
     ./term/kitty.nix
-    ./term/rio.nix
+    ./term/ghostty.nix
     ./feh.nix
     ./mpv.nix
     ./nemo.nix
