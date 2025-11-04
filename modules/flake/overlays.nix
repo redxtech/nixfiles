@@ -9,13 +9,13 @@
         neovim-nightly = inputs.neovim-nightly.packages.${final.system}.default;
 
         plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
-          version = "1.41.6.9685-d301f511a";
+          version = "1.42.2.10156-f737b826c";
           name = "${old.pname}-${version}";
 
           src = prev.fetchurl {
             url =
               "https://downloads.plex.tv/plex-media-server-new/${version}/debian/plexmediaserver_${version}_amd64.deb";
-            hash = "sha256-4ZbSGQGdkXCCZZ00w0/BwRHju4DJUQQBGid0gBFK0Ck=";
+            hash = "sha256-1ieh7qc1UBTorqQTKUQgKzM96EtaKZZ8HYq9ILf+X3M=";
           };
         });
 
@@ -29,13 +29,14 @@
 
       # Modifies existing packages
       modifications = final: prev: {
-        fuzzel = prev.fuzzel.overrideAttrs (oldAttrs: {
+        fuzzel = prev.fuzzel.overrideAttrs (oldAttrs: rec {
+          version = "1.13.1";
           src = prev.fetchFromGitea {
             domain = "codeberg.org";
             owner = "dnkl";
             repo = "fuzzel";
-            rev = "8e5ba7124faa59d644e43ea4f3a1702efe8270b5";
-            hash = "sha256-Mops/SnnFPcKSzGmPUMUAL1tTklGYnaEiuZ1DBBB7/U=";
+            tag = version;
+            hash = "sha256-JW6MvLXax7taJfBjJjRkEKCczzO4AYsQ47akJK2pkh0=";
           };
         });
 

@@ -21,7 +21,7 @@ in {
           user.name = "Gabe Dunn";
           user.email = "gabe@gabedunn.dev";
 
-          aliases = {
+          alias = {
             last = "log -1 --stat";
             cp = "cherry-pick";
             co = "checkout";
