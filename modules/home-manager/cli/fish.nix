@@ -438,14 +438,26 @@ in {
     };
 
     # file writing
-    xdg.configFile."fish/env.secrets.fish".text = ''
-      set --export YOUTUBE_API_KEY "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.youtube.path} 2>/dev/null)"
-      set --export BW_SESSION "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.bw.path} 2>/dev/null)"
-      set --export CACHIX_AUTH_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix.path} 2>/dev/null)"
-      set --export CACHIX_ACTIVATE_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.cachix-activate.path} 2>/dev/null)"
-      set --export DS3_SAVEFILE_LOC "$HOME/$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.ds3_save.path} 2>/dev/null)"
-      set --export HASS_SERVER "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.hass_url.path} 2>/dev/null)"
-      set --export HASS_TOKEN "$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.hass_token.path} 2>/dev/null)"
-    '';
+    xdg.configFile."fish/env.secrets.fish".text = let
+      inherit (builtins) concatStringsSep elemAt map;
+      mkSecret = entry:
+        let
+          name = elemAt entry 0;
+          secret = elemAt entry 1;
+          cat = pkgs.coreutils + "/bin/cat";
+          path = config.sops.secrets.${secret}.path;
+        in ''set --export ${name} "$(${cat} ${path} 2>/dev/null)"'';
+      secrets = [
+        [ "YOUTUBE_API_KEY" "youtube" ]
+        [ "BW_SESSION" "bw" ]
+        [ "CACHIX_AUTH_TOKEN" "cachix" ]
+        [ "CACHIX_ACTIVATE_TOKEN" "cachix-activate" ]
+        [ "HASS_SERVER" "hass_url" ]
+        [ "HASS_TOKEN" "hass_token" ]
+        [ "OPENROUTER_KEY" "openrouter_key" ]
+        [ "OPENAI_KEY" "openai_key" ]
+      ];
+      envFile = concatStringsSep "\n" (map mkSecret secrets);
+    in envFile;
   };
 }
