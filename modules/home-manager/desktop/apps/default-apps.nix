@@ -16,22 +16,23 @@ in {
         "image/png" = images;
         "image/gif" = images;
         "image/svg+xml" = images
-          ++ [ "nvim.desktop" "sublime_text.desktop" firefox ];
-        "application/xml" = [ "nvim.desktop" "sublime_text.desktop" ];
-        "text/plain" = [ "nvim.desktop" "sublime_text.desktop" ];
-        "text/html" = [ firefox "nvim.desktop" "sublime_text.desktop" ];
-        "application/javascript" = [ "nvim.desktop" "sublime_text.desktop" ];
+          ++ [ "neovim.desktop" "sublime_text.desktop" firefox ];
+        "application/xml" = [ "neovim.desktop" "sublime_text.desktop" ];
+        "text/plain" = [ "neovim.desktop" "sublime_text.desktop" ];
+        "text/html" = [ firefox "neovim.desktop" "sublime_text.desktop" ];
+        "application/javascript" = [ "neovim.desktop" "sublime_text.desktop" ];
         "application/json" = [
+          "neovim.desktop"
           "org.gnome.TextEditor.desktop"
           "sublime_text.desktop"
-          "nvim.desktop"
         ];
         "application/x-raw-disk-image" = [ "7zFM.desktop" ];
-        "application/octet-stream" = [ "nvim.desktop" "sublime_text.desktop" ];
-        "application/toml" = [ "nvim.desktop" "sublime_text.desktop" ];
+        "application/octet-stream" =
+          [ "neovim.desktop" "sublime_text.desktop" ];
+        "application/toml" = [ "neovim.desktop" "sublime_text.desktop" ];
         "application/pdf" = [ "zathura.desktop" firefox ];
         "application/x-shellscript" =
-          [ "nvim.desktop" "kitty-open.desktop" "sublime_text.desktop" ];
+          [ "neovim.desktop" "kitty-open.desktop" "sublime_text.desktop" ];
         "application/x-gnome-saved-search" =
           [ "thunar.desktop" "nemo.desktop" ];
         "application/zip" = [ "peazip.desktop" ];
@@ -50,8 +51,8 @@ in {
         "image/jpeg" = image;
         "image/png" = image;
         "image/gif" = image;
-        "text/plain" = [ "nvim.desktop" ];
-        "application/json" = [ "nvim.desktop" ];
+        "text/plain" = [ "neovim.desktop" ];
+        "application/json" = [ "neovim.desktop" ];
         "application/pdf" = [ "zathura.desktop" ];
         "application/x-gnome-saved-search" = [ "nemo.desktop" ];
         "video/mp4" = video;

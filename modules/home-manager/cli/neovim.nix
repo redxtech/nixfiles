@@ -81,13 +81,13 @@ in {
     };
 
     xdg.desktopEntries."neovim" = {
-      name = "neovim";
+      name = "neovim (tu)";
       genericName = "Text Editor";
-      comment = "Edit text files";
+      comment = "Edit text files - custom config";
       icon = "nvim";
       exec =
         "${config.programs.kitty.package}/bin/kitty ${config.tu.out.packages.tu}/bin/tu %F";
-      settings.TryExec = "nvim";
+      settings.TryExec = "${config.tu.out.packages.tu}/bin/tu";
       startupNotify = false;
       type = "Application";
       categories = [ "Utility" "TextEditor" ];
