@@ -70,6 +70,7 @@ in {
     stirling-pdf = 8844;
     syncthing = 8384;
     tautulli = 8181;
+    tubearchivist = 8898;
     unpoller = 9130;
     uptime = 3301;
     watchtower = 3400;

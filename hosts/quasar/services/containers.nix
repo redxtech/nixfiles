@@ -306,27 +306,6 @@ in {
         ];
       };
 
-      jellyfin-alt = {
-        image = "lscr.io/linuxserver/jellyfin:latest";
-        labels = mkAllLabels "jellyfin-alt" {
-          name = "jellyfin alt";
-          group = "media";
-          icon = "jellyfin.svg";
-          href = "https://jellyfin-alt.${address}";
-          desc = "media server";
-          weight = -100;
-        };
-        environment = defaultEnv // {
-          JELLYFIN_PublishedServerUrl = "jellyfin-alt.${address}";
-          NVIDIA_VISIBLE_DEVICES = "all";
-        };
-        ports = [ (mkPort cfg.ports.jellyfin-alt 8096) ];
-        volumes = [
-          (mkConf "jellyfin-alt")
-          (cfg.paths.downloads + "/qbit:/downloads")
-        ];
-      };
-
       jellyfin-vue = {
         image = "ghcr.io/jellyfin/jellyfin-vue:unstable";
         labels = mkAllLabels "jellyfin-vue" {
@@ -776,6 +755,53 @@ in {
         ];
       };
 
+      tubearchivist = {
+        image = "bbilly1/tubearchivist:latest";
+        labels = mkAllLabels "tubearchivist" {
+          name = "tubearchivist";
+          group = "download";
+          icon = "tube-archivist.png";
+          href = "https://tubearchivist.${address}";
+          desc = "youtube downloader";
+        };
+        environment = defaultEnv // {
+          ES_URL = "http://tubearchivist-es:9200";
+          REDIS_CON = "redis://tubearchivist-redis:6379";
+          HOST_UID = defaultEnv.PUID;
+          HOST_GID = defaultEnv.PGID;
+          TA_HOST = "https://tubearchivist.${address}";
+        };
+        environmentFiles = [ config.sops.secrets.tubearchivist_env.path ];
+        ports = [ (mkPort cfg.ports.tubearchivist 8000) ];
+        volumes = [
+          "${cfg.paths.config}/tubearchivist/cache:/cache"
+          "${cfg.paths.media}/yt:/youtube"
+        ];
+        dependsOn = [ "tubearchivist-redis" "tubearchivist-es" ];
+        extraOptions = [ "--network" "tubearchivist" ];
+      };
+
+      tubearchivist-redis = {
+        image = "redis";
+        volumes = [ "${cfg.paths.config}/tubearchivist/redis:/data" ];
+        extraOptions = [ "--network" "tubearchivist" ];
+      };
+
+      tubearchivist-es = {
+        image = "bbilly1/tubearchivist-es:latest";
+        environment = defaultEnv // {
+          ES_JAVA_OPTS = "-Xms1g -Xmx1g";
+          "xpack.security.enabled" = "true";
+          "discovery.type" = "single-node";
+          "path.repo" = "/usr/share/elasticsearch/data/snapshot";
+        };
+        environmentFiles = [ config.sops.secrets.tubearchivist_env.path ];
+        volumes = [
+          "${cfg.paths.config}/tubearchivist/es:/usr/share/elasticsearch/data"
+        ];
+        extraOptions = [ "--network" "tubearchivist" ];
+      };
+
       unpoller = {
         image = "ghcr.io/unpoller/unpoller:latest";
         labels = mkAllLabels "unpoller" {
@@ -816,23 +842,56 @@ in {
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 
+      # ok guys i swear this is for youtube videos
+      yt = {
+        # image = "stashapp/stash:latest";
+        image = "ghcr.io/feederbox826/stash-s6:hwaccel-alpine";
+        labels = mkAllLabels "yt" {
+          name = "youtube";
+          group = "media";
+          icon = "youtube.svg";
+          href = "https://yt.${address}";
+          desc = "youtube archive i swear";
+        };
+        environment = defaultEnv // {
+          STASH_PORT = toString 8899;
+          STASH_STASH = "/data/";
+          STASH_GENERATED = "/generated/";
+          STASH_METADATA = "/metadata/";
+          STASH_CACHE = "/cache/";
+          INSTALL_PY_DEPS = "true";
+        };
+        ports = [ (mkPorts 8899) ];
+        volumes = let path = cfg.paths.config + "/yt";
+        in [
+          "/etc/localtime:/etc/localtime:ro"
+          "${cfg.paths.media}/yt:/yt"
+          "${path}/config:/root/.stash"
+          "${path}/data:/data"
+          "${path}/metadata:/metadata"
+          "${path}/cache:/cache"
+          "${path}/generated:/generated"
+          "${path}/pip-cache:/pip-install"
+        ];
+      };
+
       # invoice ninja
       # wireguard
-      # tubearchivist
       # duplicati/duplicacy
     };
   };
 
-  system.activationScripts.mkDockerNetworks = let networks = [ "paperless" ];
-  in ''
-    # gracefully exit if docker isn't running
-    ${pkgs.docker}/bin/docker ps >/dev/null 2>&1 || (echo "docker is not running" && return)
+  system.activationScripts.mkDockerNetworks =
+    let networks = [ "paperless" "tubearchivist" ];
+    in ''
+      # gracefully exit if docker isn't running
+      ${pkgs.docker}/bin/docker ps >/dev/null 2>&1 || (echo "docker is not running" && return)
 
-    for network in ${toString networks}; do
-      ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
-        ${pkgs.docker}/bin/docker network create --driver bridge $network
-    done
-  '';
+      for network in ${toString networks}; do
+        ${pkgs.docker}/bin/docker network inspect $network >/dev/null 2>&1 ||
+          ${pkgs.docker}/bin/docker network create --driver bridge $network
+      done
+    '';
 
   networking.firewall.allowedTCPPorts = with cfg.ports; [ calibre-device ];
 
@@ -848,6 +907,7 @@ in {
     paperless_env.sopsFile = ../secrets.yaml;
     qdirstat_user.sopsFile = ../secrets.yaml;
     qdirstat_pw.sopsFile = ../secrets.yaml;
+    tubearchivist_env.sopsFile = ../secrets.yaml;
     "unpoller.env".sopsFile = ../secrets.yaml;
     watchtower_env.sopsFile = ../secrets.yaml;
   };
