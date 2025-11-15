@@ -116,7 +116,7 @@ in {
           "${cfg.paths.config}/beszel-agent/beszel_socket:/beszel_socket"
           "/var/run/docker.sock:/var/run/docker.sock:ro"
         ];
-        extraOptions = [ "--network" "host" ];
+        networks = [ "host" ];
       };
 
       calibre = let
@@ -343,7 +343,7 @@ in {
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.jellyseerr 5055) ];
         volumes = [ (cfg.paths.config + "/jellyseerr:/app/config") ];
-        extraOptions = [ "--network" "host" ];
+        networks = [ "host" ];
       };
 
       kiwix = {
@@ -433,7 +433,7 @@ in {
         environment = defaultEnv;
         ports = [ (mkPorts cfg.ports.lidarr) ];
         volumes = [ (mkConf "lidarr") downloads media ];
-        extraOptions = [ "--network" "host" ];
+        networks = [ "host" ];
       };
 
       n8n = {
@@ -483,13 +483,13 @@ in {
           "${cfg.paths.data}/paperless-ngx/consume:/usr/src/paperless/consume"
           "${cfg.paths.data}/paperless-ngx/export:/usr/src/paperless/export"
         ];
-        extraOptions = [ "--network" "paperless" ];
+        networks = [ "paperless" ];
       };
 
       paperless-redis = {
         image = "docker.io/library/redis:8";
         volumes = [ "${cfg.paths.config}/paperless-ngx-redis:/data" ];
-        extraOptions = [ "--network" "paperless" ];
+        networks = [ "paperless" ];
       };
 
       portainer = {
@@ -523,7 +523,7 @@ in {
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.prowlarr 9696) ];
         volumes = [ (mkConf "prowlarr") downloads media ];
-        extraOptions = [ "--network" "host" ];
+        networks = [ "host" ];
       };
 
       qbit = {
@@ -632,7 +632,7 @@ in {
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.radarr 7878) ];
         volumes = [ (mkConf "radarr") downloads media ];
-        extraOptions = [ "--network" "host" ];
+        networks = [ "host" ];
       };
 
       radarr-exportarr = mkExportarr "radarr" 9708;
@@ -655,7 +655,7 @@ in {
         };
         ports = [ (mkPort cfg.ports.sonarr 8989) ];
         volumes = [ (mkConf "sonarr") downloads media ];
-        extraOptions = [ "--network" "host" ];
+        networks = [ "host" ];
       };
 
       sonarr-exportarr = mkExportarr "sonarr" 9707;
@@ -778,13 +778,13 @@ in {
           "${cfg.paths.media}/yt:/youtube"
         ];
         dependsOn = [ "tubearchivist-redis" "tubearchivist-es" ];
-        extraOptions = [ "--network" "tubearchivist" ];
+        networks = [ "tubearchivist" ];
       };
 
       tubearchivist-redis = {
         image = "redis";
         volumes = [ "${cfg.paths.config}/tubearchivist/redis:/data" ];
-        extraOptions = [ "--network" "tubearchivist" ];
+        networks = [ "tubearchivist" ];
       };
 
       tubearchivist-es = {
@@ -799,7 +799,7 @@ in {
         volumes = [
           "${cfg.paths.config}/tubearchivist/es:/usr/share/elasticsearch/data"
         ];
-        extraOptions = [ "--network" "tubearchivist" ];
+        networks = [ "tubearchivist" ];
       };
 
       unpoller = {
