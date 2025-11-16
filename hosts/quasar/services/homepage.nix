@@ -202,6 +202,7 @@ in {
           ];
         }
         { arr = [ ]; }
+        { books = [ ]; }
         { download = [ ]; }
         { services = [ ]; }
         { utils = [ ]; }
@@ -234,6 +235,7 @@ in {
           columns: 4
           useEqualHeights: true
         home:
+        books:
         admin:
         network:
         monitoring:

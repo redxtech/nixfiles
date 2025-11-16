@@ -119,16 +119,50 @@ in {
         networks = [ "host" ];
       };
 
+      booklore = {
+        image = "booklore/booklore:latest";
+        labels = mkAllLabelsPort "booklore" cfg.ports.booklore {
+          name = "booklore";
+          group = "books";
+          icon = "book-lore.svg";
+          href = "https://booklore.${address}";
+          desc = "ebook manager";
+          weight = -100;
+        };
+        environment = defaultEnv // {
+          BOOKLORE_PORT = toString cfg.ports.booklore;
+        };
+        environmentFiles = [ config.sops.secrets."booklore_env".path ];
+        ports = [ (mkPorts cfg.ports.booklore) ];
+        volumes = [
+          "${cfg.paths.config}/booklore/config:/data"
+          "${cfg.paths.config}/booklore/bookdrop:/bookdrop"
+          "${cfg.paths.config}/booklore/books:/books"
+        ];
+        dependsOn = [ "booklore-mariadb" ];
+        networks = [ "booklore" ];
+      };
+
+      booklore-mariadb = {
+        image = "lscr.io/linuxserver/mariadb:11.4.5";
+        environment = defaultEnv;
+        environmentFiles = [ config.sops.secrets."booklore_env".path ];
+        volumes = [ "${cfg.paths.config}/booklore/mariadb:/config" ];
+        networks = [ "booklore" ];
+        extraOptions = [ "--health-cmd" "mariadb-admin ping -h localhost" ];
+      };
+
       calibre = let
         mkHstr = header: "${mkTLHstr "calibre"}.customrequestheaders.${header}";
       in {
         image = "lscr.io/linuxserver/calibre:latest";
         labels = mkAllLabelsPort "calibre" cfg.ports.calibre-ssl {
           name = "calibre";
-          group = "media";
+          group = "books";
           icon = "calibre.svg";
           href = "https://calibre.${address}";
           desc = "ebook manager";
+          weight = -80;
         } // {
           "${mkTLSstr "calibre"}.loadbalancer.serverstransport" =
             "ignorecert@file";
@@ -160,11 +194,11 @@ in {
         image = "crocodilestick/calibre-web-automated:latest";
         labels = mkAllLabels "books" {
           name = "calibre web";
-          group = "media";
+          group = "books";
           icon = "calibre-web.svg";
           href = "https://books.${address}";
           desc = "ebook manager";
-          weight = -50;
+          weight = -90;
           widget = {
             type = "calibreweb";
             url = "https://books.${address}";
@@ -315,7 +349,7 @@ in {
             "https://raw.githubusercontent.com/jellyfin/jellyfin-vue/refs/heads/master/frontend/public/icon.svg";
           href = "https://jellyfin-vue.${address}";
           desc = "jellyfin web ui";
-          weight = 9;
+          weight = -10;
         };
         environment = {
           DEFAULT_SERVERS = "https://jellyfin.quasar.sucha.foo";
@@ -354,6 +388,7 @@ in {
           icon = "kiwix.svg";
           href = "http://quasar:${toString cfg.ports.kiwix}";
           desc = "offline encyclopedia";
+          weight = -20;
         };
         volumes = [ (cfg.paths.downloads + "/deluge/zim:/data") ];
         ports = [ (mkPort cfg.ports.kiwix 8080) ];
@@ -392,12 +427,12 @@ in {
       koinsight = {
         image = "ghcr.io/georgesg/koinsight:latest";
         labels = mkAllLabels "koinsight" {
-          group = "media";
+          group = "books";
           icon = "mdi-book-information-variant";
           name = "koinsight";
           href = "https://koinsight.${address}";
           desc = "reading metrics";
-          weight = -60;
+          weight = -70;
         };
         ports = [ (mkPort cfg.ports.koinsights 3000) ];
         volumes = [ (cfg.paths.config + "/koinsight:/app/data") ];
@@ -852,6 +887,7 @@ in {
           icon = "youtube.svg";
           href = "https://yt.${address}";
           desc = "youtube archive i swear";
+          weight = -5;
         };
         environment = defaultEnv // {
           STASH_PORT = toString 8899;
@@ -882,7 +918,7 @@ in {
   };
 
   system.activationScripts.mkDockerNetworks =
-    let networks = [ "paperless" "tubearchivist" ];
+    let networks = [ "booklore" "paperless" "tubearchivist" ];
     in ''
       # gracefully exit if docker isn't running
       ${pkgs.docker}/bin/docker ps >/dev/null 2>&1 || (echo "docker is not running" && return)
@@ -898,6 +934,7 @@ in {
   sops.secrets = {
     "ddclient.conf".sopsFile = ../secrets.yaml;
     beszel_env.sopsFile = ../secrets.yaml;
+    booklore_env.sopsFile = ../secrets.yaml;
     CALIBRE_WEB_HARDCOVER_KEY.sopsFile = ../secrets.yaml;
     calibre_user.sopsFile = ../secrets.yaml;
     calibre_pw.sopsFile = ../secrets.yaml;

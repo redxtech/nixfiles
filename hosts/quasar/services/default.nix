@@ -26,6 +26,7 @@ in {
     apprise = 9005;
     bazarr = 6767;
     beszel = 8090;
+    booklore = 6060;
     calibre = 8805;
     calibre-ssl = 8804;
     calibre-server = 8806;
