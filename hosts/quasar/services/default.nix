@@ -71,6 +71,7 @@ in {
     stirling-pdf = 8844;
     syncthing = 8384;
     tautulli = 8181;
+    terraria = 7777;
     tubearchivist = 8898;
     unpoller = 9130;
     uptime = 3301;

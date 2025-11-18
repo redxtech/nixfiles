@@ -85,18 +85,6 @@ in {
           pwd
         '';
 
-        ssh = {
-          description = "Use kitty ssh if in kitty";
-          wraps = "ssh";
-          body = ''
-            if test -n "$KITTY_WINDOW_ID"
-              kitty +kitten ssh $argv
-            else
-              command ssh $argv
-            end
-          '';
-        };
-
         tat = {
           description = "Open or attach to a tmux session";
           argumentNames = [ "session" ];

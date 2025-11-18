@@ -929,7 +929,10 @@ in {
       done
     '';
 
-  networking.firewall.allowedTCPPorts = with cfg.ports; [ calibre-device ];
+  networking.firewall.allowedTCPPorts = with cfg.ports; [
+    calibre-device
+    terraria
+  ];
 
   sops.secrets = {
     "ddclient.conf".sopsFile = ../secrets.yaml;
