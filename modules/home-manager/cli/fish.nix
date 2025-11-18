@@ -428,11 +428,11 @@ in {
     # file writing
     xdg.configFile."fish/env.secrets.fish".text = let
       inherit (builtins) concatStringsSep elemAt map;
+      cat = pkgs.coreutils + "/bin/cat";
       mkSecret = entry:
         let
           name = elemAt entry 0;
           secret = elemAt entry 1;
-          cat = pkgs.coreutils + "/bin/cat";
           path = config.sops.secrets.${secret}.path;
         in ''set --export ${name} "$(${cat} ${path} 2>/dev/null)"'';
       secrets = [
@@ -446,6 +446,9 @@ in {
         [ "OPENAI_KEY" "openai_key" ]
       ];
       envFile = concatStringsSep "\n" (map mkSecret secrets);
-    in envFile;
+    in ''
+      ${envFile}
+      set --export NIX_CONFIG "access-tokens = github.com=$(${cat} ${config.sops.secrets.nix-github-token.path} 2>/dev/null)"
+    '';
   };
 }
