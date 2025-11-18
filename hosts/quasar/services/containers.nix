@@ -649,6 +649,22 @@ in {
         ];
       };
 
+      qui = {
+        image = "ghcr.io/autobrr/qui:latest";
+        labels = mkAllLabels "qui" {
+          name = "qui";
+          group = "download";
+          icon = "qui.svg";
+          href = "https://qui.${address}";
+          desc = "qbit web interface";
+          weight = -100;
+        };
+        environment = defaultEnv // { QUI__PORT = toString cfg.ports.qui; };
+        environmentFiles = [ config.sops.secrets."qui_env".path ];
+        ports = [ (mkPorts cfg.ports.qui) ];
+        volumes = [ (mkConf "qui") ];
+      };
+
       radarr = {
         image = "lscr.io/linuxserver/radarr:latest";
         labels = mkHomepage {
@@ -947,6 +963,7 @@ in {
     paperless_env.sopsFile = ../secrets.yaml;
     qdirstat_user.sopsFile = ../secrets.yaml;
     qdirstat_pw.sopsFile = ../secrets.yaml;
+    qui_env.sopsFile = ../secrets.yaml;
     tubearchivist_env.sopsFile = ../secrets.yaml;
     "unpoller.env".sopsFile = ../secrets.yaml;
     watchtower_env.sopsFile = ../secrets.yaml;

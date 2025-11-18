@@ -64,6 +64,7 @@ in {
     qbit-alt = 8810;
     qbit-alt-torrent = 6882;
     qdirstat = 9030;
+    qui = 7476;
     radarr = 7878;
     scrutiny = 6080;
     sonarr = 8989;
