@@ -25,6 +25,7 @@ in {
     adguard-exporter = 3202;
     apprise = 9005;
     bazarr = 6767;
+    bento = 8282;
     beszel = 8090;
     booklore = 6060;
     calibre = 8805;

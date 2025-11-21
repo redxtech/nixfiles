@@ -81,6 +81,19 @@ in {
         volumes = [ (mkConf "bazarr") media ];
       };
 
+      bento = {
+        image = "bentopdf/bentopdf:latest";
+        labels = mkAllLabels "bento" {
+          name = "bento";
+          group = "utils";
+          icon = "bentopdf.svg";
+          href = "https://bento.${address}";
+          desc = "bento";
+        };
+        environment = defaultEnv;
+        ports = [ (mkPort cfg.ports.bento 8080) ];
+      };
+
       beszel = {
         image = "henrygd/beszel:latest";
         labels = mkAllLabels "beszel" {
