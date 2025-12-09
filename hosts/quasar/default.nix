@@ -61,6 +61,12 @@
     };
   };
 
+  # open ports for services
+  networking.firewall.allowedTCPPorts = [
+    25565 # minecraft
+    24454 # simple voice chat (minecraft)
+  ];
+
   # disable sudo password on server
   security.sudo.wheelNeedsPassword = false;
 
