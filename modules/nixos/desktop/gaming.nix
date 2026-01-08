@@ -259,7 +259,7 @@ in {
             libkrb5
             keyutils
             mangohud
-            glxinfo
+            mesa-demos
           ];
       };
     };

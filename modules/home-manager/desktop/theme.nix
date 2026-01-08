@@ -31,8 +31,7 @@ in {
           jetbrains-mono
           noto-fonts
           noto-fonts-cjk-sans
-          noto-fonts-emoji
-          noto-fonts-extra
+          noto-fonts-color-emoji
           xkcd-font
         ]
         ++ (with nerd-fonts; [ fira-code hack inconsolata symbols-only noto ]);

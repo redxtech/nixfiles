@@ -24,11 +24,9 @@ in {
 
         settings = {
           default_session = {
-            command = let
-              hyprland =
-                config.programs.uwsm.waylandCompositors.hyprland.binPath;
+            command = let hyprland = config.programs.hyprland.package;
             in ''
-              ${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd "uwsm start -F ${hyprland}"
+              ${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd "uwsm start ${hyprland}/bin/start-hyprland"
             '';
             user = "greeter";
           };

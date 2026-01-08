@@ -65,13 +65,13 @@ in {
           comma # install and run programs by sticking a , before them
           cowsay # ascii art
           cpufetch # cpu info
-          inputs.deploy-rs.packages.${system}.deploy-rs # remote deploy
+          inputs.deploy-rs.packages.${stdenv.hostPlatform.system}.deploy-rs # remote deploy
           dex # desktop entry executor
           dig # dns utils
           diffsitter # better diff
           distrobox # nice escape hatch, integrates docker images with my environment
           dogdns # better dig
-          du-dust # better du
+          dust # better du
           dua # better du
           ente-cli # manage ente from cli
           espflash # esp flashing tool
@@ -80,14 +80,13 @@ in {
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
           ffsend # file sharing
-          inputs.fh.packages.${system}.fh # flakehub
+          inputs.fh.packages.${stdenv.hostPlatform.system}.fh # flakehub
           figlet # ascii art
           flatpak # flatpak manager
           frogmouth # markdown reader
           fusee-nano # switch rcm loader
           fx # better jq
           gallery-dl # image downloader
-          glxinfo # opengl info
           hci # hercules ci tool
           home-assistant-cli # home assistant cli
           httpie # better curl
@@ -103,6 +102,7 @@ in {
           manix # nix documentation tool
           mediainfo # media info
           megatools # mega.io cli
+          mesa-demos # opengl info (previously glxinfo)
           micro # editor
           most # pager
           neofetch # system info

@@ -139,7 +139,7 @@ in {
           "MOZ_ENABLE_WAYLAND,1"
           "QT_QPA_PLATFORM,wayland"
           "XCURSOR_SIZE,32"
-          "XDG_CURRENT_DESKTOP,hyprland"
+          "XDG_CURRENT_DESKTOP,Hyprland"
           "XDG_SCREENSHOTS_DIR,~/Pictures/Screenshots"
           "SWWW_TRANSITION,wipe"
           "SWWW_TRANSITION_FPS,60"
@@ -162,8 +162,10 @@ in {
       };
 
       plugins =
-        with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system};
-        [ hyprexpo ];
+        with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}; [
+          hyprexpo
+          hyprselect
+        ];
 
       systemd = {
         enable = false;

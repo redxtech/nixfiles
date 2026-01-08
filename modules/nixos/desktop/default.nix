@@ -55,7 +55,7 @@ in {
     environment.systemPackages = with pkgs;
       [
         # gui apps
-        inputs.firefox.packages.${system}.firefox-nightly-bin
+        inputs.firefox.packages.${stdenv.hostPlatform.system}.firefox-nightly-bin
         gnome-software
         kitty
         mpv
@@ -93,8 +93,7 @@ in {
           jetbrains-mono
           noto-fonts
           noto-fonts-cjk-sans
-          noto-fonts-emoji
-          noto-fonts-extra
+          noto-fonts-color-emoji
         ]
         ++ (with nerd-fonts; [ fira-code hack inconsolata symbols-only noto ]);
     };

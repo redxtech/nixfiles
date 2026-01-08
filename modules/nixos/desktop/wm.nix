@@ -54,7 +54,8 @@ in {
     };
 
     # enable hyprland if selected
-    programs.hyprland = let hyprpkgs = inputs.hyprland.packages.${pkgs.system};
+    programs.hyprland = let
+      hyprpkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
     in {
       enable = isHyprland;
 

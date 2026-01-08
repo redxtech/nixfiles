@@ -1,9 +1,9 @@
 { lib, buildHomeAssistantComponent, python313Packages, fetchFromGitHub }:
 
 let
-  pyroute2-old = python313Packages.buildPythonPackage {
+  pyroute2-old = python313Packages.buildPythonPackage rec {
     pname = "pyroute2";
-    version = "0.7.5";
+    version = "0.9.4";
 
     pyproject = true;
     buildSystem = with python313Packages; [ setuptools ];
@@ -16,8 +16,8 @@ let
     src = fetchFromGitHub {
       owner = "svinota";
       repo = "pyroute2";
-      tag = "0.7.5";
-      hash = "sha256-Rwtz2B7CIn3udQle2aD2B3mfjDQIxaIzriIAPHRkdxA=";
+      tag = version;
+      hash = "sha256-D603ZrLbc/6REx6X0bMvZzeyo0fgTsFL7J+iRTiQLgQ=";
     };
   };
 in buildHomeAssistantComponent rec {
@@ -32,7 +32,7 @@ in buildHomeAssistantComponent rec {
     hash = "sha256-AR3WVTcASueiJsumnfZ7jKs7aVs14E2WMdiAvNU6Y2Q=";
   };
 
-  propagatedBuildInputs = with python313Packages; [ pyroute2 ];
+  propagatedBuildInputs = [ pyroute2-old ];
 
   configurePhase = ''
     substituteInPlace custom_components/iphonedetect/manifest.json --replace-fail 'pyroute2==0.7.5' 'pyroute2==0.9.4'

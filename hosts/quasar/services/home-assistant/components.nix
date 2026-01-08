@@ -45,7 +45,6 @@ in {
       "counter"
       "cover"
       "cpuspeed"
-      "cups"
       "date"
       "datetime"
       "default_config"
@@ -59,7 +58,6 @@ in {
       "diagnostics"
       "discord"
       # "dlink"
-      "dominos" # could be huge
       "energy"
       # "environment_canada" # broken (python-imageio)
       "epic_games_store"
@@ -119,7 +117,6 @@ in {
       "ipp"
       "isal"
       "jellyfin"
-      "keyboard"
       "lastfm"
       "led_ble"
       "light"
@@ -188,7 +185,6 @@ in {
       "serial"
       "seventeentrack"
       "shell_command"
-      "sms"
       "smtp"
       "sonarr"
       "spotify"

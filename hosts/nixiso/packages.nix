@@ -1,6 +1,6 @@
 { config, self, lib, pkgs, ... }:
 
-let inherit (self.inputs.tu.packages.${pkgs.system}) tu;
+let inherit (self.inputs.tu.packages.${pkgs.stdenv.hostPlatform.system}) tu;
 in {
   config = {
     environment.systemPackages = with pkgs;
@@ -126,8 +126,7 @@ in {
           iosevka-custom
           noto-fonts
           noto-fonts-cjk-sans
-          noto-fonts-emoji
-          noto-fonts-extra
+          noto-fonts-color-emoji
         ] ++ (with nerd-fonts; [ noto symbols-only ]);
     };
   };

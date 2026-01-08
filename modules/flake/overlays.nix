@@ -6,7 +6,8 @@
       # adds my custom packages
       additions = final: prev: {
         # add neovim-nightly to the packages
-        neovim-nightly = inputs.neovim-nightly.packages.${final.system}.default;
+        neovim-nightly =
+          inputs.neovim-nightly.packages.${final.stdenv.hostPlatform.system}.default;
 
         plexPassRaw = prev.plexRaw.overrideAttrs (old: rec {
           version = "1.42.2.10156-f737b826c";
@@ -21,10 +22,12 @@
 
         plexPass = prev.plex.override { plexRaw = final.plexPassRaw; };
 
-        inherit (inputs.nix-autobahn.packages.${final.system}) nix-autobahn;
+        inherit (inputs.nix-autobahn.packages.${final.stdenv.hostPlatform.system})
+          nix-autobahn;
 
         # spicetify packages
-        spicePkgs = inputs.spicetify-nix.legacyPackages.${final.system};
+        spicePkgs =
+          inputs.spicetify-nix.legacyPackages.${final.stdenv.hostPlatform.system};
       };
 
       # Modifies existing packages
@@ -43,7 +46,8 @@
         rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
 
         # use solaar from the flake
-        solaar = inputs.solaar.packages.${final.system}.default;
+        solaar =
+          inputs.solaar.packages.${final.stdenv.hostPlatform.system}.default;
 
         # include plugins with thunar
         thunar = prev.xfce.thunar.override {

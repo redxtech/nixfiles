@@ -6,9 +6,11 @@ let
   inherit (lib) mkIf optional;
 in {
   config = mkIf cfg.wm.enable {
+    services.limbo-rs.enable = true;
+
     services.limbo = let colours = config.user-theme;
     in {
-      enable = true;
+      enable = false;
 
       settings = {
         theme.font = "Dank Mono";

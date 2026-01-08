@@ -9,7 +9,8 @@
     remoteBuild = false;
     skipChecks = true;
     profiles.system.path =
-      inputs.deploy-rs.lib.${value.pkgs.stdenv.system}.activate.nixos value;
+      inputs.deploy-rs.lib.${value.pkgs.stdenv.hostPlatform.system}.activate.nixos
+      value;
   }) self.nixosConfigurations;
 
   perSystem = { config, self', inputs', pkgs, lib, system, ... }: {

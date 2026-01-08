@@ -105,7 +105,7 @@ in {
           mu
           p7zip
           pandoc
-          poppler_utils
+          poppler-utils
           python312Packages.pygments
           sqlite
           transmission_4

@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
 
     home-manager.url = "github:nix-community/home-manager";
@@ -27,7 +27,8 @@
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
+    hyprland-plugins.url =
+      "git+https://github.com/redxtech/hyprland-plugins?ref=add-hyprselect-submodule&submodules=1";
     hyprland-plugins.inputs.hyprland.follows = "hyprland";
 
     nixos-generators.url = "github:nix-community/nixos-generators";
@@ -39,22 +40,22 @@
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    limbo.url = "github:co-conspirators/limbo";
+    limbo-rs.url = "git+file:///home/gabe/Code/limbo-rs";
+
     tu.url = "github:redxtech/tu";
 
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
-    fh.url = "github:DeterminateSystems/fh";
+    fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
     flake-schemas.url = "github:DeterminateSystems/flake-schemas";
     hardware.url = "github:nixos/nixos-hardware";
     hci-effects.url = "github:hercules-ci/hercules-ci-effects";
-    limbo.url = "github:co-conspirators/limbo";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     nix-autobahn.url = "github:lassulus/nix-autobahn";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nix-neovim-plugins.url = "github:NixNeovim/NixNeovimPlugins";
     nix-serve-ng.url = "github:aristanetworks/nix-serve-ng";
-    quickgui.url =
-      "https://flakehub.com/f/quickemu-project/quickgui/1.2.10.tar.gz";
     solaar.url = "github:Svenum/Solaar-Flake/main";
     swww.url = "github:LGFae/swww";
     vicinae.url = "github:vicinaehq/vicinae";
@@ -62,8 +63,7 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware
-    , quickgui, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
     let
       mkLib = nixpkgs: nixpkgs.lib.extend (final: prev: (import ./lib final));
       customLib = mkLib nixpkgs;

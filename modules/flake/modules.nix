@@ -13,13 +13,13 @@ in {
       let
         pkgArgs = {
           inherit (self.nixCfg.nixpkgs) overlays;
-          inherit (pkgs) system;
+          inherit (pkgs.stdenv.hostPlatform) system;
           config = { rocmSupport = true; } // self.nixCfg.nixpkgs.config;
         };
       in {
         _module.args = {
           inherit self inputs;
-          inherit (pkgs) system;
+          inherit (pkgs.stdenv.hostPlatform) system;
           stable = import inputs.nixpkgs-stable pkgArgs;
           small = import inputs.nixpkgs-stable pkgArgs;
           hostnames = attrNames self.nixosConfigurations;
@@ -29,6 +29,7 @@ in {
     homeCommon = [
       inputs.hyprland.homeManagerModules.default
       inputs.limbo.homeManagerModules.default
+      inputs.limbo-rs.homeManagerModules.default
       inputs.sops-nix.homeManagerModules.sops
       inputs.nix-flatpak.homeManagerModules.nix-flatpak
       inputs.nur.modules.homeManager.default

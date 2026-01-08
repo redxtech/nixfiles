@@ -53,6 +53,7 @@ in {
         stable.jellyfin-mpv-shim # jellyfin mpv integration
         kooha # simple screen recorder
         kdePackages.kleopatra # gpg gui
+        mozillavpn # vpn
         obsidian # notes app
         pavucontrol # audio control panel
         peazip # file archiver

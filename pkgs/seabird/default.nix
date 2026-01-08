@@ -2,7 +2,7 @@
   lib,
   buildGoModule,
   fetchFromGitHub,
-  wrapGAppsHook,
+  wrapGAppsHook3,
   pkg-config,
   glib,
   graphene,
@@ -32,7 +32,7 @@ buildGoModule rec {
   vendorHash = "sha256-4o9z4XjtW7kNHAb8L0kuq9rgQzTwvAAXcl6+RIGjmqI=";
 
   nativeBuildInputs = [
-    wrapGAppsHook
+    wrapGAppsHook3
     pkg-config
     glib.dev
     libxml2

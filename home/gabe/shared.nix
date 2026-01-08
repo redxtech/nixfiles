@@ -124,32 +124,22 @@ in {
           class = "gamescope";
           fullscreen = true;
         }
+        {
+          class = "org.prismlauncher.PrismLauncher";
+          tile = true;
+        }
+        {
+          class = "Minecraft*?(.*)";
+          tile = true;
+        }
       ] ++ (map (class: {
         inherit class;
-        tile = true;
+        float = true;
       }) [
-        "ancify launcher.desktop.exe"
-        "beekeeper-studio"
-        "com.mitchellh.ghostty"
-        "com.obsproject.Studio"
-        "ente"
-        "feh"
-        "feishin"
-        "foot(client)?"
-        "google-chrome"
-        "heroic"
-        "qimgv"
-        "net.lutris.Lutris"
-        "mpv"
-        "Minecraft\\*?\\s(\\d\\.?)+"
-        "MQTT-Explorer"
-        "neovide"
-        "org.prismlauncher.PrismLauncher"
-        "Postman"
-        "steam"
-        "tauonmb"
-        "thunderbird"
-        "\\.?virt-manager(-wrapped)?"
+        "obsidian"
+        "org.pulseaudio.pavucontrol"
+        ".piper-wrapped"
+        ".blueman-manager-wrapped"
       ]);
 
       binds = with pkgs;

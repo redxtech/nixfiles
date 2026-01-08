@@ -75,13 +75,9 @@ in {
 
   config = mkIf cfg.enable {
     # yibikey required packages
-    environment.systemPackages = with stable;
+    environment.systemPackages = with pkgs;
       [ yubikey-manager yubikey-personalization yubico-pam ]
-      ++ lib.optionals cfg.installGUIApps [
-        yubikey-manager-qt
-        yubikey-personalization-gui
-        yubioath-flutter
-      ];
+      ++ lib.optionals cfg.installGUIApps [ yubioath-flutter ];
 
     # add udev rules for yubikey personalization
     services.udev.packages = with stable; [ yubikey-personalization ];

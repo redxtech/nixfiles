@@ -17,20 +17,18 @@ in {
         enable = true;
 
         # use the stable nixpkgs version of ollama to avoid rebuilding
-        package = stable.ollama;
+        package = if config.base.gpu.amd then
+          stable.ollama-rocm
+        else if config.base.gpu.nvidia.enable then
+          stable.ollama-cuda
+        else
+          stable.ollama-cpu;
 
         environmentVariables = {
           OLLAMA_ORIGINS =
             let origins = [ "app://obsidian.md*" "http://bastion:6060" ];
             in (lib.concatStringsSep "," origins);
         };
-
-        acceleration = if config.base.gpu.amd then
-          "rocm"
-        else if config.base.gpu.nvidia.enable then
-          "cuda"
-        else
-          null;
       };
 
       nextjs-ollama-llm-ui = mkIf cfg.web-ui {
