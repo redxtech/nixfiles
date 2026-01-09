@@ -1,18 +1,27 @@
-{ config, lib, pkgs, hostnames, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  hostnames,
+  ...
+}:
 
 let
   inherit (lib) mkIf concatStringsSep;
   cfg = config.cli;
 
   language = name: text: text;
-  hasPackage = pname:
-    lib.any (p: p ? pname && p.pname == pname) config.home.packages;
+  hasPackage = pname: lib.any (p: p ? pname && p.pname == pname) config.home.packages;
 
   hasRipgrep = hasPackage "ripgrep";
   hasNeovim = config.programs.neovim.enable;
-in {
+in
+{
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ babelfish grc ];
+    home.packages = with pkgs; [
+      babelfish
+      grc
+    ];
 
     programs.fish = {
       enable = true;
@@ -24,8 +33,7 @@ in {
         nr = "nix run nixpkgs#";
         nsn = "nix shell nixpkgs#";
         nbn = "nix build nixpkgs#";
-        nbp =
-          "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
+        nbp = "nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'";
         nrr = "nixos-rebuild-remote";
 
         # xmodmap
@@ -48,15 +56,13 @@ in {
         fish_greeting = "";
 
         fish_user_key_bindings = language "fish" ''
-          # fish_vi_key_bindings
-
           # use search with tab complete - next best thing to fzf tab completion
-          bind --mode insert \t complete-and-search
-          bind --mode insert --key btab complete
-          bind --mode visual \t complete-and-search
-          bind --mode visual --key btab complete
-          bind \t complete-and-search
-          bind --key btab complete
+          bind --mode insert tab complete
+          bind --mode insert shift-tab complete-and-search
+          bind --mode visual tab complete
+          bind --mode visual shift-tab complete-and-search
+          bind tab complete
+          bind shift-tab complete-and-search
 
           # open command buffer in vim when alt+e is pressed
           bind \ee edit_command_buffer
@@ -179,8 +185,7 @@ in {
         };
 
         # grep using ripgrep and pass to nvim
-        nvimrg =
-          mkIf (hasNeovim && hasRipgrep) "nvim -q (rg --vimgrep $argv | psub)";
+        nvimrg = mkIf (hasNeovim && hasRipgrep) "nvim -q (rg --vimgrep $argv | psub)";
 
         # prints the command to the screen, colorized it would be when executed
         # at the command line, then executes the command.
@@ -231,8 +236,10 @@ in {
         '';
       };
 
-      plugins = with pkgs;
-        with fishPlugins; [
+      plugins =
+        with pkgs;
+        with fishPlugins;
+        [
           {
             name = "fisher";
             src = fetchFromGitHub {
@@ -426,29 +433,57 @@ in {
     };
 
     # file writing
-    xdg.configFile."fish/env.secrets.fish".text = let
-      inherit (builtins) concatStringsSep elemAt map;
-      cat = pkgs.coreutils + "/bin/cat";
-      mkSecret = entry:
-        let
-          name = elemAt entry 0;
-          secret = elemAt entry 1;
-          path = config.sops.secrets.${secret}.path;
-        in ''set --export ${name} "$(${cat} ${path} 2>/dev/null)"'';
-      secrets = [
-        [ "YOUTUBE_API_KEY" "youtube" ]
-        [ "BW_SESSION" "bw" ]
-        [ "CACHIX_AUTH_TOKEN" "cachix" ]
-        [ "CACHIX_ACTIVATE_TOKEN" "cachix-activate" ]
-        [ "HASS_SERVER" "hass_url" ]
-        [ "HASS_TOKEN" "hass_token" ]
-        [ "OPENROUTER_KEY" "openrouter_key" ]
-        [ "OPENAI_KEY" "openai_key" ]
-      ];
-      envFile = concatStringsSep "\n" (map mkSecret secrets);
-    in ''
-      ${envFile}
-      set --export NIX_CONFIG "access-tokens = github.com=$(${cat} ${config.sops.secrets.nix-github-token.path} 2>/dev/null)"
-    '';
+    xdg.configFile."fish/env.secrets.fish".text =
+      let
+        inherit (builtins) concatStringsSep elemAt map;
+        cat = pkgs.coreutils + "/bin/cat";
+        mkSecret =
+          entry:
+          let
+            name = elemAt entry 0;
+            secret = elemAt entry 1;
+            path = config.sops.secrets.${secret}.path;
+          in
+          ''set --export ${name} "$(${cat} ${path} 2>/dev/null)"'';
+        secrets = [
+          [
+            "YOUTUBE_API_KEY"
+            "youtube"
+          ]
+          [
+            "BW_SESSION"
+            "bw"
+          ]
+          [
+            "CACHIX_AUTH_TOKEN"
+            "cachix"
+          ]
+          [
+            "CACHIX_ACTIVATE_TOKEN"
+            "cachix-activate"
+          ]
+          [
+            "HASS_SERVER"
+            "hass_url"
+          ]
+          [
+            "HASS_TOKEN"
+            "hass_token"
+          ]
+          [
+            "OPENROUTER_KEY"
+            "openrouter_key"
+          ]
+          [
+            "OPENAI_KEY"
+            "openai_key"
+          ]
+        ];
+        envFile = concatStringsSep "\n" (map mkSecret secrets);
+      in
+      ''
+        ${envFile}
+        set --export NIX_CONFIG "access-tokens = github.com=$(${cat} ${config.sops.secrets.nix-github-token.path} 2>/dev/null)"
+      '';
   };
 }

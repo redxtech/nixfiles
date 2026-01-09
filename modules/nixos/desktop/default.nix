@@ -100,7 +100,6 @@ in {
 
     # defaults
     programs = {
-      adb.enable = mkDefault true;
       dconf.enable = mkDefault true;
       gnupg.agent.enable = true;
       kdeconnect.enable = mkDefault true;

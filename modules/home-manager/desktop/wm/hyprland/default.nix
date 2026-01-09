@@ -1,4 +1,11 @@
-{ config, inputs, lib, pkgs, options, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 
 let
   inherit (lib) mkIf strings;
@@ -6,7 +13,8 @@ let
 
   cfg = config.desktop.wm.hyprland;
   opt = options.desktop;
-in {
+in
+{
   imports = [
     ./appearance.nix
     ./apps.nix
@@ -74,7 +82,9 @@ in {
 
         cursor.no_warps = true;
 
-        general = { layout = "dwindle"; };
+        general = {
+          layout = "dwindle";
+        };
 
         misc = {
           mouse_move_enables_dpms = true;
@@ -104,35 +114,48 @@ in {
           "4,pinch,fullscreen"
         ];
 
-        monitor = let
-          res = w: h: "${toString w}x${toString h}";
-          pos = x: y: "${toString x}x${toString y}";
-          mkMonitor = { name, height, width, rate, x, y, scale, ... }:
-            "${name},${res width height}@${toString rate},${pos x y},${
-              toString scale
-            }";
+        monitor =
+          let
+            res = w: h: "${toString w}x${toString h}";
+            pos = x: y: "${toString x}x${toString y}";
+            mkMonitor =
+              {
+                name,
+                height,
+                width,
+                rate,
+                x,
+                y,
+                scale,
+                ...
+              }:
+              "${name},${res width height}@${toString rate},${pos x y},${toString scale}";
 
-          monitors = map mkMonitor config.desktop.monitors;
-        in monitors
-        # default for unknown monitors, place right of existing monitors
-        ++ [ "HDMI-A-1,preferred,auto,1,mirror,DP-1" ",preferred,auto,1" ];
+            monitors = map mkMonitor config.desktop.monitors;
+          in
+          monitors
+          # default for unknown monitors, place right of existing monitors
+          ++ [
+            "HDMI-A-1,preferred,auto,1,mirror,DP-1"
+            ",preferred,auto,1"
+          ];
 
-        workspace = let
-          inherit (config.desktop) monitors;
+        workspace =
+          let
+            inherit (config.desktop) monitors;
 
-          # generate workspace string
-          mkWorkspace = monitor:
-            { name, number, ... }:
-            "${toString number},monitor:${monitor},defaultName:${name}";
+            # generate workspace string
+            mkWorkspace =
+              monitor: { name, number, ... }: "${toString number},monitor:${monitor},defaultName:${name}";
 
-          # get list of workspaces for a monitor
-          mkMonitor = { name, workspaces, ... }:
-            map (mkWorkspace name) workspaces;
+            # get list of workspaces for a monitor
+            mkMonitor = { name, workspaces, ... }: map (mkWorkspace name) workspaces;
 
-          # convert specified monitor settings to hyprland workspace strings
-          workspaces = lib.concatMap mkMonitor monitors;
+            # convert specified monitor settings to hyprland workspace strings
+            workspaces = lib.concatMap mkMonitor monitors;
 
-        in workspaces;
+          in
+          workspaces;
 
         env = [
           "GRIMBLAST_EDITOR,satty"
@@ -154,17 +177,32 @@ in {
             gap_size = 10;
             bg_col = "rgb(${strings.removePrefix "#" config.user-theme.bg})";
             workspace_method = "first 1";
-
-            gesture_fingers = 3;
-            gesture_positive = false; # positive = down. negative = up.
           };
         };
       };
 
       plugins =
-        with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}; [
+        with pkgs;
+        let
+          system = pkgs.stdenv.hostPlatform.system;
+          hyprland = inputs.hyprland.packages.${system}.hyprland;
+        in
+        with inputs.hyprland-plugins.packages.${system};
+        [
           hyprexpo
-          hyprselect
+
+          (hyprland.stdenv.mkDerivation rec {
+            pname = "hyprselect";
+            version = "0.53.0";
+            src = fetchFromGitHub {
+              owner = "jmanc3";
+              repo = "hyprselect";
+              rev = "v${version}";
+              hash = "sha256-s2pbPTdPOAbC6nffxx1yPp3KvBIUhJ7t8tERY2/ti3Q=";
+            };
+            nativeBuildInputs = [ pkgs.pkg-config ] ++ hyprland.nativeBuildInputs;
+            buildInputs = [ hyprland ] ++ hyprland.buildInputs;
+          })
         ];
 
       systemd = {
@@ -182,8 +220,7 @@ in {
       wm.scripts.wm = {
         wallpaper = "${pkgs.swww}/bin/swww img";
         lock = "${pkgs.hyprlock}/bin/hyprlock";
-        sleep =
-          "${pkgs.coreutils}/bin/sleep 1 && ${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+        sleep = "${pkgs.coreutils}/bin/sleep 1 && ${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
       };
     };
 

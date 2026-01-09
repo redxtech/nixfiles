@@ -27,8 +27,7 @@
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland-plugins.url =
-      "git+https://github.com/redxtech/hyprland-plugins?ref=add-hyprselect-submodule&submodules=1";
+    hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
     hyprland-plugins.inputs.hyprland.follows = "hyprland";
 
     nixos-generators.url = "github:nix-community/nixos-generators";
@@ -41,7 +40,7 @@
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     limbo.url = "github:co-conspirators/limbo";
-    limbo-rs.url = "git+file:///home/gabe/Code/limbo-rs";
+    limbo-rs.url = "github:co-conspirators/limbo-rs";
 
     tu.url = "github:redxtech/tu";
 
@@ -63,11 +62,20 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, hardware, ... }:
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      flake-parts,
+      hardware,
+      ...
+    }:
     let
       mkLib = nixpkgs: nixpkgs.lib.extend (final: prev: (import ./lib final));
       customLib = mkLib nixpkgs;
-    in flake-parts.lib.mkFlake { inherit inputs; } {
+    in
+    flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./modules/flake/ci.nix
         ./modules/flake/deploy.nix
@@ -80,7 +88,10 @@
         ./modules/flake/shell.nix
       ];
 
-      systems = [ "x86_64-linux" "aarch64-linux" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
 
       flake = {
         nixosConfigurations = {
@@ -109,8 +120,17 @@
         lib = customLib;
       };
 
-      perSystem = { config, self', inputs', pkgs, system, ... }: {
-        formatter = pkgs.nixpkgs-fmt;
-      };
+      perSystem =
+        {
+          config,
+          self',
+          inputs',
+          pkgs,
+          system,
+          ...
+        }:
+        {
+          formatter = pkgs.nixpkgs-fmt;
+        };
     };
 }

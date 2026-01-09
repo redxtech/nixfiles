@@ -50,7 +50,7 @@ in {
 
       vicinae = {
         enable = true;
-        autoStart = true;
+        systemd.enable = true;
 
         settings = {
           faviconService = "twenty"; # twenty | google | none

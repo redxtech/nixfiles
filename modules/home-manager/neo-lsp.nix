@@ -93,7 +93,7 @@ in {
             ++ (optional cfg.web.deno deno));
 
         lua = with pkgs; [ lua-language-server stylua ];
-        nix = with pkgs; [ nil nixfmt-classic ];
+        nix = with pkgs; [ nil nixfmt ];
         rust = with pkgs; [
           cargo # switch to use fenix ?
           rustfmt

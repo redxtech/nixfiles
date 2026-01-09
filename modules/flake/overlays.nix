@@ -50,10 +50,8 @@
           inputs.solaar.packages.${final.stdenv.hostPlatform.system}.default;
 
         # include plugins with thunar
-        thunar = prev.xfce.thunar.override {
-          thunarPlugins =
-            [ prev.xfce.thunar-archive-plugin prev.xfce.thunar-volman ];
-        };
+        thunar =
+          prev.thunar.override { thunarPlugins = [ prev.thunar-volman ]; };
 
         zinit = prev.zinit.overrideAttrs (oldAttrs: {
           installPhase = ''

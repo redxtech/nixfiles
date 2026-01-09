@@ -70,7 +70,7 @@ in {
         vesktop # better discord client
         vlc # video player
         warp # file transfer
-        xfce.exo # file opener
+        xfce4-exo # file opener
       ] ++ config.desktop.apps;
 
     services.playerctld = { enable = true; };

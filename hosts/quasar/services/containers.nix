@@ -886,7 +886,7 @@ in {
       };
 
       watchtower = {
-        image = "containrrr/watchtower:latest";
+        image = "nickfedor/watchtower:latest";
         labels = mkAllLabels "watchtower" {
           name = "watchtower";
           group = "services";

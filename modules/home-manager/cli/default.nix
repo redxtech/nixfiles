@@ -54,7 +54,7 @@ in {
       packages = with pkgs;
         [
           age # encryption
-          ani-cli # anime tool
+          android-tools # android debug bridge
           appimage-run # run appimages
           atool # work with archives
           bitwarden-cli # password manager
@@ -70,7 +70,7 @@ in {
           dig # dns utils
           diffsitter # better diff
           distrobox # nice escape hatch, integrates docker images with my environment
-          dogdns # better dig
+          doggo # better dig
           dust # better du
           dua # better du
           ente-cli # manage ente from cli
@@ -106,13 +106,12 @@ in {
           micro # editor
           most # pager
           neofetch # system info
-          nixfmt-classic # nix formatter
+          nixfmt # nix formatter
           nixpkgs-review # nixpkgs PR reviewer
           nix-autobahn # dynamic executable helper
           nix-du # du for nix store
           nix-inspect # see which pkgs are in your PATH
           nix-update # update hashes in nix files
-          omnix # better cli for nix
           onefetch # current repo info
           pciutils # pci info
           pfetch-rs # system info
@@ -143,7 +142,7 @@ in {
           xclip # clipboard manager
           xdg-utils # for xdg-open
           xdo # xdotool
-          xfce.exo # protocol handler
+          xfce4-exo # protocol handler
           xorg.xev # keyboard event viewer
           xorg.xmodmap # keyboard remapper
           yadm # dotfile manager
