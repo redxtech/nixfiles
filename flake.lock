@@ -152,6 +152,46 @@
         "type": "github"
       }
     },
+    "citron": {
+      "inputs": {
+        "citron-src": "citron-src",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nx-tzdb": "nx-tzdb"
+      },
+      "locked": {
+        "lastModified": 1768285873,
+        "narHash": "sha256-aNLMadxElnVR5UPYqnAySPkayB1RUmVbxFLJ1uor7Ao=",
+        "owner": "simonwjackson",
+        "repo": "citron.nix",
+        "rev": "0d1a667106938473b0d89af1910f1959891866e1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "simonwjackson",
+        "repo": "citron.nix",
+        "type": "github"
+      }
+    },
+    "citron-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768205084,
+        "narHash": "sha256-3e0GR8ZQ35csvLQWkeSwBlbPYL0mS0GviwIuVr7ZCX0=",
+        "ref": "refs/heads/main",
+        "rev": "92ad4057e79acccf30e60ee3506e544aa0072b1c",
+        "revCount": 27976,
+        "submodules": true,
+        "type": "git",
+        "url": "https://git.citron-emu.org/Citron/Emulator.git"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://git.citron-emu.org/Citron/Emulator.git"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1758758545,
@@ -2824,6 +2864,19 @@
         "type": "github"
       }
     },
+    "nx-tzdb": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697056572,
+        "narHash": "sha256-YOIElcKTiclem05trZsA3YJReozu/ex7jJAKD6nAMwc=",
+        "type": "tarball",
+        "url": "https://github.com/lat9nq/tzdb_to_nx/releases/download/221202/221202.zip"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/lat9nq/tzdb_to_nx/releases/download/221202/221202.zip"
+      }
+    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": [
@@ -2952,6 +3005,7 @@
     "root": {
       "inputs": {
         "cachix-deploy-flake": "cachix-deploy-flake",
+        "citron": "citron",
         "deploy-rs": "deploy-rs",
         "devenv": "devenv",
         "disko": "disko_2",

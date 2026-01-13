@@ -44,6 +44,8 @@
 
     tu.url = "github:redxtech/tu";
 
+    citron.url = "github:simonwjackson/citron.nix";
+    citron.inputs.nixpkgs.follows = "nixpkgs";
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
