@@ -32,7 +32,7 @@ in {
 
       easyeffects = mkOption {
         type = types.bool;
-        default = true;
+        default = false;
         example = true;
         description = "Enable EasyEffects";
       };

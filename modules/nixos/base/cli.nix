@@ -123,7 +123,7 @@ in {
         curl
         eza
         fd
-        ffmpeg
+        ffmpeg-full
         file
         fzf
         gcc

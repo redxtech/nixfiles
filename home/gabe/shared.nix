@@ -16,6 +16,7 @@ in {
     enable = true;
 
     apps = with pkgs; [
+      insomnia # api client
       # jellyfin-media-player # jellyfin client
       libation # audible client
       libreoffice # office suite
