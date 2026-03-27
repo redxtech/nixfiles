@@ -1,4 +1,8 @@
-{ lib, buildHomeAssistantComponent, fetchFromGitHub }:
+{
+  lib,
+  buildHomeAssistantComponent,
+  fetchFromGitHub,
+}:
 
 buildHomeAssistantComponent rec {
   owner = "snarky-snark";
@@ -15,10 +19,8 @@ buildHomeAssistantComponent rec {
   dontBuild = true;
 
   meta = with lib; {
-    changelog =
-      "https://github.com/snarky-snark/home-assistant-variables/releases/tag/v${version}";
-    description =
-      "A custom Home Assistant component for declaring and setting generic variable entities dynamically.";
+    changelog = "https://github.com/snarky-snark/home-assistant-variables/releases/tag/v${version}";
+    description = "A custom Home Assistant component for declaring and setting generic variable entities dynamically.";
     homepage = "https://github.com/snarky-snark/home-assistant-variables";
     maintainers = with maintainers; [ redxtech ];
     license = licenses.asl20;

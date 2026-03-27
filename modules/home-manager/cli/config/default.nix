@@ -3,9 +3,12 @@
 let
   inherit (lib) mkIf;
   cfg = config.cli;
-in {
+in
+{
   config = mkIf cfg.enable {
-    xdg.configFile = { "ente/config.yaml".source = ./ente.yaml; };
+    xdg.configFile = {
+      "ente/config.yaml".source = ./ente.yaml;
+    };
 
     sops.secrets.streamrip = {
       sopsFile = ../../../../home/gabe/secrets.yaml;

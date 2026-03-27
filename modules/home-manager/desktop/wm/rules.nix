@@ -3,29 +3,35 @@
 let
   inherit (lib) mkIf mkOption;
   cfg = config.desktop.wm;
-in {
-  options.desktop.wm.rules = with lib.types;
+in
+{
+  options.desktop.wm.rules =
+    with lib.types;
     let
-      mkStr = description: example:
+      mkStr =
+        description: example:
         mkOption {
           inherit description example;
           type = str;
           default = "";
         };
-      mkBool = description: default:
+      mkBool =
+        description: default:
         mkOption {
           inherit description default;
           type = bool;
           example = toString (!default);
         };
-      mkInt = description:
+      mkInt =
+        description:
         mkOption {
           inherit description;
           type = nullOr int;
           default = null;
           example = "1";
         };
-    in mkOption {
+    in
+    mkOption {
       type = listOf (submodule {
         options = {
           # window selectors
@@ -55,10 +61,12 @@ in {
       });
       default = { };
       description = "The flags to set on the window";
-      example = [{
-        class = "firefox";
-        ws = "www";
-      }];
+      example = [
+        {
+          class = "firefox";
+          ws = "www";
+        }
+      ];
     };
 
   config = mkIf cfg.enable {

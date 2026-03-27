@@ -1,8 +1,19 @@
-{ self, lib, inputs, withSystem, ... }:
+{
+  self,
+  lib,
+  inputs,
+  withSystem,
+  ...
+}:
 
 let
-  primaryInputs =
-    [ "nixpkgs" "home-manager" "fenix" "hyprland" "neovim-nightly" ];
+  primaryInputs = [
+    "nixpkgs"
+    "home-manager"
+    "fenix"
+    "hyprland"
+    "neovim-nightly"
+  ];
   secondaryInputs = [
     "cachix-deploy-flake"
     "disko"
@@ -24,7 +35,8 @@ let
     "swww"
     "xremap-flake"
   ];
-in {
+in
+{
   imports = [ inputs.hci-effects.flakeModule ];
 
   hercules-ci = {
@@ -38,8 +50,7 @@ in {
         update `flake.lock`. see the commit message(s) for details.
 
         updated flake inputs:
-        ${builtins.concatStringsSep "\n"
-        (map (i: "	- ${i}") (primaryInputs ++ secondaryInputs))}
+        ${builtins.concatStringsSep "\n" (map (i: "	- ${i}") (primaryInputs ++ secondaryInputs))}
 
         you may reset this branch by deleting it and re-running the update job.
 
@@ -61,43 +72,59 @@ in {
   herculesCI = {
     ciSystems = [ "x86_64-linux" ];
 
-    onPush.default.outputs.effects = withSystem "x86_64-linux"
-      ({ config, hci-effects, pkgs, inputs', ... }:
-        let
-          inherit (hci-effects) runIf runNixOS;
-          shouldDeploy = false;
-          # temp disable until i can figure out how to get the tag
-          # shouldDeploy = length (match "deploy-(.*)" herculesCI.repo.tag) != 0;
-        in {
-          deploy-bastion = runIf shouldDeploy (runNixOS {
-            name = "deploy-bastion";
-            configuration = self.nixosConfigurations.bastion;
-            secretsMap.ssh = "default-ssh";
-            ssh.destination = "bastion.colobus-pirate.ts.net";
-            userSetupScript = ''
-              writeSSHKey ssh
-              cat >>~/.ssh/known_hosts <<EOF
-              bastion.colobus-pirate.ts.net ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMH9M36ujLFPqB/3cksmux1MAq+fHUw3tq8ORZ7uPcW/
-              EOF
-            '';
-          });
+    onPush.default.outputs.effects = withSystem "x86_64-linux" (
+      {
+        config,
+        hci-effects,
+        pkgs,
+        inputs',
+        ...
+      }:
+      let
+        inherit (hci-effects) runIf runNixOS;
+        shouldDeploy = false;
+        # temp disable until i can figure out how to get the tag
+        # shouldDeploy = length (match "deploy-(.*)" herculesCI.repo.tag) != 0;
+      in
+      {
+        deploy-bastion = runIf shouldDeploy (runNixOS {
+          name = "deploy-bastion";
+          configuration = self.nixosConfigurations.bastion;
+          secretsMap.ssh = "default-ssh";
+          ssh.destination = "bastion.colobus-pirate.ts.net";
+          userSetupScript = ''
+            writeSSHKey ssh
+            cat >>~/.ssh/known_hosts <<EOF
+            bastion.colobus-pirate.ts.net ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMH9M36ujLFPqB/3cksmux1MAq+fHUw3tq8ORZ7uPcW/
+            EOF
+          '';
         });
+      }
+    );
   };
 
-  perSystem = { config, self', inputs', pkgs, system, ... }: {
-    apps = let
-      mkUpdateScript = inputs: {
-        type = "app";
-        program = pkgs.writeShellScriptBin "update-inputs" ''
-          nix flake lock ${
-            lib.concatStringsSep " "
-            (builtins.map (i: "--update-input ${i}") inputs)
-          }
-        '';
-      };
-    in {
-      update-primary = mkUpdateScript primaryInputs;
-      update-all = mkUpdateScript (primaryInputs ++ secondaryInputs);
+  perSystem =
+    {
+      config,
+      self',
+      inputs',
+      pkgs,
+      system,
+      ...
+    }:
+    {
+      apps =
+        let
+          mkUpdateScript = inputs: {
+            type = "app";
+            program = pkgs.writeShellScriptBin "update-inputs" ''
+              nix flake lock ${lib.concatStringsSep " " (builtins.map (i: "--update-input ${i}") inputs)}
+            '';
+          };
+        in
+        {
+          update-primary = mkUpdateScript primaryInputs;
+          update-all = mkUpdateScript (primaryInputs ++ secondaryInputs);
+        };
     };
-  };
 }

@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.desktop;
-in {
+let
+  cfg = config.desktop;
+in
+{
   config = lib.mkIf cfg.enable {
     programs.mpv = {
       enable = true;
@@ -18,10 +25,8 @@ in {
         ## script binds
 
         # quality menu
-        F =
-          "script-binding quality_menu/video_formats_toggle #! Stream Quality > Video";
-        "Alt+f" =
-          "script-binding quality_menu/audio_formats_toggle #! Stream Quality > Audio";
+        F = "script-binding quality_menu/video_formats_toggle #! Stream Quality > Video";
+        "Alt+f" = "script-binding quality_menu/audio_formats_toggle #! Stream Quality > Audio";
         "Ctrl+r" = "script-binding quality_menu/reload";
 
         # webtorrent
@@ -64,7 +69,9 @@ in {
           top_bar = "always";
           top_bar_controls = "no";
         };
-        visualizer = { name = "showwaves"; };
+        visualizer = {
+          name = "showwaves";
+        };
       };
     };
 
@@ -73,14 +80,18 @@ in {
       genericName = "Multimedia player";
       comment = "Play movies and songs";
       icon = "mpv";
-      exec =
-        "${config.programs.mpv.package}/bin/mpv --player-operation-mode=pseudo-gui -- %U";
+      exec = "${config.programs.mpv.package}/bin/mpv --player-operation-mode=pseudo-gui -- %U";
       settings.TryExec = "mpv";
       settings.StartupWMClass = "mpv";
-      settings.X-KDE-Protocols =
-        "ftp,http,https,mms,rtmp,rtsp,sftp,smb,srt,rist,webdav,webdavs";
+      settings.X-KDE-Protocols = "ftp,http,https,mms,rtmp,rtsp,sftp,smb,srt,rist,webdav,webdavs";
       type = "Application";
-      categories = [ "AudioVideo" "Audio" "Video" "Player" "TV" ];
+      categories = [
+        "AudioVideo"
+        "Audio"
+        "Video"
+        "Player"
+        "TV"
+      ];
       mimeType = [
         "application/ogg"
         "application/x-ogg"

@@ -1,9 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (pkgs) fetchFromGitHub;
   cfg = config.cli;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     programs.ranger.plugins = [
       {

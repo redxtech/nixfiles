@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.nas;
-in {
+let
+  cfg = config.nas;
+in
+{
   config = lib.mkIf cfg.enable {
     network.services.node-red = config.services.node-red.port;
 

@@ -1,9 +1,18 @@
-{ config, self, lib, pkgs, ... }:
+{
+  config,
+  self,
+  lib,
+  pkgs,
+  ...
+}:
 
-let inherit (self.inputs.tu.packages.${pkgs.stdenv.hostPlatform.system}) tu;
-in {
+let
+  inherit (self.inputs.tu.packages.${pkgs.stdenv.hostPlatform.system}) tu;
+in
+{
   config = {
-    environment.systemPackages = with pkgs;
+    environment.systemPackages =
+      with pkgs;
       let
         defaultTmpfs = "/mnt/config/tmpfs";
 
@@ -19,39 +28,54 @@ in {
         mkFs = host: self.nixosConfigurations.${host}.config.fileSystems;
         mkFsOpts = fs: lib.concatStringsSep "," fs.options;
         mkMnt = fs: mount: "mount ${fs.${mount}.device} /mnt${mount}";
-        mkMntBtrfs = fs: mount:
-          "mount -t btrfs -o ${mkFsOpts fs.${mount}} ${
-            fs.${mount}.device
-          } /mnt${mount}";
+        mkMntBtrfs =
+          fs: mount: "mount -t btrfs -o ${mkFsOpts fs.${mount}} ${fs.${mount}.device} /mnt${mount}";
 
-        mount-system-quasar = let fs = mkFs "quasar";
-        in writeShellScriptBin "mount-system-quasar" ''
-          # mount main system
-          ${lib.concatStringsSep "\n"
-          (map (mkMnt fs) [ "/" "/boot" "/config" ])}
-
-          # fix for running out of space
-          TMPDIR="/mnt/config/tmpfs"
-          mount -t overlay -o lowerdir=/nix/store,upperdir=$TMPDIR/store,workdir=$TMPDIR/storew overlay /nix/store
-          mount -t overlay -o lowerdir=/tmp,upperdir=$TMPDIR/tmp,workdir=$TMPDIR/tmpw overlay /tmp
-        '';
-        mount-system-bastion = let fs = mkFs "bastion";
-        in writeShellApplication {
-          name = "mount-system-bastion";
-          runtimeInputs = [ pkgs.btrfs-progs ];
-          text = ''
+        mount-system-quasar =
+          let
+            fs = mkFs "quasar";
+          in
+          writeShellScriptBin "mount-system-quasar" ''
             # mount main system
-            ${lib.concatStringsSep "\n"
-            (map (mkMntBtrfs fs) [ "/" "/home" "/nix" ])}
-            mount ${fs."/boot".device} /mnt/boot
+            ${lib.concatStringsSep "\n" (
+              map (mkMnt fs) [
+                "/"
+                "/boot"
+                "/config"
+              ]
+            )}
 
             # fix for running out of space
-            TMPDIR="/mnt/tmp/tmpfs"
+            TMPDIR="/mnt/config/tmpfs"
             mount -t overlay -o lowerdir=/nix/store,upperdir=$TMPDIR/store,workdir=$TMPDIR/storew overlay /nix/store
             mount -t overlay -o lowerdir=/tmp,upperdir=$TMPDIR/tmp,workdir=$TMPDIR/tmpw overlay /tmp
           '';
-        };
-      in [
+        mount-system-bastion =
+          let
+            fs = mkFs "bastion";
+          in
+          writeShellApplication {
+            name = "mount-system-bastion";
+            runtimeInputs = [ pkgs.btrfs-progs ];
+            text = ''
+              # mount main system
+              ${lib.concatStringsSep "\n" (
+                map (mkMntBtrfs fs) [
+                  "/"
+                  "/home"
+                  "/nix"
+                ]
+              )}
+              mount ${fs."/boot".device} /mnt/boot
+
+              # fix for running out of space
+              TMPDIR="/mnt/tmp/tmpfs"
+              mount -t overlay -o lowerdir=/nix/store,upperdir=$TMPDIR/store,workdir=$TMPDIR/storew overlay /nix/store
+              mount -t overlay -o lowerdir=/tmp,upperdir=$TMPDIR/tmp,workdir=$TMPDIR/tmpw overlay /tmp
+            '';
+          };
+      in
+      [
         # cli tools to have on the iso
         atool
         bat
@@ -118,7 +142,8 @@ in {
 
       fontDir.enable = true;
 
-      packages = with pkgs;
+      packages =
+        with pkgs;
         [
           cantarell-fonts
           dank-mono
@@ -127,7 +152,11 @@ in {
           noto-fonts
           noto-fonts-cjk-sans
           noto-fonts-color-emoji
-        ] ++ (with nerd-fonts; [ noto symbols-only ]);
+        ]
+        ++ (with nerd-fonts; [
+          noto
+          symbols-only
+        ]);
     };
   };
 }

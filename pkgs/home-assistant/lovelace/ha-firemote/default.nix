@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchFromGitHub }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+}:
 
 stdenv.mkDerivation rec {
   pname = "ha-firemote";
@@ -22,10 +26,8 @@ stdenv.mkDerivation rec {
   passthru.entrypoint = "HA-Firemote.js";
 
   meta = with lib; {
-    changelog =
-      "https://github.com/PRProd/HA-Firemote/releases/tag/v${version}";
-    description =
-      "Apple TV, Amazon Fire TV, Fire streaming stick, Chromecast, NVIDIA Shield, onn., Roku, Xiaomi Mi, and Android TV remote control card for Home Assistant";
+    changelog = "https://github.com/PRProd/HA-Firemote/releases/tag/v${version}";
+    description = "Apple TV, Amazon Fire TV, Fire streaming stick, Chromecast, NVIDIA Shield, onn., Roku, Xiaomi Mi, and Android TV remote control card for Home Assistant";
     homepage = "https://github.com/PRProd/HA-Firemote";
     maintainers = with maintainers; [ redxtech ];
     license = licenses.gpl3Plus;

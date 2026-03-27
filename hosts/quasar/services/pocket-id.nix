@@ -1,7 +1,9 @@
 { config, ... }:
 
-let cfg = config.nas;
-in {
+let
+  cfg = config.nas;
+in
+{
   network.services.id = cfg.ports.pocket-id;
 
   services.pocket-id = {

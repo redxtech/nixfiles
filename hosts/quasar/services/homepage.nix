@@ -1,9 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.nas;
   cfgNet = config.network;
-in {
+in
+{
   config = {
     network.services.home = cfg.ports.homepage;
 
@@ -110,14 +116,16 @@ in {
           ];
         }
         {
-          admin = [{
-            cockpit = {
-              icon = "sh-cockpit.svg";
-              href = "https://cockpit.${cfgNet.address}";
-              description = "system control panel";
-              weight = -100;
-            };
-          }];
+          admin = [
+            {
+              cockpit = {
+                icon = "sh-cockpit.svg";
+                href = "https://cockpit.${cfgNet.address}";
+                description = "system control panel";
+                weight = -100;
+              };
+            }
+          ];
         }
         {
           network = [
@@ -208,14 +216,20 @@ in {
         { utils = [ ]; }
       ];
 
-      bookmarks = [{
-        links = [{
-          repo = [{
-            abbr = "nf";
-            href = "https://github.com/redxtech/nixfiles";
-          }];
-        }];
-      }];
+      bookmarks = [
+        {
+          links = [
+            {
+              repo = [
+                {
+                  abbr = "nf";
+                  href = "https://github.com/redxtech/nixfiles";
+                }
+              ];
+            }
+          ];
+        }
+      ];
 
       environmentFile = config.sops.secrets.homepage_env.path;
     };

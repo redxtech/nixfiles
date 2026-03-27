@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
 let
@@ -6,7 +11,8 @@ let
   cfgNet = config.network;
 
   inherit (cfgNet) address;
-in {
+in
+{
   imports = [
     ./adguard.nix
     ./containers.nix
@@ -104,13 +110,15 @@ in {
 
   services.hercules-ci-agent = {
     enable = true;
-    settings = let
-      secretPath = name: config.sops.secrets."hercules-ci-agent-${name}".path;
-    in {
-      binaryCachesPath = secretPath "binary-caches";
-      clusterJoinTokenPath = secretPath "join-token";
-      secretsJsonPath = secretPath "secrets";
-    };
+    settings =
+      let
+        secretPath = name: config.sops.secrets."hercules-ci-agent-${name}".path;
+      in
+      {
+        binaryCachesPath = secretPath "binary-caches";
+        clusterJoinTokenPath = secretPath "join-token";
+        secretsJsonPath = secretPath "secrets";
+      };
   };
 
   services.navidrome = {
@@ -149,8 +157,7 @@ in {
     };
   };
 
-  systemd.services.navidrome.serviceConfig.EnvironmentFile =
-    config.sops.secrets.navidrome_env.path;
+  systemd.services.navidrome.serviceConfig.EnvironmentFile = config.sops.secrets.navidrome_env.path;
 
   environment.systemPackages = with pkgs; [ cockpit-zfs-manager ];
 

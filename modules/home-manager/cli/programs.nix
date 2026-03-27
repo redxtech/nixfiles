@@ -1,9 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
   cfg = config.cli;
-in {
+in
+{
   config = mkIf cfg.enable {
     programs = {
       bat = {
@@ -16,8 +22,7 @@ in {
         settings = {
           color_theme = "dracula";
           theme_background = false;
-          presets =
-            "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty";
+          presets = "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty";
           vim_keys = true;
           graph_symbol = "braille";
           shown_boxes = "cpu net proc mem";
@@ -42,8 +47,12 @@ in {
             # overshoot = 20;
             # sensitivity = 100;
           };
-          input = { source = "auto"; };
-          color = { foreground = "blue"; };
+          input = {
+            source = "auto";
+          };
+          color = {
+            foreground = "blue";
+          };
           smoothing = {
             monstercat = 1; # TODO: test this
           };
@@ -63,7 +72,10 @@ in {
         enable = true;
         git = true;
         icons = "auto";
-        extraOptions = [ "--group-directories-first" "--header" ];
+        extraOptions = [
+          "--group-directories-first"
+          "--header"
+        ];
       };
 
       fzf = {
@@ -86,12 +98,16 @@ in {
         tmux.enableShellIntegration = true;
       };
 
-      granted = { enable = false; };
+      granted = {
+        enable = false;
+      };
 
       htop.enable = true;
       jq.enable = true;
 
-      keychain = { enable = false; };
+      keychain = {
+        enable = false;
+      };
 
       pyenv.enable = true;
 
@@ -170,7 +186,9 @@ in {
         enable = true;
 
         settings = {
-          display = { compact = false; };
+          display = {
+            compact = false;
+          };
           updates = {
             auto_update = true;
             auto_update_interval_hours = 168;
@@ -287,8 +305,7 @@ in {
         enable = true;
 
         settings = {
-          output =
-            "'[%(release_date>%Y-%m-%d,upload_date>%Y-%m-%d|Unknown)s] %(creator)s - %(title)s.%(ext)s'";
+          output = "'[%(release_date>%Y-%m-%d,upload_date>%Y-%m-%d|Unknown)s] %(creator)s - %(title)s.%(ext)s'";
           # format = "best";
           concurrent-fragments = 5;
           write-thumbnail = true;
@@ -307,4 +324,3 @@ in {
     };
   };
 }
-

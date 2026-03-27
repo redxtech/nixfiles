@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.desktop;
-in {
+let
+  cfg = config.desktop;
+in
+{
   config = lib.mkIf cfg.enable rec {
     home.packages = with pkgs; [ vimix-cursor-theme ];
 
@@ -23,7 +30,8 @@ in {
         package = pkgs.nerd-fonts.symbols-only;
       };
 
-      extraFonts = with pkgs;
+      extraFonts =
+        with pkgs;
         [
           cantarell-fonts
           inter
@@ -34,7 +42,13 @@ in {
           noto-fonts-color-emoji
           xkcd-font
         ]
-        ++ (with nerd-fonts; [ fira-code hack inconsolata symbols-only noto ]);
+        ++ (with nerd-fonts; [
+          fira-code
+          hack
+          inconsolata
+          symbols-only
+          noto
+        ]);
     };
 
     gtk = {
@@ -55,7 +69,11 @@ in {
         package = pkgs.papirus-icon-theme;
       };
 
-      gtk3 = { extraConfig = { gtk-application-prefer-dark-theme = 1; }; };
+      gtk3 = {
+        extraConfig = {
+          gtk-application-prefer-dark-theme = 1;
+        };
+      };
 
       gtk2 = {
         configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";

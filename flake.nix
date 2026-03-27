@@ -33,11 +33,17 @@
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
+    noctalia.url = "github:noctalia-dev/noctalia-shell";
+    noctalia.inputs.nixpkgs.follows = "nixpkgs";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     limbo.url = "github:co-conspirators/limbo";
     limbo-rs.url = "github:co-conspirators/limbo-rs";
@@ -81,6 +87,7 @@
       imports = [
         ./modules/flake/ci.nix
         ./modules/flake/deploy.nix
+        ./modules/flake/fmt.nix
         ./modules/flake/nix.nix
         ./modules/flake/nixiso.nix
         ./modules/flake/modules.nix

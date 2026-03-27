@@ -1,9 +1,15 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
   cfg = config.cli;
-in {
+in
+{
   config = mkIf cfg.enable {
     programs.zsh = {
       enable = true;
@@ -72,8 +78,7 @@ in {
         ZSH_CUSTOM = "${config.xdg.configHome}/zsh";
         ZSH_FNM_ENV_EXTRA_ARGS = "--use-on-cd";
         AUTO_NOTIFY_EXPIRE_TIME = 10000;
-        AUTO_NOTIFY_IGNORE =
-          "(btm btop conf docker kitty micro ranger spotifyd spt ssh tmux yadm zsh)";
+        AUTO_NOTIFY_IGNORE = "(btm btop conf docker kitty micro ranger spotifyd spt ssh tmux yadm zsh)";
       };
 
       zinit = {
@@ -140,7 +145,9 @@ in {
           { name = "redxtech/zsh-unix-simple"; }
           {
             name = "ryutok/rust-zsh-completions";
-            ice = { as = "completion"; };
+            ice = {
+              as = "completion";
+            };
           }
           { name = "voronkovich/gitignore.plugin.zsh"; }
           { name = "zpm-zsh/ssh"; }

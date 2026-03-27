@@ -1,9 +1,21 @@
-{ pkgs, lib, config, stable, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  stable,
+  ...
+}:
 
 let
-  inherit (lib) mkIf mkEnableOption optional optionals;
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    optional
+    optionals
+    ;
   cfg = config.base.gpu;
-in {
+in
+{
   options.base.gpu = {
     enable = mkEnableOption "GPU support";
 
@@ -25,16 +37,14 @@ in {
       }
       {
         assertion = !cfg.nvidia.enable;
-        message =
-          "NVIDIA module hasn't been tested yet, test before committing to it";
+        message = "NVIDIA module hasn't been tested yet, test before committing to it";
       }
     ];
 
     # set the video driver
-    boot.initrd.kernelModules = (optional cfg.amd "amdgpu")
-      ++ (optional cfg.nvidia.enable "nvidia");
-    services.xserver.videoDrivers = (optional cfg.amd "amdgpu")
-      ++ (optional cfg.nvidia.enable "nvidia");
+    boot.initrd.kernelModules = (optional cfg.amd "amdgpu") ++ (optional cfg.nvidia.enable "nvidia");
+    services.xserver.videoDrivers =
+      (optional cfg.amd "amdgpu") ++ (optional cfg.nvidia.enable "nvidia");
 
     hardware.graphics = with pkgs; {
       enable = true;

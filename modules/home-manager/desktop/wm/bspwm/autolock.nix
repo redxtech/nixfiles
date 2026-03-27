@@ -1,9 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   inherit (lib) mkIf mkOption;
   cfg = config.desktop;
-in {
+in
+{
   options.desktop = with lib.types; {
     autolock = {
       enable = mkOption {
@@ -34,16 +40,19 @@ in {
       not-when-audio = true;
       not-when-fullscreen = true;
 
-      timers = mkIf cfg.autolock.enable ([{
-        delay = cfg.autolock.delay;
-        command =
-          "${pkgs.betterlockscreen}/bin/betterlockscreen --lock dimblur";
-      }]
+      timers = mkIf cfg.autolock.enable (
+        [
+          {
+            delay = cfg.autolock.delay;
+            command = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock dimblur";
+          }
+        ]
         # blank screen after autolock, if enabled
         ++ lib.optional cfg.autolock.blank {
           delay = cfg.autolock.delay;
           command = "${pkgs.xorg.xset}/bin/xset dpms force off";
-        });
+        }
+      );
     };
   };
 }

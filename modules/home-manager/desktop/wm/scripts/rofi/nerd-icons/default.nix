@@ -1,12 +1,24 @@
-{ writeShellApplication, writeText, coreutils, wl-clipboard, xclip, fuzzel
-, rofiCmd ? "${fuzzel}/bin/fuzzel", useWayland ? true, ... }:
+{
+  writeShellApplication,
+  writeText,
+  coreutils,
+  wl-clipboard,
+  xclip,
+  fuzzel,
+  rofiCmd ? "${fuzzel}/bin/fuzzel",
+  useWayland ? true,
+  ...
+}:
 
 let
-  nerd-icon-list =
-    writeText "nerd-icon-list" (builtins.readFile ./nerd-icons.txt);
-in writeShellApplication {
+  nerd-icon-list = writeText "nerd-icon-list" (builtins.readFile ./nerd-icons.txt);
+in
+writeShellApplication {
   name = "nerd-icons";
-  runtimeInputs = [ coreutils (if useWayland then wl-clipboard else xclip) ];
+  runtimeInputs = [
+    coreutils
+    (if useWayland then wl-clipboard else xclip)
+  ];
 
   text = ''
     # rofi script to choose an icon from the nerd-icons list

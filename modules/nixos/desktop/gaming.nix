@@ -1,74 +1,83 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
   cfg = config.desktop;
   gaming = config.desktop.gaming;
-in {
-  options.desktop.gaming = let inherit (lib) mkOption mkEnableOption;
-  in with lib.types; {
-    enable = mkEnableOption "Enable gaming-related settings.";
+in
+{
+  options.desktop.gaming =
+    let
+      inherit (lib) mkOption mkEnableOption;
+    in
+    with lib.types;
+    {
+      enable = mkEnableOption "Enable gaming-related settings.";
 
-    prime = {
-      enable = mkOption {
-        type = bool;
-        default = cfg.isLaptop;
-        defaultText = "config.desktop.isLaptop";
-        description = "Enable NVIDIA PRIME support.";
+      prime = {
+        enable = mkOption {
+          type = bool;
+          default = cfg.isLaptop;
+          defaultText = "config.desktop.isLaptop";
+          description = "Enable NVIDIA PRIME support.";
+        };
+
+        internal = mkOption {
+          type = nullOr str;
+          default = null;
+          description = "PCI ID of the internal GPU.";
+        };
+
+        dedicated = mkOption {
+          type = nullOr str;
+          default = null;
+          description = "PCI ID of the dedicated GPU.";
+        };
       };
 
-      internal = mkOption {
-        type = nullOr str;
-        default = null;
-        description = "PCI ID of the internal GPU.";
-      };
-
-      dedicated = mkOption {
-        type = nullOr str;
-        default = null;
-        description = "PCI ID of the dedicated GPU.";
-      };
-    };
-
-    amd = mkOption {
-      type = bool;
-      default = false;
-      description = "Enable AMD driver support.";
-    };
-
-    nvidia = mkOption {
-      type = bool;
-      default = false;
-      description = "Enable NVIDIA driver support.";
-    };
-
-    sunshine = {
-      enable = mkOption {
+      amd = mkOption {
         type = bool;
         default = false;
-        description = "Enable the sunshine host for moonlight streaming.";
+        description = "Enable AMD driver support.";
       };
 
-      enableMoonDeckBuddy = mkOption {
+      nvidia = mkOption {
         type = bool;
-        default = true;
-        description = "Enable the moondeck buddy companion app.";
+        default = false;
+        description = "Enable NVIDIA driver support.";
       };
 
-      monitor = mkOption {
-        type = str;
-        default = "DisplayPort-0";
-        description = "The primary monitor to use for the sunshine host.";
-      };
+      sunshine = {
+        enable = mkOption {
+          type = bool;
+          default = false;
+          description = "Enable the sunshine host for moonlight streaming.";
+        };
 
-      monitorIndex = mkOption {
-        type = int;
-        default = 0;
-        description =
-          "The index of the primary monitor to use for the sunshine host.";
+        enableMoonDeckBuddy = mkOption {
+          type = bool;
+          default = true;
+          description = "Enable the moondeck buddy companion app.";
+        };
+
+        monitor = mkOption {
+          type = str;
+          default = "DisplayPort-0";
+          description = "The primary monitor to use for the sunshine host.";
+        };
+
+        monitorIndex = mkOption {
+          type = int;
+          default = 0;
+          description = "The index of the primary monitor to use for the sunshine host.";
+        };
       };
     };
-  };
 
   config = mkIf (cfg.enable && gaming.enable) {
     assertions = [
@@ -137,21 +146,27 @@ in {
       capSysAdmin = true;
 
       settings = {
-        sunshine_name = let
-          capitalize = str:
-            let
-              charsRaw = lib.splitString "" str;
-              chars = lib.tail charsRaw; # drop the empty string at the start
-              firstChar = lib.toUpper (lib.head chars);
-              restChars = lib.tail chars;
-            in (firstChar + (lib.concatStrings restChars));
-        in (capitalize config.networking.hostName);
+        sunshine_name =
+          let
+            capitalize =
+              str:
+              let
+                charsRaw = lib.splitString "" str;
+                chars = lib.tail charsRaw; # drop the empty string at the start
+                firstChar = lib.toUpper (lib.head chars);
+                restChars = lib.tail chars;
+              in
+              (firstChar + (lib.concatStrings restChars));
+          in
+          (capitalize config.networking.hostName);
 
         output_name = gaming.sunshine.monitorIndex;
       };
 
       applications = {
-        env = { PATH = "$(PATH):$(HOME)/.local/bin"; };
+        env = {
+          PATH = "$(PATH):$(HOME)/.local/bin";
+        };
         apps = [
           {
             name = "Desktop";
@@ -191,17 +206,18 @@ in {
 
     # enable moondeck-buddy if selected
     systemd.user.services.moondeck-buddy =
-      mkIf (gaming.sunshine.enable && gaming.sunshine.enableMoonDeckBuddy) {
-        unitConfig = {
-          Description = "MoonDeckBuddy";
-          After = [ "graphical-session.target" ];
+      mkIf (gaming.sunshine.enable && gaming.sunshine.enableMoonDeckBuddy)
+        {
+          unitConfig = {
+            Description = "MoonDeckBuddy";
+            After = [ "graphical-session.target" ];
+          };
+          serviceConfig = {
+            ExecStart = "${pkgs.moondeck-buddy}/bin/MoonDeckBuddy";
+            Restart = "on-failure";
+          };
+          wantedBy = [ "graphical-session.target" ];
         };
-        serviceConfig = {
-          ExecStart = "${pkgs.moondeck-buddy}/bin/MoonDeckBuddy";
-          Restart = "on-failure";
-        };
-        wantedBy = [ "graphical-session.target" ];
-      };
 
     # hardware.bumblebee.enable = mkIf gaming.prime.enable true;
     hardware.nvidia.prime.offload.enable = mkIf gaming.prime.enable true;
@@ -217,7 +233,8 @@ in {
       DRI_PRIME_DEDICATED = gaming.prime.dedicated;
     };
 
-    environment.systemPackages = with pkgs;
+    environment.systemPackages =
+      with pkgs;
       [
         # steam
         protonup-qt
@@ -226,7 +243,11 @@ in {
         protontricks
         umu-launcher
         (lutris.override {
-          extraPkgs = p: [ p.proton-ge-bin p.umu-launcher p.wine ];
+          extraPkgs = p: [
+            p.proton-ge-bin
+            p.umu-launcher
+            p.wine
+          ];
         })
         game-devices-udev-rules
 
@@ -239,15 +260,16 @@ in {
 
         # controller compad
         SDL2
-      ] ++ (lib.optional gaming.sunshine.enable pkgs.moondeck-buddy);
+      ]
+      ++ (lib.optional gaming.sunshine.enable pkgs.moondeck-buddy);
 
     nixpkgs.config.nvidia.acceptLicense = true;
 
     nixpkgs.config.packageOverrides = pkgs: {
       steam = pkgs.steam.override {
         extraEnv.DRI_PRIME = mkIf gaming.prime.enable gaming.prime.dedicated;
-        extraPkgs = pkgs:
-          with pkgs; [
+        extraPkgs =
+          pkgs: with pkgs; [
             xorg.libXcursor
             xorg.libXi
             xorg.libXinerama

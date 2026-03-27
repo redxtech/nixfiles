@@ -1,4 +1,10 @@
-{ config, pkgs, lib, self, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  self,
+  ...
+}:
 
 let
   cfg = config.nas;
@@ -6,11 +12,21 @@ let
 
   inherit (cfgNet) address;
 
-  inherit (self.lib.nas.paths cfg.paths) mkConf mkData downloads media;
+  inherit (self.lib.nas.paths cfg.paths)
+    mkConf
+    mkData
+    downloads
+    media
+    ;
   inherit (self.lib.containers) mkPort mkPorts;
   inherit (self.lib.containers.labels) mkHomepage;
   inherit (self.lib.containers.labels.traefik address)
-    mkAllLabels mkAllLabelsPort mkTLRstr mkTLSstr mkTLHstr;
+    mkAllLabels
+    mkAllLabelsPort
+    mkTLRstr
+    mkTLSstr
+    mkTLHstr
+    ;
 
   defaultEnv = {
     PUID = toString config.users.users.${cfg.user}.uid;
@@ -28,8 +44,16 @@ let
     environmentFiles = [ config.sops.secrets."exportarr_${name}".path ];
     ports = [ (mkPorts port) ];
   };
-in {
-  network.services = { inherit (cfg.ports) lidarr radarr sonarr flood; };
+in
+{
+  network.services = {
+    inherit (cfg.ports)
+      lidarr
+      radarr
+      sonarr
+      flood
+      ;
+  };
 
   virtualisation.oci-containers = {
     containers = {
@@ -78,7 +102,10 @@ in {
         };
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.bazarr 6767) ];
-        volumes = [ (mkConf "bazarr") media ];
+        volumes = [
+          (mkConf "bazarr")
+          media
+        ];
       };
 
       bento = {
@@ -162,72 +189,84 @@ in {
         environmentFiles = [ config.sops.secrets."booklore_env".path ];
         volumes = [ "${cfg.paths.config}/booklore/mariadb:/config" ];
         networks = [ "booklore" ];
-        extraOptions = [ "--health-cmd" "mariadb-admin ping -h localhost" ];
+        extraOptions = [
+          "--health-cmd"
+          "mariadb-admin ping -h localhost"
+        ];
       };
 
-      calibre = let
-        mkHstr = header: "${mkTLHstr "calibre"}.customrequestheaders.${header}";
-      in {
-        image = "lscr.io/linuxserver/calibre:latest";
-        labels = mkAllLabelsPort "calibre" cfg.ports.calibre-ssl {
-          name = "calibre";
-          group = "books";
-          icon = "calibre.svg";
-          href = "https://calibre.${address}";
-          desc = "ebook manager";
-          weight = -80;
-        } // {
-          "${mkTLSstr "calibre"}.loadbalancer.serverstransport" =
-            "ignorecert@file";
-          "${mkTLSstr "calibre"}.loadbalancer.server.scheme" = "https";
-          "${mkTLRstr "calibre"}.middlewares" = "calibre@docker";
-          "${mkHstr "Cross-Origin-Embedder-Policy"}" = "require-corp";
-          "${mkHstr "Cross-Origin-Opener-Policy"}" = "same-origin";
-          "${mkHstr "Cross-Origin-Resource-Policy"}" = "same-site";
+      calibre =
+        let
+          mkHstr = header: "${mkTLHstr "calibre"}.customrequestheaders.${header}";
+        in
+        {
+          image = "lscr.io/linuxserver/calibre:latest";
+          labels =
+            mkAllLabelsPort "calibre" cfg.ports.calibre-ssl {
+              name = "calibre";
+              group = "books";
+              icon = "calibre.svg";
+              href = "https://calibre.${address}";
+              desc = "ebook manager";
+              weight = -80;
+            }
+            // {
+              "${mkTLSstr "calibre"}.loadbalancer.serverstransport" = "ignorecert@file";
+              "${mkTLSstr "calibre"}.loadbalancer.server.scheme" = "https";
+              "${mkTLRstr "calibre"}.middlewares" = "calibre@docker";
+              "${mkHstr "Cross-Origin-Embedder-Policy"}" = "require-corp";
+              "${mkHstr "Cross-Origin-Opener-Policy"}" = "same-origin";
+              "${mkHstr "Cross-Origin-Resource-Policy"}" = "same-site";
+            };
+          environment = defaultEnv // {
+            FILE__CUSTOM_USER = config.sops.secrets.calibre_user.path;
+            FILE__PASSWORD = config.sops.secrets.calibre_pw.path;
+            CUSTOM_PORT = "${toString cfg.ports.calibre}";
+            CUSTOM_HTTPS_PORT = "${toString cfg.ports.calibre-ssl}";
+          };
+          ports = with cfg.ports; [
+            (mkPorts calibre) # vnc
+            (mkPorts calibre-ssl) # https vnc
+            (mkPorts calibre-device) # device wireless connection
+            (mkPort calibre-server 8081) # web server
+          ];
+          volumes =
+            let
+              secretPath = type: "${config.sops.secrets."calibre_${type}".path}";
+              mkSecretMnt = type: "${secretPath type}:${secretPath type}";
+            in
+            [
+              (mkConf "calibre")
+              (mkSecretMnt "user")
+              (mkSecretMnt "pw")
+            ];
         };
-        environment = defaultEnv // {
-          FILE__CUSTOM_USER = config.sops.secrets.calibre_user.path;
-          FILE__PASSWORD = config.sops.secrets.calibre_pw.path;
-          CUSTOM_PORT = "${toString cfg.ports.calibre}";
-          CUSTOM_HTTPS_PORT = "${toString cfg.ports.calibre-ssl}";
-        };
-        ports = with cfg.ports; [
-          (mkPorts calibre) # vnc
-          (mkPorts calibre-ssl) # https vnc
-          (mkPorts calibre-device) # device wireless connection
-          (mkPort calibre-server 8081) # web server
-        ];
-        volumes = let
-          secretPath = type: "${config.sops.secrets."calibre_${type}".path}";
-          mkSecretMnt = type: "${secretPath type}:${secretPath type}";
-        in [ (mkConf "calibre") (mkSecretMnt "user") (mkSecretMnt "pw") ];
-      };
 
       calibre-web = {
         image = "crocodilestick/calibre-web-automated:latest";
-        labels = mkAllLabels "books" {
-          name = "calibre web";
-          group = "books";
-          icon = "calibre-web.svg";
-          href = "https://books.${address}";
-          desc = "ebook manager";
-          weight = -90;
-          widget = {
-            type = "calibreweb";
-            url = "https://books.${address}";
-            username = "{{HOMEPAGE_VAR_CALIBREWEB_USERNAME}}";
-            password = "{{HOMEPAGE_VAR_CALIBREWEB_PASSWORD}}";
+        labels =
+          mkAllLabels "books" {
+            name = "calibre web";
+            group = "books";
+            icon = "calibre-web.svg";
+            href = "https://books.${address}";
+            desc = "ebook manager";
+            weight = -90;
+            widget = {
+              type = "calibreweb";
+              url = "https://books.${address}";
+              username = "{{HOMEPAGE_VAR_CALIBREWEB_USERNAME}}";
+              password = "{{HOMEPAGE_VAR_CALIBREWEB_PASSWORD}}";
+            };
+          }
+          // {
+            "${mkTLRstr "books"}.middlewares" = "homeassistant-allow-iframe@file";
           };
-        } // {
-          "${mkTLRstr "books"}.middlewares" = "homeassistant-allow-iframe@file";
-        };
         environment = defaultEnv // {
-          DOCKER_MODS =
-            "linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install";
+          DOCKER_MODS = "linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install";
           INSTALL_PIP_PACKAGES = "jsonschema";
         };
-        environmentFiles =
-          [ config.sops.secrets.CALIBRE_WEB_HARDCOVER_KEY.path ];
+        environmentFiles = [ config.sops.secrets.CALIBRE_WEB_HARDCOVER_KEY.path ];
         ports = [ (mkPorts cfg.ports.calibre-web) ];
         volumes = [
           (mkConf "calibre-web")
@@ -255,7 +294,10 @@ in {
           weight = -70;
         };
         environment = defaultEnv;
-        ports = [ (mkPorts cfg.ports.espresense-companion) (mkPorts 8268) ];
+        ports = [
+          (mkPorts cfg.ports.espresense-companion)
+          (mkPorts 8268)
+        ];
         volumes = [ "${(mkConf "espresense")}/espresense" ];
       };
 
@@ -281,12 +323,13 @@ in {
         labels = mkAllLabels "fusion" {
           name = "ha fusion";
           group = "home";
-          icon =
-            "https://raw.githubusercontent.com/matt8707/addon-ha-fusion/refs/heads/main/icon.png";
+          icon = "https://raw.githubusercontent.com/matt8707/addon-ha-fusion/refs/heads/main/icon.png";
           href = "https://fusion.${address}";
           desc = "home assistant dashboard";
         };
-        environment = defaultEnv // { HASS_URL = "https://ha.${address}"; };
+        environment = defaultEnv // {
+          HASS_URL = "https://ha.${address}";
+        };
         volumes = [ "${cfg.paths.config}/ha-fusion:/app/data" ];
         ports = [ (mkPorts 5050) ];
       };
@@ -300,9 +343,14 @@ in {
           href = "https://jackett.${address}";
           desc = "arr indexer proxy";
         };
-        environment = defaultEnv // { AUTO_UPDATE = "true"; };
+        environment = defaultEnv // {
+          AUTO_UPDATE = "true";
+        };
         ports = [ (mkPort cfg.ports.jackett 9117) ];
-        volumes = [ (mkConf "jackett") downloads ];
+        volumes = [
+          (mkConf "jackett")
+          downloads
+        ];
       };
 
       jdownloader = {
@@ -343,8 +391,11 @@ in {
           JELLYFIN_PublishedServerUrl = "jellyfin.${address}";
           NVIDIA_VISIBLE_DEVICES = "all";
         };
-        ports =
-          [ (mkPorts cfg.ports.jellyfin) (mkPorts 8920) "${mkPorts 7359}/udp" ];
+        ports = [
+          (mkPorts cfg.ports.jellyfin)
+          (mkPorts 8920)
+          "${mkPorts 7359}/udp"
+        ];
         volumes = [
           (mkConf "jellyfin")
           # "${cfg.paths.config}/jellyfin/custom-web:/usr/share/jellyfin/web"
@@ -358,8 +409,7 @@ in {
         labels = mkAllLabels "jellyfin-vue" {
           name = "jellyfin vue";
           group = "media";
-          icon =
-            "https://raw.githubusercontent.com/jellyfin/jellyfin-vue/refs/heads/master/frontend/public/icon.svg";
+          icon = "https://raw.githubusercontent.com/jellyfin/jellyfin-vue/refs/heads/master/frontend/public/icon.svg";
           href = "https://jellyfin-vue.${address}";
           desc = "jellyfin web ui";
           weight = -10;
@@ -369,7 +419,10 @@ in {
           HISTORY_ROUTER_MODE = "1";
         };
         ports = [ (mkPort cfg.ports.jellyfin-vue 80) ];
-        volumes = [ (mkConf "jackett") downloads ];
+        volumes = [
+          (mkConf "jackett")
+          downloads
+        ];
       };
 
       jellyseerr = {
@@ -480,7 +533,11 @@ in {
         };
         environment = defaultEnv;
         ports = [ (mkPorts cfg.ports.lidarr) ];
-        volumes = [ (mkConf "lidarr") downloads media ];
+        volumes = [
+          (mkConf "lidarr")
+          downloads
+          media
+        ];
         networks = [ "host" ];
       };
 
@@ -542,7 +599,10 @@ in {
 
       portainer = {
         # set options not covered by base module
-        ports = lib.mkForce [ "8000:8000" (mkPort cfg.ports.portainer 9000) ];
+        ports = lib.mkForce [
+          "8000:8000"
+          (mkPort cfg.ports.portainer 9000)
+        ];
         volumes = lib.mkForce [
           "/var/run/docker.sock:/var/run/docker.sock"
           (mkData "portainer")
@@ -570,7 +630,11 @@ in {
         };
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.prowlarr 9696) ];
-        volumes = [ (mkConf "prowlarr") downloads media ];
+        volumes = [
+          (mkConf "prowlarr")
+          downloads
+          media
+        ];
         networks = [ "host" ];
       };
 
@@ -651,15 +715,17 @@ in {
           desc = "disk usage statistics";
         };
         ports = [ (mkPorts cfg.ports.qdirstat) ];
-        volumes = let
-          secretPath = type: "${config.sops.secrets."qdirstat_${type}".path}";
-          mkSecretMnt = type: "${secretPath type}:${secretPath type}";
-        in [
-          (mkConf "qdirstat")
-          (mkSecretMnt "user")
-          (mkSecretMnt "pw")
-          "/:/data:ro"
-        ];
+        volumes =
+          let
+            secretPath = type: "${config.sops.secrets."qdirstat_${type}".path}";
+            mkSecretMnt = type: "${secretPath type}:${secretPath type}";
+          in
+          [
+            (mkConf "qdirstat")
+            (mkSecretMnt "user")
+            (mkSecretMnt "pw")
+            "/:/data:ro"
+          ];
       };
 
       qui = {
@@ -672,7 +738,9 @@ in {
           desc = "qbit web interface";
           weight = -100;
         };
-        environment = defaultEnv // { QUI__PORT = toString cfg.ports.qui; };
+        environment = defaultEnv // {
+          QUI__PORT = toString cfg.ports.qui;
+        };
         environmentFiles = [ config.sops.secrets."qui_env".path ];
         ports = [ (mkPorts cfg.ports.qui) ];
         volumes = [ (mkConf "qui") ];
@@ -695,7 +763,11 @@ in {
         };
         environment = defaultEnv;
         ports = [ (mkPort cfg.ports.radarr 7878) ];
-        volumes = [ (mkConf "radarr") downloads media ];
+        volumes = [
+          (mkConf "radarr")
+          downloads
+          media
+        ];
         networks = [ "host" ];
       };
 
@@ -718,7 +790,11 @@ in {
           };
         };
         ports = [ (mkPort cfg.ports.sonarr 8989) ];
-        volumes = [ (mkConf "sonarr") downloads media ];
+        volumes = [
+          (mkConf "sonarr")
+          downloads
+          media
+        ];
         networks = [ "host" ];
       };
 
@@ -740,27 +816,40 @@ in {
           "${cfg.paths.config}/scrutiny:/opt/scrutiny/config"
           "${cfg.paths.config}/scrutiny-influx:/opt/scrutiny/influxdb"
         ];
-        extraOptions = let
-          mkDev = name: "/dev/${name}";
-          names = [
-            "sda"
-            "sdb"
-            "sdc"
-            "sdd"
-            "sde"
-            "sdf"
-            "sdg"
-            "sdh"
-            "sdi"
-            "sdj"
-            "sdk"
-            "sdl"
-            "sdm"
-            "sdn"
-            "nvme0"
-          ];
-          args = lib.flatten (map (name: [ "--device" "${mkDev name}" ]) names);
-        in [ "--cap-add" "SYS_RAWIO" "--cap-add" "SYS_ADMIN" ] ++ args;
+        extraOptions =
+          let
+            mkDev = name: "/dev/${name}";
+            names = [
+              "sda"
+              "sdb"
+              "sdc"
+              "sdd"
+              "sde"
+              "sdf"
+              "sdg"
+              "sdh"
+              "sdi"
+              "sdj"
+              "sdk"
+              "sdl"
+              "sdm"
+              "sdn"
+              "nvme0"
+            ];
+            args = lib.flatten (
+              map (name: [
+                "--device"
+                "${mkDev name}"
+              ]) names
+            );
+          in
+          [
+            "--cap-add"
+            "SYS_RAWIO"
+            "--cap-add"
+            "SYS_ADMIN"
+          ]
+          ++ args;
       };
 
       signaturepdf = {
@@ -799,7 +888,10 @@ in {
           "22000:22000/udp"
           "21027:21027/udp"
         ];
-        volumes = [ (mkConf "syncthing") (mkData "syncthing") ];
+        volumes = [
+          (mkConf "syncthing")
+          (mkData "syncthing")
+        ];
       };
 
       tautulli = {
@@ -841,7 +933,10 @@ in {
           "${cfg.paths.config}/tubearchivist/cache:/cache"
           "${cfg.paths.media}/yt:/youtube"
         ];
-        dependsOn = [ "tubearchivist-redis" "tubearchivist-es" ];
+        dependsOn = [
+          "tubearchivist-redis"
+          "tubearchivist-es"
+        ];
         networks = [ "tubearchivist" ];
       };
 
@@ -900,7 +995,9 @@ in {
             key = "{{HOMEPAGE_VAR_WATCHTOWER}}";
           };
         };
-        environment = defaultEnv // { WATCHTOWER_HTTP_API_METRICS = "true"; };
+        environment = defaultEnv // {
+          WATCHTOWER_HTTP_API_METRICS = "true";
+        };
         environmentFiles = [ config.sops.secrets."watchtower_env".path ];
         ports = [ (mkPort cfg.ports.watchtower 8080) ];
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
@@ -927,17 +1024,20 @@ in {
           INSTALL_PY_DEPS = "true";
         };
         ports = [ (mkPorts 8899) ];
-        volumes = let path = cfg.paths.config + "/yt";
-        in [
-          "/etc/localtime:/etc/localtime:ro"
-          "${cfg.paths.media}/yt:/yt"
-          "${path}/config:/root/.stash"
-          "${path}/data:/data"
-          "${path}/metadata:/metadata"
-          "${path}/cache:/cache"
-          "${path}/generated:/generated"
-          "${path}/pip-cache:/pip-install"
-        ];
+        volumes =
+          let
+            path = cfg.paths.config + "/yt";
+          in
+          [
+            "/etc/localtime:/etc/localtime:ro"
+            "${cfg.paths.media}/yt:/yt"
+            "${path}/config:/root/.stash"
+            "${path}/data:/data"
+            "${path}/metadata:/metadata"
+            "${path}/cache:/cache"
+            "${path}/generated:/generated"
+            "${path}/pip-cache:/pip-install"
+          ];
       };
 
       # invoice ninja
@@ -947,8 +1047,14 @@ in {
   };
 
   system.activationScripts.mkDockerNetworks =
-    let networks = [ "booklore" "paperless" "tubearchivist" ];
-    in ''
+    let
+      networks = [
+        "booklore"
+        "paperless"
+        "tubearchivist"
+      ];
+    in
+    ''
       # gracefully exit if docker isn't running
       ${pkgs.docker}/bin/docker ps >/dev/null 2>&1 || (echo "docker is not running" && return)
 
@@ -982,4 +1088,3 @@ in {
     watchtower_env.sopsFile = ../secrets.yaml;
   };
 }
-

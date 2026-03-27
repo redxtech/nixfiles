@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
-let cfg = config.desktop;
-in {
+let
+  cfg = config.desktop;
+in
+{
   config = lib.mkIf cfg.enable {
     programs.foot = {
       enable = true;

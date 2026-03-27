@@ -1,5 +1,8 @@
-{ pkgs ? import <nixpkgs> { }, lib ? pkgs.lib
-, writeScriptBin ? pkgs.writeScriptBin }:
+{
+  pkgs ? import <nixpkgs> { },
+  lib ? pkgs.lib,
+  writeScriptBin ? pkgs.writeScriptBin,
+}:
 
 writeScriptBin "pipewire-output-tail" ''
   #!${pkgs.wireplumber}/bin/wpexec

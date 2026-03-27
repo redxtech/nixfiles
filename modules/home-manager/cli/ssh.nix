@@ -3,79 +3,96 @@
 let
   inherit (lib) mkIf;
   cfg = config.cli;
-in {
+in
+{
   config = mkIf cfg.enable {
-    programs.ssh = let
-      user = "gabe";
-      identityFile = "~/.ssh/id_rsa_yubikey.pub";
-      identityFiles = [ identityFile "~/.ssh/id_ed25519" ];
-      remoteForwards = [{
-        bind.address = "/%d/.gnupg-sockets/S.gpg-agent";
-        host.address = "/%d/.gnupg-sockets/S.gpg-agent.extra";
-      }];
-    in {
-      enable = true;
-      enableDefaultConfig = false;
-
-      matchBlocks = let
-        # default options for all hosts
-        mkHost = args:
+    programs.ssh =
+      let
+        user = "gabe";
+        identityFile = "~/.ssh/id_rsa_yubikey.pub";
+        identityFiles = [
+          identityFile
+          "~/.ssh/id_ed25519"
+        ];
+        remoteForwards = [
           {
-            inherit identityFile user;
-            identitiesOnly = true;
-          } // args;
+            bind.address = "/%d/.gnupg-sockets/S.gpg-agent";
+            host.address = "/%d/.gnupg-sockets/S.gpg-agent.extra";
+          }
+        ];
+      in
+      {
+        enable = true;
+        enableDefaultConfig = false;
 
-        # options for my personal devices
-        mkDevice = name:
-          mkHost {
-            inherit remoteForwards;
-            identityFile = identityFiles;
-            hostname = "${name}.colobus-pirate.ts.net";
-            forwardAgent = true;
-            # forwardX11 = true;
-            # forwardX11Trusted = true;
+        matchBlocks =
+          let
+            # default options for all hosts
+            mkHost =
+              args:
+              {
+                inherit identityFile user;
+                identitiesOnly = true;
+              }
+              // args;
+
+            # options for my personal devices
+            mkDevice =
+              name:
+              mkHost {
+                inherit remoteForwards;
+                identityFile = identityFiles;
+                hostname = "${name}.colobus-pirate.ts.net";
+                forwardAgent = true;
+                # forwardX11 = true;
+                # forwardX11Trusted = true;
+              };
+          in
+          {
+            bastion = mkDevice "bastion";
+            voyager = mkDevice "voyager";
+            quasar = mkDevice "quasar";
+            deck = mkDevice "deck";
+            homeassistant = mkHost {
+              user = "hassio";
+              hostname = "homeassistant";
+            };
+            sb = mkHost {
+              user = "redxtech";
+              hostname = "titan.usbx.me";
+            };
+            rsync = mkHost {
+              user = "fm1620";
+              hostname = "fm1620.rsync.net";
+            };
+
+            # external services
+            "aur.archlinux.org" = mkHost {
+              user = "aur";
+              identityFile = "~/.ssh/aur.pub";
+            };
+            "github.com" = mkHost {
+              identityFile = [
+                identityFile
+                "~/.ssh/id_ed25519"
+              ];
+            };
+
+            # default options for all hosts
+            "*" = {
+              forwardAgent = false;
+              addKeysToAgent = "no";
+              compression = false;
+              serverAliveInterval = 0;
+              serverAliveCountMax = 3;
+              hashKnownHosts = false;
+              userKnownHostsFile = "~/.ssh/known_hosts";
+              controlMaster = "no";
+              controlPath = "~/.ssh/master-%r@%n:%p";
+              controlPersist = "no";
+            };
           };
-      in {
-        bastion = mkDevice "bastion";
-        voyager = mkDevice "voyager";
-        quasar = mkDevice "quasar";
-        deck = mkDevice "deck";
-        homeassistant = mkHost {
-          user = "hassio";
-          hostname = "homeassistant";
-        };
-        sb = mkHost {
-          user = "redxtech";
-          hostname = "titan.usbx.me";
-        };
-        rsync = mkHost {
-          user = "fm1620";
-          hostname = "fm1620.rsync.net";
-        };
-
-        # external services
-        "aur.archlinux.org" = mkHost {
-          user = "aur";
-          identityFile = "~/.ssh/aur.pub";
-        };
-        "github.com" =
-          mkHost { identityFile = [ identityFile "~/.ssh/id_ed25519" ]; };
-
-        # default options for all hosts
-        "*" = {
-          forwardAgent = false;
-          addKeysToAgent = "no";
-          compression = false;
-          serverAliveInterval = 0;
-          serverAliveCountMax = 3;
-          hashKnownHosts = false;
-          userKnownHostsFile = "~/.ssh/known_hosts";
-          controlMaster = "no";
-          controlPath = "~/.ssh/master-%r@%n:%p";
-          controlPersist = "no";
-        };
       };
-    };
 
     # ensure public keys are present
     home.file = {

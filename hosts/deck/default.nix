@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ./filesystem.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./filesystem.nix
+  ];
 
   base = {
     enable = true;

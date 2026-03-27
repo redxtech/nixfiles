@@ -1,4 +1,9 @@
-{ lib, buildHomeAssistantComponent, python313Packages, fetchFromGitHub }:
+{
+  lib,
+  buildHomeAssistantComponent,
+  python313Packages,
+  fetchFromGitHub,
+}:
 
 let
   python-forecastio = python313Packages.buildPythonPackage {
@@ -20,7 +25,8 @@ let
       hash = "sha256-ZINFP7vgyW53bgqpHabBJAKBqY5tHzTBrSoVl9hrmh0=";
     };
   };
-in buildHomeAssistantComponent rec {
+in
+buildHomeAssistantComponent rec {
   owner = "Pirate-Weather";
   domain = "pirateweather";
   version = "1.6.3";
@@ -38,10 +44,8 @@ in buildHomeAssistantComponent rec {
   ];
 
   meta = with lib; {
-    changelog =
-      "https://github.com/Pirate-Weather/pirate-weather-ha/releases/tag/v${version}";
-    description =
-      "Replacement for the default Dark Sky Home Assistant integration using Pirate Weather";
+    changelog = "https://github.com/Pirate-Weather/pirate-weather-ha/releases/tag/v${version}";
+    description = "Replacement for the default Dark Sky Home Assistant integration using Pirate Weather";
     homepage = "https://github.com/Pirate-Weather/pirate-weather-ha";
     maintainers = with maintainers; [ redxtech ];
     license = licenses.asl20;

@@ -20,29 +20,32 @@ let
     PGID = toString config.users.groups.${cfg.group}.gid;
     TZ = cfg.timezone;
   };
-in {
+in
+{
   virtualisation.oci-containers.containers = {
     adguard = {
       image = "adguard/adguardhome:latest";
       environment = defaultEnv;
 
-      labels = removeAttrs (mkAllLabelsPort "adguard" port {
-        name = "adguard";
-        group = "network";
-        icon = "adguard-home.svg";
-        href = "https://adguard.${address}";
-        desc = "dns level adblocking";
-        weight = -90;
-        widget = {
-          type = "adguard";
-          url = "https://adguard.${address}";
-          username = "{{HOMEPAGE_VAR_ADGUARD_USER}}";
-          password = "{{HOMEPAGE_VAR_ADGUARD_PASS}}";
-        };
-      } // {
-        "${mkTLRstr name}.rule" =
-          "HostRegexp(`^([a-z-]+\\.)?(${host}|${hostDNS})$`)";
-      }) [ "${mkTLRstr name}.tls.certresolver" ];
+      labels = removeAttrs (
+        mkAllLabelsPort "adguard" port {
+          name = "adguard";
+          group = "network";
+          icon = "adguard-home.svg";
+          href = "https://adguard.${address}";
+          desc = "dns level adblocking";
+          weight = -90;
+          widget = {
+            type = "adguard";
+            url = "https://adguard.${address}";
+            username = "{{HOMEPAGE_VAR_ADGUARD_USER}}";
+            password = "{{HOMEPAGE_VAR_ADGUARD_PASS}}";
+          };
+        }
+        // {
+          "${mkTLRstr name}.rule" = "HostRegexp(`^([a-z-]+\\.)?(${host}|${hostDNS})$`)";
+        }
+      ) [ "${mkTLRstr name}.tls.certresolver" ];
 
       ports = [
         webports # frontend
@@ -65,9 +68,7 @@ in {
       volumes = [
         "${toString cfg.paths.config}/adguard/conf:/opt/adguardhome/conf"
         "${toString cfg.paths.config}/adguard/work:/opt/adguardhome/work"
-        "${
-          config.security.acme.certs."${name}.${address}".directory
-        }:/certs/${host}"
+        "${config.security.acme.certs."${name}.${address}".directory}:/certs/${host}"
       ];
     };
 
@@ -83,14 +84,21 @@ in {
       };
       environmentFiles = [ config.sops.secrets.adguard_exporter.path ];
       ports = [ (mkPorts cfg.ports.adguard-exporter) ];
-      extraOptions = [ "--network" "host" ];
+      extraOptions = [
+        "--network"
+        "host"
+      ];
     };
   };
 
   security.acme.certs = {
     "${host}" = {
       domain = host;
-      extraDomainNames = [ "*.${host}" hostDNS "*.${hostDNS}" ];
+      extraDomainNames = [
+        "*.${host}"
+        hostDNS
+        "*.${hostDNS}"
+      ];
       inherit (config.services.traefik) group;
     };
   };

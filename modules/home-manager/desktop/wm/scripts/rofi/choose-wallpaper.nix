@@ -1,10 +1,21 @@
-{ writeShellApplication, swww, findutils, libnotify, fuzzel
-, rofiCmd ? "${fuzzel}/bin/fuzzel", ... }:
+{
+  writeShellApplication,
+  swww,
+  findutils,
+  libnotify,
+  fuzzel,
+  rofiCmd ? "${fuzzel}/bin/fuzzel",
+  ...
+}:
 
 writeShellApplication {
   name = "choose-wallpaper";
 
-  runtimeInputs = [ swww findutils libnotify ];
+  runtimeInputs = [
+    swww
+    findutils
+    libnotify
+  ];
   excludeShellChecks = [ "SC2162" ];
 
   text = ''
@@ -48,4 +59,3 @@ writeShellApplication {
     fi
   '';
 }
-

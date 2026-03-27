@@ -3,7 +3,8 @@
 let
   inherit (lib) mkOption types;
   cfg = config.desktop.wm;
-in {
+in
+{
   imports = [
     ./bspwm
     ./hyprland
@@ -22,11 +23,13 @@ in {
   # - configure dpms
 
   options.desktop.wm = with types; {
-    enable =
-      lib.mkEnableOption "Enable the window manager configuration module";
+    enable = lib.mkEnableOption "Enable the window manager configuration module";
 
     wm = mkOption {
-      type = nullOr (enum [ "bspwm" "hyprland" ]);
+      type = nullOr (enum [
+        "bspwm"
+        "hyprland"
+      ]);
       default = null;
       description = ''
         The window manager to use.
@@ -61,7 +64,9 @@ in {
     xdg = {
       enable = true;
 
-      userDirs = { videos = "$HOME/Videos"; };
+      userDirs = {
+        videos = "$HOME/Videos";
+      };
     };
 
     # set gnome to prefer dark theme

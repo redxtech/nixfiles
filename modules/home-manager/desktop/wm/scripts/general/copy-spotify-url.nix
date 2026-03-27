@@ -1,10 +1,23 @@
-{ writeShellApplication, coreutils, wl-clipboard, playerctl, ripgrep, choose
-, ... }:
+{
+  writeShellApplication,
+  coreutils,
+  wl-clipboard,
+  playerctl,
+  ripgrep,
+  choose,
+  ...
+}:
 
 writeShellApplication {
   name = "copy-spotify-url";
 
-  runtimeInputs = [ coreutils wl-clipboard playerctl ripgrep choose ];
+  runtimeInputs = [
+    coreutils
+    wl-clipboard
+    playerctl
+    ripgrep
+    choose
+  ];
   text = ''
     main() {
     	local player="''${1:-spotify}"

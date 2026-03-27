@@ -1,24 +1,39 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.desktop;
 
-  colours = [ "blue" "cyan" "green" "orange" "red" "yellow" ];
-  colourMods = builtins.listToAttrs (map (colour: {
-    name = "rofi/themes/${colour}.rasi";
-    value = {
-      text = ''
-        @theme "custom"
+  colours = [
+    "blue"
+    "cyan"
+    "green"
+    "orange"
+    "red"
+    "yellow"
+  ];
+  colourMods = builtins.listToAttrs (
+    map (colour: {
+      name = "rofi/themes/${colour}.rasi";
+      value = {
+        text = ''
+          @theme "custom"
 
-        * {
-          bg1: @${colour};
-        }
-      '';
-    };
-  }) colours);
+          * {
+            bg1: @${colour};
+          }
+        '';
+      };
+    }) colours
+  );
 
   inherit (config.lib.formats.rasi) mkLiteral;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     programs.rofi = {
       enable = true;

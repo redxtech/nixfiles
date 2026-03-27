@@ -8,12 +8,11 @@
 
   home.stateVersion = "24.11";
 
-  programs.firefox.profiles.gabe.extensions.packages =
-    with pkgs.nur.repos.rycee.firefox-addons; [
-      sidebery
-      bitwarden
-      ublock-origin
-    ];
+  programs.firefox.profiles.gabe.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
+    sidebery
+    bitwarden
+    ublock-origin
+  ];
 
   programs.kitty = {
     enable = true;
@@ -94,10 +93,8 @@
       ## script binds
 
       # quality menu
-      F =
-        "script-binding quality_menu/video_formats_toggle #! Stream Quality > Video";
-      "Alt+f" =
-        "script-binding quality_menu/audio_formats_toggle #! Stream Quality > Audio";
+      F = "script-binding quality_menu/video_formats_toggle #! Stream Quality > Video";
+      "Alt+f" = "script-binding quality_menu/audio_formats_toggle #! Stream Quality > Audio";
       "Ctrl+r" = "script-binding quality_menu/reload";
 
       # webtorrent
@@ -140,7 +137,9 @@
         top_bar = "always";
         top_bar_controls = "no";
       };
-      visualizer = { name = "showwaves"; };
+      visualizer = {
+        name = "showwaves";
+      };
     };
   };
 
@@ -166,18 +165,16 @@
           "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
         ];
       };
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
-        {
-          name = "Launch Terminal";
-          binding = "<Super>Return";
-          command = "kitty";
-        };
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" =
-        {
-          name = "Launch Browser";
-          binding = "<Super>w";
-          command = "firefox-nightly";
-        };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+        name = "Launch Terminal";
+        binding = "<Super>Return";
+        command = "kitty";
+      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+        name = "Launch Browser";
+        binding = "<Super>w";
+        command = "firefox-nightly";
+      };
     };
   };
 

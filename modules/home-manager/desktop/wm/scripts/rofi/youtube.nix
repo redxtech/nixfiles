@@ -1,9 +1,30 @@
-{ writeShellApplication, coreutils, choose, curl, libnotify, mpv, urlencode
-, yt-dlp, jq, fuzzel, rofiCmd ? "${fuzzel}/bin/fuzzel", ... }:
+{
+  writeShellApplication,
+  coreutils,
+  choose,
+  curl,
+  libnotify,
+  mpv,
+  urlencode,
+  yt-dlp,
+  jq,
+  fuzzel,
+  rofiCmd ? "${fuzzel}/bin/fuzzel",
+  ...
+}:
 
 writeShellApplication {
   name = "youtube";
-  runtimeInputs = [ choose coreutils curl libnotify jq mpv urlencode yt-dlp ];
+  runtimeInputs = [
+    choose
+    coreutils
+    curl
+    libnotify
+    jq
+    mpv
+    urlencode
+    yt-dlp
+  ];
 
   text = ''
     # rofi script to view or download youtube videos

@@ -1,9 +1,16 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   inherit (lib) mkIf mkOption types;
   cfg = config.desktop;
-in with types; {
+in
+with types;
+{
   # list of monitors & their workspaces
   options.desktop = {
     primaryMonitor = mkOption {
@@ -110,80 +117,115 @@ in with types; {
         };
       });
       default = [ ];
-      example = [{
-        name = "HDMI-1";
-        primary = true;
-      }];
+      example = [
+        {
+          name = "HDMI-1";
+          primary = true;
+        }
+      ];
     };
   };
 
-  config = let
-    inherit (lib) head filter length;
-    primaryMonitors = (filter (m: m.primary) cfg.monitors);
-    isWayland = cfg.wm.hyprland.enable;
-    isX11 = !isWayland;
-  in lib.mkIf cfg.enableMonitors {
-    # ensure exactly one monitor is set to primary
-    assertions = [{
-      assertion = ((length cfg.monitors) != 0)
-        -> ((length primaryMonitors) == 1);
-      message = "Exactly one monitor must be set to primary.";
-    }];
+  config =
+    let
+      inherit (lib) head filter length;
+      primaryMonitors = (filter (m: m.primary) cfg.monitors);
+      isWayland = cfg.wm.hyprland.enable;
+      isX11 = !isWayland;
+    in
+    lib.mkIf cfg.enableMonitors {
+      # ensure exactly one monitor is set to primary
+      assertions = [
+        {
+          assertion = ((length cfg.monitors) != 0) -> ((length primaryMonitors) == 1);
+          message = "Exactly one monitor must be set to primary.";
+        }
+      ];
 
-    # expose primary monitor name
-    desktop.primaryMonitor = (head primaryMonitors).name;
+      # expose primary monitor name
+      desktop.primaryMonitor = (head primaryMonitors).name;
 
-    # autorandr config
-    programs.autorandr = let
-      inherit (builtins) toString listToAttrs map;
+      # autorandr config
+      programs.autorandr =
+        let
+          inherit (builtins) toString listToAttrs map;
 
-      mkAutorandrConf =
-        { name, enable, primary, height, width, rate, x, y, ... }: {
-          inherit name;
-          value = {
-            inherit enable primary;
-            mode = "${toString width}x${toString height}";
-            rate = "${toString rate}.00";
-            position = "${toString x}x${toString y}";
+          mkAutorandrConf =
+            {
+              name,
+              enable,
+              primary,
+              height,
+              width,
+              rate,
+              x,
+              y,
+              ...
+            }:
+            {
+              inherit name;
+              value = {
+                inherit enable primary;
+                mode = "${toString width}x${toString height}";
+                rate = "${toString rate}.00";
+                position = "${toString x}x${toString y}";
+              };
+            };
+
+          mkAutorandrFingerprint =
+            { name, fingerprint, ... }:
+            {
+              inherit name;
+              value = fingerprint;
+            };
+
+          autorandrConf = listToAttrs (map mkAutorandrConf cfg.monitors);
+          autorandrFpts = listToAttrs (map mkAutorandrFingerprint cfg.monitors);
+        in
+        mkIf isX11 {
+          enable = (length cfg.monitors) != 0;
+
+          profiles.default = {
+            config = autorandrConf;
+            fingerprint = autorandrFpts;
           };
         };
 
-      mkAutorandrFingerprint = { name, fingerprint, ... }: {
-        inherit name;
-        value = fingerprint;
-      };
+      services.kanshi =
+        let
+          mkKanshiOutput =
+            {
+              name,
+              height,
+              width,
+              rate,
+              vrr,
+              x,
+              y,
+              scale,
+              ...
+            }:
+            {
+              inherit scale;
+              criteria = name;
+              mode = "${toString width}x${toString height}@${toString rate}";
+              position = "${toString x},${toString y}";
+              adaptiveSync = vrr;
+            };
+        in
+        mkIf isWayland {
+          enable = true;
 
-      autorandrConf = listToAttrs (map mkAutorandrConf cfg.monitors);
-      autorandrFpts = listToAttrs (map mkAutorandrFingerprint cfg.monitors);
-    in mkIf isX11 {
-      enable = (length cfg.monitors) != 0;
+          systemdTarget = "hyprland-session.target";
 
-      profiles.default = {
-        config = autorandrConf;
-        fingerprint = autorandrFpts;
-      };
-    };
-
-    services.kanshi = let
-      mkKanshiOutput = { name, height, width, rate, vrr, x, y, scale, ... }: {
-        inherit scale;
-        criteria = name;
-        mode = "${toString width}x${toString height}@${toString rate}";
-        position = "${toString x},${toString y}";
-        adaptiveSync = vrr;
-      };
-    in mkIf isWayland {
-      enable = true;
-
-      systemdTarget = "hyprland-session.target";
-
-      settings = [{
-        profile = {
-          name = "default";
-          outputs = map mkKanshiOutput cfg.monitors;
+          settings = [
+            {
+              profile = {
+                name = "default";
+                outputs = map mkKanshiOutput cfg.monitors;
+              };
+            }
+          ];
         };
-      }];
     };
-  };
 }
-

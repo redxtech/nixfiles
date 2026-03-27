@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchFromGitHub }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+}:
 
 stdenv.mkDerivation rec {
   pname = "waze-travel-time";
@@ -22,8 +26,7 @@ stdenv.mkDerivation rec {
   passthru.entrypoint = "ha-card-${pname}.js";
 
   meta = with lib; {
-    changelog =
-      "https://github.com/r-renato/ha-card-waze-travel-time/commits/master";
+    changelog = "https://github.com/r-renato/ha-card-waze-travel-time/commits/master";
     description = "Home Assistant Lovelace card for Waze Travel Time Sensor";
     homepage = "https://github.com/r-renato/ha-card-waze-travel-time";
     maintainers = with maintainers; [ redxtech ];

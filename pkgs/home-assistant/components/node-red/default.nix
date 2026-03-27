@@ -1,4 +1,9 @@
-{ lib, buildHomeAssistantComponent, python313Packages, fetchFromGitHub }:
+{
+  lib,
+  buildHomeAssistantComponent,
+  python313Packages,
+  fetchFromGitHub,
+}:
 
 buildHomeAssistantComponent rec {
   owner = "zachowj";
@@ -15,10 +20,8 @@ buildHomeAssistantComponent rec {
   propagatedBuildInputs = with python313Packages; [ colorlog ];
 
   meta = with lib; {
-    changelog =
-      "https://github.com/zachowj/hass-node-red/releases/tag/v${version}";
-    description =
-      "Companion Component for node-red-contrib-home-assistant-websocket to help integrate Node-RED with Home Assistant Core";
+    changelog = "https://github.com/zachowj/hass-node-red/releases/tag/v${version}";
+    description = "Companion Component for node-red-contrib-home-assistant-websocket to help integrate Node-RED with Home Assistant Core";
     homepage = "https://github.com/zachowj/hass-node-red";
     maintainers = with maintainers; [ redxtech ];
     license = licenses.mit;

@@ -1,17 +1,27 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (builtins) filter hasAttr readFile;
-  ifTheyExist = groups:
-    filter (group: hasAttr group config.users.groups) groups;
-in {
+  ifTheyExist = groups: filter (group: hasAttr group config.users.groups) groups;
+in
+{
   users.mutableUsers = false;
   users.users.gabe = {
     description = "Gabe Dunn";
     isNormalUser = true;
     hashedPasswordFile = config.sops.secrets.gabe-pw.path;
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "video" "audio" ] ++ ifTheyExist [
+    extraGroups = [
+      "wheel"
+      "video"
+      "audio"
+    ]
+    ++ ifTheyExist [
       "data"
       "deluge"
       "dialout"
@@ -44,6 +54,5 @@ in {
 
   sops.secrets.gabe-pw.neededForUsers = true;
 
-  home-manager.users.gabe =
-    import ../../../home/gabe/${config.networking.hostName}.nix;
+  home-manager.users.gabe = import ../../../home/gabe/${config.networking.hostName}.nix;
 }

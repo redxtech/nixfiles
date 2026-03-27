@@ -1,9 +1,19 @@
-{ writeShellApplication, atool, nemo-with-extensions, libnotify, ... }:
+{
+  writeShellApplication,
+  atool,
+  nemo-with-extensions,
+  libnotify,
+  ...
+}:
 
 writeShellApplication {
   name = "unarchiver";
 
-  runtimeInputs = [ atool nemo-with-extensions libnotify ];
+  runtimeInputs = [
+    atool
+    nemo-with-extensions
+    libnotify
+  ];
 
   text = ''
     # script to unarchive files using atool
@@ -56,4 +66,3 @@ writeShellApplication {
     unarchive_file "$@"
   '';
 }
-

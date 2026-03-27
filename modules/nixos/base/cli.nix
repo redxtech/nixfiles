@@ -1,9 +1,15 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
   cfg = config.base;
-in {
+in
+{
   # options.base.cli = { };
 
   config = mkIf cfg.enable {
@@ -28,7 +34,8 @@ in {
         };
       };
 
-      nix-ld.libraries = with pkgs;
+      nix-ld.libraries =
+        with pkgs;
         [
           acl
           attr
@@ -52,7 +59,8 @@ in {
           util-linux
           zlib
           zstd
-        ] ++ lib.optionals (config.hardware.graphics.enable) [
+        ]
+        ++ lib.optionals (config.hardware.graphics.enable) [
           pipewire
           cups
           libxkbcommon
@@ -90,31 +98,33 @@ in {
     };
 
     environment = {
-      shellAliases = let
-        nr = "nh os";
-        hm = "nh home";
-      in rec {
-        ls = "eza --group-directories-first";
-        la = "${ls} -al";
-        ll = "${ls} -l";
-        l = "${ls} -l";
+      shellAliases =
+        let
+          nr = "nh os";
+          hm = "nh home";
+        in
+        rec {
+          ls = "eza --group-directories-first";
+          la = "${ls} -al";
+          ll = "${ls} -l";
+          l = "${ls} -l";
 
-        mkd = "mkdir -pv";
-        mv = "mv -v";
-        rm = "rm -i";
+          mkd = "mkdir -pv";
+          mv = "mv -v";
+          rm = "rm -i";
 
-        vim = "tu";
-        vi = vim;
-        v = vim;
+          vim = "tu";
+          vi = vim;
+          v = vim;
 
-        nrs = "${nr} switch";
-        nru = "${nrs} --ask --update";
-        snrs = "sudo nixos-rebuild --flake $FLAKE switch";
+          nrs = "${nr} switch";
+          nru = "${nrs} --ask --update";
+          snrs = "sudo nixos-rebuild --flake $FLAKE switch";
 
-        hms = "${hm} switch";
-        hmsu = "${hms} --ask --update";
-        hmsb = "${hms} -b backup";
-      };
+          hms = "${hm} switch";
+          hmsu = "${hms} --ask --update";
+          hmsb = "${hms} -b backup";
+        };
 
       systemPackages = with pkgs; [
         atool

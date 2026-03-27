@@ -1,7 +1,17 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
-  inherit (config.desktop.autostart) desktop services run processed;
+  inherit (config.desktop.autostart)
+    desktop
+    services
+    run
+    processed
+    ;
   inherit (builtins) map;
   cfg = config.desktop.wm.hyprland;
 
@@ -13,7 +23,8 @@ let
   runService = map mkService services;
 
   runBG = (map (cmd: "${cmd} &") run);
-in {
+in
+{
   wayland.windowManager.hyprland = lib.mkIf cfg.enable {
     settings.exec = runDesktop ++ runService ++ runBG ++ processed;
   };

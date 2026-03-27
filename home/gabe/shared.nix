@@ -1,15 +1,21 @@
-{ config, lib, pkgs, stable, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  stable,
+  ...
+}:
 
 let
   cfg = config.desktop.wm;
   inherit (cfg) scripts;
-in {
+in
+{
   cli = {
     enable = true;
-    packages = with pkgs;
-      [
-        audible-cli # interact with audible
-      ];
+    packages = with pkgs; [
+      audible-cli # interact with audible
+    ];
   };
 
   desktop = {
@@ -133,25 +139,30 @@ in {
           class = "Minecraft*?(.*)";
           tile = true;
         }
-      ] ++ (map (class: {
-        inherit class;
-        float = true;
-      }) [
-        "obsidian"
-        "org.pulseaudio.pavucontrol"
-        ".piper-wrapped"
-        ".blueman-manager-wrapped"
-      ]);
+      ]
+      ++ (map
+        (class: {
+          inherit class;
+          float = true;
+        })
+        [
+          "obsidian"
+          "org.pulseaudio.pavucontrol"
+          ".piper-wrapped"
+          ".blueman-manager-wrapped"
+        ]
+      );
 
-      binds = with pkgs;
+      binds =
+        with pkgs;
         let
           bin = lib.getExe;
-          runFloat = window:
-            "${bspwm}/bin/bspc rule -a ${window} -o state=floating; ";
+          runFloat = window: "${bspwm}/bin/bspc rule -a ${window} -o state=floating; ";
           kittyRun = "${kitty}/bin/kitty --single-instance ";
 
           ff = "${config.programs.firefox.finalPackage}/bin/firefox-nightly";
-        in [
+        in
+        [
           {
             description = "open terminal";
             cmd = "${kittyRun}";
@@ -164,8 +175,7 @@ in {
           }
           {
             description = "open other terminals";
-            cmd =
-              "{${bin alacritty},${xfce.xfce4-terminal}/bin/xfce4-terminal}";
+            cmd = "{${bin alacritty},${xfce.xfce4-terminal}/bin/xfce4-terminal}";
             keys = [ "super + {shift,ctrl} + Return" ];
           }
           {
@@ -181,7 +191,10 @@ in {
           {
             description = "rofi powermenu";
             cmd = scripts.wm.powermenu;
-            keys = [ "super + BackSpace" "super + shift + e" ];
+            keys = [
+              "super + BackSpace"
+              "super + shift + e"
+            ];
           }
           {
             description = "restart sxhkd";
@@ -216,23 +229,18 @@ in {
           # }
           # state flags
           {
-            description =
-              "set the window mode to {tiled,pseudo_tiled,floating,fullscreen}";
-            cmd =
-              "${bspwm}/bin/bspc node -t {tiled,pseudo_tiled,floating,fullscreen}";
+            description = "set the window mode to {tiled,pseudo_tiled,floating,fullscreen}";
+            cmd = "${bspwm}/bin/bspc node -t {tiled,pseudo_tiled,floating,fullscreen}";
             keys = [ "super + {t,shift + t,s,f}" ];
           }
           {
-            description =
-              "toggle the node flag {locked,sticky,private,hidden,marked}";
-            cmd =
-              "${bspwm}/bin/bspc node -g {locked,sticky,private,hidden,marked}";
+            description = "toggle the node flag {locked,sticky,private,hidden,marked}";
+            cmd = "${bspwm}/bin/bspc node -g {locked,sticky,private,hidden,marked}";
             keys = [ "super + {x,y,z,v,ctrl + m}" ];
           }
           {
             description = "unhide a window";
-            cmd =
-              "${bspwm}/bin/bspc node $(${bspwm}/bin/bspc query -N -n .hidden.local | ${coreutils}/bin/tail -n1) -g hidden=off";
+            cmd = "${bspwm}/bin/bspc node $(${bspwm}/bin/bspc query -N -n .hidden.local | ${coreutils}/bin/tail -n1) -g hidden=off";
             keys = [ "super + ctrl + shift + v" ];
           }
           # focus/swap
@@ -242,8 +250,7 @@ in {
             keys = [ "alt + Tab" ];
           }
           {
-            description =
-              "{focus,move} the node in the {west,south,north,east} direction";
+            description = "{focus,move} the node in the {west,south,north,east} direction";
             cmd = "${bspwm}/bin/bspc node -{f,s} {west,south,north,east}";
             keys = [ "super + {_,shift + }{h,j,k,l}" ];
           }
@@ -259,8 +266,7 @@ in {
           #   keys = [ "super + {_,shift + }c" ];
           # }
           {
-            description =
-              "focus the {next,previous} desktop in the current monitor";
+            description = "focus the {next,previous} desktop in the current monitor";
             cmd = "${bspwm}/bin/bspc desktop -f {prev,next}.local";
             keys = [ "super + bracket{left,right}" ];
           }
@@ -302,23 +308,18 @@ in {
           }
           {
             description = "cancel the preselection for the focused desktop";
-            cmd =
-              "${bspwm}/bin/bspc query -N -d | ${coreutils}/bin/xargs -I id -n 1 ${bspwm}/bin/bspc node id -p cancel";
+            cmd = "${bspwm}/bin/bspc query -N -d | ${coreutils}/bin/xargs -I id -n 1 ${bspwm}/bin/bspc node id -p cancel";
             keys = [ "super + ctrl + shift + space" ];
           }
           # move/resize
           {
-            description =
-              "expand a window by moving one its {left,bottom,top,right} side outward";
-            cmd =
-              "${bspwm}/bin/bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}";
+            description = "expand a window by moving one its {left,bottom,top,right} side outward";
+            cmd = "${bspwm}/bin/bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}";
             keys = [ "super + alt + {h,j,k,l}" ];
           }
           {
-            description =
-              "contract a window by moving its {left,bottom,top,right} side inward";
-            cmd =
-              "${bspwm}/bin/bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}";
+            description = "contract a window by moving its {left,bottom,top,right} side inward";
+            cmd = "${bspwm}/bin/bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}";
             keys = [ "super + alt + shift + {h,j,k,l}" ];
           }
           {
@@ -328,12 +329,8 @@ in {
           }
           # multimedia keys
           {
-            description =
-              "playerctl {play/pause,skip,prev} {spotify,firefox,mpv,general}";
-            cmd = ''
-              ${
-                bin playerctl
-              } --player={spotify,firefox,mopidy,mpv,""} {play-pause,next,previous}'';
+            description = "playerctl {play/pause,skip,prev} {spotify,firefox,mpv,general}";
+            cmd = ''${bin playerctl} --player={spotify,firefox,mopidy,mpv,""} {play-pause,next,previous}'';
             keys = [ "{_,shift,super,ctrl,alt} + XF86Audio{Play,Next,Prev}" ];
           }
           {
@@ -375,9 +372,7 @@ in {
           }
           {
             description = "terminal exec {btop,ranger}";
-            cmd = "${runFloat "kitty"} ${kittyRun} {${btop}/bin/btop,${
-                bin ranger
-              }}";
+            cmd = "${runFloat "kitty"} ${kittyRun} {${btop}/bin/btop,${bin ranger}}";
             keys = [ "super + shift + {m,r}" ];
           }
           # various miscellany
@@ -398,8 +393,7 @@ in {
           # }
           {
             description = "show keybind cheatsheet";
-            cmd =
-              "${rofi}/bin/rofi  -dmenu -i -p 'Hotkeys 󰄾' < ${config.xdg.dataHome}/sxhkd/cheatsheet | ${choose}/bin/choose -f ' => ' 2 | ${bash}/bin/bash";
+            cmd = "${rofi}/bin/rofi  -dmenu -i -p 'Hotkeys 󰄾' < ${config.xdg.dataHome}/sxhkd/cheatsheet | ${choose}/bin/choose -f ' => ' 2 | ${bash}/bin/bash";
             # cmd = "${bin sxhkhmenu} --opt-args=\"-dmenu -i -p Keybinds:\"";
             keys = [ "super + F1" ];
           }
@@ -416,7 +410,10 @@ in {
     };
 
     autostart = with pkgs; {
-      desktop = [ "vesktop.desktop" "spotify.desktop" ];
+      desktop = [
+        "vesktop.desktop"
+        "spotify.desktop"
+      ];
       services = [
         "${thunar}/bin/thunar --daemon"
         "${pkgs.mako}/bin/mako"
@@ -427,7 +424,10 @@ in {
         "${
           (writeShellApplication {
             name = "monitor_connection_fix";
-            runtimeInputs = [ coreutils socat ];
+            runtimeInputs = [
+              coreutils
+              socat
+            ];
             text = ''
               handle() {
                 case $1 in monitoradded*)

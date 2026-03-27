@@ -1,10 +1,26 @@
-{ writeShellApplication, coreutils, findutils, fd, sd, wl-clipboard
-, papirus-icon-theme, tofi, rofiCmd ? "${tofi}/bin/tofi", ... }:
+{
+  writeShellApplication,
+  coreutils,
+  findutils,
+  fd,
+  sd,
+  wl-clipboard,
+  papirus-icon-theme,
+  tofi,
+  rofiCmd ? "${tofi}/bin/tofi",
+  ...
+}:
 
 writeShellApplication {
   name = "search-icons";
 
-  runtimeInputs = [ coreutils findutils fd sd wl-clipboard ];
+  runtimeInputs = [
+    coreutils
+    findutils
+    fd
+    sd
+    wl-clipboard
+  ];
   text = ''
     rofi_cmd () {
       ${rofiCmd} --prompt-text "$@"

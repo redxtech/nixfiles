@@ -20,9 +20,12 @@ stdenv.mkDerivation rec {
   '';
 
   passthru.updateScript = nix-update-script {
-		# TODO: test when fixed. currently can't see a 'clu-v*' release since it's not in the last 10 releases
-		extraArgs = [ "--version-regex" "cli-v(.*)" ];
-	};
+    # TODO: test when fixed. currently can't see a 'clu-v*' release since it's not in the last 10 releases
+    extraArgs = [
+      "--version-regex"
+      "cli-v(.*)"
+    ];
+  };
 
   meta = with lib; {
     description = "The Ente CLI is a Command Line Utility for exporting data from Ente.";

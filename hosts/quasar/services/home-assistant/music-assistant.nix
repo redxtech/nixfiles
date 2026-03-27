@@ -6,7 +6,8 @@ let
 
   inherit (self.lib.containers) mkPorts;
   inherit (self.lib.containers.labels.traefik cfgNet.address) mkAllLabelsPort;
-in {
+in
+{
   config = {
     network.services.mass = 8095;
 
@@ -20,14 +21,27 @@ in {
         desc = "music contoller";
         weight = -70;
       };
-      ports = map mkPorts [ cfg.ports.music-assistant 8097 5090 5091 3483 ];
+      ports = map mkPorts [
+        cfg.ports.music-assistant
+        8097
+        5090
+        5091
+        3483
+      ];
       volumes = [
         "${cfg.paths.config}/music-assistant-server:/data"
         "${cfg.paths.media}:/media"
       ];
-      extraOptions = [ "--privileged" "--network" "host" ];
+      extraOptions = [
+        "--privileged"
+        "--network"
+        "host"
+      ];
     };
 
-    networking.firewall.allowedTCPPorts = [ 8095 8097 ];
+    networking.firewall.allowedTCPPorts = [
+      8095
+      8097
+    ];
   };
 }

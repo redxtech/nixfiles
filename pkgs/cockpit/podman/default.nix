@@ -1,12 +1,16 @@
-{ lib, stdenv, fetchzip, gettext }:
+{
+  lib,
+  stdenv,
+  fetchzip,
+  gettext,
+}:
 
 stdenv.mkDerivation rec {
   pname = "cockpit-podman";
   version = "114";
 
   src = fetchzip {
-    url =
-      "https://github.com/cockpit-project/cockpit-podman/releases/download/${version}/cockpit-podman-${version}.tar.xz";
+    url = "https://github.com/cockpit-project/cockpit-podman/releases/download/${version}/cockpit-podman-${version}.tar.xz";
     hash = "sha256-L2+TijBnHemKtZw7V71WIwdbP9dGnnYrUiCBExLiLFg=";
   };
 
@@ -30,4 +34,3 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ redxtech ];
   };
 }
-

@@ -1,8 +1,16 @@
-{ writeShellApplication, coreutils, home-assistant-cli, ... }:
+{
+  writeShellApplication,
+  coreutils,
+  home-assistant-cli,
+  ...
+}:
 
 writeShellApplication {
   name = "home-assistant";
-  runtimeInputs = [ coreutils home-assistant-cli ];
+  runtimeInputs = [
+    coreutils
+    home-assistant-cli
+  ];
   excludeShellChecks = [ "SC2155" ];
   text = ''
     export HASS_SERVER="$(cat "$HOME"/.config/secrets/hass_url.txt)"
@@ -36,4 +44,3 @@ writeShellApplication {
     main "$@"
   '';
 }
-

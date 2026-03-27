@@ -3,7 +3,8 @@
 let
   inherit (lib) mkIf mkOption mkDefault;
   cfg = config.desktop;
-in {
+in
+{
   imports = [
     # submodules
     ./apps
@@ -60,8 +61,7 @@ in {
         full-at = mkOption {
           type = int;
           default = 98;
-          description =
-            "The percentage at which the battery is considered full.";
+          description = "The percentage at which the battery is considered full.";
         };
       };
 
@@ -92,7 +92,10 @@ in {
         };
 
         type = mkOption {
-          type = enum [ "wired" "wireless" ];
+          type = enum [
+            "wired"
+            "wireless"
+          ];
           default = null;
           description = ''
             The type of network interface.

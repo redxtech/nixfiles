@@ -1,4 +1,9 @@
-{ lib, buildHomeAssistantComponent, python313Packages, fetchFromGitHub }:
+{
+  lib,
+  buildHomeAssistantComponent,
+  python313Packages,
+  fetchFromGitHub,
+}:
 
 let
   pyroute2-old = python313Packages.buildPythonPackage rec {
@@ -20,7 +25,8 @@ let
       hash = "sha256-D603ZrLbc/6REx6X0bMvZzeyo0fgTsFL7J+iRTiQLgQ=";
     };
   };
-in buildHomeAssistantComponent rec {
+in
+buildHomeAssistantComponent rec {
   owner = "mudape";
   domain = "iphonedetect";
   version = "2.4.1";
@@ -39,10 +45,8 @@ in buildHomeAssistantComponent rec {
   '';
 
   meta = with lib; {
-    changelog =
-      "https://github.com/mudape/iphonedetect/releases/tag/v${version}";
-    description =
-      "A custom component for Home Assistant to detect iPhones connected to local LAN, even if the phone is in deep sleep";
+    changelog = "https://github.com/mudape/iphonedetect/releases/tag/v${version}";
+    description = "A custom component for Home Assistant to detect iPhones connected to local LAN, even if the phone is in deep sleep";
     homepage = "https://github.com/mudape/iphonedetect";
     maintainers = with maintainers; [ redxtech ];
     license = licenses.mit;

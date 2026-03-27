@@ -1,7 +1,14 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
-let cfg = config.cli;
-in {
+let
+  cfg = config.cli;
+in
+{
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       delta # better git diffs
@@ -31,8 +38,7 @@ in {
             br = "branch";
             unstage = "reset HEAD --";
             dc = "diff --cached";
-            lg =
-              "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all";
+            lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all";
             pop = "stash pop";
             s = "status";
             d = "diff";
@@ -85,7 +91,7 @@ in {
           key = "1FBF2D806C456BB6";
         };
 
-        includes = [{ path = "${config.xdg.configHome}/git/gitconfig.local"; }];
+        includes = [ { path = "${config.xdg.configHome}/git/gitconfig.local"; } ];
       };
 
       difftastic = {
@@ -121,7 +127,11 @@ in {
       gh = {
         enable = true;
 
-        extensions = with pkgs; [ gh-cal gh-eco gh-markdown-preview ];
+        extensions = with pkgs; [
+          gh-cal
+          gh-eco
+          gh-markdown-preview
+        ];
 
         settings = {
           git_protocol = "ssh";
@@ -138,7 +148,9 @@ in {
 
       gh-dash.enable = true;
 
-      git-cliff = { enable = true; };
+      git-cliff = {
+        enable = true;
+      };
 
       gitui = {
         enable = false;
@@ -157,7 +169,9 @@ in {
       lazygit = {
         enable = true;
         settings = {
-          gui = { nerdFontsVersion = "3"; };
+          gui = {
+            nerdFontsVersion = "3";
+          };
           disableStartupPopups = true;
         };
       };

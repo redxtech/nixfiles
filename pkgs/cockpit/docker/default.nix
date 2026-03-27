@@ -1,5 +1,12 @@
-{ lib, fetchFromGitHub, buildNpmPackage, python2, nodePackages, sass
-, webpack-cli }:
+{
+  lib,
+  fetchFromGitHub,
+  buildNpmPackage,
+  python2,
+  nodePackages,
+  sass,
+  webpack-cli,
+}:
 
 buildNpmPackage {
   pname = "cockpit-docker";
@@ -15,7 +22,10 @@ buildNpmPackage {
   npmDepsHash = "sha256-i/xCb6rVSHdF5YRIQgDOEeHlqaxzO/VLJPW3UWPsxeQ=";
   makeCacheWritable = true;
 
-  nativeBuildInputs = [ webpack-cli nodePackages.sass ];
+  nativeBuildInputs = [
+    webpack-cli
+    nodePackages.sass
+  ];
 
   prePatch = ''
     substituteInPlace package.json --replace-fail '"node-sass": "^4.13.1",' ' '
@@ -40,4 +50,3 @@ buildNpmPackage {
     maintainers = with maintainers; [ redxtech ];
   };
 }
-

@@ -1,9 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   cfg = config.desktop;
   isSpiced = cfg.spicetify.enable;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     # use spicetify if enabled
     programs.spicetify = {

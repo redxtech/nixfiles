@@ -1,9 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
   cfg = config.cli;
-in {
+in
+{
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       duckdb
@@ -16,11 +22,14 @@ in {
       enableFishIntegration = true;
 
       theme = {
-        flavor = let theme = "dracula";
-        in {
-          dark = theme;
-          light = theme;
-        };
+        flavor =
+          let
+            theme = "dracula";
+          in
+          {
+            dark = theme;
+            light = theme;
+          };
       };
 
       flavors = {
@@ -34,9 +43,24 @@ in {
 
       plugins = {
         inherit (pkgs.yaziPlugins)
-          chmod duckdb full-border git glow lazygit mediainfo mount ouch
-          projects relative-motions restore rich-preview smart-filter
-          smart-enter sudo yatline;
+          chmod
+          duckdb
+          full-border
+          git
+          glow
+          lazygit
+          mediainfo
+          mount
+          ouch
+          projects
+          relative-motions
+          restore
+          rich-preview
+          smart-filter
+          smart-enter
+          sudo
+          yatline
+          ;
 
         # use from pkgs.yaziPlugins after update flake inputs
         smart-paste = pkgs.yaziPlugins.mkYaziPlugin {
@@ -66,57 +90,89 @@ in {
             }
           ];
 
-          prepend_previewers = let
-            ouch = map (type: {
-              run = "ouch";
-              mime = "application/${type}";
-            }) [
-              "*zip"
-              "x-tar"
-              "x-bzip2"
-              "x-7z-compressed"
-              "x-rar"
-              "x-xz"
-              "xz"
-            ];
+          prepend_previewers =
+            let
+              ouch =
+                map
+                  (type: {
+                    run = "ouch";
+                    mime = "application/${type}";
+                  })
+                  [
+                    "*zip"
+                    "x-tar"
+                    "x-bzip2"
+                    "x-7z-compressed"
+                    "x-rar"
+                    "x-xz"
+                    "xz"
+                  ];
 
-            duckdb = map (type: {
-              run = "duckdb";
-              name = "*.${type}";
-            }) [ "csv" "tsv" "json" "parquet" "txt" "xlsx" "db" "duckdb" ];
-          in [
-            {
-              name = "*.md";
-              run = "glow";
-            }
-            # replace magick, image, video with mediainfo
-            {
-              mime = "{audio,video,image}/*";
-              run = "mediainfo";
-            }
-            {
-              mime = "application/subrip";
-              run = "mediainfo";
-            }
-          ] ++ ouch ++ duckdb;
+              duckdb =
+                map
+                  (type: {
+                    run = "duckdb";
+                    name = "*.${type}";
+                  })
+                  [
+                    "csv"
+                    "tsv"
+                    "json"
+                    "parquet"
+                    "txt"
+                    "xlsx"
+                    "db"
+                    "duckdb"
+                  ];
+            in
+            [
+              {
+                name = "*.md";
+                run = "glow";
+              }
+              # replace magick, image, video with mediainfo
+              {
+                mime = "{audio,video,image}/*";
+                run = "mediainfo";
+              }
+              {
+                mime = "application/subrip";
+                run = "mediainfo";
+              }
+            ]
+            ++ ouch
+            ++ duckdb;
 
-          prepend_preloaders = let
-            duckdb = map (type: {
-              run = "duckdb";
-              name = "*.${type}";
-              multi = false;
-            }) [ "csv" "tsv" "json" "parquet" "txt" "xlsx" ];
-          in [
-            # replace magick, image, video with mediainfo
-            {
-              mime = "{audio,video,image}/*";
-              run = "mediainfo";
-            }
-            {
-              mime = "application/subrip";
-              run = "mediainfo";
-            }
-          ] ++ duckdb;
+          prepend_preloaders =
+            let
+              duckdb =
+                map
+                  (type: {
+                    run = "duckdb";
+                    name = "*.${type}";
+                    multi = false;
+                  })
+                  [
+                    "csv"
+                    "tsv"
+                    "json"
+                    "parquet"
+                    "txt"
+                    "xlsx"
+                  ];
+            in
+            [
+              # replace magick, image, video with mediainfo
+              {
+                mime = "{audio,video,image}/*";
+                run = "mediainfo";
+              }
+              {
+                mime = "application/subrip";
+                run = "mediainfo";
+              }
+            ]
+            ++ duckdb;
         };
       };
 
@@ -124,22 +180,34 @@ in {
         manager = {
           prepend_keymap = [
             {
-              on = [ "c" "z" ];
+              on = [
+                "c"
+                "z"
+              ];
               run = "plugin ouch tar.xz";
               desc = "Compress with ouch";
             }
             {
-              on = [ "c" "m" ];
+              on = [
+                "c"
+                "m"
+              ];
               run = "plugin chmod";
               desc = "Change permissions";
             }
             {
-              on = [ "d" "u" ];
+              on = [
+                "d"
+                "u"
+              ];
               run = "plugin restore";
               desc = "Restore last deleted files/folders";
             }
             {
-              on = [ "g" "i" ];
+              on = [
+                "g"
+                "i"
+              ];
               run = "plugin lazygit";
               desc = "Run lazygit";
             }
@@ -171,12 +239,18 @@ in {
               desc = "Scroll one column to the right";
             }
             {
-              on = [ "g" "o" ];
+              on = [
+                "g"
+                "o"
+              ];
               run = "plugin duckdb -open";
               desc = "Open with duckdb";
             }
             {
-              on = [ "g" "u" ];
+              on = [
+                "g"
+                "u"
+              ];
               run = "plugin duckdb -ui";
               desc = "Open with duckdb ui";
             }
@@ -184,66 +258,71 @@ in {
         };
       };
 
-      initLua = let
-        plugins = [ "duckdb" "git" "full-border" ];
-        setupPlugins = lib.concatStringsSep "\n"
-          (map (p: "require('${p}'):setup()") plugins);
-      in ''
-          ${setupPlugins}
-          require("full-border"):setup {
-            type = ui.Border.ROUNDED,
-          }
-
-          require("yatline"):setup({
-          show_background = false,
-
-          header_line = {
-            left = {
-              section_a = {
-                {type = "line", custom = false, name = "tabs", params = {"left"}},
-              },
-              section_b = {},
-              section_c = {}
-            },
-            right = {
-              section_a = {
-                {type = "string", custom = false, name = "date", params = {"%A, %d %B %Y"}},
-              },
-              section_b = {
-                {type = "string", custom = false, name = "date", params = {"%X"}},
-              },
-              section_c = {}
+      initLua =
+        let
+          plugins = [
+            "duckdb"
+            "git"
+            "full-border"
+          ];
+          setupPlugins = lib.concatStringsSep "\n" (map (p: "require('${p}'):setup()") plugins);
+        in
+        ''
+            ${setupPlugins}
+            require("full-border"):setup {
+              type = ui.Border.ROUNDED,
             }
-          },
 
-          status_line = {
-            left = {
-              section_a = {
-                {type = "string", custom = false, name = "tab_mode"},
+            require("yatline"):setup({
+            show_background = false,
+
+            header_line = {
+              left = {
+                section_a = {
+                  {type = "line", custom = false, name = "tabs", params = {"left"}},
+                },
+                section_b = {},
+                section_c = {}
               },
-              section_b = {
-                {type = "string", custom = false, name = "hovered_size"},
-              },
-              section_c = {
-                {type = "string", custom = false, name = "hovered_path"},
-                {type = "coloreds", custom = false, name = "count"},
+              right = {
+                section_a = {
+                  {type = "string", custom = false, name = "date", params = {"%A, %d %B %Y"}},
+                },
+                section_b = {
+                  {type = "string", custom = false, name = "date", params = {"%X"}},
+                },
+                section_c = {}
               }
             },
-            right = {
-              section_a = {
-                {type = "string", custom = false, name = "cursor_position"},
+
+            status_line = {
+              left = {
+                section_a = {
+                  {type = "string", custom = false, name = "tab_mode"},
+                },
+                section_b = {
+                  {type = "string", custom = false, name = "hovered_size"},
+                },
+                section_c = {
+                  {type = "string", custom = false, name = "hovered_path"},
+                  {type = "coloreds", custom = false, name = "count"},
+                }
               },
-              section_b = {
-                {type = "string", custom = false, name = "cursor_percentage"},
-              },
-              section_c = {
-                {type = "string", custom = false, name = "hovered_file_extension", params = {true}},
-                {type = "coloreds", custom = false, name = "permissions"},
+              right = {
+                section_a = {
+                  {type = "string", custom = false, name = "cursor_position"},
+                },
+                section_b = {
+                  {type = "string", custom = false, name = "cursor_percentage"},
+                },
+                section_c = {
+                  {type = "string", custom = false, name = "hovered_file_extension", params = {true}},
+                  {type = "coloreds", custom = false, name = "permissions"},
+                }
               }
-            }
-          },
-        })
-      '';
+            },
+          })
+        '';
     };
   };
 }

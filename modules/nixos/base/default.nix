@@ -1,11 +1,23 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   inherit (builtins) map;
-  inherit (lib) mkIf mkDefault mkOption mkEnableOption optional;
+  inherit (lib)
+    mkIf
+    mkDefault
+    mkOption
+    mkEnableOption
+    optional
+    ;
 
   cfg = config.base;
-in {
+in
+{
   imports = [
     ./cli.nix
     ./gpu.nix
@@ -61,7 +73,9 @@ in {
       };
     };
 
-    boot.enable = mkEnableOption "Enable boot config" // { default = true; };
+    boot.enable = mkEnableOption "Enable boot config" // {
+      default = true;
+    };
 
     tailscale = mkOption {
       type = bool;
@@ -83,8 +97,16 @@ in {
 
     # basic packages
     environment.systemPackages =
-      let py-pkgs = ps: with ps; [ dbus-python pygobject3 requests ];
-      in with pkgs; [
+      let
+        py-pkgs =
+          ps: with ps; [
+            dbus-python
+            pygobject3
+            requests
+          ];
+      in
+      with pkgs;
+      [
         btrfs-progs
         lm_sensors
         man-pages
@@ -97,17 +119,23 @@ in {
       ];
 
     # extra groups
-    users.groups = builtins.listToAttrs (map (name: {
-      inherit name;
-      value = { };
-    }) cfg.extraGroups);
+    users.groups = builtins.listToAttrs (
+      map (name: {
+        inherit name;
+        value = { };
+      }) cfg.extraGroups
+    );
 
     # sops
-    sops = let
-      isEd25519 = k: k.type == "ed25519";
-      getKeyPath = k: k.path;
-      keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
-    in { age.sshKeyPaths = map getKeyPath keys; };
+    sops =
+      let
+        isEd25519 = k: k.type == "ed25519";
+        getKeyPath = k: k.path;
+        keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
+      in
+      {
+        age.sshKeyPaths = map getKeyPath keys;
+      };
 
     # defaults
     hardware.enableRedistributableFirmware = mkDefault true;
@@ -118,8 +146,10 @@ in {
     services.irqbalance.enable = mkDefault true;
     services.zfs.autoSnapshot.enable = mkDefault cfg.fs.zfs;
     i18n.defaultLocale = mkDefault "en_CA.UTF-8";
-    i18n.supportedLocales =
-      mkDefault [ "en_CA.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
+    i18n.supportedLocales = mkDefault [
+      "en_CA.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
+    ];
 
     # disable networkmanager-wait-online
     systemd.services.NetworkManager-wait-online.enable = mkDefault false;
@@ -161,7 +191,10 @@ in {
         "vt.global_cursor_default=0"
       ];
 
-      binfmt.emulatedSystems = [ "aarch64-linux" "x86_64-windows" ];
+      binfmt.emulatedSystems = [
+        "aarch64-linux"
+        "x86_64-windows"
+      ];
 
       supportedFilesystems = {
         btrfs = mkIf cfg.fs.btrfs true;
@@ -181,7 +214,7 @@ in {
     # cachix-agent
     services.cachix-agent.enable = mkDefault true;
 
-    # docker changes 
+    # docker changes
     virtualisation.docker = {
       # fix	dns
       daemon.settings = {
@@ -191,14 +224,20 @@ in {
     };
 
     # tailscale
-    services.tailscale = let flags = [ "--advertise-exit-node" "--ssh" ];
-    in mkIf cfg.tailscale {
-      enable = true;
-      openFirewall = true;
-      useRoutingFeatures = lib.mkDefault "both";
-      extraUpFlags = flags;
-      extraSetFlags = flags;
-    };
+    services.tailscale =
+      let
+        flags = [
+          "--advertise-exit-node"
+          "--ssh"
+        ];
+      in
+      mkIf cfg.tailscale {
+        enable = true;
+        openFirewall = true;
+        useRoutingFeatures = lib.mkDefault "both";
+        extraUpFlags = flags;
+        extraSetFlags = flags;
+      };
 
     # network stuff
     networking = {

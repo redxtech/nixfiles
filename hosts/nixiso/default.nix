@@ -1,8 +1,19 @@
-{ self, config, lib, pkgs, ... }:
+{
+  self,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let inherit (lib) mkDefault mkForce;
-in {
-  imports = [ ./filesystem.nix ./packages.nix ];
+let
+  inherit (lib) mkDefault mkForce;
+in
+{
+  imports = [
+    ./filesystem.nix
+    ./packages.nix
+  ];
 
   config = {
     # disko stuff
@@ -33,7 +44,10 @@ in {
 
     nix = {
       settings = {
-        experimental-features = [ "nix-command" "flakes" ];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
         substituters = [
           "https://cache.nixos.org"
           "https://nix-community.cachix.org"
@@ -77,10 +91,14 @@ in {
       xremap = {
         enable = true;
         withX11 = true;
-        config.modmap = [{
-          name = "Global";
-          remap = { "CapsLock" = "SUPER_L"; };
-        }];
+        config.modmap = [
+          {
+            name = "Global";
+            remap = {
+              "CapsLock" = "SUPER_L";
+            };
+          }
+        ];
       };
 
       displayManager.autoLogin.user = mkForce "gabe";
@@ -101,18 +119,18 @@ in {
     };
 
     # force set passwords for users
-    users.extraUsers = let
-      mkISOUser = pw: {
-        hashedPassword = mkForce pw;
-        hashedPasswordFile = mkForce null;
+    users.extraUsers =
+      let
+        mkISOUser = pw: {
+          hashedPassword = mkForce pw;
+          hashedPasswordFile = mkForce null;
+        };
+        isoUsers = builtins.mapAttrs (_: pw: mkISOUser pw);
+      in
+      isoUsers {
+        gabe = "$y$j9T$.xOwShfMrSOABFsHFEPz2/$Lms67feYjaQm4IKR4EWFmIoDqffK5KsmVcfZCMJaXv0";
+        root = "$y$j9T$Nj51AtexfLEZR1DisZK7i0$adHDufm64FBLYWtxLQwC6uvHv0faz8pXCv6IFodMwV8";
       };
-      isoUsers = builtins.mapAttrs (_: pw: mkISOUser pw);
-    in isoUsers {
-      gabe =
-        "$y$j9T$.xOwShfMrSOABFsHFEPz2/$Lms67feYjaQm4IKR4EWFmIoDqffK5KsmVcfZCMJaXv0";
-      root =
-        "$y$j9T$Nj51AtexfLEZR1DisZK7i0$adHDufm64FBLYWtxLQwC6uvHv0faz8pXCv6IFodMwV8";
-    };
 
     # set the install closure path for offline installation
     # environment.etc."install-closure".source = "${closureInfo}/store-paths";

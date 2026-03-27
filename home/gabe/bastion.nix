@@ -33,6 +33,8 @@
       google-chrome # web browser
       nautilus # file manager
       neovide # neovim gui
+      kdePackages.okular # ebook, pdf, comic, etc. reader
+      qcomicbook # comic reader
       reboot-to-windows # reboot to windows
       seabird # k8s gui
       telegram-desktop # telegram

@@ -1,9 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
   cfg = config.cli;
-in {
+in
+{
   config = mkIf cfg.enable {
     home = {
       sessionVariables = {
@@ -17,7 +23,11 @@ in {
     # my custom, self-contained neovim config
     tu = {
       enable = true;
-      packageNames = [ "tu" "tu-dev" "tu-profile" ];
+      packageNames = [
+        "tu"
+        "tu-dev"
+        "tu-profile"
+      ];
     };
 
     programs.neovim = {
@@ -63,7 +73,9 @@ in {
         enable = lib.mkDefault true;
 
         web.deno = true;
-        yaml = { kubernetes = true; };
+        yaml = {
+          kubernetes = true;
+        };
         terraform.enable = true;
       };
 
@@ -73,7 +85,10 @@ in {
           frame = "none";
           neovim-bin = "${config.tu.out.packages.tu}/bin/tu";
           font = {
-            normal = [ "Iosevka Comfy" "Symbols Nerd Font" ];
+            normal = [
+              "Iosevka Comfy"
+              "Symbols Nerd Font"
+            ];
             size = 14.0;
           };
         };
@@ -85,12 +100,14 @@ in {
       genericName = "Text Editor";
       comment = "Edit text files - custom config";
       icon = "nvim";
-      exec =
-        "${config.programs.kitty.package}/bin/kitty ${config.tu.out.packages.tu}/bin/tu %F";
+      exec = "${config.programs.kitty.package}/bin/kitty ${config.tu.out.packages.tu}/bin/tu %F";
       settings.TryExec = "${config.tu.out.packages.tu}/bin/tu";
       startupNotify = false;
       type = "Application";
-      categories = [ "Utility" "TextEditor" ];
+      categories = [
+        "Utility"
+        "TextEditor"
+      ];
       mimeType = [
         "text/english"
         "text/plain"

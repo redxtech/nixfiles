@@ -1,7 +1,9 @@
 { pkgs, ... }:
 
-let inherit (pkgs) callPackage;
-in {
+let
+  inherit (pkgs) callPackage;
+in
+{
   archiver = callPackage ./archiver.nix { };
   choose-wallpaper = callPackage ./choose-wallpaper.nix { };
   convert = callPackage ./convert-image.nix { };
@@ -11,4 +13,3 @@ in {
   search-icons = callPackage ./search-icons.nix { };
   youtube = callPackage ./youtube.nix { };
 }
-

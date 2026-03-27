@@ -1,9 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.nas;
   mkConf = name: cfg.paths.config + "/" + name;
-in {
+in
+{
   imports = [
     ./components.nix
     ./db.nix
@@ -29,39 +35,49 @@ in {
 
         http = {
           use_x_forwarded_for = true;
-          server_host = [ "0.0.0.0" "::1" ];
-          trusted_proxies = [ "127.0.0.1" "::1" ];
+          server_host = [
+            "0.0.0.0"
+            "::1"
+          ];
+          trusted_proxies = [
+            "127.0.0.1"
+            "::1"
+          ];
         };
 
-        notify = [{
-          name = "Email";
-          platform = "smtp";
-          sender = "homeassistant@sucha.foo";
-          sender_name = "Home Assistant";
-          recipient = "!secret smtp_default_recipient";
-          server = "!secret smtp_server";
-          port = "!secret smtp_port";
-          username = "!secret smtp_username";
-          password = "!secret smtp_password";
-          encryption = "tls";
-        }];
-
-        sensor = let
-          mkBLE = name: id: {
-            name = "${name} BLE";
-            platform = "mqtt_room";
-            device_id = "!secret espresense_${id}";
-            state_topic = "!secret espresense_${id}_topic";
-            timeout = 60;
-          };
-        in [
-          (mkBLE "Gabe's Phone" "gabe_phone")
-          (mkBLE "Gabe's Watch" "gabe_watch")
-          (mkBLE "Cam's Phone" "cam_phone")
-          (mkBLE "Kira's Phone" "kira_phone")
-          # (mkBLE "Marc's Phone" "marc_phone")
-          # (mkBLE "Keir's Phone" "keir_phone")
+        notify = [
+          {
+            name = "Email";
+            platform = "smtp";
+            sender = "homeassistant@sucha.foo";
+            sender_name = "Home Assistant";
+            recipient = "!secret smtp_default_recipient";
+            server = "!secret smtp_server";
+            port = "!secret smtp_port";
+            username = "!secret smtp_username";
+            password = "!secret smtp_password";
+            encryption = "tls";
+          }
         ];
+
+        sensor =
+          let
+            mkBLE = name: id: {
+              name = "${name} BLE";
+              platform = "mqtt_room";
+              device_id = "!secret espresense_${id}";
+              state_topic = "!secret espresense_${id}_topic";
+              timeout = 60;
+            };
+          in
+          [
+            (mkBLE "Gabe's Phone" "gabe_phone")
+            (mkBLE "Gabe's Watch" "gabe_watch")
+            (mkBLE "Cam's Phone" "cam_phone")
+            (mkBLE "Kira's Phone" "kira_phone")
+            # (mkBLE "Marc's Phone" "marc_phone")
+            # (mkBLE "Keir's Phone" "keir_phone")
+          ];
 
         lovelace.mode = "yaml";
 
@@ -82,21 +98,25 @@ in {
           media_dirs.media = "/pool/media";
         };
 
-        device_tracker = [{
-          platform = "unifi_direct";
-          host = "192.168.1.1";
-          username = "!secret unifi_user";
-          password = "!secret unifi_pass";
-        }];
+        device_tracker = [
+          {
+            platform = "unifi_direct";
+            host = "192.168.1.1";
+            username = "!secret unifi_user";
+            password = "!secret unifi_pass";
+          }
+        ];
 
-        shell_command = let
-          hass-home = config.services.home-assistant.configDir;
-          notify-bastion = pkgs.writeShellScript "notify-bastion" ''
-            ${pkgs.openssh}/bin/ssh -i ${hass-home}/.ssh/id_ed25519 gabe@bastion "notify-send '$1' '$2' --icon home --app-name 'Home Assistant'"
-          '';
-        in {
-          notify_bastion = ''${notify-bastion} "{{ title }}" "{{ message }}"'';
-        };
+        shell_command =
+          let
+            hass-home = config.services.home-assistant.configDir;
+            notify-bastion = pkgs.writeShellScript "notify-bastion" ''
+              ${pkgs.openssh}/bin/ssh -i ${hass-home}/.ssh/id_ed25519 gabe@bastion "notify-send '$1' '$2' --icon home --app-name 'Home Assistant'"
+            '';
+          in
+          {
+            notify_bastion = ''${notify-bastion} "{{ title }}" "{{ message }}"'';
+          };
 
         spotcast = {
           country = "CA";
@@ -104,39 +124,33 @@ in {
           sp_key = "!secret spotcast_gabe_sp_key";
         };
 
-        var = let
-          mkSpotifyDevice = id: name: icon: {
-            friendly_name = "Spotify - ${name}";
-            initial_value = "!secret spotify_${id}_id";
-            entity_picture = "mdi:${icon}";
-            unique_id = "var_spotify_device_${id}_id";
+        var =
+          let
+            mkSpotifyDevice = id: name: icon: {
+              friendly_name = "Spotify - ${name}";
+              initial_value = "!secret spotify_${id}_id";
+              entity_picture = "mdi:${icon}";
+              unique_id = "var_spotify_device_${id}_id";
+            };
+            mkSpotifyPlaylist = id: name: uri: {
+              friendly_name = "Spotify Playlist - ${name}";
+              initial_value = "spotify:playlist:${uri}";
+              entity_picture = "mdi:playlist-music";
+              unique_id = "var_spotify_playlist_${id}_uri";
+            };
+          in
+          {
+            spt_bastion = mkSpotifyDevice "bastion" "Bastion" "desktop-classic";
+            spt_gabes_phone = mkSpotifyDevice "gabes_phone" "Gabe's Phone" "cellphone";
+            spt_bedroom_speaker = mkSpotifyDevice "bedroom_speaker" "Bedroom Speaker" "cast-audio";
+            spt_kitchen_speaker = mkSpotifyDevice "kitchen_speaker" "Kitchen Speaker" "cast-audio";
+            spt_living_room_tv = mkSpotifyDevice "living_room_tv" "Living Room TV" "television-box";
+            spt_pl_censorship = mkSpotifyPlaylist "censorship" "Censorship" "1SEjsahPsn1pEGgyJ6mInM";
+            spt_pl_masterlist = mkSpotifyPlaylist "masterlist" "The Master List" "33cMTnKfvqpaDFB38ZKQb4";
+            spt_pl_dope = mkSpotifyPlaylist "dope" "Dope, I Mean" "29nSH89xCUvByNnMujjZZw";
           };
-          mkSpotifyPlaylist = id: name: uri: {
-            friendly_name = "Spotify Playlist - ${name}";
-            initial_value = "spotify:playlist:${uri}";
-            entity_picture = "mdi:playlist-music";
-            unique_id = "var_spotify_playlist_${id}_uri";
-          };
-        in {
-          spt_bastion = mkSpotifyDevice "bastion" "Bastion" "desktop-classic";
-          spt_gabes_phone =
-            mkSpotifyDevice "gabes_phone" "Gabe's Phone" "cellphone";
-          spt_bedroom_speaker =
-            mkSpotifyDevice "bedroom_speaker" "Bedroom Speaker" "cast-audio";
-          spt_kitchen_speaker =
-            mkSpotifyDevice "kitchen_speaker" "Kitchen Speaker" "cast-audio";
-          spt_living_room_tv =
-            mkSpotifyDevice "living_room_tv" "Living Room TV" "television-box";
-          spt_pl_censorship = mkSpotifyPlaylist "censorship" "Censorship"
-            "1SEjsahPsn1pEGgyJ6mInM";
-          spt_pl_masterlist = mkSpotifyPlaylist "masterlist" "The Master List"
-            "33cMTnKfvqpaDFB38ZKQb4";
-          spt_pl_dope =
-            mkSpotifyPlaylist "dope" "Dope, I Mean" "29nSH89xCUvByNnMujjZZw";
-        };
 
-        frontend.extra_module_url =
-          [ "/local/nixos-lovelace-modules/card-mod.js" ];
+        frontend.extra_module_url = [ "/local/nixos-lovelace-modules/card-mod.js" ];
 
         automation = "!include automations.yaml";
         scene = "!include scenes.yaml";
@@ -148,24 +162,26 @@ in {
         pkgs.python-unifi-ap
       ];
 
-      customComponents = (with pkgs.home-assistant-custom-components; [
-        better_thermostat
-        prometheus_sensor
-        localtuya
-        # tuya_local
-        spook
-        waste_collection_schedule
-      ]) ++ (with pkgs; [
-        home-assistant-bermuda
-        home-assistant-browser-mod
-        # home-assistant-dwains-dashboard # NOTE: re-enable when issue #829 is fixed
-        home-assistant-iphonedetect
-        home-assistant-node-red
-        home-assistant-pirate-weather
-        home-assistant-spotcast
-        home-assistant-tuya_local
-        home-assistant-var
-      ]);
+      customComponents =
+        (with pkgs.home-assistant-custom-components; [
+          better_thermostat
+          prometheus_sensor
+          localtuya
+          # tuya_local
+          spook
+          waste_collection_schedule
+        ])
+        ++ (with pkgs; [
+          home-assistant-bermuda
+          home-assistant-browser-mod
+          # home-assistant-dwains-dashboard # NOTE: re-enable when issue #829 is fixed
+          home-assistant-iphonedetect
+          home-assistant-node-red
+          home-assistant-pirate-weather
+          home-assistant-spotcast
+          home-assistant-tuya_local
+          home-assistant-var
+        ]);
 
       customLovelaceModules =
         (with pkgs.home-assistant-custom-lovelace-modules; [
@@ -182,7 +198,8 @@ in {
           mushroom
           template-entity-row
           universal-remote-card
-        ]) ++ (with pkgs; [
+        ])
+        ++ (with pkgs; [
           home-assistant-lovelace-bubble-card
           home-assistant-lovelace-card-tools
           # home-assistant-lovelace-config-template-card
@@ -197,10 +214,12 @@ in {
     services.postgresql = {
       enable = true;
       ensureDatabases = [ "hass" ];
-      ensureUsers = [{
-        name = "hass";
-        ensureDBOwnership = true;
-      }];
+      ensureUsers = [
+        {
+          name = "hass";
+          ensureDBOwnership = true;
+        }
+      ];
       identMap = ''
         hass-user   hass  hass
         local-user  gabe  hass

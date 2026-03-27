@@ -1,4 +1,10 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 {
   boot = {
@@ -8,7 +14,9 @@
       systemd.enable = true;
 
       # setup keyfile
-      secrets = { "/crypto_keyfile.bin" = null; };
+      secrets = {
+        "/crypto_keyfile.bin" = null;
+      };
       # enable swap on luks
       luks.devices = {
         "luks-56051129-eb6d-4e41-b9e3-f4a6f2a35d0a" = {
@@ -32,6 +40,5 @@
     fsType = "vfat";
   };
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/6bd41642-5a8c-4292-be4b-c7b74b4d44ac"; }];
+  swapDevices = [ { device = "/dev/disk/by-uuid/6bd41642-5a8c-4292-be4b-c7b74b4d44ac"; } ];
 }

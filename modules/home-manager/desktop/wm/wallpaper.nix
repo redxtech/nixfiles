@@ -1,10 +1,16 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   inherit (lib) mkIf mkOption types;
   cfg = config.desktop.wallpaper;
   wm = config.desktop.wm;
-in {
+in
+{
   options.desktop.wallpaper = with types; {
     enable = lib.mkEnableOption "Change wallpaper every hour";
 
@@ -23,7 +29,9 @@ in {
           Unit = "wallpaper.service";
           OnCalendar = "*:0"; # every hour
         };
-        Install = { WantedBy = [ "timers.target" ]; };
+        Install = {
+          WantedBy = [ "timers.target" ];
+        };
       };
 
       services.wallpaper = {
@@ -34,39 +42,38 @@ in {
         Install.WantedBy = [ "graphical-session.target" ];
         Service = {
           Type = "oneshot";
-          ExecStart = let
-            setWP = pkgs.writeShellApplication {
-              name = "set-wallpaper";
+          ExecStart =
+            let
+              setWP = pkgs.writeShellApplication {
+                name = "set-wallpaper";
 
-              runtimeInputs = with pkgs; [
-                betterlockscreen
-                coreutils
-                findutils
-                xorg.xrdb
-              ];
+                runtimeInputs = with pkgs; [
+                  betterlockscreen
+                  coreutils
+                  findutils
+                  xorg.xrdb
+                ];
 
-              text = ''
-                # set wallpaper to a random image
-                WP="$(find ${cfg.dir} -type f -iregex ".*\.\(png\|jpe?g\)\$" | shuf -n 1)";
+                text = ''
+                  # set wallpaper to a random image
+                  WP="$(find ${cfg.dir} -type f -iregex ".*\.\(png\|jpe?g\)\$" | shuf -n 1)";
 
-                echo "Setting wallpaper to $WP...";
+                  echo "Setting wallpaper to $WP...";
 
-                # symlink wallpaper to ~/.config/wall.png
-                ln -sfT "$WP" "${config.home.homeDirectory}/.config/wall.png"
+                  # symlink wallpaper to ~/.config/wall.png
+                  ln -sfT "$WP" "${config.home.homeDirectory}/.config/wall.png"
 
-                # set wallpaper with current wm's wallpaper script
-                ${config.desktop.wm.scripts.wm.wallpaper} "$WP" 2>/dev/null
+                  # set wallpaper with current wm's wallpaper script
+                  ${config.desktop.wm.scripts.wm.wallpaper} "$WP" 2>/dev/null
 
-                echo "Wallpaper set to $WP";
+                  echo "Wallpaper set to $WP";
 
-                  # prepare lockscreen with betterlockscreen if using bspwm
-                ${if wm.wm == "bspwm" then
-                  ''betterlockscreen --update "$WP"''
-                else
-                  ""}
-              '';
-            };
-          in "${setWP}/bin/set-wallpaper";
+                    # prepare lockscreen with betterlockscreen if using bspwm
+                  ${if wm.wm == "bspwm" then ''betterlockscreen --update "$WP"'' else ""}
+                '';
+              };
+            in
+            "${setWP}/bin/set-wallpaper";
         };
       };
     };

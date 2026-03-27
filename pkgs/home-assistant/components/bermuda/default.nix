@@ -1,4 +1,8 @@
-{ lib, buildHomeAssistantComponent, fetchFromGitHub }:
+{
+  lib,
+  buildHomeAssistantComponent,
+  fetchFromGitHub,
+}:
 
 buildHomeAssistantComponent rec {
   owner = "agittins";
@@ -14,8 +18,7 @@ buildHomeAssistantComponent rec {
 
   meta = with lib; {
     changelog = "https://github.com/agittins/bermuda/releases/tag/v${version}";
-    description =
-      "Bermuda Bluetooth/BLE Triangulation / Trilateration for HomeAssistant";
+    description = "Bermuda Bluetooth/BLE Triangulation / Trilateration for HomeAssistant";
     homepage = "https://github.com/agittins/bermuda";
     maintainers = with maintainers; [ redxtech ];
     license = licenses.mit;

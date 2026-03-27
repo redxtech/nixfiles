@@ -1,10 +1,25 @@
-{ writeShellApplication, coreutils, hyprland, systemd, playerctl, fuzzel
-, rofiApp ? fuzzel, rofiCmd ? "${fuzzel}/bin/fuzzel", ... }:
+{
+  writeShellApplication,
+  coreutils,
+  hyprland,
+  systemd,
+  playerctl,
+  fuzzel,
+  rofiApp ? fuzzel,
+  rofiCmd ? "${fuzzel}/bin/fuzzel",
+  ...
+}:
 
 writeShellApplication {
   name = "powermenu";
 
-  runtimeInputs = [ coreutils hyprland rofiApp systemd playerctl ];
+  runtimeInputs = [
+    coreutils
+    hyprland
+    rofiApp
+    systemd
+    playerctl
+  ];
 
   # TODO: change logout to use loginctl terminate-session "$XDG_SESSION_ID" or uwsm stop
   text = ''

@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchFromGitHub }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+}:
 
 stdenv.mkDerivation rec {
   pname = "cockpit-navigator";
@@ -24,4 +28,3 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ redxtech ];
   };
 }
-

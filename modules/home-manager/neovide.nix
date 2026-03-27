@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
@@ -6,22 +11,26 @@ let
 
   settingsFormat = pkgs.formats.toml { };
   settingsFile = settingsFormat.generate "config.toml" cfg.settings;
-in {
-  options.programs.neovim.neovide = let inherit (lib) mkEnableOption mkOption;
+in
+{
+  options.programs.neovim.neovide =
+    let
+      inherit (lib) mkEnableOption mkOption;
 
-  in {
-    enable = mkEnableOption "Enable neovide";
+    in
+    {
+      enable = mkEnableOption "Enable neovide";
 
-    settings = mkOption {
-      inherit (settingsFormat) type;
-      default = { };
-      description = lib.mdDoc ''
-        Configuration included in `config.toml`.
+      settings = mkOption {
+        inherit (settingsFormat) type;
+        default = { };
+        description = lib.mdDoc ''
+          Configuration included in `config.toml`.
 
-        See https://neovide.dev/config-file.html for documentation.
-      '';
+          See https://neovide.dev/config-file.html for documentation.
+        '';
+      };
     };
-  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [ neovide ];

@@ -3,7 +3,8 @@
 let
   inherit (lib) concatStrings;
   cfg = config.cli;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     programs.starship = {
       enable = true;
@@ -31,7 +32,10 @@ in {
           "$character"
         ];
 
-        right_format = concatStrings [ "$cmd_duration" "$status" ];
+        right_format = concatStrings [
+          "$cmd_duration"
+          "$status"
+        ];
 
         add_newline = false;
 
@@ -80,8 +84,7 @@ in {
           symbol = " ";
         };
 
-        git_state.format =
-          "\\([$state( $progress_current/$progress_total)]($style)\\)";
+        git_state.format = "\\([$state( $progress_current/$progress_total)]($style)\\)";
 
         git_status = {
           format = " ([$ahead_behind$all_status]($style))";
@@ -122,8 +125,7 @@ in {
         };
 
         python = {
-          format =
-            "[\${symbol}\${pyenv_prefix}(\${version} )(\\($virtualenv\\) )]($style)";
+          format = "[\${symbol}\${pyenv_prefix}(\${version} )(\\($virtualenv\\) )]($style)";
           symbol = " ";
         };
 

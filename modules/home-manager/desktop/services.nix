@@ -1,17 +1,27 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (lib) mkIf mkForce;
   cfg = config.desktop;
-in {
+in
+{
   config = mkIf cfg.enable {
     services = {
       blueman-applet.enable = true;
 
       flameshot.enable = false;
 
-      keybase = { enable = false; };
-      megasync = { enable = false; };
+      keybase = {
+        enable = false;
+      };
+      megasync = {
+        enable = false;
+      };
 
       network-manager-applet.enable = true;
 
@@ -29,8 +39,7 @@ in {
         settings = {
           global = {
             username = "redxtech";
-            password_cmd =
-              "${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/spotify-tui/spotify.txt";
+            password_cmd = "${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/spotify-tui/spotify.txt";
 
             use_mpris = true;
             backend = "pulseaudio";

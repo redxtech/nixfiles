@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.programs.hyprland.polkitAgent;
-in {
+let
+  cfg = config.programs.hyprland.polkitAgent;
+in
+{
   options.programs.hyprland.polkitAgent = {
     enable = lib.mkEnableOption "Enable polkit agent for hyprland";
 

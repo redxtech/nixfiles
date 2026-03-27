@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.desktop;
-in {
+let
+  cfg = config.desktop;
+in
+{
   config = lib.mkIf cfg.enable {
     programs.alacritty = {
       enable = true;
@@ -56,10 +63,12 @@ in {
         mouse = {
           hide_when_typing = false;
 
-          bindings = [{
-            mouse = "Middle";
-            action = "PasteSelection";
-          }];
+          bindings = [
+            {
+              mouse = "Middle";
+              action = "PasteSelection";
+            }
+          ];
         };
 
         selection = {

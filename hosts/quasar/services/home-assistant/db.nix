@@ -3,7 +3,8 @@
 let
   cfg = config.nas;
   cfgNet = config.network;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     network.services.influx = 8086;
 
@@ -51,26 +52,35 @@ in {
       tags_attributes = [ "friendly_name" ];
       default_measurement = "units";
       include = {
-        domains = [ "binary_sensor" "sensor" "sun" ];
+        domains = [
+          "binary_sensor"
+          "sensor"
+          "sun"
+        ];
         entities = [ "weather.beach_house" ];
       };
       exclude = {
         entities = [ "zone.home" ];
-        domains = [ "persistent_notification" "person" ];
+        domains = [
+          "persistent_notification"
+          "person"
+        ];
       };
     };
 
-    sops.secrets = let
-      influxSecret = {
-        sopsFile = ../../../../hosts/quasar/secrets.yaml;
-        mode = "0440";
-        group = config.users.users.influxdb2.group;
+    sops.secrets =
+      let
+        influxSecret = {
+          sopsFile = ../../../../hosts/quasar/secrets.yaml;
+          mode = "0440";
+          group = config.users.users.influxdb2.group;
+        };
+      in
+      {
+        influx_main_password = influxSecret;
+        influx_main_token = influxSecret;
+        influx_homeassistant_token = influxSecret;
+        influx_grafana_token = influxSecret;
       };
-    in {
-      influx_main_password = influxSecret;
-      influx_main_token = influxSecret;
-      influx_homeassistant_token = influxSecret;
-      influx_grafana_token = influxSecret;
-    };
   };
 }

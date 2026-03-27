@@ -1,7 +1,10 @@
 { config, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ./filesystem.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./filesystem.nix
+  ];
 
   base = {
     enable = true;
@@ -43,14 +46,19 @@
     tunnelID = "10f40833-b341-4f16-9920-2b5796744e15";
   };
 
-  networking.firewall.allowedTCPPorts = [ 25565 24454 ];
+  networking.firewall.allowedTCPPorts = [
+    25565
+    24454
+  ];
 
   monitoring.enable = true;
 
   backup = {
     btrfs = {
       enable = true;
-      subvolumes = { gabe-home = "/home/gabe"; };
+      subvolumes = {
+        gabe-home = "/home/gabe";
+      };
     };
 
     restic = {

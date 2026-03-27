@@ -1,8 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.cli;
-in {
-  imports = [ ./plugins.nix ./rifle.nix ];
+let
+  cfg = config.cli;
+in
+{
+  imports = [
+    ./plugins.nix
+    ./rifle.nix
+  ];
 
   config = lib.mkIf cfg.enable {
     programs.ranger = {
@@ -74,63 +84,69 @@ in {
     home.sessionVariables.RANGER_LOAD_DEFAULT_RC = "TRUE";
 
     xdg.configFile."ranger/colorschemes/dracula.py".source =
-      let rev = "5bb840c5806252bf221fa180e9af0d2ffabe90bd";
-      in pkgs.fetchurl {
-        url =
-          "https://raw.githubusercontent.com/dracula/ranger/${rev}/dracula.py";
+      let
+        rev = "5bb840c5806252bf221fa180e9af0d2ffabe90bd";
+      in
+      pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/dracula/ranger/${rev}/dracula.py";
         sha256 = "sha256-gqcwcC7T25bcboQkBWG6JZoqtVsQnGitaC1FNYXFjXg=";
       };
 
-    xdg.configFile."ranger/scope.sh".source = let
-      scope = pkgs.writeShellApplication {
-        name = "scope.sh";
-        runtimeInputs = with pkgs; [
-          atool
-          calibre
-          catdoc
-          coreutils
-          epub-thumbnailer
-          exiftool
-          ffmpeg
-          ffmpegthumbnailer
-          fontforge
-          gcc
-          gnutar
-          highlight
-          imagemagick
-          jq
-          libarchive
-          librsvg
-          mediainfo
-          mu
-          p7zip
-          pandoc
-          poppler-utils
-          python312Packages.pygments
-          sqlite
-          transmission_4
-          unrar
-          unzip
-          w3m
-        ];
-        excludeShellChecks = [ "SC2034" ];
-        text = builtins.readFile ./scope.sh;
-      };
-    in "${scope}/bin/scope.sh";
+    xdg.configFile."ranger/scope.sh".source =
+      let
+        scope = pkgs.writeShellApplication {
+          name = "scope.sh";
+          runtimeInputs = with pkgs; [
+            atool
+            calibre
+            catdoc
+            coreutils
+            epub-thumbnailer
+            exiftool
+            ffmpeg
+            ffmpegthumbnailer
+            fontforge
+            gcc
+            gnutar
+            highlight
+            imagemagick
+            jq
+            libarchive
+            librsvg
+            mediainfo
+            mu
+            p7zip
+            pandoc
+            poppler-utils
+            python312Packages.pygments
+            sqlite
+            transmission_4
+            unrar
+            unzip
+            w3m
+          ];
+          excludeShellChecks = [ "SC2034" ];
+          text = builtins.readFile ./scope.sh;
+        };
+      in
+      "${scope}/bin/scope.sh";
 
     xdg.desktopEntries."ranger" = {
       name = "ranger";
       genericName = "File Manager";
       comment = "Launches the ranger file manager";
       icon = "utilities-terminal";
-      exec =
-        "${config.programs.kitty.package}/bin/kitty ${config.programs.ranger.finalPackage}/bin/ranger %F";
+      exec = "${config.programs.kitty.package}/bin/kitty ${config.programs.ranger.finalPackage}/bin/ranger %F";
       settings.TryExec = "ranger";
       settings.X-MultipleArgs = "false";
       terminal = false;
       type = "Application";
       startupNotify = true;
-      categories = [ "System" "FileTools" "FileManager" ];
+      categories = [
+        "System"
+        "FileTools"
+        "FileManager"
+      ];
       mimeType = [ "inode/directory" ];
     };
   };

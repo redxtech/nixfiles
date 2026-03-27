@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchFromGitHub }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+}:
 
 stdenv.mkDerivation rec {
   pname = "custom-brand-icons";
@@ -23,8 +27,7 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with lib; {
-    changelog =
-      "https://github.com/elax46/custom-brand-icons/releases/tag/${version}";
+    changelog = "https://github.com/elax46/custom-brand-icons/releases/tag/${version}";
     description = "Custom brand icons for Home Assistant";
     homepage = "https://github.com/elax46/custom-brand-icons";
     maintainers = with maintainers; [ redxtech ];

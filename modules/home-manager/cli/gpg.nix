@@ -1,11 +1,22 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (lib) mkIf optionals optionalString;
   cfg = config.cli;
 
   pinentryPkgs =
-    (optionals config.desktop.enable (with pkgs; [ gcr pinentry-gnome3 ]))
+    (optionals config.desktop.enable (
+      with pkgs;
+      [
+        gcr
+        pinentry-gnome3
+      ]
+    ))
     ++ (optionals (!config.desktop.enable) (with pkgs; [ pinentry-curses ]));
 
   # TODO: remove after https://github.com/nix-community/home-manager/pull/5720 is merged
@@ -17,11 +28,14 @@ let
   gpgInitStr = ''
     GPG_TTY="$(tty)"
     export GPG_TTY
-  '' + optionalString agentCfg.enableSshSupport gpgSshSupportStr;
+  ''
+  + optionalString agentCfg.enableSshSupport gpgSshSupportStr;
   gpgFishInitStr = ''
     set -gx GPG_TTY (tty)
-  '' + optionalString agentCfg.enableSshSupport gpgSshSupportStr;
-in {
+  ''
+  + optionalString agentCfg.enableSshSupport gpgSshSupportStr;
+in
+{
   config = mkIf cfg.enable {
     home.packages = with pkgs; [ gpgme ] ++ pinentryPkgs;
 
@@ -29,10 +43,7 @@ in {
       enable = true;
       enableSshSupport = true;
       sshKeys = [ "11148591F2B2026E9B2227BD5C7A1973A2838278" ];
-      pinentry.package = if config.desktop.enable then
-        pkgs.pinentry-gnome3
-      else
-        pkgs.pinentry-curses;
+      pinentry.package = if config.desktop.enable then pkgs.pinentry-gnome3 else pkgs.pinentry-curses;
       enableExtraSocket = true;
 
       enableBashIntegration = false;
@@ -51,8 +62,7 @@ in {
         personal-cipher-preferences = "AES256 AES192 AES";
         personal-digest-preferences = "SHA512 SHA384 SHA256";
         personal-compress-preferences = "ZLIB BZIP2 ZIP Uncompressed";
-        default-preference-list =
-          "SHA512 SHA384 SHA256 AES256 AES192 AES ZLIB BZIP2 ZIP Uncompressed";
+        default-preference-list = "SHA512 SHA384 SHA256 AES256 AES192 AES ZLIB BZIP2 ZIP Uncompressed";
         cert-digest-algo = "SHA512";
         s2k-digest-algo = "SHA512";
         s2k-cipher-algo = "AES256";
@@ -88,20 +98,23 @@ in {
 
       scdaemonSettings.disable-ccid = true;
 
-      publicKeys = [{
-        source = ../../../home/gabe/keys/pgp.asc;
-        trust = 5;
-      }];
+      publicKeys = [
+        {
+          source = ../../../home/gabe/keys/pgp.asc;
+          trust = 5;
+        }
+      ];
     };
 
     # add native messaging hosts for firefox
-    programs.firefox.nativeMessagingHosts = with pkgs;
-      mkIf config.programs.firefox.enable [ gpgme ];
+    programs.firefox.nativeMessagingHosts = with pkgs; mkIf config.programs.firefox.enable [ gpgme ];
 
     # enable gpgme in firefox
     home.file.".mozilla/native-messaging-hosts/gpgmejson.json".source =
-      let toJSON = pkgs.formats.json { };
-      in toJSON.generate "gpgmejson.json" {
+      let
+        toJSON = pkgs.formats.json { };
+      in
+      toJSON.generate "gpgmejson.json" {
         name = "gpgmejson";
         description = "JavaScript binding for GnuPG";
         path = "${pkgs.gpgme.dev}/bin/gpgme-json";
@@ -113,11 +126,12 @@ in {
       # link /run/user/$UID/gnupg to ~/.gnupg-sockets
       # so that SSH config does not have to know the UID
       link-gnupg-sockets = {
-        Unit = { Description = "link gnupg sockets from /run to /home"; };
+        Unit = {
+          Description = "link gnupg sockets from /run to /home";
+        };
         Service = {
           Type = "oneshot";
-          ExecStart =
-            "${pkgs.coreutils}/bin/ln -Tfs /run/user/%U/gnupg %h/.gnupg-sockets";
+          ExecStart = "${pkgs.coreutils}/bin/ln -Tfs /run/user/%U/gnupg %h/.gnupg-sockets";
           ExecStop = "${pkgs.coreutils}/bin/rm $HOME/.gnupg-sockets";
           RemainAfterExit = true;
         };

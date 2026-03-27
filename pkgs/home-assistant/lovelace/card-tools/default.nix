@@ -1,4 +1,8 @@
-{ lib, buildNpmPackage, fetchFromGitHub }:
+{
+  lib,
+  buildNpmPackage,
+  fetchFromGitHub,
+}:
 
 buildNpmPackage rec {
   pname = "lovelace-card-tools";
@@ -23,8 +27,7 @@ buildNpmPackage rec {
   passthru.entrypoint = "card-tools.js";
 
   meta = with lib; {
-    changelog =
-      "https://github.com/thomasloven/lovelace-card-tools/releases/tag/${version}";
+    changelog = "https://github.com/thomasloven/lovelace-card-tools/releases/tag/${version}";
     description = "A collection of tools for other lovelace plugins to use";
     homepage = "https://github.com/thomasloven/lovelace-card-tools";
     license = licenses.mit;

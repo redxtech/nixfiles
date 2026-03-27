@@ -1,7 +1,9 @@
 { lib, ... }:
 
-let enableDisko = false;
-in {
+let
+  enableDisko = false;
+in
+{
   config = {
     disko.devices = lib.mkIf enableDisko {
       disk = {

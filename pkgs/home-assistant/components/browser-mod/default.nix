@@ -1,4 +1,8 @@
-{ lib, buildHomeAssistantComponent, fetchFromGitHub }:
+{
+  lib,
+  buildHomeAssistantComponent,
+  fetchFromGitHub,
+}:
 
 buildHomeAssistantComponent rec {
   owner = "thomasloven";
@@ -13,10 +17,8 @@ buildHomeAssistantComponent rec {
   };
 
   meta = with lib; {
-    changelog =
-      "https://github.com/thomasloven/hass-browser_mod/releases/tag/v${version}";
-    description =
-      "A Home Assistant integration to turn your browser into a controllable entity and media player";
+    changelog = "https://github.com/thomasloven/hass-browser_mod/releases/tag/v${version}";
+    description = "A Home Assistant integration to turn your browser into a controllable entity and media player";
     homepage = "https://github.com/thomasloven/hass-browser_mod";
     maintainers = with maintainers; [ redxtech ];
     license = licenses.mit;

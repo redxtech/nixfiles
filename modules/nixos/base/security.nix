@@ -1,25 +1,38 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.base;
   inherit (cfg) hostname domain;
   inherit (lib) mkEnableOption mkIf mkDefault;
-in {
+in
+{
   options.base = {
     clamav = {
-      enable = mkEnableOption "Enable ClamAV antivirus" // { default = true; };
-      fangfrisch = mkEnableOption "Enable fangfrisch" // { default = true; };
+      enable = mkEnableOption "Enable ClamAV antivirus" // {
+        default = true;
+      };
+      fangfrisch = mkEnableOption "Enable fangfrisch" // {
+        default = true;
+      };
 
-      daily = mkEnableOption "Enable daily scans" // { default = true; };
+      daily = mkEnableOption "Enable daily scans" // {
+        default = true;
+      };
     };
 
-    acme.enable = mkEnableOption "Enable ACME cert gen" // { default = true; };
+    acme.enable = mkEnableOption "Enable ACME cert gen" // {
+      default = true;
+    };
   };
 
   config = mkIf cfg.enable {
     # install gui apps if desktop is enabled
-    environment.systemPackages = with pkgs;
-      mkIf config.desktop.enable [ clamtk ];
+    environment.systemPackages = with pkgs; mkIf config.desktop.enable [ clamtk ];
 
     # security.apparmor.enable = mkDefault true;
     # security.apparmor.killUnconfinedConfinables = mkDefault true;
@@ -61,24 +74,29 @@ in {
       sudo = {
         enable = true;
 
-        extraRules = let
-          mkRule = pkg: cmd: rules: [
+        extraRules =
+          let
+            mkRule = pkg: cmd: rules: [
+              {
+                command = "${pkg}/bin/${cmd}";
+                options = rules;
+              }
+              {
+                command = "/run/current-system/sw/bin/${cmd}";
+                options = rules;
+              }
+            ];
+            mkNoPwd = pkg: cmd: mkRule pkg cmd [ "NOPASSWD" ];
+          in
+          [
             {
-              command = "${pkg}/bin/${cmd}";
-              options = rules;
-            }
-            {
-              command = "/run/current-system/sw/bin/${cmd}";
-              options = rules;
+              commands =
+                (mkNoPwd pkgs.unixtools.fdisk "fdisk -l")
+                ++ (mkNoPwd pkgs.ps_mem "ps_mem")
+                ++ (mkNoPwd pkgs.systemd "systemctl restart xremap.service");
+              groups = [ "wheel" ];
             }
           ];
-          mkNoPwd = pkg: cmd: mkRule pkg cmd [ "NOPASSWD" ];
-        in [{
-          commands = (mkNoPwd pkgs.unixtools.fdisk "fdisk -l")
-            ++ (mkNoPwd pkgs.ps_mem "ps_mem")
-            ++ (mkNoPwd pkgs.systemd "systemctl restart xremap.service");
-          groups = [ "wheel" ];
-        }];
       };
 
       # increase open file limit for sudoers
@@ -112,8 +130,7 @@ in {
         "${hostname}.${domain}" = {
           domain = "${hostname}.${domain}";
           extraDomainNames = [ "*.${hostname}.${domain}" ];
-          group =
-            mkIf config.services.traefik.enable config.services.traefik.group;
+          group = mkIf config.services.traefik.enable config.services.traefik.group;
         };
       };
     };

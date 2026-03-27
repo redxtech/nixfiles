@@ -1,12 +1,24 @@
-{ self, inputs, lib, ... }:
+{
+  self,
+  inputs,
+  lib,
+  ...
+}:
 
 {
   flake = {
     nixCfg = {
       nix = {
         settings = {
-          trusted-users = [ "root" "@wheel" "gabe" ];
-          experimental-features = [ "nix-command" "flakes" ];
+          trusted-users = [
+            "root"
+            "@wheel"
+            "gabe"
+          ];
+          experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
           substituters = [
             "https://cache.nixos.org"
             "https://nix-community.cachix.org"
@@ -27,7 +39,11 @@
           ];
           auto-optimise-store = lib.mkDefault true;
           warn-dirty = false;
-          system-features = [ "kvm" "big-parallel" "nixos-test" ];
+          system-features = [
+            "kvm"
+            "big-parallel"
+            "nixos-test"
+          ];
           allow-import-from-derivation = true;
           download-buffer-size = 1073741824;
         };
@@ -48,13 +64,22 @@
     };
   };
 
-  perSystem = { config, self', inputs', pkgs, system, ... }:
+  perSystem =
+    {
+      config,
+      self',
+      inputs',
+      pkgs,
+      system,
+      ...
+    }:
     let
       pkgArgs = {
         inherit system;
         inherit (self.nixCfg.nixpkgs) config overlays;
       };
-    in {
+    in
+    {
       _module.args.pkgs = import inputs.nixpkgs pkgArgs;
       _module.args.stable = import inputs.nixpkgs-stable pkgArgs;
       _module.args.small = import inputs.nixpkgs-small pkgArgs;

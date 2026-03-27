@@ -1,12 +1,15 @@
-{ lib, stdenvNoCC, fetchurl }:
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+}:
 
 stdenvNoCC.mkDerivation rec {
   pname = "config-template-card";
   version = "1.3.6";
 
   src = fetchurl {
-    url =
-      "https://github.com/iantrich/config-template-card/releases/download/${version}/config-template-card.js";
+    url = "https://github.com/iantrich/config-template-card/releases/download/${version}/config-template-card.js";
     hash = "sha256-7O48fgoQkg6aQy3i5/H5UGrnQkJelXQdGDW71N6lbC4=";
   };
 
@@ -26,8 +29,7 @@ stdenvNoCC.mkDerivation rec {
   distPhase = "true";
 
   meta = with lib; {
-    changelog =
-      "https://github.com/iantrich/config-template-card/releases/tag/${version}";
+    changelog = "https://github.com/iantrich/config-template-card/releases/tag/${version}";
     description = "Templatable Lovelace Configurations";
     homepage = "https://github.com/iantrich/config-template-card";
     maintainers = with maintainers; [ redxtech ];

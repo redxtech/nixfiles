@@ -1,7 +1,6 @@
 { lib, ... }:
 
-paths:
-with paths; {
+paths: with paths; {
   mkConf = name: config + "/" + name + ":/config";
   mkData = name: data + "/" + name + ":/data";
   mkDl = name: downloads + "/" + name + ":/downloads";

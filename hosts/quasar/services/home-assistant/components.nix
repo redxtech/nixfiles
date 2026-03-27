@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
-let cfg = config.nas;
-in {
+let
+  cfg = config.nas;
+in
+{
   config = lib.mkIf cfg.enable {
     # https://www.home-assistant.io/integrations/x
     # https://search.nixos.org/options?channel=unstable&show=services.home-assistant.extraComponents&type=packages&query=services.home-assistant.extraComponents

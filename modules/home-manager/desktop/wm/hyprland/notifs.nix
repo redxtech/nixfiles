@@ -1,7 +1,14 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
-let cfg = config.desktop.wm.hyprland;
-in {
+let
+  cfg = config.desktop.wm.hyprland;
+in
+{
   config = lib.mkIf cfg.enable {
     # notification daemon
     services.mako = {
@@ -69,8 +76,14 @@ in {
         image-visibility = "when-available";
         transition-time = 200;
 
-        widgets =
-          [ "title" "dnd" "inhibitors" "mpris" "notifications" "buttons-grid" ];
+        widgets = [
+          "title"
+          "dnd"
+          "inhibitors"
+          "mpris"
+          "notifications"
+          "buttons-grid"
+        ];
 
         widget-config = {
           title = {
@@ -83,61 +96,62 @@ in {
             image-size = 100;
             image-radius = 4;
           };
-          buttons-grid.actions = let
-            scripts = config.desktop.wm.scripts;
-            systemctl = "${pkgs.systemd}/bin/systemctl";
-          in [
-            {
-              label = "󰍛";
-              command = scripts.general.hdrop-btop;
-            }
-            {
-              label = "󰛳";
-              command = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
-            }
-            {
-              label = "󰂯";
-              command = "${pkgs.blueman}/bin/blueman-manager";
-            }
-            {
-              label = "";
-              command =
-                "${pkgs.flatpak}/bin/flatpak run io.github.seadve.Kooha";
-            }
-            {
-              label = "";
-              command = scripts.wm.lock;
-            }
-            {
-              label = "󰑓";
-              command = "${pkgs.hyprland}/bin/hyprctl reload";
-            }
+          buttons-grid.actions =
+            let
+              scripts = config.desktop.wm.scripts;
+              systemctl = "${pkgs.systemd}/bin/systemctl";
+            in
+            [
+              {
+                label = "󰍛";
+                command = scripts.general.hdrop-btop;
+              }
+              {
+                label = "󰛳";
+                command = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
+              }
+              {
+                label = "󰂯";
+                command = "${pkgs.blueman}/bin/blueman-manager";
+              }
+              {
+                label = "";
+                command = "${pkgs.flatpak}/bin/flatpak run io.github.seadve.Kooha";
+              }
+              {
+                label = "";
+                command = scripts.wm.lock;
+              }
+              {
+                label = "󰑓";
+                command = "${pkgs.hyprland}/bin/hyprctl reload";
+              }
 
-            {
-              label = "";
-              command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
-            }
-            {
-              label = "󰗽";
-              command = "${pkgs.hyprland}/bin/hyprctl dispatch exit";
-            }
-            {
-              label = "";
-              command = "${systemctl} hibernate";
-            }
-            {
-              label = "";
-              command = "${systemctl} reboot --boot-loader-entry=auto-windows";
-            }
-            {
-              label = "";
-              command = "${systemctl} reboot";
-            }
-            {
-              label = "";
-              command = "${systemctl} poweroff";
-            }
-          ];
+              {
+                label = "";
+                command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+              }
+              {
+                label = "󰗽";
+                command = "${pkgs.hyprland}/bin/hyprctl dispatch exit";
+              }
+              {
+                label = "";
+                command = "${systemctl} hibernate";
+              }
+              {
+                label = "";
+                command = "${systemctl} reboot --boot-loader-entry=auto-windows";
+              }
+              {
+                label = "";
+                command = "${systemctl} reboot";
+              }
+              {
+                label = "";
+                command = "${systemctl} poweroff";
+              }
+            ];
         };
       };
 

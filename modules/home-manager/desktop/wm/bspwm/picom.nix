@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
-let cfg = config.desktop.wm;
-in {
+let
+  cfg = config.desktop.wm;
+in
+{
   config = lib.mkIf (cfg.wm == "bspwm") {
     services.picom = {
       enable = true;
@@ -88,11 +90,20 @@ in {
 
       fade = true;
       fadeDelta = 4;
-      fadeExclude = [ "class_g = 'Conky'" "class_g = 'slop'" ];
-      fadeSteps = [ 3.0e-2 3.0e-2 ];
+      fadeExclude = [
+        "class_g = 'Conky'"
+        "class_g = 'slop'"
+      ];
+      fadeSteps = [
+        3.0e-2
+        3.0e-2
+      ];
 
       shadow = false;
-      shadowOffsets = [ (-5) (-5) ];
+      shadowOffsets = [
+        (-5)
+        (-5)
+      ];
       shadowOpacity = 0.5;
 
       shadowExclude = [
@@ -133,10 +144,18 @@ in {
           focus = true;
           full-shadow = false;
         };
-        dock = { shadow = false; };
-        dnd = { shadow = false; };
-        popup_menu = { opacity = 0.95; };
-        dropdown_menu = { opacity = 0.95; };
+        dock = {
+          shadow = false;
+        };
+        dnd = {
+          shadow = false;
+        };
+        popup_menu = {
+          opacity = 0.95;
+        };
+        dropdown_menu = {
+          opacity = 0.95;
+        };
       };
     };
   };

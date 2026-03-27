@@ -1,4 +1,9 @@
-{ lib, stdenv, dpkg, fetchurl }:
+{
+  lib,
+  stdenv,
+  dpkg,
+  fetchurl,
+}:
 
 stdenv.mkDerivation rec {
   pname = "cockpit-benchmark";
@@ -6,8 +11,7 @@ stdenv.mkDerivation rec {
 
   # todo: build from source? 2.1.2 doesn't provide prebuilt
   src = fetchurl {
-    url =
-      "https://github.com/45Drives/cockpit-benchmark/releases/download/v${version}/cockpit-benchmark_${version}-1focal_all.deb";
+    url = "https://github.com/45Drives/cockpit-benchmark/releases/download/v${version}/cockpit-benchmark_${version}-1focal_all.deb";
     sha256 = "sha256-6RRjbxU5NbcyjI4WYSaOYyYGYhi9x8ejLlFuJkLhd0M=";
   };
 

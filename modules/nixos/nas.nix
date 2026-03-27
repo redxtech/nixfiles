@@ -1,11 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
   cfg = config.nas;
-  ifTheyExist = groups:
-    builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in {
+  ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+in
+{
   options.nas = {
     enable = mkEnableOption "NAS configuration";
 
@@ -99,7 +104,10 @@ in {
       group = cfg.group;
       uid = cfg.uid;
 
-      extraGroups = [ cfg.group ] ++ ifTheyExist [
+      extraGroups = [
+        cfg.group
+      ]
+      ++ ifTheyExist [
         "deluge"
         "docker"
         "input"
@@ -124,7 +132,9 @@ in {
         # storageDriver = "zfs";
       };
 
-      oci-containers = { backend = "docker"; };
+      oci-containers = {
+        backend = "docker";
+      };
     };
   };
 }

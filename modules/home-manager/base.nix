@@ -1,8 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.base;
-in {
-  options.base = { enable = lib.mkEnableOption "Enable base module"; };
+let
+  cfg = config.base;
+in
+{
+  options.base = {
+    enable = lib.mkEnableOption "Enable base module";
+  };
 
   config = lib.mkIf cfg.enable {
     # some default home settings
@@ -11,7 +20,9 @@ in {
       homeDirectory = lib.mkDefault "/home/${config.home.username}";
       stateVersion = lib.mkDefault "23.11";
       sessionPath = [ "$HOME/.local/bin" ];
-      sessionVariables = { FLAKE = "$HOME/Code/nixfiles"; };
+      sessionVariables = {
+        FLAKE = "$HOME/Code/nixfiles";
+      };
       language.base = "en_CA.UTF-8";
     };
 

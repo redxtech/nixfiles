@@ -13,8 +13,7 @@
     spicetify.enable = false;
 
     hardware = {
-      cpuTempPath =
-        "/sys/devices/virtual/thermal/thermal_zone0/hwmon4/temp1_input";
+      cpuTempPath = "/sys/devices/virtual/thermal/thermal_zone0/hwmon4/temp1_input";
       network = {
         type = "wireless";
         interface = "wlo1";

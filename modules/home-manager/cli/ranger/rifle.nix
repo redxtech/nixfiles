@@ -1,13 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.cli;
-  prog = name:
-    if config.desktop.enable then
-      config.programs.${name}.package
-    else
-      pkgs.${name};
-in {
+  prog = name: if config.desktop.enable then config.programs.${name}.package else pkgs.${name};
+in
+{
   config = lib.mkIf cfg.enable {
     programs.ranger.rifle = [
       # web
@@ -30,13 +32,11 @@ in {
         command = ''$PAGER -- "$@"'';
       }
       {
-        condition =
-          "!mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
+        condition = "!mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
         command = ''''${VISUAL:-$EDITOR} -- "$@"'';
       }
       {
-        condition =
-          "!mime ^text, label pager, ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
+        condition = "!mime ^text, label pager, ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
         command = ''$PAGER -- "$@"'';
       }
       {
@@ -112,8 +112,7 @@ in {
         command = ''${pkgs.catdoc}/bin/catdoc -- "$@" | $PAGER'';
       }
       {
-        condition =
-          "ext pptx?|od[dfgpst]|docx?|sxc|xlsx?|xlt|xlw|gnm|gnumeric, has libreoffice, X, flag f";
+        condition = "ext pptx?|od[dfgpst]|docx?|sxc|xlsx?|xlt|xlw|gnm|gnumeric, has libreoffice, X, flag f";
         command = ''${pkgs.libreoffice}/bin/libreoffice -- "$@"'';
       }
 
@@ -127,23 +126,19 @@ in {
       # ext 7z|ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz,  has atool = atool --extract --each -- "$@"
       # ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has atool = atool --extract --each -- "$@"
       {
-        condition =
-          "ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz, has atool";
+        condition = "ext ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz, has atool";
         command = ''${pkgs.atool}/bin/atool --list --each -- "$@" | $PAGER'';
       }
       {
-        condition =
-          "ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has atool";
+        condition = "ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has atool";
         command = ''${pkgs.atool}/bin/atool --list --each -- "$@" | $PAGER'';
       }
       {
-        condition =
-          "ext 7z|ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz, has atool";
+        condition = "ext 7z|ace|ar|arc|bz2?|cab|cpio|cpt|deb|dgc|dmg|gz, has atool";
         command = ''${pkgs.atool}/bin/atool --extract --each -- "$@"'';
       }
       {
-        condition =
-          "ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has atool";
+        condition = "ext iso|jar|msi|pkg|rar|shar|tar|tgz|xar|xpi|xz|zip, has atool";
         command = ''${pkgs.atool}/bin/atool --extract --each -- "$@"'';
       }
 
@@ -183,18 +178,15 @@ in {
         command = ''open -- "$@"'';
       }
       {
-        condition =
-          "!mime ^text, !ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
+        condition = "!mime ^text, !ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
         command = "ask";
       }
       {
-        condition =
-          "label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
+        condition = "label editor, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
         command = ''''${VISUAL:-$EDITOR} -- "$@"'';
       }
       {
-        condition =
-          "label pager, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
+        condition = "label pager, !mime ^text, !ext xml|json|csv|tex|py|pl|rb|rs|js|sh|php|dart";
         command = ''$PAGER -- "$@"'';
       }
 

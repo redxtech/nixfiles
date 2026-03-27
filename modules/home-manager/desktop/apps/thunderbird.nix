@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.desktop;
-in {
+let
+  cfg = config.desktop;
+in
+{
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [ thunderbird ];
 

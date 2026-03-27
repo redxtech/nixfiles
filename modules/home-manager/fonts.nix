@@ -1,8 +1,8 @@
 { lib, config, ... }:
 
 let
-  mkFontOption = kind:
-    with lib; {
+  mkFontOption =
+    kind: with lib; {
       family = mkOption {
         type = types.str;
         default = null;
@@ -17,7 +17,9 @@ let
       };
     };
   cfg = config.fontProfiles;
-in with lib; {
+in
+with lib;
+{
   options.fontProfiles = {
     enable = mkEnableOption "Whether to enable font profiles";
     monospace = mkFontOption "monospace";
@@ -32,8 +34,13 @@ in with lib; {
   };
 
   config.fonts.fontconfig.enable = mkIf cfg.enable true;
-  config.home.packages = mkIf cfg.enable
-    ([ cfg.monospace.package cfg.regular.package cfg.symbols.package ]
-      ++ cfg.extraFonts);
+  config.home.packages = mkIf cfg.enable (
+    [
+      cfg.monospace.package
+      cfg.regular.package
+      cfg.symbols.package
+    ]
+    ++ cfg.extraFonts
+  );
 
 }

@@ -1,9 +1,16 @@
-{ inputs, config, pkgs, lib, ... }:
+{
+  inputs,
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   inherit (lib) types mkIf mkOption;
   cfg = config.mopidy;
-in {
+in
+{
   options.mopidy = with types; {
     enable = lib.mkEnableOption "Enable the service";
 
@@ -42,8 +49,7 @@ in {
         mpd.enabled = false;
         notify.enabled = true;
         spotify.bitrate = 320;
-        bandcamp.discover_tags =
-          "Hyperpop, EDM, Electronic, Glitchcore, Drum & Bass, Hip-Hop, Pop";
+        bandcamp.discover_tags = "Hyperpop, EDM, Electronic, Glitchcore, Drum & Bass, Hip-Hop, Pop";
         http.hostname = "0.0.0.0";
         iris = rec {
           country = "CA";
@@ -51,7 +57,8 @@ in {
           snapcast_enabled = false;
           snapcast_stream = "Mopidy";
         };
-      } // cfg.settings;
+      }
+      // cfg.settings;
     };
   };
 }

@@ -16,10 +16,15 @@
     rust-analyzer-nightly
 
     # python
-    (python3.withPackages (ps: with ps; [ dbus-python pygobject3 requests ]))
+    (python3.withPackages (
+      ps: with ps; [
+        dbus-python
+        pygobject3
+        requests
+      ]
+    ))
 
     # other
     sqlite # for mcfly
   ];
 }
-

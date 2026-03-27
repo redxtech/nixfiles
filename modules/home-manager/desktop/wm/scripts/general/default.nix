@@ -1,7 +1,9 @@
 { pkgs, ... }:
 
-let inherit (pkgs) callPackage;
-in {
+let
+  inherit (pkgs) callPackage;
+in
+{
   clipboard = callPackage ./clipboard.nix { };
   copy-spotify-url = callPackage ./copy-spotify-url.nix { };
   ha = callPackage ./home-assistant.nix { };
@@ -10,4 +12,3 @@ in {
   unarchiver = callPackage ./unarchiver.nix { };
   wttr = callPackage ./wttr.nix { };
 }
-

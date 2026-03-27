@@ -1,8 +1,12 @@
 { config, lib, ... }:
 
-let cfg = config.desktop.wm;
-in with lib; {
-  options.desktop.wm.binds = with types;
+let
+  cfg = config.desktop.wm;
+in
+with lib;
+{
+  options.desktop.wm.binds =
+    with types;
     mkOption {
       type = listOf (submodule {
         options = {
@@ -30,11 +34,13 @@ in with lib; {
 
       default = [ ];
 
-      example = [{
-        keys = [ "Super + Return" ];
-        cmd = "kitty";
-        description = "Launch terminal";
-      }];
+      example = [
+        {
+          keys = [ "Super + Return" ];
+          cmd = "kitty";
+          description = "Launch terminal";
+        }
+      ];
     };
 
   config = lib.mkIf cfg.enable {

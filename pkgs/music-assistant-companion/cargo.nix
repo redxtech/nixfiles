@@ -1,5 +1,17 @@
-{ lib, rustPlatform, fetchFromGitHub, mkYarnPackage, cargo-tauri, pkg-config
-, nodePackages, libayatana-appindicator, gtk3, webkitgtk, libsoup, openssl }:
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  mkYarnPackage,
+  cargo-tauri,
+  pkg-config,
+  nodePackages,
+  libayatana-appindicator,
+  gtk3,
+  webkitgtk,
+  libsoup,
+  openssl,
+}:
 
 let
   pname = "music-assistant-desktop";
@@ -31,7 +43,8 @@ let
 
     distPhase = "true";
   };
-in rustPlatform.buildRustPackage rec {
+in
+rustPlatform.buildRustPackage rec {
   inherit pname version src;
 
   sourceRoot = "${src.name}/src-tauri";
@@ -48,10 +61,20 @@ in rustPlatform.buildRustPackage rec {
     #   --replace-warn "libayatana-appindicator3.so.1" "${libayatana-appindicator}/lib/libayatana-appindicator3.so.1"
   '';
 
-  nativeBuildInputs =
-    [ rustPlatform.cargoSetupHook cargo-tauri nodePackages.yarn pkg-config ];
+  nativeBuildInputs = [
+    rustPlatform.cargoSetupHook
+    cargo-tauri
+    nodePackages.yarn
+    pkg-config
+  ];
 
-  buildInputs = [ libayatana-appindicator openssl libsoup gtk3 webkitgtk ];
+  buildInputs = [
+    libayatana-appindicator
+    openssl
+    libsoup
+    gtk3
+    webkitgtk
+  ];
 
   preBuild = ''
     yarn install --offline --frozen-lockfile --no-optional --ignore-script
@@ -76,4 +99,3 @@ in rustPlatform.buildRustPackage rec {
     maintainers = with maintainers; [ redxtech ];
   };
 }
-

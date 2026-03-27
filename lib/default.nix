@@ -1,7 +1,9 @@
 lib:
 
-let args = { inherit lib; };
-in {
+let
+  args = { inherit lib; };
+in
+{
   # functions to help with containers
   containers = import ./containers args;
 

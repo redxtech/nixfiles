@@ -1,20 +1,26 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   colour = lib.mkOptionType {
     name = "colour";
     description = "hex colour";
-    check = s:
-      lib.types.str.check s && builtins.match "#[0-9a-fA-F]{6}" s != null;
+    check = s: lib.types.str.check s && builtins.match "#[0-9a-fA-F]{6}" s != null;
   };
 
-  mkColourOption = name: default:
+  mkColourOption =
+    name: default:
     (lib.mkOption {
       type = colour;
       description = "The colour value for the name '${name}'.";
       inherit default;
     });
-in {
+in
+{
   # dracula theme
   options.user-theme = builtins.mapAttrs mkColourOption rec {
     # standard colours

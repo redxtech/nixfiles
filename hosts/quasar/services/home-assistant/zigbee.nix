@@ -1,9 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.nas;
   cfgNet = config.network;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     network.services.z2m = config.services.zigbee2mqtt.settings.frontend.port;
 
@@ -11,31 +17,31 @@ in {
       enable = true;
 
       dataDir = cfg.paths.config + "/mosquitto";
-      listeners = [{
-        port = 1883;
-        users = {
-          espresense = {
-            acl = [
-              "readwrite $SYS/#"
-              "readwrite espresense/#"
-              "readwrite homeassistant/#"
-            ];
-            passwordFile =
-              config.sops.secrets.mosquitto_espresense_password.path;
+      listeners = [
+        {
+          port = 1883;
+          users = {
+            espresense = {
+              acl = [
+                "readwrite $SYS/#"
+                "readwrite espresense/#"
+                "readwrite homeassistant/#"
+              ];
+              passwordFile = config.sops.secrets.mosquitto_espresense_password.path;
+            };
+            homeassistant = {
+              acl = [
+                "readwrite $SYS/#"
+                "readwrite zigbee2mqtt/#"
+                "readwrite espresense/#"
+                "readwrite homeassistant/#"
+                "readwrite hass/#"
+              ];
+              passwordFile = config.sops.secrets.mosquitto_homeassistant_password.path;
+            };
           };
-          homeassistant = {
-            acl = [
-              "readwrite $SYS/#"
-              "readwrite zigbee2mqtt/#"
-              "readwrite espresense/#"
-              "readwrite homeassistant/#"
-              "readwrite hass/#"
-            ];
-            passwordFile =
-              config.sops.secrets.mosquitto_homeassistant_password.path;
-          };
-        };
-      }];
+        }
+      ];
     };
 
     services.zigbee2mqtt = {
@@ -65,10 +71,8 @@ in {
     networking.firewall.allowedTCPPorts = [ 1883 ];
 
     sops.secrets = {
-      mosquitto_espresense_password.sopsFile =
-        ../../../../hosts/quasar/secrets.yaml;
-      mosquitto_homeassistant_password.sopsFile =
-        ../../../../hosts/quasar/secrets.yaml;
+      mosquitto_espresense_password.sopsFile = ../../../../hosts/quasar/secrets.yaml;
+      mosquitto_homeassistant_password.sopsFile = ../../../../hosts/quasar/secrets.yaml;
       zigbee2mqtt_secrets = {
         sopsFile = ../../../../hosts/quasar/secrets.yaml;
         mode = "0440";

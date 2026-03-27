@@ -1,21 +1,33 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
   cfg = config.desktop;
-in {
-  options.desktop = let inherit (lib) mkOption types;
-  in with types; {
-    dm = mkOption {
-      type = enum [ "greetd" "gdm" ];
-      default = if cfg.wm == "gnome" then "gdm" else "greetd";
-      defaultText =
-        ''if config.desktop.wm == "gnome" then "gdm" else "greetd"'';
-      description = ''
-        The display manager to use.
-      '';
+in
+{
+  options.desktop =
+    let
+      inherit (lib) mkOption types;
+    in
+    with types;
+    {
+      dm = mkOption {
+        type = enum [
+          "greetd"
+          "gdm"
+        ];
+        default = if cfg.wm == "gnome" then "gdm" else "greetd";
+        defaultText = ''if config.desktop.wm == "gnome" then "gdm" else "greetd"'';
+        description = ''
+          The display manager to use.
+        '';
+      };
     };
-  };
 
   config = mkIf cfg.enable {
     services = {
@@ -24,10 +36,13 @@ in {
 
         settings = {
           default_session = {
-            command = let hyprland = config.programs.hyprland.package;
-            in ''
-              ${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd "uwsm start ${hyprland}/bin/start-hyprland"
-            '';
+            command =
+              let
+                hyprland = config.programs.hyprland.package;
+              in
+              ''
+                ${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd "uwsm start ${hyprland}/bin/start-hyprland"
+              '';
             user = "greeter";
           };
         };

@@ -1,9 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   cfg = config.desktop.wm;
   scripts = cfg.scripts;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     programs.waybar = {
       enable = false;
@@ -17,8 +23,11 @@ in {
         height = 30;
 
         spacing = 7;
-        modules-left =
-          [ "custom/launcher" "hyprland/workspaces" "hyprland/window" ];
+        modules-left = [
+          "custom/launcher"
+          "hyprland/workspaces"
+          "hyprland/window"
+        ];
         modules-center = [ "mpris" ];
         modules-right = [
           "custom/weather"
@@ -51,13 +60,27 @@ in {
             "urgent" = "";
             "default" = "";
           };
-          persistent-workspaces = let
-            primary = (builtins.elemAt config.desktop.monitors 0).name;
-            secondary = (builtins.elemAt config.desktop.monitors 1).name;
-          in {
-            "${primary}" = [ 1 2 3 4 5 6 ];
-            "${secondary}" = [ 7 8 9 10 ];
-          };
+          persistent-workspaces =
+            let
+              primary = (builtins.elemAt config.desktop.monitors 0).name;
+              secondary = (builtins.elemAt config.desktop.monitors 1).name;
+            in
+            {
+              "${primary}" = [
+                1
+                2
+                3
+                4
+                5
+                6
+              ];
+              "${secondary}" = [
+                7
+                8
+                9
+                10
+              ];
+            };
         };
 
         "hyprland/window" = {
@@ -65,36 +88,43 @@ in {
           separate-outputs = true;
         };
 
-        "mpris" = let spt-vol = scripts.bar.spotify-volume;
-        in {
-          format = "{status_icon} {dynamic} {player_icon}";
-          dynamic-len = 35;
-          dynamic-order = [ "title" "artist" ];
-          on-click-middle = scripts.general.copy-spotify-url;
-          on-scroll-up = "${spt-vol} +10% &";
-          on-scroll-down = "${spt-vol} -10% &";
-          player-icons = {
-            default = "󰐊";
-            spotify = "";
-            chromium = "";
-            mpv = "🎵";
+        "mpris" =
+          let
+            spt-vol = scripts.bar.spotify-volume;
+          in
+          {
+            format = "{status_icon} {dynamic} {player_icon}";
+            dynamic-len = 35;
+            dynamic-order = [
+              "title"
+              "artist"
+            ];
+            on-click-middle = scripts.general.copy-spotify-url;
+            on-scroll-up = "${spt-vol} +10% &";
+            on-scroll-down = "${spt-vol} -10% &";
+            player-icons = {
+              default = "󰐊";
+              spotify = "";
+              chromium = "";
+              mpv = "🎵";
+            };
+            status-icons = {
+              playing = "󰏤";
+              paused = "󰐊";
+            };
           };
-          status-icons = {
-            playing = "󰏤";
-            paused = "󰐊";
-          };
-        };
 
         wireplumber = {
           format = "{icon} {node_name} {volume}";
           format-muted = "󰖁 {node_name} {volume}";
-          format-icons = [ "" "" "" ];
-          on-scroll-up =
-            "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
-          on-scroll-down =
-            "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-          on-click =
-            "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          format-icons = [
+            ""
+            ""
+            ""
+          ];
+          on-scroll-up = "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+          on-scroll-down = "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+          on-click = "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
           on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
           on-click-middle = "${scripts.bar.pipewire} next";
         };
@@ -119,7 +149,11 @@ in {
           critical-threshold = 80;
           # format = "<span bgcolor='#8be9fd'>{icon}</span> {temperatureC}°C";
           format = "{icon} {temperatureC}°C";
-          format-icons = [ "󰉬" "" "󰉪" ];
+          format-icons = [
+            "󰉬"
+            ""
+            "󰉪"
+          ];
           on-click = scripts.general.hdrop-btop;
         };
 
@@ -129,11 +163,9 @@ in {
           tooltip-format = "󰊗 {ifname} via {gwaddr}";
           format-linked = "󰊗 {ifname} (No IP)";
           format-disconnected = "⚠ Disconnected";
-          format-alt =
-            " {ifname}: {ipaddr} {bandwidthUpBytes} {bandwidthDownBytes}";
+          format-alt = " {ifname}: {ipaddr} {bandwidthUpBytes} {bandwidthDownBytes}";
           interval = 5;
-          on-click-middle =
-            "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
+          on-click-middle = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
           # on-click-right= "";
         };
 
@@ -175,7 +207,9 @@ in {
           };
         };
 
-        tray = { spacing = 10; };
+        tray = {
+          spacing = 10;
+        };
 
         "custom/media" = {
           exec = "${scripts.bar.playerctl-tail} status";
@@ -197,26 +231,31 @@ in {
           on-click-middle = "${scripts.general.ha} fan";
         };
 
-        "custom/dnd" = let
-          toggle = pkgs.writeShellScript "dnd-toggle" ''
-            ${pkgs.mako}/bin/makoctl mode -t do-not-disturb
-          '';
-          # script that uses json return to set alt type to "enabled" or "disabled" based on mako's status
-          status = pkgs.writeShellScript "dnd-toggle" ''
-            if ${pkgs.mako}/bin/makoctl mode | ${pkgs.ripgrep}/bin/rg --quiet 'do-not-disturb'; then
-              echo '{"text": "enabled", "class": "enabled", "percentage": 100, "tooltip": "enabled" }'
-            else
-              echo '{"text": "disabled", "class": "disabled", "percentage": 0, "tooltip": "disabled" }'
-            fi
-          '';
-        in {
-          format = "{icon}";
-          exec = "${status}";
-          return-type = "json";
-          interval = 1;
-          on-click = "${toggle}";
-          format-icons = [ "󰂚" "󰂛" ];
-        };
+        "custom/dnd" =
+          let
+            toggle = pkgs.writeShellScript "dnd-toggle" ''
+              ${pkgs.mako}/bin/makoctl mode -t do-not-disturb
+            '';
+            # script that uses json return to set alt type to "enabled" or "disabled" based on mako's status
+            status = pkgs.writeShellScript "dnd-toggle" ''
+              if ${pkgs.mako}/bin/makoctl mode | ${pkgs.ripgrep}/bin/rg --quiet 'do-not-disturb'; then
+                echo '{"text": "enabled", "class": "enabled", "percentage": 100, "tooltip": "enabled" }'
+              else
+                echo '{"text": "disabled", "class": "disabled", "percentage": 0, "tooltip": "disabled" }'
+              fi
+            '';
+          in
+          {
+            format = "{icon}";
+            exec = "${status}";
+            return-type = "json";
+            interval = 1;
+            on-click = "${toggle}";
+            format-icons = [
+              "󰂚"
+              "󰂛"
+            ];
+          };
 
         "custom/launcher" = {
           format = lib.mkDefault "";

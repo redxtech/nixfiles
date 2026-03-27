@@ -1,9 +1,16 @@
-{ config, inputs, pkgs, lib, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
   cfg = config.cli;
-in {
+in
+{
   imports = [
     ./config
     ./fish.nix
@@ -21,37 +28,44 @@ in {
     ./zsh.nix
   ];
 
-  options.cli = let inherit (lib) mkOption;
-  in with lib.types; {
-    enable = lib.mkEnableOption "Enable desktop configuration";
+  options.cli =
+    let
+      inherit (lib) mkOption;
+    in
+    with lib.types;
+    {
+      enable = lib.mkEnableOption "Enable desktop configuration";
 
-    packages = mkOption {
-      type = listOf package;
-      default = [ ];
-      description = "CLI packages to include";
-    };
+      packages = mkOption {
+        type = listOf package;
+        default = [ ];
+        description = "CLI packages to include";
+      };
 
-    aliases = mkOption {
-      type = attrsOf str;
-      default = { };
-      description = "Shell aliases";
-      example = {
-        ls = "eza";
-        la = "eza -la";
+      aliases = mkOption {
+        type = attrsOf str;
+        default = { };
+        description = "Shell aliases";
+        example = {
+          ls = "eza";
+          la = "eza -la";
+        };
+      };
+
+      env = mkOption {
+        type = attrsOf str;
+        default = { };
+        description = "Environment variables";
+        example = {
+          ENV_VARIABLES = "values";
+        };
       };
     };
 
-    env = mkOption {
-      type = attrsOf str;
-      default = { };
-      description = "Environment variables";
-      example = { ENV_VARIABLES = "values"; };
-    };
-  };
-
   config = mkIf cfg.enable {
     home = {
-      packages = with pkgs;
+      packages =
+        with pkgs;
         [
           age # encryption
           android-tools # android debug bridge
@@ -161,102 +175,106 @@ in {
           kubectx
           kubeseal
           # telepresence2
-        ] ++ cfg.packages;
+        ]
+        ++ cfg.packages;
 
-      shellAliases = let
-        hasPackage = pname:
-          lib.any (p: p ? pname && p.pname == pname) config.home.packages;
-        hasRipgrep = hasPackage "ripgrep";
-        hasNeovim = config.programs.neovim.enable;
-      in rec {
-        # main aliaes
-        ls = "eza";
-        la = "${ls} -al";
-        ll = "${ls} -l";
-        l = "${ls} -l";
+      shellAliases =
+        let
+          hasPackage = pname: lib.any (p: p ? pname && p.pname == pname) config.home.packages;
+          hasRipgrep = hasPackage "ripgrep";
+          hasNeovim = config.programs.neovim.enable;
+        in
+        rec {
+          # main aliaes
+          ls = "eza";
+          la = "${ls} -al";
+          ll = "${ls} -l";
+          l = "${ls} -l";
 
-        mkd = "mkdir -pv";
-        mv = "mv -v";
-        rm = "rm -i";
+          mkd = "mkdir -pv";
+          mv = "mv -v";
+          rm = "rm -i";
 
-        vim = "tu";
-        vi = vim;
-        v = vim;
-        svim = "sudo -e";
-        nrt = "nix run $HOME/Code/nvim/tu";
+          vim = "tu";
+          vi = vim;
+          v = vim;
+          svim = "sudo -e";
+          nrt = "nix run $HOME/Code/nvim/tu";
 
-        grep = "grep --color=auto";
-        diff = "diff --color=auto";
-        ip = "ip --color=auto";
+          grep = "grep --color=auto";
+          diff = "diff --color=auto";
+          ip = "ip --color=auto";
 
-        src = "exec $SHELL";
+          src = "exec $SHELL";
 
-        # nix
-        n = "nix-shell -p";
-        nb = "nix build";
-        # nd = "nix develop -c $SHELL";
-        ndi = "nix develop --impure -c $SHELL";
-        ns = "nix shell";
-        nf = "nix flake";
+          # nix
+          n = "nix-shell -p";
+          nb = "nix build";
+          # nd = "nix develop -c $SHELL";
+          ndi = "nix develop --impure -c $SHELL";
+          ns = "nix shell";
+          nf = "nix flake";
 
-        # build nixos iso file
-        nbsiso = "nix build .#nixosConfigurations.nixiso.config.formats.iso";
+          # build nixos iso file
+          nbsiso = "nix build .#nixosConfigurations.nixiso.config.formats.iso";
 
-        # home manager
-        hm = "home-manager --flake $FLAKE";
-        hmsb = "${hm} switch -b backup";
-        hmb = "${hm} build";
-        hmn = "${hm} news";
+          # home manager
+          hm = "home-manager --flake $FLAKE";
+          hmsb = "${hm} switch -b backup";
+          hmb = "${hm} build";
+          hmn = "${hm} news";
 
-        hms = "${pkgs.nh}/bin/nh home switch";
+          hms = "${pkgs.nh}/bin/nh home switch";
 
-        # replacements
-        cat = mkIf (hasPackage "bat") "bat";
-        dua = mkIf (hasPackage "dua") "dua interactive";
-        kubectl = mkIf (hasPackage "kubecolor") "kubecolor";
-        ping = mkIf (hasPackage "prettyping") "prettyping";
-        pipes = mkIf (hasPackage "pipes-rs") "piipes-rs";
+          # replacements
+          cat = mkIf (hasPackage "bat") "bat";
+          dua = mkIf (hasPackage "dua") "dua interactive";
+          kubectl = mkIf (hasPackage "kubecolor") "kubecolor";
+          ping = mkIf (hasPackage "prettyping") "prettyping";
+          pipes = mkIf (hasPackage "pipes-rs") "piipes-rs";
 
-        # general aliaes
-        cik = "clone-in-kitty --type os-window";
-        ck = cik;
-        deploy = "deploy -s";
-        dirties = "watch -d grep -e Dirty: -e Writeback: /proc/meminfo";
-        jc = "journalctl -xeu";
-        jcu = "journalctl --user -xeu";
-        jqless = "jq -C | less -r";
-        ly =
-          "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
-        md = "frogmouth";
-        neofetchk = "neofetch --backend kitty --source $HOME/.config/wall.png";
-        "inodes-where" =
-          "sudo du --inodes --separate-dirs --one-file-system / | sort -rh | head";
-        npr = "npm run";
-        ps_mem = "sudo ps_mem";
-        rcp = "rclone copy -P --transfers=20";
-        rgu = "rg -uu";
-        rsync = "rsync --info=progress2 -r";
-        shit = "sudo $(fc -ln -1)";
-        todoist = mkIf (hasPackage "todoist") "todoist --color";
-        xclip = "xclip -selection c";
-        yt-dlp-docker = let image = "docker.io/bxggs/yt-dlp";
-        in "docker run -it --rm -v ./:/data ${image}";
-        vrg = mkIf (hasNeovim && hasRipgrep) "nvimrg";
+          # general aliaes
+          cik = "clone-in-kitty --type os-window";
+          ck = cik;
+          deploy = "deploy -s";
+          dirties = "watch -d grep -e Dirty: -e Writeback: /proc/meminfo";
+          jc = "journalctl -xeu";
+          jcu = "journalctl --user -xeu";
+          jqless = "jq -C | less -r";
+          ly = "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
+          md = "frogmouth";
+          neofetchk = "neofetch --backend kitty --source $HOME/.config/wall.png";
+          "inodes-where" = "sudo du --inodes --separate-dirs --one-file-system / | sort -rh | head";
+          npr = "npm run";
+          ps_mem = "sudo ps_mem";
+          rcp = "rclone copy -P --transfers=20";
+          rgu = "rg -uu";
+          rsync = "rsync --info=progress2 -r";
+          shit = "sudo $(fc -ln -1)";
+          todoist = mkIf (hasPackage "todoist") "todoist --color";
+          xclip = "xclip -selection c";
+          yt-dlp-docker =
+            let
+              image = "docker.io/bxggs/yt-dlp";
+            in
+            "docker run -it --rm -v ./:/data ${image}";
+          vrg = mkIf (hasNeovim && hasRipgrep) "nvimrg";
 
-        # fun
-        expand-dong = "aunpack";
-        starwars = "telnet towel.blinkenlights.nl";
-      } // cfg.aliases;
+          # fun
+          expand-dong = "aunpack";
+          starwars = "telnet towel.blinkenlights.nl";
+        }
+        // cfg.aliases;
 
       sessionVariables = {
         DIRENV_LOG_FORMAT = "";
         ENTE_CLI_CONFIG_PATH = "${config.xdg.configHome}/ente/config.yaml";
         FFSEND_HOST = "send.super.fish";
         KUBECONFIG = "${config.xdg.configHome}/kube/config";
-        PF_INFO =
-          "ascii title os kernel uptime shell term desktop scheme palette";
+        PF_INFO = "ascii title os kernel uptime shell term desktop scheme palette";
         PNPM_HOME = "${config.xdg.dataHome}/pnpm";
-      } // cfg.env;
+      }
+      // cfg.env;
     };
 
     programs = {
@@ -276,4 +294,3 @@ in {
     };
   };
 }
-

@@ -1,7 +1,14 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
-let cfg = config.desktop.wm;
-in {
+let
+  cfg = config.desktop.wm;
+in
+{
   config = lib.mkIf cfg.hyprland.enable {
     services.hypridle = {
       enable = true;

@@ -4,7 +4,8 @@ let
   cfg = config.network;
   inherit (cfg) hostname address;
   inherit (lib) mkIf;
-in {
+in
+{
   config = mkIf cfg.enable {
     services.traefik = {
       enable = true;
@@ -34,10 +35,12 @@ in {
             address = ":443";
             http.tls = {
               certResolver = "cloudflare";
-              domains = [{
-                main = address;
-                sans = [ "*.${address}" ];
-              }];
+              domains = [
+                {
+                  main = address;
+                  sans = [ "*.${address}" ];
+                }
+              ];
             };
             forwardedHeaders.trustedIPs = [ "127.0.0.1/32" ];
           };
@@ -49,7 +52,10 @@ in {
               storage = "${config.services.traefik.dataDir}/acme.json";
               dnsChallenge = {
                 provider = "cloudflare";
-                resolvers = [ "1.1.1.1:53" "1.0.0.1:53" ];
+                resolvers = [
+                  "1.1.1.1:53"
+                  "1.0.0.1:53"
+                ];
               };
             };
           };
@@ -61,41 +67,43 @@ in {
         };
       };
 
-      dynamicConfigOptions = let
-        mkRouter = name: {
-          rule = "Host(`${name}.${address}`)";
-          service = "${name}";
-          entrypoints = [ "websecure" ];
-        };
-
-        mkService = port: {
-          loadBalancer.servers =
-            [{ url = "http://localhost:${toString port}"; }];
-        };
-      in {
-        http = {
-          routers = {
-            default = {
-              rule = "Host(`${address}`)";
-              service = "cockpit";
-              entrypoints = [ "websecure" ];
-            };
-          } // builtins.mapAttrs (name: _: mkRouter name) cfg.finalServices;
-          services = builtins.mapAttrs (_: mkService) cfg.finalServices;
-
-          middlewares = {
-            homeassistant-allow-iframe.headers = {
-              contentSecurityPolicy = "frame-ancestors ha.${address}";
-              customResponseHeaders = {
-                "X-Frame-Options" = "";
-                "X-XSS-Protection" = "1";
-              };
-            };
+      dynamicConfigOptions =
+        let
+          mkRouter = name: {
+            rule = "Host(`${name}.${address}`)";
+            service = "${name}";
+            entrypoints = [ "websecure" ];
           };
 
-          serversTransports.ignorecert.insecureSkipVerify = true;
+          mkService = port: {
+            loadBalancer.servers = [ { url = "http://localhost:${toString port}"; } ];
+          };
+        in
+        {
+          http = {
+            routers = {
+              default = {
+                rule = "Host(`${address}`)";
+                service = "cockpit";
+                entrypoints = [ "websecure" ];
+              };
+            }
+            // builtins.mapAttrs (name: _: mkRouter name) cfg.finalServices;
+            services = builtins.mapAttrs (_: mkService) cfg.finalServices;
+
+            middlewares = {
+              homeassistant-allow-iframe.headers = {
+                contentSecurityPolicy = "frame-ancestors ha.${address}";
+                customResponseHeaders = {
+                  "X-Frame-Options" = "";
+                  "X-XSS-Protection" = "1";
+                };
+              };
+            };
+
+            serversTransports.ignorecert.insecureSkipVerify = true;
+          };
         };
-      };
     };
 
     sops.secrets.cloudflare_traefik_token = {
@@ -104,4 +112,3 @@ in {
     };
   };
 }
-
