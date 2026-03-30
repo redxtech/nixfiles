@@ -45,9 +45,6 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    limbo.url = "github:co-conspirators/limbo";
-    limbo-rs.url = "github:co-conspirators/limbo-rs";
-
     tu.url = "github:redxtech/tu";
 
     citron.url = "github:simonwjackson/citron.nix";

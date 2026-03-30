@@ -35,10 +35,9 @@ in
 
       homeCommon = [
         inputs.hyprland.homeManagerModules.default
-        inputs.limbo.homeManagerModules.default
-        inputs.limbo-rs.homeManagerModules.default
         inputs.sops-nix.homeManagerModules.sops
         inputs.nix-flatpak.homeManagerModules.nix-flatpak
+        inputs.noctalia.homeModules.default
         inputs.nur.modules.homeManager.default
         inputs.spicetify-nix.homeManagerModules.default
         inputs.tu.homeModules.default

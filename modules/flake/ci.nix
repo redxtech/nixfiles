@@ -24,7 +24,6 @@ let
     "flake-schemas"
     "hardware"
     "hci-effects"
-    "limbo"
     "nixos-generators"
     "nix-autobahn"
     "nix-flatpak"

@@ -25,14 +25,20 @@ in
       };
 
       decoration = {
-        rounding = 0;
-        shadow.enabled = false;
+        rounding = 20;
+        shadow = {
+          enabled = true;
+          range = 4;
+          render_power = 3;
+          color = "rgba(a1a1a1ee)";
+        };
 
         blur = {
           enabled = "yes";
           size = 8;
           passes = 2;
           ignore_opacity = "yes";
+          vibrancy = 0.1696;
         };
       };
 

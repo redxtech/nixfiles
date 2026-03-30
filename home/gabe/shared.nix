@@ -415,6 +415,7 @@ in
         "spotify.desktop"
       ];
       services = [
+        "${noctalia-shell}/bin/noctalia-shell"
         "${thunar}/bin/thunar --daemon"
         "${pkgs.mako}/bin/mako"
         "${swww}/bin/swww-daemon"

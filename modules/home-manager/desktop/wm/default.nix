@@ -10,7 +10,7 @@ in
     ./hyprland
     ./scripts
 
-    ./bar/limbo.nix
+    ./bar/noctalia.nix
     ./bar/polybar.nix
     ./bar/waybar/default.nix
 

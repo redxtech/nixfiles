@@ -18,7 +18,6 @@
       hass_token.path = "${config.xdg.configHome}/secrets/hass_token.txt";
       openrouter_key.path = "${config.xdg.configHome}/secrets/openrouter_key.txt";
       openai_key.path = "${config.xdg.configHome}/secrets/openai_key.txt";
-      limbo_config.path = "${config.xdg.configHome}/limbo/secrets.json";
     };
   };
 }
