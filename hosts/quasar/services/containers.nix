@@ -996,6 +996,7 @@ in
           };
         };
         environment = defaultEnv // {
+          WATCHTOWER_CLEANUP = "true";
           WATCHTOWER_HTTP_API_METRICS = "true";
         };
         environmentFiles = [ config.sops.secrets."watchtower_env".path ];

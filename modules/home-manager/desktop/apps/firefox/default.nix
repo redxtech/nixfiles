@@ -78,8 +78,8 @@ in
                 label = "github";
               }
               {
-                url = "https://raindrop.io/";
-                label = "raindrop";
+                url = "https://karakeep.super.fish/";
+                label = "karakeep";
               }
               {
                 url = "https://dd.reddit.com/";
@@ -90,16 +90,16 @@ in
                 label = "hn";
               }
               {
-                url = "http://bastion:6060";
-                label = "ollama";
-              }
-              {
                 url = "https://chat.super.fish";
                 label = "chat";
               }
               {
-                url = "https://photos.google.com/";
+                url = "https://photos.super.fish/";
                 label = "photos";
+              }
+              {
+                url = "https://photos.google.com/";
+                label = "googlephotos";
               }
               { url = "https://hoppscotch.io/"; }
               { url = "https://gabedunn.dev/"; }
@@ -142,6 +142,7 @@ in
               "Arch Wiki"
               "Arch Packages"
               "AUR"
+              "Dashboard"
             ];
             engines =
               let
@@ -293,6 +294,18 @@ in
                   ];
                   icon = "https://www.youtube.com/s/desktop/85bdacdc/img/favicon_32x32.png";
                   definedAliases = [ "yt" ];
+                };
+                "Dashboard" = {
+                  inherit updateInterval;
+                  urls = [
+                    { template = "https://dashboardicons.com/icons?q={searchTerms}"; }
+                  ];
+                  icon = "https://dashboardicons.com/favicon-96x96.png";
+                  definedAliases = [
+                    "@dashboard"
+                    "@icon"
+                    "@di"
+                  ];
                 };
                 "Amazon CA" = {
                   inherit updateInterval;

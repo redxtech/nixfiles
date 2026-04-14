@@ -3381,11 +3381,11 @@
         "nixpkgs": "nixpkgs_22"
       },
       "locked": {
-        "lastModified": 1762228910,
-        "narHash": "sha256-BegsSItHGkgh7AM/EbrOCNN9mWUhwt7g4mC7PROFsuk=",
+        "lastModified": 1775338166,
+        "narHash": "sha256-eQw5K71j7g8Ur3HeQ5C+UGjnfu+eVUlIGNnk+ncNuNc=",
         "owner": "redxtech",
         "repo": "tu",
-        "rev": "635d6f092dbda93b5a69bf71aecc75771e9fd65d",
+        "rev": "8192b06b69094ffb2819474a3aa123ef563241c8",
         "type": "github"
       },
       "original": {
