@@ -12,7 +12,6 @@ let
 in
 {
   imports = [
-    ./ai.nix
     ./dm.nix
     ./gaming.nix
     ./wm.nix

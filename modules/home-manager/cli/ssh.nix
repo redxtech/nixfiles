@@ -52,7 +52,6 @@ in
             bastion = mkDevice "bastion";
             voyager = mkDevice "voyager";
             quasar = mkDevice "quasar";
-            deck = mkDevice "deck";
             homeassistant = mkHost {
               user = "hassio";
               hostname = "homeassistant";

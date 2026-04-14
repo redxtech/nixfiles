@@ -34,21 +34,8 @@
       nautilus # file manager
       neovide # neovim gui
       kdePackages.okular # ebook, pdf, comic, etc. reader
-      qcomicbook # comic reader
       reboot-to-windows # reboot to windows
-      seabird # k8s gui
-      telegram-desktop # telegram
-      vdhcoapp # download helper
     ];
-
-    hardware = {
-      cpuTempPath = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp3_input";
-
-      network = {
-        type = "wired";
-        interface = "enp39s0";
-      };
-    };
 
     monitors = [
       {
@@ -150,9 +137,4 @@
   };
 
   services.syncthing.enable = true;
-
-  mopidy = {
-    enable = true;
-    extraConfigFiles = [ config.sops.secrets.mopidy_auth.path ];
-  };
 }

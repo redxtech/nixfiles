@@ -89,6 +89,9 @@ in
         yubikey-manager
         yubikey-personalization
         yubico-pam
+
+        # use yubikey for secrets
+        age-plugin-yubikey
       ]
       ++ lib.optionals cfg.installGUIApps [ yubioath-flutter ];
 
@@ -126,21 +129,7 @@ in
     # lock the screen when the yubikey is removed
     services.udev.extraRules =
       let
-        authfilePrefix = "/run/user/${cfg.lockOnRemove.userID}/xauth_";
         scripts = {
-          bspwm = pkgs.writeShellApplication {
-            name = "lockscript.sh";
-            runtimeEnv = { inherit (cfg.lockOnRemove) DISPLAY; };
-            runtimeInputs = with pkgs; [ betterlockscreen ];
-            text = ''
-              # find the xauth file for the current user
-              # by getting the first file that matches the prefix
-              AUTHFILE=(${authfilePrefix}*)
-              export XAUTHORITY="''${AUTHFILE[0]}"
-
-              betterlockscreen --lock dimblur
-            '';
-          };
           hyprland = pkgs.writeShellApplication {
             name = "lockscript.sh";
             runtimeEnv = { inherit (cfg.lockOnRemove) WAYLAND_DISPLAY; };

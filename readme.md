@@ -10,7 +10,6 @@ this is where my configuration for *everything* is related.
   - my desktop (`bastion`)
   - my laptop (`voyager`)
   - my home server (`quasar`)
-  - my steam deck (`deck`)
   - custom installation/recovery media (`nixiso`)
 - automatic deployments via github actions and cachix-deploy (also deploy-rs)
 - secrets management via sops-nix
@@ -45,7 +44,6 @@ this is where my configuration for *everything* is related.
   - `bastion`: desktop - 32GB RAM, R9 5900X, RX 7900XT | hyprland
   - `voyager`: framework 16 - 32GB RAM, R9 7940HS, RX 7700S | hyprland
   - `quasar`: home server - 32GB RAM, i7 6700K, GTX 970 | headless
-  - `deck`: steam deck - 16 GB RAM, custom AMD APU | steamOS & gnome
 - `home`: home-manager configuration, acessible via `home-manager --flake`
   each host has a file, and there's a `shared.nix` file for shared configurations.
 - `modules`: module definitions consumed by the hosts.

@@ -6,13 +6,9 @@
 
 {
   # packages with an actual source
-  app2unit = pkgs.callPackage ./app2unit { };
   beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
-  ente-cli = pkgs.callPackage ./ente-cli { };
-  ente-desktop = pkgs.callPackage ./ente-desktop { };
   iosevka-custom = stable.callPackage ./iosevka-custom { };
   moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
-  seabird = stable.callPackage ./seabird { };
   vimix-cursor-theme = pkgs.callPackage ./vimix-cursor-theme { };
   vimix-hyprcursor = pkgs.callPackage ./vimix-hyprcursor { };
 

@@ -12,7 +12,6 @@ let
     mkDefault
     mkOption
     mkEnableOption
-    optional
     ;
 
   cfg = config.base;

@@ -6,14 +6,10 @@ let
 in
 {
   imports = [
-    ./bspwm
     ./hyprland
     ./scripts
 
     ./bar/noctalia.nix
-    ./bar/polybar.nix
-    ./bar/waybar/default.nix
-
     ./binds.nix
     ./rules.nix
     ./wallpaper.nix
@@ -27,7 +23,6 @@ in
 
     wm = mkOption {
       type = nullOr (enum [
-        "bspwm"
         "hyprland"
       ]);
       default = null;

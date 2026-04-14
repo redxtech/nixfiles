@@ -63,16 +63,6 @@ in
               halign = "left";
               valign = "bottom";
             }
-
-            # CURRENT SONG
-            {
-              inherit font_family monitor;
-              text = "cmd[update:5000] ${cfg.wm.scripts.bar.playerctl-tail} status-once | sed 's/&/&amp;/g'";
-              font_size = 20;
-              position = "50, 40";
-              halign = "left";
-              valign = "bottom";
-            }
           ];
         };
       };

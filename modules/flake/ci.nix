@@ -101,29 +101,4 @@ in
       }
     );
   };
-
-  perSystem =
-    {
-      config,
-      self',
-      inputs',
-      pkgs,
-      system,
-      ...
-    }:
-    {
-      apps =
-        let
-          mkUpdateScript = inputs: {
-            type = "app";
-            program = pkgs.writeShellScriptBin "update-inputs" ''
-              nix flake lock ${lib.concatStringsSep " " (builtins.map (i: "--update-input ${i}") inputs)}
-            '';
-          };
-        in
-        {
-          update-primary = mkUpdateScript primaryInputs;
-          update-all = mkUpdateScript (primaryInputs ++ secondaryInputs);
-        };
-    };
 }

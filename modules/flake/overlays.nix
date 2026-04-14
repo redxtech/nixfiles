@@ -30,17 +30,6 @@
 
       # Modifies existing packages
       modifications = final: prev: {
-        fuzzel = prev.fuzzel.overrideAttrs (oldAttrs: rec {
-          version = "1.13.1";
-          src = prev.fetchFromGitea {
-            domain = "codeberg.org";
-            owner = "dnkl";
-            repo = "fuzzel";
-            tag = version;
-            hash = "sha256-JW6MvLXax7taJfBjJjRkEKCczzO4AYsQ47akJK2pkh0=";
-          };
-        });
-
         rofi = prev.rofi.override { plugins = [ prev.rofi-emoji ]; };
 
         # use solaar from the flake
@@ -48,25 +37,6 @@
 
         # include plugins with thunar
         thunar = prev.thunar.override { thunarPlugins = [ prev.thunar-volman ]; };
-
-        zinit = prev.zinit.overrideAttrs (oldAttrs: {
-          installPhase = ''
-            outdir="$out/share/$pname"
-            cd "$src"
-            ls -al doc
-
-            # Zplugin's source files
-            install -dm0755 "$outdir"
-            # Installing backward compatibility layer
-            install -m0644 zinit{,-side,-install,-autoload}.zsh "$outdir"
-            install -m0755 share/git-process-output.zsh "$outdir"
-            mkdir -p "$outdir/doc"
-            install doc/zinit.1 "$outdir/doc/zinit.1"
-
-            # Zplugin autocompletion
-            installShellCompletion --zsh _zinit
-          '';
-        });
       };
 
       citron = inputs.citron.overlays.default;

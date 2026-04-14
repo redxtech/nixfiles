@@ -24,15 +24,6 @@
 
     isLaptop = true;
 
-    hardware = {
-      cpuTempPath = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon6/temp1_input";
-
-      network = {
-        type = "wireless";
-        interface = "wlp4s0";
-      };
-    };
-
     monitors = [
       {
         name = "eDP-2";

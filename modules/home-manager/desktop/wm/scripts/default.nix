@@ -2,14 +2,12 @@
   config,
   lib,
   pkgs,
-  small,
   ...
 }:
 
 let
   cfg = config.desktop;
 
-  bar = (import ./bar) { inherit pkgs lib small; };
   general = (import ./general) { inherit pkgs lib; };
   rofi = (import ./rofi) { inherit pkgs lib config; };
 in
@@ -27,15 +25,6 @@ in
         };
     in
     {
-      bar = with bar; {
-        pipewire = scriptOpt "${pipewire}/bin/pipewire" "Pipewire control script";
-        pipewire-output-tail = scriptOpt "${pipewire-output-tail}/bin/pipewire-output-tail" "Pipewire output tails script";
-        playerctl-tail = scriptOpt "${playerctl-tail}/bin/playerctl-tail" "Playerctl tail script";
-        polywins = scriptOpt "${polywins}/bin/polywins" "Polybar windows scripts";
-        spotify-volume = scriptOpt "${spotify-volume}/bin/spotify-volume" "Script to control Spotify volume";
-        weather = scriptOpt "${weather}/bin/weather-bar" "Weather script";
-      };
-
       general = {
         clipboard = scriptOpt "${general.clipboard}/bin/clipboard" "Clipboard history script";
         copy-spotify-url = scriptOpt "${general.copy-spotify-url}/bin/copy-spotify-url" "Copy the current Spotify URL";
@@ -67,8 +56,6 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      bar.playerctl-tail
-      bar.spotify-volume
       general.ha
       general.hdrop-btop
       general.ps_mem

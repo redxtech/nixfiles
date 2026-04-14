@@ -19,7 +19,6 @@ in
     {
       wm = mkOption {
         type = enum [
-          "bspwm"
           "hyprland"
           "gnome"
         ];
@@ -32,7 +31,6 @@ in
 
   config =
     let
-      isBspwm = cfg.wm == "bspwm";
       isHyprland = cfg.wm == "hyprland";
       isGnome = cfg.wm == "gnome";
     in
@@ -41,9 +39,6 @@ in
         xserver = {
           enable = true;
           xkb.layout = "us";
-
-          # enable bspwm or gnome if selected
-          windowManager.bspwm.enable = isBspwm;
 
           # disable suspend and screen blanking
           serverFlagsSection = ''
@@ -57,7 +52,6 @@ in
 
         displayManager.defaultSession =
           {
-            bspwm = "none+bspwm";
             gnome = "gnome";
             hyprland = "hyprland-uwsm";
           }
@@ -111,12 +105,6 @@ in
         with pkgs;
         (
           [ ]
-          ++ (optionals isBspwm [
-            dunst
-            picom
-            polkit_gnome
-          ])
-          ++ (optionals isHyprland [ ])
           ++ (optionals isGnome [
             gpaste
             gnome-tweaks

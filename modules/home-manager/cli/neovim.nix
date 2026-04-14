@@ -69,16 +69,6 @@ in
         "${lib.makeLibraryPath [ pkgs.libgit2 ]}"
       ];
 
-      neo-lsp = {
-        enable = lib.mkDefault true;
-
-        web.deno = true;
-        yaml = {
-          kubernetes = true;
-        };
-        terraform.enable = true;
-      };
-
       neovide = {
         enable = true;
         settings = {

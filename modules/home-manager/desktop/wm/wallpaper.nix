@@ -67,9 +67,6 @@ in
                   ${config.desktop.wm.scripts.wm.wallpaper} "$WP" 2>/dev/null
 
                   echo "Wallpaper set to $WP";
-
-                    # prepare lockscreen with betterlockscreen if using bspwm
-                  ${if wm.wm == "bspwm" then ''betterlockscreen --update "$WP"'' else ""}
                 '';
               };
             in

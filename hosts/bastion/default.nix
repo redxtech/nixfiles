@@ -33,11 +33,6 @@
         monitorIndex = 1;
       };
     };
-
-    ai = {
-      enable = true;
-      web-ui = true;
-    };
   };
 
   network = {

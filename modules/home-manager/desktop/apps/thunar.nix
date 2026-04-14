@@ -14,11 +14,7 @@ in
       let
         term = "${pkgs.kitty}/bin/kitty";
         scripts = cfg.wm.scripts;
-        clipCmd =
-          if cfg.wm.wm == "bspwm" then
-            "${pkgs.xclip}/bin/xclip -i selection c"
-          else
-            "${pkgs.wl-clipboard}/bin/wl-copy";
+        clipCmd = "${pkgs.wl-clipboard}/bin/wl-copy";
         mediainfoCmd = "${term} ${pkgs.fish}/bin/fish -c '${pkgs.mediainfo}/bin/mediainfo %F; read -n 1 -p \"echo Press any key to continue...\"'";
       in
       ''

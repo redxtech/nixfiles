@@ -129,8 +129,6 @@ in
 
       homeManagerModules = {
         common = homeCommon;
-
-        deck.imports = [ ../../home/gabe/deck.nix ] ++ homeCommon;
       }
       // allHomeManager;
     };
