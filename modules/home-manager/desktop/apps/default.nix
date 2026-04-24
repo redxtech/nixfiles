@@ -68,6 +68,7 @@ in
         mozillavpn # vpn
         obsidian # notes app
         pavucontrol # audio control panel
+        pwvucontrol # audio control panel (pipewire)
         peazip # file archiver
         qdirstat # used storage visualizer
         qimgv # image viewer

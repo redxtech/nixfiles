@@ -26,6 +26,7 @@ in
           "image/jpeg" = images;
           "image/png" = images;
           "image/gif" = images;
+          "image/webp" = images;
           "image/svg+xml" = images ++ [
             "neovim.desktop"
             "sublime_text.desktop"

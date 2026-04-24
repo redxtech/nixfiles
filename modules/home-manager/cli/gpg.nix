@@ -19,7 +19,7 @@ let
     ))
     ++ (optionals (!config.desktop.enable) (with pkgs; [ pinentry-curses ]));
 
-  # TODO: remove after https://github.com/nix-community/home-manager/pull/5720 is merged
+  # TODO: remove after (https://github.com/nix-community/home-manager/pull/5720) is merged
   agentCfg = config.services.gpg-agent;
   gpgPkg = config.programs.gpg.package;
   gpgSshSupportStr = ''

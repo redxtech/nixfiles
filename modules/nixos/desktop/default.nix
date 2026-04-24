@@ -105,6 +105,7 @@ in
         packages =
           with pkgs;
           [
+            aporetic-bin
             cantarell-fonts
             dank-mono
             iosevka
