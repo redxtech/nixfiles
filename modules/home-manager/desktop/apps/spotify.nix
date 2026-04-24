@@ -30,6 +30,7 @@ in
         betterGenres
         fullAlbumDate
         fullAppDisplayMod
+        history
         goToSong
         groupSession
         hidePodcasts

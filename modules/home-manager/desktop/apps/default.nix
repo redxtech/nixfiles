@@ -60,6 +60,7 @@ in
         arandr # arrange and resize
         bitwarden-desktop # password manager
         discord # chat app
+        equibop # better discord client
         feishin # music player
         firefox-devedition
         stable.jellyfin-mpv-shim # jellyfin mpv integration

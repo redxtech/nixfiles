@@ -145,52 +145,6 @@ with types;
       # expose primary monitor name
       desktop.primaryMonitor = (head primaryMonitors).name;
 
-      # autorandr config
-      programs.autorandr =
-        let
-          inherit (builtins) toString listToAttrs map;
-
-          mkAutorandrConf =
-            {
-              name,
-              enable,
-              primary,
-              height,
-              width,
-              rate,
-              x,
-              y,
-              ...
-            }:
-            {
-              inherit name;
-              value = {
-                inherit enable primary;
-                mode = "${toString width}x${toString height}";
-                rate = "${toString rate}.00";
-                position = "${toString x}x${toString y}";
-              };
-            };
-
-          mkAutorandrFingerprint =
-            { name, fingerprint, ... }:
-            {
-              inherit name;
-              value = fingerprint;
-            };
-
-          autorandrConf = listToAttrs (map mkAutorandrConf cfg.monitors);
-          autorandrFpts = listToAttrs (map mkAutorandrFingerprint cfg.monitors);
-        in
-        mkIf isX11 {
-          enable = (length cfg.monitors) != 0;
-
-          profiles.default = {
-            config = autorandrConf;
-            fingerprint = autorandrFpts;
-          };
-        };
-
       services.kanshi =
         let
           mkKanshiOutput =

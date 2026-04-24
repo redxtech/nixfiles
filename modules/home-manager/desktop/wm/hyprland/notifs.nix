@@ -12,7 +12,7 @@ in
   config = lib.mkIf cfg.enable {
     # notification daemon
     services.mako = {
-      enable = true;
+      enable = false;
 
       settings = {
         format = ''<span weight="bold" size="x-large">%s - %a</span>\n%b'';

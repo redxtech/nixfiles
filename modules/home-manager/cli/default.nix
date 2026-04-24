@@ -268,7 +268,7 @@ in
 
       sessionVariables = {
         DIRENV_LOG_FORMAT = "";
-        ENTE_CLI_CONFIG_PATH = "${config.xdg.configHome}/ente/config.yaml";
+        ENTE_CLI_CONFIG_DIR = "${config.xdg.configHome}/ente";
         FFSEND_HOST = "send.super.fish";
         KUBECONFIG = "${config.xdg.configHome}/kube/config";
         PF_INFO = "ascii title os kernel uptime shell term desktop scheme palette";

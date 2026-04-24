@@ -47,7 +47,7 @@
           float = true;
         }
         {
-          class = "discord|vesktop";
+          class = "discord|vesktop|equibop";
           wsNum = 3;
           tile = true;
           follow = false;
@@ -124,6 +124,10 @@
           class = "Minecraft*?(.*)";
           tile = true;
         }
+        {
+          class = ".qemu-system-x86_64-wrapped";
+          wsNum = 4;
+        }
       ]
       ++ (map
         (class: {
@@ -131,6 +135,7 @@
           float = true;
         })
         [
+          "dev.noctalia.noctalia-qs"
           "obsidian"
           "org.pulseaudio.pavucontrol"
           ".piper-wrapped"
@@ -141,14 +146,12 @@
 
     autostart = with pkgs; {
       desktop = [
-        "vesktop.desktop"
+        "equibop.desktop"
         "spotify.desktop"
       ];
       services = [
-        "${noctalia-shell}/bin/noctalia-shell"
+        (lib.getExe config.programs.noctalia-shell.package)
         "${thunar}/bin/thunar --daemon"
-        "${pkgs.mako}/bin/mako"
-        "${swww}/bin/swww-daemon"
         "${wl-clipboard}/bin/wl-paste --type text  --watch cliphist store"
         "${wl-clipboard}/bin/wl-paste --type image --watch cliphist store"
 

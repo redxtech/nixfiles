@@ -13,7 +13,7 @@ in
         font_family = "Dank Mono, Symbols Nerd Font";
       in
       {
-        enable = true;
+        enable = false;
 
         settings = {
           general = {

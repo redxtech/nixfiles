@@ -25,7 +25,7 @@ in
       };
 
       decoration = {
-        rounding = 20;
+        rounding = 0;
         shadow = {
           enabled = true;
           range = 4;

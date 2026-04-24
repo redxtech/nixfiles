@@ -11,7 +11,7 @@ in
 {
   config = lib.mkIf cfg.hyprland.enable {
     services.hypridle = {
-      enable = true;
+      enable = false;
 
       settings = {
         general = {

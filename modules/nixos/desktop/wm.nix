@@ -80,7 +80,7 @@ in
           withUWSM = true;
 
           # custom module for hyprpolkitagent
-          polkitAgent.enable = true;
+          polkitAgent.enable = false;
         };
 
       xdg.portal = {

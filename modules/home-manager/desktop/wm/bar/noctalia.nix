@@ -11,13 +11,17 @@ let
 in
 {
   config = lib.mkIf cfg.wm.enable {
-    home.packages = [
-      inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-      pkgs.gpu-screen-recorder
+    home.packages = with pkgs; [
+      inputs.noctalia.packages.${stdenv.hostPlatform.system}.default
+
+      fastfetch
+      gpu-screen-recorder
+      qt6.qtwebsockets
     ];
 
     programs.noctalia-shell = {
       enable = true;
+      package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
   };
 }
