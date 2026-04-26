@@ -15,7 +15,6 @@
   # personal scripts
   switchup = pkgs.callPackage ./switchup { };
   nix-inspect = pkgs.callPackage ./nix-inspect { };
-  minicava = pkgs.callPackage ./minicava { };
   reboot-to-windows = pkgs.callPackage ./reboot-to-windows { };
 
   # python packages

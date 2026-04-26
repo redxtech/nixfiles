@@ -4,6 +4,12 @@
 
 this is where my configuration for *everything* is related.
 
+## notice: this branch is a work in progress
+
+i am in the process of doing a major refactor of the entire configuration, and this branch will be incomplete for a while.
+
+any information in this readme is very likely out of date, for now.
+
 ## what is included
 
 - system configuration definitions:
