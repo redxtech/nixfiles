@@ -1,4 +1,6 @@
-hosts/gizmo
 result
 .direnv
 .devenv
+
+# vm images
+*.qcow2

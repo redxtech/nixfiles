@@ -1,1 +1,0 @@
-pkgs/dank-mono/**/*.ttf filter=crypt diff=crypt merge=crypt
