@@ -31,7 +31,7 @@
         height = 1600;
         width = 2560;
         rate = 165;
-        scale = 1.25;
+        scale = 4. / 3.;
         workspaces = [
           {
             name = "shell";

@@ -21,7 +21,8 @@ in
       stateVersion = lib.mkDefault "23.11";
       sessionPath = [ "$HOME/.local/bin" ];
       sessionVariables = {
-        FLAKE = "$HOME/Code/nixfiles";
+        # temp fix until migrated to new flake
+        NH_FLAKE = "$HOME/Code/oldflake";
       };
       language.base = "en_CA.UTF-8";
     };
