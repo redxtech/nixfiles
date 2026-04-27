@@ -1,0 +1,23 @@
+// blur on by default
+window-rule {
+	background-effect {
+		blur true
+		xray false
+	}
+}
+
+// noctalia: blur everywhere without xray for a better look
+layer-rule {
+  match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
+  background-effect {
+    xray false
+  }
+}
+
+// blur fuzzel
+layer-rule {
+	match namespace="^launcher$"
+	background-effect {
+		blur true
+	}
+}
