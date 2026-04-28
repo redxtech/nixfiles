@@ -64,6 +64,9 @@
               extraArgs = "--keep-since 4d --keep 3";
             };
           };
+
+          # tell nh where to find the flake
+          home.sessionVariables.NH_FLAKE = "${config.home.homeDirectory}/Code/nixfiles";
         };
     };
 }

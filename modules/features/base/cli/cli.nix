@@ -102,11 +102,14 @@
             cowsay # make a cow say something
             cpufetch # cpu info
             dex # desktop entry launcher
+            # diffsitter # better diff
             dig # dns lookup
             distrobox # nice escape hatch, use docker to emulate other distros
             doggo # better dig
             dua # better du
             dust # better du
+            ente-cli # manage ente from cli
+            fd # better find
             ffmpeg-full # media tool # TODO: move to optional ??
             ffmpegthumbnailer # ffmpeg thumbnailer # TODO: move to GUI/file browser?
             ffsend # file sharing
@@ -126,6 +129,7 @@
             manix # nix documentation tool
             mediainfo # media info
             micro # text editor
+            most # pager
             nixpkgs-review # nixpkgs PR reviewer
             # nix-autobahn # dynamic executable runner tool # TODO: add from flake
             nix-du # du for the nix store
@@ -140,6 +144,8 @@
             p7zip # 7zip tool
             ramfetch # ram info
             rclone # cloud sync
+            rsync # file transfer
+            rsyncy # progress bar for rsync
             sd # better sed
             sqlite # sqlite cli (for mcfly)
             sops # secrets manager
@@ -147,6 +153,7 @@
             steam-run # run binaries in steam FHS
             # streamrip # download music
             sl # teehee
+            slurm-nm # network monitor
             tokei # code stats
             trashy # trash manager
             unrar # unarchiver
@@ -154,6 +161,8 @@
             xdg-utils # for xdg-open
             xfce4-exo # protocol handler
             yq-go # jq for yaml
+            # vcs # video contact sheet
+            # vulnix # nix security checker
             zip # archiver
 
             # k8s packages
@@ -163,6 +172,7 @@
             kubecolor
             kubectx
             kubeseal
+            # telepresence2
           ];
 
           shellAliases =
@@ -246,7 +256,7 @@
 
           sessionVariables = {
             DIRENV_LOG_FORMAT = "";
-            ENTE_CLI_CONFIG_PATH = "${config.xdg.configHome}/ente/config.yaml";
+            ENTE_CLI_CONFIG_DIR = "${config.xdg.configHome}/ente";
             FFSEND_HOST = "send.super.fish";
             KUBECONFIG = "${config.xdg.configHome}/kube/config";
             PF_INFO = "ascii title os kernel uptime shell term desktop scheme palette";
@@ -305,7 +315,7 @@
         programs.direnv = {
           enable = true;
 
-          enableZshIntegration = true;
+          enableFishIntegration = true;
           nix-direnv.enable = true;
 
           config.load_dotenv = true;

@@ -48,18 +48,20 @@
               "Mod+N".action.spawn = lib.getExe pkgs.obsidian;
 
               "Mod+Space".action.spawn = noctalia "launcher toggle";
-              "Mod+Backspace".action.spawn = noctalia "sessionMenu toggle";
-              "Mod+c".action.spawn = noctalia "launcher clipboard";
+              "Mod+Shift+Space".action.spawn = lib.getExe config.programs.fuzzel.package;
+              "Mod+C".action.spawn = noctalia "launcher clipboard";
               "Mod+Ctrl+L".action.spawn = noctalia "lockScreen lock";
 
+              # TODO: add Mod+M for ndrop btop, Mod+N for obsidian, Mod+Shift+W for choose wallpaper
             }
           )
 
           # system
           {
-            "Mod+Shift+Slash".action.show-hotkey-overlay = { };
+            "Mod+Backspace".action.spawn = noctalia "sessionMenu toggle";
             "Mod+Shift+E".action.quit = { };
             "Mod+Shift+P".action.power-off-monitors = { };
+            "Mod+Shift+Slash".action.show-hotkey-overlay = { };
           }
 
           # window manipulation

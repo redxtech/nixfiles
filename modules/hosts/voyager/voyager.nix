@@ -13,87 +13,87 @@
           let
             isVM = true; # TODO: remove this when not testing in a VM
           in
-          [
-            (
-              if isVM then
-                {
-                  name = "Virtual-1";
-                  primary = true;
-                  height = 1386;
-                  width = 2536;
-                  rate = 74.999;
-                  workspaces = [
-                    {
-                      name = "shell";
-                      number = 1;
-                    }
-                    {
-                      name = "browser";
-                      number = 2;
-                    }
-                    {
-                      name = "chat";
-                      number = 3;
-                    }
-                    {
-                      name = "music";
-                      number = 4;
-                    }
-                  ];
-                }
-              else
-                {
-                  name = "eDP-2";
-                  primary = true;
-                  height = 1600;
-                  width = 2560;
-                  rate = 165.0;
-                  scale = 1.25;
-                  workspaces = [
-                    {
-                      name = "shell";
-                      number = 1;
-                    }
-                    {
-                      name = "www";
-                      number = 2;
-                    }
-                    {
-                      name = "chat";
-                      number = 3;
-                    }
-                    {
-                      name = "files";
-                      number = 4;
-                    }
-                    {
-                      name = "music";
-                      number = 5;
-                    }
-                    {
-                      name = "six";
-                      number = 6;
-                    }
-                    {
-                      name = "seven";
-                      number = 7;
-                    }
-                    {
-                      name = "eight";
-                      number = 8;
-                    }
-                    {
-                      name = "nine";
-                      number = 9;
-                    }
-                    {
-                      name = "ten";
-                      number = 10;
-                    }
-                  ];
-                }
-            )
-          ];
+          if isVM then
+            [
+              {
+                name = "Virtual-1";
+                primary = true;
+                height = 1386;
+                width = 2536;
+                rate = 74.999;
+                workspaces = [
+                  {
+                    name = "shell";
+                    number = 1;
+                  }
+                  {
+                    name = "browser";
+                    number = 2;
+                  }
+                  {
+                    name = "chat";
+                    number = 3;
+                  }
+                  {
+                    name = "music";
+                    number = 4;
+                  }
+                ];
+              }
+            ]
+          else
+            [
+              {
+                name = "eDP-2";
+                primary = true;
+                height = 1600;
+                width = 2560;
+                rate = 165.0;
+                scale = 1.25;
+                workspaces = [
+                  {
+                    name = "shell";
+                    number = 1;
+                  }
+                  {
+                    name = "www";
+                    number = 2;
+                  }
+                  {
+                    name = "chat";
+                    number = 3;
+                  }
+                  {
+                    name = "files";
+                    number = 4;
+                  }
+                  {
+                    name = "music";
+                    number = 5;
+                  }
+                  {
+                    name = "six";
+                    number = 6;
+                  }
+                  {
+                    name = "seven";
+                    number = 7;
+                  }
+                  {
+                    name = "eight";
+                    number = 8;
+                  }
+                  {
+                    name = "nine";
+                    number = 9;
+                  }
+                  {
+                    name = "ten";
+                    number = 10;
+                  }
+                ];
+              }
+            ];
       };
 
       audio.devices = [

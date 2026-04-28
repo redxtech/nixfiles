@@ -2,6 +2,12 @@
   den.aspects.yazi.homeManager =
     { pkgs, lib, ... }:
     {
+      home.packages = with pkgs; [
+        duckdb
+        glow # markdown previewer
+        ouch # archive utility
+      ];
+
       programs.yazi = {
         enable = true;
         enableFishIntegration = true;

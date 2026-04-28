@@ -68,7 +68,11 @@
             enable_streaming = "DaemonOnly";
 
             # app's default client_id
-            client_id = "65b708073fc0480ea92a077233ca87bd";
+            client_id = "46e5005a11c34100bf0af93e78e21c9b";
+            client_id_command = {
+              command = lib.getExe' pkgs.coreutils "cat";
+              args = [ config.sops.secrets.spotify-player-client-id.path ];
+            };
 
             default_device = "spotify-player";
             device = {
@@ -93,6 +97,29 @@
             }
           ];
         };
+
+        services.spotifyd = {
+          enable = true;
+
+          settings = {
+            global = {
+              # TODO: do we need to login for this to work?
+
+              # username = "redxtech";
+              # password_cmd = "${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/spotify-tui/spotify.txt";
+
+              use_mpris = true;
+              backend = "pulseaudio"; # TODO: try "pipe"
+
+              device_type = "computer";
+              device_name = "desktop-spotifyd";
+
+              bitrate = 320;
+            };
+          };
+        };
+
+        sops.secrets.spotify-player-client-id.sopsFile = ../../../../secrets/users/gabe/secrets.yaml;
       };
   };
 

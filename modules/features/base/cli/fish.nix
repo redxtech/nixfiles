@@ -98,7 +98,7 @@
           };
 
           # quick wrapper to make running `nix develop` without any arguments
-          # run Fish instead of Bash.
+          # run fish instead of Bash.
           nix = {
             wraps = "nix";
             description = "Wraps `nix develop` to run fish instead of bash";
@@ -217,6 +217,7 @@
           '';
         };
 
+        # TODO: evaluate if we need all these plugins
         plugins =
           with pkgs;
           with fishPlugins;
@@ -367,7 +368,7 @@
           # fish_config theme choose "Dracula"
 
           # kitty integration
-          set --global KITTY_INSTALLATION_DIR "${pkgs.kitty}/lib/kitty"
+          set --global KITTY_INSTALLATION_DIR "${config.programs.kitty.package}/lib/kitty"
 
           # use vim cursors
           set fish_cursor_default     block      blink
@@ -389,9 +390,9 @@
           ${pkgs.any-nix-shell}/bin/any-nix-shell fish | source
 
           # add completion for nixos-rebuild-remote
-          complete -c nixos-rebuild-remote -a '(__fish_nixos_remote_complete)' -f
-          complete -c cdeploy -a '(__fish_nixos_remote_complete)' -f
-          complete -c rdeploy -a '(__fish_nixos_remote_complete)' -f
+          # complete -c nixos-rebuild-remote -a '(__fish_nixos_remote_complete)' -f
+          # complete -c cdeploy -a '(__fish_nixos_remote_complete)' -f
+          # complete -c rdeploy -a '(__fish_nixos_remote_complete)' -f
 
           # add completion for home assistant cli
           eval (_HASS_CLI_COMPLETE=fish_source ${pkgs.home-assistant-cli}/bin/hass-cli)
@@ -410,5 +411,58 @@
       };
 
       # TODO: figure out how to read from secrets in a good way
+
+      # xdg.configFile."fish/env.secrets.fish".text =
+      #   let
+      #     inherit (builtins) concatStringsSep elemAt map;
+      #     cat = pkgs.coreutils + "/bin/cat";
+      #     mkSecret =
+      #       entry:
+      #       let
+      #         name = elemAt entry 0;
+      #         secret = elemAt entry 1;
+      #         path = config.sops.secrets.${secret}.path;
+      #       in
+      #       ''set --export ${name} "$(${cat} ${path} 2>/dev/null)"'';
+      #     secrets = [
+      #       [
+      #         "YOUTUBE_API_KEY"
+      #         "youtube"
+      #       ]
+      #       [
+      #         "BW_SESSION"
+      #         "bw"
+      #       ]
+      #       [
+      #         "CACHIX_AUTH_TOKEN"
+      #         "cachix"
+      #       ]
+      #       [
+      #         "CACHIX_ACTIVATE_TOKEN"
+      #         "cachix-activate"
+      #       ]
+      #       [
+      #         "HASS_SERVER"
+      #         "hass_url"
+      #       ]
+      #       [
+      #         "HASS_TOKEN"
+      #         "hass_token"
+      #       ]
+      #       [
+      #         "OPENROUTER_KEY"
+      #         "openrouter_key"
+      #       ]
+      #       [
+      #         "OPENAI_KEY"
+      #         "openai_key"
+      #       ]
+      #     ];
+      #     envFile = concatStringsSep "\n" (map mkSecret secrets);
+      #   in
+      #   ''
+      #     ${envFile}
+      #     set --export NIX_CONFIG "access-tokens = github.com=$(${cat} ${config.sops.secrets.nix-github-token.path} 2>/dev/null)"
+      #   '';
     };
 }

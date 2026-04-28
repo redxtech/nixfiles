@@ -137,5 +137,6 @@
 
       # programs.gh-dash.enable = true;
       # programs.git-cliff.enable = true;
+      # programs.jujutsu.enable = true;
     };
 }

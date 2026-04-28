@@ -2,6 +2,7 @@
 
 {
   # provide additional options to any systems running build-vm
+  # TODO: ignore facter.reportPath in VMs
   den.aspects.vm.nixos.virtualisation.vmVariant.virtualisation = {
     diskSize = 512 * 40;
     memorySize = 1024 * 6;

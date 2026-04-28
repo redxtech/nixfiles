@@ -33,7 +33,14 @@
       };
 
     homeManager = {
-      xdg.enable = true;
+      xdg = {
+        enable = true;
+
+        userDirs = {
+          enable = true;
+          setSessionVariables = true;
+        };
+      };
     };
   };
 }

@@ -30,6 +30,12 @@
       home.language.base = "en_CA.UTF-8";
 
       systemd.user.startServices = "sd-switch";
+
+      # install home-manager docs
+      manual = {
+        html.enable = true;
+        json.enable = lib.mkDefault true;
+      };
     };
   };
 }

@@ -105,7 +105,7 @@
           format = "[$symbol$context/$namespace]($style) ";
           style = "pink";
           disabled = true;
-          # figure out better way to do this
+          # TODO: figure out better way to do this. kustomize.yaml?
           detect_folders = [ "ci" ];
         };
 

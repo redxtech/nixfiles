@@ -41,6 +41,8 @@
       {
         services.easyeffects.enable = cfg.easyEffects;
 
+        # TODO: enable playerctld ??
+
         # write the wireplumber config file
         xdg.configFile."wireplumber/wireplumber.conf.d/51-alsa-rename.conf".text =
           let

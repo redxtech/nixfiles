@@ -11,6 +11,7 @@
           settingsFormat.generate "config.yaml" settings;
 
         sops.secrets.streamrip = {
+          key = "config.toml";
           sopsFile = ../../../../secrets/users/gabe/streamrip.yaml;
           path = "${config.xdg.configHome}/streamrip/config.toml";
           mode = "0740";

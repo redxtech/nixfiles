@@ -14,6 +14,7 @@
         home.sessionVariables = rec {
           BROWSER = "firefox-nightly";
           FIREFOX = BROWSER;
+          MOZ_ENABLE_WAYLAND = "1";
         };
 
         programs.firefox = {
