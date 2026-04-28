@@ -138,6 +138,7 @@
       # den.aspects.bastion-fs
       den.aspects.workstation
       den.aspects.gpu
+      den.aspects.network-mounts
 
       # until no longer on a VM
       den.aspects.vm
