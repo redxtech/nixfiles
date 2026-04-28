@@ -9,6 +9,7 @@
     {
       home.packages = with pkgs; [
         jellyfin-mpv-shim # watch jellyfin in mpv
+        streamlink-twitch-gui-bin # stream twitch
       ];
 
       programs.mpv = {
@@ -215,6 +216,19 @@
           "application/x-cue"
           "audio/m3u"
         ];
+      };
+
+      programs.streamlink = {
+        enable = true;
+
+        # TODO: configure plugins
+        # plugins = { };
+
+        settings = {
+          player = lib.getExe config.programs.mpv.package;
+          default-stream = "best";
+          title = "{author} - {category} - {title}";
+        };
       };
     };
 }
