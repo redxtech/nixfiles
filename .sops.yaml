@@ -1,0 +1,56 @@
+keys:
+  - &users:
+    - &gabe age1yscg86yrkxlt6xj4gnmw5l98xwajwph36ye2u5ltfyts3h6kh9dqcs83zj
+    - &gha_flake age1k8v5vq6uv8vjh6alyrzd6y44fq8l8exkqp4es5seef5muqauv5hqkcgk29
+    - &yubikey age1yubikey1qtds267hj9gmgcq4xe4j4ae8ancs8qm9ww3zuxtsc6mpf5dlmlahxc99nq3
+  - &hosts:
+    - &bastion age1wdy8dlkhxmxgqqfzjqg9e2jz40qkmp9pkvshzxvzz8ytwa255eqqnl2fcs
+    - &voyager age1f5xlnwk04z727lca79ur6lwk2sv82fwgrzg4x6xtcq7s7uw2r4rsqhxm9r
+    - &quasar age19ke07grxa0eshd3eqhgrahua90yslcdw4ecktsdtcpwd7mw98duszff9x0
+    - &neobastion age1j7tftyavjrwa94v6fjmxnyczuclevegplpwq5cx2h83tr222jdns3kayst
+
+creation_rules:
+  - path_regex: secrets/hosts/common/(\w+/)*.*\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
+          - *yubikey
+          - *bastion
+          - *voyager
+          - *quasar
+          - *neobastion
+
+  - path_regex: secrets/hosts/bastion/(\w+/)*.*\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
+          - *yubikey
+          - *bastion
+
+  - path_regex: secrets/hosts/neobastion/(\w+/)*.*\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
+          - *yubikey
+          - *neobastion
+
+  - path_regex: secrets/hosts/voyager/(\w+/)*.*\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
+          - *yubikey
+          - *voyager
+
+  - path_regex: secrets/hosts/quasar/(\w+/)*.*\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
+          - *yubikey
+          - *quasar
+
+  - path_regex: secrets/users/gabe/(\w+/)*.*\.(ya?ml|json|env|ini)$
+    key_groups:
+      - age:
+          - *gabe
+          - *yubikey
+          - *gha_flake

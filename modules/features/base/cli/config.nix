@@ -10,13 +10,11 @@
           in
           settingsFormat.generate "config.yaml" settings;
 
-        # TODO: enable when secrets are created
-
-        # sops.secrets.streamrip = {
-        #   sopsFile = ../../../../secrets/users/gabe/streamrip.yaml;
-        #   path = "${config.xdg.configHome}/streamrip/config.toml";
-        #   mode = "0740";
-        # };
+        sops.secrets.streamrip = {
+          sopsFile = ../../../../secrets/users/gabe/streamrip.yaml;
+          path = "${config.xdg.configHome}/streamrip/config.toml";
+          mode = "0740";
+        };
       };
   };
 }
