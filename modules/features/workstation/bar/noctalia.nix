@@ -59,6 +59,10 @@
                 enabled = true;
                 sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
               };
+              obs-control = {
+                enabled = true;
+                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+              };
               polkit-agent = {
                 enabled = true;
                 sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
@@ -86,6 +90,10 @@
 
           pluginSettings = {
             kde-connect.hideIfNoDeviceConnected = true;
+            # TODO: configure obs-control
+            # obs-control = {
+            #   videosPath = config.xdg.userDirs.videos + "/Recordings";
+            # };
             privacy-indicator = {
               hideInactive = true;
               enableToast = false;

@@ -31,6 +31,7 @@
       den.aspects.file-browser
       den.aspects.image-viewer
       den.aspects.misc-apps
+      den.aspects.screen-recorder
       den.aspects.terminal
       den.aspects.video-player
 
