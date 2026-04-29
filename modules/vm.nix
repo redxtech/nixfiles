@@ -9,8 +9,14 @@
     cores = 4;
 
     qemu.options = [
+      # display gl enabled
       "-device virtio-vga-gl"
       "-display sdl,gl=on"
+
+      # pipewire audio passthrough
+      "-audiodev pipewire,id=audio0"
+      "-device ich9-intel-hda"
+      "-device hda-duplex,audiodev=audio0"
     ];
   };
 
