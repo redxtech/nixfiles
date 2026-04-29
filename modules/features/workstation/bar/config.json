@@ -219,6 +219,9 @@
 						"id": "plugin:screen-recorder"
 					},
 					{
+						"id": "plugin:obs-control"
+					},
+					{
 						"defaultSettings": {
 							"compactMode": false,
 							"defaultPeerAction": "copy-ip",
@@ -354,7 +357,7 @@
 			"settingsPanelSideBarCardStyle": false
 		},
 		"location": {
-			"name": "Victoria",
+			"name": "Canmore",
 			"weatherEnabled": true,
 			"weatherShowEffects": true,
 			"weatherTaliaMascotAlways": false,
@@ -475,6 +478,9 @@
 					},
 					{
 						"id": "NoctaliaPerformance"
+					},
+					{
+						"id": "PowerProfile"
 					}
 				],
 				"right": [
@@ -482,7 +488,10 @@
 						"id": "Notifications"
 					},
 					{
-						"id": "PowerProfile"
+						"id": "plugin:obs-control"
+					},
+					{
+						"id": "DarkMode"
 					},
 					{
 						"id": "NightLight"

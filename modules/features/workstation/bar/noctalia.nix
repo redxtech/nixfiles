@@ -90,10 +90,14 @@
 
           pluginSettings = {
             kde-connect.hideIfNoDeviceConnected = true;
-            # TODO: configure obs-control
-            # obs-control = {
-            #   videosPath = config.xdg.userDirs.videos + "/Recordings";
-            # };
+            obs-control = {
+              videosPath = config.xdg.userDirs.videos + "/Recordings";
+              videosOpener = lib.getExe' pkgs.xdg-utils "xdg-open";
+              showBarWhenReplay = true;
+              showBarWhenReady = false;
+              showControlCenterWhenReady = true;
+              showElapsedInBar = false;
+            };
             privacy-indicator = {
               hideInactive = true;
               enableToast = false;
