@@ -129,6 +129,8 @@
 
       system.stateVersion = "24.05";
 
+      time.timeZone = "America/Edmonton";
+
       gpu.amd = true;
 
       # fix home-manager not working on temp VMs
