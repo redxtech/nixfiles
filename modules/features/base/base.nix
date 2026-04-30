@@ -7,8 +7,10 @@
       den.aspects.nix-config
       den.aspects.root
       den.aspects.secrets
-      den.aspects.ssh
       den.aspects.style
+
+      den.aspects.auto-mount
+      den.aspects.ssh
       den.aspects.tailscale
     ];
 

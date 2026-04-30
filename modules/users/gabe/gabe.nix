@@ -21,6 +21,7 @@
           hashedPasswordFile = config.sops.secrets.gabe-pw.path;
           openssh.authorizedKeys.keys = [ (builtins.readFile ./ssh.pub) ];
 
+          group = "gabe";
           extraGroups =
             let
               inherit (builtins) filter hasAttr;
@@ -28,6 +29,7 @@
             in
             (
               [
+                "users"
                 "video"
                 "audio"
               ]
@@ -41,6 +43,8 @@
               ]
             );
         };
+
+        users.groups.gabe = { };
 
         # TODO: add yubiauth mappings
 
