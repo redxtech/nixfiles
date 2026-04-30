@@ -54,3 +54,11 @@ creation_rules:
           - *gabe
           - *yubikey
           - *gha_flake
+  - path_regex: oldflake/home/gabe/secrets.yaml
+    key_groups:
+      - age:
+          - *gabe
+  - path_regex: oldflake/hosts/(.*)/secrets.yaml
+    key_groups:
+      - age:
+          - *gabe
