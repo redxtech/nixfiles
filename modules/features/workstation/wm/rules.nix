@@ -7,6 +7,7 @@
         {
           matches = [ { app-id = "firefox-nightly"; } ];
           open-on-workspace = "browser";
+          open-focused = true;
           default-column-width.proportion = 1.0;
           # open-maximized-to-edges = true;
         }
@@ -21,6 +22,10 @@
           open-focused = false;
           default-column-width.proportion = 1.0;
           # open-maximized-to-edges = true;
+        }
+        {
+          matches = [ { app-id = "Element"; } ];
+          open-on-workspace = "chat";
         }
         {
           matches = [ { app-id = "spotify"; } ];
@@ -83,6 +88,27 @@
             relative-to = "bottom-right";
           };
           open-focused = false;
+        }
+
+        # TODO: add bitwarden window rule/script
+
+        # TODO: these rules need to be tested
+        {
+          matches = [
+            {
+              app-id = "firefox-nightly";
+              title = "Enter name of file to save to...";
+            }
+            {
+              title = "File Upload.*";
+            }
+          ];
+          open-floating = true;
+        }
+        {
+          matches = [ { title = "Picture.in.Picture"; } ];
+          open-floating = true;
+          # TODO: figure out how to make the window pinned/sticky
         }
       ]
       ++ (map

@@ -19,7 +19,10 @@
           description = "Gabe Dunn";
           isNormalUser = true;
           hashedPasswordFile = config.sops.secrets.gabe-pw.path;
-          openssh.authorizedKeys.keys = [ (builtins.readFile ./ssh.pub) ];
+          openssh.authorizedKeys.keys = [
+            (builtins.readFile ./ssh.pub) # primary ssh key
+            (builtins.readFile ./gpg.pub) # yubikey gpg key
+          ];
 
           group = "gabe";
           extraGroups =
@@ -74,7 +77,10 @@
       { pkgs, ... }:
       {
         # make gabe a trusted user in a couple of ways
-        users.users.root.openssh.authorizedKeys.keys = [ (builtins.readFile ./ssh.pub) ];
+        users.users.root.openssh.authorizedKeys.keys = [
+          (builtins.readFile ./ssh.pub)
+          (builtins.readFile ./gpg.pub)
+        ];
         nix.settings.trusted-users = [ "gabe" ];
       };
   };
