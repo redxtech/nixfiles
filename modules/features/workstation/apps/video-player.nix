@@ -44,6 +44,8 @@
           hwdec = "auto";
           volume-max = 250;
           keepaspect = true;
+          # disable trying to use HDR on non-HDR content
+          target-colorspace-hint-mode = "source";
         };
 
         scripts = with pkgs.mpvScripts; [
