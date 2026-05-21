@@ -47,7 +47,7 @@ in
     timezone = mkOption {
       type = types.str;
       description = "Timezone to use";
-      default = "America/Vancouver";
+      default = "America/Edmonton";
     };
 
     paths = {
