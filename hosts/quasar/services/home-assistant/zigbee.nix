@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.nas;
@@ -45,7 +40,8 @@ in
     };
 
     services.zigbee2mqtt = {
-      enable = true;
+      # disable until back to beach house
+      enable = false;
 
       dataDir = cfg.paths.config + "/zigbee2mqtt";
       settings = {
@@ -73,7 +69,7 @@ in
     sops.secrets = {
       mosquitto_espresense_password.sopsFile = ../../../../hosts/quasar/secrets.yaml;
       mosquitto_homeassistant_password.sopsFile = ../../../../hosts/quasar/secrets.yaml;
-      zigbee2mqtt_secrets = {
+      zigbee2mqtt_secrets = lib.mkIf config.services.zigbee2mqtt.enable {
         sopsFile = ../../../../hosts/quasar/secrets.yaml;
         mode = "0440";
         group = config.users.users.zigbee2mqtt.group;

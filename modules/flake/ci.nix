@@ -39,7 +39,9 @@ in
   imports = [ inputs.hci-effects.flakeModule ];
 
   hercules-ci = {
-    flake-update = {
+    # disable for now
+    # TODO: re-enable after refactor
+    flake-update = lib.mkIf false {
       enable = true;
       baseMerge.enable = true;
       baseMerge.method = "rebase";

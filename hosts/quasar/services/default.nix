@@ -99,7 +99,8 @@ in
     extraArgs = [ "" ];
   };
 
-  services.github-runners = {
+  # disable until after refactor
+  services.github-runners = lib.mkIf false {
     system-builder = {
       enable = true;
       name = "system-builder";

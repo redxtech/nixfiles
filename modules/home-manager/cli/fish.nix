@@ -144,7 +144,7 @@ in
           wraps = "nixos-rebuild switch";
           body = ''
             nixos-rebuild --flake "$FLAKE#$argv[1]" \
-              --fast \
+              --no-reexec \
               --target-host "root@$argv[1]" \
               --build-host "root@$argv[1]" \
               switch
