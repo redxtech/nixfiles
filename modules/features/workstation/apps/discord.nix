@@ -1,6 +1,7 @@
 { inputs, ... }:
 
 {
+  # TODO: rename to chat, add element
   den.aspects.discord = {
     # block discord from changing mic input volume
     nixos.services.pipewire.extraConfig.pipewire-pulse."10-disable-discord-volume-control"."pulse.rules" =
@@ -74,6 +75,8 @@
         xdg.autostart.entries = [
           "${config.programs.nixcord.equibop.package}/share/applications/equibop.desktop"
         ];
+
+        home.packages = with pkgs; [ element-desktop ];
 
         # disable until i find a good theme
         stylix.targets.nixcord.enable = false;

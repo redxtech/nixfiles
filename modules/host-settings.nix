@@ -2,8 +2,8 @@
 
 # pass host settings to nixos and home-manager
 {
-  den.aspects.host-settings = den.lib.perHost (
-    { host }:
+  den.aspects.host-settings = (
+    { host, ... }:
     {
       nixos = {
         _module.args.settings = host.settings;

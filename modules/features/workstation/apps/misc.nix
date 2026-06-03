@@ -23,7 +23,7 @@
           [
             # audacity # audio editor
             # beekeeper-studio-ultimate # database manager
-            bitwarden-desktop # password manager
+            # bitwarden-desktop # password manager # TODO: re-enable when it doesn't use electron_39
             # discord # chat
             # ente-desktop # photos app
             # feishin # music player
