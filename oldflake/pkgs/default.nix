@@ -5,31 +5,6 @@
 }:
 
 {
-  # packages with an actual source
-  beekeeper-studio-ultimate = pkgs.callPackage ./beekeeper-studio-ultimate { };
-  iosevka-custom = stable.callPackage ./iosevka-custom { };
-  moondeck-buddy = pkgs.callPackage ./moondeck-buddy { };
-  vimix-cursor-theme = pkgs.callPackage ./vimix-cursor-theme { };
-  vimix-hyprcursor = pkgs.callPackage ./vimix-hyprcursor { };
-
-  # personal scripts
-  switchup = pkgs.callPackage ./switchup { };
-  nix-inspect = pkgs.callPackage ./nix-inspect { };
-  reboot-to-windows = pkgs.callPackage ./reboot-to-windows { };
-
-  # python packages
-  python-unifi-ap = pkgs.python3Packages.callPackage ./python/unifi-ap { };
-
-  # cockpit modules
-  cockpit-benchmark = pkgs.callPackage ./cockpit/benchmark { };
-  cockpit-docker = pkgs.callPackage ./cockpit/docker { };
-  cockpit-file-sharing = pkgs.callPackage ./cockpit/file-sharing { };
-  cockpit-machines = pkgs.callPackage ./cockpit/machines { };
-  cockpit-podman = pkgs.callPackage ./cockpit/podman { };
-  cockpit-tailscale = pkgs.callPackage ./cockpit/tailscale { };
-  cockpit-zfs-manager = pkgs.callPackage ./cockpit/zfs-manager { };
-  libvirt-dbus = pkgs.callPackage ./libvirt-dbus { }; # for cockpit-machines
-
   # home assistant components
   home-assistant-bermuda = pkgs.callPackage ./home-assistant/components/bermuda { };
   home-assistant-browser-mod = pkgs.callPackage ./home-assistant/components/browser-mod { };
@@ -56,7 +31,4 @@
   home-assistant-lovelace-waze-travel-time =
     pkgs.callPackage ./home-assistant/lovelace/waze-travel-time
       { };
-
-  # font Packages
-  dank-mono = pkgs.callPackage ./dank-mono { };
 }

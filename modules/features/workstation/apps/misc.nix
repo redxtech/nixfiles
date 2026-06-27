@@ -34,6 +34,7 @@
             # libreoffice # office suite
             mozillavpn # vpn
             # multiviewer-for-f1 # formula 1 viewer
+            music-assistant-desktop # music-assistant companion app
             # kdePackages.okular # document reader
             pavucontrol # audio control
             pwvucontrol # audio control (pipewire)
