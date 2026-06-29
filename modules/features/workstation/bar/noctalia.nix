@@ -1,7 +1,11 @@
-{ inputs, self, ... }:
+{ den, inputs, ... }:
 
 {
   den.aspects.bar = {
+    includes = [
+      den.aspects.idle-inhibit
+    ];
+
     nixos =
       { pkgs, ... }:
       {
