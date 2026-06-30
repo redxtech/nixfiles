@@ -15,9 +15,8 @@
           noctalia =
             cmd:
             [
-              "noctalia-shell"
-              "ipc"
-              "call"
+              "noctalia"
+              "msg"
             ]
             ++ (lib.splitString " " cmd);
         in
@@ -47,10 +46,10 @@
               "Mod+G".action.spawn = lib.getExe pkgs.nemo-with-extensions;
               "Mod+N".action.spawn = lib.getExe pkgs.obsidian;
 
-              "Mod+Space".action.spawn = noctalia "launcher toggle";
+              "Mod+Space".action.spawn = noctalia "panel-toggle launcher";
               "Mod+Shift+Space".action.spawn = lib.getExe config.programs.fuzzel.package;
-              "Mod+C".action.spawn = noctalia "launcher clipboard";
-              "Mod+Ctrl+L".action.spawn = noctalia "lockScreen lock";
+              "Mod+C".action.spawn = noctalia "panel-toggle clipboard";
+              "Mod+Ctrl+L".action.spawn = noctalia "session lock";
 
               # TODO: add Mod+M for ndrop btop, Mod+N for obsidian, Mod+Shift+W for choose wallpaper
             }
@@ -58,7 +57,7 @@
 
           # system
           {
-            "Mod+Backspace".action.spawn = noctalia "sessionMenu toggle";
+            "Mod+Backspace".action.spawn = noctalia "panel-toggle session";
             "Mod+Shift+E".action.quit = { };
             "Mod+Shift+P".action.power-off-monitors = { };
             "Mod+Shift+Slash".action.show-hotkey-overlay = { };
@@ -296,12 +295,12 @@
               "Ctrl+XF86AudioNext" = playerctl null "next";
               "Ctrl+XF86AudioPrev" = playerctl null "previous";
 
-              "XF86AudioRaiseVolume".action.spawn = noctalia "volume increase";
-              "XF86AudioLowerVolume".action.spawn = noctalia "volume decrease";
-              "XF86AudioMute".action.spawn = noctalia "volume muteOutput";
-              "XF86AudioMicMute".action.spawn = noctalia "microphone muteInput";
-              "XF86MonBrightnessUp".action.spawn = noctalia "brightness increase";
-              "XF86MonBrightnessDown".action.spawn = noctalia "brightness decrease";
+              "XF86AudioRaiseVolume".action.spawn = noctalia "volume-up";
+              "XF86AudioLowerVolume".action.spawn = noctalia "volume-down";
+              "XF86AudioMute".action.spawn = noctalia "volume-mute";
+              "XF86AudioMicMute".action.spawn = noctalia "mic-mute";
+              "XF86MonBrightnessUp".action.spawn = noctalia "brightness-up";
+              "XF86MonBrightnessDown".action.spawn = noctalia "brightness-down";
             }
           )
         ];

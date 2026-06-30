@@ -89,7 +89,7 @@
               runtimeInputs = with pkgs; [
                 cfg.mainPicker
                 config.programs.niri.package
-                config.programs.noctalia-shell.package
+                config.programs.noctalia.package
                 coreutils
                 systemd
                 playerctl

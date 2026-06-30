@@ -1,0 +1,204 @@
+enabled = true
+schema_version = 2
+widget_order = ["lockscreen-login-box@Virtual-1", "lockscreen-widget-0000000000000001", "lockscreen-widget-0000000000000002", "lockscreen-widget-0000000000000003", "lockscreen-widget-0000000000000004", "lockscreen-widget-0000000000000005", "lockscreen-widget-0000000000000006", "lockscreen-widget-0000000000000007", "lockscreen-widget-0000000000000008"]
+
+[grid]
+cell_size = 16
+major_interval = 4
+visible = true
+
+[widget."lockscreen-login-box@DP-1"]
+box_height = 80.0
+box_width = 912.0
+cx = 1280.0
+cy = 1320.0
+output = "DP-1"
+rotation = 0.0
+type = "login_box"
+
+[widget."lockscreen-login-box@DP-1".settings]
+background_color = "surface_variant"
+background_opacity = 0.88
+background_radius = 12.0
+input_opacity = 1.0
+input_radius = 6.0
+show_login_button = true
+
+[widget."lockscreen-login-box@DP-2"]
+box_height = 70.0
+box_width = 400.0
+cx = 1280.0
+cy = 1321.0
+output = "DP-2"
+rotation = 0.0
+type = "login_box"
+
+[widget."lockscreen-login-box@DP-2".settings]
+background_color = "surface_variant"
+background_opacity = 0.88
+background_radius = 12.0
+input_opacity = 1.0
+input_radius = 6.0
+show_login_button = true
+
+[widget."lockscreen-login-box@Virtual-1"]
+box_height = 80.0
+box_width = 896.0
+cx = 1268.0
+cy = 1243.0
+output = "Virtual-1"
+rotation = 0.0
+type = "login_box"
+
+[widget."lockscreen-login-box@Virtual-1".settings]
+background_color = "surface_variant"
+background_opacity = 0.88
+background_radius = 12.0
+input_opacity = 1.0
+input_radius = 6.0
+show_login_button = true
+
+[widget.lockscreen-widget-0000000000000001]
+box_height = 0.0
+box_width = 0.0
+cx = 1268.0
+cy = 199.5
+output = "Virtual-1"
+rotation = 0.0
+type = "clock"
+
+[widget.lockscreen-widget-0000000000000001.settings]
+center_text = true
+clock_style = "digital"
+format = "{:%H:%M:%S}"
+
+[widget.lockscreen-widget-0000000000000002]
+box_height = 0.0
+box_width = 0.0
+cx = 1556.0
+cy = 995.0
+output = "Virtual-1"
+rotation = 0.0
+type = "fancy_audio_visualizer"
+
+[widget.lockscreen-widget-0000000000000002.settings]
+background = true
+
+[widget.lockscreen-widget-0000000000000003]
+box_height = 320.0
+box_width = 560.0
+cx = 1100.0
+cy = 995.0
+output = "Virtual-1"
+rotation = 0.0
+type = "media_player"
+
+[widget.lockscreen-widget-0000000000000004]
+box_height = 0.0
+box_width = 0.0
+cx = 1268.0
+cy = 321.0
+output = "Virtual-1"
+rotation = 0.0
+type = "weather"
+
+[widget.lockscreen-widget-0000000000000004.settings]
+background = true
+visualization_mode = "bars_rings"
+
+[widget.lockscreen-widget-0000000000000005]
+box_height = 80.0
+box_width = 192.0
+cx = 916.0
+cy = 779.0
+output = "Virtual-1"
+rotation = 0.0
+type = "button"
+
+[widget.lockscreen-widget-0000000000000005.settings]
+background = true
+glyph = "logout"
+label = "Logout"
+variant = "default"
+
+[widget.lockscreen-widget-0000000000000006]
+box_height = 80.0
+box_width = 208.0
+cx = 1148.0
+cy = 779.0
+output = "Virtual-1"
+rotation = 0.0
+type = "button"
+
+[widget.lockscreen-widget-0000000000000006.settings]
+background = true
+glyph = "suspend"
+label = "Suspend"
+variant = "default"
+
+[widget.lockscreen-widget-0000000000000007]
+box_height = 80.0
+box_width = 208.0
+cx = 1388.0
+cy = 779.0
+output = "Virtual-1"
+rotation = 0.0
+type = "button"
+
+[widget.lockscreen-widget-0000000000000007.settings]
+background = true
+glyph = "reboot"
+label = "Reboot"
+shadow = true
+show_forecast = false
+variant = "default"
+
+[widget.lockscreen-widget-0000000000000008]
+box_height = 80.0
+box_width = 192.0
+cx = 1620.0
+cy = 779.0
+output = "Virtual-1"
+rotation = 0.0
+type = "button"
+
+[widget.lockscreen-widget-0000000000000008.settings]
+background = true
+color = "error"
+glyph = "shutdown"
+label = "Shutdown"
+variant = "default"
+
+[widget.lockscreen-widget-0000000000000009]
+box_height = 80.0
+box_width = 208.0
+cx = 1400.0
+cy = 952.0
+output = "DP-1"
+rotation = 0.0
+type = "button"
+
+[widget.lockscreen-widget-0000000000000009.settings]
+background = true
+glyph = "reboot"
+label = "Reboot"
+variant = "default"
+
+[widget.lockscreen-widget-000000000000000a]
+box_height = 80.0
+box_width = 208.0
+cx = 1632.0
+cy = 952.0
+output = "DP-1"
+rotation = 0.0
+type = "button"
+
+[widget.lockscreen-widget-000000000000000a.settings]
+background = true
+color = "error"
+command = ""
+font_family = ""
+glyph = "power"
+hover_background = "hover"
+label = "Shutdown"
+variant = "default"

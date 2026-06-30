@@ -25,7 +25,7 @@ answer="$(echo -e "$options" | fuzzel --dmenu --prompt "Action: ")"
 case $answer in
 "$lock")
 	playerctl pause
-	noctalia-shell ipc call lockScreen lock
+	noctalia msg session lock
 	;;
 "$sleep")
 	confirm

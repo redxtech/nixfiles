@@ -62,9 +62,9 @@
           opacity = 0.9;
         }
 
-        # noctalia-shell settings
+        # noctalia settings
         {
-          matches = [ { app-id = "dev.noctalia.noctalia-qs"; } ];
+          matches = [ { app-id = "dev.noctalia.Noctalia.Settings"; } ];
           open-floating = true;
         }
 
@@ -132,7 +132,7 @@
 
       layer-rules = [
         {
-          matches = [ { namespace = "^noctalia-overview*"; } ];
+          matches = [ { namespace = "^noctalia-backdrop"; } ];
           place-within-backdrop = true;
         }
       ];

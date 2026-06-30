@@ -3,6 +3,7 @@
 {
   den.aspects.bar = {
     includes = [
+      den.aspects.noctalia-plugins
       den.aspects.idle-inhibit
     ];
 
@@ -30,196 +31,63 @@
       {
         imports = [ inputs.noctalia.homeModules.default ];
 
-        home.packages = with pkgs; [
-          fastfetch # for system information
-          gpu-screen-recorder # for screen recorder plugin
-          qt6.qtwebsockets # for home assistant plugin
-        ];
+        home.packages =
+          with pkgs;
+          [
+            fastfetch # for system information
+          ]
+          ++ lib.optionals host.settings.workstation.isLaptop (
+            with pkgs;
+            [
+              ddcutil # brightness controls
+            ]
+          );
 
-        programs.noctalia-shell = {
+        programs.noctalia = {
           enable = true;
 
           package = inputs'.noctalia.packages.default;
 
-          plugins = {
-            sources = [
+          systemd.enable = true;
+
+          settings = lib.recursiveUpdate (builtins.fromTOML (builtins.readFile ./noctalia-config.toml)) {
+            shell = {
+              avatar_path = "${config.home.homeDirectory}/.face";
+              screenshot.directory = "${config.xdg.userDirs.pictures}/Screenshots";
+            };
+
+            wallpaper =
+              let
+                wp_dir = "${config.xdg.userDirs.pictures}/Wallpaper";
+              in
               {
-                enabled = true;
-                name = "Official Noctalia Plugins";
-                url = "https://github.com/noctalia-dev/noctalia-plugins";
-              }
-            ];
+                directory = wp_dir;
+                default.path = "${wp_dir}/new_beginning_4k.png";
+                last.path = "${wp_dir}/new_beginning_4k.png";
+                monitors.DP-1.path = "${wp_dir}/new_beginning_4k.png";
+                monitors.DP-2.path = "${wp_dir}/new_beginning_4k.png";
+                monitors.Virtual-1.path = "${wp_dir}/new_beginning_4k.png";
+              };
 
-            states = {
-              github-feed = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-              hassio = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-              kde-connect = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-              obs-control = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-              polkit-agent = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-              privacy-indicator = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-              screen-recorder = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-              tailscale = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-              weather-indicator = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-            };
+            lockscreen_widgets = builtins.fromTOML (
+              builtins.readFile ./lockscreen-widgets/${host.hostName}.toml
+            );
 
-            version = 2;
-          };
-
-          pluginSettings = {
-            kde-connect.hideIfNoDeviceConnected = true;
-            obs-control = {
-              videosPath = config.xdg.userDirs.videos + "/Recordings";
-              videosOpener = lib.getExe' pkgs.xdg-utils "xdg-open";
-              showBarWhenReplay = true;
-              showBarWhenReady = false;
-              showControlCenterWhenReady = true;
-              showElapsedInBar = false;
-            };
-            privacy-indicator = {
-              hideInactive = true;
-              enableToast = false;
-            };
-            screen-recorder = {
-              directory = config.xdg.userDirs.videos + "/Recordings";
-              frameRate = "60";
-              copyToClipboard = true;
-              replayEnabled = false;
-              replayDuration = "30";
-            };
-            tailscale = {
-              compactMode = true;
-              terminalCommand = lib.getExe config.programs.kitty.package;
-              defaultPeerAction = "ssh";
-            };
-          };
-
-          settings =
-            let
-              exported = (builtins.fromJSON (builtins.readFile ./config.json)).settings;
-
-              barWithoutStylix = builtins.removeAttrs exported.bar [
-                "backgroundOpacity"
-                "capsuleOpacity"
-              ];
-              uiWithoutStylix = builtins.removeAttrs exported.ui [
-                "fontDefault"
-                "fontFixed"
-                "panelBackgroundOpacity"
-              ];
-              dockWithoutStylix = builtins.removeAttrs exported.dock [ "backgroundOpacity" ];
-              osdWithoutStylix = builtins.removeAttrs exported.osd [ "backgroundOpacity" ];
-              notifsWithoutStylix = builtins.removeAttrs exported.notifications [ "backgroundOpacity" ];
-              wlPasteCmd = type: "${pkgs.wl-clipboard}/bin/wl-paste --type ${type} --watch cliphist store";
-              kittyFloat = cmd: "${lib.getExe config.programs.kitty.package} --class kitty_float -e ${cmd}";
-            in
-            {
-              bar = barWithoutStylix // {
-                backgroundOpacity = lib.mkForce 0.9;
-              };
-              general = exported.general;
-              ui = uiWithoutStylix // {
-                panelBackgroundOpacity = lib.mkForce 0.9;
-              };
-              location = exported.location;
-              calendar = exported.calendar;
-              wallpaper = exported.wallpaper;
-              appLauncher = exported.appLauncher // {
-                terminalCommand = (lib.getExe config.programs.kitty.package) + " -e";
-                screenshotAnnotationTool = (lib.getExe pkgs.satty) + " -f -";
-                clipboardWatchTextCommand = wlPasteCmd "text";
-                clipboardWatchImageCommand = wlPasteCmd "image";
-              };
-              controlCenter = exported.controlCenter // {
-                cards = [
-                  {
-                    enabled = true;
-                    id = "profile-card";
-                  }
-                  {
-                    enabled = true;
-                    id = "shortcuts-card";
-                  }
-                  {
-                    enabled = true;
-                    id = "audio-card";
-                  }
-                  {
-                    enabled = host.settings.workstation.isLaptop;
-                    id = "brightness-card";
-                  }
-                  {
-                    enabled = true;
-                    id = "weather-card";
-                  }
-                  {
-                    enabled = true;
-                    id = "media-sysmon-card";
-                  }
-                ];
-              };
-              systemMonitor = exported.systemMonitor // {
-                externalMonitor = kittyFloat "btop";
-                enableDgpuMonitoring = !host.settings.workstation.isLaptop;
-              };
-              noctaliaPerformance = exported.noctaliaPerformance;
-              dock = dockWithoutStylix;
-              network = exported.network;
-              sessionMenu = exported.sessionMenu;
-              notifications = notifsWithoutStylix;
-              osd = osdWithoutStylix;
-              audio = exported.audio;
-              brightness = exported.brightness;
-              colorSchemes = exported.colorSchemes;
-              templates = exported.templates;
-              nightLight = exported.nightLight;
-              hooks = exported.hooks;
-              plugins = exported.plugins;
-              idle = exported.idle; # TODO: set screenOffCommand to niri's power-off-monitors
-              desktopWidgets = exported.desktopWidgets;
-            };
-        };
-
-        programs.niri.settings.spawn-at-startup = [
-          { argv = [ (lib.getExe config.programs.noctalia-shell.package) ]; }
-        ];
-
-        sops.secrets = {
-          github-feed = {
-            sopsFile = ../../../../secrets/users/gabe/noctalia.yaml;
-            path = config.xdg.configHome + "/noctalia/plugins/github-feed/settings.json";
-          };
-          hassio = {
-            sopsFile = ../../../../secrets/users/gabe/noctalia.yaml;
-            path = config.xdg.configHome + "/noctalia/plugins/hassio/settings.json";
+            # TODO: set idle.behavior.screen-off.command to niri's power-off-monitors
+            # idle.behavior.screen-off.command = "niri msg action power-off-monitors";
           };
         };
+
+        # sops.secrets = {
+        #   github-feed = {
+        #     sopsFile = ../../../../secrets/users/gabe/noctalia.yaml;
+        #     path = config.xdg.configHome + "/noctalia/plugins/github-feed/settings.json";
+        #   };
+        #   hassio = {
+        #     sopsFile = ../../../../secrets/users/gabe/noctalia.yaml;
+        #     path = config.xdg.configHome + "/noctalia/plugins/hassio/settings.json";
+        #   };
+        # };
       };
   };
 
@@ -232,9 +100,13 @@
         program = lib.getExe (
           pkgs.writeShellApplication {
             name = "write-noctalia";
-            # runtimeInputs = [ inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default ];
+            runtimeInputs = with pkgs; [
+              inputs.noctalia.packages.${stdenv.hostPlatform.system}.default
+              yq-go
+            ];
             text = ''
-              noctalia-shell ipc call state all
+              noctalia config export > ~/Code/nixfiles/modules/features/workstation/bar/noctalia-config.toml
+              noctalia config export | yq -p toml -o toml '.lockscreen_widgets' > ~/Code/nixfiles/modules/features/workstation/bar/lockscreen-widgets/"$(hostname).toml"
             '';
           }
         );
@@ -242,7 +114,7 @@
     };
 
   flake-file.inputs.noctalia = {
-    url = "github:noctalia-dev/noctalia-shell";
+    url = "github:noctalia-dev/noctalia";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
