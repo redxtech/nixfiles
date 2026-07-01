@@ -150,7 +150,6 @@
         "spotify.desktop"
       ];
       services = [
-        (lib.getExe config.programs.noctalia-shell.package)
         "${thunar}/bin/thunar --daemon"
         "${wl-clipboard}/bin/wl-paste --type text  --watch cliphist store"
         "${wl-clipboard}/bin/wl-paste --type image --watch cliphist store"

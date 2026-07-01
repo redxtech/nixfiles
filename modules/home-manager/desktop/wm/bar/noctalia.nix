@@ -16,12 +16,13 @@ in
 
       fastfetch
       gpu-screen-recorder
-      qt6.qtwebsockets
     ];
 
-    programs.noctalia-shell = {
+    programs.noctalia = {
       enable = true;
       package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
+      systemd.enable = true;
     };
   };
 }
