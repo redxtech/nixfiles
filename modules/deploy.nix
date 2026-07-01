@@ -24,15 +24,14 @@
     {
       apps.deploy = {
         type = "app";
-        program = lib.getExe (
-          pkgs.writeShellApplication {
-            name = "deploy";
-            runtimeInputs = [ inputs'.deploy-rs.packages.deploy-rs ];
-            text = ''
-              deploy --targets ".#''${1-$(hostname)}"
-            '';
-          }
-        );
+        program = pkgs.writeShellApplication {
+          name = "deploy";
+          runtimeInputs = [ inputs'.deploy-rs.packages.deploy-rs ];
+          text = ''
+            deploy --targets ".#''${1-$(hostname)}"
+          '';
+        };
+        meta.description = "Deploy configurations to a remote machine";
       };
     };
 

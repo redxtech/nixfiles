@@ -97,19 +97,18 @@
     {
       apps.write-noctalia = {
         type = "app";
-        program = lib.getExe (
-          pkgs.writeShellApplication {
-            name = "write-noctalia";
-            runtimeInputs = with pkgs; [
-              inputs.noctalia.packages.${stdenv.hostPlatform.system}.default
-              yq-go
-            ];
-            text = ''
-              noctalia config export > ~/Code/nixfiles/modules/features/workstation/bar/noctalia-config.toml
-              noctalia config export | yq -p toml -o toml '.lockscreen_widgets' > ~/Code/nixfiles/modules/features/workstation/bar/lockscreen-widgets/"$(hostname).toml"
-            '';
-          }
-        );
+        program = pkgs.writeShellApplication {
+          name = "write-noctalia";
+          runtimeInputs = with pkgs; [
+            inputs.noctalia.packages.${stdenv.hostPlatform.system}.default
+            yq-go
+          ];
+          text = ''
+            noctalia config export > ~/Code/nixfiles/modules/features/workstation/bar/noctalia-config.toml
+            noctalia config export | yq -p toml -o toml '.lockscreen_widgets' > ~/Code/nixfiles/modules/features/workstation/bar/lockscreen-widgets/"$(hostname).toml"
+          '';
+        };
+        meta.description = "Export noctalia config to a file, and export the device-specific lockscreen widgets";
       };
     };
 

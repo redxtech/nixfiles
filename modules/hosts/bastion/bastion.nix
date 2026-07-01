@@ -1,4 +1,4 @@
-{ inputs, den, ... }:
+{ den, self, ... }:
 
 {
   den.hosts.x86_64-linux.bastion = {
@@ -174,7 +174,7 @@
           # nautilus # file manager
           # neovide # neovim gui
           kdePackages.okular # ebook, pdf, comic, etc. reader
-          reboot-to-windows # reboot to windows
+          self.packages.${pkgs.stdenv.hostPlatform.system}.reboot-to-windows # reboot to windows
         ];
       };
   };
