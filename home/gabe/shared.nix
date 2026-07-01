@@ -17,6 +17,7 @@
       piper # gui for ratbagd/logitech mouse control
       postman # api client
       prismlauncher # minecraft launcher
+      openjdk25 # java for prism
       via # keyboard flasher
       vscode-fhs # vs-code with fhs environment
     ];
