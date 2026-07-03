@@ -84,6 +84,10 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     tu = {
       url = "github:redxtech/tu";
       inputs.nixpkgs.follows = "nixpkgs";
