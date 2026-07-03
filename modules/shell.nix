@@ -16,8 +16,18 @@
           ssh-to-age
           sops
 
+          # nix specific tooling
+          nil
+          nixd
+          nixfmt
+          nix-prefetch-scripts
+          statix
+
           # remote deploy
           inputs'.deploy-rs.packages.deploy-rs
+
+          # ai tooling
+          mcp-nixos
         ];
 
         env.NIX_CONFIG = "extra-experimental-features = nix-command flakes";
