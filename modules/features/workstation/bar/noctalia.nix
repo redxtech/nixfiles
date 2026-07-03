@@ -112,10 +112,7 @@
       };
     };
 
-  flake-file.inputs.noctalia = {
-    url = "github:noctalia-dev/noctalia";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+  flake-file.inputs.noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
   flake-file.nixConfig = {
     extra-substituters = [ "https://noctalia.cachix.org" ];

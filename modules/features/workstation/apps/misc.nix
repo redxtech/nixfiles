@@ -34,7 +34,7 @@
             # libreoffice # office suite
             mozillavpn # vpn
             # multiviewer-for-f1 # formula 1 viewer
-            music-assistant-desktop # music-assistant companion app
+            # music-assistant-desktop # music-assistant companion app
             # kdePackages.okular # document reader
             pavucontrol # audio control
             pwvucontrol # audio control (pipewire)
@@ -43,6 +43,7 @@
             # postman # api client
             prismlauncher # minecraft launcher
             # qdirstat # disk usage analyzer
+            # super-productivity # productivity app
             # tauon-with-librespot # audio player
             # via # keyboard flasher
             wev # wayland event viewer

@@ -70,8 +70,6 @@
     homeManager =
       { pkgs, ... }:
       {
-        gtk.gtk4.theme = null;
-
         fonts.fontconfig.antialiasing = true;
         home.packages = with pkgs; [
           cantarell-fonts

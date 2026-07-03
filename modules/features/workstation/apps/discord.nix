@@ -53,19 +53,6 @@
               splashColor = "rgb(239, 239, 241)";
             };
           };
-
-          # lightweight client
-          legcord = {
-            enable = true;
-            equicord.enable = true;
-            vencord.enable = false;
-
-            settings = {
-              hardwareAcceleration = true;
-              minimizeToTray = true;
-              tray = "dynamic";
-            };
-          };
         };
 
         # disable generating settings file until i make my own
