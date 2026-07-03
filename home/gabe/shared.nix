@@ -18,6 +18,7 @@
       postman # api client
       prismlauncher # minecraft launcher
       openjdk25 # java for prism
+      super-productivity # productivity suite
       via # keyboard flasher
       vscode-fhs # vs-code with fhs environment
     ];
@@ -129,6 +130,11 @@
           class = ".qemu-system-x86_64-wrapped";
           wsNum = 4;
         }
+        {
+          class = "dev.noctalia.Noctalia.Settings";
+          float = true;
+          size = "1080 920";
+        }
       ]
       ++ (map
         (class: {
@@ -136,7 +142,7 @@
           float = true;
         })
         [
-          "dev.noctalia.noctalia-qs"
+          "dev.noctalia.Noctalia.Settings"
           "obsidian"
           "org.pulseaudio.pavucontrol"
           ".piper-wrapped"

@@ -205,8 +205,6 @@ in
           diff = "diff --color=auto";
           ip = "ip --color=auto";
 
-          src = "exec $SHELL";
-
           # nix
           n = "nix-shell -p";
           nb = "nix build";
