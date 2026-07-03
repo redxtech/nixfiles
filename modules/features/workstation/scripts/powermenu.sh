@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # rofi script to show the powermenu
 # usage: powermenu
 

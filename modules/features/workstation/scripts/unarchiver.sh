@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # script to unarchive files using atool
 # usage: unarchive [file]
 

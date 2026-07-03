@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # rofi script to encode video files
 # usage: encoder [file]
 

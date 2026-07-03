@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # rofi script to encode files
 # usage: encode [files]
 # if multiple files are selected, they will be compressed into a single archive

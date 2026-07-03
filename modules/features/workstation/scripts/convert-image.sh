@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # rofi script to convert images
 # usage: convert-image [file]
 

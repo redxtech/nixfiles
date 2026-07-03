@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # rofi script to view or download youtube videos
 # usage: youtube <watch|download> <url>
 
