@@ -15,7 +15,7 @@
       den.aspects.bluetooth
       den.aspects.default-apps
       den.aspects.flatpak
-			den.aspects.gaming
+      den.aspects.gaming
       den.aspects.kde-connect
       den.aspects.monitors
       den.aspects.network
