@@ -39,7 +39,6 @@
         thunar = prev.thunar.override { thunarPlugins = [ prev.thunar-volman ]; };
       };
 
-      citron = inputs.citron.overlays.default;
       fenix = inputs.fenix.overlays.default;
       # hyprland = inputs.hyprland.overlays.default;
       # hyprland-contrib = inputs.hyprland-contrib.overlays.default;

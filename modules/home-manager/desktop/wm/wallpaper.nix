@@ -51,7 +51,7 @@ in
                   betterlockscreen
                   coreutils
                   findutils
-                  xorg.xrdb
+                  xrdb
                 ];
 
                 text = ''

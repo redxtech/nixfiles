@@ -96,6 +96,7 @@ in
         };
 
         tmux.enableShellIntegration = true;
+        historyWidget.command = "";
       };
 
       granted = {

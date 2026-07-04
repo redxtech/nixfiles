@@ -69,6 +69,8 @@ in
         package = pkgs.papirus-icon-theme;
       };
 
+      gtk4.theme = null;
+
       gtk3 = {
         extraConfig = {
           gtk-application-prefer-dark-theme = 1;
@@ -90,7 +92,7 @@ in
 
     qt = {
       enable = true;
-      platformTheme.name = "gtk";
+      platformTheme.name = "gtk3";
       style = {
         name = "gtk2";
         package = pkgs.qt6Packages.qt6gtk2;

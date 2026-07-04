@@ -52,7 +52,6 @@ in
             "$mod, Y, pin"
             "$mod, F, fullscreen"
             "$mod SHIFT, F, fullscreenstate"
-            "$mod CTRL, J, togglesplit" # dwindle only
             "$mod, P, pseudo" # dwindle only
             "$mod, V, togglespecialworkspace, hidden"
             "$mod SHIFT, V, movetoworkspacesilent, special:hidden"
@@ -63,9 +62,6 @@ in
             "$mod, bracketleft, workspace, m-1"
             "$mod, bracketright, workspace, m+1"
 
-            # hyprexpo toggle
-            "$mod, grave, hyprexpo:expo, toggle"
-
             # lock and sleep
             "$mod CTRL, L, exec, loginctl sleep-session"
 
@@ -74,7 +70,6 @@ in
             "$mod SHIFT, Return, exec, [float] ${a2u} kitty.desktop"
             "$mod CTRL, Return, exec, ${a2u} ${pkgs.foot}/bin/footclient"
             "$mod, SPACE, exec, ${a2u} ${scripts.rofi.app-launcher}"
-            "$mod SHIFT, SPACE, exec, ${a2u} ${scripts.rofi.app-launcher-alt}"
             "$mod SHIFT, S, exec, ${a2u} $terminal -e ssh quasar"
             "$mod, W, exec, ${a2u} firefox-nightly.desktop"
             "$mod, G, exec, ${a2u} nemo.desktop"

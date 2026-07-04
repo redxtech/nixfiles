@@ -9,7 +9,7 @@
   ninja,
   qt6,
   procps,
-  xorg,
+  libxrandr,
 }:
 
 let
@@ -39,7 +39,7 @@ stdenv.mkDerivation {
     cmake
     ninja
     procps
-    xorg.libXrandr
+    libxrandr
     qtbase
     qtEnv
   ];

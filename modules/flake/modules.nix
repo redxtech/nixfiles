@@ -41,7 +41,6 @@ in
         inputs.nur.modules.homeManager.default
         inputs.spicetify-nix.homeManagerModules.default
         inputs.tu.homeModules.default
-        inputs.vicinae.homeManagerModules.default
 
         extraArgs
 

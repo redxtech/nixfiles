@@ -90,6 +90,7 @@ in
           ente-cli # manage ente from cli
           espflash # esp flashing tool
           esptool # esp flashing tool
+          fastfetch # system info
           fd # better find
           ffmpeg # media multitool
           ffmpegthumbnailer # thumbnailer
@@ -119,7 +120,6 @@ in
           mesa-demos # opengl info (previously glxinfo)
           micro # editor
           most # pager
-          neofetch # system info
           nixfmt # nix formatter
           nixpkgs-review # nixpkgs PR reviewer
           nix-autobahn # dynamic executable helper
@@ -157,8 +157,8 @@ in
           xdg-utils # for xdg-open
           xdo # xdotool
           xfce4-exo # protocol handler
-          xorg.xev # keyboard event viewer
-          xorg.xmodmap # keyboard remapper
+          xev # keyboard event viewer
+          xmodmap # keyboard remapper
           yadm # dotfile manager
           yq-go # jq for yaml
           vcs # video contact sheet
@@ -241,7 +241,6 @@ in
           jqless = "jq -C | less -r";
           ly = "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
           md = "frogmouth";
-          neofetchk = "neofetch --backend kitty --source $HOME/.config/wall.png";
           "inodes-where" = "sudo du --inodes --separate-dirs --one-file-system / | sort -rh | head";
           npr = "npm run";
           ps_mem = "sudo ps_mem";
@@ -250,6 +249,7 @@ in
           rsync = "rsync --info=progress2 -r";
           shit = "sudo $(fc -ln -1)";
           todoist = mkIf (hasPackage "todoist") "todoist --color";
+          watchmem = "watch -n3 sudo ps_mem | tail -n+2 | head -n-3 | tail -n30 | tac";
           xclip = "xclip -selection c";
           yt-dlp-docker =
             let

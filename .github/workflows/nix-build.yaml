@@ -40,7 +40,6 @@ jobs:
         package:
           - beekeeper-studio-ultimate
           - cockpit-benchmark
-          - cockpit-docker
           - cockpit-file-sharing
           - cockpit-machines
           - cockpit-tailscale

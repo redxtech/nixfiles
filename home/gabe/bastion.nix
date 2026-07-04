@@ -26,7 +26,7 @@
     apps = with pkgs; [
       audacity # audio editor
       beekeeper-studio-ultimate # database manager
-      citron # switch emulator
+      eden # switch emulator
       deluge # torrent client
       dolphin-emu # gamecube/wii emulator
       ente-desktop # photos app

@@ -35,28 +35,12 @@ in
     virtualisation.oci-containers =
       let
         inherit (self.lib.containers) mkPorts;
-        inherit (self.lib.containers.labels.traefik cfgNet.address)
-          mkAllLabels
-          mkAllLabelsPort
-          ;
-
+        inherit (self.lib.containers.labels.traefik cfgNet.address) mkAllLabelsPort;
         mkData =
           name: "${config.users.users.${cfg.primaryUser}.home}/Documents/pod-config/" + name + ":/data";
       in
       {
         containers = {
-          startpage = mkIf cfg.services.startpage.enable {
-            image = "ghcr.io/redxtech/startpage";
-            labels = mkAllLabels "startpage" {
-              name = "startpage";
-              group = "utils";
-              icon = "https://raw.githubusercontent.com/redxtech/excalith-start-page/master/public/icon.svg";
-              href = "https://startpage.${cfgNet.address}";
-              desc = "custom startpage";
-            };
-            ports = [ "9009:3000" ];
-          };
-
           portainer = mkIf cfg.services.portainer.enable {
             image = "portainer/portainer-ee:latest";
             labels = mkAllLabelsPort "portainer" 9000 {
@@ -142,7 +126,7 @@ in
       with pkgs;
       mkIf cfg.services.cockpit.enable [
         cockpit-benchmark
-        cockpit-docker
+        # cockpit-docker
         cockpit-file-sharing
         cockpit-machines
         cockpit-tailscale

@@ -56,18 +56,6 @@ in
         enable = true;
         indicator = true;
       };
-
-      vicinae = {
-        enable = true;
-        systemd.enable = true;
-
-        settings = {
-          faviconService = "twenty"; # twenty | google | none
-          popToRootOnClose = true;
-          rootSearch.searchFiles = false;
-          theme.name = "dracula";
-        };
-      };
     };
 
     systemd.user.services = mkIf (!config.xsession.enable) {

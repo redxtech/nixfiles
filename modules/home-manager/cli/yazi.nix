@@ -21,6 +21,8 @@ in
       enable = true;
       enableFishIntegration = true;
 
+      shellWrapperName = "y";
+
       theme = {
         flavor =
           let

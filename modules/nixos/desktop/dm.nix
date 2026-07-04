@@ -40,16 +40,11 @@ in
               let
                 hyprland = config.programs.hyprland.package;
               in
-              ''
-                ${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd "uwsm start ${hyprland}/bin/start-hyprland"
-              '';
+              "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd 'uwsm start ${hyprland}/bin/start-hyprland'";
             user = "greeter";
           };
         };
       };
-
-      # set gdm to use wayland
-      displayManager.gdm.wayland = true;
     };
   };
 }

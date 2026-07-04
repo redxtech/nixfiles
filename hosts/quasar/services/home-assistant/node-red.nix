@@ -25,7 +25,6 @@ in
       bash
       git
       nodejs
-      nodePackages.npm
     ];
 
     sops.secrets.node-red = {

@@ -5,7 +5,7 @@
   mkYarnPackage,
   cargo-tauri,
   pkg-config,
-  nodePackages,
+  yarn,
   libayatana-appindicator,
   gtk3,
   webkitgtk,
@@ -64,7 +64,7 @@ rustPlatform.buildRustPackage rec {
   nativeBuildInputs = [
     rustPlatform.cargoSetupHook
     cargo-tauri
-    nodePackages.yarn
+    yarn
     pkg-config
   ];
 

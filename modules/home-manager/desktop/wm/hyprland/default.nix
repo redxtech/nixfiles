@@ -61,6 +61,9 @@ in
       package = null;
       portalPackage = null;
 
+      # TODO: update to use lua - maybe?
+      configType = "hyprlang";
+
       settings = {
         "$mod" = "SUPER";
 
@@ -96,8 +99,6 @@ in
 
         dwindle = {
           # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-          # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below;
-          pseudotile = "yes";
           preserve_split = "yes"; # you probably want this
           force_split = 2;
         };
@@ -109,7 +110,6 @@ in
 
         gesture = [
           "3,horizontal,workspace"
-          "3,vertical,dispatcher,hyprexpo:expo,toggle"
           "3,pinch,fullscreen"
           "4,pinch,fullscreen"
         ];
@@ -170,40 +170,7 @@ in
           "SWWW_TRANSITION_ANGLE,210"
           "APP2UNIT_SLICES,a=app-graphical.slice b=background-graphical.slice s=session-graphical.slice"
         ];
-
-        plugin = {
-          hyprexpo = {
-            columns = 3;
-            gap_size = 10;
-            bg_col = "rgb(${strings.removePrefix "#" config.user-theme.bg})";
-            workspace_method = "first 1";
-          };
-        };
       };
-
-      plugins =
-        with pkgs;
-        let
-          system = pkgs.stdenv.hostPlatform.system;
-          hyprland = inputs.hyprland.packages.${system}.hyprland;
-        in
-        with inputs.hyprland-plugins.packages.${system};
-        [
-          hyprexpo
-
-          (hyprland.stdenv.mkDerivation rec {
-            pname = "hyprselect";
-            version = "0.53.0";
-            src = fetchFromGitHub {
-              owner = "jmanc3";
-              repo = "hyprselect";
-              rev = "v${version}";
-              hash = "sha256-s2pbPTdPOAbC6nffxx1yPp3KvBIUhJ7t8tERY2/ti3Q=";
-            };
-            nativeBuildInputs = [ pkgs.pkg-config ] ++ hyprland.nativeBuildInputs;
-            buildInputs = [ hyprland ] ++ hyprland.buildInputs;
-          })
-        ];
 
       systemd = {
         enable = false;

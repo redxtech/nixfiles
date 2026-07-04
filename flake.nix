@@ -33,8 +33,7 @@
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
-    noctalia.url = "github:noctalia-dev/noctalia";
-    noctalia.inputs.nixpkgs.follows = "nixpkgs";
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -47,8 +46,6 @@
 
     tu.url = "github:redxtech/tu";
 
-    citron.url = "github:simonwjackson/citron.nix";
-    citron.inputs.nixpkgs.follows = "nixpkgs";
     deploy-rs.url = "github:serokell/deploy-rs";
     devenv.url = "github:cachix/devenv";
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
@@ -62,9 +59,19 @@
     nix-serve-ng.url = "github:aristanetworks/nix-serve-ng";
     solaar.url = "github:Svenum/Solaar-Flake/main";
     swww.url = "github:LGFae/swww";
-    vicinae.url = "github:vicinaehq/vicinae";
     xremap-flake.url = "github:xremap/nix-flake";
     nur.url = "github:nix-community/NUR";
+  };
+
+  nixConfig = {
+    extra-substituters = [
+      "https://noctalia.cachix.org"
+      "https://hyprland.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    ];
   };
 
   outputs =

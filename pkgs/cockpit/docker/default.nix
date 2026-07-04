@@ -2,8 +2,6 @@
   lib,
   fetchFromGitHub,
   buildNpmPackage,
-  python2,
-  nodePackages,
   sass,
   webpack-cli,
 }:
@@ -24,7 +22,7 @@ buildNpmPackage {
 
   nativeBuildInputs = [
     webpack-cli
-    nodePackages.sass
+    sass
   ];
 
   prePatch = ''
