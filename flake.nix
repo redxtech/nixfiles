@@ -64,6 +64,10 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-autobahn = {
+      url = "github:lassulus/nix-autobahn";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nixcord = {
       url = "github:FlameFlag/nixcord";
@@ -72,6 +76,10 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
+    solaar = {
+      url = "github:Svenum/Solaar-Flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

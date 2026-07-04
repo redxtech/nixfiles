@@ -18,6 +18,7 @@
       den.aspects.gaming
       den.aspects.kde-connect
       den.aspects.monitors
+      den.aspects.mouse
       den.aspects.network
       den.aspects.picker
       den.aspects.screenshot

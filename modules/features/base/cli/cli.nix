@@ -84,6 +84,7 @@
 
     homeManager =
       {
+        inputs',
         config,
         pkgs,
         lib,
@@ -131,7 +132,7 @@
             micro # text editor
             most # pager
             nixpkgs-review # nixpkgs PR reviewer
-            # nix-autobahn # dynamic executable runner tool # TODO: add from flake
+            inputs'.nix-autobahn.packages.nix-autobahn # dynamic executable runner tool # TODO: add from flake
             nix-du # du for the nix store
             nix-inspect # search nix store
             nix-update # update hashes in nix files
@@ -379,5 +380,10 @@
           };
         };
       };
+  };
+
+  flake-file.inputs.nix-autobahn = {
+    url = "github:lassulus/nix-autobahn";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
 }
