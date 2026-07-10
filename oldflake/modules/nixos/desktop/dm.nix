@@ -47,9 +47,6 @@ in
           };
         };
       };
-
-      # set gdm to use wayland
-      displayManager.gdm.wayland = true;
     };
   };
 }

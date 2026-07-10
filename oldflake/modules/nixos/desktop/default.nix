@@ -214,7 +214,7 @@ in
       # dbus packages
       services.dbus.packages = with pkgs; [
         gcr
-        python310Packages.dbus-python
+        python313Packages.dbus-python
       ];
 
       # udev

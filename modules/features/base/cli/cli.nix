@@ -247,6 +247,7 @@
               rgu = "rg -uu";
               rsync = "rsync --info=progress2 -r";
               shit = "sudo $(fc -ln -1)";
+              watchmem = "watch -n3 sudo ps_mem | tail -n+2 | head -n-3 | tail -n30 | tac";
               yt-dlp-docker = "docker run -it --rm -v ./:/data docker.io/bxggs/yt-dlp";
               vrg = mkIf (hasNeovim && hasRipgrep) "nvimrg";
 

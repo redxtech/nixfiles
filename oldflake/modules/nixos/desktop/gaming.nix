@@ -177,7 +177,7 @@ in
           #   name = "Desktop (Resized)";
           #   prep-cmd = [{
           #     do = ''
-          #       ${pkgs.bash}/bin/bash -c "${pkgs.xorg.xrandr}/bin/xrandr --output ${gaming.sunshine.monitor} --mode \"''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}\" --rate ''${SUNSHINE_CLIENT_FPS}"
+          #       ${pkgs.bash}/bin/bash -c "${pkgs.xrandr}/bin/xrandr --output ${gaming.sunshine.monitor} --mode \"''${SUNSHINE_CLIENT_WIDTH}x''${SUNSHINE_CLIENT_HEIGHT}\" --rate ''${SUNSHINE_CLIENT_FPS}"
           #     '';
           #     undo = "${pkgs.autorandr}/bin/autorandr --change";
           #   }];
@@ -270,10 +270,10 @@ in
         extraEnv.DRI_PRIME = mkIf gaming.prime.enable gaming.prime.dedicated;
         extraPkgs =
           pkgs: with pkgs; [
-            xorg.libXcursor
-            xorg.libXi
-            xorg.libXinerama
-            xorg.libXScrnSaver
+            libxcursor
+            libxi
+            libxinerama
+            libxScrnSaver
             libpng
             libpulseaudio
             libvorbis

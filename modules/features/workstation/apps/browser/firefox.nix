@@ -21,9 +21,7 @@
           enable = true;
           package = inputs'.firefox.packages.firefox-nightly-bin;
 
-          # TODO: move this to ${config.xdg.configHome}/mozilla/firefox
-          # and then remove the following line
-          configPath = ".mozilla/firefox";
+          configPath = "${config.xdg.configHome}/mozilla/firefox";
 
           profiles = {
             gabe = {

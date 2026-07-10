@@ -78,9 +78,6 @@ in
           portalPackage = hyprpkgs.xdg-desktop-portal-hyprland;
 
           withUWSM = true;
-
-          # custom module for hyprpolkitagent
-          polkitAgent.enable = false;
         };
 
       xdg.portal = {
