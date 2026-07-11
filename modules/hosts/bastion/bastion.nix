@@ -144,22 +144,53 @@
       den.aspects.vm
     ];
 
-    nixos = {
-      # imports = [ inputs.nixos-hardware.nixosModules.framework-16-7040-amd ];
+    nixos =
+      { config, ... }:
+      {
+        # imports = [ inputs.nixos-hardware.nixosModules.framework-16-7040-amd ];
 
-      # TODO: re-enable when not testing in a VM
-      # hardware.facter.reportPath = ./facter.json;
+        # TODO: re-enable when not testing in a VM
+        # hardware.facter.reportPath = ./facter.json;
 
-      system.stateVersion = "23.11";
+        system.stateVersion = "23.11";
 
-      gpu.amd = true;
+        gpu.amd = true;
 
-      # fix home-manager not working on temp VMs
-      # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115
-      # TODO: remove this when not testing in a VM
-      home-manager.useUserPackages = true;
-      home-manager.backupFileExtension = "bak";
-    };
+        backup = {
+          btrfs = {
+            enable = true;
+            subvolumes.gabe-home = "/home/gabe";
+          };
+
+          restic = {
+            enable = true;
+            backups = {
+              config = {
+                enable = true;
+                repoFile = config.sops.secrets.restic_repository_config.path;
+                passFile = config.sops.secrets.restic_password.path;
+              };
+              home = {
+                enable = true;
+                repoFile = config.sops.secrets.restic_repository_home.path;
+                passFile = config.sops.secrets.restic_password.path;
+              };
+            };
+          };
+        };
+
+        sops.secrets = {
+          restic_password.sopsFile = ../../../secrets/hosts/bastion/secrets.yaml;
+          restic_repository_config.sopsFile = ../../../secrets/hosts/bastion/secrets.yaml;
+          restic_repository_home.sopsFile = ../../../secrets/hosts/bastion/secrets.yaml;
+        };
+
+        # fix home-manager not working on temp VMs
+        # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115
+        # TODO: remove this when not testing in a VM
+        home-manager.useUserPackages = true;
+        home-manager.backupFileExtension = "bak";
+      };
 
     homeManager =
       { pkgs, ... }:

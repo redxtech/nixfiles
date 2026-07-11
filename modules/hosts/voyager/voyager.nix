@@ -121,7 +121,7 @@
       den.aspects.vm
     ];
 
-    nixos = {
+    nixos = { config, ... }: {
       imports = [ inputs.nixos-hardware.nixosModules.framework-16-7040-amd ];
 
       # TODO: re-enable when not testing in a VM
@@ -132,6 +132,29 @@
       time.timeZone = "America/Edmonton";
 
       gpu.amd = true;
+
+      backup = {
+        btrfs = {
+          enable = true;
+          subvolumes.gabe-home = "/home/gabe";
+        };
+
+        restic = {
+          enable = true;
+          backups = {
+            home = {
+              enable = true;
+              repoFile = config.sops.secrets.restic_repository_home.path;
+              passFile = config.sops.secrets.restic_password.path;
+            };
+          };
+        };
+      };
+
+      sops.secrets = {
+        restic_password.sopsFile = ../../../secrets/hosts/voyager/secrets.yaml;
+        restic_repository_home.sopsFile = ../../../secrets/hosts/voyager/secrets.yaml;
+      };
 
       # fix home-manager not working on temp VMs
       # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115

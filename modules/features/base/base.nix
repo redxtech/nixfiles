@@ -10,6 +10,7 @@
       den.aspects.style
 
       den.aspects.auto-mount
+      den.aspects.backup
       den.aspects.ssh
       den.aspects.tailscale
     ];
