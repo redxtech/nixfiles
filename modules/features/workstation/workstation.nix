@@ -19,7 +19,6 @@
       den.aspects.kde-connect
       den.aspects.monitors
       den.aspects.mouse
-      den.aspects.network
       den.aspects.picker
       den.aspects.screenshot
       den.aspects.scripts
@@ -39,6 +38,7 @@
 
       # include workstation-only sub-aspects
       den.aspects.editor._.for-workstation
+      den.aspects.network._.for-workstation
     ];
   };
 }

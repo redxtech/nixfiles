@@ -150,69 +150,6 @@ in
       "en_US.UTF-8/UTF-8"
     ];
 
-    # disable networkmanager-wait-online
-    systemd.services.NetworkManager-wait-online.enable = mkDefault false;
-
-    # enable hard-linking in nix store
-    nix.optimise.automatic = mkDefault true;
-
-    # boot config
-    boot = mkIf cfg.boot.enable {
-      loader = {
-        systemd-boot = {
-          enable = true;
-          configurationLimit = mkDefault 2;
-          consoleMode = "max";
-        };
-        timeout = mkDefault 1;
-        efi.canTouchEfiVariables = true;
-      };
-
-      initrd = {
-        verbose = false;
-        systemd.enable = true;
-      };
-
-      plymouth = {
-        enable = true;
-        theme = "colorful_loop";
-        themePackages = with pkgs; [ adi1090x-plymouth-themes ];
-      };
-
-      tmp.useTmpfs = true;
-
-      kernelParams = [
-        "quiet"
-        "loglevel=3"
-        "systemd.show_status=auto"
-        "udev.log_level=3"
-        "rd.udev.log_level=3"
-        "vt.global_cursor_default=0"
-      ];
-
-      binfmt.emulatedSystems = [
-        "aarch64-linux"
-        "x86_64-windows"
-      ];
-
-      supportedFilesystems = {
-        btrfs = mkIf cfg.fs.btrfs true;
-        zfs = mkIf cfg.fs.zfs true;
-      };
-      zfs.forceImportRoot = mkIf cfg.fs.zfs (mkDefault false);
-      consoleLogLevel = 0;
-    };
-
-    console = {
-      useXkbConfig = true;
-      earlySetup = mkDefault false;
-    };
-
-    systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
-
-    # cachix-agent
-    services.cachix-agent.enable = mkDefault true;
-
     # docker changes
     virtualisation.docker = {
       # fix	dns
@@ -221,40 +158,5 @@ in
         metrics-addr = "0.0.0.0:9323";
       };
     };
-
-    # tailscale
-    services.tailscale =
-      let
-        flags = [
-          "--advertise-exit-node"
-          "--ssh"
-        ];
-      in
-      mkIf cfg.tailscale {
-        enable = true;
-        openFirewall = true;
-        useRoutingFeatures = lib.mkDefault "both";
-        extraUpFlags = flags;
-        extraSetFlags = flags;
-      };
-
-    # network stuff
-    networking = {
-      networkmanager = {
-        enable = mkDefault true;
-        wifi.backend = "iwd";
-      };
-
-      # nftables.enable = mkDefault true; # TODO: enable when fixed in docker
-
-      # firewall for tailscale
-      firewall = {
-        checkReversePath = "loose";
-        allowedUDPPorts = [ 41641 ]; # Facilitate firewall punching
-      };
-    };
-
-    # needed for iwd
-    services.gnome.gnome-keyring.enable = true;
   };
 }

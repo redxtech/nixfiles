@@ -39,6 +39,7 @@
 
   # needed for zfs
   networking.hostId = "74996f49";
+  # TODO: should i switch it to 75d9f980 ? (etc/machine-id)
 
   swapDevices = [ ];
 }

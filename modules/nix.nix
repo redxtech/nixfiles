@@ -45,10 +45,17 @@
       };
     in
     {
-      nixos = {
-        inherit (cfg) nix nixpkgs;
+      nixos = lib.mkMerge [
+        {
+          inherit (cfg) nix nixpkgs;
 
-      };
+          systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
+        }
+        {
+          # enable hard-linking in nix store
+          nix.optimise.automatic = true;
+        }
+      ];
 
       homeManager =
         { config, ... }:

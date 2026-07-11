@@ -18,12 +18,13 @@
           extraUpFlags = flags;
           extraSetFlags = flags;
         };
+
       # firewall for tailscale
       networking.firewall = {
         checkReversePath = "loose";
         allowedUDPPorts = [ 41641 ]; # Facilitate firewall punching
       };
 
-      sops.secrets.tailscale-init-authkey = { };
+      sops.secrets.tailscale-init-authkey.sopsFile = ../../../secrets/hosts/common/secrets.yaml;
     };
 }

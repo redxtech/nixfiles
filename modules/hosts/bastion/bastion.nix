@@ -152,6 +152,8 @@
         # TODO: re-enable when not testing in a VM
         # hardware.facter.reportPath = ./facter.json;
 
+        networking.hostId = "9bc0520d";
+
         system.stateVersion = "23.11";
 
         gpu.amd = true;

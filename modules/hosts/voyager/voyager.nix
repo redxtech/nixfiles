@@ -127,6 +127,8 @@
       # TODO: re-enable when not testing in a VM
       # hardware.facter.reportPath = ./facter.json;
 
+      networking.hostId = "bd282539";
+
       system.stateVersion = "24.05";
 
       time.timeZone = "America/Edmonton";

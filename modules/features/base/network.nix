@@ -4,20 +4,27 @@
       { lib, ... }:
       {
         # disable networkmanager-wait-online
-        systemd.services.NetworkManager-wait-online.enable = lib.mkDefault false;
+        systemd.services.NetworkManager-wait-online.enable = false;
 
         networking.networkmanager = {
           enable = lib.mkDefault true;
           wifi.backend = "iwd";
         };
+
+        # networking.nftables.enable = mkDefault true; # TODO: enable when fixed in docker
+
+        # needed for iwd
+        services.gnome.gnome-keyring.enable = true;
       };
+
     homeManager =
       { pkgs, ... }:
       {
         home.packages = with pkgs; [
           slurm-nm # network monitor
         ];
-        services.network-manager-applet.enable = true;
       };
+
+    provides.for-workstation.homeManager.services.network-manager-applet.enable = true;
   };
 }

@@ -3,7 +3,9 @@
 {
   den.aspects.base = {
     includes = [
+      den.aspects.boot
       den.aspects.cli
+      den.aspects.network
       den.aspects.nix-config
       den.aspects.root
       den.aspects.secrets
