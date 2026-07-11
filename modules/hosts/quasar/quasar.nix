@@ -17,6 +17,18 @@
       # den.aspects.vm
     ];
 
+    settings.base = {
+      hostname = "quasar";
+      dockerDNS = [ "192.168.1.1" ];
+      fs.btrfs = true;
+      fs.zfs = true;
+
+      # gpu = {
+      #   enable = true;
+      #   # nvidia.enable = true;
+      # };
+    };
+
     nixos = {
       # imports = [ inputs.nixos-hardware.nixosModules.framework-16-7040-amd ];
 

@@ -1,4 +1,4 @@
-{ inputs, self, ... }:
+{ inputs, ... }:
 
 {
   den.aspects.secrets = {

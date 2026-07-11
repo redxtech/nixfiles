@@ -5,7 +5,19 @@
     users.gabe = { };
 
     settings = {
-      base.hasDisplay = true;
+      base = {
+        hostname = "bastion";
+        hasDisplay = true;
+        fs.btrfs = true;
+        dockerDNS = [ "192.168.1.1" ];
+        # yubiauth.lockOnRemove.enable = true;
+
+        # gpu = {
+        #   enable = true;
+        #   amd = true;
+        # };
+      };
+
       monitors = {
         enable = true;
         monitors =

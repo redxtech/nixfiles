@@ -9,15 +9,6 @@
   ];
 
   base = {
-    enable = true;
-    hostname = "quasar";
-    dockerDNS = [ "192.168.1.1" ];
-
-    fs = {
-      btrfs = true;
-      zfs = true;
-    };
-
     gpu = {
       enable = true;
       # nvidia.enable = true;
