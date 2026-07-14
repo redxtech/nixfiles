@@ -113,6 +113,14 @@
             powertop
           ]
           ++ lib.optionals cfg.fs.btrfs [ btrfs-progs ];
+
+        # fix shutdown taking a long time
+        # https://gist.github.com/worldofpeace/27fcdcb111ddf58ba1227bf63501a5fe
+        # TODO: do we need this?
+        # systemd.settings.Manager = {
+        #   DefaultTimeoutStopSec = "10s";
+        #   DefaultTimeoutStartSec = "10s";
+        # };
       };
 
     homeManager = {
