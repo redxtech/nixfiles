@@ -12,18 +12,11 @@
       {
         virtualisation.oci-containers.containers =
           let
-            cfg = host.settings.base;
-
-            # TODO: fix when network aspect is set up
-            inherit (cfg) domain hostname;
-            cfgNet = {
-              address = "${hostname}.${domain}";
-            };
-
+            inherit (config.networking) fqdn;
             inherit (self.lib.containers) mkPorts;
-            inherit (self.lib.containers.labels.traefik cfgNet.address)
-              mkAllLabelsPort
-              ;
+            inherit (self.lib.containers.labels.traefik fqdn) mkAllLabelsPort;
+
+            cfg = host.settings.base;
 
             mkData =
               name: "${config.users.users.${cfg.primaryUser}.home}/Documents/pod-config/" + name + ":/data";
@@ -35,12 +28,12 @@
                 name = "portainer";
                 group = "admin";
                 icon = "portainer.svg";
-                href = "https://portainer.${cfgNet.address}";
+                href = "https://portainer.${fqdn}";
                 desc = "docker management interface";
                 weight = -90;
                 widget = {
                   type = "portainer";
-                  url = "https://portainer.${cfgNet.address}";
+                  url = "https://portainer.${fqdn}";
                   env = "3";
                   key = "{{HOMEPAGE_VAR_PORTAINER}}";
                 };

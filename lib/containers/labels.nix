@@ -37,14 +37,14 @@ rec {
     mainLabels // widgetLabels;
 
   # traefik labels
-  traefik = address: rec {
+  traefik = fqdn: rec {
     mkTLstr = name: type: "traefik.http.${type}.${name}"; # make traefik label
     mkTLRstr = name: "${mkTLstr name "routers"}"; # make traefik router label
     mkTLSstr = name: "${mkTLstr name "services"}"; # make traefik router label
     mkTLHstr = name: "${mkTLstr name "middlewares"}.headers"; # middleware label
     mkLabels = name: {
       "traefik.enable" = "true";
-      "${mkTLRstr name}.rule" = "Host(`${name}.${address}`)";
+      "${mkTLRstr name}.rule" = "Host(`${name}.${fqdn}`)";
       "${mkTLRstr name}.entrypoints" = "websecure";
       "${mkTLRstr name}.tls" = "true";
       "${mkTLRstr name}.tls.certresolver" = "cloudflare";

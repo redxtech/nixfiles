@@ -4,14 +4,13 @@
   den.aspects.acme.nixos =
     { host, config, ... }:
     let
-      cfg = host.settings.base;
-      inherit (cfg) hostname domain;
+      inherit (config.networking) fqdn hostName;
     in
     {
       security.acme = {
         acceptTerms = true;
         defaults = {
-          email = "acme-${hostname}@gabe.super.fish";
+          email = "acme-${hostName}@gabe.super.fish";
           dnsResolver = "1.1.1.1:53";
           dnsProvider = "cloudflare";
           environmentFile = config.sops.secrets.cloudflare_acme.path;
@@ -19,9 +18,9 @@
 
         # ssl certs for each host
         certs = {
-          "${hostname}.${domain}" = {
-            domain = "${hostname}.${domain}";
-            extraDomainNames = [ "*.${hostname}.${domain}" ];
+          ${fqdn} = {
+            domain = fqdn;
+            extraDomainNames = [ "*.${fqdn}" ];
             group = lib.mkIf config.services.traefik.enable config.services.traefik.group;
           };
         };

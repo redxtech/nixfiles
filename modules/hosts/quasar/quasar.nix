@@ -7,7 +7,6 @@
 
     settings = {
       base = {
-        hostname = "quasar";
         dockerDNS = [ "192.168.1.1" ];
         fs.btrfs = true;
         fs.zfs = true;

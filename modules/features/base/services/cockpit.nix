@@ -11,13 +11,8 @@
         ...
       }:
       let
+        inherit (config.networking) fqdn hostName;
         cfg = host.settings.base;
-
-        # TODO: fix when network aspect is set up
-        inherit (cfg) domain hostname;
-        cfgNet = {
-          address = "${hostname}.${domain}";
-        };
       in
       {
         services.cockpit = {
@@ -38,13 +33,12 @@
           allowed-origins = [
             "http://localhost:9090"
             "ws://localhost:9090"
-            "http://${cfg.hostname}:9090"
-            "ws://${cfg.hostname}:9090"
-
-            "https://${cfgNet.address}"
-            "wss://${cfgNet.address}"
-            "https://cockpit.${cfgNet.address}"
-            "wss://cockpit.${cfgNet.address}"
+            "http://${hostName}:9090"
+            "ws://${hostName}:9090"
+            "https://${fqdn}"
+            "wss://${fqdn}"
+            "https://cockpit.${fqdn}"
+            "wss://cockpit.${fqdn}"
           ];
 
           settings.WebService = {

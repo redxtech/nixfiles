@@ -6,7 +6,6 @@
 
     settings = {
       base = {
-        hostname = "voyager";
         hasDisplay = true;
         fs.btrfs = true;
         dockerDNS = [ "192.168.1.1" ];

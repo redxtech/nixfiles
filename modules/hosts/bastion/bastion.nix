@@ -6,7 +6,6 @@
 
     settings = {
       base = {
-        hostname = "bastion";
         hasDisplay = true;
         fs.btrfs = true;
         dockerDNS = [ "192.168.1.1" ];

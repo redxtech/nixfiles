@@ -3,18 +3,6 @@
 {
   den.aspects.base = {
     settings = {
-      hostname = lib.mkOption {
-        type = lib.types.str;
-        default = "nixos";
-        description = "The hostname of the machine.";
-      };
-
-      domain = lib.mkOption {
-        type = lib.types.str;
-        default = "sucha.foo";
-        description = "The domain cluster";
-      };
-
       hasDisplay = lib.mkEnableOption "Whether the host has a display";
 
       primaryUser = lib.mkOption {
@@ -86,7 +74,7 @@
         cfg = host.settings.base;
       in
       {
-        networking.hostName = cfg.hostname;
+        networking.domain = lib.mkDefault "sucha.foo";
 
         time.timeZone = lib.mkDefault cfg.tz;
 
