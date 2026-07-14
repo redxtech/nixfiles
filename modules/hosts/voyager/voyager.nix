@@ -12,13 +12,10 @@
         dockerDNS = [ "192.168.1.1" ];
         # yubiauth.lockOnRemove.enable = true;
 
-        # gpu = {
-        #   enable = true;
-        #   amd = true;
-        # };
-
         # clamav.daily = false;
       };
+
+      gpu.amd = true;
 
       workstation.isLaptop = false;
       monitors = {
@@ -146,8 +143,6 @@
       system.stateVersion = "24.05";
 
       time.timeZone = "America/Edmonton";
-
-      gpu.amd = true;
 
       backup = {
         btrfs = {

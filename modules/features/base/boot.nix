@@ -4,7 +4,7 @@
   den.aspects.boot.nixos =
     { host, pkgs, ... }:
     let
-      cfg = host.config.base;
+      cfg = host.settings.base;
     in
     {
       boot = {

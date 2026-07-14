@@ -68,7 +68,7 @@
     nixos =
       { host, pkgs, ... }:
       let
-        cfg = host.config.base;
+        cfg = host.settings.base;
       in
       {
         networking.hostName = cfg.hostname;

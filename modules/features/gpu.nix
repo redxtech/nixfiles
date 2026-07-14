@@ -1,28 +1,29 @@
-{ inputs, self, ... }:
+{ lib, ... }:
 
 {
   den.aspects.gpu = {
+    settings = {
+      amd = lib.mkEnableOption "AMD GPU support";
+
+      nvidia = {
+        enable = lib.mkEnableOption "NVIDIA GPU support";
+        prime = lib.mkEnableOption "NVIDIA Prime support";
+        turingOrNewer = lib.mkEnableOption "NVIDIA Turing or newer support";
+      };
+    };
+
     nixos =
       {
+        host,
         config,
         pkgs,
         lib,
         ...
       }:
       let
-        cfg = config.gpu;
+        cfg = host.settings.gpu;
       in
       {
-        options.gpu = {
-          amd = lib.mkEnableOption "AMD GPU support";
-
-          nvidia = {
-            enable = lib.mkEnableOption "NVIDIA GPU support";
-            prime = lib.mkEnableOption "NVIDIA Prime support";
-            turingOrNewer = lib.mkEnableOption "NVIDIA Turing or newer support";
-          };
-        };
-
         config = lib.mkIf (cfg.amd || cfg.nvidia.enable) {
           # ensure only one of amd or nvidia is enabled
           assertions = [
@@ -41,10 +42,18 @@
             clinfo # OpenCL info tool
           ];
 
+          boot.initrd.kernelModules =
+            (lib.optional cfg.amd "amdgpu") ++ (lib.optional cfg.nvidia.enable "nvidia");
+
+          # TODO: check if we need this?
           services.xserver.videoDrivers =
             (lib.optional cfg.amd "amdgpu") ++ (lib.optional cfg.nvidia.enable "nvidia");
 
-          hardware.graphics.extraPackages = lib.optionals cfg.amd [ pkgs.rocmPackages.clr.icd ];
+          hardware.graphics = {
+            enable = true;
+            enable32Bit = true;
+            extraPackages = lib.optionals cfg.amd [ pkgs.rocmPackages.clr.icd ];
+          };
 
           # from https://nixos.wiki/wiki/Nvidia
           hardware.nvidia = lib.mkIf cfg.nvidia.enable {

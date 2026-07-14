@@ -11,22 +11,21 @@
       # den.aspects.quasar-fs
       den.aspects.base
       # den.aspects.server
-      # den.aspects.gpu
+      den.aspects.gpu
 
       # until no longer on a VM
       # den.aspects.vm
     ];
 
-    settings.base = {
-      hostname = "quasar";
-      dockerDNS = [ "192.168.1.1" ];
-      fs.btrfs = true;
-      fs.zfs = true;
+    settings = {
+      base = {
+        hostname = "quasar";
+        dockerDNS = [ "192.168.1.1" ];
+        fs.btrfs = true;
+        fs.zfs = true;
+      };
 
-      # gpu = {
-      #   enable = true;
-      #   # nvidia.enable = true;
-      # };
+      # gpu.nvidia.enable = true;
     };
 
     nixos = {
@@ -36,8 +35,6 @@
       # hardware.facter.reportPath = ./facter.json;
 
       system.stateVersion = "23.11";
-
-      gpu.nvidia.enable = true;
 
       # fix home-manager not working on temp VMs
       # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115

@@ -11,12 +11,9 @@
         fs.btrfs = true;
         dockerDNS = [ "192.168.1.1" ];
         # yubiauth.lockOnRemove.enable = true;
-
-        # gpu = {
-        #   enable = true;
-        #   amd = true;
-        # };
       };
+
+      gpu.amd = true;
 
       monitors = {
         enable = true;
@@ -167,8 +164,6 @@
         networking.hostId = "9bc0520d";
 
         system.stateVersion = "23.11";
-
-        gpu.amd = true;
 
         backup = {
           btrfs = {
