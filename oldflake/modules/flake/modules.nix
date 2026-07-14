@@ -56,7 +56,6 @@ in
         inputs.nix-serve-ng.nixosModules.default
         inputs.solaar.nixosModules.default
         inputs.sops-nix.nixosModules.sops
-        inputs.xremap-flake.nixosModules.default
 
         ../../hosts/common
 

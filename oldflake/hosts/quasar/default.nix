@@ -15,8 +15,6 @@
     };
   };
 
-  services.xremap.enable = false;
-
   nas = {
     enable = true;
     domain = "nas.gabedunn.dev";

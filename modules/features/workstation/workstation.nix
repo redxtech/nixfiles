@@ -20,6 +20,7 @@
       den.aspects.monitors
       den.aspects.mouse
       den.aspects.picker
+      den.aspects.remaps
       den.aspects.screenshot
       den.aspects.scripts
       den.aspects.xdg

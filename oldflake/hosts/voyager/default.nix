@@ -23,7 +23,6 @@
     enable = true;
     isLaptop = true;
     useZen = true;
-    remap = true;
     wm = "hyprland";
 
     gaming = {

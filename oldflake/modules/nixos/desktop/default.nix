@@ -43,20 +43,6 @@ in
       default = true;
       description = "Install the Solaar package for Logitech devices.";
     };
-
-    remap = mkOption {
-      type = bool;
-      default = false;
-      description = "Remap keys using xremap.";
-    };
-
-    remaps = mkOption {
-      type = attrsOf str;
-      default = {
-        "CapsLock" = "SUPER_L";
-      };
-      description = "Remap keys using xremap.";
-    };
   };
 
   config =
@@ -143,17 +129,6 @@ in
         touchegg.enable = mkDefault cfg.isLaptop;
         tumbler.enable = mkDefault true;
         upower.enable = mkDefault cfg.isLaptop;
-
-        xremap = {
-          enable = cfg.remap;
-          withHypr = true;
-          config.modmap = [
-            {
-              name = "Global";
-              remap = cfg.remaps;
-            }
-          ];
-        };
       };
 
       hardware = {

@@ -88,19 +88,6 @@ in
       qemuGuest.enable = true;
       openssh.settings.PermitRootLogin = mkForce "yes";
 
-      xremap = {
-        enable = true;
-        withX11 = true;
-        config.modmap = [
-          {
-            name = "Global";
-            remap = {
-              "CapsLock" = "SUPER_L";
-            };
-          }
-        ];
-      };
-
       displayManager.autoLogin.user = mkForce "gabe";
     };
 
