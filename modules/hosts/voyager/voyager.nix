@@ -17,7 +17,9 @@
 
       gpu.amd = true;
 
+      # TODO: remove this when not testing in a VM
       workstation.isLaptop = false;
+
       monitors = {
         enable = true;
         monitors =

@@ -37,12 +37,6 @@ in
       default = false;
       description = "Use the zen kernel.";
     };
-
-    useSolaar = mkOption {
-      type = bool;
-      default = true;
-      description = "Install the Solaar package for Logitech devices.";
-    };
   };
 
   config =
@@ -125,7 +119,6 @@ in
         blueman.enable = mkDefault true;
         printing.enable = mkDefault false;
         ratbagd.enable = mkDefault true;
-        solaar.enable = mkDefault cfg.useSolaar;
         touchegg.enable = mkDefault cfg.isLaptop;
         tumbler.enable = mkDefault true;
         upower.enable = mkDefault cfg.isLaptop;
