@@ -12,7 +12,6 @@
       den.aspects.audio
       den.aspects.autostart
       den.aspects.bar
-      den.aspects.bluetooth
       den.aspects.default-apps
       den.aspects.flatpak
       den.aspects.gaming
@@ -38,6 +37,7 @@
       den.aspects.video-player
 
       # include workstation-only sub-aspects
+      den.aspects.bluetooth._.for-workstation
       den.aspects.editor._.for-workstation
       den.aspects.network._.for-workstation
     ];

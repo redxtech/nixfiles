@@ -78,55 +78,12 @@ in
       };
 
       services = {
-        blueman.enable = mkDefault true;
         printing.enable = mkDefault false;
         ratbagd.enable = mkDefault true;
         upower.enable = mkDefault cfg.isLaptop;
       };
 
-      hardware = {
-        bluetooth.enable = mkDefault true;
-        bluetooth.powerOnBoot = mkDefault true;
-        graphics.enable = mkDefault true;
-      };
-
-      systemd.user.services.mpris-proxy = mkIf config.hardware.bluetooth.enable {
-        description = "Mpris proxy";
-        after = [
-          "network.target"
-          "sound.target"
-        ];
-        wantedBy = [ "default.target" ];
-        serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
-      };
-
-      # audio config (pipewire)
-      security.rtkit.enable = true;
-      services.pulseaudio.enable = false;
-
-      services.pipewire = {
-        enable = mkDefault true;
-        alsa.enable = mkDefault true;
-        alsa.support32Bit = mkDefault true;
-        pulse.enable = mkDefault true;
-        # jack.enable = true;
-
-        wireplumber = {
-          extraConfig."10-bluez" = {
-            "monitor.bluez.properties" = {
-              "bluez5.enable-sbc-xq" = true;
-              "bluez5.enable-msbc" = true;
-              "bluez5.enable-hw-volume" = true;
-              "bluez5.headset-roles" = [
-                "hsp_hs"
-                "hsp_ag"
-                "hfp_hf"
-                "hfp_ag"
-              ];
-            };
-          };
-        };
-      };
+      hardware.graphics.enable = mkDefault true;
 
       services.auto-cpufreq.enable = mkIf cfg.isLaptop true;
       services.power-profiles-daemon.enable = mkIf cfg.isLaptop false;

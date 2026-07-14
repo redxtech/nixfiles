@@ -58,6 +58,7 @@
 
     includes = [
       den.aspects.boot
+      den.aspects.bluetooth
       den.aspects.cli
       den.aspects.network
       den.aspects.nix-config
