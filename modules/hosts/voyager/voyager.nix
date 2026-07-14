@@ -10,9 +10,6 @@
         fs.btrfs = true;
         dockerDNS = [ "192.168.1.1" ];
         useZen = true;
-        # yubiauth.lockOnRemove.enable = true;
-
-        # clamav.daily = false;
       };
 
       gpu.amd = true;

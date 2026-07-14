@@ -5,6 +5,7 @@
     includes = [
       den.aspects.av
       den.aspects.acme
+      den.aspects.yubikey
     ];
 
     nixos = { host, pkgs, ... }: {

@@ -7,8 +7,6 @@
   ];
 
   base = {
-    yubiauth.lockOnRemove.enable = true;
-
     gpu = {
       enable = true;
       amd = true;

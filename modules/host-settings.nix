@@ -1,5 +1,3 @@
-{ den, ... }:
-
 # pass host settings to nixos and home-manager
 {
   den.aspects.host-settings = (

@@ -26,6 +26,6 @@
         };
       };
 
-      sops.secrets.cloudflare_acme.sopsFile = ../../../secrets/hosts/common/secrets.yaml;
+      sops.secrets.cloudflare_acme.sopsFile = ../../../../secrets/hosts/common/secrets.yaml;
     };
 }

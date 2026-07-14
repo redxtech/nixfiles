@@ -15,6 +15,8 @@
 
         # needed for iwd
         services.gnome.gnome-keyring.enable = true;
+
+        # TODO: look into networking.search
       };
 
     homeManager =
