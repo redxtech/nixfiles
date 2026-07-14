@@ -1,9 +1,20 @@
-{ inputs, den, ... }:
+{ den, ... }:
 
 {
   den.hosts.x86_64-linux.quasar = {
     users.gabe = { };
     # users.data = { };
+
+    settings = {
+      base = {
+        hostname = "quasar";
+        dockerDNS = [ "192.168.1.1" ];
+        fs.btrfs = true;
+        fs.zfs = true;
+      };
+
+      # gpu.nvidia.enable = true;
+    };
   };
 
   den.aspects.quasar = {
@@ -16,17 +27,6 @@
       # until no longer on a VM
       # den.aspects.vm
     ];
-
-    settings = {
-      base = {
-        hostname = "quasar";
-        dockerDNS = [ "192.168.1.1" ];
-        fs.btrfs = true;
-        fs.zfs = true;
-      };
-
-      # gpu.nvidia.enable = true;
-    };
 
     nixos = {
       # imports = [ inputs.nixos-hardware.nixosModules.framework-16-7040-amd ];

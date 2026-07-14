@@ -5,6 +5,7 @@
     nixos = {
       imports = [ inputs.solaar.nixosModules.default ];
 
+      services.ratbagd.enable = true;
       services.solaar.enable = true;
 
       hardware.logitech.wireless.enable = true;

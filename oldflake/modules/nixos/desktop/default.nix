@@ -79,11 +79,8 @@ in
 
       services = {
         printing.enable = mkDefault false;
-        ratbagd.enable = mkDefault true;
         upower.enable = mkDefault cfg.isLaptop;
       };
-
-      hardware.graphics.enable = mkDefault true;
 
       services.auto-cpufreq.enable = mkIf cfg.isLaptop true;
       services.power-profiles-daemon.enable = mkIf cfg.isLaptop false;

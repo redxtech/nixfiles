@@ -60,7 +60,6 @@
   security.sudo.wheelNeedsPassword = false;
 
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia-container-toolkit.enable = true;
 
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 

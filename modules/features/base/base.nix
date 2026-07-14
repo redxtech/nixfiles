@@ -62,14 +62,22 @@
       den.aspects.cli
       den.aspects.network
       den.aspects.nix-config
+      den.aspects.oom
       den.aspects.root
       den.aspects.secrets
+      den.aspects.security
       den.aspects.style
+      den.aspects.virtualisation
+      den.aspects.virtualisation._.containers
+
+      # services
+      den.aspects.cockpit
+      den.aspects.portainer
 
       den.aspects.auto-mount
       den.aspects.backup
       den.aspects.ssh
-      den.aspects.tailscale
+      den.aspects.tailscale # TODO: move to network
     ];
 
     nixos =
