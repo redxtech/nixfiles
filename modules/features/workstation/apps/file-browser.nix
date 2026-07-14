@@ -4,6 +4,10 @@
   den.aspects.file-browser = {
     settings.enableThunar = lib.mkEnableOption "Whether to enable Thunar";
 
+    nixos = {
+      services.tumbler.enable = true;
+    };
+
     # TODO: re-add custom actions when scripts are available
     homeManager =
       {

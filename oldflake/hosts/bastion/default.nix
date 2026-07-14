@@ -17,7 +17,6 @@
 
   desktop = {
     enable = true;
-    useZen = true;
     wm = "hyprland";
 
     gaming = {

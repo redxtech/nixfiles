@@ -6,6 +6,9 @@
       imports = [ inputs.solaar.nixosModules.default ];
 
       services.solaar.enable = true;
+
+      hardware.logitech.wireless.enable = true;
+      hardware.logitech.wireless.enableGraphical = true;
     };
 
     homeManager.xdg.configFile = {

@@ -22,7 +22,6 @@
   desktop = {
     enable = true;
     isLaptop = true;
-    useZen = true;
     wm = "hyprland";
 
     gaming = {

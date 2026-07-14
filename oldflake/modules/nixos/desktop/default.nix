@@ -25,18 +25,6 @@ in
       default = false;
       description = "Enable laptop-specific settings.";
     };
-
-    apps = mkOption {
-      type = types.listOf types.package;
-      default = [ ];
-      description = "Desktop applications to install";
-    };
-
-    useZen = mkOption {
-      type = bool;
-      default = false;
-      description = "Use the zen kernel.";
-    };
   };
 
   config =
@@ -44,29 +32,6 @@ in
       inherit (lib) concatStringsSep mkDefault;
     in
     mkIf cfg.enable {
-      # use zen kernel if enabled
-      boot.kernelPackages = mkIf cfg.useZen pkgs.linuxKernel.packages.linux_zen;
-
-      # desktop apps
-      environment.systemPackages =
-        with pkgs;
-        [
-          # gui apps
-          inputs.firefox.packages.${stdenv.hostPlatform.system}.firefox-nightly-bin
-          gnome-software
-          kitty
-          mpv
-
-          # theme packages
-          dracula-theme
-          papirus-icon-theme
-          vimix-icon-theme
-
-          # other packages
-          fontforge
-        ]
-        ++ cfg.apps;
-
       # font config
       fonts = {
         fontconfig = {
@@ -108,9 +73,6 @@ in
       programs = {
         dconf.enable = mkDefault true;
         gnupg.agent.enable = true;
-        kdeconnect.enable = mkDefault true;
-        localsend.enable = true;
-        nix-ld.enable = mkDefault true;
         partition-manager.enable = true;
         xfconf.enable = mkDefault true;
       };
@@ -119,16 +81,12 @@ in
         blueman.enable = mkDefault true;
         printing.enable = mkDefault false;
         ratbagd.enable = mkDefault true;
-        touchegg.enable = mkDefault cfg.isLaptop;
-        tumbler.enable = mkDefault true;
         upower.enable = mkDefault cfg.isLaptop;
       };
 
       hardware = {
         bluetooth.enable = mkDefault true;
         bluetooth.powerOnBoot = mkDefault true;
-        logitech.wireless.enable = mkDefault true;
-        logitech.wireless.enableGraphical = mkDefault true;
         graphics.enable = mkDefault true;
       };
 

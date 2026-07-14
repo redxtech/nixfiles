@@ -48,6 +48,12 @@
         default = [ ];
         description = "DNS servers to use for docker";
       };
+
+      useZen = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Use the zen kernel.";
+      };
     };
 
     includes = [
@@ -77,6 +83,9 @@
 
         # nixos-native user management
         services.userborn.enable = true;
+
+        # TODO: look into cachy kernel
+        boot.kernelPackages = lib.mkIf cfg.useZen pkgs.linuxKernel.packages.linux_zen;
 
         # defaults
         hardware.enableRedistributableFirmware = lib.mkDefault true;
