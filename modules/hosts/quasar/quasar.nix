@@ -1,4 +1,4 @@
-{ den, ... }:
+{ den, inputs, ... }:
 
 {
   den.hosts.x86_64-linux.quasar = {
@@ -28,7 +28,11 @@
     ];
 
     nixos = {
-      # imports = [ inputs.nixos-hardware.nixosModules.framework-16-7040-amd ];
+      imports = with inputs.nixos-hardware.nixosModules; [
+        common-cpu-intel-cpu-only
+        common-gpu-nvidia-nonprime
+        common-pc-ssd
+      ];
 
       # TODO: re-enable when not testing in a VM
       # hardware.facter.reportPath = ./facter.json;

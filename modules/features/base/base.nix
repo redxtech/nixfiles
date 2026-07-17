@@ -48,9 +48,9 @@
       den.aspects.boot
       den.aspects.bluetooth
       den.aspects.cli
+      den.aspects.memory
       den.aspects.network
       den.aspects.nix-config
-      den.aspects.oom
       den.aspects.root
       den.aspects.secrets
       den.aspects.security

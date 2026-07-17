@@ -74,6 +74,9 @@
               };
             };
           };
+
+          nixpkgs.config.rocmSupport = cfg.amd;
+          nixpkgs.config.cudaSupport = cfg.nvidia.enable;
         };
       };
   };

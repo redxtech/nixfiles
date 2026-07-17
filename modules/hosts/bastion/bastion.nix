@@ -1,4 +1,9 @@
-{ den, self, ... }:
+{
+  den,
+  self,
+  inputs,
+  ...
+}:
 
 {
   den.hosts.x86_64-linux.bastion = {
@@ -155,7 +160,11 @@
     nixos =
       { config, ... }:
       {
-        # imports = [ inputs.nixos-hardware.nixosModules.framework-16-7040-amd ];
+        imports = with inputs.nixos-hardware.nixosModules; [
+          common-cpu-amd
+          common-gpu-amd
+          common-pc-ssd
+        ];
 
         # TODO: re-enable when not testing in a VM
         # hardware.facter.reportPath = ./facter.json;

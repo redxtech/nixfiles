@@ -30,6 +30,7 @@
             ];
             auto-optimise-store = lib.mkDefault true;
             warn-dirty = false;
+            allow-import-from-derivation = true;
             download-buffer-size = 1073741824;
           };
 
@@ -38,6 +39,7 @@
           registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
         };
 
+        # nixpkgs.overlays = builtins.attrValues self.overlays;
         nixpkgs.config = {
           allowUnfree = true;
           nvidia.acceptLicense = true;

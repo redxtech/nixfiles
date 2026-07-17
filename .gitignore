@@ -2,5 +2,8 @@ result
 .direnv
 .devenv
 
+# worktrees
+.worktrees
+
 # vm images
 *.qcow2
