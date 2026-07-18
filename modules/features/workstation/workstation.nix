@@ -26,13 +26,13 @@
 
       # apps
       den.aspects.browser
-      den.aspects.spotify
-      den.aspects.discord
+      den.aspects.chat
       den.aspects.email
       den.aspects.file-browser
       den.aspects.image-viewer
       den.aspects.misc-apps
       den.aspects.screen-recorder
+      den.aspects.spotify
       den.aspects.terminal
       den.aspects.video-player
 
