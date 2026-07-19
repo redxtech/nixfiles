@@ -4,6 +4,7 @@
       { pkgs, ... }:
       {
         programs.localsend.enable = true;
+        programs.partition-manager.enable = true;
       };
 
     homeManager =

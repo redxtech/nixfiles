@@ -60,6 +60,8 @@
         environment.systemPackages = with pkgs; [
           cantarell-fonts
           inter
+          iosevka
+          # iosevka-custom
           xkcd-font
           nerd-fonts.symbols-only
         ];

@@ -13,12 +13,14 @@
       den.aspects.autostart
       den.aspects.bar
       den.aspects.default-apps
+      den.aspects.devices
       den.aspects.flatpak
       den.aspects.gaming
       den.aspects.kde-connect
       den.aspects.monitors
       den.aspects.mouse
       den.aspects.picker
+      den.aspects.power
       den.aspects.remaps
       den.aspects.screenshot
       den.aspects.scripts
@@ -42,5 +44,10 @@
       den.aspects.network._.for-workstation
       # den.aspects.virtualisation._.waydroid
     ];
+
+    nixos = { pkgs, ... }: {
+      programs.dconf.enable = true;
+      programs.partition-manager.enable = true;
+    };
   };
 }

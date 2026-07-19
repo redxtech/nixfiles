@@ -4,8 +4,11 @@
   den.aspects.file-browser = {
     settings.enableThunar = lib.mkEnableOption "Whether to enable Thunar";
 
-    nixos = {
+    nixos = { host, ... }: {
       services.tumbler.enable = true;
+
+      # xdce config for thunar
+      programs.xfconf.enable = host.settings.file-browser.enableThunar;
     };
 
     # TODO: re-add custom actions when scripts are available
