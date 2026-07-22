@@ -13,17 +13,20 @@
   nixConfig = {
     extra-substituters = [
       "https://niri.cachix.org"
+      "https://nyx-cache.chaotic.cx"
       "https://noctalia.cachix.org"
       "https://cache.numtide.com"
     ];
     extra-trusted-public-keys = [
       "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+      "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
   };
 
   inputs = {
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     den.url = "github:denful/den";
     deploy-rs = {
       url = "github:serokell/deploy-rs";

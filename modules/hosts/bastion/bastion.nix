@@ -152,6 +152,7 @@
       den.aspects.workstation
       den.aspects.gpu
       den.aspects.network-mounts
+      den.aspects.streaming
 
       # until no longer on a VM
       den.aspects.vm

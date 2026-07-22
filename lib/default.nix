@@ -9,4 +9,7 @@ in
 
   # nas helpers
   nas = import ./nas args;
+
+  # gpu helpers
+  gpu = import ./gpu args;
 }

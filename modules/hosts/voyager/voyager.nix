@@ -126,6 +126,7 @@
       den.aspects.workstation
       den.aspects.gpu
       den.aspects.network-mounts
+      # den.aspects.prime
 
       # until no longer on a VM
       den.aspects.vm
