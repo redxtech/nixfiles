@@ -1,12 +1,12 @@
 { inputs, ... }:
+
 {
-  den.aspects.voyager-fs.nixos = {
+  den.aspects.bastion-fs.nixos = {
     imports = [ inputs.disko.nixosModules.disko ];
 
     disko.devices.disk.main = {
       type = "disk";
-      device = "/dev/nvme0n1";
-      # device = "/dev/disk/by-uuid/xxx";
+      device = "/dev/disk/by-uuid/f8fd6528-3acf-4826-9707-94e421cd105f";
       content = {
         type = "gpt";
         partitions = {
@@ -33,7 +33,6 @@
               ]; # Override existing partition
               # Subvolumes must set a mountpoint in order to be mounted,
               # unless their parent is mounted
-              mountpoint = "/partition-root";
               subvolumes = {
                 # Subvolume name is different from mountpoint
                 "/rootfs" = {
@@ -54,18 +53,57 @@
                   ];
                   mountpoint = "/nix";
                 };
+                # Subvolume for the swapfile
+                "/swap" = {
+                  mountpoint = "/.swapvol";
+                  swap = {
+                    swapfile.size = "20M";
+                    swapfile2.size = "20M";
+                    swapfile2.path = "rel-path";
+                  };
+                };
+              };
+
+              mountpoint = "/partition-root";
+              swap = {
+                swapfile = {
+                  size = "20M";
+                };
+                swapfile1 = {
+                  size = "20M";
+                };
               };
             };
           };
-          swap = {
-            size = "38G";
-            content = {
-              type = "swap";
-              discardPolicy = "both";
-              resumeDevice = true; # resume from hiberation from this device
-            };
-          };
         };
+      };
+    };
+
+    fileSystems = {
+      "/media/big-goober" = {
+        device = "/dev/disk/by-uuid/bdfecef7-9904-49df-8c0d-dd14d0e60810";
+        fsType = "btrfs";
+        options = [
+          "rw"
+          "lazytime"
+          "space_cache"
+          "subvolid=5"
+          "subvol=/"
+        ];
+        mountPoint = "/media/big-goober";
+      };
+
+      "/media/mid-goober" = {
+        device = "/dev/disk/by-uuid/7fbace0e-0bba-4ec5-9c5c-05105ffefb6d";
+        fsType = "btrfs";
+        options = [
+          "rw"
+          "lazytime"
+          "space_cache"
+          "subvolid=5"
+          "subvol=/"
+        ];
+        mountPoint = "/media/mid-goober";
       };
     };
   };

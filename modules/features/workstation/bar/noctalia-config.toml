@@ -388,6 +388,7 @@ capsule = true
 capsule = true
 
 [widget.brightness]
+capsule = true
 show_label = false
 
 [widget.clock]
@@ -464,3 +465,4 @@ capsule = true
 
 [widget.workspaces]
 capsule = true
+hide_when_empty = true

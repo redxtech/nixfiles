@@ -12,11 +12,11 @@
 
         # laptop-specific power management
         (lib.mkIf cfg.isLaptop {
-          # choose auto-cpufreq over the power management options
-          services.auto-cpufreq.enable = true;
+          services.power-profiles-daemon.enable = true;
 
           # disable others
-          services.power-profiles-daemon.enable = false;
+          # TODO: use auto-cpufreq, need to add support to noctalia
+          services.auto-cpufreq.enable = false;
           services.tlp.enable = false;
         })
       ];

@@ -8,12 +8,17 @@
     ];
 
     nixos =
-      { pkgs, ... }:
+      {
+        host,
+        pkgs,
+        lib,
+        ...
+      }:
       {
         # to make noctalia’s wifi, bluetooth, power-profile, and battery features available
         networking.networkmanager.enable = true;
         hardware.bluetooth.enable = true;
-        services.power-profiles-daemon.enable = true;
+        services.power-profiles-daemon.enable = lib.mkIf host.settings.workstation.isLaptop true;
         services.upower.enable = true;
 
         # TODO: enable gnome evolution data server for calendar support

@@ -13,15 +13,13 @@
       };
 
       gpu.amd = true;
-
-      # TODO: remove this when not testing in a VM
-      workstation.isLaptop = false;
+      workstation.isLaptop = true;
 
       monitors = {
         enable = true;
         monitors =
           let
-            isVM = true; # TODO: remove this when not testing in a VM
+            isVM = false;
           in
           if isVM then
             [
@@ -120,25 +118,23 @@
     };
   };
 
+  # TODO: add a specialization for no-gpu mode with nixpkgs.config.rocmSupport = false
+
   den.aspects.voyager = {
     includes = [
-      # den.aspects.voyager-fs
+      den.aspects.voyager-fs
       den.aspects.workstation
 
       den.aspects.ai
       den.aspects.gpu
       den.aspects.network-mounts
       # den.aspects.prime
-
-      # until no longer on a VM
-      den.aspects.vm
     ];
 
     nixos = { config, ... }: {
       imports = [ inputs.nixos-hardware.nixosModules.framework-16-7040-amd ];
 
-      # TODO: re-enable when not testing in a VM
-      # hardware.facter.reportPath = ./facter.json;
+      hardware.facter.reportPath = ./facter.json;
 
       networking.hostId = "bd282539";
 
@@ -164,6 +160,8 @@
         };
       };
 
+      # monitoring.enable = true;
+
       sops.secrets = {
         restic_password.sopsFile = ../../../secrets/hosts/voyager/secrets.yaml;
         restic_repository_home.sopsFile = ../../../secrets/hosts/voyager/secrets.yaml;
@@ -174,15 +172,12 @@
       # TODO: remove this when not testing in a VM
       home-manager.useUserPackages = true;
       home-manager.backupFileExtension = "bak";
+
+      # from hardware-configuration.nix
+      boot.initrd.availableKernelModules = [ "usb_storage" ];
     };
 
   };
 
-  flake-file.inputs = {
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-hardware.url = "github:nixos/nixos-hardware";
-  };
+  flake-file.inputs.nixos-hardware.url = "github:nixos/nixos-hardware";
 }

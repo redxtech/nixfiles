@@ -18,13 +18,11 @@
 
   den.aspects.quasar = {
     includes = [
-      # den.aspects.quasar-fs
+      den.aspects.quasar-fs
       den.aspects.base
       # den.aspects.server
-      den.aspects.gpu
 
-      # until no longer on a VM
-      # den.aspects.vm
+      den.aspects.gpu
     ];
 
     nixos = {
@@ -38,6 +36,9 @@
       # hardware.facter.reportPath = ./facter.json;
 
       system.stateVersion = "23.11";
+
+      # TODO: should i switch it to 75d9f980 ? (etc/machine-id)
+      networking.hostId = "74996f49";
 
       # fix home-manager not working on temp VMs
       # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115
@@ -53,11 +54,5 @@
       };
   };
 
-  flake-file.inputs = {
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-hardware.url = "github:nixos/nixos-hardware";
-  };
+  flake-file.inputs.nixos-hardware.url = "github:nixos/nixos-hardware";
 }

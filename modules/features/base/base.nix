@@ -105,6 +105,8 @@
             dns = lib.mkIf (builtins.length cfg.dockerDNS > 0) cfg.dockerDNS;
             metrics-addr = "0.0.0.0:9323";
           };
+
+          storageDriver = lib.mkIf cfg.fs.btrfs "btrfs";
         };
 
         # for interacting with qmk keyboards + etc

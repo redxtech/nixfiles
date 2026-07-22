@@ -148,7 +148,7 @@
 
   den.aspects.bastion = {
     includes = [
-      # den.aspects.bastion-fs
+      den.aspects.bastion-fs
       den.aspects.workstation
 
       den.aspects.ai
@@ -172,8 +172,17 @@
         # TODO: re-enable when not testing in a VM
         # hardware.facter.reportPath = ./facter.json;
 
+        # network = {
+        #   enable = true;
+        #   ip = "192.168.1.55";
+        #   tunnelID = "10f40833-b341-4f16-9920-2b5796744e15";
+        # };
+        #
+        # monitoring.enable = true;
+
         networking.hostId = "9bc0520d";
 
+        # TODO: migrate to newer??
         system.stateVersion = "23.11";
 
         backup = {
@@ -210,6 +219,10 @@
         # TODO: remove this when not testing in a VM
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "bak";
+
+        # from hardware-configuration.nix
+        boot.kernelModules = [ "kvm-amd" ];
+        boot.initrd.availableKernelModules = [ "usb_storage" ];
       };
 
     homeManager =
@@ -230,11 +243,5 @@
       };
   };
 
-  flake-file.inputs = {
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-hardware.url = "github:nixos/nixos-hardware";
-  };
+  flake-file.inputs.nixos-hardware.url = "github:nixos/nixos-hardware";
 }
