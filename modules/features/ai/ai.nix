@@ -4,7 +4,7 @@
   den.aspects.ai = {
     includes = [
       den.aspects.kolu
-      # den.aspects.hermes
+      den.aspects.hermes
     ];
 
     homeManager =

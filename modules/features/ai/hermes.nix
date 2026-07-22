@@ -22,7 +22,7 @@
 
           addToSystemPackages = true;
 
-          environmentFiles = [ config.sops.secrets."hermes-env".path ];
+          environmentFiles = [ config.sops.secrets.hermes-env.path ];
 
           settings = {
             model.provider = "openai-codex";
@@ -116,6 +116,7 @@
             clean-webui = "${theme}/clean-webui.yaml";
           in
           [
+            "z /var/lib/hermes/.hermes/config.yaml                       - ${hermes.user} ${hermes.group} - -"
             "d /var/lib/hermes/.hermes/dashboard-themes                   2770 hermes hermes - -"
             "C /var/lib/hermes/.hermes/dashboard-themes/clean-webui.yaml  0644 hermes hermes - ${clean-webui}"
           ];
@@ -166,7 +167,7 @@
         };
 
         sops.secrets.hermes-env = {
-          sopsFile = ../../../secrets/hosts/bastion/secrets.yaml;
+          sopsFile = ../../../secrets/hosts/common/secrets.yaml;
           owner = hermes.user;
           group = hermes.group;
           mode = "0440";

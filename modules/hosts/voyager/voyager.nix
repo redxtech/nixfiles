@@ -124,6 +124,8 @@
     includes = [
       # den.aspects.voyager-fs
       den.aspects.workstation
+
+      den.aspects.ai
       den.aspects.gpu
       den.aspects.network-mounts
       # den.aspects.prime
