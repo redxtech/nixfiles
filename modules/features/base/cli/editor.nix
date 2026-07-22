@@ -34,6 +34,27 @@
           withPython3 = true;
           withRuby = true;
         };
+
+        programs.zed-editor = {
+          enable = true;
+
+          installRemoteServer = true;
+          enableMcpIntegration = true;
+
+          extensions = [
+            "dockerfile"
+            "docker-compose"
+            "dracula"
+            "env"
+            "html"
+            "lua"
+            "nix"
+            "toml"
+            "vue"
+          ];
+
+          # extraPackages = with pkgs; [ ];
+        };
       };
 
     # only include this if the host imports the sub-aspect

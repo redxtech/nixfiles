@@ -3,8 +3,9 @@
 {
   den.aspects.ai = {
     includes = [
-      den.aspects.kolu
       den.aspects.hermes
+      den.aspects.kolu
+      den.aspects.mcp
     ];
 
     homeManager =
@@ -16,6 +17,11 @@
           claude-agent-acp
           codex
           codex-acp
+
+          kimi-code
+
+          opencode
+          oh-my-opencode
 
           # orchestrators
           # herdr
