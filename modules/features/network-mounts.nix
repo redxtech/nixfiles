@@ -1,13 +1,12 @@
 {
   den.aspects.network-mounts = {
     nixos =
-      { config, ... }:
+      { host, config, ... }:
       {
         # use systemd-tmpfiles to create mount point
         systemd.tmpfiles.rules =
           let
-            # TODO: set pull user from host settings?
-            user = "gabe";
+            user = host.settings.base.primaryUser;
             group = config.users.groups.${user}.name;
           in
           [

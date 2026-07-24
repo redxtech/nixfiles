@@ -139,7 +139,7 @@
               };
           in
           {
-            enable = false; # TODO: re-enable when not testing in a VM
+            enable = true;
 
             systemdTarget = "graphical-session.target";
 

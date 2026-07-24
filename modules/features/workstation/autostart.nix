@@ -12,9 +12,7 @@
 
         xdg.autostart = {
           enable = true;
-          entries = with pkgs; [
-            # "${config.programs.spicetify.spicedSpotify}/share/applications/spotify.desktop"
-          ];
+          entries = [ "${config.programs.spicetify.spicedSpotify}/share/applications/spotify.desktop" ];
         };
 
         # use niri to start these

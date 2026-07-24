@@ -1,3 +1,5 @@
+{ self, ... }:
+
 {
   den.aspects.fish-shell.homeManager =
     {
@@ -152,16 +154,19 @@
             '';
           };
 
-          # TODO: re-add hostnames to allow completion
-
-          # __fish_nixos_remote_complete = {
-          #   body = ''
-          #     set -l hostnames ${lib.concatStringsSep " " hostnames}
-          #     for host in $hostnames
-          #       echo $host
-          #     end
-          #   '';
-          # };
+          __fish_nixos_remote_complete =
+            let
+              # all hostnames except nixiso
+              hostnames = lib.filter (host: host != "nixiso") (lib.attrNames self.nixosConfigurations);
+            in
+            {
+              body = ''
+                set -l hostnames ${lib.concatStringsSep " " hostnames}
+                for host in $hostnames
+                  echo $host
+                end
+              '';
+            };
 
           # grep using ripgrep and pass to nvim
           nvimrg = lib.mkIf (hasRipgrep) "tu -q (rg --vimgrep $argv | psub)";

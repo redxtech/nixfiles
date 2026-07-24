@@ -3,6 +3,7 @@
 {
   den.aspects.gpu = {
     settings = {
+      # TODO: pull from facter report
       amd = lib.mkEnableOption "AMD GPU support";
 
       nvidia = {

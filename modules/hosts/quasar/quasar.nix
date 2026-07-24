@@ -32,8 +32,7 @@
         common-pc-ssd
       ];
 
-      # TODO: re-enable when not testing in a VM
-      # hardware.facter.reportPath = ./facter.json;
+      hardware.facter.reportPath = ./facter.json;
 
       system.stateVersion = "23.11";
 
@@ -42,9 +41,8 @@
 
       # fix home-manager not working on temp VMs
       # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115
-      # TODO: remove this when not testing in a VM
       home-manager.useUserPackages = true;
-      home-manager.backupFileExtension = "bak";
+      # home-manager.backupFileExtension = "bak";
     };
 
     homeManager =

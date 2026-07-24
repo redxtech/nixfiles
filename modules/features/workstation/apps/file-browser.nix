@@ -11,7 +11,6 @@
       programs.xfconf.enable = host.settings.file-browser.enableThunar;
     };
 
-    # TODO: re-add custom actions when scripts are available
     homeManager =
       {
         host,

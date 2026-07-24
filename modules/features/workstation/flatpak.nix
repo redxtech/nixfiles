@@ -1,4 +1,4 @@
-{ inputs, self, ... }:
+{ inputs, ... }:
 
 {
   den.aspects.flatpak = {
@@ -28,11 +28,8 @@
             Environment.XCURSOR_PATH = "/run/host/user-share/icons:/run/host/share/icons";
           };
 
-          # TODO: add flatpaks
-
           # packages = [
           #   "com.getpostman.Postman"
-          #   "com.obsproject.Studio"
           #   "io.github.seadve.Kooha"
           # ];
         };

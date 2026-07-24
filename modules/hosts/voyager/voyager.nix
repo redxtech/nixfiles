@@ -17,91 +17,58 @@
 
       monitors = {
         enable = true;
-        monitors =
-          let
-            isVM = false;
-          in
-          if isVM then
-            [
+        monitors = [
+          {
+            name = "eDP-2";
+            primary = true;
+            height = 1600;
+            width = 2560;
+            rate = 165.0;
+            scale = 1.25;
+            workspaces = [
               {
-                name = "Virtual-1";
-                primary = true;
-                height = 1386;
-                width = 2536;
-                rate = 74.999;
-                workspaces = [
-                  {
-                    name = "shell";
-                    number = 1;
-                  }
-                  {
-                    name = "browser";
-                    number = 2;
-                  }
-                  {
-                    name = "chat";
-                    number = 3;
-                  }
-                  {
-                    name = "music";
-                    number = 4;
-                  }
-                ];
+                name = "shell";
+                number = 1;
               }
-            ]
-          else
-            [
               {
-                name = "eDP-2";
-                primary = true;
-                height = 1600;
-                width = 2560;
-                rate = 165.0;
-                scale = 1.25;
-                workspaces = [
-                  {
-                    name = "shell";
-                    number = 1;
-                  }
-                  {
-                    name = "www";
-                    number = 2;
-                  }
-                  {
-                    name = "chat";
-                    number = 3;
-                  }
-                  {
-                    name = "files";
-                    number = 4;
-                  }
-                  {
-                    name = "music";
-                    number = 5;
-                  }
-                  {
-                    name = "six";
-                    number = 6;
-                  }
-                  {
-                    name = "seven";
-                    number = 7;
-                  }
-                  {
-                    name = "eight";
-                    number = 8;
-                  }
-                  {
-                    name = "nine";
-                    number = 9;
-                  }
-                  {
-                    name = "ten";
-                    number = 10;
-                  }
-                ];
+                name = "www";
+                number = 2;
+              }
+              {
+                name = "chat";
+                number = 3;
+              }
+              {
+                name = "files";
+                number = 4;
+              }
+              {
+                name = "music";
+                number = 5;
+              }
+              {
+                name = "six";
+                number = 6;
+              }
+              {
+                name = "seven";
+                number = 7;
+              }
+              {
+                name = "eight";
+                number = 8;
+              }
+              {
+                name = "nine";
+                number = 9;
+              }
+              {
+                name = "ten";
+                number = 10;
               }
             ];
+          }
+        ];
       };
 
       audio.devices = [
@@ -117,8 +84,6 @@
       ];
     };
   };
-
-  # TODO: add a specialization for no-gpu mode with nixpkgs.config.rocmSupport = false
 
   den.aspects.voyager = {
     includes = [
@@ -169,9 +134,8 @@
 
       # fix home-manager not working on temp VMs
       # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115
-      # TODO: remove this when not testing in a VM
       home-manager.useUserPackages = true;
-      home-manager.backupFileExtension = "bak";
+      # home-manager.backupFileExtension = "bak";
 
       # from hardware-configuration.nix
       boot.initrd.availableKernelModules = [ "usb_storage" ];

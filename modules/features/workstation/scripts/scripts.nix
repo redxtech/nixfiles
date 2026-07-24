@@ -79,9 +79,6 @@
               text = builtins.readFile ./encoder.sh;
             };
 
-            # TODO: add home-assistant helper
-            # ha-helper = pkgs.writeShellApplication { };
-
             # powermenu
             # TODO: move entirely to noctalia
             powermenu = pkgs.writeShellApplication {

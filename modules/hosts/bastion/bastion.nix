@@ -21,99 +21,66 @@
 
       monitors = {
         enable = true;
-        monitors =
-          let
-            isVM = true; # TODO: remove this when not testing in a VM
-          in
-          if isVM then
-            [
+        monitors = [
+          {
+            name = "DP-1";
+            primary = true;
+            height = 1440;
+            width = 2560;
+            rate = 144;
+            workspaces = [
               {
-                name = "Virtual-1";
-                primary = true;
-                height = 1386;
-                width = 2536;
-                rate = 74.999;
-                workspaces = [
-                  {
-                    name = "shell";
-                    number = 1;
-                  }
-                  {
-                    name = "browser";
-                    number = 2;
-                  }
-                  {
-                    name = "chat";
-                    number = 3;
-                  }
-                  {
-                    name = "music";
-                    number = 4;
-                  }
-                ];
-              }
-            ]
-          else
-            [
-              {
-                name = "DP-1";
-                primary = true;
-                height = 1440;
-                width = 2560;
-                rate = 144;
-                workspaces = [
-                  {
-                    name = "shell";
-                    number = 1;
-                  }
-                  {
-                    name = "www";
-                    number = 2;
-                  }
-                  {
-                    name = "chat";
-                    number = 3;
-                  }
-                  {
-                    name = "files";
-                    number = 4;
-                  }
-                  {
-                    name = "five";
-                    number = 5;
-                  }
-                  {
-                    name = "six";
-                    number = 6;
-                  }
-                ];
+                name = "shell";
+                number = 1;
               }
               {
-                name = "DP-2";
-                height = 1440;
-                width = 2560;
-                rate = 144;
-                x = 2560;
-                workspaces = [
-                  {
-                    name = "music";
-                    number = 7;
-                  }
-                  {
-                    name = "r-www";
-                    number = 8;
-                  }
-                  {
-                    name = "video";
-                    number = 9;
-                  }
-                  {
-                    name = "ten";
-                    number = 10;
-                  }
-                ];
+                name = "www";
+                number = 2;
+              }
+              {
+                name = "chat";
+                number = 3;
+              }
+              {
+                name = "files";
+                number = 4;
+              }
+              {
+                name = "five";
+                number = 5;
+              }
+              {
+                name = "six";
+                number = 6;
               }
             ];
+          }
+          {
+            name = "DP-2";
+            height = 1440;
+            width = 2560;
+            rate = 144;
+            x = 2560;
+            workspaces = [
+              {
+                name = "music";
+                number = 7;
+              }
+              {
+                name = "r-www";
+                number = 8;
+              }
+              {
+                name = "video";
+                number = 9;
+              }
+              {
+                name = "ten";
+                number = 10;
+              }
+            ];
+          }
+        ];
       };
 
       audio.devices = [
@@ -155,9 +122,6 @@
       den.aspects.gpu
       den.aspects.network-mounts
       den.aspects.streaming
-
-      # until no longer on a VM
-      den.aspects.vm
     ];
 
     nixos =
@@ -169,8 +133,7 @@
           common-pc-ssd
         ];
 
-        # TODO: re-enable when not testing in a VM
-        # hardware.facter.reportPath = ./facter.json;
+        hardware.facter.reportPath = ./facter.json;
 
         # network = {
         #   enable = true;
@@ -216,9 +179,8 @@
 
         # fix home-manager not working on temp VMs
         # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115
-        # TODO: remove this when not testing in a VM
         home-manager.useUserPackages = true;
-        home-manager.backupFileExtension = "bak";
+        # home-manager.backupFileExtension = "bak";
 
         # from hardware-configuration.nix
         boot.kernelModules = [ "kvm-amd" ];
@@ -231,9 +193,7 @@
         home.packages = with pkgs; [
           audacity # audio editor
           # beekeeper-studio-ultimate # database manager
-          # citron # switch emulator # TODO: switch to eden
           # deluge # torrent client
-          # dolphin-emu # gamecube/wii emulator
           ente-desktop # photos app
           # nautilus # file manager
           # neovide # neovim gui

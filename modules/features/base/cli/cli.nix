@@ -14,12 +14,6 @@
       den.aspects.yazi
     ];
 
-    # TODO: add more cli aspects
-
-    # - pyenv # TODO: move to dev aspect
-    # - sftpman
-    # - ssh
-
     nixos =
       { config, pkgs, ... }:
       {
@@ -111,13 +105,11 @@
             dust # better du
             ente-cli # manage ente from cli
             fd # better find
-            ffmpeg-full # media tool # TODO: move to optional ??
-            ffmpegthumbnailer # ffmpeg thumbnailer # TODO: move to GUI/file browser?
+            ffmpeg-full # media tool
             ffsend # file sharing
             figlet # ascii art
             flatpak # flatpak manager
             frogmouth # markdown reader
-            fusee-nano # switch rcm loader # TODO: move to desktop/laptop?
             # fx # better jq
             # gallery-dl # download images
             home-assistant-cli # home assistant cli
@@ -132,7 +124,7 @@
             micro # text editor
             most # pager
             nixpkgs-review # nixpkgs PR reviewer
-            inputs'.nix-autobahn.packages.nix-autobahn # dynamic executable runner tool # TODO: add from flake
+            inputs'.nix-autobahn.packages.nix-autobahn # dynamic executable runner
             nix-du # du for the nix store
             nix-inspect # search nix store
             nix-update # update hashes in nix files
@@ -140,7 +132,6 @@
             pciutils # pci info
             pfetch-rs # tiny system info
             pipes-rs # screensaver util
-            playerctl # media control # TODO: move to desktop
             prettyping # ping with pretty output
             p7zip # 7zip tool
             ramfetch # ram info
@@ -305,12 +296,8 @@
               # overshoot = 20;
               # sensitivity = 100;
             };
-            input = {
-              source = "auto";
-            };
-            smoothing = {
-              monstercat = 1; # TODO: test this
-            };
+            input.source = "auto";
+            smoothing.monstercat = 1;
           };
         };
 

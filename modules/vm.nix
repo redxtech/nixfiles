@@ -1,23 +1,27 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 
 {
   # provide additional options to any systems running build-vm
-  # TODO: ignore facter.reportPath in VMs
-  den.aspects.vm.nixos.virtualisation.vmVariant.virtualisation = {
-    diskSize = 512 * 40;
-    memorySize = 1024 * 6;
-    cores = 4;
+  den.aspects.vm.nixos.virtualisation.vmVariant = {
+    virtualisation = {
+      diskSize = 512 * 40;
+      memorySize = 1024 * 6;
+      cores = 4;
 
-    qemu.options = [
-      # display gl enabled
-      "-device virtio-vga-gl"
-      "-display sdl,gl=on"
+      qemu.options = [
+        # display gl enabled
+        "-device virtio-vga-gl"
+        "-display sdl,gl=on"
 
-      # pipewire audio passthrough
-      "-audiodev pipewire,id=audio0"
-      "-device ich9-intel-hda"
-      "-device hda-duplex,audiodev=audio0"
-    ];
+        # pipewire audio passthrough
+        "-audiodev pipewire,id=audio0"
+        "-device ich9-intel-hda"
+        "-device hda-duplex,audiodev=audio0"
+      ];
+    };
+
+    # machine fails to boot with filesystems configured
+    disko.devices.disk.main = lib.mkForce { };
   };
 
   # enables `nix run .#vm`. it is very useful to have a VM

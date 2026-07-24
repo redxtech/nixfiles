@@ -77,9 +77,6 @@
             lockscreen_widgets = builtins.fromTOML (
               builtins.readFile ./lockscreen-widgets/${host.hostName}.toml
             );
-
-            # TODO: set idle.behavior.screen-off.command to niri's power-off-monitors
-            # idle.behavior.screen-off.command = "niri msg action power-off-monitors";
           };
         };
 

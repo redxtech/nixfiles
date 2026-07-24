@@ -48,10 +48,6 @@
           };
 
           opacity.terminal = 0.9;
-
-          # TODO: re-enable after issue is resolved
-          # https://github.com/nix-community/stylix/issues/2334
-          targets.kmscon.enable = false;
         };
 
         fonts.fontDir.enable = true;
@@ -67,8 +63,6 @@
         ];
       };
 
-    # silence the warning
-    # TODO: see if it works with setting this to config.gtk.theme
     homeManager =
       { pkgs, ... }:
       {

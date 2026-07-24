@@ -596,6 +596,7 @@
         "fpu_exception": false,
         "cpuid_level": 22,
         "write_protect": false,
+        "tlb_size": 32649,
         "clflush_size": 64,
         "cache_alignment": 64,
         "address_sizes": {
@@ -933,7 +934,7 @@
           "value": 133
         },
         "slot": {
-          "bus": 1,
+          "bus": 2,
           "number": 0
         },
         "base_class": {
@@ -948,36 +949,35 @@
         },
         "vendor": {
           "hex": "0000",
-          "name": "Samsung",
+          "name": "WDC",
           "value": 0
         },
         "device": {
           "hex": "0000",
-          "name": "SSD 870",
+          "name": "WD80EFAX-68K",
           "value": 0
         },
         "revision": {
           "hex": "0000",
-          "name": "2B6Q",
+          "name": "0A81",
           "value": 0
         },
-        "serial": "S6PXNL0W629715J",
-        "model": "Samsung SSD 870",
+        "serial": "VDGY33MD",
+        "model": "WDC WD80EFAX-68K",
         "sysfs_id": "/class/block/sdb",
-        "sysfs_bus_id": "1:0:0:0",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:17.0/ata2/host1/target1:0:0/1:0:0:0",
+        "sysfs_bus_id": "2:0:0:0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:17.0/ata3/host2/target2:0:0/2:0:0:0",
         "unix_device_names": [
-          "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_500GB_S6PXNL0W629715J",
-          "/dev/disk/by-id/wwn-0x5002538f53613ee7",
-          "/dev/disk/by-path/pci-0000:00:17.0-ata-2",
-          "/dev/disk/by-path/pci-0000:00:17.0-ata-2.0",
-          "/dev/disk/by-uuid/2fb799ea-69bf-476a-912a-ec7986f80a6f",
+          "/dev/disk/by-id/ata-WDC_WD80EFAX-68KNBN0_VDGY33MD",
+          "/dev/disk/by-id/wwn-0x5000cca0bbcd3a76",
+          "/dev/disk/by-path/pci-0000:00:17.0-ata-3",
+          "/dev/disk/by-path/pci-0000:00:17.0-ata-3.0",
           "/dev/sdb"
         ],
         "resources": [
           {
             "type": "disk_geo",
-            "cylinders": 60801,
+            "cylinders": 972801,
             "heads": 255,
             "sectors": 63,
             "size": "0x0",
@@ -986,7 +986,7 @@
           {
             "type": "size",
             "unit": "sectors",
-            "value_1": 976773168,
+            "value_1": 15628053168,
             "value_2": 512
           }
         ],
@@ -1258,7 +1258,7 @@
         },
         "device": {
           "hex": "0000",
-          "name": "ST8000DM004-2CX1",
+          "name": "ST8000DM004",
           "value": 0
         },
         "revision": {
@@ -1267,12 +1267,12 @@
           "value": 0
         },
         "serial": "ZCT0K4JK",
-        "model": "ST8000DM004-2CX1",
+        "model": "ST8000DM004",
         "sysfs_id": "/class/block/sde",
         "sysfs_bus_id": "4:0:0:0",
         "sysfs_device_link": "/devices/pci0000:00/0000:00:17.0/ata5/host4/target4:0:0/4:0:0:0",
         "unix_device_names": [
-          "/dev/disk/by-id/ata-ST8000DM004-2CX188_ZCT0K4JK",
+          "/dev/disk/by-id/ata-ST8000DM004_ZCT0K4JK",
           "/dev/disk/by-id/wwn-0x5000c500b44306ec",
           "/dev/disk/by-path/pci-0000:00:17.0-ata-5",
           "/dev/disk/by-path/pci-0000:00:17.0-ata-5.0",
@@ -1400,7 +1400,7 @@
           "value": 133
         },
         "slot": {
-          "bus": 2,
+          "bus": 1,
           "number": 0
         },
         "base_class": {
@@ -1415,35 +1415,36 @@
         },
         "vendor": {
           "hex": "0000",
-          "name": "WDC",
+          "name": "Samsung",
           "value": 0
         },
         "device": {
           "hex": "0000",
-          "name": "WD80EFAX-68K",
+          "name": "SSD 870",
           "value": 0
         },
         "revision": {
           "hex": "0000",
-          "name": "0A81",
+          "name": "2B6Q",
           "value": 0
         },
-        "serial": "VDGY33MD",
-        "model": "WDC WD80EFAX-68K",
+        "serial": "S6PXNL0W629715J",
+        "model": "Samsung SSD 870",
         "sysfs_id": "/class/block/sdc",
-        "sysfs_bus_id": "2:0:0:0",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:17.0/ata3/host2/target2:0:0/2:0:0:0",
+        "sysfs_bus_id": "1:0:0:0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:17.0/ata2/host1/target1:0:0/1:0:0:0",
         "unix_device_names": [
-          "/dev/disk/by-id/ata-WDC_WD80EFAX-68KNBN0_VDGY33MD",
-          "/dev/disk/by-id/wwn-0x5000cca0bbcd3a76",
-          "/dev/disk/by-path/pci-0000:00:17.0-ata-3",
-          "/dev/disk/by-path/pci-0000:00:17.0-ata-3.0",
+          "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_500GB_S6PXNL0W629715J",
+          "/dev/disk/by-id/wwn-0x5002538f53613ee7",
+          "/dev/disk/by-path/pci-0000:00:17.0-ata-2",
+          "/dev/disk/by-path/pci-0000:00:17.0-ata-2.0",
+          "/dev/disk/by-uuid/2fb799ea-69bf-476a-912a-ec7986f80a6f",
           "/dev/sdc"
         ],
         "resources": [
           {
             "type": "disk_geo",
-            "cylinders": 972801,
+            "cylinders": 60801,
             "heads": 255,
             "sectors": 63,
             "size": "0x0",
@@ -1452,7 +1453,7 @@
           {
             "type": "size",
             "unit": "sectors",
-            "value_1": 15628053168,
+            "value_1": 976773168,
             "value_2": 512
           }
         ],
@@ -1863,7 +1864,7 @@
     ],
     "hub": [
       {
-        "index": 46,
+        "index": 45,
         "attached_to": 17,
         "class_list": [
           "usb",
@@ -1950,7 +1951,7 @@
         "module_alias": "usb:v1D6Bp0002d0612dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 47,
+        "index": 46,
         "attached_to": 17,
         "class_list": [
           "usb",
@@ -2027,7 +2028,7 @@
         "module_alias": "usb:v1D6Bp0003d0612dc09dsc00dp03ic09isc00ip00in00"
       },
       {
-        "index": 48,
+        "index": 47,
         "attached_to": 26,
         "class_list": [
           "usb",
@@ -2114,7 +2115,7 @@
         "module_alias": "usb:v1D6Bp0002d0612dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 49,
+        "index": 48,
         "attached_to": 26,
         "class_list": [
           "usb",
@@ -2301,7 +2302,29 @@
     ],
     "network_interface": [
       {
-        "index": 55,
+        "index": 56,
+        "attached_to": 0,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Loopback",
+          "value": 0
+        },
+        "model": "Loopback network interface",
+        "sysfs_id": "/class/net/lo",
+        "unix_device_names": [
+          "lo"
+        ]
+      },
+      {
+        "index": 87,
         "attached_to": 23,
         "class_list": [
           "network_interface"
@@ -2339,28 +2362,6 @@
         ],
         "driver_modules": [
           "e1000e"
-        ]
-      },
-      {
-        "index": 71,
-        "attached_to": 0,
-        "class_list": [
-          "network_interface"
-        ],
-        "base_class": {
-          "hex": "0107",
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "hex": "0000",
-          "name": "Loopback",
-          "value": 0
-        },
-        "model": "Loopback network interface",
-        "sysfs_id": "/class/net/lo",
-        "unix_device_names": [
-          "lo"
         ]
       }
     ],
@@ -2914,111 +2915,6 @@
         ]
       }
     ],
-    "usb": [
-      {
-        "index": 45,
-        "attached_to": 48,
-        "class_list": [
-          "usb",
-          "unknown"
-        ],
-        "bus_type": {
-          "hex": "0086",
-          "name": "USB",
-          "value": 134
-        },
-        "slot": {
-          "bus": 0,
-          "number": 0
-        },
-        "base_class": {
-          "hex": "0007",
-          "name": "Communication controller",
-          "value": 7
-        },
-        "sub_class": {
-          "hex": "0000",
-          "name": "Serial controller",
-          "value": 0
-        },
-        "pci_interface": {
-          "hex": "0080",
-          "value": 128
-        },
-        "vendor": {
-          "hex": "10c4",
-          "name": "ITead",
-          "value": 4292
-        },
-        "device": {
-          "hex": "ea60",
-          "name": "Sonoff Zigbee 3.0 USB Dongle Plus",
-          "value": 60000
-        },
-        "revision": {
-          "hex": "0000",
-          "name": "1.00",
-          "value": 0
-        },
-        "serial": "f20e7f0b16a6ed11a11ce9a32981d5c7",
-        "model": "ITead Sonoff Zigbee 3.0 USB Dongle Plus",
-        "sysfs_id": "/devices/pci0000:00/0000:00:14.0/usb1/1-6/1-6:1.0",
-        "sysfs_bus_id": "1-6:1.0",
-        "unix_device_names": [
-          "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_f20e7f0b16a6ed11a11ce9a32981d5c7-if00-port0",
-          "/dev/serial/by-path/pci-0000:00:14.0-usb-0:6:1.0-port0",
-          "/dev/serial/by-path/pci-0000:00:14.0-usbv2-0:6:1.0-port0",
-          "/dev/ttyUSB0"
-        ],
-        "resources": [
-          {
-            "type": "baud",
-            "speed": 12000000,
-            "bits": 0,
-            "stop_bits": 0,
-            "parity": 0,
-            "handshake": 0
-          }
-        ],
-        "detail": {
-          "device_class": {
-            "hex": "0000",
-            "name": "per_interface",
-            "value": 0
-          },
-          "device_subclass": {
-            "hex": "0000",
-            "name": "per_interface",
-            "value": 0
-          },
-          "device_protocol": 0,
-          "interface_class": {
-            "hex": "00ff",
-            "name": "vendor_spec",
-            "value": 255
-          },
-          "interface_subclass": {
-            "hex": "0000",
-            "name": "per_interface",
-            "value": 0
-          },
-          "interface_protocol": 0,
-          "interface_number": 0,
-          "interface_alternate_setting": 0
-        },
-        "hotplug": "usb",
-        "driver": "cp210x",
-        "driver_module": "cp210x",
-        "drivers": [
-          "cp210x"
-        ],
-        "driver_modules": [
-          "cp210x",
-          "usbserial"
-        ],
-        "module_alias": "usb:v10C4pEA60d0100dc00dsc00dp00icFFisc00ip00in00"
-      }
-    ],
     "usb_controller": [
       {
         "index": 17,
@@ -3378,10 +3274,10 @@
         "handle": 89,
         "name": "Firmware Version Info",
         "handles": [
-          360777252947,
-          365072220244,
-          369367187541,
-          373662154838,
+          83,
+          84,
+          85,
+          86,
           87
         ]
       },

@@ -14,7 +14,6 @@
         host,
         config,
         pkgs,
-        lib,
         ...
       }:
       {
@@ -62,7 +61,7 @@
               }
               (lib.mkIf (host.settings.streaming.moondeck) {
                 name = "MoonDeckStream";
-                command = lib.getExe' pkgs.moondeck-buddy "MoonDeckStream";
+                command = lib.getExe' self'.packages.moondeck-buddy "MoonDeckStream";
                 image-path = "steam.png";
                 auto-detach = "false";
                 wait-all = "false";

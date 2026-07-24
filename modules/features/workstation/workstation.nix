@@ -49,5 +49,13 @@
       programs.dconf.enable = true;
       programs.partition-manager.enable = true;
     };
+
+    homeManager = { pkgs, ... }: {
+      home.packages = with pkgs; [
+        # cli programs for workstations
+        fusee-nano # switch rcm loader
+        playerctl # media control
+      ];
+    };
   };
 }

@@ -47,6 +47,7 @@
       { pkgs, ... }:
       {
         home.packages = with pkgs; [
+          dolphin-emu # gamecube/wii emulator
           eden # switch emulator
         ];
       };

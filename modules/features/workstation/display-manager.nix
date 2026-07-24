@@ -1,5 +1,3 @@
-{ inputs, self, ... }:
-
 {
   den.aspects.display-manager = {
     nixos =
@@ -9,13 +7,9 @@
           greetd = {
             enable = true;
 
-            settings = {
-              default_session = {
-                # NOTE: moved to window-manager aspect
-                # command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri";
-                user = "greeter";
-              };
-            };
+            # definition moved to window-manager aspect
+            # settings.default_session.command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri";
+            settings.default_session.user = "greeter";
           };
         };
       };

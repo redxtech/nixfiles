@@ -1,14 +1,6 @@
-{
-  inputs,
-  self,
-  lib,
-  ...
-}:
+{ inputs, lib, ... }:
 
 {
-  # TODO: see how to get this working
-  # imports = [ inputs.flake-file.flakeModules.allfollow ];
-
   den.aspects.nix-config =
     let
       cfg = {
