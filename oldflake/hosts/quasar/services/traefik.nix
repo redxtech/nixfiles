@@ -21,6 +21,16 @@ in
           certificates = [ cert ];
           stores.default.defaultCertificate = cert;
         };
+
+      http.middlewares = {
+        homeassistant-allow-iframe.headers = {
+          contentSecurityPolicy = "frame-ancestors ha.${cfg.fqdn}";
+          customResponseHeaders = {
+            "X-Frame-Options" = "";
+            "X-XSS-Protection" = "1";
+          };
+        };
+      };
     };
   };
 

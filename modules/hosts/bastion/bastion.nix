@@ -17,6 +17,9 @@
         useZen = true;
       };
 
+      network.ip = "192.168.1.55";
+      tunnel.id = "10f40833-b341-4f16-9920-2b5796744e15";
+
       gpu.amd = true;
 
       monitors = {
@@ -117,6 +120,7 @@
     includes = [
       den.aspects.bastion-fs
       den.aspects.workstation
+      den.aspects.network
 
       den.aspects.ai
       den.aspects.gpu
@@ -135,12 +139,6 @@
 
         hardware.facter.reportPath = ./facter.json;
 
-        # network = {
-        #   enable = true;
-        #   ip = "192.168.1.55";
-        #   tunnelID = "10f40833-b341-4f16-9920-2b5796744e15";
-        # };
-        #
         # monitoring.enable = true;
 
         networking.hostId = "9bc0520d";

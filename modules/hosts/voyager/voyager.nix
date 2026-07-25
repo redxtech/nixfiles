@@ -89,6 +89,7 @@
     includes = [
       den.aspects.voyager-fs
       den.aspects.workstation
+      den.aspects.network
 
       den.aspects.ai
       den.aspects.gpu

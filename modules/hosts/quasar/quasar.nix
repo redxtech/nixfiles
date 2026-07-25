@@ -12,6 +12,13 @@
         fs.zfs = true;
       };
 
+      network = {
+        isHost = true;
+        ip = "192.168.1.191";
+      };
+
+      tunnel.id = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
+
       # gpu.nvidia.enable = true;
     };
   };
@@ -21,6 +28,7 @@
       den.aspects.quasar-fs
       den.aspects.base
       # den.aspects.server
+      den.aspects.network
 
       den.aspects.gpu
     ];

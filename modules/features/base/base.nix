@@ -49,7 +49,7 @@
       den.aspects.bluetooth
       den.aspects.cli
       den.aspects.memory
-      den.aspects.network
+      den.aspects.networking
       den.aspects.nix-config
       den.aspects.root
       den.aspects.secrets

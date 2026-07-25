@@ -1,5 +1,5 @@
 {
-  den.aspects.network = {
+  den.aspects.networking = {
     nixos =
       { lib, ... }:
       {

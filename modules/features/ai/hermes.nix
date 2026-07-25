@@ -15,7 +15,7 @@
       {
         imports = [ inputs.hermes-agent.nixosModules.default ];
 
-        # network.services.hermes = 9119;
+        network.services.hermes = 9119;
 
         services.hermes-agent = {
           enable = true;

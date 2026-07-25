@@ -41,7 +41,7 @@
       # include workstation-only sub-aspects
       den.aspects.bluetooth._.for-workstation
       den.aspects.editor._.for-workstation
-      den.aspects.network._.for-workstation
+      den.aspects.networking._.for-workstation
       # den.aspects.virtualisation._.waydroid
     ];
 
