@@ -23,9 +23,16 @@
       }:
       let
         cfg = host.settings.gpu;
+        hasGPU = config.gpu.hasGPU;
       in
       {
-        config = lib.mkIf (cfg.amd || cfg.nvidia.enable) {
+        options.gpu.hasGPU = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Whether the system has a GPU (useful for disabling the module via specialisation)";
+        };
+
+        config = lib.mkIf (hasGPU && (cfg.amd || cfg.nvidia.enable)) {
           # ensure only one of amd or nvidia is enabled
           assertions = [
             {
@@ -81,5 +88,17 @@
           nixpkgs.config.nvidia.acceptLicense = cfg.nvidia.enable;
         };
       };
+
+    # TODO: add more things to this
+    provides.has-removable-gpu = {
+      nixos = { config, ... }: {
+        specialisation.no-gpu.configuration = {
+          gpu.hasGPU = false; # disable all effects of gpu aspect
+
+          nixpkgs.config.cudaSupport = false;
+          nixpkgs.config.rocmSupport = false;
+        };
+      };
+    };
   };
 }

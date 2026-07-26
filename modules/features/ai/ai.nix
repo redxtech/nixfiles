@@ -3,7 +3,6 @@
 {
   den.aspects.ai = {
     includes = [
-      den.aspects.hermes
       den.aspects.kolu
       den.aspects.mcp
     ];

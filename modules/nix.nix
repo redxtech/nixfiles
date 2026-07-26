@@ -53,21 +53,30 @@
 
       homeManager =
         { config, ... }:
-        {
-          inherit (cfg) nix nixpkgs;
+        lib.mkMerge [
+          {
+            inherit (cfg) nix nixpkgs;
 
-          # nix helper tool
-          programs.nh = {
-            enable = true;
-            flake = "${config.home.homeDirectory}/Code/nixfiles";
-            clean = {
+            # nix helper tool
+            programs.nh = {
               enable = true;
-              extraArgs = "--keep-since 4d --keep 3";
+              flake = "${config.home.homeDirectory}/Code/nixfiles";
+              clean = {
+                enable = true;
+                extraArgs = "--keep-since 4d --keep 3";
+              };
             };
-          };
 
-          # tell nh where to find the flake
-          home.sessionVariables.NH_FLAKE = "${config.home.homeDirectory}/Code/nixfiles";
-        };
+            # tell nh where to find the flake
+            home.sessionVariables.NH_FLAKE = "${config.home.homeDirectory}/Code/nixfiles";
+          }
+          # merge omitted substituters to user nix config
+          {
+            nix.settings.substituters = [ "https://cache.nixos.org/" ];
+            nix.settings.trusted-public-keys = [
+              "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+            ];
+          }
+        ];
     };
 }
