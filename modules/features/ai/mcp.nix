@@ -2,6 +2,7 @@
   den.aspects.mcp = {
     homeManager =
       {
+        self',
         config,
         pkgs,
         lib,
@@ -19,6 +20,7 @@
 
           servers = {
             nixos.command = lib.getExe pkgs.mcp-nixos;
+            super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
             liftosaur = {
               enable = false; # don't auto-configure this in supported editors
               url = "https://www.liftosaur.com/mcp";
