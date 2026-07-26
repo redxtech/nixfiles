@@ -22,6 +22,8 @@
 
       gpu.amd = true;
 
+      hermes.hasHostEnv = true;
+
       monitors = {
         enable = true;
         monitors = [
@@ -169,11 +171,15 @@
           };
         };
 
-        sops.secrets = {
-          restic_password.sopsFile = ../../../secrets/hosts/bastion/secrets.yaml;
-          restic_repository_config.sopsFile = ../../../secrets/hosts/bastion/secrets.yaml;
-          restic_repository_home.sopsFile = ../../../secrets/hosts/bastion/secrets.yaml;
-        };
+        sops.secrets =
+          let
+            sopsFile = ../../../secrets/hosts/bastion/secrets.yaml;
+          in
+          {
+            restic_password.sopsFile = sopsFile;
+            restic_repository_config.sopsFile = sopsFile;
+            restic_repository_home.sopsFile = sopsFile;
+          };
 
         # fix home-manager not working on temp VMs
         # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115

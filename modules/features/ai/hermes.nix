@@ -1,12 +1,15 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 
 {
   den.aspects.hermes = {
+    settings.hasHostEnv = lib.mkEnableOption "Whether the host has a Hermes environment.";
+
     nixos =
       {
+        self',
+        host,
         config,
         pkgs,
-        lib,
         ...
       }:
       let
@@ -22,7 +25,10 @@
 
           addToSystemPackages = true;
 
-          environmentFiles = [ config.sops.secrets.hermes-env.path ];
+          environmentFiles = [
+            config.sops.secrets.hermes-env.path
+          ]
+          ++ lib.optional host.settings.hermes.hasHostEnv config.sops.secrets.hermes-env-host.path;
 
           settings = {
             model.provider = "openai-codex";
@@ -101,6 +107,22 @@
 
           mcpServers = {
             nixos.command = lib.getExe pkgs.mcp-nixos;
+            liftosaur = {
+              url = "https://www.liftosaur.com/mcp";
+              headers.Authorization = "Bearer \${MCP_LIFTOSAUR_KEY}";
+              timeout = 180;
+            };
+            homeassistant = {
+              url = "https://ha.mothership.sucha.foo/api/mcp";
+              headers.Authorization = "Bearer \${MCP_HOMEASSISTANT_KEY}";
+              timeout = 180;
+            };
+            github = {
+              url = "https://api.githubcopilot.com/mcp";
+              headers.Authorization = "Bearer \${MCP_GITHUB_KEY}";
+              timeout = 180;
+            };
+            super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
           };
         };
 
@@ -116,9 +138,13 @@
             clean-webui = "${theme}/clean-webui.yaml";
           in
           [
-            "z /var/lib/hermes/.hermes/config.yaml                       - ${hermes.user} ${hermes.group} - -"
-            "d /var/lib/hermes/.hermes/dashboard-themes                   2770 hermes hermes - -"
-            "C /var/lib/hermes/.hermes/dashboard-themes/clean-webui.yaml  0644 hermes hermes - ${clean-webui}"
+            "z /var/lib/hermes/.hermes/.env                               0640 ${hermes.user} ${hermes.group} - -" # rw-r-----
+            "z /var/lib/hermes/.hermes/config.yaml                        0640 ${hermes.user} ${hermes.group} - -" # rw-r-----
+            "z /var/lib/hermes/.hermes/auth.json                          0640 ${hermes.user} ${hermes.group} - -" # rw-r-----
+            "z /var/lib/hermes/.hermes/auth.lock                          0660 ${hermes.user} ${hermes.group} - -" # rw-rw----
+
+            "d /var/lib/hermes/.hermes/dashboard-themes                   2770 ${hermes.user} ${hermes.group} - -"
+            "C /var/lib/hermes/.hermes/dashboard-themes/clean-webui.yaml  0644 ${hermes.user} ${hermes.group} - ${clean-webui}"
           ];
 
         systemd.services.hermes-agent = {
@@ -151,7 +177,7 @@
             ];
             # Optional: if you keep dashboard auth/env vars in the generated .env.
             EnvironmentFile = "-${hermes.stateDir}/.hermes/.env";
-            ExecStart = "${lib.getExe hermes.package} dashboard --host 127.0.0.1 --port 9119 --no-open";
+            ExecStart = "${lib.getExe hermes.package} dashboard --host 0.0.0.0 --port ${toString config.network.services.hermes} --no-open";
             Restart = "always";
             RestartSec = 5;
             # Reasonable hardening. Relax if you need the dashboard/chat PTY to access more.
@@ -166,12 +192,21 @@
           };
         };
 
-        sops.secrets.hermes-env = {
-          sopsFile = ../../../secrets/hosts/common/secrets.yaml;
-          owner = hermes.user;
-          group = hermes.group;
-          mode = "0440";
-        };
+        sops.secrets =
+          let
+            mkHermesSecret = host: {
+              sopsFile = ../../../secrets/hosts/${host}/secrets.yaml;
+              owner = hermes.user;
+              group = hermes.group;
+              mode = "0440";
+            };
+          in
+          {
+            hermes-env = mkHermesSecret "common";
+            hermes-env-host = lib.mkIf host.settings.hermes.hasHostEnv (
+              mkHermesSecret config.networking.hostName
+            );
+          };
       };
 
     provides.to-users.nixos = { user, ... }: {
