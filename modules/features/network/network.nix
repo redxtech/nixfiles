@@ -11,7 +11,7 @@
       isHost = lib.mkEnableOption "Set the system as a host.";
 
       ip = lib.mkOption {
-        type = lib.types.str;
+        type = lib.types.nullOr lib.types.str;
         default = null;
         example = "192.168.1.100";
         description = "Internal IP address to use";
@@ -59,6 +59,12 @@
             readOnly = true;
             description = "The IP address of the host";
           };
+
+          ip = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            readOnly = true;
+            description = "The IP address of the host";
+          };
         };
 
         config.network = {
@@ -69,6 +75,8 @@
               hostCfg.ip
             else
               self.nixosConfigurations.${domainHost}.config.network.hostIP;
+
+          ip = hostCfg.ip;
 
           finalServices = cfg.services // {
             # universal services

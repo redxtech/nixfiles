@@ -7,14 +7,14 @@
 
     settings = {
       base = {
-        dockerDNS = [ "192.168.1.1" ];
+        dockerDNS = [ "192.168.50.1" ];
         fs.btrfs = true;
         fs.zfs = true;
       };
 
       network = {
         isHost = true;
-        ip = "192.168.1.191";
+        ip = "192.168.50.208";
       };
 
       tunnel.id = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
@@ -29,6 +29,7 @@
       den.aspects.base
       # den.aspects.server
       den.aspects.network
+      den.aspects.dns
 
       den.aspects.gpu
     ];
