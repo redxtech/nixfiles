@@ -1,0 +1,27 @@
+formatter = "nixfmt"
+
+# top-level-blank-lines = 0
+
+[args]
+first = [
+  "self",
+  "self'",
+  "inputs",
+  "inputs'",
+  "config",
+  "pkgs",
+  "lib",
+  "options",
+  "modulesPath",
+  "utils",
+  "stdenv",
+  "fetchurl",
+  "fetchFromGitHub",
+  "fetchFromGitLab",
+]
+last = ["<defaulted>", "..."]
+
+[attrs]
+first = ["imports", "options", "config", "enable", "package"]
+last = ["meta"]
+flatten = true
