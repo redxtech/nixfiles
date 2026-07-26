@@ -1,5 +1,7 @@
 {
-  den.aspects.email.homeManager = {
+  den.aspects.email.homeManager = { pkgs, ... }: {
+    home.packages = [ pkgs.birdtray ];
+
     programs.thunderbird = {
       enable = true;
 

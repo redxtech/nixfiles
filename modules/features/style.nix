@@ -73,6 +73,8 @@
           xkcd-font
           nerd-fonts.symbols-only
         ];
+
+        home.pointerCursor.enable = true;
       };
   };
 

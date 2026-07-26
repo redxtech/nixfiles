@@ -24,6 +24,7 @@
             ];
           }
           { argv = [ (lib.getExe pkgs.super-productivity) ]; }
+          { argv = [ (lib.getExe pkgs.thunderbird) ]; } # TODO: look into birdtray
         ];
       };
   };

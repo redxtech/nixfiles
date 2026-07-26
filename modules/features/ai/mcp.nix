@@ -17,6 +17,7 @@
           # - worldmonitor (https://github.com/koala73/worldmonitor)
           # - context7 (https://github.com/upstash/context7)
           # - strava (https://support.strava.com/en-us/articles/15401531-strava-mcp-connector)
+          # - thunderbird (https://github.com/TKasperczyk/thunderbird-mcp)
 
           servers = {
             nixos.command = lib.getExe pkgs.mcp-nixos;

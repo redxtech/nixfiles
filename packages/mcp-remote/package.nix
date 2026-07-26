@@ -11,7 +11,7 @@
             nodejs
             pnpm
             pnpmConfigHook
-            stdenv
+            stdenvNoCC
             ;
 
           pname = "mcp-remote";
@@ -23,20 +23,15 @@
             rev = "v${version}";
             hash = "sha256-+oNI2Uq7gW3sLzJS4ky2+BXhTmo44+WpcdYgieGPpmI=";
           };
+        in
+        stdenvNoCC.mkDerivation {
+          inherit pname version src;
 
           pnpmDeps = fetchPnpmDeps {
             inherit pname version src;
-            fetcherVersion = 3;
-            hash = "sha256-1kTJK8uoEKigEBdi/FWE84aUJu+ehyD1j4wuex0y2mU=";
+            fetcherVersion = 4;
+            hash = "sha256-GpHA4DbEPSgmGzaEDMQKFjMXr8hvJj6B3nymu6f6dmk=";
           };
-        in
-        stdenv.mkDerivation {
-          inherit
-            pname
-            version
-            src
-            pnpmDeps
-            ;
 
           nativeBuildInputs = [
             makeWrapper
@@ -54,13 +49,13 @@
           installPhase = ''
             runHook preInstall
 
-            install -d "$out/lib/node_modules/${pname}" "$out/bin"
-            cp -r dist node_modules package.json "$out/lib/node_modules/${pname}/"
+            mkdir -p $out/lib/mcp-remote $out/bin
+            cp -r dist node_modules package.json $out/lib/mcp-remote/
 
-            makeWrapper ${nodejs}/bin/node "$out/bin/mcp-remote" \
-              --add-flags "$out/lib/node_modules/${pname}/dist/proxy.js"
-            makeWrapper ${nodejs}/bin/node "$out/bin/mcp-remote-client" \
-              --add-flags "$out/lib/node_modules/${pname}/dist/client.js"
+            makeWrapper ${lib.getExe nodejs} $out/bin/mcp-remote \
+              --add-flags "$out/lib/mcp-remote/dist/proxy.js"
+            makeWrapper ${lib.getExe nodejs} $out/bin/mcp-remote-client \
+              --add-flags "$out/lib/mcp-remote/dist/client.js"
 
             runHook postInstall
           '';
@@ -68,8 +63,9 @@
           passthru.updateScript = pkgs.nix-update-script { };
 
           meta = {
-            description = "Connect local-only MCP clients to remote MCP servers";
+            description = "Remote proxy for Model Context Protocol clients";
             homepage = "https://github.com/geelen/mcp-remote";
+            changelog = "https://github.com/geelen/mcp-remote/releases/tag/v${version}";
             license = lib.licenses.mit;
             maintainers = [ lib.maintainers.redxtech ];
             mainProgram = "mcp-remote";

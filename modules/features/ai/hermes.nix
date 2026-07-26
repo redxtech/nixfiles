@@ -7,6 +7,7 @@
     nixos =
       {
         self',
+        inputs',
         host,
         config,
         pkgs,
@@ -63,9 +64,9 @@
             };
           };
 
-          extraPackages = with pkgs; [
-            ffmpeg
-            rtk
+          extraPackages = [
+            pkgs.ffmpeg
+            inputs'.llm-agents.packages.rtk
           ];
 
           extraPlugins = [
