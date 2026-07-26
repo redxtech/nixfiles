@@ -23,6 +23,7 @@
               "mount_all"
             ];
           }
+          { argv = [ (lib.getExe pkgs.super-productivity) ]; }
         ];
       };
   };
