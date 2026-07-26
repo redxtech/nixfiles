@@ -1,27 +1,31 @@
 { inputs, ... }:
 
 {
-  den.aspects.kolu.homeManager =
-    {
-      inputs',
-      config,
-      osConfig,
-      ...
-    }:
-    {
-      imports = [ inputs.kolu.homeManagerModules.default ];
+  den.aspects.kolu = {
+    nixos.network.services.kolu = 7681;
 
-      services.kolu = {
-        enable = true;
-        package = inputs'.kolu.packages.default;
+    homeManager =
+      {
+        inputs',
+        config,
+        osConfig,
+        ...
+      }:
+      {
+        imports = [ inputs.kolu.homeManagerModules.default ];
 
-        # TODO: test allowed origins
-        allowedOrigins = [
-          "https://kolu.${osConfig.networking.fqdn}"
-          "http://${osConfig.networking.hostName}:${toString config.services.kolu.port}"
-        ];
+        services.kolu = {
+          enable = true;
+          package = inputs'.kolu.packages.default;
+
+          host = "0.0.0.0";
+          allowedOrigins = [
+            "https://kolu.${osConfig.networking.fqdn}"
+            "http://${osConfig.networking.hostName}:${toString config.services.kolu.port}"
+          ];
+        };
       };
-    };
+  };
 
   flake-file.inputs.kolu.url = "github:juspay/kolu";
 }

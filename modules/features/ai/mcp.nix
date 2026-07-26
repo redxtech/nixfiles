@@ -3,6 +3,7 @@
     homeManager =
       {
         self',
+        inputs',
         config,
         pkgs,
         lib,
@@ -22,6 +23,10 @@
           servers = {
             nixos.command = lib.getExe pkgs.mcp-nixos;
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
+            kolu = {
+              command = lib.getExe inputs'.kolu.packages.default;
+              args = [ "mcp" ];
+            };
             liftosaur = {
               enable = false; # don't auto-configure this in supported editors
               command = lib.getExe self'.packages.mcp-remote;
