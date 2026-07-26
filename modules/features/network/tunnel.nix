@@ -3,7 +3,7 @@
 {
   den.aspects.tunnel = {
     settings.id = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
+      type = lib.types.str;
       default = null;
       description = "The default tunnel ID to use.";
     };
@@ -18,7 +18,7 @@
       let
         cfg = config.networking;
       in
-      lib.mkIf (host.settings.tunnel.id != null) {
+      {
         environment.systemPackages = [ pkgs.cloudflared ];
 
         services.cloudflared = {
@@ -58,7 +58,7 @@
 
         sops.secrets.cloudflared_tunnel_creds = {
           owner = config.systemd.services.cloudflared.serviceConfig.User;
-          sopsFile = ../../../hosts/${config.networking.hostName}/secrets.yaml;
+          sopsFile = ../../../secrets/hosts/${config.networking.hostName}/secrets.yaml;
         };
       };
   };

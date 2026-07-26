@@ -18,10 +18,7 @@
       };
     };
 
-    includes = [
-      den.aspects.traefik
-      den.aspects.tunnel
-    ];
+    includes = [ den.aspects.traefik ];
 
     nixos =
       { host, config, ... }:

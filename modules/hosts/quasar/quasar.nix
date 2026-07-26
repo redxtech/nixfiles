@@ -29,6 +29,7 @@
       den.aspects.base
       # den.aspects.server
       den.aspects.network
+      den.aspects.tunnel
       den.aspects.dns
 
       den.aspects.gpu

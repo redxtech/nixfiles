@@ -32,7 +32,7 @@
             primary = true;
             height = 1440;
             width = 2560;
-            rate = 144;
+            rate = 144.;
             workspaces = [
               {
                 name = "shell";
@@ -64,7 +64,7 @@
             name = "DP-2";
             height = 1440;
             width = 2560;
-            rate = 144;
+            rate = 144.;
             x = 2560;
             workspaces = [
               {
@@ -123,6 +123,7 @@
       den.aspects.bastion-fs
       den.aspects.workstation
       den.aspects.network
+      den.aspects.tunnel
 
       den.aspects.ai
       den.aspects.gpu
