@@ -23,6 +23,13 @@
           servers = {
             nixos.command = lib.getExe pkgs.mcp-nixos;
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
+            codegraph = {
+              command = lib.getExe inputs'.llm-agents.packages.codegraph;
+              args = [
+                "serve"
+                "--mcp"
+              ];
+            };
             kolu = {
               command = lib.getExe inputs'.kolu.packages.default;
               args = [ "mcp" ];
@@ -33,7 +40,7 @@
               args = [
                 "https://www.liftosaur.com/mcp"
                 "--header"
-                "Authorization:Bearer {env:MCP_LIFTOSAUR_KEY}"
+                "Authorization:Bearer \${MCP_LIFTOSAUR_KEY}"
               ];
               env.MCP_LIFTOSAUR_KEY.file = config.sops.secrets.mcp-liftosaur-key.path;
             };
@@ -43,18 +50,27 @@
               args = [
                 "https://ha.mothership.sucha.foo/api/mcp"
                 "--header"
-                "Authorization:Bearer {env:MCP_HOMEASSISTANT_KEY}"
+                "Authorization:Bearer \${MCP_HOMEASSISTANT_KEY}"
               ];
               env.MCP_HOMEASSISTANT_KEY.file = config.sops.secrets.mcp-homeassistant-key.path;
             };
             github = {
               command = lib.getExe self'.packages.mcp-remote;
               args = [
-                "https://api.githubcopilot.com/mcp"
+                "https://api.githubcopilot.com/mcp/"
                 "--header"
-                "Authorization:Bearer {env:MCP_GITHUB_KEY}"
+                "Authorization:Bearer \${MCP_GITHUB_KEY}"
               ];
               env.MCP_GITHUB_KEY.file = config.sops.secrets.mcp-github-key.path;
+            };
+            obsidian = {
+              command = lib.getExe self'.packages.mcp-remote;
+              args = [
+                "http://localhost:27123"
+                "--header"
+                "Authorization:Bearer \${MCP_OBSIDIAN_KEY}"
+              ];
+              env.MCP_OBSIDIAN_KEY.file = config.sops.secrets.mcp-obsidian-key.path;
             };
           };
         };
@@ -67,6 +83,7 @@
             mcp-homeassistant-key.sopsFile = sopsFile;
             mcp-liftosaur-key.sopsFile = sopsFile;
             mcp-github-key.sopsFile = sopsFile;
+            mcp-obsidian-key.sopsFile = sopsFile;
           };
       };
   };

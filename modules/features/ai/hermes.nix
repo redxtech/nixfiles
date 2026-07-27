@@ -124,6 +124,11 @@
               timeout = 180;
             };
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
+            obsidian = {
+              url = "http://localhost:27123/mcp/";
+              headers.Authorization = "Bearer \${MCP_OBSIDIAN_KEY}";
+              timeout = 180;
+            };
           };
         };
 
