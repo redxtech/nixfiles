@@ -28,6 +28,8 @@
 
           # ai tooling
           mcp-nixos
+          inputs'.llm-agents.packages.apm
+          inputs'.llm-agents.packages.skills
         ];
 
         env.NIX_CONFIG = "extra-experimental-features = nix-command flakes";

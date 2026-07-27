@@ -18,7 +18,10 @@
       };
     };
 
-    includes = [ den.aspects.traefik ];
+    includes = [
+      den.aspects.monitoring
+      den.aspects.traefik
+    ];
 
     nixos =
       { host, config, ... }:
@@ -77,15 +80,11 @@
 
           finalServices = cfg.services // {
             # universal services
-            alloy = 12346;
             cockpit = 9090;
             traefik = 8080;
 
             # host only
             dash = lib.mkIf hostCfg.isHost 4000;
-            grafana = lib.mkIf hostCfg.isHost 3000;
-            prometheus = lib.mkIf hostCfg.isHost 3001;
-            loki = lib.mkIf hostCfg.isHost 3002;
           };
         };
       };

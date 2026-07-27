@@ -29,6 +29,7 @@
       den.aspects.base
       # den.aspects.server
       den.aspects.network
+      den.aspects.monitoring._.server
       den.aspects.tunnel
       den.aspects.dns
 
