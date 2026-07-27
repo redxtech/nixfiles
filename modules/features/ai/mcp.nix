@@ -66,7 +66,7 @@
             obsidian = {
               command = lib.getExe self'.packages.mcp-remote;
               args = [
-                "http://localhost:27123"
+                "http://localhost:27123/mcp"
                 "--header"
                 "Authorization:Bearer \${MCP_OBSIDIAN_KEY}"
               ];
