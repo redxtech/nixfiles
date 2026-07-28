@@ -72,6 +72,10 @@
               ];
               env.MCP_OBSIDIAN_KEY.file = config.sops.secrets.mcp-obsidian-key.path;
             };
+            kagi = {
+              command = lib.getExe self'.packages.kagi-mcp;
+              env.KAGI_API_KEY.file = config.sops.secrets.mcp-kagi-key.path;
+            };
           };
         };
 
@@ -84,6 +88,7 @@
             mcp-liftosaur-key.sopsFile = sopsFile;
             mcp-github-key.sopsFile = sopsFile;
             mcp-obsidian-key.sopsFile = sopsFile;
+            mcp-kagi-key.sopsFile = sopsFile;
           };
       };
   };
