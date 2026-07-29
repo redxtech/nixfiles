@@ -32,6 +32,7 @@
           homepage = "https://github.com/kdcokenny/kagi-rs";
           changelog = "https://github.com/kdcokenny/kagi-rs/releases/tag/mcp-v${finalAttrs.version}";
           license = lib.licenses.mit;
+          mainProgram = "kagi-mcp";
           maintainers = [ lib.maintainers.redxtech ];
           platforms = lib.platforms.unix;
         };

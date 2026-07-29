@@ -5,6 +5,7 @@
     includes = [
       den.aspects.kolu
       den.aspects.mcp
+      den.aspects.opencode
     ];
 
     homeManager =
@@ -14,13 +15,8 @@
           # agents
           claude-code
           claude-agent-acp
-          codex
+
           codex-acp
-
-          kimi-code
-
-          opencode
-          oh-my-opencode
 
           # orchestrators
           # herdr
@@ -32,6 +28,9 @@
           openskills # skills installer
           rtk # token consumption optimization
         ];
+
+        programs.codex.enable = true;
+        # programs.codex.enableMcpIntegration = true;
       };
   };
 

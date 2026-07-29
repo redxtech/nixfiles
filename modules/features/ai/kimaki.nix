@@ -2,8 +2,8 @@
   den.aspects.kimaki.nixos =
     {
       self',
+      inputs',
       host,
-      config,
       lib,
       ...
     }:
@@ -15,7 +15,7 @@
       systemd.user.services.kimaki = {
         description = "Kimaki Discord agent orchestrator";
         wantedBy = [ "default.target" ];
-        path = [ config.programs.opencode.package ];
+        path = [ inputs'.llm-agents.packages.opencode ];
 
         unitConfig = {
           ConditionUser = host.settings.base.primaryUser;

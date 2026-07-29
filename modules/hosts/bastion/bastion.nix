@@ -127,7 +127,6 @@
 
       den.aspects.ai
       den.aspects.kimaki
-      den.aspects.hermes
       den.aspects.gpu
       den.aspects.network-mounts
       den.aspects.streaming
