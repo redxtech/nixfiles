@@ -12,12 +12,19 @@
       let
         # TODO: add all skills from juspay/kolu/agents
         # TODO: add hm module that abstracts agents and skills, and adds them to opencode, codex, and claude-code
-        # upstream source of the hickey/lowy agents and their skills (kolu's apm dependency)
+
         agency = pkgs.fetchFromGitHub {
           owner = "srid";
           repo = "agency";
           rev = "f360f59a2634da2e83772d37b356bc4fd86c9d50"; # master
           hash = "sha256-7F0F55lH057UWZ/DYDUkHKT8m+MImgItGn3QtuMD8ws=";
+        };
+
+        aiSlopCure = pkgs.fetchFromGitHub {
+          owner = "woosal1337";
+          repo = "blog";
+          rev = "b912d5fa59f368253683af2ebfac64ad6d08312d";
+          hash = "sha256-Cm/DOQL1l3ntRg93psJlD4wUwVroSOuv6t6R3CFpUAg=";
         };
 
         # the hickey/lowy agents delegate to the skills of the same name;
@@ -44,6 +51,7 @@
             codegraph
             rtk
             inputs'.kolu.packages.default
+            pkgs.python3
           ];
 
           settings = {
@@ -61,6 +69,7 @@
           agents = {
             hickey = agency + "/.apm/agents/hickey.md";
             lowy = agency + "/.apm/agents/lowy.md";
+            technical-writer = ./agents/technical-writer.md;
           };
 
           context = ''
@@ -97,11 +106,18 @@
           in
           "${rtk}/hooks/opencode/rtk.ts";
 
-        home.file = lib.listToAttrs (
-          map (
-            name: lib.nameValuePair ".agents/skills/${name}" { source = agency + "/.apm/skills/${name}"; }
-          ) agencySkills
-        );
+        home.file =
+          lib.listToAttrs (
+            map (
+              name: lib.nameValuePair ".agents/skills/${name}" { source = agency + "/.apm/skills/${name}"; }
+            ) agencySkills
+          )
+          // {
+            ".agents/skills/ste-writing/SKILL.md".source =
+              aiSlopCure + "/videos/ep01-the-cure-for-ai-slop/ste-writing-skill.md";
+            ".agents/skills/ste-writing/scripts/ste-lint.py".source =
+              aiSlopCure + "/videos/ep01-the-cure-for-ai-slop/ste-lint.py";
+          };
 
         home.packages = [
           inputs'.llm-agents.packages.opencode2
