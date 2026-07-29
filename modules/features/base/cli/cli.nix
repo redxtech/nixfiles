@@ -96,10 +96,10 @@
             comma # run nix commands with ,
             cowsay # make a cow say something
             cpufetch # cpu info
+            inputs'.deploy-rs.packages.deploy-rs # deploy nixos configs
             dex # desktop entry launcher
             # diffsitter # better diff
             dig # dns lookup
-            distrobox # nice escape hatch, use docker to emulate other distros
             doggo # better dig
             dua # better du
             dust # better du
@@ -123,11 +123,13 @@
             mediainfo # media info
             micro # text editor
             most # pager
+            nixfmt # nix formatter
             nixpkgs-review # nixpkgs PR reviewer
             inputs'.nix-autobahn.packages.nix-autobahn # dynamic executable runner
             nix-du # du for the nix store
             nix-inspect # search nix store
             nix-update # update hashes in nix files
+            nodejs # node, npm, and npx
             # onefetch # current repo info
             pciutils # pci info
             pfetch-rs # tiny system info

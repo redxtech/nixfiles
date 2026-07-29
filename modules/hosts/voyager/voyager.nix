@@ -12,8 +12,8 @@
         useZen = true;
       };
 
-      gpu.amd = true;
       workstation.isLaptop = true;
+      gpu.amd = true;
 
       monitors = {
         enable = true;

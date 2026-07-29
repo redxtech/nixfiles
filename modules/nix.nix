@@ -44,6 +44,16 @@
           inherit (cfg) nix nixpkgs;
 
           systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
+
+          # nix helper tool
+          programs.nh = {
+            enable = true;
+            flake = "/home/gabe/Code/nixfiles";
+            clean = {
+              enable = true;
+              extraArgs = "--keep-since 4d --keep 3";
+            };
+          };
         }
         {
           # enable hard-linking in nix store
@@ -56,16 +66,6 @@
         lib.mkMerge [
           {
             inherit (cfg) nix nixpkgs;
-
-            # nix helper tool
-            programs.nh = {
-              enable = true;
-              flake = "${config.home.homeDirectory}/Code/nixfiles";
-              clean = {
-                enable = true;
-                extraArgs = "--keep-since 4d --keep 3";
-              };
-            };
 
             # tell nh where to find the flake
             home.sessionVariables.NH_FLAKE = "${config.home.homeDirectory}/Code/nixfiles";

@@ -2,7 +2,9 @@
 
 {
   den.aspects.file-browser = {
-    settings.enableThunar = lib.mkEnableOption "Whether to enable Thunar";
+    settings.enableThunar = lib.mkEnableOption "Whether to enable Thunar" // {
+      default = true;
+    };
 
     nixos = { host, ... }: {
       services.tumbler.enable = true;

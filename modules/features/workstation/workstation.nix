@@ -33,6 +33,7 @@
       den.aspects.file-browser
       den.aspects.image-viewer
       den.aspects.misc-apps
+      den.aspects.notes
       den.aspects.screen-recorder
       den.aspects.spotify
       den.aspects.terminal

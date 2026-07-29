@@ -15,6 +15,8 @@
           MOZ_ENABLE_WAYLAND = "1";
         };
 
+        home.packages = [ pkgs.firefox-devedition ];
+
         programs.firefox = {
           enable = true;
           package = inputs'.firefox.packages.firefox-nightly-bin;
