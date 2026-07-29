@@ -54,6 +54,7 @@ packages:
       .#packages.x86_64-linux.quasar \
       .#packages.x86_64-linux.reboot-to-windows \
       .#packages.x86_64-linux.super-productivity-mcp \
+      .#packages.x86_64-linux.vaulted \
       .#packages.x86_64-linux.vm \
       .#packages.x86_64-linux.voyager \
       .#packages.x86_64-linux.write-flake \

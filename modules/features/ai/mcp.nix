@@ -34,8 +34,12 @@
               command = lib.getExe inputs'.kolu.packages.default;
               args = [ "mcp" ];
             };
+            vaulted = {
+              enabled = false;
+              command = lib.getExe self'.packages.vaulted;
+              args = [ "mcp" ];
+            };
             liftosaur = {
-              enable = false; # don't auto-configure this in supported editors
               command = lib.getExe self'.packages.mcp-remote;
               args = [
                 "https://www.liftosaur.com/mcp"
@@ -45,7 +49,6 @@
               env.MCP_LIFTOSAUR_KEY.file = config.sops.secrets.mcp-liftosaur-key.path;
             };
             homeassistant = {
-              enable = false; # don't auto-configure this in supported editors
               command = lib.getExe self'.packages.mcp-remote;
               args = [
                 "https://ha.mothership.sucha.foo/api/mcp"
@@ -83,6 +86,7 @@
           self'.packages.mcp-remote
           self'.packages.super-productivity-mcp
           self'.packages.kagi-mcp
+          self'.packages.vaulted
         ];
 
         sops.secrets =
