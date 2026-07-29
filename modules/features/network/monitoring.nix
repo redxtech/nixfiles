@@ -35,6 +35,12 @@
             description = "Whether the system hosts the monitoring server.";
           };
 
+          grafana_secret_key = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = "Grafana secret key.";
+          };
+
           ports =
             lib.mapAttrs
               (
@@ -211,6 +217,8 @@
         p = toString;
       in
       {
+        monitoring.isHost = true;
+
         network.services = {
           inherit (cfg.ports)
             grafana
@@ -224,6 +232,7 @@
             enable = true;
             settings = {
               auth.oauth_allow_insecure_email_lookup = true;
+              security.secret_key = "$__file{${cfg.grafana_secret_key}}";
 
               server = {
                 http_addr = "0.0.0.0";

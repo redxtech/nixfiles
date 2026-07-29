@@ -12,10 +12,7 @@
         fs.zfs = true;
       };
 
-      network = {
-        isHost = true;
-        ip = "192.168.50.208";
-      };
+      network.ip = "192.168.50.208";
 
       tunnel.id = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
 
@@ -29,6 +26,7 @@
       den.aspects.base
       # den.aspects.server
       den.aspects.network
+      den.aspects.network._.server
       den.aspects.monitoring._.server
       den.aspects.tunnel
       den.aspects.dns
@@ -36,7 +34,7 @@
       den.aspects.gpu
     ];
 
-    nixos = {
+    nixos = { config, ... }: {
       imports = with inputs.nixos-hardware.nixosModules; [
         common-cpu-intel-cpu-only
         common-gpu-nvidia-nonprime
@@ -44,6 +42,9 @@
       ];
 
       hardware.facter.reportPath = ./facter.json;
+      hardware.nvidia.open = false;
+
+      monitoring.grafana_secret_key = config.sops.secrets.grafana_secret_key.path;
 
       system.stateVersion = "23.11";
 
@@ -54,6 +55,8 @@
       # https://github.com/nix-community/home-manager/issues/6364#issuecomment-2965010115
       home-manager.useUserPackages = true;
       # home-manager.backupFileExtension = "bak";
+
+      sops.secrets.grafana_secret_key.sopsFile = ../../../secrets/hosts/quasar/secrets.yaml;
     };
 
     homeManager =

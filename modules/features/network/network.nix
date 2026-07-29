@@ -7,15 +7,11 @@
 
 {
   den.aspects.network = {
-    settings = {
-      isHost = lib.mkEnableOption "Set the system as a host.";
-
-      ip = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        example = "192.168.1.100";
-        description = "Internal IP address to use";
-      };
+    settings.ip = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "192.168.1.100";
+      description = "Internal IP address to use";
     };
 
     includes = [
@@ -50,13 +46,13 @@
 
           isHost = lib.mkOption {
             type = lib.types.bool;
-            readOnly = true;
+            default = false;
             description = "Whether the system is a host";
           };
 
           hostIP = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
-            readOnly = true;
+            default = null;
             description = "The IP address of the host";
           };
 
@@ -68,25 +64,25 @@
         };
 
         config.network = {
-          isHost = hostCfg.isHost;
-
-          hostIP =
-            if (hostCfg.isHost) then
-              hostCfg.ip
-            else
-              self.nixosConfigurations.${domainHost}.config.network.hostIP;
-
           ip = hostCfg.ip;
+
+          hostIP = lib.mkIf (!cfg.isHost) self.nixosConfigurations.${domainHost}.config.network.hostIP;
 
           finalServices = cfg.services // {
             # universal services
             cockpit = 9090;
             traefik = 8080;
-
-            # host only
-            dash = lib.mkIf hostCfg.isHost 4000;
           };
         };
       };
+
+    provides.server.nixos = { config, ... }: {
+      network = {
+        isHost = true;
+        hostIP = lib.mkForce config.network.ip;
+
+        services.dash = 4000;
+      };
+    };
   };
 }
