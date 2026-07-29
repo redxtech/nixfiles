@@ -24,6 +24,13 @@
               hash = "sha256-K65kZjLa5AJG9FEYAs/Jf2UC8qiP7BkC8znHMHMYeg4=";
             };
 
+            postPatch = ''
+              substituteInPlace setup.py \
+                --replace-fail \
+                  "from pkg_resources import DistributionNotFound, get_distribution" \
+                  "from importlib.metadata import PackageNotFoundError as DistributionNotFound, distribution as get_distribution"
+            '';
+
             dependencies = with python314.pkgs; [
               cryptography
               requests

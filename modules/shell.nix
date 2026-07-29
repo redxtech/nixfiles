@@ -28,6 +28,7 @@
           inputs'.deploy-rs.packages.deploy-rs
 
           # ci
+          omnix
           inputs'.odu.packages.default
 
           # ai tooling

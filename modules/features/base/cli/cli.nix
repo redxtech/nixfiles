@@ -152,6 +152,7 @@
             trashy # trash manager
             unrar # unarchiver
             unzip # unarchiver
+            wl-clipboard # clipboard interaction
             xdg-utils # for xdg-open
             xfce4-exo # protocol handler
             yq-go # jq for yaml

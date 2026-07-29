@@ -30,6 +30,7 @@
         ];
 
         programs.codex.enable = true;
+        programs.codex.package = inputs'.llm-agents.packages.codex;
         # programs.codex.enableMcpIntegration = true;
       };
   };

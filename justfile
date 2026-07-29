@@ -15,11 +15,11 @@ flake-check:
 dev-shell:
     nix build .#devShells.x86_64-linux.default --print-build-logs --impure
 
-# TODO: re-add cockpit-docker, home-assistant-components-tuya-local when not broken
-
 packages:
     nix build \
+      .#packages.x86_64-linux.bastion \
       .#packages.x86_64-linux.cockpit-benchmark \
+      .#packages.x86_64-linux.cockpit-docker \
       .#packages.x86_64-linux.cockpit-file-sharing \
       .#packages.x86_64-linux.cockpit-machines \
       .#packages.x86_64-linux.cockpit-podman \
@@ -32,6 +32,7 @@ packages:
       .#packages.x86_64-linux.home-assistant-components-node-red \
       .#packages.x86_64-linux.home-assistant-components-pirate-weather \
       .#packages.x86_64-linux.home-assistant-components-spotcast \
+      .#packages.x86_64-linux.home-assistant-components-tuya-local \
       .#packages.x86_64-linux.home-assistant-components-var \
       .#packages.x86_64-linux.home-assistant-lovelace-bubble-card \
       .#packages.x86_64-linux.home-assistant-lovelace-card-tools \
@@ -50,8 +51,14 @@ packages:
       .#packages.x86_64-linux.openportal \
       .#packages.x86_64-linux.plex-pass \
       .#packages.x86_64-linux.plex-pass-raw \
+      .#packages.x86_64-linux.quasar \
       .#packages.x86_64-linux.reboot-to-windows \
       .#packages.x86_64-linux.super-productivity-mcp \
+      .#packages.x86_64-linux.vm \
+      .#packages.x86_64-linux.voyager \
+      .#packages.x86_64-linux.write-flake \
+      .#packages.x86_64-linux.write-inputs \
+      .#packages.x86_64-linux.write-lock \
       --impure \
       --no-link \
       --print-build-logs
