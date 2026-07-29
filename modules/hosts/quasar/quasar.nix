@@ -46,7 +46,22 @@
 
       monitoring.grafana_secret_key = config.sops.secrets.grafana_secret_key.path;
 
+      backup.restic = {
+        enable = true;
+        backups = {
+          config = {
+            enable = true;
+            repoFile = config.sops.secrets.restic_repository_config.path;
+            passFile = config.sops.secrets.restic_password.path;
+            extraPaths = [ "/config" ];
+          };
+        };
+      };
+
       system.stateVersion = "23.11";
+
+      # TODO: see if this is still needed
+      boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
       # TODO: should i switch it to 75d9f980 ? (etc/machine-id)
       networking.hostId = "74996f49";
@@ -56,7 +71,16 @@
       home-manager.useUserPackages = true;
       # home-manager.backupFileExtension = "bak";
 
-      sops.secrets.grafana_secret_key.sopsFile = ../../../secrets/hosts/quasar/secrets.yaml;
+      sops.secrets =
+        let
+          sopsFile = ../../../secrets/hosts/quasar/secrets.yaml;
+        in
+        {
+          grafana_secret_key.sopsFile = sopsFile;
+          restic_password.sopsFile = sopsFile;
+          restic_repository_config.sopsFile = sopsFile;
+          restic_repository_home.sopsFile = sopsFile;
+        };
     };
 
     homeManager =
