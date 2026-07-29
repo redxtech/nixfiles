@@ -1,4 +1,4 @@
-name: Odu CI
+name: CI
 
 on:
   pull_request:
@@ -30,3 +30,22 @@ jobs:
       - name: Run CI
         run: |
           nix run .#ci
+
+  omnix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wimpysworld/nothing-but-nix@main
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: |
+            accept-flake-config = true
+      - uses: cachix/cachix-action@v17
+        with:
+          name: gabedunn
+          signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - name: Run CI
+        run: |
+          nix run github:juspay/omnix -- ci
