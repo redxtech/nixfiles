@@ -79,6 +79,12 @@
           };
         };
 
+        home.packages = [
+          self'.packages.mcp-remote
+          self'.packages.super-productivity-mcp
+          self'.packages.kagi-mcp
+        ];
+
         sops.secrets =
           let
             sopsFile = ../../../secrets/users/gabe/secrets.yaml;

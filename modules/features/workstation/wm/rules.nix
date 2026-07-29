@@ -6,7 +6,7 @@
       window-rules = [
         {
           matches = [ { app-id = "firefox-nightly"; } ];
-          open-on-workspace = "browser";
+          open-on-workspace = "www";
           open-focused = true;
           default-column-width.proportion = 1.0;
           # open-maximized-to-edges = true;
@@ -25,6 +25,10 @@
         }
         {
           matches = [ { app-id = "Element"; } ];
+          open-on-workspace = "chat";
+        }
+        {
+          matches = [ { app-id = "thunderbird"; } ];
           open-on-workspace = "chat";
         }
         {
@@ -64,7 +68,7 @@
 
         # noctalia settings
         {
-          matches = [ { app-id = "dev.noctalia.Noctalia.Settings"; } ];
+          matches = [ { app-id = "dev.noctalia.Noctalia"; } ];
           open-floating = true;
         }
 

@@ -184,42 +184,31 @@
             "Mod+Ctrl+WheelScrollLeft".action.move-column-left = { };
           }
 
-          # You can refer to workspaces by index. However, keep in mind that
-          # niri is a dynamic workspace system, so these commands are kind of
-          # "best effort". Trying to refer to a workspace index bigger than
-          # the current workspace count will instead refer to the bottommost
-          # (empty) workspace.
-          #
-          # For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
-          # will all refer to the 3rd workspace.
+          # workspaces are referenced by name, not index, because niri's
+          # workspace indices are per-monitor - index-based binds can't reach
+          # workspaces on other monitors, while a name jumps straight to it.
 
           # indexed workspace binds
-          # Mod+[1-9,0] to focus workspace [1-9,10]
-          # Mod+Shift+[1-9,0] to move column to workspace [1-9,10]
+          # Mod+[1-9,0] to focus the workspace with that number
+          # Mod+Shift+[1-9,0] to move column to the workspace with that number
           (
             let
-              indexed = builtins.concatLists (
-                builtins.genList (
-                  index:
-                  let
-                    key = toString index;
-                    ws = if index == 0 then 10 else index;
-                  in
-                  [
-                    {
-                      name = "Mod+${key}";
-                      value.action.focus-workspace = ws;
-                    }
-                    {
-                      name = "Mod+Shift+${key}";
-                      value.action.move-column-to-workspace = [
-                        { focus = false; }
-                        ws
-                      ];
-                    }
-                  ]
-                ) 10
-              );
+              # number 10 maps to the 0 key
+              key = number: toString (lib.mod number 10);
+              workspaces = lib.concatMap (monitor: monitor.workspaces) host.settings.monitors.monitors;
+              indexed = lib.concatMap (workspace: [
+                {
+                  name = "Mod+${key workspace.number}";
+                  value.action.focus-workspace = workspace.name;
+                }
+                {
+                  name = "Mod+Shift+${key workspace.number}";
+                  value.action.move-column-to-workspace = [
+                    { focus = false; }
+                    workspace.name
+                  ];
+                }
+              ]) workspaces;
             in
             builtins.listToAttrs indexed
           )
