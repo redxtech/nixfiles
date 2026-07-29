@@ -4,9 +4,33 @@
       {
         inputs',
         config,
+        lib,
         pkgs,
         ...
       }:
+      let
+        # TODO: add all skills from juspay/kolu/agents
+        # TODO: add hm module that abstracts agents and skills, and adds them to opencode, codex, and claude-code
+        # upstream source of the hickey/lowy agents and their skills (kolu's apm dependency)
+        agency = pkgs.fetchFromGitHub {
+          owner = "srid";
+          repo = "agency";
+          rev = "f360f59a2634da2e83772d37b356bc4fd86c9d50"; # master
+          hash = "sha256-7F0F55lH057UWZ/DYDUkHKT8m+MImgItGn3QtuMD8ws=";
+        };
+
+        # the hickey/lowy agents delegate to the skills of the same name;
+        # fact-check is a hard dependency of every review skill
+        agencySkills = [
+          "code-police"
+          "elegance"
+          "fact-check"
+          "forge-pr"
+          "hickey"
+          "lowy"
+          "talk"
+        ];
+      in
       {
         programs.opencode = {
           enable = true;
@@ -31,6 +55,12 @@
           };
 
           skills = { };
+
+          # structural review lenses, delegate to the hickey/lowy skills
+          agents = {
+            hickey = agency + "/.apm/agents/hickey.md";
+            lowy = agency + "/.apm/agents/lowy.md";
+          };
 
           context = ''
             ## Environment
@@ -65,6 +95,12 @@
             };
           in
           "${rtk}/hooks/opencode/rtk.ts";
+
+        home.file = lib.listToAttrs (
+          map (
+            name: lib.nameValuePair ".agents/skills/${name}" { source = agency + "/.apm/skills/${name}"; }
+          ) agencySkills
+        );
 
         home.packages = [
           inputs'.llm-agents.packages.opencode2
