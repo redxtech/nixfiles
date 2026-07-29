@@ -1,4 +1,4 @@
-name: Odu CI
+name: Omnix CI
 
 on:
   pull_request:
@@ -29,4 +29,4 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Run CI
         run: |
-          nix run .#ci
+          nix run github:juspay/omnix
