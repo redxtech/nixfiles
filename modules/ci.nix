@@ -35,10 +35,13 @@
       ...
     }:
     {
-      apps.odu = {
+      apps.ci = {
         type = "app";
-        program = pkgs.writeShellScriptBin "odu" ''
-          ${lib.getExe inputs'.odu.packages.default} run --no-strict --host x86_64-linux=localhost "$@"
+        program = pkgs.writeShellScriptBin "ci" ''
+          ${lib.getExe inputs'.odu.packages.default} run \
+            --no-strict \
+            --host x86_64-linux=localhost \
+            "$@"
         '';
       };
     };
