@@ -16,8 +16,8 @@ in
         ];
         remoteForwards = [
           {
-            bind.address = "/%d/.gnupg-sockets/S.gpg-agent";
-            host.address = "/%d/.gnupg-sockets/S.gpg-agent.extra";
+            bind.address = "/run/user/%i/gnupg/S.gpg-agent";
+            host.address = "/run/user/%i/gnupg/S.gpg-agent.extra";
           }
         ];
       in
@@ -40,7 +40,7 @@ in
             mkDevice =
               name:
               mkHost {
-                inherit remoteForwards;
+                # inherit remoteForwards;
                 identityFile = identityFiles;
                 hostname = "${name}.colobus-pirate.ts.net";
                 forwardAgent = true;

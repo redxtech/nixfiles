@@ -11,6 +11,7 @@
     enable = true;
 
     apps = with pkgs; [
+      element-desktop # chat client
       insomnia # api client
       libreoffice # office suite
       multiviewer-for-f1 # formula 1 viewer
@@ -18,6 +19,7 @@
       postman # api client
       prismlauncher # minecraft launcher
       openjdk25 # java for prism
+      signal-desktop # secure messenger
       super-productivity # productivity suite
       via # keyboard flasher
       vscode-fhs # vs-code with fhs environment
@@ -131,7 +133,7 @@
           wsNum = 4;
         }
         {
-          class = "dev.noctalia.Noctalia.Settings";
+          class = "dev.noctalia.Noctalia";
           float = true;
           size = "1080 920";
         }

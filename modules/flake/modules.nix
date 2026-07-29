@@ -56,6 +56,7 @@ in
         inputs.solaar.nixosModules.default
         inputs.sops-nix.nixosModules.sops
         inputs.xremap-flake.nixosModules.default
+        inputs.hermes-agent.nixosModules.default
 
         ../../hosts/common
 

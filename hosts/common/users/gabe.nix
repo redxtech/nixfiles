@@ -28,6 +28,7 @@ in
       "docker"
       "git"
       "hass"
+      "hermes"
       "input"
       "libvirtd"
       "network"

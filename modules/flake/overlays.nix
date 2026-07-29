@@ -48,6 +48,7 @@
       swww = inputs.swww.overlays.default;
       # nix-neovim-plugins = inputs.nix-neovim-plugins.overlays.default;
       # nur = inputs.nur.overlay;
+      llm-agents = inputs.llm-agents.overlays.shared-nixpkgs;
     };
   };
 }

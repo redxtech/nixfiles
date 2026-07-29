@@ -52,6 +52,8 @@
     flake-schemas.url = "github:DeterminateSystems/flake-schemas";
     hardware.url = "github:nixos/nixos-hardware";
     hci-effects.url = "github:hercules-ci/hercules-ci-effects";
+    hermes-agent.url = "github:NousResearch/hermes-agent";
+    llm-agents.url = "github:numtide/llm-agents.nix";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     nix-autobahn.url = "github:lassulus/nix-autobahn";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
@@ -67,10 +69,12 @@
     extra-substituters = [
       "https://noctalia.cachix.org"
       "https://hyprland.cachix.org"
+      "https://cache.numtide.com"
     ];
     extra-trusted-public-keys = [
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
   };
 

@@ -52,7 +52,7 @@ in
         lua51Packages.luarocks
       ];
 
-      extraLuaConfig = ''
+      initLua = ''
         -- required for smart-open.nvim
         vim.g.sqlite_clib_path = "${pkgs.sqlite.out}/lib/libsqlite3.so"
 
@@ -115,6 +115,11 @@ in
         "text/x-c"
         "text/x-c++"
       ];
+    };
+
+    programs.zed-editor = {
+      enable = true;
+      installRemoteServer = true;
     };
   };
 }

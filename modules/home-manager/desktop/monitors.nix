@@ -130,8 +130,6 @@ with types;
     let
       inherit (lib) head filter length;
       primaryMonitors = (filter (m: m.primary) cfg.monitors);
-      isWayland = cfg.wm.hyprland.enable;
-      isX11 = !isWayland;
     in
     lib.mkIf cfg.enableMonitors {
       # ensure exactly one monitor is set to primary
@@ -167,10 +165,10 @@ with types;
               adaptiveSync = vrr;
             };
         in
-        mkIf isWayland {
+        {
           enable = true;
 
-          systemdTarget = "hyprland-session.target";
+          systemdTarget = "graphical-session.target";
 
           settings = [
             {

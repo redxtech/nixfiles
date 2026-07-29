@@ -61,8 +61,6 @@
 
   virtualisation.docker.storageDriver = "btrfs";
 
-  boot.loader.systemd-boot.configurationLimit = lib.mkDefault 2;
-
   sops.secrets = {
     cachix-agent = {
       path = "/etc/cachix-agent.token";

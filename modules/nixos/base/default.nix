@@ -161,7 +161,7 @@ in
       loader = {
         systemd-boot = {
           enable = true;
-          configurationLimit = mkDefault 2;
+          configurationLimit = mkDefault 5;
           consoleMode = "max";
         };
         timeout = mkDefault 1;

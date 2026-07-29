@@ -100,6 +100,7 @@ in
     };
 
     home.pointerCursor = {
+      enable = true;
       name = "Vimix-Cursors";
       package = pkgs.vimix-hyprcursor;
 

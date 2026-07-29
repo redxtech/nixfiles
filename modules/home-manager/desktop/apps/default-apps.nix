@@ -10,7 +10,7 @@ in
         firefox = "firefox-nightly.desktop";
 
         images = [
-          "qimgv.desktop"
+          # "qimgv.desktop"
           "feh.desktop"
           "org.gnome.gThumb.desktop"
         ];
@@ -96,7 +96,10 @@ in
         };
         defaultApplications =
           let
-            image = [ "qimgv.desktop" ];
+            image = [
+              # "qimgv.desktop"
+              "feh.desktop"
+            ];
             video = [ "mpv.desktop" ];
           in
           {
