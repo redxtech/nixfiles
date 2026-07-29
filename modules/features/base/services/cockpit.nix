@@ -58,7 +58,7 @@
             with self'.packages;
             [
               cockpit-benchmark
-              # cockpit-docker TODO: fix this build?
+              cockpit-docker
               cockpit-file-sharing
               cockpit-machines
               cockpit-tailscale

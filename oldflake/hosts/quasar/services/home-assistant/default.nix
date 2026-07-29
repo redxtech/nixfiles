@@ -163,7 +163,7 @@ in
           better_thermostat
           prometheus_sensor
           localtuya
-          # tuya_local
+          tuya_local
           spook
           waste_collection_schedule
         ])
