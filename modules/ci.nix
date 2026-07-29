@@ -27,9 +27,28 @@
     };
   };
 
-  flake-file.inputs.hci-effects = {
-    url = "github:hercules-ci/hercules-ci-effects";
-    inputs.flake-parts.follows = "flake-parts";
-    inputs.nixpkgs.follows = "nixpkgs";
+  perSystem =
+    {
+      inputs',
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      apps.odu = {
+        type = "app";
+        program = pkgs.writeShellScriptBin "odu" ''
+          ${lib.getExe inputs'.odu.packages.default} run --no-strict --host x86_64-linux=localhost "$@"
+        '';
+      };
+    };
+
+  flake-file.inputs = {
+    odu.url = "github:juspay/odu";
+    hci-effects = {
+      url = "github:hercules-ci/hercules-ci-effects";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

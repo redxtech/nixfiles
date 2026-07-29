@@ -1563,6 +1563,21 @@
         "type": "github"
       }
     },
+    "odu": {
+      "locked": {
+        "lastModified": 1785174440,
+        "narHash": "sha256-WDDyTtCqMVTYonUITjCcE217fLGJuu13GcnRE3IyywI=",
+        "owner": "juspay",
+        "repo": "odu",
+        "rev": "fe0e0fc21ff639974868d410ce8d9421fdfaa467",
+        "type": "github"
+      },
+      "original": {
+        "owner": "juspay",
+        "repo": "odu",
+        "type": "github"
+      }
+    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": [
@@ -1665,6 +1680,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
         "noctalia": "noctalia",
+        "odu": "odu",
         "solaar": "solaar",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",

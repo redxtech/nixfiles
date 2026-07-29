@@ -2,6 +2,9 @@ result
 .direnv
 .devenv
 
+# odu artifacts
+.ci
+
 # worktrees
 .worktrees
 
