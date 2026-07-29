@@ -1,117 +1,126 @@
-[![nix deploy](https://github.com/redxtech/nixfiles/actions/workflows/cachix-deploy.yaml/badge.svg)](https://github.com/redxtech/nixfiles/actions/workflows/cachix-deploy.yaml)
+[![odu CI](https://github.com/redxtech/nixfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/redxtech/nixfiles/actions/workflows/ci.yml)
 
-# my nixOS flake
+# my nixos flake
 
-this is where my configuration for *everything* is related.
+this repository contains the nixos and home manager configuration for my systems.
 
 ## notice: this branch is a work in progress
 
-i am in the process of doing a major refactor of the entire configuration, and this branch will be incomplete for a while.
+the `denflake` branch moves the configuration to a dendritic layout based on [den](https://github.com/denful/den).
 
-any information in this readme is very likely out of date, for now.
+`bastion` and `voyager` use the new layout. some services and supporting features still need migration work.
 
 ## what is included
 
-- system configuration definitions:
-  - my desktop (`bastion`)
-  - my laptop (`voyager`)
-  - my home server (`quasar`)
-  - custom installation/recovery media (`nixiso`)
-- automatic deployments via github actions and cachix-deploy (also deploy-rs)
-- secrets management via sops-nix
-- custom package definitions
-- custom nixos & home-manager modules and service definitions
-  - modules and configurations for many nas/homelab related services
-  - configurable base & desktop modules for consistency across systems
-  - custom desktop, window manager, cli, and editor configurations
-  - modules for software that doesn't exist in nixpkgs/home-manager
-- custom shell, accessible from anywhere with `nix develop --impure github:redxtech/nixfiles#remote`
-  - includes important cli tools
-  - configures nix to use flakes and nix-command
-  - starship prompt
+- nixos and home manager configurations for these systems:
+  - `bastion`: my desktop and primary workstation
+  - `voyager`: my framework 16 laptop
+  - `quasar`: my home server
+  - `nixiso`: custom installation and recovery media
+  <!-- TODO: complete the dendritic implementations for quasar and nixiso. -->
+- feature-based configuration through den aspects
+  - each feature keeps its nixos and home manager configuration together.
+  - hosts include the aspects that provide their required features.
+  - the `base` aspect provides shared system and user configuration.
+  - the `workstation` aspect adds graphical applications, niri, gaming, audio, and desktop services.
+- remote deployments through deploy-rs
+- CI through odu, omnix, github actions, and cachix
+- secret management through sops-nix and age
+- custom packages, modules, services, scripts, and development tools
+- a development shell with nix tools, deployment tools, secret tools, and CI tools
 
 **highlights**:
 
-- multi-system nixOS & home-manager configuration with **flake-parts** for easy composition
-- rebuild locally with `nrs` (alias for `nh os switch`, improved `nixos-rebuild`),
-  and remotely with `nix run .#deploy [<target>|all]`
-- deployment **secrets** using **sops-nix**
-- **mesh networked** hosts with **tailscale**
-- extensively configured window manager (**hyprland**), cli (**fish** with custom starship prompt), and editor (**neovim**)
+- multi-host nixos and home manager configuration with den, flake-parts, and flake-file
+- typed, per-host settings for hardware and feature configuration
+- local rebuilds with `nrs`, an alias for `nh os switch`
+- remote deployments with `nix run .#deploy [<target>]`
+- encrypted deployment secrets with sops-nix and age
+- tailscale networking across hosts
+- a configured niri desktop with noctalia, fish, neovim, foot, firefox, and fuzzel
 
 ## structure
 
-> this section is not updated in-sync with the actual repository, but should give a decent idea of what to expect
+- `flake.nix`: the generated flake entry point. run `nix run .#write-flake` after a module changes `flake-file` declarations.
+- `modules/dendritic.nix`: the den and flake-file setup. it imports the modules and packages through `import-tree`.
+- `modules/features`: feature aspects for shared, workstation, network, GPU, and AI configuration.
+  - `base`: configuration shared by all hosts.
+  - `workstation`: configuration for hosts with a graphical desktop.
+- `modules/hosts`: host definitions, host settings, hardware reports, and file-system configuration.
+- `modules/users`: user aspects and user-specific files.
+- `packages`: custom package definitions exposed through the flake.
+- `lib`: custom nix functions used by the configuration.
+- `secrets`: encrypted host and user secrets managed by sops-nix.
+- `oldflake`: configuration that has not moved to the dendritic layout. the active flake does not import it.
+- `justfile`: local CI recipes used to check the flake and build its packages.
 
-- `flake.nix`: entrypoint for hosts and home configurations. also exposes a
-  devshell for boostrapping (`nix develop`).
-- `hosts`: nixOS Configurations, accessible via `nixos-rebuild --flake`.
-  - `common`: shared configurations consumed by each host. users, etc.
-  - `bastion`: desktop - 32GB RAM, R9 5900X, RX 7900XT | hyprland
-  - `voyager`: framework 16 - 32GB RAM, R9 7940HS, RX 7700S | hyprland
-  - `quasar`: home server - 32GB RAM, i7 6700K, GTX 970 | headless
-- `home`: home-manager configuration, acessible via `home-manager --flake`
-  each host has a file, and there's a `shared.nix` file for shared configurations.
-- `modules`: module definitions consumed by the hosts.
-  - `nixos`: nixOS modules, such as custom services, hardware configurations, etc.
-    - `base`, `desktop`, `nas`, and `backup` modules.
-  - `home-manager`: home-manager modules, such as custom desktop, window manager, cli, and editor configurations.
-  - `flake`: flake-parts modules used for composition, such as shells, overlays, nix config, deployments, etc.
-- `pkgs`: my custom packages. also accessible via `nix build`. you can compose
-  these into your own configuration by using my flake's overlay (`github:redxtech/nixfiles#overlays.default`), or consume them through NUR (soon ??).
-
-## should I use this ?
+## should i use this?
 
 ![learning curve](https://i.imgur.com/vtaE76k.png)
 
-it's definitely not for everyone, but it happens to be exactly what i've been looking for in a distro.
-if you're not turned off by the initial learning curve, the cryptic error messages,
-and the occasional stress-induced-baldness, you might be able to see how powerful nixOS can be.
+this configuration matches my systems and preferences. it is not a general nixos distribution or a reusable starter configuration.
+
+you can still use its aspects, modules, and packages as examples when you build your own configuration.
 
 ## how to bootstrap
 
-all you need is nix 2.4+, git, and to have already enabled `flakes` and
-`nix-command`, you can also use the command:
+install nix with the `flakes` and `nix-command` experimental features enabled.
 
-```
+from the repository root, start the development shell:
+
+```console
 nix develop
 ```
 
-`nixos-rebuild --flake .` To build system configurations
+the shell provides the tools used by this repository. use these commands for common tasks:
 
-`home-manager --flake .` To build user configurations
+```console
+# rebuild the current host.
+nrs
 
-`nix build` (or shell or run) To build and use packages
+# rebuild a named host without the shell alias.
+nh os switch .#bastion
 
-`sops` To manage secrets
+# deploy a host through deploy-rs.
+nix run .#deploy bastion
+
+# run the local CI pipeline.
+nix run .#ci
+
+# format the repository.
+nix fmt
+
+# regenerate flake.nix after a flake-file declaration changes.
+nix run .#write-flake
+```
 
 ## secrets
 
-for deployment secrets (such as user passwords and server service secrets), I'm
-using the awesome [`sops-nix`](https://github.com/Mic92/sops-nix). All secrets
-are encrypted with my personal PGP key (stored on a YubiKey), as well as the
-relevant systems's SSH host keys.
+this repository uses [`sops-nix`](https://github.com/Mic92/sops-nix) and age for deployment secrets.
 
-## tooling and applications I use
+the SOPS rules encrypt secrets for the required user, yubikey, host, and github actions recipients.
 
-most relevant user apps daily drivers:
+## tooling and applications i use
 
-- hyprland + hypridle + hyprlock
-- [limbo](https://github.com/co-conspirators/limbo) (my custom status bar)
-- neovim
+the main tools in my current workstation configuration are:
+
+- niri
+- noctalia
+- neovim through my [`tu`](https://github.com/redxtech/tu) configuration
 - fish
-- kitty
-- firefox
+- foot
+- firefox nightly
 - tailscale
-- podman
+- docker and libvirt
 - fuzzel
-- bat + fd + rg
-
-let me know if you have any questions about them :)
+- `bat`, `fd`, and `ripgrep`
 
 ## unixpornish stuff
 
+<!-- TODO: replace this image with a current busy-desktop screenshot. -->
 ![fakebusy](https://i.imgur.com/cJzEZJE.png)
+
+<!-- TODO: replace this image with a current clean-desktop screenshot. -->
 ![clean](https://i.imgur.com/j2cjXrs.jpeg)
 
-this is how my hyprland desktop setup looks (as of july 2024).
+these screenshots show the former hyprland desktop from july 2024. they will be replace with updated screenshots soon.
