@@ -2,6 +2,7 @@
   den.aspects.opencode = {
     homeManager =
       {
+        self',
         inputs',
         config,
         lib,
@@ -105,6 +106,7 @@
         home.packages = [
           inputs'.llm-agents.packages.opencode2
           inputs'.llm-agents.packages.oh-my-opencode
+          self'.packages.openportal
         ];
       };
   };

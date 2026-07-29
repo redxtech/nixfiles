@@ -5,11 +5,17 @@
     programs.niri.settings = {
       window-rules = [
         {
+          background-effect = {
+            blur = true;
+            xray = false;
+          };
+        }
+        {
           matches = [ { app-id = "firefox-nightly"; } ];
           open-on-workspace = "www";
           open-focused = true;
           default-column-width.proportion = 1.0;
-          # open-maximized-to-edges = true;
+          open-maximized-to-edges = false;
         }
         {
           matches = [
@@ -21,7 +27,7 @@
           open-on-workspace = "chat";
           open-focused = false;
           default-column-width.proportion = 1.0;
-          # open-maximized-to-edges = true;
+          open-maximized-to-edges = false;
         }
         {
           matches = [ { app-id = "Element"; } ];
@@ -36,7 +42,7 @@
           open-on-workspace = "music";
           open-focused = false;
           default-column-width.proportion = 1.0;
-          # open-maximized-to-edges = true;
+          open-maximized-to-edges = false;
         }
 
         {
@@ -135,6 +141,14 @@
       );
 
       layer-rules = [
+        {
+          matches = [ { namespace = "^noctalia-(background|launcher-overlay|dock)-.*$"; } ];
+          background-effect.xray = false;
+        }
+        {
+          matches = [ { namespace = "^launcher$"; } ];
+          background-effect.blur = true;
+        }
         {
           matches = [ { namespace = "^noctalia-backdrop"; } ];
           place-within-backdrop = true;

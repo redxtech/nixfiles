@@ -57,9 +57,6 @@
           in
           {
             settings = {
-              # only availbe with niri-flake/very-refactor branch
-              includes = lib.mkAfter [ (./blur.kdl) ];
-
               xwayland-satellite.path = lib.getExe niriPkgs.xwayland-satellite-unstable;
 
               prefer-no-csd = true; # prefer no client side decorations
@@ -169,8 +166,7 @@
   flake-file = {
     inputs = {
       # using this branch to use unmerged config options
-      niri.url = "github:sodiboo/niri-flake/very-refactor";
-      niri.inputs.nixpkgs.follows = "nixpkgs";
+      niri.url = "github:epireyn/niri-flake";
       # just for the niri-unstable packages
       niri-pkgs.url = "github:sodiboo/niri-flake";
       niri-pkgs.inputs.nixpkgs.follows = "nixpkgs";
