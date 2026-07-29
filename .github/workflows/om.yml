@@ -29,4 +29,4 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Run CI
         run: |
-          nix run github:juspay/omnix
+          nix run github:juspay/omnix -- ci
