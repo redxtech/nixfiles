@@ -39,16 +39,12 @@
               assertion = !(cfg.amd && cfg.nvidia.enable);
               message = "Only one of AMD or NVIDIA can be enabled.";
             }
-            {
-              assertion = !cfg.nvidia.enable;
-              message = "NVIDIA module hasn't been tested yet, test before committing to it";
-            }
           ];
 
-          environment.systemPackages = with pkgs; [
-            amdgpu_top # gpu monitor
-            clinfo # OpenCL info tool
-          ];
+          environment.systemPackages = [
+            pkgs.clinfo # OpenCL info tool
+          ]
+          ++ lib.optional cfg.amd pkgs.amdgpu_top;
 
           boot.initrd.kernelModules =
             (lib.optional cfg.amd "amdgpu") ++ (lib.optional cfg.nvidia.enable "nvidia");
@@ -69,7 +65,6 @@
             powerManagement.enable = false;
             powerManagement.finegrained = cfg.nvidia.turingOrNewer;
             # open = cfg.nvidia.turingOrNewer; # enable when out of "alpha"
-            nvidiaSettings = true;
 
             prime = lib.mkIf cfg.nvidia.prime {
               # TODO: get the actual values
@@ -85,7 +80,6 @@
 
           nixpkgs.config.rocmSupport = cfg.amd;
           nixpkgs.config.cudaSupport = cfg.nvidia.enable;
-          nixpkgs.config.nvidia.acceptLicense = cfg.nvidia.enable;
         };
       };
 
