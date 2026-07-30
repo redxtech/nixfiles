@@ -22,12 +22,12 @@
             pkgs.python3
 
             # lsps
-            bash-language-server
-            emmylua_ls
-            luaPackages.lua-lsp
-            nixd
-            pyright
-            yaml-language-server
+            pkgs.bash-language-server
+            pkgs.emmylua-ls
+            pkgs.luaPackages.lua-lsp
+            pkgs.nixd
+            pkgs.pyright
+            pkgs.yaml-language-server
           ];
 
           settings = {
