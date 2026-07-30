@@ -24,6 +24,13 @@
           hash = "sha256-7F0F55lH057UWZ/DYDUkHKT8m+MImgItGn3QtuMD8ws=";
         };
 
+        koluAgents = pkgs.fetchFromGitHub {
+          owner = "juspay";
+          repo = "kolu";
+          rev = "5ec6ad09b61259be54441ec9ff7109600156a6a1"; # master
+          hash = "sha256-dpQbZn5RG5JGy5g9oYkXigOyr1WXMjtYp2P9Ff+ivbo=";
+        };
+
         aiSlopCure = pkgs.fetchFromGitHub {
           owner = "woosal1337";
           repo = "blog";
@@ -41,6 +48,21 @@
           "hickey"
           "lowy"
           "talk"
+        ];
+
+        koluAgentsSkills = [
+          "agent-debate"
+          "architecture-first-principles"
+          "be"
+          "be-review"
+          "bridge"
+          "coordinator"
+          "diataxis"
+          "hostility-review"
+          "kolu"
+          "lens-debate"
+          "perfection-review"
+          "surface"
         ];
 
         cfg = config.ai;
@@ -96,6 +118,12 @@
                   inherit name;
                   value = agency + "/.apm/skills/${name}";
                 }) agencySkills
+              )
+              // builtins.listToAttrs (
+                map (name: {
+                  inherit name;
+                  value = koluAgents + "/agents/.apm/skills/${name}";
+                }) koluAgentsSkills
               )
               // {
                 ste-writing = pkgs.linkFarm "ste-writing-skill" [
