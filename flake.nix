@@ -86,6 +86,18 @@
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
     odu.url = "github:juspay/odu";
+    pyproject-build-systems = {
+      url = "github:pyproject-nix/build-system-pkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        pyproject-nix.follows = "pyproject-nix";
+        uv2nix.follows = "uv2nix";
+      };
+    };
+    pyproject-nix = {
+      url = "github:pyproject-nix/pyproject.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     solaar = {
       url = "github:Svenum/Solaar-Flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -109,6 +121,13 @@
     tu = {
       url = "github:redxtech/tu";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    uv2nix = {
+      url = "github:pyproject-nix/uv2nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        pyproject-nix.follows = "pyproject-nix";
+      };
     };
     xremap = {
       url = "github:xremap/nix-flake";
