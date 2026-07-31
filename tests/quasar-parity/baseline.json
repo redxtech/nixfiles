@@ -1,0 +1,6870 @@
+{
+  "containerUnits": {
+    "docker-actual": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-adguard": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-adguard-exporter": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-apprise": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-bazarr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-bento": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-beszel": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-beszel-agent": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-booklore": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target",
+        "docker-booklore-mariadb.service"
+      ],
+      "requires": [
+        "docker-booklore-mariadb.service"
+      ],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-booklore-mariadb": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-calibre": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-calibre-web": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-ddclient": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-docker-socket-proxy": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-espresense-companion": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-flaresolverr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-ha-fusion": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-jackett": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-jdownloader": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-jellyfin": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-jellyfin-vue": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-jellyseerr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-kiwix": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-koinsight": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-ladder": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-lidarr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-mass": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-n8n": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-paperless": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-paperless-redis": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-portainer": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-portainer-agent": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-prowlarr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-qbit": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-qbit-alt": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-qdirstat": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-qui": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-radarr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-radarr-exportarr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-scrutiny": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-signaturepdf": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-sonarr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-sonarr-exportarr": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-startpage": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-syncthing": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-tautulli": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-tubearchivist": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target",
+        "docker-tubearchivist-es.service",
+        "docker-tubearchivist-redis.service"
+      ],
+      "requires": [
+        "docker-tubearchivist-es.service",
+        "docker-tubearchivist-redis.service"
+      ],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-tubearchivist-es": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-tubearchivist-redis": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-unpoller": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-watchtower": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    },
+    "docker-yt": {
+      "after": [
+        "docker.service",
+        "docker.socket",
+        "network-online.target"
+      ],
+      "requires": [],
+      "wantedBy": [
+        "multi-user.target"
+      ],
+      "wants": [
+        "network-online.target"
+      ]
+    }
+  },
+  "containers": {
+    "actual": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/actualbudget/actual:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "actual budget",
+        "homepage.group": "utils",
+        "homepage.href": "https://actual.quasar.sucha.foo",
+        "homepage.icon": "actual-budget.svg",
+        "homepage.name": "actual",
+        "traefik.enable": "true",
+        "traefik.http.routers.actual.entrypoints": "websecure",
+        "traefik.http.routers.actual.rule": "Host(`actual.quasar.sucha.foo`)",
+        "traefik.http.routers.actual.tls": "true",
+        "traefik.http.routers.actual.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "5006:5006"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-actual",
+      "user": null,
+      "volumes": [
+        "/config/pods/actual:/config"
+      ],
+      "workdir": null
+    },
+    "adguard": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "adguard/adguardhome:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "dns level adblocking",
+        "homepage.group": "network",
+        "homepage.href": "https://adguard.quasar.sucha.foo",
+        "homepage.icon": "adguard-home.svg",
+        "homepage.name": "adguard",
+        "homepage.weight": "-90",
+        "homepage.widget.password": "{{HOMEPAGE_VAR_ADGUARD_PASS}}",
+        "homepage.widget.type": "adguard",
+        "homepage.widget.url": "https://adguard.quasar.sucha.foo",
+        "homepage.widget.username": "{{HOMEPAGE_VAR_ADGUARD_USER}}",
+        "traefik.enable": "true",
+        "traefik.http.routers.adguard.entrypoints": "websecure",
+        "traefik.http.routers.adguard.rule": "HostRegexp(`^([a-z-]+\\.)?(adguard.quasar.sucha.foo|dns.quasar.sucha.foo)$`)",
+        "traefik.http.routers.adguard.tls": "true",
+        "traefik.http.services.adguard.loadbalancer.server.port": "9900"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9900:9900",
+        "1053:53/tcp",
+        "1053:53/udp",
+        "1443:1443/tcp",
+        "1443:1443/udp",
+        "784:784/udp",
+        "853:853/udp",
+        "853:853/tcp",
+        "8853:8853/udp"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-adguard",
+      "user": null,
+      "volumes": [
+        "/config/pods/adguard/conf:/opt/adguardhome/conf",
+        "/config/pods/adguard/work:/opt/adguardhome/work",
+        "/var/lib/acme/adguard.quasar.sucha.foo:/certs/adguard.quasar.sucha.foo"
+      ],
+      "workdir": null
+    },
+    "adguard-exporter": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver",
+        "adguard_hostname": "127.0.0.1",
+        "adguard_port": "9900",
+        "adguard_protocol": "http",
+        "interval": "10s",
+        "log_limit": "10000",
+        "server_port": "3202"
+      },
+      "environmentFiles": [
+        "/run/secrets/adguard_exporter"
+      ],
+      "extraOptions": [
+        "--network",
+        "host"
+      ],
+      "hostname": null,
+      "image": "docker.io/ebrianne/adguard-exporter:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "3202:3202"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-adguard-exporter",
+      "user": null,
+      "volumes": [],
+      "workdir": null
+    },
+    "apprise": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/apprise-api:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "notification service",
+        "homepage.group": "services",
+        "homepage.href": "https://apprise.quasar.sucha.foo",
+        "homepage.icon": "mdi-bullhorn",
+        "homepage.name": "apprise",
+        "traefik.enable": "true",
+        "traefik.http.routers.apprise.entrypoints": "websecure",
+        "traefik.http.routers.apprise.rule": "Host(`apprise.quasar.sucha.foo`)",
+        "traefik.http.routers.apprise.tls": "true",
+        "traefik.http.routers.apprise.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9005:8000"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-apprise",
+      "user": null,
+      "volumes": [
+        "/config/pods/apprise:/config"
+      ],
+      "workdir": null
+    },
+    "bazarr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/bazarr:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "subtitles downloader",
+        "homepage.group": "arr",
+        "homepage.href": "https://bazarr.quasar.sucha.foo",
+        "homepage.icon": "bazarr.svg",
+        "homepage.name": "bazarr",
+        "homepage.weight": "-90",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_BAZARR}}",
+        "homepage.widget.type": "bazarr",
+        "homepage.widget.url": "https://bazarr.quasar.sucha.foo",
+        "traefik.enable": "true",
+        "traefik.http.routers.bazarr.entrypoints": "websecure",
+        "traefik.http.routers.bazarr.rule": "Host(`bazarr.quasar.sucha.foo`)",
+        "traefik.http.routers.bazarr.tls": "true",
+        "traefik.http.routers.bazarr.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "6767:6767"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-bazarr",
+      "user": null,
+      "volumes": [
+        "/config/pods/bazarr:/config",
+        "/pool/media:/media"
+      ],
+      "workdir": null
+    },
+    "bento": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "bentopdf/bentopdf:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "bento",
+        "homepage.group": "utils",
+        "homepage.href": "https://bento.quasar.sucha.foo",
+        "homepage.icon": "bentopdf.svg",
+        "homepage.name": "bento",
+        "traefik.enable": "true",
+        "traefik.http.routers.bento.entrypoints": "websecure",
+        "traefik.http.routers.bento.rule": "Host(`bento.quasar.sucha.foo`)",
+        "traefik.http.routers.bento.tls": "true",
+        "traefik.http.routers.bento.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8282:8080"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-bento",
+      "user": null,
+      "volumes": [],
+      "workdir": null
+    },
+    "beszel": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "APP_URL": "https://beszel.quasar.sucha.foo"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "henrygd/beszel:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "docker monitoring",
+        "homepage.group": "monitoring",
+        "homepage.href": "https://beszel.quasar.sucha.foo",
+        "homepage.icon": "beszel.svg",
+        "homepage.name": "beszel",
+        "homepage.weight": "-70",
+        "homepage.widget.password": "{{HOMEPAGE_VAR_BESZEL_PASS}}",
+        "homepage.widget.systemId": "{{HOMEPAGE_VAR_BESZEL_SYSTEMID}}",
+        "homepage.widget.type": "beszel",
+        "homepage.widget.url": "http://quasar:8090",
+        "homepage.widget.username": "{{HOMEPAGE_VAR_BESZEL_USER}}",
+        "homepage.widget.version": "2",
+        "traefik.enable": "true",
+        "traefik.http.routers.beszel.entrypoints": "websecure",
+        "traefik.http.routers.beszel.rule": "Host(`beszel.quasar.sucha.foo`)",
+        "traefik.http.routers.beszel.tls": "true",
+        "traefik.http.routers.beszel.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8090:8090"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-beszel",
+      "user": null,
+      "volumes": [
+        "/config/pods/beszel:/beszel_data"
+      ],
+      "workdir": null
+    },
+    "beszel-agent": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "HUB_URL": "http://localhost:8090",
+        "LISTEN": "/beszel_socket/beszel.sock"
+      },
+      "environmentFiles": [
+        "/run/secrets/beszel_env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "henrygd/beszel-agent:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "host"
+      ],
+      "podman": null,
+      "ports": [],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-beszel-agent",
+      "user": null,
+      "volumes": [
+        "/config/pods/beszel-agent:/var/lib/beszel-agent",
+        "/config/pods/beszel-agent/beszel_socket:/beszel_socket",
+        "/var/run/docker.sock:/var/run/docker.sock:ro"
+      ],
+      "workdir": null
+    },
+    "booklore": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [
+        "booklore-mariadb"
+      ],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "BOOKLORE_PORT": "6060",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [
+        "/run/secrets/booklore_env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "booklore/booklore:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "ebook manager",
+        "homepage.group": "books",
+        "homepage.href": "https://booklore.quasar.sucha.foo",
+        "homepage.icon": "book-lore.svg",
+        "homepage.name": "booklore",
+        "homepage.weight": "-100",
+        "traefik.enable": "true",
+        "traefik.http.routers.booklore.entrypoints": "websecure",
+        "traefik.http.routers.booklore.rule": "Host(`booklore.quasar.sucha.foo`)",
+        "traefik.http.routers.booklore.tls": "true",
+        "traefik.http.routers.booklore.tls.certresolver": "cloudflare",
+        "traefik.http.services.booklore.loadbalancer.server.port": "6060"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "booklore"
+      ],
+      "podman": null,
+      "ports": [
+        "6060:6060"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-booklore",
+      "user": null,
+      "volumes": [
+        "/config/pods/booklore/config:/data",
+        "/config/pods/booklore/bookdrop:/bookdrop",
+        "/config/pods/booklore/books:/books"
+      ],
+      "workdir": null
+    },
+    "booklore-mariadb": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [
+        "/run/secrets/booklore_env"
+      ],
+      "extraOptions": [
+        "--health-cmd",
+        "mariadb-admin ping -h localhost"
+      ],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/mariadb:11.4.5",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "booklore"
+      ],
+      "podman": null,
+      "ports": [],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-booklore-mariadb",
+      "user": null,
+      "volumes": [
+        "/config/pods/booklore/mariadb:/config"
+      ],
+      "workdir": null
+    },
+    "calibre": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "CUSTOM_HTTPS_PORT": "8804",
+        "CUSTOM_PORT": "8805",
+        "FILE__CUSTOM_USER": "/run/secrets/calibre_user",
+        "FILE__PASSWORD": "/run/secrets/calibre_pw",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/calibre:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "ebook manager",
+        "homepage.group": "books",
+        "homepage.href": "https://calibre.quasar.sucha.foo",
+        "homepage.icon": "calibre.svg",
+        "homepage.name": "calibre",
+        "homepage.weight": "-80",
+        "traefik.enable": "true",
+        "traefik.http.middlewares.calibre.headers.customrequestheaders.Cross-Origin-Embedder-Policy": "require-corp",
+        "traefik.http.middlewares.calibre.headers.customrequestheaders.Cross-Origin-Opener-Policy": "same-origin",
+        "traefik.http.middlewares.calibre.headers.customrequestheaders.Cross-Origin-Resource-Policy": "same-site",
+        "traefik.http.routers.calibre.entrypoints": "websecure",
+        "traefik.http.routers.calibre.middlewares": "calibre@docker",
+        "traefik.http.routers.calibre.rule": "Host(`calibre.quasar.sucha.foo`)",
+        "traefik.http.routers.calibre.tls": "true",
+        "traefik.http.routers.calibre.tls.certresolver": "cloudflare",
+        "traefik.http.services.calibre.loadbalancer.server.port": "8804",
+        "traefik.http.services.calibre.loadbalancer.server.scheme": "https",
+        "traefik.http.services.calibre.loadbalancer.serverstransport": "ignorecert@file"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8805:8805",
+        "8804:8804",
+        "8808:8808",
+        "8806:8081"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-calibre",
+      "user": null,
+      "volumes": [
+        "/config/pods/calibre:/config",
+        "/run/secrets/calibre_user:/run/secrets/calibre_user",
+        "/run/secrets/calibre_pw:/run/secrets/calibre_pw"
+      ],
+      "workdir": null
+    },
+    "calibre-web": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "DOCKER_MODS": "linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install",
+        "INSTALL_PIP_PACKAGES": "jsonschema",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [
+        "/run/secrets/CALIBRE_WEB_HARDCOVER_KEY"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "crocodilestick/calibre-web-automated:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "ebook manager",
+        "homepage.group": "books",
+        "homepage.href": "https://books.quasar.sucha.foo",
+        "homepage.icon": "calibre-web.svg",
+        "homepage.name": "calibre web",
+        "homepage.weight": "-90",
+        "homepage.widget.password": "{{HOMEPAGE_VAR_CALIBREWEB_PASSWORD}}",
+        "homepage.widget.type": "calibreweb",
+        "homepage.widget.url": "https://books.quasar.sucha.foo",
+        "homepage.widget.username": "{{HOMEPAGE_VAR_CALIBREWEB_USERNAME}}",
+        "traefik.enable": "true",
+        "traefik.http.routers.books.entrypoints": "websecure",
+        "traefik.http.routers.books.middlewares": "homeassistant-allow-iframe@file",
+        "traefik.http.routers.books.rule": "Host(`books.quasar.sucha.foo`)",
+        "traefik.http.routers.books.tls": "true",
+        "traefik.http.routers.books.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8083:8083"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-calibre-web",
+      "user": null,
+      "volumes": [
+        "/config/pods/calibre-web:/config",
+        "/config/pods/calibre/Calibre Library:/calibre-library",
+        "/config/pods/calibre-web-ingest:/cwa-book-ingest"
+      ],
+      "workdir": null
+    },
+    "ddclient": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/ddclient:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-ddclient",
+      "user": null,
+      "volumes": [
+        "/run/secrets/ddclient.conf:/defaults/ddclient.conf"
+      ],
+      "workdir": null
+    },
+    "docker-socket-proxy": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "CONTAINERS": "1",
+        "POST": "0",
+        "SERVICES": "1",
+        "TASKS": "1"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/tecnativa/docker-socket-proxy:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "127.0.0.1:2375:2375"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-docker-socket-proxy",
+      "user": null,
+      "volumes": [
+        "/var/run/docker.sock:/var/run/docker.sock:ro"
+      ],
+      "workdir": null
+    },
+    "espresense-companion": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "espresense/espresense-companion:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "room presence ui",
+        "homepage.group": "home",
+        "homepage.href": "https://espc.quasar.sucha.foo",
+        "homepage.icon": "https://avatars.githubusercontent.com/u/89139441?s=200&v=4",
+        "homepage.name": "espresense companion",
+        "homepage.weight": "-70",
+        "traefik.enable": "true",
+        "traefik.http.routers.espc.entrypoints": "websecure",
+        "traefik.http.routers.espc.rule": "Host(`espc.quasar.sucha.foo`)",
+        "traefik.http.routers.espc.tls": "true",
+        "traefik.http.routers.espc.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8267:8267",
+        "8268:8268"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-espresense-companion",
+      "user": null,
+      "volumes": [
+        "/config/pods/espresense:/config/espresense"
+      ],
+      "workdir": null
+    },
+    "flaresolverr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "CAPTCHA_SOLVER": "none",
+        "LOG_HTML": "false",
+        "LOG_LEVEL": "info",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/flaresolverr/flaresolverr:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "cloudflare challenge resolver",
+        "homepage.group": "arr",
+        "homepage.href": "https://flaresolverr.quasar.sucha.foo",
+        "homepage.icon": "flaresolverr.svg",
+        "homepage.name": "flaresolverr",
+        "traefik.enable": "true",
+        "traefik.http.routers.flaresolverr.entrypoints": "websecure",
+        "traefik.http.routers.flaresolverr.rule": "Host(`flaresolverr.quasar.sucha.foo`)",
+        "traefik.http.routers.flaresolverr.tls": "true",
+        "traefik.http.routers.flaresolverr.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8191:8191"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-flaresolverr",
+      "user": null,
+      "volumes": [],
+      "workdir": null
+    },
+    "ha-fusion": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "HASS_URL": "https://ha.quasar.sucha.foo",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/matt8707/ha-fusion:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "home assistant dashboard",
+        "homepage.group": "home",
+        "homepage.href": "https://fusion.quasar.sucha.foo",
+        "homepage.icon": "https://raw.githubusercontent.com/matt8707/addon-ha-fusion/refs/heads/main/icon.png",
+        "homepage.name": "ha fusion",
+        "traefik.enable": "true",
+        "traefik.http.routers.fusion.entrypoints": "websecure",
+        "traefik.http.routers.fusion.rule": "Host(`fusion.quasar.sucha.foo`)",
+        "traefik.http.routers.fusion.tls": "true",
+        "traefik.http.routers.fusion.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "5050:5050"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-ha-fusion",
+      "user": null,
+      "volumes": [
+        "/config/pods/ha-fusion:/app/data"
+      ],
+      "workdir": null
+    },
+    "jackett": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "AUTO_UPDATE": "true",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/jackett:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "arr indexer proxy",
+        "homepage.group": "arr",
+        "homepage.href": "https://jackett.quasar.sucha.foo",
+        "homepage.icon": "jackett.svg",
+        "homepage.name": "jackett",
+        "traefik.enable": "true",
+        "traefik.http.routers.jackett.entrypoints": "websecure",
+        "traefik.http.routers.jackett.rule": "Host(`jackett.quasar.sucha.foo`)",
+        "traefik.http.routers.jackett.tls": "true",
+        "traefik.http.routers.jackett.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9117:9117"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-jackett",
+      "user": null,
+      "volumes": [
+        "/config/pods/jackett:/config",
+        "/pool/downloads:/downloads"
+      ],
+      "workdir": null
+    },
+    "jdownloader": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "GROUP_ID": "911",
+        "KEEP_APP_RUNNING": "1",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver",
+        "USER_ID": "911",
+        "WEB_LISTENING_PORT": "5800"
+      },
+      "environmentFiles": [
+        "/run/secrets/jdownloader_env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "jlesage/jdownloader-2:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "5800:5800"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-jdownloader",
+      "user": null,
+      "volumes": [
+        "/config/pods/jdownloader:/config",
+        "/pool/downloads/jdownloader:/output"
+      ],
+      "workdir": null
+    },
+    "jellyfin": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "JELLYFIN_PublishedServerUrl": "jellyfin.quasar.sucha.foo",
+        "NVIDIA_VISIBLE_DEVICES": "all",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/jellyfin:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "media server",
+        "homepage.group": "media",
+        "homepage.href": "https://jellyfin.quasar.sucha.foo",
+        "homepage.icon": "jellyfin.svg",
+        "homepage.name": "jellyfin",
+        "homepage.weight": "-90",
+        "homepage.widget.enableBlocks": "true",
+        "homepage.widget.enableNowPlaying": "false",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_JELLYFIN}}",
+        "homepage.widget.type": "jellyfin",
+        "homepage.widget.url": "https://jellyfin.quasar.sucha.foo",
+        "traefik.enable": "true",
+        "traefik.http.routers.jellyfin.entrypoints": "websecure",
+        "traefik.http.routers.jellyfin.rule": "Host(`jellyfin.quasar.sucha.foo`)",
+        "traefik.http.routers.jellyfin.tls": "true",
+        "traefik.http.routers.jellyfin.tls.certresolver": "cloudflare",
+        "traefik.http.services.jellyfin.loadbalancer.server.port": "8096"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8096:8096",
+        "8920:8920",
+        "7359:7359/udp"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-jellyfin",
+      "user": null,
+      "volumes": [
+        "/config/pods/jellyfin:/config",
+        "/pool/media:/media",
+        "/config/pods/calibre/Calibre Library:/books"
+      ],
+      "workdir": null
+    },
+    "jellyfin-vue": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "DEFAULT_SERVERS": "https://jellyfin.quasar.sucha.foo",
+        "HISTORY_ROUTER_MODE": "1"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/jellyfin/jellyfin-vue:unstable",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "jellyfin web ui",
+        "homepage.group": "media",
+        "homepage.href": "https://jellyfin-vue.quasar.sucha.foo",
+        "homepage.icon": "https://raw.githubusercontent.com/jellyfin/jellyfin-vue/refs/heads/master/frontend/public/icon.svg",
+        "homepage.name": "jellyfin vue",
+        "homepage.weight": "-10",
+        "traefik.enable": "true",
+        "traefik.http.routers.jellyfin-vue.entrypoints": "websecure",
+        "traefik.http.routers.jellyfin-vue.rule": "Host(`jellyfin-vue.quasar.sucha.foo`)",
+        "traefik.http.routers.jellyfin-vue.tls": "true",
+        "traefik.http.routers.jellyfin-vue.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8099:80"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-jellyfin-vue",
+      "user": null,
+      "volumes": [
+        "/config/pods/jackett:/config",
+        "/pool/downloads:/downloads"
+      ],
+      "workdir": null
+    },
+    "jellyseerr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "fallenbagel/jellyseerr:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "media request manager",
+        "homepage.group": "media",
+        "homepage.href": "https://jellyseerr.quasar.sucha.foo",
+        "homepage.icon": "jellyseerr.svg",
+        "homepage.name": "jellyseerr",
+        "homepage.weight": "-60",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_JELLYSEERR}}",
+        "homepage.widget.type": "jellyseerr",
+        "homepage.widget.url": "https://jellyseerr.quasar.sucha.foo",
+        "traefik.enable": "true",
+        "traefik.http.routers.jellyseerr.entrypoints": "websecure",
+        "traefik.http.routers.jellyseerr.rule": "Host(`jellyseerr.quasar.sucha.foo`)",
+        "traefik.http.routers.jellyseerr.tls": "true",
+        "traefik.http.routers.jellyseerr.tls.certresolver": "cloudflare",
+        "traefik.http.services.jellyseerr.loadbalancer.server.port": "5055"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "host"
+      ],
+      "podman": null,
+      "ports": [
+        "5055:5055"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-jellyseerr",
+      "user": null,
+      "volumes": [
+        "/config/pods/jellyseerr:/app/config"
+      ],
+      "workdir": null
+    },
+    "kiwix": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [
+        "archlinux_en_all_maxi_2022-04.zim",
+        "beer.stackexchange.com_en_all_2022-05.zim",
+        "cooking.stackexchange.com_en_all_2022-05.zim",
+        "cs.stackexchange.com_en_all_2021-04.zim",
+        "developer.mozilla.org_en_all_2022-05.zim",
+        "engineering.stackexchange.com_en_all_2022-05.zim",
+        "explainxkcd_en_all_maxi_2021-03.zim",
+        "the_infosphere_en_all_maxi_2022-01.zim",
+        "movies.stackexchange.com_en_all_2022-05.zim",
+        "musicfans.stackexchange.com_en_all_2022-05.zim",
+        "openstreetmap-wiki_en_all_maxi_2021-03.zim",
+        "programmers.stackexchange.com_en_all_2017-10.zim",
+        "rationalwiki_en_all_maxi_2021-03.zim",
+        "stackoverflow.com_en_all_2022-05.zim",
+        "superuser.com_en_all_2022-05.zim",
+        "sustainability.stackexchange.com_en_all_2022-05.zim",
+        "unix.stackexchange.com_en_all_2022-05.zim",
+        "vi.stackexchange.com_en_all_2022-05.zim",
+        "wikibooks_en_all_maxi_2021-03.zim",
+        "wikihow_en_maxi_2022-01.zim",
+        "wikileaks_en_afghanistan-war-diary_2012-01.zim/wikileaks_en_afghanistan-war-diary_2012-01.zim",
+        "wikipedia_en_all_maxi_2024-01.zim",
+        "wikiquote_en_all_maxi_2022-05.zim",
+        "wikisource_en_all_nopic_2022-05.zim",
+        "wikisummaries_en_all_maxi_2021-04.zim",
+        "wikiversity_en_all_maxi_2021-03.zim",
+        "wikivoyage_en_all_maxi_2022-06.zim",
+        "wiktionary_en_all_maxi_2022-02.zim"
+      ],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/kiwix/kiwix-serve:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "offline encyclopedia",
+        "homepage.group": "media",
+        "homepage.href": "http://quasar:9060",
+        "homepage.icon": "kiwix.svg",
+        "homepage.name": "kiwix",
+        "homepage.weight": "-20"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9060:8080"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-kiwix",
+      "user": null,
+      "volumes": [
+        "/pool/downloads/deluge/zim:/data"
+      ],
+      "workdir": null
+    },
+    "koinsight": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/georgesg/koinsight:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "reading metrics",
+        "homepage.group": "books",
+        "homepage.href": "https://koinsight.quasar.sucha.foo",
+        "homepage.icon": "mdi-book-information-variant",
+        "homepage.name": "koinsight",
+        "homepage.weight": "-70",
+        "traefik.enable": "true",
+        "traefik.http.routers.koinsight.entrypoints": "websecure",
+        "traefik.http.routers.koinsight.rule": "Host(`koinsight.quasar.sucha.foo`)",
+        "traefik.http.routers.koinsight.tls": "true",
+        "traefik.http.routers.koinsight.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8820:3000"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-koinsight",
+      "user": null,
+      "volumes": [
+        "/config/pods/koinsight:/app/data"
+      ],
+      "workdir": null
+    },
+    "ladder": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "wasimaster/13ft:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "home assistant dashboard",
+        "homepage.group": "utils",
+        "homepage.href": "https://ladder.quasar.sucha.foo",
+        "homepage.icon": "mdi-ladder",
+        "homepage.name": "13ft ladder",
+        "traefik.enable": "true",
+        "traefik.http.routers.ladder.entrypoints": "websecure",
+        "traefik.http.routers.ladder.rule": "Host(`ladder.quasar.sucha.foo`)",
+        "traefik.http.routers.ladder.tls": "true",
+        "traefik.http.routers.ladder.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "1313:5000"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-ladder",
+      "user": null,
+      "volumes": [],
+      "workdir": null
+    },
+    "lidarr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/lidarr:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "music downloader",
+        "homepage.group": "arr",
+        "homepage.href": "https://lidarr.quasar.sucha.foo",
+        "homepage.icon": "lidarr.svg",
+        "homepage.name": "lidarr",
+        "homepage.weight": "-100",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_LIDARR}}",
+        "homepage.widget.type": "lidarr",
+        "homepage.widget.url": "https://lidarr.quasar.sucha.foo"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "host"
+      ],
+      "podman": null,
+      "ports": [
+        "8686:8686"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-lidarr",
+      "user": null,
+      "volumes": [
+        "/config/pods/lidarr:/config",
+        "/pool/downloads:/downloads",
+        "/pool/media:/media"
+      ],
+      "workdir": null
+    },
+    "mass": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [
+        "--privileged",
+        "--network",
+        "host"
+      ],
+      "hostname": null,
+      "image": "ghcr.io/music-assistant/server:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "music contoller",
+        "homepage.group": "home",
+        "homepage.href": "https://mass.quasar.sucha.foo",
+        "homepage.icon": "sh-music-assistant.svg",
+        "homepage.name": "music assistant",
+        "homepage.weight": "-70",
+        "traefik.enable": "true",
+        "traefik.http.routers.mass.entrypoints": "websecure",
+        "traefik.http.routers.mass.rule": "Host(`mass.quasar.sucha.foo`)",
+        "traefik.http.routers.mass.tls": "true",
+        "traefik.http.routers.mass.tls.certresolver": "cloudflare",
+        "traefik.http.services.mass.loadbalancer.server.port": "8095"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8095:8095",
+        "8097:8097",
+        "5090:5090",
+        "5091:5091",
+        "3483:3483"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-mass",
+      "user": null,
+      "volumes": [
+        "/config/pods/music-assistant-server:/data",
+        "/pool/media:/media"
+      ],
+      "workdir": null
+    },
+    "n8n": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "N8N_DATA_TABLES_MAX_SIZE_BYTES": "1073741824",
+        "N8N_PORT": "5678",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver",
+        "WEBHOOK_URL": "https://n8n.quasar.sucha.foo"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "docker.n8n.io/n8nio/n8n:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "workflow automation",
+        "homepage.group": "utils",
+        "homepage.href": "https://n8n.quasar.sucha.foo",
+        "homepage.icon": "n8n.svg",
+        "homepage.name": "n8n",
+        "homepage.weight": "-90",
+        "traefik.enable": "true",
+        "traefik.http.routers.n8n.entrypoints": "websecure",
+        "traefik.http.routers.n8n.rule": "Host(`n8n.quasar.sucha.foo`)",
+        "traefik.http.routers.n8n.tls": "true",
+        "traefik.http.routers.n8n.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-n8n",
+      "user": null,
+      "volumes": [
+        "/config/pods/n8n:/home/node/.n8n"
+      ],
+      "workdir": null
+    },
+    "paperless": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PAPERLESS_REDIS": "redis://paperless-redis:6379",
+        "PAPERLESS_URL": "https://docs.quasar.sucha.foo",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [
+        "/run/secrets/paperless_env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/paperless-ngx/paperless-ngx:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "document management",
+        "homepage.group": "media",
+        "homepage.href": "https://docs.quasar.sucha.foo",
+        "homepage.icon": "paperless.svg",
+        "homepage.name": "paperless",
+        "homepage.weight": "-30",
+        "homepage.widget.password": "{{HOMEPAGE_VAR_PAPERLESS_PASS}}",
+        "homepage.widget.type": "paperlessngx",
+        "homepage.widget.url": "https://docs.quasar.sucha.foo",
+        "homepage.widget.username": "{{HOMEPAGE_VAR_PAPERLESS_USER}}",
+        "traefik.enable": "true",
+        "traefik.http.routers.docs.entrypoints": "websecure",
+        "traefik.http.routers.docs.rule": "Host(`docs.quasar.sucha.foo`)",
+        "traefik.http.routers.docs.tls": "true",
+        "traefik.http.routers.docs.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "paperless"
+      ],
+      "podman": null,
+      "ports": [
+        "9200:8000"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-paperless",
+      "user": null,
+      "volumes": [
+        "/config/pods/paperless-ngx:/usr/src/paperless/data",
+        "/pool/data/paperless-ngx/media:/usr/src/paperless/media",
+        "/pool/data/paperless-ngx/consume:/usr/src/paperless/consume",
+        "/pool/data/paperless-ngx/export:/usr/src/paperless/export"
+      ],
+      "workdir": null
+    },
+    "paperless-redis": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "docker.io/library/redis:8",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "paperless"
+      ],
+      "podman": null,
+      "ports": [],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-paperless-redis",
+      "user": null,
+      "volumes": [
+        "/config/pods/paperless-ngx-redis:/data"
+      ],
+      "workdir": null
+    },
+    "portainer": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [
+        "--network",
+        "host"
+      ],
+      "hostname": null,
+      "image": "portainer/portainer-ee:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "docker management interface",
+        "homepage.group": "admin",
+        "homepage.href": "https://portainer.quasar.sucha.foo",
+        "homepage.icon": "portainer.svg",
+        "homepage.name": "portainer",
+        "homepage.weight": "-90",
+        "homepage.widget.env": "3",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_PORTAINER}}",
+        "homepage.widget.type": "portainer",
+        "homepage.widget.url": "https://portainer.quasar.sucha.foo",
+        "traefik.enable": "true",
+        "traefik.http.routers.portainer.entrypoints": "websecure",
+        "traefik.http.routers.portainer.rule": "Host(`portainer.quasar.sucha.foo`)",
+        "traefik.http.routers.portainer.tls": "true",
+        "traefik.http.routers.portainer.tls.certresolver": "cloudflare",
+        "traefik.http.services.portainer.loadbalancer.server.port": "9000"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8000:8000",
+        "9000:9000"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-portainer",
+      "user": null,
+      "volumes": [
+        "/var/run/docker.sock:/var/run/docker.sock",
+        "/pool/data/portainer:/data"
+      ],
+      "workdir": null
+    },
+    "portainer-agent": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "portainer/agent:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9001:9001"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-portainer-agent",
+      "user": null,
+      "volumes": [
+        "/var/lib/docker/volumes:/var/lib/docker/volumes",
+        "/var/run/docker.sock:/var/run/docker.sock",
+        "/:/host"
+      ],
+      "workdir": null
+    },
+    "prowlarr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/prowlarr:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "arr indexer proxy",
+        "homepage.group": "arr",
+        "homepage.href": "https://prowlarr.quasar.sucha.foo",
+        "homepage.icon": "prowlarr.svg",
+        "homepage.name": "prowlarr",
+        "homepage.weight": "-80",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_PROWLARR}}",
+        "homepage.widget.type": "prowlarr",
+        "homepage.widget.url": "https://prowlarr.quasar.sucha.foo",
+        "traefik.enable": "true",
+        "traefik.http.routers.prowlarr.entrypoints": "websecure",
+        "traefik.http.routers.prowlarr.rule": "Host(`prowlarr.quasar.sucha.foo`)",
+        "traefik.http.routers.prowlarr.tls": "true",
+        "traefik.http.routers.prowlarr.tls.certresolver": "cloudflare",
+        "traefik.http.services.prowlarr.loadbalancer.server.port": "9696"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "host"
+      ],
+      "podman": null,
+      "ports": [
+        "9696:9696"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-prowlarr",
+      "user": null,
+      "volumes": [
+        "/config/pods/prowlarr:/config",
+        "/pool/downloads:/downloads",
+        "/pool/media:/media"
+      ],
+      "workdir": null
+    },
+    "qbit": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TORRENTING_PORT": "46881",
+        "TZ": "America/Vancouver",
+        "WEBUI_PORT": "8811"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/qbittorrent:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "torrent client",
+        "homepage.group": "download",
+        "homepage.href": "https://torrent.quasar.sucha.foo",
+        "homepage.icon": "qbittorrent.svg",
+        "homepage.name": "qbit",
+        "homepage.widget.password": "{{HOMEPAGE_VAR_QBIT_PASS}}",
+        "homepage.widget.type": "qbittorrent",
+        "homepage.widget.url": "https://torrent.quasar.sucha.foo",
+        "homepage.widget.username": "{{HOMEPAGE_VAR_QBIT_USER}}",
+        "traefik.enable": "true",
+        "traefik.http.routers.torrent.entrypoints": "websecure",
+        "traefik.http.routers.torrent.rule": "Host(`torrent.quasar.sucha.foo`)",
+        "traefik.http.routers.torrent.tls": "true",
+        "traefik.http.routers.torrent.tls.certresolver": "cloudflare",
+        "traefik.http.services.torrent.loadbalancer.server.port": "8811"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8811:8811",
+        "46881:46881",
+        "46881:46881/udp"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-qbit",
+      "user": null,
+      "volumes": [
+        "/config/pods/qbit:/config",
+        "/pool/downloads/deluge:/downloads",
+        "/nix/store/<hash>-vuetorrent-2.31.1/share/vuetorrent:/vuetorrent:ro"
+      ],
+      "workdir": null
+    },
+    "qbit-alt": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TORRENTING_PORT": "6882",
+        "TZ": "America/Vancouver",
+        "WEBUI_PORT": "8810"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/qbittorrent:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "alternate torrent client",
+        "homepage.group": "download",
+        "homepage.href": "https://qbit.quasar.sucha.foo",
+        "homepage.icon": "qbittorrent.svg",
+        "homepage.name": "qbit alt",
+        "homepage.widget.password": "{{HOMEPAGE_VAR_QBIT_ALT_PASS}}",
+        "homepage.widget.type": "qbittorrent",
+        "homepage.widget.url": "https://qbit.quasar.sucha.foo",
+        "homepage.widget.username": "{{HOMEPAGE_VAR_QBIT_ALT_USER}}",
+        "traefik.enable": "true",
+        "traefik.http.routers.qbit.entrypoints": "websecure",
+        "traefik.http.routers.qbit.rule": "Host(`qbit.quasar.sucha.foo`)",
+        "traefik.http.routers.qbit.tls": "true",
+        "traefik.http.routers.qbit.tls.certresolver": "cloudflare",
+        "traefik.http.services.qbit.loadbalancer.server.port": "8810"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8810:8810",
+        "6882:6882",
+        "6882:6882/udp"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-qbit-alt",
+      "user": null,
+      "volumes": [
+        "/config/pods/qbit-alt:/config",
+        "/pool/downloads/qbit:/downloads",
+        "/nix/store/<hash>-vuetorrent-2.31.1/share/vuetorrent:/vuetorrent:ro"
+      ],
+      "workdir": null
+    },
+    "qdirstat": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "CUSTOM_PORT": "9030",
+        "FILE__CUSTOM_USER": "/run/secrets/qdirstat_user",
+        "FILE__PASSWORD": "/run/secrets/qdirstat_pw",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/qdirstat:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "disk usage statistics",
+        "homepage.group": "utils",
+        "homepage.href": "https://qdirstat.quasar.sucha.foo",
+        "homepage.icon": "qdirstat.svg",
+        "homepage.name": "qdirstat",
+        "traefik.enable": "true",
+        "traefik.http.routers.qdirstat.entrypoints": "websecure",
+        "traefik.http.routers.qdirstat.rule": "Host(`qdirstat.quasar.sucha.foo`)",
+        "traefik.http.routers.qdirstat.tls": "true",
+        "traefik.http.routers.qdirstat.tls.certresolver": "cloudflare",
+        "traefik.http.services.qdirstat.loadbalancer.server.port": "9030"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9030:9030"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-qdirstat",
+      "user": null,
+      "volumes": [
+        "/config/pods/qdirstat:/config",
+        "/run/secrets/qdirstat_user:/run/secrets/qdirstat_user",
+        "/run/secrets/qdirstat_pw:/run/secrets/qdirstat_pw",
+        "/:/data:ro"
+      ],
+      "workdir": null
+    },
+    "qui": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "QUI__PORT": "7476",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [
+        "/run/secrets/qui_env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/autobrr/qui:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "qbit web interface",
+        "homepage.group": "download",
+        "homepage.href": "https://qui.quasar.sucha.foo",
+        "homepage.icon": "qui.svg",
+        "homepage.name": "qui",
+        "homepage.weight": "-100",
+        "traefik.enable": "true",
+        "traefik.http.routers.qui.entrypoints": "websecure",
+        "traefik.http.routers.qui.rule": "Host(`qui.quasar.sucha.foo`)",
+        "traefik.http.routers.qui.tls": "true",
+        "traefik.http.routers.qui.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "7476:7476"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-qui",
+      "user": null,
+      "volumes": [
+        "/config/pods/qui:/config"
+      ],
+      "workdir": null
+    },
+    "radarr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/radarr:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "movie downloader",
+        "homepage.group": "media",
+        "homepage.href": "https://radarr.quasar.sucha.foo",
+        "homepage.icon": "radarr.svg",
+        "homepage.name": "radarr",
+        "homepage.weight": "-70",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_RADARR}}",
+        "homepage.widget.type": "radarr",
+        "homepage.widget.url": "https://radarr.quasar.sucha.foo"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "host"
+      ],
+      "podman": null,
+      "ports": [
+        "7878:7878"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-radarr",
+      "user": null,
+      "volumes": [
+        "/config/pods/radarr:/config",
+        "/pool/downloads:/downloads",
+        "/pool/media:/media"
+      ],
+      "workdir": null
+    },
+    "radarr-exportarr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [
+        "radarr"
+      ],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PORT": "9708",
+        "PUID": "911",
+        "TZ": "America/Vancouver",
+        "URL": "https://radarr.quasar.sucha.foo"
+      },
+      "environmentFiles": [
+        "/run/secrets/exportarr_radarr"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/onedr0p/exportarr:v2.0",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9708:9708"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-radarr-exportarr",
+      "user": null,
+      "volumes": [],
+      "workdir": null
+    },
+    "scrutiny": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [
+        "--cap-add",
+        "SYS_RAWIO",
+        "--cap-add",
+        "SYS_ADMIN",
+        "--device",
+        "/dev/sda",
+        "--device",
+        "/dev/sdb",
+        "--device",
+        "/dev/sdc",
+        "--device",
+        "/dev/sdd",
+        "--device",
+        "/dev/sde",
+        "--device",
+        "/dev/sdf",
+        "--device",
+        "/dev/sdg",
+        "--device",
+        "/dev/sdh",
+        "--device",
+        "/dev/sdi",
+        "--device",
+        "/dev/sdj",
+        "--device",
+        "/dev/sdk",
+        "--device",
+        "/dev/sdl",
+        "--device",
+        "/dev/sdm",
+        "--device",
+        "/dev/sdn",
+        "--device",
+        "/dev/nvme0"
+      ],
+      "hostname": null,
+      "image": "ghcr.io/analogj/scrutiny:master-omnibus",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "storage health monitoring",
+        "homepage.group": "monitoring",
+        "homepage.href": "https://scrutiny.quasar.sucha.foo",
+        "homepage.icon": "scrutiny.svg",
+        "homepage.name": "scrutiny",
+        "traefik.enable": "true",
+        "traefik.http.routers.scrutiny.entrypoints": "websecure",
+        "traefik.http.routers.scrutiny.rule": "Host(`scrutiny.quasar.sucha.foo`)",
+        "traefik.http.routers.scrutiny.tls": "true",
+        "traefik.http.routers.scrutiny.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "6080:8080"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-scrutiny",
+      "user": null,
+      "volumes": [
+        "/run/udev:/run/udev:ro",
+        "/config/pods/scrutiny:/opt/scrutiny/config",
+        "/config/pods/scrutiny-influx:/opt/scrutiny/influxdb"
+      ],
+      "workdir": null
+    },
+    "signaturepdf": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "DEFAULT_LANGUAGE": "en_CA.UTF-8",
+        "PDF_STORAGE_ENCRYPTION": "true",
+        "PGID": "911",
+        "POST_MAX_SIZE": "64M",
+        "PUID": "911",
+        "SERVERNAME": "pdf.quasar.sucha.foo",
+        "TZ": "America/Vancouver",
+        "UPLOAD_MAX_FILESIZE": "64M"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/redxtech/signaturepdf:master",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "pdf signing and other tools",
+        "homepage.group": "utils",
+        "homepage.href": "https://pdf.quasar.sucha.foo",
+        "homepage.icon": "mdi-signature",
+        "homepage.name": "pdf",
+        "traefik.enable": "true",
+        "traefik.http.routers.pdf.entrypoints": "websecure",
+        "traefik.http.routers.pdf.rule": "Host(`pdf.quasar.sucha.foo`)",
+        "traefik.http.routers.pdf.tls": "true",
+        "traefik.http.routers.pdf.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9208:80"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-signaturepdf",
+      "user": null,
+      "volumes": [
+        "/pool/data/pdf:/data"
+      ],
+      "workdir": null
+    },
+    "sonarr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/sonarr:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "tv downloader",
+        "homepage.group": "media",
+        "homepage.href": "https://sonarr.quasar.sucha.foo",
+        "homepage.icon": "sonarr.svg",
+        "homepage.name": "sonarr",
+        "homepage.weight": "-80",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_SONARR}}",
+        "homepage.widget.type": "sonarr",
+        "homepage.widget.url": "https://sonarr.quasar.sucha.foo"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "host"
+      ],
+      "podman": null,
+      "ports": [
+        "8989:8989"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-sonarr",
+      "user": null,
+      "volumes": [
+        "/config/pods/sonarr:/config",
+        "/pool/downloads:/downloads",
+        "/pool/media:/media"
+      ],
+      "workdir": null
+    },
+    "sonarr-exportarr": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [
+        "sonarr"
+      ],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PORT": "9707",
+        "PUID": "911",
+        "TZ": "America/Vancouver",
+        "URL": "https://sonarr.quasar.sucha.foo"
+      },
+      "environmentFiles": [
+        "/run/secrets/exportarr_sonarr"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/onedr0p/exportarr:v2.0",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9707:9707"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-sonarr-exportarr",
+      "user": null,
+      "volumes": [],
+      "workdir": null
+    },
+    "startpage": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/redxtech/startpage",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "custom startpage",
+        "homepage.group": "utils",
+        "homepage.href": "https://startpage.quasar.sucha.foo",
+        "homepage.icon": "https://raw.githubusercontent.com/redxtech/excalith-start-page/master/public/icon.svg",
+        "homepage.name": "startpage",
+        "traefik.enable": "true",
+        "traefik.http.routers.startpage.entrypoints": "websecure",
+        "traefik.http.routers.startpage.rule": "Host(`startpage.quasar.sucha.foo`)",
+        "traefik.http.routers.startpage.tls": "true",
+        "traefik.http.routers.startpage.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9009:3000"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-startpage",
+      "user": null,
+      "volumes": [],
+      "workdir": null
+    },
+    "syncthing": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/syncthing:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "file syncing",
+        "homepage.group": "services",
+        "homepage.href": "https://syncthing.quasar.sucha.foo",
+        "homepage.icon": "syncthing.svg",
+        "homepage.name": "syncthing",
+        "traefik.enable": "true",
+        "traefik.http.routers.syncthing.entrypoints": "websecure",
+        "traefik.http.routers.syncthing.rule": "Host(`syncthing.quasar.sucha.foo`)",
+        "traefik.http.routers.syncthing.tls": "true",
+        "traefik.http.routers.syncthing.tls.certresolver": "cloudflare",
+        "traefik.http.services.syncthing.loadbalancer.server.port": "8384"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8384:8384",
+        "22000:22000/tcp",
+        "22000:22000/udp",
+        "21027:21027/udp"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-syncthing",
+      "user": null,
+      "volumes": [
+        "/config/pods/syncthing:/config",
+        "/pool/data/syncthing:/data"
+      ],
+      "workdir": null
+    },
+    "tautulli": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "lscr.io/linuxserver/tautulli:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "plex stats page",
+        "homepage.group": "monitoring",
+        "homepage.href": "https://tautulli.quasar.sucha.foo",
+        "homepage.icon": "tautulli.svg",
+        "homepage.name": "tautulli",
+        "traefik.enable": "true",
+        "traefik.http.routers.tautulli.entrypoints": "websecure",
+        "traefik.http.routers.tautulli.rule": "Host(`tautulli.quasar.sucha.foo`)",
+        "traefik.http.routers.tautulli.tls": "true",
+        "traefik.http.routers.tautulli.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8181:8181"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-tautulli",
+      "user": null,
+      "volumes": [
+        "/config/pods/tautulli:/config",
+        "/config/pods/plex/Plex Media Server/Logs:/Logs"
+      ],
+      "workdir": null
+    },
+    "tubearchivist": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [
+        "tubearchivist-redis",
+        "tubearchivist-es"
+      ],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "ES_URL": "http://tubearchivist-es:9200",
+        "HOST_GID": "911",
+        "HOST_UID": "911",
+        "PGID": "911",
+        "PUID": "911",
+        "REDIS_CON": "redis://tubearchivist-redis:6379",
+        "TA_HOST": "https://tubearchivist.quasar.sucha.foo",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [
+        "/run/secrets/tubearchivist_env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "bbilly1/tubearchivist:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "youtube downloader",
+        "homepage.group": "download",
+        "homepage.href": "https://tubearchivist.quasar.sucha.foo",
+        "homepage.icon": "tube-archivist.png",
+        "homepage.name": "tubearchivist",
+        "traefik.enable": "true",
+        "traefik.http.routers.tubearchivist.entrypoints": "websecure",
+        "traefik.http.routers.tubearchivist.rule": "Host(`tubearchivist.quasar.sucha.foo`)",
+        "traefik.http.routers.tubearchivist.tls": "true",
+        "traefik.http.routers.tubearchivist.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "tubearchivist"
+      ],
+      "podman": null,
+      "ports": [
+        "8898:8000"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-tubearchivist",
+      "user": null,
+      "volumes": [
+        "/config/pods/tubearchivist/cache:/cache",
+        "/pool/media/yt:/youtube"
+      ],
+      "workdir": null
+    },
+    "tubearchivist-es": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "ES_JAVA_OPTS": "-Xms1g -Xmx1g",
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver",
+        "discovery.type": "single-node",
+        "path.repo": "/usr/share/elasticsearch/data/snapshot",
+        "xpack.security.enabled": "true"
+      },
+      "environmentFiles": [
+        "/run/secrets/tubearchivist_env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "bbilly1/tubearchivist-es:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "tubearchivist"
+      ],
+      "podman": null,
+      "ports": [],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-tubearchivist-es",
+      "user": null,
+      "volumes": [
+        "/config/pods/tubearchivist/es:/usr/share/elasticsearch/data"
+      ],
+      "workdir": null
+    },
+    "tubearchivist-redis": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {},
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "redis",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {},
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [
+        "tubearchivist"
+      ],
+      "podman": null,
+      "ports": [],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-tubearchivist-redis",
+      "user": null,
+      "volumes": [
+        "/config/pods/tubearchivist/redis:/data"
+      ],
+      "workdir": null
+    },
+    "unpoller": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver",
+        "UP_INFLUXDB_DISABLE": "true",
+        "UP_UNIFI_DEFAULT_SAVE_DPI": "true",
+        "UP_UNIFI_DEFAULT_URL": "https://unifi"
+      },
+      "environmentFiles": [
+        "/run/secrets/unpoller.env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/unpoller/unpoller:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "unifi device poller",
+        "homepage.group": "services",
+        "homepage.href": "https://unpoller.quasar.sucha.foo",
+        "homepage.icon": "https://i.imgur.com/VBHV26V.png",
+        "homepage.name": "unpoller",
+        "traefik.enable": "true",
+        "traefik.http.routers.unpoller.entrypoints": "websecure",
+        "traefik.http.routers.unpoller.rule": "Host(`unpoller.quasar.sucha.foo`)",
+        "traefik.http.routers.unpoller.tls": "true",
+        "traefik.http.routers.unpoller.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "9130:9130"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-unpoller",
+      "user": null,
+      "volumes": [
+        "/config/pods/unpoller:/config"
+      ],
+      "workdir": null
+    },
+    "watchtower": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "PGID": "911",
+        "PUID": "911",
+        "TZ": "America/Vancouver",
+        "WATCHTOWER_CLEANUP": "true",
+        "WATCHTOWER_HTTP_API_METRICS": "true"
+      },
+      "environmentFiles": [
+        "/run/secrets/watchtower_env"
+      ],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "nickfedor/watchtower:latest",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "docker container updating",
+        "homepage.group": "services",
+        "homepage.href": "https://watchtower.quasar.sucha.foo",
+        "homepage.icon": "watchtower.svg",
+        "homepage.name": "watchtower",
+        "homepage.weight": "-100",
+        "homepage.widget.key": "{{HOMEPAGE_VAR_WATCHTOWER}}",
+        "homepage.widget.type": "watchtower",
+        "homepage.widget.url": "https://watchtower.quasar.sucha.foo",
+        "traefik.enable": "true",
+        "traefik.http.routers.watchtower.entrypoints": "websecure",
+        "traefik.http.routers.watchtower.rule": "Host(`watchtower.quasar.sucha.foo`)",
+        "traefik.http.routers.watchtower.tls": "true",
+        "traefik.http.routers.watchtower.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "3400:8080"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-watchtower",
+      "user": null,
+      "volumes": [
+        "/var/run/docker.sock:/var/run/docker.sock"
+      ],
+      "workdir": null
+    },
+    "yt": {
+      "autoRemoveOnStop": true,
+      "autoStart": true,
+      "capabilities": {},
+      "cmd": [],
+      "dependsOn": [],
+      "devices": [],
+      "entrypoint": null,
+      "environment": {
+        "INSTALL_PY_DEPS": "true",
+        "PGID": "911",
+        "PUID": "911",
+        "STASH_CACHE": "/cache/",
+        "STASH_GENERATED": "/generated/",
+        "STASH_METADATA": "/metadata/",
+        "STASH_PORT": "8899",
+        "STASH_STASH": "/data/",
+        "TZ": "America/Vancouver"
+      },
+      "environmentFiles": [],
+      "extraOptions": [],
+      "hostname": null,
+      "image": "ghcr.io/feederbox826/stash-s6:hwaccel-alpine",
+      "imageFile": null,
+      "imageStream": null,
+      "labels": {
+        "homepage.description": "youtube archive i swear",
+        "homepage.group": "media",
+        "homepage.href": "https://yt.quasar.sucha.foo",
+        "homepage.icon": "youtube.svg",
+        "homepage.name": "youtube",
+        "homepage.weight": "-5",
+        "traefik.enable": "true",
+        "traefik.http.routers.yt.entrypoints": "websecure",
+        "traefik.http.routers.yt.rule": "Host(`yt.quasar.sucha.foo`)",
+        "traefik.http.routers.yt.tls": "true",
+        "traefik.http.routers.yt.tls.certresolver": "cloudflare"
+      },
+      "log-driver": "journald",
+      "login": {
+        "passwordFile": null,
+        "registry": null,
+        "username": null
+      },
+      "networks": [],
+      "podman": null,
+      "ports": [
+        "8899:8899"
+      ],
+      "preRunExtraOptions": [],
+      "privileged": false,
+      "pull": "missing",
+      "serviceName": "docker-yt",
+      "user": null,
+      "volumes": [
+        "/etc/localtime:/etc/localtime:ro",
+        "/pool/media/yt:/yt",
+        "/config/pods/yt/config:/root/.stash",
+        "/config/pods/yt/data:/data",
+        "/config/pods/yt/metadata:/metadata",
+        "/config/pods/yt/cache:/cache",
+        "/config/pods/yt/generated:/generated",
+        "/config/pods/yt/pip-cache:/pip-install"
+      ],
+      "workdir": null
+    }
+  },
+  "dns": {
+    "corefile": ".:53 {\n  forward . tls://192.168.1.191 { tls_servername dns.quasar.sucha.foo }\n  prometheus 127.0.0.1:3201\n  cache\n  log\n}\n\nbastion.sucha.foo:53 {\n  file /nix/store/<hash>-bastion.sucha.foo.zone\n  prometheus 127.0.0.1:3201\n  log\n}\n\nquasar.sucha.foo:53 {\n  file /nix/store/<hash>-quasar.sucha.foo.zone\n  prometheus 127.0.0.1:3201\n  log\n}\n\n",
+    "resolvconfUsesLocalResolver": false
+  },
+  "dockerNetworks": {
+    "activationScript": null,
+    "names": [
+      "booklore",
+      "paperless",
+      "tubearchivist"
+    ]
+  },
+  "firewall": {
+    "tcp": [
+      22,
+      53,
+      80,
+      443,
+      853,
+      1880,
+      1883,
+      3005,
+      4533,
+      6052,
+      7777,
+      8082,
+      8095,
+      8097,
+      8113,
+      8123,
+      8324,
+      8808,
+      9090,
+      24454,
+      25565,
+      32400,
+      32469
+    ],
+    "tcpRanges": [],
+    "udp": [
+      53,
+      853,
+      1900,
+      5353,
+      32410,
+      32412,
+      32413,
+      32414,
+      41641
+    ],
+    "udpRanges": []
+  },
+  "homeAssistantPackages": {
+    "customComponents": [
+      "KartoffelToby/better_thermostat",
+      "mweinelt/prometheus_sensor",
+      "xZetsubou/localtuya",
+      "frenck/spook",
+      "mampfes/waste_collection_schedule",
+      "agittins/bermuda",
+      "thomasloven/browser_mod",
+      "mudape/iphonedetect",
+      "zachowj/nodered",
+      "Pirate-Weather/pirateweather",
+      "fondberg/spotcast",
+      "make-all/tuya_local",
+      "snarky-snark/var"
+    ],
+    "customLovelaceModules": [
+      "apexcharts-card",
+      "atomic-calendar-revive",
+      "button-card",
+      "lovelace-card-mod",
+      "decluttering-card",
+      "hourly-weather",
+      "light-entity-card",
+      "mini-graph-card",
+      "mini-media-player",
+      "multiple-entity-row",
+      "mushroom",
+      "template-entity-row",
+      "universal-remote-card",
+      "bubble-card",
+      "lovelace-card-tools",
+      "custom-brand-icons",
+      "ha-firemote",
+      "lovelace-horizon-card",
+      "waze-travel-time"
+    ],
+    "extraComponents": [
+      "accuweather",
+      "adguard",
+      "aftership",
+      "alert",
+      "alexa",
+      "analytics",
+      "analytics_insights",
+      "androidtv",
+      "androidtv_remote",
+      "anthropic",
+      "api",
+      "apple_tv",
+      "application_credentials",
+      "apprise",
+      "auth",
+      "automation",
+      "backup",
+      "binary_sensor",
+      "blueprint",
+      "bluetooth",
+      "bluetooth_adapters",
+      "bluetooth_le_tracker",
+      "broadlink",
+      "button",
+      "calendar",
+      "camera",
+      "cast",
+      "climate",
+      "cloud",
+      "cloudflare",
+      "command_line",
+      "config",
+      "configurator",
+      "conversation",
+      "counter",
+      "cover",
+      "cpuspeed",
+      "date",
+      "datetime",
+      "default_config",
+      "deluge",
+      "denon",
+      "denonavr",
+      "device_automation",
+      "device_sun_light_trigger",
+      "device_tracker",
+      "dhcp",
+      "diagnostics",
+      "discord",
+      "energy",
+      "epic_games_store",
+      "esphome",
+      "event",
+      "fan",
+      "ffmpeg",
+      "ffmpeg_motion",
+      "ffmpeg_noise",
+      "file",
+      "filter",
+      "folder",
+      "folder_watcher",
+      "frontend",
+      "generic",
+      "geo_location",
+      "google",
+      "google_assistant",
+      "google_assistant_sdk",
+      "google_cloud",
+      "google_generative_ai_conversation",
+      "google_mail",
+      "google_maps",
+      "google_pubsub",
+      "google_translate",
+      "google_travel_time",
+      "group",
+      "habitica",
+      "hardware",
+      "haveibeenpwned",
+      "hddtemp",
+      "hdmi_cec",
+      "here_travel_time",
+      "history",
+      "history_stats",
+      "holiday",
+      "homeassistant",
+      "homeassistant_alerts",
+      "homekit",
+      "homekit_controller",
+      "html5",
+      "http",
+      "image",
+      "image_processing",
+      "image_upload",
+      "imap",
+      "influxdb",
+      "input_boolean",
+      "input_button",
+      "input_datetime",
+      "input_number",
+      "input_select",
+      "input_text",
+      "integration",
+      "intent",
+      "ios",
+      "ipp",
+      "isal",
+      "jellyfin",
+      "lastfm",
+      "led_ble",
+      "light",
+      "local_calendar",
+      "local_file",
+      "local_ip",
+      "local_todo",
+      "lock",
+      "logbook",
+      "logentries",
+      "logger",
+      "lovelace",
+      "manual",
+      "manual_mqtt",
+      "media_extractor",
+      "media_player",
+      "media_source",
+      "met",
+      "min_max",
+      "minecraft_server",
+      "mobile_app",
+      "moon",
+      "mqtt",
+      "mqtt_eventstream",
+      "mqtt_json",
+      "mqtt_room",
+      "mqtt_statestream",
+      "music_assistant",
+      "my",
+      "network",
+      "nextbus",
+      "notify",
+      "number",
+      "onboarding",
+      "open_meteo",
+      "openweathermap",
+      "otp",
+      "panel_custom",
+      "persistent_notification",
+      "person",
+      "ping",
+      "plant",
+      "plex",
+      "profiler",
+      "prometheus",
+      "proximity",
+      "qrcode",
+      "radarr",
+      "radio_browser",
+      "random",
+      "recollect_waste",
+      "recorder",
+      "recovery_mode",
+      "remote",
+      "repairs",
+      "rest",
+      "rest_command",
+      "scene",
+      "schedule",
+      "script",
+      "ssdp",
+      "search",
+      "season",
+      "select",
+      "sensor",
+      "serial",
+      "seventeentrack",
+      "shell_command",
+      "smtp",
+      "sonarr",
+      "spotify",
+      "statistics",
+      "steam_online",
+      "stream",
+      "sun",
+      "switch",
+      "system_health",
+      "system_log",
+      "systemmonitor",
+      "tag",
+      "tailscale",
+      "tautulli",
+      "tcp",
+      "text",
+      "tile",
+      "time",
+      "time_date",
+      "timer",
+      "todo",
+      "todoist",
+      "trace",
+      "tts",
+      "tuya",
+      "unifi",
+      "unifi_direct",
+      "universal",
+      "update",
+      "upnp",
+      "uptime",
+      "usb",
+      "version",
+      "wake_on_lan",
+      "waze_travel_time",
+      "weather",
+      "webhook",
+      "websocket_api",
+      "whois",
+      "wiz",
+      "wyoming",
+      "zeroconf",
+      "zha",
+      "zone"
+    ],
+    "extraPackages": [
+      "psycopg2",
+      "unifi-ap"
+    ]
+  },
+  "host": {
+    "address": "quasar.sucha.foo",
+    "domain": "sucha.foo",
+    "hostName": "quasar",
+    "ip": "192.168.1.191",
+    "roots": {
+      "config": "/config/pods",
+      "data": "/pool/data",
+      "downloads": "/pool/downloads",
+      "media": "/pool/media",
+      "pool": "/pool"
+    },
+    "timeZone": "America/Vancouver",
+    "wheelNeedsPassword": false
+  },
+  "identities": {
+    "alloy": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": false,
+        "description": "",
+        "extraGroups": [
+          "docker"
+        ],
+        "group": "users",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": null
+      }
+    },
+    "data": {
+      "group": {
+        "gid": 911,
+        "members": [
+          "data",
+          "gabe"
+        ]
+      },
+      "user": {
+        "createHome": false,
+        "description": "Data User",
+        "extraGroups": [
+          "data",
+          "docker",
+          "input",
+          "libvirtd",
+          "podman"
+        ],
+        "group": "data",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-fish-4.3.3",
+        "uid": 911
+      }
+    },
+    "esphome": {
+      "group": null,
+      "user": null
+    },
+    "grafana": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": true,
+        "description": "Grafana user",
+        "extraGroups": [],
+        "group": "grafana",
+        "isNormalUser": false,
+        "isSystemUser": false,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": 196
+      }
+    },
+    "hass": {
+      "group": {
+        "gid": 286,
+        "members": [
+          "gabe"
+        ]
+      },
+      "user": {
+        "createHome": true,
+        "description": "",
+        "extraGroups": [],
+        "group": "hass",
+        "isNormalUser": false,
+        "isSystemUser": false,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": 286
+      }
+    },
+    "hercules-ci-agent": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": true,
+        "description": "Hercules CI Agent system user",
+        "extraGroups": [],
+        "group": "hercules-ci-agent",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": null
+      }
+    },
+    "influxdb2": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": false,
+        "description": "",
+        "extraGroups": [],
+        "group": "influxdb2",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": null
+      }
+    },
+    "loki": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": true,
+        "description": "Loki Service User",
+        "extraGroups": [],
+        "group": "loki",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": null
+      }
+    },
+    "mosquitto": {
+      "group": {
+        "gid": 246,
+        "members": []
+      },
+      "user": {
+        "createHome": true,
+        "description": "Mosquitto MQTT Broker Daemon owner",
+        "extraGroups": [],
+        "group": "mosquitto",
+        "isNormalUser": false,
+        "isSystemUser": false,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": 246
+      }
+    },
+    "navidrome": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": false,
+        "description": "",
+        "extraGroups": [],
+        "group": "navidrome",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": null
+      }
+    },
+    "node-red": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": false,
+        "description": "",
+        "extraGroups": [],
+        "group": "node-red",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": null
+      }
+    },
+    "pocket-id": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": false,
+        "description": "Pocket ID backend user",
+        "extraGroups": [],
+        "group": "pocket-id",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": null
+      }
+    },
+    "postgres": {
+      "group": {
+        "gid": 71,
+        "members": []
+      },
+      "user": {
+        "createHome": false,
+        "description": "PostgreSQL server user",
+        "extraGroups": [],
+        "group": "postgres",
+        "isNormalUser": false,
+        "isSystemUser": false,
+        "shell": "/nix/store/<hash>-bash-interactive-5.3p3",
+        "uid": 71
+      }
+    },
+    "prometheus": {
+      "group": {
+        "gid": 255,
+        "members": []
+      },
+      "user": {
+        "createHome": false,
+        "description": "Prometheus daemon user",
+        "extraGroups": [],
+        "group": "prometheus",
+        "isNormalUser": false,
+        "isSystemUser": false,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": 255
+      }
+    },
+    "traefik": {
+      "group": {
+        "gid": null,
+        "members": []
+      },
+      "user": {
+        "createHome": true,
+        "description": "",
+        "extraGroups": [],
+        "group": "traefik",
+        "isNormalUser": false,
+        "isSystemUser": true,
+        "shell": "/nix/store/<hash>-shadow-4.18.0",
+        "uid": null
+      }
+    }
+  },
+  "ingress": {
+    "certificates": {
+      "adguard.quasar.sucha.foo": {
+        "directory": "/var/lib/acme/adguard.quasar.sucha.foo",
+        "domain": "adguard.quasar.sucha.foo",
+        "extraDomainNames": [
+          "*.adguard.quasar.sucha.foo",
+          "dns.quasar.sucha.foo",
+          "*.dns.quasar.sucha.foo"
+        ],
+        "group": "docker",
+        "reloadServices": []
+      },
+      "quasar.sucha.foo": {
+        "directory": "/var/lib/acme/quasar.sucha.foo",
+        "domain": "quasar.sucha.foo",
+        "extraDomainNames": [
+          "*.quasar.sucha.foo"
+        ],
+        "group": "docker",
+        "reloadServices": []
+      }
+    },
+    "routes": {
+      "alloy": 12346,
+      "cockpit": 9090,
+      "dash": 4000,
+      "esphome": 6052,
+      "flood": 8113,
+      "grafana": 3000,
+      "ha": 8123,
+      "home": 8082,
+      "id": 1411,
+      "influx": 8086,
+      "lidarr": 8686,
+      "loki": 3002,
+      "mass": 8095,
+      "music": 4533,
+      "node-red": 1880,
+      "prometheus": 3001,
+      "radarr": 7878,
+      "sonarr": 8989,
+      "stirling": 8844,
+      "traefik": 8080,
+      "uptime": 3301,
+      "z2m": 7800
+    },
+    "traefikDynamic": {
+      "http": {
+        "middlewares": {
+          "homeassistant-allow-iframe": {
+            "headers": {
+              "contentSecurityPolicy": "frame-ancestors ha.quasar.sucha.foo",
+              "customResponseHeaders": {
+                "X-Frame-Options": "",
+                "X-XSS-Protection": "1"
+              }
+            }
+          }
+        },
+        "routers": {
+          "alloy": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`alloy.quasar.sucha.foo`)",
+            "service": "alloy"
+          },
+          "cockpit": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`cockpit.quasar.sucha.foo`)",
+            "service": "cockpit"
+          },
+          "dash": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`dash.quasar.sucha.foo`)",
+            "service": "dash"
+          },
+          "default": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`quasar.sucha.foo`)",
+            "service": "cockpit"
+          },
+          "esphome": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`esphome.quasar.sucha.foo`)",
+            "service": "esphome"
+          },
+          "flood": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`flood.quasar.sucha.foo`)",
+            "service": "flood"
+          },
+          "grafana": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "middlewares": [
+              "homeassistant-allow-iframe"
+            ],
+            "rule": "Host(`grafana.quasar.sucha.foo`)",
+            "service": "grafana"
+          },
+          "ha": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`ha.quasar.sucha.foo`)",
+            "service": "ha"
+          },
+          "home": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`home.quasar.sucha.foo`)",
+            "service": "home"
+          },
+          "id": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`id.quasar.sucha.foo`)",
+            "service": "id"
+          },
+          "influx": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`influx.quasar.sucha.foo`)",
+            "service": "influx"
+          },
+          "lidarr": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`lidarr.quasar.sucha.foo`)",
+            "service": "lidarr"
+          },
+          "loki": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`loki.quasar.sucha.foo`)",
+            "service": "loki"
+          },
+          "mass": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`mass.quasar.sucha.foo`)",
+            "service": "mass"
+          },
+          "music": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`music.quasar.sucha.foo`)",
+            "service": "music"
+          },
+          "node-red": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`node-red.quasar.sucha.foo`)",
+            "service": "node-red"
+          },
+          "plex": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`plex.quasar.sucha.foo`)",
+            "service": "plex"
+          },
+          "prometheus": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`prometheus.quasar.sucha.foo`)",
+            "service": "prometheus"
+          },
+          "radarr": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`radarr.quasar.sucha.foo`)",
+            "service": "radarr"
+          },
+          "sonarr": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`sonarr.quasar.sucha.foo`)",
+            "service": "sonarr"
+          },
+          "stirling": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`stirling.quasar.sucha.foo`)",
+            "service": "stirling"
+          },
+          "traefik": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`traefik.quasar.sucha.foo`)",
+            "service": "traefik"
+          },
+          "uptime": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`uptime.quasar.sucha.foo`)",
+            "service": "uptime"
+          },
+          "z2m": {
+            "entrypoints": [
+              "websecure"
+            ],
+            "rule": "Host(`z2m.quasar.sucha.foo`)",
+            "service": "z2m"
+          }
+        },
+        "serversTransports": {
+          "ignorecert": {
+            "insecureSkipVerify": true
+          }
+        },
+        "services": {
+          "alloy": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:12346"
+                }
+              ]
+            }
+          },
+          "cockpit": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:9090"
+                }
+              ]
+            }
+          },
+          "dash": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:4000"
+                }
+              ]
+            }
+          },
+          "esphome": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:6052"
+                }
+              ]
+            }
+          },
+          "flood": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8113"
+                }
+              ]
+            }
+          },
+          "grafana": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:3000"
+                }
+              ]
+            }
+          },
+          "ha": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8123"
+                }
+              ]
+            }
+          },
+          "home": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8082"
+                }
+              ]
+            }
+          },
+          "id": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:1411"
+                }
+              ]
+            }
+          },
+          "influx": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8086"
+                }
+              ]
+            }
+          },
+          "lidarr": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8686"
+                }
+              ]
+            }
+          },
+          "loki": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:3002"
+                }
+              ]
+            }
+          },
+          "mass": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8095"
+                }
+              ]
+            }
+          },
+          "music": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:4533"
+                }
+              ]
+            }
+          },
+          "node-red": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:1880"
+                }
+              ]
+            }
+          },
+          "plex": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:32400"
+                }
+              ]
+            }
+          },
+          "prometheus": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:3001"
+                }
+              ]
+            }
+          },
+          "radarr": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:7878"
+                }
+              ]
+            }
+          },
+          "sonarr": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8989"
+                }
+              ]
+            }
+          },
+          "stirling": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8844"
+                }
+              ]
+            }
+          },
+          "traefik": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:8080"
+                }
+              ]
+            }
+          },
+          "uptime": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:3301"
+                }
+              ]
+            }
+          },
+          "z2m": {
+            "loadBalancer": {
+              "servers": [
+                {
+                  "url": "http://localhost:7800"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "tls": {
+        "certificates": [
+          {
+            "certFile": "/var/lib/acme/adguard.quasar.sucha.foo/cert.pem",
+            "keyFile": "/var/lib/acme/adguard.quasar.sucha.foo/key.pem"
+          }
+        ],
+        "stores": {
+          "default": {
+            "defaultCertificate": {
+              "certFile": "/var/lib/acme/adguard.quasar.sucha.foo/cert.pem",
+              "keyFile": "/var/lib/acme/adguard.quasar.sucha.foo/key.pem"
+            }
+          }
+        }
+      }
+    },
+    "traefikStatic": {
+      "api": {
+        "dashboard": true,
+        "insecure": true
+      },
+      "certificatesResolvers": {
+        "cloudflare": {
+          "acme": {
+            "dnsChallenge": {
+              "provider": "cloudflare",
+              "resolvers": [
+                "1.1.1.1:53",
+                "1.0.0.1:53"
+              ]
+            },
+            "email": "quasar-letsencrypt@gabe.super.fish",
+            "storage": "/config/pods/traefik/acme.json"
+          }
+        }
+      },
+      "entryPoints": {
+        "web": {
+          "address": ":80",
+          "http": {
+            "redirections": {
+              "entryPoint": {
+                "scheme": "https",
+                "to": "websecure"
+              }
+            }
+          }
+        },
+        "websecure": {
+          "address": ":443",
+          "forwardedHeaders": {
+            "trustedIPs": [
+              "127.0.0.1/32"
+            ]
+          },
+          "http": {
+            "tls": {
+              "certResolver": "cloudflare",
+              "domains": [
+                {
+                  "main": "quasar.sucha.foo",
+                  "sans": [
+                    "*.quasar.sucha.foo"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "metrics": {
+        "prometheus": {
+          "addEntryPointsLabels": true,
+          "addRoutersLabels": true,
+          "addServicesLabels": true
+        }
+      },
+      "providers": {
+        "docker": {
+          "endpoint": "unix:///var/run/docker.sock",
+          "exposedByDefault": false
+        }
+      }
+    }
+  },
+  "monitoring": {
+    "alloyConfigPath": "/nix/store/<hash>-alloy-config.json",
+    "alloyFlags": [
+      "--server.http.listen-addr=0.0.0.0:12346"
+    ],
+    "ports": {
+      "alloy": 12346,
+      "grafana": 3000,
+      "loki": 3002,
+      "prometheus": 3001
+    }
+  },
+  "nativeServices": {
+    "alloy": {
+      "configPath": "/nix/store/<hash>-alloy-config.json",
+      "enable": true,
+      "extraFlags": [
+        "--server.http.listen-addr=0.0.0.0:12346"
+      ]
+    },
+    "coredns": {
+      "config": ".:53 {\n  forward . tls://192.168.1.191 { tls_servername dns.quasar.sucha.foo }\n  prometheus 127.0.0.1:3201\n  cache\n  log\n}\n\nbastion.sucha.foo:53 {\n  file /nix/store/<hash>-bastion.sucha.foo.zone\n  prometheus 127.0.0.1:3201\n  log\n}\n\nquasar.sucha.foo:53 {\n  file /nix/store/<hash>-quasar.sucha.foo.zone\n  prometheus 127.0.0.1:3201\n  log\n}\n\n",
+      "enable": true
+    },
+    "esphome": {
+      "address": "0.0.0.0",
+      "enable": true,
+      "openFirewall": true,
+      "port": 6052
+    },
+    "flood": {
+      "enable": true,
+      "extraArgs": [
+        ""
+      ],
+      "openFirewall": true,
+      "port": 8113
+    },
+    "grafana": {
+      "dataDir": "/var/lib/grafana",
+      "enable": true,
+      "settings": {
+        "analytics": {
+          "check_for_plugin_updates": true,
+          "check_for_updates": false,
+          "feedback_links_enabled": true,
+          "reporting_enabled": false
+        },
+        "auth": {
+          "oauth_allow_insecure_email_lookup": true
+        },
+        "database": {
+          "ca_cert_path": null,
+          "cache_mode": "private",
+          "client_cert_path": null,
+          "client_key_path": null,
+          "conn_max_lifetime": 14400,
+          "host": "127.0.0.1:3306",
+          "isolation_level": null,
+          "locking_attempt_timeout_sec": 0,
+          "log_queries": false,
+          "max_idle_conn": 2,
+          "max_open_conn": 0,
+          "name": "grafana",
+          "password": "",
+          "path": "/var/lib/grafana/data/grafana.db",
+          "query_retries": 0,
+          "server_cert_name": null,
+          "ssl_mode": "disable",
+          "transaction_retries": 5,
+          "type": "sqlite3",
+          "user": "root",
+          "wal": false
+        },
+        "paths": {
+          "plugins": "/var/lib/grafana/plugins",
+          "provisioning": "/nix/store/<hash>-grafana-provisioning"
+        },
+        "plugins": {
+          "preinstall_disabled": false
+        },
+        "security": {
+          "admin_email": "admin@localhost",
+          "admin_password": "admin",
+          "admin_user": "admin",
+          "allow_embedding": false,
+          "content_security_policy": false,
+          "content_security_policy_report_only": false,
+          "cookie_samesite": "lax",
+          "cookie_secure": false,
+          "csrf_additional_headers": [],
+          "csrf_trusted_origins": [],
+          "data_source_proxy_whitelist": [],
+          "disable_brute_force_login_protection": false,
+          "disable_gravatar": false,
+          "disable_initial_admin_creation": false,
+          "secret_key": "SW2YcwTIb9zpOOhoPsMm",
+          "strict_transport_security": false,
+          "strict_transport_security_max_age_seconds": 86400,
+          "strict_transport_security_preload": false,
+          "strict_transport_security_subdomains": false,
+          "x_content_type_options": true,
+          "x_xss_protection": false
+        },
+        "server": {
+          "cdn_url": null,
+          "cert_file": null,
+          "cert_key": null,
+          "domain": "grafana.quasar.sucha.foo",
+          "enable_gzip": false,
+          "enforce_domain": false,
+          "http_addr": "0.0.0.0",
+          "http_port": 3000,
+          "protocol": "http",
+          "read_timeout": "0",
+          "root_url": "https://grafana.quasar.sucha.foo",
+          "router_logging": false,
+          "serve_from_sub_path": false,
+          "socket": "/run/grafana/grafana.sock",
+          "socket_gid": -1,
+          "socket_mode": "0660",
+          "static_root_path": "/nix/store/<hash>-grafana-12.3.1/share/grafana/public"
+        },
+        "smtp": {
+          "cert_file": null,
+          "ehlo_identity": null,
+          "enabled": true,
+          "from_address": "grafana@sucha.foo",
+          "from_name": "Grafana",
+          "host": "$__file{/run/secrets/grafana_smtp_host}",
+          "key_file": null,
+          "password": "$__file{/run/secrets/grafana_smtp_pw}",
+          "skip_verify": false,
+          "startTLS_policy": null,
+          "user": "$__file{/run/secrets/grafana_smtp_user}"
+        },
+        "users": {
+          "allow_org_create": false,
+          "allow_sign_up": false,
+          "auto_assign_org": true,
+          "auto_assign_org_id": 1,
+          "auto_assign_org_role": "Viewer",
+          "default_language": "en-US",
+          "default_theme": "dark",
+          "hidden_users": "",
+          "home_page": "",
+          "login_hint": "email or username",
+          "password_hint": "password",
+          "user_invite_max_lifetime_duration": "24h",
+          "verify_email_enabled": false,
+          "viewers_can_edit": false
+        }
+      }
+    },
+    "hercules-ci-agent": {
+      "enable": true,
+      "settings": {
+        "apiBaseUrl": "https://hercules-ci.com",
+        "baseDirectory": "/var/lib/hercules-ci-agent",
+        "binaryCachesPath": "/run/secrets/hercules-ci-agent-binary-caches",
+        "clusterJoinTokenPath": "/run/secrets/hercules-ci-agent-join-token",
+        "concurrentTasks": "auto",
+        "labels": {
+          "agent": {
+            "source": "nixpkgs"
+          },
+          "lib": {
+            "version": "26.05.20260108.3497aa5"
+          },
+          "nixos": {
+            "codeName": "Yarara",
+            "label": "26.05.20260108.3497aa5",
+            "release": "26.05",
+            "systemName": "quasar",
+            "tags": []
+          },
+          "pkgs": {
+            "version": "26.05pre-git"
+          }
+        },
+        "nixUserIsTrusted": true,
+        "secretsJsonPath": "/run/secrets/hercules-ci-agent-secrets",
+        "staticSecretsDirectory": "/var/lib/hercules-ci-agent/secrets",
+        "workDirectory": "/var/lib/hercules-ci-agent/work"
+      }
+    },
+    "home-assistant": {
+      "config": {
+        "automation": "!include automations.yaml",
+        "default_config": {},
+        "device_tracker": [
+          {
+            "host": "192.168.1.1",
+            "password": "!secret unifi_pass",
+            "platform": "unifi_direct",
+            "username": "!secret unifi_user"
+          }
+        ],
+        "frontend": {
+          "extra_module_url": [
+            "/local/nixos-lovelace-modules/card-mod.js"
+          ]
+        },
+        "homeassistant": {
+          "country": "CA",
+          "currency": "CAD",
+          "elevation": "!secret elevation",
+          "external_url": "https://ha.quasar.sucha.foo",
+          "internal_url": "https://ha.quasar.sucha.foo",
+          "latitude": "!secret latitude",
+          "longitude": "!secret longitude",
+          "media_dirs": {
+            "media": "/pool/media"
+          },
+          "name": "Beach House",
+          "temperature_unit": "C",
+          "time_zone": "America/Vancouver",
+          "unit_system": "metric"
+        },
+        "http": {
+          "server_host": null,
+          "server_port": 8123,
+          "trusted_proxies": [
+            "127.0.0.1",
+            "::1"
+          ],
+          "use_x_forwarded_for": true
+        },
+        "influxdb": {
+          "api_version": 2,
+          "bucket": "default",
+          "default_measurement": "units",
+          "exclude": {
+            "domains": [
+              "persistent_notification",
+              "person"
+            ],
+            "entities": [
+              "zone.home"
+            ]
+          },
+          "host": "influx.quasar.sucha.foo",
+          "include": {
+            "domains": [
+              "binary_sensor",
+              "sensor",
+              "sun"
+            ],
+            "entities": [
+              "weather.beach_house"
+            ]
+          },
+          "organization": "home-assistant",
+          "port": 443,
+          "tags": {
+            "source": "HA"
+          },
+          "tags_attributes": [
+            "friendly_name"
+          ],
+          "token": "!secret influx_token"
+        },
+        "lovelace": {
+          "mode": "yaml"
+        },
+        "notify": [
+          {
+            "encryption": "tls",
+            "name": "Email",
+            "password": "!secret smtp_password",
+            "platform": "smtp",
+            "port": "!secret smtp_port",
+            "recipient": "!secret smtp_default_recipient",
+            "sender": "homeassistant@sucha.foo",
+            "sender_name": "Home Assistant",
+            "server": "!secret smtp_server",
+            "username": "!secret smtp_username"
+          }
+        ],
+        "recorder": {
+          "db_url": "postgresql://@/hass"
+        },
+        "scene": "!include scenes.yaml",
+        "script": "!include scripts.yaml",
+        "sensor": [
+          {
+            "device_id": "!secret espresense_gabe_phone",
+            "name": "Gabe's Phone BLE",
+            "platform": "mqtt_room",
+            "state_topic": "!secret espresense_gabe_phone_topic",
+            "timeout": 60
+          },
+          {
+            "device_id": "!secret espresense_gabe_watch",
+            "name": "Gabe's Watch BLE",
+            "platform": "mqtt_room",
+            "state_topic": "!secret espresense_gabe_watch_topic",
+            "timeout": 60
+          },
+          {
+            "device_id": "!secret espresense_cam_phone",
+            "name": "Cam's Phone BLE",
+            "platform": "mqtt_room",
+            "state_topic": "!secret espresense_cam_phone_topic",
+            "timeout": 60
+          },
+          {
+            "device_id": "!secret espresense_kira_phone",
+            "name": "Kira's Phone BLE",
+            "platform": "mqtt_room",
+            "state_topic": "!secret espresense_kira_phone_topic",
+            "timeout": 60
+          }
+        ],
+        "shell_command": {
+          "notify_bastion": "/nix/store/<hash>-notify-bastion \"{{ title }}\" \"{{ message }}\""
+        },
+        "spotcast": {
+          "country": "CA",
+          "sp_dc": "!secret spotcast_gabe_sp_dc",
+          "sp_key": "!secret spotcast_gabe_sp_key"
+        },
+        "var": {
+          "spt_bastion": {
+            "entity_picture": "mdi:desktop-classic",
+            "friendly_name": "Spotify - Bastion",
+            "initial_value": "!secret spotify_bastion_id",
+            "unique_id": "var_spotify_device_bastion_id"
+          },
+          "spt_bedroom_speaker": {
+            "entity_picture": "mdi:cast-audio",
+            "friendly_name": "Spotify - Bedroom Speaker",
+            "initial_value": "!secret spotify_bedroom_speaker_id",
+            "unique_id": "var_spotify_device_bedroom_speaker_id"
+          },
+          "spt_gabes_phone": {
+            "entity_picture": "mdi:cellphone",
+            "friendly_name": "Spotify - Gabe's Phone",
+            "initial_value": "!secret spotify_gabes_phone_id",
+            "unique_id": "var_spotify_device_gabes_phone_id"
+          },
+          "spt_kitchen_speaker": {
+            "entity_picture": "mdi:cast-audio",
+            "friendly_name": "Spotify - Kitchen Speaker",
+            "initial_value": "!secret spotify_kitchen_speaker_id",
+            "unique_id": "var_spotify_device_kitchen_speaker_id"
+          },
+          "spt_living_room_tv": {
+            "entity_picture": "mdi:television-box",
+            "friendly_name": "Spotify - Living Room TV",
+            "initial_value": "!secret spotify_living_room_tv_id",
+            "unique_id": "var_spotify_device_living_room_tv_id"
+          },
+          "spt_pl_censorship": {
+            "entity_picture": "mdi:playlist-music",
+            "friendly_name": "Spotify Playlist - Censorship",
+            "initial_value": "spotify:playlist:1SEjsahPsn1pEGgyJ6mInM",
+            "unique_id": "var_spotify_playlist_censorship_uri"
+          },
+          "spt_pl_dope": {
+            "entity_picture": "mdi:playlist-music",
+            "friendly_name": "Spotify Playlist - Dope, I Mean",
+            "initial_value": "spotify:playlist:29nSH89xCUvByNnMujjZZw",
+            "unique_id": "var_spotify_playlist_dope_uri"
+          },
+          "spt_pl_masterlist": {
+            "entity_picture": "mdi:playlist-music",
+            "friendly_name": "Spotify Playlist - The Master List",
+            "initial_value": "spotify:playlist:33cMTnKfvqpaDFB38ZKQb4",
+            "unique_id": "var_spotify_playlist_masterlist_uri"
+          }
+        }
+      },
+      "configDir": "/config/pods/homeassistant",
+      "enable": true,
+      "extraComponents": [
+        "accuweather",
+        "adguard",
+        "aftership",
+        "alert",
+        "alexa",
+        "analytics",
+        "analytics_insights",
+        "androidtv",
+        "androidtv_remote",
+        "anthropic",
+        "api",
+        "apple_tv",
+        "application_credentials",
+        "apprise",
+        "auth",
+        "automation",
+        "backup",
+        "binary_sensor",
+        "blueprint",
+        "bluetooth",
+        "bluetooth_adapters",
+        "bluetooth_le_tracker",
+        "broadlink",
+        "button",
+        "calendar",
+        "camera",
+        "cast",
+        "climate",
+        "cloud",
+        "cloudflare",
+        "command_line",
+        "config",
+        "configurator",
+        "conversation",
+        "counter",
+        "cover",
+        "cpuspeed",
+        "date",
+        "datetime",
+        "default_config",
+        "deluge",
+        "denon",
+        "denonavr",
+        "device_automation",
+        "device_sun_light_trigger",
+        "device_tracker",
+        "dhcp",
+        "diagnostics",
+        "discord",
+        "energy",
+        "epic_games_store",
+        "esphome",
+        "event",
+        "fan",
+        "ffmpeg",
+        "ffmpeg_motion",
+        "ffmpeg_noise",
+        "file",
+        "filter",
+        "folder",
+        "folder_watcher",
+        "frontend",
+        "generic",
+        "geo_location",
+        "google",
+        "google_assistant",
+        "google_assistant_sdk",
+        "google_cloud",
+        "google_generative_ai_conversation",
+        "google_mail",
+        "google_maps",
+        "google_pubsub",
+        "google_translate",
+        "google_travel_time",
+        "group",
+        "habitica",
+        "hardware",
+        "haveibeenpwned",
+        "hddtemp",
+        "hdmi_cec",
+        "here_travel_time",
+        "history",
+        "history_stats",
+        "holiday",
+        "homeassistant",
+        "homeassistant_alerts",
+        "homekit",
+        "homekit_controller",
+        "html5",
+        "http",
+        "image",
+        "image_processing",
+        "image_upload",
+        "imap",
+        "influxdb",
+        "input_boolean",
+        "input_button",
+        "input_datetime",
+        "input_number",
+        "input_select",
+        "input_text",
+        "integration",
+        "intent",
+        "ios",
+        "ipp",
+        "isal",
+        "jellyfin",
+        "lastfm",
+        "led_ble",
+        "light",
+        "local_calendar",
+        "local_file",
+        "local_ip",
+        "local_todo",
+        "lock",
+        "logbook",
+        "logentries",
+        "logger",
+        "lovelace",
+        "manual",
+        "manual_mqtt",
+        "media_extractor",
+        "media_player",
+        "media_source",
+        "met",
+        "min_max",
+        "minecraft_server",
+        "mobile_app",
+        "moon",
+        "mqtt",
+        "mqtt_eventstream",
+        "mqtt_json",
+        "mqtt_room",
+        "mqtt_statestream",
+        "music_assistant",
+        "my",
+        "network",
+        "nextbus",
+        "notify",
+        "number",
+        "onboarding",
+        "open_meteo",
+        "openweathermap",
+        "otp",
+        "panel_custom",
+        "persistent_notification",
+        "person",
+        "ping",
+        "plant",
+        "plex",
+        "profiler",
+        "prometheus",
+        "proximity",
+        "qrcode",
+        "radarr",
+        "radio_browser",
+        "random",
+        "recollect_waste",
+        "recorder",
+        "recovery_mode",
+        "remote",
+        "repairs",
+        "rest",
+        "rest_command",
+        "scene",
+        "schedule",
+        "script",
+        "ssdp",
+        "search",
+        "season",
+        "select",
+        "sensor",
+        "serial",
+        "seventeentrack",
+        "shell_command",
+        "smtp",
+        "sonarr",
+        "spotify",
+        "statistics",
+        "steam_online",
+        "stream",
+        "sun",
+        "switch",
+        "system_health",
+        "system_log",
+        "systemmonitor",
+        "tag",
+        "tailscale",
+        "tautulli",
+        "tcp",
+        "text",
+        "tile",
+        "time",
+        "time_date",
+        "timer",
+        "todo",
+        "todoist",
+        "trace",
+        "tts",
+        "tuya",
+        "unifi",
+        "unifi_direct",
+        "universal",
+        "update",
+        "upnp",
+        "uptime",
+        "usb",
+        "version",
+        "wake_on_lan",
+        "waze_travel_time",
+        "weather",
+        "webhook",
+        "websocket_api",
+        "whois",
+        "wiz",
+        "wyoming",
+        "zeroconf",
+        "zha",
+        "zone"
+      ],
+      "lovelaceConfigWritable": true,
+      "openFirewall": true
+    },
+    "homepage-dashboard": {
+      "allowedHosts": "home.quasar.sucha.foo,quasar:8082",
+      "bookmarks": [
+        {
+          "links": [
+            {
+              "repo": [
+                {
+                  "abbr": "nf",
+                  "href": "https://github.com/redxtech/nixfiles"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "docker": {
+        "default": {
+          "host": "localhost",
+          "port": "2375"
+        }
+      },
+      "enable": true,
+      "environmentFile": "/run/secrets/homepage_env",
+      "listenPort": 8082,
+      "openFirewall": true,
+      "services": [
+        {
+          "media": [
+            {
+              "plex": {
+                "description": "plex media server",
+                "href": "https://plex.quasar.sucha.foo",
+                "icon": "plex.svg",
+                "weight": -100,
+                "widget": {
+                  "key": "{{HOMEPAGE_VAR_PLEX}}",
+                  "type": "plex",
+                  "url": "https://plex.quasar.sucha.foo"
+                }
+              }
+            },
+            {
+              "music": {
+                "description": "music server",
+                "href": "https://music.quasar.sucha.foo",
+                "icon": "navidrome.svg",
+                "weight": -40,
+                "widget": {
+                  "salt": "{{HOMEPAGE_VAR_NAVIDROME_SALT}}",
+                  "token": "{{HOMEPAGE_VAR_NAVIDROME_TOKEN}}",
+                  "type": "navidrome",
+                  "url": "https://music.quasar.sucha.foo",
+                  "user": "{{HOMEPAGE_VAR_NAVIDROME_USER}}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "home": [
+            {
+              "home assistant": {
+                "description": "home automation",
+                "href": "https://ha.quasar.sucha.foo",
+                "icon": "home-assistant.svg",
+                "weight": -100,
+                "widget": {
+                  "key": "{{HOMEPAGE_VAR_HOMEASSISTANT}}",
+                  "type": "homeassistant",
+                  "url": "https://ha.quasar.sucha.foo"
+                }
+              }
+            },
+            {
+              "esphome": {
+                "description": "esphome dashboard",
+                "href": "https://esphome.quasar.sucha.foo",
+                "icon": "esphome.svg",
+                "weight": -90
+              }
+            },
+            {
+              "node-red": {
+                "description": "flow-based automation",
+                "href": "https://node-red.quasar.sucha.foo",
+                "icon": "node-red.svg"
+              }
+            }
+          ]
+        },
+        {
+          "admin": [
+            {
+              "cockpit": {
+                "description": "system control panel",
+                "href": "https://cockpit.quasar.sucha.foo",
+                "icon": "sh-cockpit.svg",
+                "weight": -100
+              }
+            }
+          ]
+        },
+        {
+          "network": [
+            {
+              "traefik": {
+                "description": "ingress controller",
+                "href": "https://traefik.quasar.sucha.foo",
+                "icon": "traefik.svg",
+                "weight": -100,
+                "widget": {
+                  "type": "traefik",
+                  "url": "https://traefik.quasar.sucha.foo"
+                }
+              }
+            },
+            {
+              "unifi controller": {
+                "description": "unifi network controller",
+                "href": "https://192.168.1.1",
+                "icon": "unifi.svg",
+                "weight": -80,
+                "widget": {
+                  "password": "{{HOMEPAGE_VAR_UNIFI_PASS}}",
+                  "type": "unifi",
+                  "url": "https://192.168.1.1",
+                  "username": "{{HOMEPAGE_VAR_UNIFI_USER}}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "monitoring": [
+            {
+              "grafana": {
+                "description": "monitoring dashboard",
+                "href": "https://grafana.quasar.sucha.foo",
+                "icon": "grafana.svg",
+                "weight": -100,
+                "widget": {
+                  "password": "{{HOMEPAGE_VAR_GRAFANA_PASS}}",
+                  "type": "grafana",
+                  "url": "https://grafana.quasar.sucha.foo",
+                  "username": "{{HOMEPAGE_VAR_GRAFANA_USER}}",
+                  "version": "2"
+                }
+              }
+            },
+            {
+              "prometheus": {
+                "description": "metrics aggregator",
+                "href": "https://prometheus.quasar.sucha.foo",
+                "icon": "prometheus.svg",
+                "weight": -90,
+                "widget": {
+                  "type": "prometheus",
+                  "url": "https://prometheus.quasar.sucha.foo"
+                }
+              }
+            },
+            {
+              "uptime kuma": {
+                "description": "status page",
+                "href": "https://uptime.quasar.sucha.foo",
+                "icon": "uptime-kuma.svg",
+                "weight": -80,
+                "widget": {
+                  "slug": "main",
+                  "type": "uptimekuma",
+                  "url": "https://uptime.quasar.sucha.foo"
+                }
+              }
+            },
+            {
+              "loki": {
+                "description": "logs aggregator",
+                "href": "https://loki.quasar.sucha.foo",
+                "icon": "loki.svg",
+                "weight": -60
+              }
+            }
+          ]
+        },
+        {
+          "arr": []
+        },
+        {
+          "books": []
+        },
+        {
+          "download": []
+        },
+        {
+          "services": []
+        },
+        {
+          "utils": []
+        }
+      ],
+      "settings": {},
+      "widgets": [
+        {
+          "logo": {
+            "icon": "https://avatars.githubusercontent.com/u/18155001?v=4"
+          }
+        },
+        {
+          "resources": {
+            "cpu": true,
+            "cputemp": true,
+            "memory": true,
+            "units": "metric",
+            "uptime": true
+          }
+        },
+        {
+          "datetime": {
+            "format": {
+              "dateStyle": "short",
+              "timeStyle": "short"
+            },
+            "text_size": "xl"
+          }
+        }
+      ]
+    },
+    "influxdb2": {
+      "enable": true,
+      "provision": {
+        "enable": true,
+        "initialSetup": {
+          "bucket": "main",
+          "organization": "main",
+          "passwordFile": "/run/secrets/influx_main_password",
+          "retention": 0,
+          "tokenFile": "/run/secrets/influx_main_token",
+          "username": "admin"
+        },
+        "organizations": {
+          "home-assistant": {
+            "auths": {
+              "default": {
+                "allAccess": true,
+                "description": "Home Assistant access token",
+                "id": "a72a9b645b7f0fb0bbf1dfbf571bceb1",
+                "operator": false,
+                "present": true,
+                "readBuckets": [],
+                "readPermissions": [],
+                "tokenFile": "/run/secrets/influx_homeassistant_token",
+                "writeBuckets": [],
+                "writePermissions": []
+              },
+              "grafana": {
+                "allAccess": false,
+                "description": "Grafana access token",
+                "id": "75ea583a85e1124b64cf1d0688595b0f",
+                "operator": false,
+                "present": true,
+                "readBuckets": [
+                  "default"
+                ],
+                "readPermissions": [],
+                "tokenFile": "/run/secrets/influx_grafana_token",
+                "writeBuckets": [],
+                "writePermissions": []
+              }
+            },
+            "buckets": {
+              "default": {
+                "description": "Default bucket for Home Assistant",
+                "present": true,
+                "retention": 0
+              }
+            },
+            "description": "Home Assistant",
+            "present": true
+          },
+          "main": {
+            "auths": {},
+            "buckets": {
+              "main": {
+                "description": null,
+                "present": true,
+                "retention": 0
+              }
+            },
+            "description": null,
+            "present": true
+          }
+        },
+        "users": {
+          "admin": {
+            "passwordFile": "/run/secrets/influx_main_password",
+            "present": true
+          }
+        }
+      },
+      "settings": {}
+    },
+    "loki": {
+      "configuration": {
+        "auth_enabled": false,
+        "common": {
+          "path_prefix": "/var/lib/loki/loki",
+          "replication_factor": 1,
+          "ring": {
+            "instance_addr": "0.0.0.0",
+            "kvstore": {
+              "store": "inmemory"
+            }
+          }
+        },
+        "schema_config": {
+          "configs": [
+            {
+              "from": "2024-06-01",
+              "index": {
+                "period": "24h",
+                "prefix": "index_"
+              },
+              "object_store": "filesystem",
+              "schema": "v13",
+              "store": "tsdb"
+            }
+          ]
+        },
+        "server": {
+          "http_listen_port": 3002
+        },
+        "storage_config": {
+          "filesystem": {
+            "directory": "/var/lib/loki/chunks"
+          }
+        }
+      },
+      "dataDir": "/var/lib/loki",
+      "enable": true,
+      "extraFlags": [
+        "--server.http-listen-port=3002"
+      ]
+    },
+    "mosquitto": {
+      "dataDir": "/config/pods/mosquitto",
+      "enable": true,
+      "listeners": [
+        {
+          "acl": [],
+          "address": null,
+          "authPlugins": [],
+          "omitPasswordAuth": false,
+          "port": 1883,
+          "settings": {},
+          "users": {
+            "espresense": {
+              "acl": [
+                "readwrite $SYS/#",
+                "readwrite espresense/#",
+                "readwrite homeassistant/#"
+              ],
+              "hashedPassword": null,
+              "hashedPasswordFile": null,
+              "password": null,
+              "passwordFile": "/run/secrets/mosquitto_espresense_password"
+            },
+            "homeassistant": {
+              "acl": [
+                "readwrite $SYS/#",
+                "readwrite zigbee2mqtt/#",
+                "readwrite espresense/#",
+                "readwrite homeassistant/#",
+                "readwrite hass/#"
+              ],
+              "hashedPassword": null,
+              "hashedPasswordFile": null,
+              "password": null,
+              "passwordFile": "/run/secrets/mosquitto_homeassistant_password"
+            }
+          }
+        }
+      ]
+    },
+    "navidrome": {
+      "enable": true,
+      "openFirewall": true,
+      "settings": {
+        "Address": "0.0.0.0",
+        "BaseURL": "https://music.quasar.sucha.foo",
+        "DataFolder": "/config/pods/navidrome",
+        "EnableGravatar": true,
+        "EnableInsightsCollector": false,
+        "EnableSharing": true,
+        "Jukebox": {
+          "Enabled": true
+        },
+        "LastFM2": {
+          "Enabled": true
+        },
+        "MusicFolder": "/pool/media/music",
+        "Port": 4533,
+        "Prometheus": {
+          "Enabled": true
+        }
+      }
+    },
+    "node-red": {
+      "configFile": "/run/secrets/node-red",
+      "enable": true,
+      "openFirewall": true,
+      "port": 1880,
+      "withNpmAndGcc": true
+    },
+    "plex": {
+      "dataDir": "/config/pods/plex",
+      "enable": true,
+      "group": "data",
+      "openFirewall": true,
+      "user": "data"
+    },
+    "pocket-id": {
+      "dataDir": "/var/lib/pocket-id",
+      "enable": true,
+      "environmentFile": "/run/secrets/pocket_id_env",
+      "settings": {
+        "ANALYTICS_DISABLED": false,
+        "APP_URL": "https://id.quasar.sucha.foo",
+        "EMAIL_API_KEY_EXPIRATION_ENABLED": true,
+        "EMAIL_LOGIN_NOTIFICATION_ENABLED": true,
+        "EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED": true,
+        "KEYS_STORAGE": "database",
+        "METRICS_ENABLED": true,
+        "PORT": 1411,
+        "TRUST_PROXY": true
+      }
+    },
+    "postgresql": {
+      "authentication": "# Generated file; do not edit!\nlocal  hass  hass                trust\nlocal  hass  hass                trust\nlocal  hass  hass                trust\nhost   hass  hass  samehost      trust\nhost   hass  hass  bastion       scram-sha-256\n\n# default value of services.postgresql.authentication\nlocal all postgres         peer map=postgres\nlocal all all              peer\nhost  all all 127.0.0.1/32 md5\nhost  all all ::1/128      md5\n",
+      "dataDir": "/var/lib/postgresql/15",
+      "enable": true,
+      "ensureDatabases": [
+        "hass"
+      ],
+      "ensureUsers": [
+        {
+          "ensureClauses": {},
+          "ensureDBOwnership": true,
+          "name": "hass"
+        }
+      ],
+      "identMap": "hass-user   hass  hass\nlocal-user  gabe  hass\n\npostgres postgres postgres\n"
+    },
+    "prometheus": {
+      "enable": true,
+      "extraFlags": [
+        "--web.enable-remote-write-receiver"
+      ],
+      "port": 3001,
+      "scrapeConfigs": []
+    },
+    "stirling-pdf": {
+      "enable": true,
+      "environment": {
+        "DISABLE_ADDITIONAL_FEATURES": "false",
+        "SERVER_PORT": 8844
+      }
+    },
+    "traefik": {
+      "dataDir": "/config/pods/traefik",
+      "dynamicConfigOptions": {
+        "http": {
+          "middlewares": {
+            "homeassistant-allow-iframe": {
+              "headers": {
+                "contentSecurityPolicy": "frame-ancestors ha.quasar.sucha.foo",
+                "customResponseHeaders": {
+                  "X-Frame-Options": "",
+                  "X-XSS-Protection": "1"
+                }
+              }
+            }
+          },
+          "routers": {
+            "alloy": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`alloy.quasar.sucha.foo`)",
+              "service": "alloy"
+            },
+            "cockpit": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`cockpit.quasar.sucha.foo`)",
+              "service": "cockpit"
+            },
+            "dash": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`dash.quasar.sucha.foo`)",
+              "service": "dash"
+            },
+            "default": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`quasar.sucha.foo`)",
+              "service": "cockpit"
+            },
+            "esphome": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`esphome.quasar.sucha.foo`)",
+              "service": "esphome"
+            },
+            "flood": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`flood.quasar.sucha.foo`)",
+              "service": "flood"
+            },
+            "grafana": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "middlewares": [
+                "homeassistant-allow-iframe"
+              ],
+              "rule": "Host(`grafana.quasar.sucha.foo`)",
+              "service": "grafana"
+            },
+            "ha": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`ha.quasar.sucha.foo`)",
+              "service": "ha"
+            },
+            "home": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`home.quasar.sucha.foo`)",
+              "service": "home"
+            },
+            "id": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`id.quasar.sucha.foo`)",
+              "service": "id"
+            },
+            "influx": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`influx.quasar.sucha.foo`)",
+              "service": "influx"
+            },
+            "lidarr": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`lidarr.quasar.sucha.foo`)",
+              "service": "lidarr"
+            },
+            "loki": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`loki.quasar.sucha.foo`)",
+              "service": "loki"
+            },
+            "mass": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`mass.quasar.sucha.foo`)",
+              "service": "mass"
+            },
+            "music": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`music.quasar.sucha.foo`)",
+              "service": "music"
+            },
+            "node-red": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`node-red.quasar.sucha.foo`)",
+              "service": "node-red"
+            },
+            "plex": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`plex.quasar.sucha.foo`)",
+              "service": "plex"
+            },
+            "prometheus": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`prometheus.quasar.sucha.foo`)",
+              "service": "prometheus"
+            },
+            "radarr": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`radarr.quasar.sucha.foo`)",
+              "service": "radarr"
+            },
+            "sonarr": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`sonarr.quasar.sucha.foo`)",
+              "service": "sonarr"
+            },
+            "stirling": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`stirling.quasar.sucha.foo`)",
+              "service": "stirling"
+            },
+            "traefik": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`traefik.quasar.sucha.foo`)",
+              "service": "traefik"
+            },
+            "uptime": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`uptime.quasar.sucha.foo`)",
+              "service": "uptime"
+            },
+            "z2m": {
+              "entrypoints": [
+                "websecure"
+              ],
+              "rule": "Host(`z2m.quasar.sucha.foo`)",
+              "service": "z2m"
+            }
+          },
+          "serversTransports": {
+            "ignorecert": {
+              "insecureSkipVerify": true
+            }
+          },
+          "services": {
+            "alloy": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:12346"
+                  }
+                ]
+              }
+            },
+            "cockpit": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:9090"
+                  }
+                ]
+              }
+            },
+            "dash": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:4000"
+                  }
+                ]
+              }
+            },
+            "esphome": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:6052"
+                  }
+                ]
+              }
+            },
+            "flood": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8113"
+                  }
+                ]
+              }
+            },
+            "grafana": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:3000"
+                  }
+                ]
+              }
+            },
+            "ha": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8123"
+                  }
+                ]
+              }
+            },
+            "home": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8082"
+                  }
+                ]
+              }
+            },
+            "id": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:1411"
+                  }
+                ]
+              }
+            },
+            "influx": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8086"
+                  }
+                ]
+              }
+            },
+            "lidarr": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8686"
+                  }
+                ]
+              }
+            },
+            "loki": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:3002"
+                  }
+                ]
+              }
+            },
+            "mass": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8095"
+                  }
+                ]
+              }
+            },
+            "music": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:4533"
+                  }
+                ]
+              }
+            },
+            "node-red": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:1880"
+                  }
+                ]
+              }
+            },
+            "plex": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:32400"
+                  }
+                ]
+              }
+            },
+            "prometheus": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:3001"
+                  }
+                ]
+              }
+            },
+            "radarr": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:7878"
+                  }
+                ]
+              }
+            },
+            "sonarr": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8989"
+                  }
+                ]
+              }
+            },
+            "stirling": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8844"
+                  }
+                ]
+              }
+            },
+            "traefik": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:8080"
+                  }
+                ]
+              }
+            },
+            "uptime": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:3301"
+                  }
+                ]
+              }
+            },
+            "z2m": {
+              "loadBalancer": {
+                "servers": [
+                  {
+                    "url": "http://localhost:7800"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "tls": {
+          "certificates": [
+            {
+              "certFile": "/var/lib/acme/adguard.quasar.sucha.foo/cert.pem",
+              "keyFile": "/var/lib/acme/adguard.quasar.sucha.foo/key.pem"
+            }
+          ],
+          "stores": {
+            "default": {
+              "defaultCertificate": {
+                "certFile": "/var/lib/acme/adguard.quasar.sucha.foo/cert.pem",
+                "keyFile": "/var/lib/acme/adguard.quasar.sucha.foo/key.pem"
+              }
+            }
+          }
+        }
+      },
+      "enable": true,
+      "environmentFiles": [
+        "/run/secrets/cloudflare_traefik_token"
+      ],
+      "group": "docker",
+      "staticConfigOptions": {
+        "api": {
+          "dashboard": true,
+          "insecure": true
+        },
+        "certificatesResolvers": {
+          "cloudflare": {
+            "acme": {
+              "dnsChallenge": {
+                "provider": "cloudflare",
+                "resolvers": [
+                  "1.1.1.1:53",
+                  "1.0.0.1:53"
+                ]
+              },
+              "email": "quasar-letsencrypt@gabe.super.fish",
+              "storage": "/config/pods/traefik/acme.json"
+            }
+          }
+        },
+        "entryPoints": {
+          "web": {
+            "address": ":80",
+            "http": {
+              "redirections": {
+                "entryPoint": {
+                  "scheme": "https",
+                  "to": "websecure"
+                }
+              }
+            }
+          },
+          "websecure": {
+            "address": ":443",
+            "forwardedHeaders": {
+              "trustedIPs": [
+                "127.0.0.1/32"
+              ]
+            },
+            "http": {
+              "tls": {
+                "certResolver": "cloudflare",
+                "domains": [
+                  {
+                    "main": "quasar.sucha.foo",
+                    "sans": [
+                      "*.quasar.sucha.foo"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "metrics": {
+          "prometheus": {
+            "addEntryPointsLabels": true,
+            "addRoutersLabels": true,
+            "addServicesLabels": true
+          }
+        },
+        "providers": {
+          "docker": {
+            "endpoint": "unix:///var/run/docker.sock",
+            "exposedByDefault": false
+          }
+        }
+      }
+    },
+    "uptime-kuma": {
+      "enable": true,
+      "settings": {
+        "DATA_DIR": "/var/lib/uptime-kuma/",
+        "HOST": "127.0.0.1",
+        "NODE_ENV": "production",
+        "PORT": "3001",
+        "UPTIME_KUMA_DB_TYPE": "sqlite",
+        "UPTIME_KUMA_HOST": "0.0.0.0",
+        "UPTIME_KUMA_PORT": "3301"
+      }
+    },
+    "zigbee2mqtt": {
+      "dataDir": "/config/pods/zigbee2mqtt",
+      "enable": true,
+      "settings": {
+        "advanced": {
+          "network_key": "!secrets.yaml network_key"
+        },
+        "devices": "devices.yaml",
+        "frontend": {
+          "port": 7800
+        },
+        "groups": "groups.yaml",
+        "homeassistant": true,
+        "mqtt": {
+          "base_topic": "zigbee2mqtt",
+          "password": "!secrets.yaml password",
+          "server": "mqtt://mqtt.quasar.sucha.foo",
+          "user": "!secrets.yaml user"
+        },
+        "permit_join": false,
+        "serial": {
+          "port": "/dev/ttyUSB0"
+        }
+      }
+    }
+  },
+  "secrets": {
+    "CALIBRE_WEB_HARDCOVER_KEY": {
+      "format": "yaml",
+      "group": null,
+      "key": "CALIBRE_WEB_HARDCOVER_KEY",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/CALIBRE_WEB_HARDCOVER_KEY",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "adguard_exporter": {
+      "format": "yaml",
+      "group": null,
+      "key": "adguard_exporter",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/adguard_exporter",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "beszel_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "beszel_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/beszel_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "booklore_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "booklore_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/booklore_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "cachix-agent": {
+      "format": "yaml",
+      "group": null,
+      "key": "cachix-agent",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/etc/cachix-agent.token",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "calibre_pw": {
+      "format": "yaml",
+      "group": null,
+      "key": "calibre_pw",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/calibre_pw",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "calibre_user": {
+      "format": "yaml",
+      "group": null,
+      "key": "calibre_user",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/calibre_user",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "cloudflare_acme": {
+      "format": "yaml",
+      "group": null,
+      "key": "cloudflare_acme",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/cloudflare_acme",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/common/secrets.yaml"
+    },
+    "cloudflare_traefik_token": {
+      "format": "yaml",
+      "group": "traefik",
+      "key": "cloudflare_traefik_token",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": "traefik",
+      "path": "/run/secrets/cloudflare_traefik_token",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/common/secrets.yaml"
+    },
+    "cloudflared_tunnel_creds": {
+      "format": "yaml",
+      "group": "cloudflared",
+      "key": "cloudflared_tunnel_creds",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": "cloudflared",
+      "path": "/run/secrets/cloudflared_tunnel_creds",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "ddclient.conf": {
+      "format": "yaml",
+      "group": null,
+      "key": "ddclient.conf",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/ddclient.conf",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "esphome_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "esphome_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/esphome_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "exportarr_radarr": {
+      "format": "yaml",
+      "group": null,
+      "key": "exportarr_radarr",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/exportarr_radarr",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "exportarr_sonarr": {
+      "format": "yaml",
+      "group": null,
+      "key": "exportarr_sonarr",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/exportarr_sonarr",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "gabe-pw": {
+      "format": "yaml",
+      "group": null,
+      "key": "gabe-pw",
+      "mode": "0400",
+      "neededForUsers": true,
+      "owner": null,
+      "path": "/run/secrets-for-users/gabe-pw",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/common/secrets.yaml"
+    },
+    "ghrunner-system-builder": {
+      "format": "yaml",
+      "group": null,
+      "key": "ghrunner-system-builder",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/ghrunner-system-builder",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "grafana_smtp_host": {
+      "format": "yaml",
+      "group": "grafana",
+      "key": "grafana_smtp_host",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/grafana_smtp_host",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "grafana_smtp_pw": {
+      "format": "yaml",
+      "group": "grafana",
+      "key": "grafana_smtp_pw",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/grafana_smtp_pw",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "grafana_smtp_user": {
+      "format": "yaml",
+      "group": "grafana",
+      "key": "grafana_smtp_user",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/grafana_smtp_user",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "hercules-ci-agent-binary-caches": {
+      "format": "yaml",
+      "group": "hercules-ci-agent",
+      "key": "hercules-ci-agent-binary-caches",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": "hercules-ci-agent",
+      "path": "/run/secrets/hercules-ci-agent-binary-caches",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "hercules-ci-agent-join-token": {
+      "format": "yaml",
+      "group": "hercules-ci-agent",
+      "key": "hercules-ci-agent-join-token",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": "hercules-ci-agent",
+      "path": "/run/secrets/hercules-ci-agent-join-token",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "hercules-ci-agent-secrets": {
+      "format": "yaml",
+      "group": "hercules-ci-agent",
+      "key": "hercules-ci-agent-secrets",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": "hercules-ci-agent",
+      "path": "/run/secrets/hercules-ci-agent-secrets",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "homeassistant_secrets.yaml": {
+      "format": "yaml",
+      "group": "hass",
+      "key": "homeassistant_secrets.yaml",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/config/pods/homeassistant/secrets.yaml",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "homepage_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "homepage_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/homepage_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "influx_grafana_token": {
+      "format": "yaml",
+      "group": "influxdb2",
+      "key": "influx_grafana_token",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/influx_grafana_token",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "influx_homeassistant_token": {
+      "format": "yaml",
+      "group": "influxdb2",
+      "key": "influx_homeassistant_token",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/influx_homeassistant_token",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "influx_main_password": {
+      "format": "yaml",
+      "group": "influxdb2",
+      "key": "influx_main_password",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/influx_main_password",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "influx_main_token": {
+      "format": "yaml",
+      "group": "influxdb2",
+      "key": "influx_main_token",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/influx_main_token",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "jdownloader_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "jdownloader_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/jdownloader_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "mosquitto_espresense_password": {
+      "format": "yaml",
+      "group": null,
+      "key": "mosquitto_espresense_password",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/mosquitto_espresense_password",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "mosquitto_homeassistant_password": {
+      "format": "yaml",
+      "group": null,
+      "key": "mosquitto_homeassistant_password",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/mosquitto_homeassistant_password",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "navidrome_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "navidrome_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/navidrome_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "node-red": {
+      "format": "yaml",
+      "group": "node-red",
+      "key": "node-red",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/node-red",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "paperless_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "paperless_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/paperless_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "pocket_id_env": {
+      "format": "yaml",
+      "group": "pocket-id",
+      "key": "pocket_id_env",
+      "mode": "440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/pocket_id_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "qdirstat_pw": {
+      "format": "yaml",
+      "group": null,
+      "key": "qdirstat_pw",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/qdirstat_pw",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "qdirstat_user": {
+      "format": "yaml",
+      "group": null,
+      "key": "qdirstat_user",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/qdirstat_user",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "qui_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "qui_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/qui_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "restic_password": {
+      "format": "yaml",
+      "group": null,
+      "key": "restic_password",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/restic_password",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "restic_repository_config": {
+      "format": "yaml",
+      "group": null,
+      "key": "restic_repository_config",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/restic_repository_config",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "restic_repository_home": {
+      "format": "yaml",
+      "group": null,
+      "key": "restic_repository_home",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/restic_repository_home",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "root-pw": {
+      "format": "yaml",
+      "group": null,
+      "key": "root-pw",
+      "mode": "0400",
+      "neededForUsers": true,
+      "owner": null,
+      "path": "/run/secrets-for-users/root-pw",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/common/secrets.yaml"
+    },
+    "tubearchivist_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "tubearchivist_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/tubearchivist_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "unpoller.env": {
+      "format": "yaml",
+      "group": null,
+      "key": "unpoller.env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/unpoller.env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "watchtower_env": {
+      "format": "yaml",
+      "group": null,
+      "key": "watchtower_env",
+      "mode": "0400",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/run/secrets/watchtower_env",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    },
+    "zigbee2mqtt_secrets": {
+      "format": "yaml",
+      "group": "zigbee2mqtt",
+      "key": "zigbee2mqtt_secrets",
+      "mode": "0440",
+      "neededForUsers": false,
+      "owner": null,
+      "path": "/config/pods/zigbee2mqtt/secrets.yaml",
+      "reloadUnits": [],
+      "restartUnits": [],
+      "sopsFile": "/nix/store/<hash>-source/hosts/quasar/secrets.yaml"
+    }
+  },
+  "source": {
+    "branch": "main",
+    "commit": "23d6d3f2159581cc7a70ec1d12ea7d0ee90f1223"
+  }
+}
