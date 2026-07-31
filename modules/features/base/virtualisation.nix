@@ -50,21 +50,19 @@
       }:
       let
         cfg = config.virtualisation.oci-containers;
-        networkNames = lib.attrNames cfg.networks;
-        attachedContainerNames = lib.unique (lib.concatLists (lib.attrValues cfg.networks));
+        networkNames = cfg.networks;
         unitName = network: "docker-network-${network}.service";
         attachedNetworks =
-          containerName: lib.filter (network: lib.elem containerName cfg.networks.${network}) networkNames;
+          containerName: lib.intersectLists networkNames cfg.containers.${containerName}.networks;
+        attachedContainers = lib.filterAttrs (name: _: attachedNetworks name != [ ]) cfg.containers;
       in
       {
         options.virtualisation.oci-containers.networks = lib.mkOption {
-          type = lib.types.attrsOf (lib.types.listOf lib.types.str);
-          default = { };
-          example.booklore = [
-            "booklore"
-            "booklore-mariadb"
-          ];
-          description = "Docker bridge networks mapped to the OCI containers attached to them.";
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          apply = lib.unique;
+          example = [ "booklore" ];
+          description = "Docker bridge networks managed for OCI containers.";
         };
 
         config = {
@@ -75,23 +73,12 @@
               ) networkNames;
               message = "Managed Docker network names contain unsupported characters.";
             }
-            {
-              assertion = lib.all (
-                name: (config.virtualisation.oci-containers.containers.${name}.image or "") != ""
-              ) attachedContainerNames;
-              message = "Managed Docker networks reference an undefined OCI container.";
-            }
           ];
 
           virtualisation = {
             containers.enable = true;
             docker.enable = true;
-            oci-containers = {
-              backend = "docker";
-              containers = lib.genAttrs attachedContainerNames (name: {
-                extraOptions = map (network: "--network=${network}") (attachedNetworks name);
-              });
-            };
+            oci-containers.backend = "docker";
           };
 
           hardware.nvidia-container-toolkit.enable = host.settings.gpu.nvidia.enable;
@@ -127,7 +114,7 @@
                   requires = units;
                 }
               )
-            ) (lib.genAttrs attachedContainerNames (_: { }));
+            ) attachedContainers;
         };
       };
 

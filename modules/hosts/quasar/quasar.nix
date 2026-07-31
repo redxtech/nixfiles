@@ -29,7 +29,10 @@
       den.aspects.actual
       den.aspects.adguard
       den.aspects.apprise
+      den.aspects.bazarr
       den.aspects.bento
+      den.aspects.beszel
+      den.aspects.booklore
       den.aspects.calibre
       den.aspects.calibre-web
       den.aspects.cockpit
@@ -57,17 +60,24 @@
       den.aspects.kiwix
       den.aspects.koinsight
       den.aspects.ladder
+      den.aspects.lidarr
       den.aspects.n8n
+      den.aspects.paperless
       den.aspects.pocket-id
       den.aspects.portainer
+      den.aspects.prowlarr
+      den.aspects.qbittorrent
       den.aspects.qdirstat
       den.aspects.qui
+      den.aspects.radarr
       den.aspects.scrutiny
       den.aspects.signaturepdf
+      den.aspects.sonarr
       den.aspects.startpage
       den.aspects.stirling-pdf
       den.aspects.syncthing
       den.aspects.tautulli
+      den.aspects.tubearchivist
       den.aspects.unpoller
       den.aspects.uptime-kuma
       den.aspects.watchtower
