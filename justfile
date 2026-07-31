@@ -57,7 +57,6 @@ packages:
       .#packages.x86_64-linux.vaulted \
       .#packages.x86_64-linux.vm \
       .#packages.x86_64-linux.voyager \
-      .#packages.x86_64-linux.workspace-cli \
       .#packages.x86_64-linux.workspace-mcp \
       .#packages.x86_64-linux.write-flake \
       .#packages.x86_64-linux.write-inputs \

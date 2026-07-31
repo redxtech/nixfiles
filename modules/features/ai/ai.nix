@@ -137,6 +137,7 @@
               mcp-remote
               openportal
               super-productivity-mcp
+              workspace-mcp
             ]);
 
             programs.codex.enable = true;

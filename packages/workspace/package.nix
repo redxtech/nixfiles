@@ -32,7 +32,7 @@
         ]
       );
 
-      workspace-mcp =
+      workspaceEnv =
         (pythonSet.mkVirtualEnv "workspace-mcp-${version}" workspace.deps.default).overrideAttrs
           (oldAttrs: {
             nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ makeWrapper ];
@@ -41,6 +41,10 @@
               wrapProgram $out/bin/workspace-cli --argv0 workspace-cli --unset PYTHONPATH
             '';
 
+          });
+      workspace-mcp =
+        pkgs.runCommand "workspace-mcp-${version}"
+          {
             meta = {
               description = "Google Workspace MCP server and CLI";
               homepage = "https://github.com/taylorwilsdon/google_workspace_mcp";
@@ -49,16 +53,19 @@
               maintainers = with lib.maintainers; [ redxtech ];
               mainProgram = "workspace-mcp";
             };
-          });
-      workspace-cli = workspace-mcp // {
-        meta = workspace-mcp.meta // {
-          mainProgram = "workspace-cli";
-        };
-      };
+          }
+          ''
+            mkdir -p $out/bin
+            ln -s ${workspaceEnv}/bin/workspace-mcp $out/bin/workspace-mcp
+            ln -s ${workspaceEnv}/bin/workspace-cli $out/bin/workspace-cli
+          '';
     in
     {
-      packages = {
-        inherit workspace-cli workspace-mcp;
+      packages = { inherit workspace-mcp; };
+
+      apps.workspace-cli = {
+        type = "app";
+        program = lib.getExe' workspace-mcp "workspace-cli";
       };
     };
 
