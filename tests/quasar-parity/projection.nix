@@ -230,7 +230,12 @@ let
     if builtins.isList (homeAssistant.extraPackages or [ ]) then
       homeAssistant.extraPackages
     else
-      homeAssistant.extraPackages homeAssistant.package.python.pkgs;
+      homeAssistant.extraPackages (
+        if homeAssistant.package ? python then
+          homeAssistant.package.python.pkgs
+        else
+          homeAssistant.package.python3Packages
+      );
 in
 {
   source = {

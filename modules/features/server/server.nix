@@ -72,12 +72,17 @@
       den.aspects.cockpit
       den.aspects.coredns
       den.aspects.ddclient
+      den.aspects.esphome
+      den.aspects.espresense-companion
       den.aspects.flaresolverr
       den.aspects.flood
       den.aspects.github-runner
       den.aspects.grafana
+      den.aspects.ha-fusion
       den.aspects.hercules-ci-agent
+      den.aspects.home-assistant
       den.aspects.homepage
+      den.aspects.influxdb
       den.aspects.jackett
       den.aspects.jdownloader
       den.aspects.jellyfin
@@ -88,10 +93,13 @@
       den.aspects.ladder
       den.aspects.lidarr
       den.aspects.loki
+      den.aspects.mosquitto
+      den.aspects.music-assistant
       den.aspects.n8n
       den.aspects.navidrome
       den.aspects.network
       den.aspects.network._.server
+      den.aspects.node-red
       den.aspects.pocket-id
       den.aspects.paperless
       den.aspects.plex
@@ -116,6 +124,7 @@
       den.aspects.virtualisation._.containers
       den.aspects.watchtower
       den.aspects.yt
+      den.aspects.zigbee2mqtt
     ];
 
     nixos =

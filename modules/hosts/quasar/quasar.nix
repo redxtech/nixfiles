@@ -48,10 +48,15 @@
       den.aspects.tunnel
       den.aspects.coredns
       den.aspects.ddclient
+      den.aspects.esphome
+      den.aspects.espresense-companion
       den.aspects.flaresolverr
       den.aspects.flood
       den.aspects.github-runner
+      den.aspects.ha-fusion
       den.aspects.hercules-ci-agent
+      den.aspects.home-assistant
+      den.aspects.influxdb
       den.aspects.jackett
       den.aspects.jdownloader
       den.aspects.jellyfin
@@ -61,7 +66,10 @@
       den.aspects.koinsight
       den.aspects.ladder
       den.aspects.lidarr
+      den.aspects.mosquitto
+      den.aspects.music-assistant
       den.aspects.n8n
+      den.aspects.node-red
       den.aspects.paperless
       den.aspects.pocket-id
       den.aspects.portainer
@@ -82,6 +90,7 @@
       den.aspects.uptime-kuma
       den.aspects.watchtower
       den.aspects.yt
+      den.aspects.zigbee2mqtt
 
       den.aspects.gpu
     ];
