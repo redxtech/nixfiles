@@ -70,12 +70,15 @@
       den.aspects.hercules-ci-agent
       den.aspects.homepage
       den.aspects.loki
+      den.aspects.navidrome
       den.aspects.network
       den.aspects.network._.server
       den.aspects.pocket-id
+      den.aspects.plex
       den.aspects.portainer
       den.aspects.prometheus
       den.aspects.startpage
+      den.aspects.stirling-pdf
       den.aspects.traefik._.server
       den.aspects.uptime-kuma
       den.aspects.virtualisation._.containers

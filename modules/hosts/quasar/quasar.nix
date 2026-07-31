@@ -34,6 +34,8 @@
       den.aspects.grafana
       den.aspects.homepage
       den.aspects.loki
+      den.aspects.navidrome
+      den.aspects.plex
       den.aspects.prometheus
       den.aspects.tunnel
       den.aspects.coredns
@@ -44,6 +46,7 @@
       den.aspects.pocket-id
       den.aspects.portainer
       den.aspects.startpage
+      den.aspects.stirling-pdf
       den.aspects.uptime-kuma
 
       den.aspects.gpu
