@@ -1,13 +1,16 @@
-{ self, lib, ... }:
+{
+  den,
+  self,
+  lib,
+  ...
+}:
 
 {
   den.aspects.monitoring = {
+    includes = [ den.aspects.drishti ];
+
     nixos =
-      {
-        config,
-        pkgs,
-        ...
-      }:
+      { config, pkgs, ... }:
       let
         inherit (config.networking) hostName;
 
