@@ -18,6 +18,7 @@
         monitoringHost = lib.findFirst (
           host: self.nixosConfigurations.${host}.config.monitoring.isHost
         ) null (lib.attrNames self.nixosConfigurations);
+        monitoringConfig = self.nixosConfigurations.${monitoringHost}.config;
         p = toString;
 
         mkScraper = name: address: ''
@@ -29,6 +30,7 @@
         '';
         mkLocalScraper = name: port: mkScraper name "127.0.0.1:${p port}";
         mkExportarr = name: port: mkLocalScraper "${name}_exportarr" port;
+        registeredScrapers = lib.mapAttrsToList mkLocalScraper cfg.scrapeTargets;
       in
       {
         options.monitoring = {
@@ -38,36 +40,19 @@
             description = "Whether the system hosts the monitoring server.";
           };
 
-          grafana_secret_key = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            description = "Grafana secret key.";
+          scrapeTargets = lib.mkOption {
+            type = lib.types.attrsOf lib.types.port;
+            default = { };
+            description = "Local Prometheus scrape targets keyed by job name.";
           };
-
-          ports =
-            lib.mapAttrs
-              (
-                _: default:
-                lib.mkOption {
-                  type = lib.types.port;
-                  inherit default;
-                  description = "Port used by this monitoring service.";
-                }
-              )
-              {
-                alloy = 12346;
-                grafana = 3000;
-                loki = 3002;
-                prometheus = 3001;
-              };
         };
 
         config = {
-          network.services.alloy = cfg.ports.alloy;
+          network.services.alloy = 12346;
 
           services.alloy = {
             enable = true;
-            extraFlags = [ "--server.http.listen-addr=0.0.0.0:${p cfg.ports.alloy}" ];
+            extraFlags = [ "--server.http.listen-addr=0.0.0.0:12346" ];
 
             configPath = pkgs.writeText "alloy-config.alloy" (
               builtins.concatStringsSep "\n" [
@@ -86,13 +71,11 @@
                   }
                 ''
                 (mkLocalScraper "docker" 9323)
-                (mkLocalScraper "traefik" config.network.finalServices.traefik)
-                (mkLocalScraper "coredns" 3201)
-                (mkLocalScraper "adguard" 3202)
                 (mkLocalScraper "unpoller" 9130)
                 (mkLocalScraper "navidrome" 4533)
                 (mkExportarr "sonarr" 9707)
                 (mkExportarr "radarr" 9708)
+                (builtins.concatStringsSep "\n" registeredScrapers)
                 ''
                   prometheus.relabel "filter_metrics" {
                     rule {
@@ -106,7 +89,7 @@
 
                   prometheus.remote_write "metrics_service" {
                     endpoint {
-                      url = "http://${monitoringHost}:${p cfg.ports.prometheus}/api/v1/write"
+                      url = "http://${monitoringHost}:${p monitoringConfig.services.prometheus.port}/api/v1/write"
                     }
                   }
                 ''
@@ -190,7 +173,7 @@
                 ''
                   loki.write "grafana_loki" {
                     endpoint {
-                      url = "http://${monitoringHost}:${p cfg.ports.loki}/loki/api/v1/push"
+                      url = "http://${monitoringHost}:${p monitoringConfig.services.loki.configuration.server.http_listen_port}/loki/api/v1/push"
                     }
                   }
                 ''
@@ -213,109 +196,5 @@
         };
       };
 
-    provides.server.nixos =
-      { config, ... }:
-      let
-        cfg = config.monitoring;
-        p = toString;
-      in
-      {
-        monitoring.isHost = true;
-
-        network.services = {
-          inherit (cfg.ports)
-            grafana
-            loki
-            prometheus
-            ;
-        };
-
-        services = {
-          grafana = {
-            enable = true;
-            settings = {
-              auth.oauth_allow_insecure_email_lookup = true;
-              security.secret_key = "$__file{${cfg.grafana_secret_key}}";
-
-              server = {
-                http_addr = "0.0.0.0";
-                http_port = cfg.ports.grafana;
-                domain = "grafana.${config.networking.fqdn}";
-                root_url = "https://grafana.${config.networking.fqdn}";
-              };
-
-              smtp = {
-                enabled = true;
-                from_address = "grafana@sucha.foo";
-                host = "$__file{${config.sops.secrets.grafana_smtp_host.path}}";
-                user = "$__file{${config.sops.secrets.grafana_smtp_user.path}}";
-                password = "$__file{${config.sops.secrets.grafana_smtp_pw.path}}";
-              };
-            };
-          };
-
-          prometheus = {
-            enable = true;
-            port = cfg.ports.prometheus;
-            extraFlags = [ "--web.enable-remote-write-receiver" ];
-          };
-
-          loki =
-            let
-              inherit (config.services.loki) dataDir;
-            in
-            {
-              enable = true;
-              configuration = {
-                auth_enabled = false;
-                server.http_listen_port = cfg.ports.loki;
-
-                common = {
-                  ring = {
-                    instance_addr = "0.0.0.0";
-                    kvstore.store = "inmemory";
-                  };
-                  replication_factor = 1;
-                  path_prefix = "${dataDir}/loki";
-                };
-
-                schema_config.configs = [
-                  {
-                    from = "2024-06-01";
-                    store = "tsdb";
-                    object_store = "filesystem";
-                    schema = "v13";
-                    index = {
-                      prefix = "index_";
-                      period = "24h";
-                    };
-                  }
-                ];
-
-                storage_config.filesystem.directory = "${dataDir}/chunks";
-              };
-
-              extraFlags = [ "--server.http-listen-port=${p cfg.ports.loki}" ];
-            };
-
-          traefik.dynamicConfigOptions.http.routers.grafana.middlewares = [
-            "homeassistant-allow-iframe"
-          ];
-        };
-
-        sops.secrets =
-          let
-            mkSecret = {
-              sopsFile = ../../../secrets/hosts/quasar/secrets.yaml;
-              group = config.users.users.grafana.group;
-              mode = "0440";
-            };
-          in
-          {
-            grafana_smtp_pw = mkSecret;
-            grafana_smtp_user = mkSecret;
-            grafana_smtp_host = mkSecret;
-          };
-      };
   };
 }

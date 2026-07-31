@@ -6,6 +6,8 @@
 
     includes = [
       den.aspects.base
+      den.aspects.cockpit
+      den.aspects.portainer
       den.aspects.display-manager
       den.aspects.window-manager
 

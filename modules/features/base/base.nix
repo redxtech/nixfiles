@@ -58,10 +58,6 @@
       den.aspects.virtualisation
       den.aspects.virtualisation._.containers
 
-      # services
-      den.aspects.cockpit
-      den.aspects.portainer
-
       den.aspects.auto-mount
       den.aspects.backup
       den.aspects.ssh
