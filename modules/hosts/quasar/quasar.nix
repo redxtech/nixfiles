@@ -25,73 +25,8 @@
   den.aspects.quasar = {
     includes = [
       den.aspects.quasar-fs
-      den.aspects.base
-      den.aspects.actual
-      den.aspects.adguard
-      den.aspects.apprise
-      den.aspects.bazarr
-      den.aspects.bento
-      den.aspects.beszel
-      den.aspects.booklore
-      den.aspects.calibre
-      den.aspects.calibre-web
-      den.aspects.cockpit
-      # den.aspects.server
-      den.aspects.network
-      den.aspects.network._.server
-      den.aspects.grafana
-      den.aspects.homepage
-      den.aspects.loki
-      den.aspects.navidrome
-      den.aspects.plex
-      den.aspects.prometheus
+      den.aspects.server
       den.aspects.tunnel
-      den.aspects.coredns
-      den.aspects.ddclient
-      den.aspects.esphome
-      den.aspects.espresense-companion
-      den.aspects.flaresolverr
-      den.aspects.flood
-      den.aspects.github-runner
-      den.aspects.ha-fusion
-      den.aspects.hercules-ci-agent
-      den.aspects.home-assistant
-      den.aspects.influxdb
-      den.aspects.jackett
-      den.aspects.jdownloader
-      den.aspects.jellyfin
-      den.aspects.jellyfin-vue
-      den.aspects.jellyseerr
-      den.aspects.kiwix
-      den.aspects.koinsight
-      den.aspects.ladder
-      den.aspects.lidarr
-      den.aspects.mosquitto
-      den.aspects.music-assistant
-      den.aspects.n8n
-      den.aspects.node-red
-      den.aspects.paperless
-      den.aspects.pocket-id
-      den.aspects.portainer
-      den.aspects.prowlarr
-      den.aspects.qbittorrent
-      den.aspects.qdirstat
-      den.aspects.qui
-      den.aspects.radarr
-      den.aspects.scrutiny
-      den.aspects.signaturepdf
-      den.aspects.sonarr
-      den.aspects.startpage
-      den.aspects.stirling-pdf
-      den.aspects.syncthing
-      den.aspects.tautulli
-      den.aspects.tubearchivist
-      den.aspects.unpoller
-      den.aspects.uptime-kuma
-      den.aspects.watchtower
-      den.aspects.yt
-      den.aspects.zigbee2mqtt
-
       den.aspects.gpu
     ];
 
