@@ -10,6 +10,7 @@
 
     homeManager =
       {
+        self',
         config,
         inputs',
         lib,
@@ -66,28 +67,6 @@
         ];
 
         cfg = config.ai;
-        tomlFormat = pkgs.formats.toml { };
-        codexPackage = inputs'.llm-agents.packages.codex;
-
-        agentText =
-          source:
-          if builtins.isPath source || lib.hasPrefix "/" source then builtins.readFile source else source;
-
-        codexAgents = lib.mapAttrs (name: source: {
-          description = "${name} agent";
-          config_file = tomlFormat.generate "codex-agent-${name}.toml" {
-            # TODO: Parse or strip harness-specific frontmatter before sharing agent prompts across harnesses.
-            developer_instructions = agentText source;
-          };
-        }) cfg.agents;
-
-        codexProfile = tomlFormat.generate "nix.config.toml" {
-          agents = codexAgents;
-        };
-
-        codex = pkgs.writeShellScriptBin "codex" ''
-          exec ${lib.getExe codexPackage} --profile nix "$@"
-        '';
       in
       {
         options.ai = {
@@ -101,6 +80,13 @@
             type = lib.types.attrsOf (lib.types.either lib.types.lines lib.types.path);
             default = { };
             description = "Skill definitions shared by supported coding agents";
+          };
+
+          # TODO: add support for codex & claude-code
+          extraPackages = lib.mkOption {
+            type = lib.types.listOf lib.types.package;
+            default = [ ];
+            description = "Extra packages to install for the agents";
           };
         };
 
@@ -138,41 +124,47 @@
                 ];
               };
 
-            home.packages = with inputs'.llm-agents.packages; [
-              # agents
-              claude-code
-              claude-agent-acp
+            ai.extraPackages = [
+              inputs'.kolu.packages.default
+            ]
+            ++ (with inputs'.llm-agents.packages; [
+              apm
+              codegraph
+              rtk
+            ])
+            ++ (with self'.packages; [
+              kagi-mcp
+              mcp-remote
+              openportal
+              super-productivity-mcp
+            ]);
 
-              codex
-              codex-acp
+            programs.codex.enable = true;
 
-              # orchestrators
-              # herdr
+            home.packages =
+              with inputs'.llm-agents.packages;
+              [
+                # general tools
+                apm # agent package manager
+                ccusage # token usage
+                codegraph # code indexing and search
+                openskills # skills installer
+                rtk # token consumption optimization
+              ]
+              # TODO: remove when packages are automatically injected into all the harnesses
+              ++ cfg.extraPackages;
 
-              # general tools
-              apm # agent package manager
-              ccusage # token usage
-              codegraph # code indexing and search
-              openskills # skills installer
-              rtk # token consumption optimization
-            ];
-
-            home.file =
-              lib.mapAttrs' (
-                name: source: lib.nameValuePair ".agents/skills/${name}" { inherit source; }
-              ) cfg.skills
-              // lib.mapAttrs' (
-                name: source: lib.nameValuePair ".codex/skills/${name}" { inherit source; }
-              ) cfg.skills
-              // {
-                ".codex/nix.config.toml".source = codexProfile;
-              };
+            home.file = lib.mapAttrs' (
+              name: source: lib.nameValuePair ".agents/skills/${name}" { inherit source; }
+            ) cfg.skills;
           }
 
           (lib.mkIf config.programs.opencode.enable {
             programs.opencode = {
               agents = cfg.agents;
               skills = cfg.skills;
+
+              extraPackages = cfg.extraPackages;
             };
           })
 
@@ -181,7 +173,41 @@
               agents = cfg.agents;
               skills = cfg.skills;
             };
+
+            home.packages = [ inputs'.llm-agents.packages.claude-agent-acp ];
           })
+
+          (lib.mkIf config.programs.codex.enable (
+            let
+              tomlFormat = pkgs.formats.toml { };
+              codexPackage = inputs'.llm-agents.packages.codex;
+
+              agentText =
+                source:
+                if builtins.isPath source || lib.hasPrefix "/" source then builtins.readFile source else source;
+
+              codexAgents = lib.mapAttrs (name: source: {
+                description = "${name} agent";
+                config_file = tomlFormat.generate "codex-agent-${name}.toml" {
+                  # TODO: Parse or strip harness-specific frontmatter before sharing agent prompts across harnesses.
+                  developer_instructions = agentText source;
+                };
+              }) cfg.agents;
+
+              codex = pkgs.writeShellScriptBin "codex" ''
+                exec ${lib.getExe codexPackage} --profile nix "$@"
+              '';
+            in
+            {
+              programs.codex = {
+                package = codex;
+                skills = cfg.skills;
+                profiles.nix.agents = codexAgents;
+              };
+
+              home.packages = [ inputs'.llm-agents.packages.codex-acp ];
+            }
+          ))
         ];
       };
   };

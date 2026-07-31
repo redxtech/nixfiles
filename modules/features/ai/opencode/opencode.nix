@@ -31,6 +31,10 @@
           ];
 
           settings = {
+            autoupdate = false;
+            formatter = true;
+            lsp = true;
+
             plugin = [
               # "superpowers@git+https://github.com/obra/superpowers.git"
               "background-agents@git+https://github.com/kdcokenny/opencode-background-agents.git"
