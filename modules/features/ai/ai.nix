@@ -32,12 +32,23 @@
           hash = "sha256-dpQbZn5RG5JGy5g9oYkXigOyr1WXMjtYp2P9Ff+ivbo=";
         };
 
+        mattPocock = pkgs.fetchFromGitHub {
+          owner = "mattpocock";
+          repo = "skills";
+          rev = "2ab958093e83e0ec752e6c1c5932da465bf23e0c"; # main
+          hash = "sha256-dQtG6usJWlg/FqTajrjcs8GSdymH92WsgLiUaCfvKPA=";
+        };
+
         aiSlopCure = pkgs.fetchFromGitHub {
           owner = "woosal1337";
           repo = "blog";
           rev = "b912d5fa59f368253683af2ebfac64ad6d08312d";
           hash = "sha256-Cm/DOQL1l3ntRg93psJlD4wUwVroSOuv6t6R3CFpUAg=";
         };
+
+        aiSlopCureLint = pkgs.writers.writePython3Bin "ste-lint" { doCheck = false; } (
+          builtins.readFile (aiSlopCure + "/videos/ep01-the-cure-for-ai-slop/ste-lint.py")
+        );
 
         # the hickey/lowy agents delegate to the skills of the same name;
         # fact-check is a hard dependency of every review skill
@@ -64,6 +75,31 @@
           "lens-debate"
           "perfection-review"
           "surface"
+        ];
+
+        mattPocockSkills = [
+          "engineering/ask-matt"
+          "engineering/diagnosing-bugs"
+          "engineering/grill-with-docs"
+          "engineering/triage"
+          "engineering/improve-codebase-architecture"
+          "engineering/setup-matt-pocock-skills"
+          "engineering/tdd"
+          "engineering/to-spec"
+          "engineering/to-tickets"
+          "engineering/wayfinder"
+          "engineering/implement"
+          "engineering/prototype"
+          "engineering/research"
+          "engineering/domain-modeling"
+          "engineering/codebase-design"
+          "engineering/code-review"
+          "engineering/resolving-merge-conflicts"
+          "productivity/grill-me"
+          "productivity/grilling"
+          "productivity/handoff"
+          "productivity/teach"
+          "productivity/writing-great-skills"
         ];
 
         cfg = config.ai;
@@ -111,6 +147,12 @@
                   value = koluAgents + "/agents/.apm/skills/${name}";
                 }) koluAgentsSkills
               )
+              // builtins.listToAttrs (
+                map (path: {
+                  name = builtins.baseNameOf path;
+                  value = mattPocock + "/skills/${path}";
+                }) mattPocockSkills
+              )
               // {
                 ste-writing = pkgs.linkFarm "ste-writing-skill" [
                   {
@@ -119,7 +161,9 @@
                   }
                   {
                     name = "scripts/ste-lint.py";
-                    path = aiSlopCure + "/videos/ep01-the-cure-for-ai-slop/ste-lint.py";
+                    path = pkgs.writeShellScript "ste-lint.py" ''
+                      exec ${lib.getExe aiSlopCureLint} "$@"
+                    '';
                   }
                 ];
               };
