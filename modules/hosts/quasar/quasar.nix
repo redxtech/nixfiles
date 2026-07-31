@@ -26,16 +26,25 @@
     includes = [
       den.aspects.quasar-fs
       den.aspects.base
+      den.aspects.adguard
       den.aspects.cockpit
       # den.aspects.server
       den.aspects.network
       den.aspects.network._.server
       den.aspects.grafana
+      den.aspects.homepage
       den.aspects.loki
       den.aspects.prometheus
       den.aspects.tunnel
       den.aspects.coredns
+      den.aspects.ddclient
+      den.aspects.flood
+      den.aspects.github-runner
+      den.aspects.hercules-ci-agent
+      den.aspects.pocket-id
       den.aspects.portainer
+      den.aspects.startpage
+      den.aspects.uptime-kuma
 
       den.aspects.gpu
     ];

@@ -60,15 +60,24 @@
 
     includes = [
       den.aspects.base
+      den.aspects.adguard
       den.aspects.cockpit
       den.aspects.coredns
+      den.aspects.ddclient
+      den.aspects.flood
+      den.aspects.github-runner
       den.aspects.grafana
+      den.aspects.hercules-ci-agent
+      den.aspects.homepage
       den.aspects.loki
       den.aspects.network
       den.aspects.network._.server
+      den.aspects.pocket-id
       den.aspects.portainer
       den.aspects.prometheus
+      den.aspects.startpage
       den.aspects.traefik._.server
+      den.aspects.uptime-kuma
       den.aspects.virtualisation._.containers
     ];
 
