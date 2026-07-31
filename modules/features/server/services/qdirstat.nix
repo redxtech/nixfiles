@@ -1,0 +1,47 @@
+{ self, ... }:
+
+{
+  den.aspects.qdirstat.nixos =
+    { config, host, ... }:
+    let
+      server = host.settings.server;
+      inherit (self.lib.containers) mkPorts;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      secretMount = name: "${config.sops.secrets.${name}.path}:${config.sops.secrets.${name}.path}";
+    in
+    {
+      virtualisation.oci-containers.containers.qdirstat = {
+        image = "lscr.io/linuxserver/qdirstat:latest";
+        environment =
+          self.lib.server.defaultEnvironment {
+            uid = server.uid;
+            gid = server.gid;
+            timeZone = config.time.timeZone;
+          }
+          // {
+            FILE__CUSTOM_USER = config.sops.secrets.qdirstat_user.path;
+            FILE__PASSWORD = config.sops.secrets.qdirstat_pw.path;
+            CUSTOM_PORT = "9030";
+          };
+        labels = mkAllLabelsPort "qdirstat" 9030 {
+          name = "qdirstat";
+          group = "utils";
+          icon = "qdirstat.svg";
+          href = "https://qdirstat.${config.networking.fqdn}";
+          desc = "disk usage statistics";
+        };
+        ports = [ (mkPorts 9030) ];
+        volumes = [
+          ((self.lib.server.volumes server).config "qdirstat")
+          (secretMount "qdirstat_user")
+          (secretMount "qdirstat_pw")
+          "/:/data:ro"
+        ];
+      };
+
+      sops.secrets = {
+        qdirstat_user.sopsFile = server.legacySopsFile;
+        qdirstat_pw.sopsFile = server.legacySopsFile;
+      };
+    };
+}

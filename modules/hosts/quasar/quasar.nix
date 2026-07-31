@@ -26,7 +26,12 @@
     includes = [
       den.aspects.quasar-fs
       den.aspects.base
+      den.aspects.actual
       den.aspects.adguard
+      den.aspects.apprise
+      den.aspects.bento
+      den.aspects.calibre
+      den.aspects.calibre-web
       den.aspects.cockpit
       # den.aspects.server
       den.aspects.network
@@ -40,14 +45,33 @@
       den.aspects.tunnel
       den.aspects.coredns
       den.aspects.ddclient
+      den.aspects.flaresolverr
       den.aspects.flood
       den.aspects.github-runner
       den.aspects.hercules-ci-agent
+      den.aspects.jackett
+      den.aspects.jdownloader
+      den.aspects.jellyfin
+      den.aspects.jellyfin-vue
+      den.aspects.jellyseerr
+      den.aspects.kiwix
+      den.aspects.koinsight
+      den.aspects.ladder
+      den.aspects.n8n
       den.aspects.pocket-id
       den.aspects.portainer
+      den.aspects.qdirstat
+      den.aspects.qui
+      den.aspects.scrutiny
+      den.aspects.signaturepdf
       den.aspects.startpage
       den.aspects.stirling-pdf
+      den.aspects.syncthing
+      den.aspects.tautulli
+      den.aspects.unpoller
       den.aspects.uptime-kuma
+      den.aspects.watchtower
+      den.aspects.yt
 
       den.aspects.gpu
     ];
