@@ -1,0 +1,34 @@
+diff --git a/home-assistant/default.nix b/home-assistant/default.nix
+index 2b4b01e..56e9881 100644
+--- a/home-assistant/default.nix
++++ b/home-assistant/default.nix
+@@ -163,7 +163,7 @@ in
+           better_thermostat
+           prometheus_sensor
+           localtuya
+-          # tuya_local
++          tuya_local
+           spook
+           waste_collection_schedule
+         ])
+diff --git a/traefik.nix b/traefik.nix
+index 5f55db5..1ec0f10 100644
+--- a/traefik.nix
++++ b/traefik.nix
+@@ -21,6 +21,16 @@ in
+           certificates = [ cert ];
+           stores.default.defaultCertificate = cert;
+         };
++
++      http.middlewares = {
++        homeassistant-allow-iframe.headers = {
++          contentSecurityPolicy = "frame-ancestors ha.${cfg.fqdn}";
++          customResponseHeaders = {
++            "X-Frame-Options" = "";
++            "X-XSS-Protection" = "1";
++          };
++        };
++      };
+     };
+   };
+ 
