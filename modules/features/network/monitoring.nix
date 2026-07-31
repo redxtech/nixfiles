@@ -29,7 +29,6 @@
           }
         '';
         mkLocalScraper = name: port: mkScraper name "127.0.0.1:${p port}";
-        mkExportarr = name: port: mkLocalScraper "${name}_exportarr" port;
         registeredScrapers = lib.mapAttrsToList mkLocalScraper cfg.scrapeTargets;
       in
       {
@@ -71,8 +70,6 @@
                   }
                 ''
                 (mkLocalScraper "docker" 9323)
-                (mkExportarr "sonarr" 9707)
-                (mkExportarr "radarr" 9708)
                 (builtins.concatStringsSep "\n" registeredScrapers)
                 ''
                   prometheus.relabel "filter_metrics" {

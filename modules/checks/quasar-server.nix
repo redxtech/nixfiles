@@ -64,13 +64,16 @@
 
               virtualisation.oci-containers = {
                 containers = {
-                  app.image = "example/app:latest";
-                  database.image = "example/database:latest";
+                  app = {
+                    image = "example/app:latest";
+                    networks = [ "stack" ];
+                  };
+                  database = {
+                    image = "example/database:latest";
+                    networks = [ "stack" ];
+                  };
                 };
-                networks.stack = [
-                  "app"
-                  "database"
-                ];
+                networks = [ "stack" ];
               };
 
               system.stateVersion = "25.11";
@@ -103,8 +106,7 @@
           ];
         assert testConfig.virtualisation.docker.enable;
         assert testConfig.virtualisation.oci-containers.backend == "docker";
-        assert
-          testConfig.virtualisation.oci-containers.containers.app.extraOptions == [ "--network=stack" ];
+        assert testConfig.virtualisation.oci-containers.containers.app.networks == [ "stack" ];
         assert !testConfig.security.sudo.wheelNeedsPassword;
         assert traefik.dataDir == "/config/pods/traefik";
         assert
