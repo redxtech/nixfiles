@@ -57,9 +57,6 @@
                 "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
                 "layout.frame_rate" = 144;
-                "gfx.webrender.all" = true;
-                "gfx.webrender.compositor" = true;
-                "gfx.webrender.compositor.force-enabled" = true;
                 "gfx.vsync.force-disable-waitforvblank" = true;
 
                 "browser.newtabpage.pinned" = [
@@ -112,10 +109,10 @@
               # containers = { };
 
               # TODO: update the userChrome and userContent files to use liam's new stuff
-              # userChrome = builtins.readFile ./userChrome.css;
-              # userContent = builtins.readFile ./userContent.css;
-              userChrome = builtins.readFile ./userChrome.old.css;
-              userContent = builtins.readFile ./userContent.old.css;
+              userChrome = builtins.readFile ./userChrome.css;
+              userContent = builtins.readFile ./userContent.css;
+              # userChrome = builtins.readFile ./userChrome.old.css;
+              # userContent = builtins.readFile ./userContent.old.css;
 
               search = {
                 force = true;

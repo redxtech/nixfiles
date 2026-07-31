@@ -43,6 +43,7 @@
             --host x86_64-linux=localhost \
             "$@"
         '';
+        meta.mainProgram = "run ci with odu";
       };
     };
 

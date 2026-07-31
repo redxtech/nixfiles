@@ -200,6 +200,10 @@
 	--toolbar-bgcolor: var(--sag-bg-500) !important;
 	--lwt-selected-tab-background-color: var(--sag-bg-800) !important;
 
+	/* Horrifying border radius on browser tabs */
+	--chrome-content-separator-color: unset !important;
+	--chrome-window-gap: 0px !important;
+
 	--focus-outline-color: transparent !important;
 	--autocomplete-popup-highlight-background: var(--sag-accent-primary) !important;
 
@@ -208,7 +212,7 @@
 
 	--toolbar-field-focus-background-color: var(--sag-bg-700) !important;
 
-	--gd-head-width: 380px;
+	--gd-head-width: 400px;
 }
 
 /* Expand browser to top */
@@ -221,12 +225,38 @@
 	z-index: 1000 !important;
 	position: absolute !important;
 	width: var(--gd-head-width);
-	margin-top: 0 !important;
+	margin: 0 !important;
+	background: none !important;
+	border: none !important;
+	border-radius: 0 !important;
+}
+
+#sidebar {
+	border-radius: 0 !important;
 }
 
 #sidebar-box {
 	--sidebar-background-color: var(--sag-bg-500) !important;
 	margin-top: 40px;
+	padding: 0 !important;
+	border-radius: 0 !important;
+}
+
+#sidebar-container {
+	display: none !important;
+	/* Takes up 1px for some reason? */
+}
+
+/* Drop all browser rounding and padding */
+#browser {
+	padding: 0 !important;
+	border-radius: 0 !important;
+	gap: 0 !important;
+}
+
+#tabbrowser-tabpanels> :not(.split-view-panel) .browserContainer {
+	border-radius: 0 !important;
+	border: none !important;
 }
 
 /* Hide firefox sidebar */
@@ -237,6 +267,10 @@ sidebar-main {
 /* Hide sideberry header */
 sidebar-panel-header {
 	display: none !important;
+}
+
+.sidebar-panel {
+	color: white;
 }
 
 /* Fixed Sideberry size */
@@ -253,7 +287,6 @@ sidebar-panel-header {
 	display: none !important;
 }
 
-#urlbar-background,
 #navigator-toolbox,
 #searchbar,
 .toolbar-items,
@@ -291,7 +324,7 @@ sidebar-panel-header {
 	text-align: center !important;
 }
 
-#urlbar-results {
+#urlbar .urlbarView {
 	font-family: var(--mff-urlbar-results-font-family);
 	font-weight: var(--mff-urlbar-results-font-weight);
 	font-size: var(--mff-urlbar-results-font-size) !important;
@@ -458,12 +491,21 @@ sidebar-panel-header {
 	pointer-events: all;
 
 	transform: translate(-50%, -50%);
-	box-shadow: 0 0 16px #0004;
 }
 
-#urlbar-background,
 #searchbar {
 	background-color: var(--sag-bg-700) !important;
+}
+
+#urlbar .urlbar-background {
+	inset: 0 !important;
+	padding: 0 !important;
+	border: none !important;
+	border-radius: 8px 8px 0 0 !important;
+	box-shadow: none !important;
+
+	background-color: var(--sag-bg-700) !important;
+	z-index: 1000;
 }
 
 #urlbar-go-button {
@@ -476,9 +518,9 @@ sidebar-panel-header {
 	position: absolute !important;
 	left: 0;
 	right: 0;
-	top: calc(100% - var(--toolbarbutton-border-radius) * 2);
+	top: calc(100% - var(--toolbarbutton-border-radius) * 2 + 50px);
 	padding-top: calc(var(--toolbarbutton-border-radius) * 2);
-	border-radius: var(--toolbarbutton-border-radius);
+	border-radius: 0 0 8px 8px;
 
 	/* Reset their values */
 	width: unset !important;
@@ -500,6 +542,19 @@ sidebar-panel-header {
 .urlbarView .urlbarView-row {
 	padding-left: 12px;
 	padding-right: 12px;
+}
+
+/* Shadow for URL bar */
+
+#urlbar-container #urlbar,
+#urlbar-container #urlbar .urlbarView {
+	box-shadow: 0 0 16px #0004;
+}
+
+#urlbar-container #urlbar .urlbar-background,
+#urlbar-container #urlbar .urlbar-input-container {
+	z-index: 1000;
+	/* ensures the shadow for the items doesn't cover the input */
 }
 
 /* Suppress Link Destination Overlay */

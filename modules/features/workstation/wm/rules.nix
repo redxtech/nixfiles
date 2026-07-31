@@ -12,7 +12,6 @@
         }
         {
           matches = [ { app-id = "firefox-nightly"; } ];
-          open-on-workspace = "www";
           open-focused = true;
           default-column-width.proportion = 1.0;
           open-maximized-to-edges = false;
