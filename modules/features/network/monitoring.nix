@@ -71,7 +71,6 @@
                   }
                 ''
                 (mkLocalScraper "docker" 9323)
-                (mkLocalScraper "unpoller" 9130)
                 (mkExportarr "sonarr" 9707)
                 (mkExportarr "radarr" 9708)
                 (builtins.concatStringsSep "\n" registeredScrapers)

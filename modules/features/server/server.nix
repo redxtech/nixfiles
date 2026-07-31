@@ -60,16 +60,31 @@
 
     includes = [
       den.aspects.base
+      den.aspects.actual
       den.aspects.adguard
+      den.aspects.apprise
+      den.aspects.bento
+      den.aspects.calibre
+      den.aspects.calibre-web
       den.aspects.cockpit
       den.aspects.coredns
       den.aspects.ddclient
+      den.aspects.flaresolverr
       den.aspects.flood
       den.aspects.github-runner
       den.aspects.grafana
       den.aspects.hercules-ci-agent
       den.aspects.homepage
+      den.aspects.jackett
+      den.aspects.jdownloader
+      den.aspects.jellyfin
+      den.aspects.jellyfin-vue
+      den.aspects.jellyseerr
+      den.aspects.kiwix
+      den.aspects.koinsight
+      den.aspects.ladder
       den.aspects.loki
+      den.aspects.n8n
       den.aspects.navidrome
       den.aspects.network
       den.aspects.network._.server
@@ -77,11 +92,20 @@
       den.aspects.plex
       den.aspects.portainer
       den.aspects.prometheus
+      den.aspects.qdirstat
+      den.aspects.qui
+      den.aspects.scrutiny
+      den.aspects.signaturepdf
       den.aspects.startpage
       den.aspects.stirling-pdf
+      den.aspects.syncthing
+      den.aspects.tautulli
       den.aspects.traefik._.server
+      den.aspects.unpoller
       den.aspects.uptime-kuma
       den.aspects.virtualisation._.containers
+      den.aspects.watchtower
+      den.aspects.yt
     ];
 
     nixos =
