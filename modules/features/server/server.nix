@@ -60,8 +60,15 @@
 
     includes = [
       den.aspects.base
+      den.aspects.cockpit
+      den.aspects.coredns
+      den.aspects.grafana
+      den.aspects.loki
       den.aspects.network
       den.aspects.network._.server
+      den.aspects.portainer
+      den.aspects.prometheus
+      den.aspects.traefik._.server
       den.aspects.virtualisation._.containers
     ];
 

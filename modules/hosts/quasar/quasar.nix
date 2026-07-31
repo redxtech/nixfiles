@@ -14,6 +14,8 @@
 
       network.ip = "192.168.50.208";
 
+      portainer.dataDir = "/pool/data/portainer";
+
       tunnel.id = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
 
       gpu.nvidia.enable = true;
@@ -24,12 +26,16 @@
     includes = [
       den.aspects.quasar-fs
       den.aspects.base
+      den.aspects.cockpit
       # den.aspects.server
       den.aspects.network
       den.aspects.network._.server
-      den.aspects.monitoring._.server
+      den.aspects.grafana
+      den.aspects.loki
+      den.aspects.prometheus
       den.aspects.tunnel
-      den.aspects.dns
+      den.aspects.coredns
+      den.aspects.portainer
 
       den.aspects.gpu
     ];
@@ -48,8 +54,6 @@
         nvidiaSettings = false;
         open = false;
       };
-
-      monitoring.grafana_secret_key = config.sops.secrets.grafana_secret_key.path;
 
       backup.restic = {
         enable = true;
@@ -81,7 +85,6 @@
           sopsFile = ../../../secrets/hosts/quasar/secrets.yaml;
         in
         {
-          grafana_secret_key.sopsFile = sopsFile;
           restic_password.sopsFile = sopsFile;
           restic_repository_config.sopsFile = sopsFile;
           restic_repository_home.sopsFile = sopsFile;

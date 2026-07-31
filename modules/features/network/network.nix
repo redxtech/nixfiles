@@ -68,11 +68,7 @@
 
           hostIP = lib.mkIf (!cfg.isHost) self.nixosConfigurations.${domainHost}.config.network.hostIP;
 
-          finalServices = cfg.services // {
-            # universal services
-            cockpit = 9090;
-            traefik = 8080;
-          };
+          finalServices = cfg.services;
         };
       };
 

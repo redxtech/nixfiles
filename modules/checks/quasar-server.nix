@@ -14,6 +14,8 @@
       serverSettings = lib.mapAttrs (_: option: option.default) serverAspect.settings;
       containerModule =
         (import ../features/base/virtualisation.nix).den.aspects.virtualisation.provides.containers.nixos;
+      traefikServerModule =
+        (import ../features/network/traefik.nix).den.aspects.traefik.provides.server.nixos;
       serverLib = import ../../lib/server { };
 
       testConfig =
@@ -22,6 +24,7 @@
           modules = [
             serverModule
             containerModule
+            traefikServerModule
             {
               _module.args.host.settings = {
                 server = serverSettings;
@@ -52,6 +55,10 @@
               };
 
               boot.loader.grub.devices = [ "nodev" ];
+              networking = {
+                hostName = "server-test";
+                domain = "example.test";
+              };
               programs.fish.enable = true;
               users.groups.libvirtd = { };
 
@@ -74,6 +81,7 @@
       networkUnit = testConfig.systemd.services.docker-network-stack;
       appUnit = testConfig.systemd.services.docker-app;
       networkDependency = "docker-network-stack.service";
+      traefik = testConfig.services.traefik;
       volumes = serverLib.volumes serverSettings;
     in
     lib.optionalAttrs (system == "x86_64-linux") {
@@ -98,6 +106,19 @@
         assert
           testConfig.virtualisation.oci-containers.containers.app.extraOptions == [ "--network=stack" ];
         assert !testConfig.security.sudo.wheelNeedsPassword;
+        assert traefik.dataDir == "/config/pods/traefik";
+        assert
+          traefik.dynamicConfigOptions.http.middlewares.homeassistant-allow-iframe.headers.contentSecurityPolicy
+          == "frame-ancestors ha.server-test.example.test";
+        assert
+          traefik.dynamicConfigOptions.tls.certificates == [
+            {
+              certFile = "/var/lib/acme/adguard.server-test.example.test/cert.pem";
+              keyFile = "/var/lib/acme/adguard.server-test.example.test/key.pem";
+            }
+          ];
+        assert lib.elem 80 testConfig.networking.firewall.allowedTCPPorts;
+        assert lib.elem 443 testConfig.networking.firewall.allowedTCPPorts;
         assert volumes.config "example" == "/config/pods/example:/config";
         assert volumes.data "example" == "/pool/data/example:/data";
         assert volumes.downloads "example" == "/pool/downloads/example:/downloads";

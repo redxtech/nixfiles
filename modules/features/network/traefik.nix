@@ -6,6 +6,9 @@
         cfg = config.networking;
       in
       {
+        network.services.traefik = 8080;
+        monitoring.scrapeTargets.traefik = 8080;
+
         services.traefik = {
           enable = true;
 
@@ -97,6 +100,42 @@
           sopsFile = ../../../secrets/hosts/common/secrets.yaml;
           owner = "traefik";
         };
+      };
+
+    provides.server.nixos =
+      { config, host, ... }:
+      let
+        inherit (config.networking) fqdn;
+        certificateDirectory = "/var/lib/acme/adguard.${fqdn}";
+        certificate = {
+          certFile = "${certificateDirectory}/cert.pem";
+          keyFile = "${certificateDirectory}/key.pem";
+        };
+      in
+      {
+        services.traefik = {
+          dataDir = "${host.settings.server.configRoot}/traefik";
+
+          dynamicConfigOptions = {
+            tls = {
+              certificates = [ certificate ];
+              stores.default.defaultCertificate = certificate;
+            };
+
+            http.middlewares.homeassistant-allow-iframe.headers = {
+              contentSecurityPolicy = "frame-ancestors ha.${fqdn}";
+              customResponseHeaders = {
+                "X-Frame-Options" = "";
+                "X-XSS-Protection" = "1";
+              };
+            };
+          };
+        };
+
+        networking.firewall.allowedTCPPorts = [
+          80
+          443
+        ];
       };
   };
 }

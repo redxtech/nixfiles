@@ -15,11 +15,13 @@
         cfg = host.settings.base;
       in
       {
+        network.services.cockpit = config.services.cockpit.port;
+
         services.cockpit = {
           enable = true;
 
           package = pkgs.cockpit.overrideAttrs (old: {
-            # remove packagekit and selinux, don't work on NixOS
+            # packagekit and selinux do not work on NixOS.
             postBuild = ''
               rm -rf \
                 dist/packagekit \
@@ -47,7 +49,6 @@
           };
         };
 
-        # extra cockpit modules
         environment.systemPackages = lib.mkIf config.services.cockpit.enable (
           (with pkgs; [
             kexec-tools
