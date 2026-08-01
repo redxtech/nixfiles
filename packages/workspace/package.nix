@@ -25,10 +25,21 @@
 
       workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = src; };
       overlay = workspace.mkPyprojectOverlay { sourcePreference = "wheel"; };
+      workspaceOverlay = _final: prev: {
+        workspace-mcp = prev.workspace-mcp.overrideAttrs (oldAttrs: {
+          postPatch = (oldAttrs.postPatch or "") + ''
+            substituteInPlace main.py \
+              --replace-fail \
+                'argparse.ArgumentParser(description="Google Workspace MCP Server")' \
+                'argparse.ArgumentParser(prog="workspace-mcp", description="Google Workspace MCP Server")'
+          '';
+        });
+      };
       pythonSet = (pkgs.callPackage pyproject-nix.build.packages { python = python313; }).overrideScope (
         lib.composeManyExtensions [
           pyproject-build-systems.overlays.default
           overlay
+          workspaceOverlay
         ]
       );
 
@@ -37,7 +48,7 @@
           (oldAttrs: {
             nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ makeWrapper ];
             postFixup = ''
-              wrapProgram $out/bin/workspace-mcp --argv0 workspace-mcp --unset PYTHONPATH
+              wrapProgram $out/bin/workspace-mcp --unset PYTHONPATH
               wrapProgram $out/bin/workspace-cli --argv0 workspace-cli --unset PYTHONPATH
             '';
 
