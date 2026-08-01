@@ -126,7 +126,6 @@
       den.aspects.tunnel
 
       den.aspects.ai
-      den.aspects.kimaki
       den.aspects.gpu
       den.aspects.network-mounts
       den.aspects.streaming

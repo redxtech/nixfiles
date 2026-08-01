@@ -1,5 +1,14 @@
+{ self, ... }:
+
 {
   den.aspects.opencode = {
+    nixos =
+      { host, ... }:
+      {
+        # for kimaki to work when not logged in
+        users.users.${host.settings.base.primaryUser}.linger = true;
+      };
+
     homeManager =
       {
         self',
@@ -8,6 +17,8 @@
         ...
       }:
       {
+        imports = [ self.homeManagerModules.kimaki ];
+
         programs.opencode = {
           enable = true;
           enableMcpIntegration = true;
@@ -82,6 +93,19 @@
           inputs'.llm-agents.packages.oh-my-opencode
           self'.packages.openportal
         ];
+
+        # discord interface for opencode
+        services.kimaki = {
+          enable = true;
+          extraPackages = [
+            inputs'.llm-agents.packages.opencode
+            self'.packages.kagi-mcp
+            self'.packages.mcp-remote
+            self'.packages.super-productivity-mcp
+            self'.packages.workspace-mcp
+          ];
+        };
+
       };
   };
 }

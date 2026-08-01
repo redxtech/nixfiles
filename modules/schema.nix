@@ -73,7 +73,13 @@ let
     buildSettingsModule (den.aspects or { });
 in
 {
-  den.schema.host.imports = [
+  options.flake.homeManagerModules = lib.mkOption {
+    type = lib.types.lazyAttrsOf lib.types.raw;
+    default = { };
+    description = "Reusable Home Manager modules exported by this flake.";
+  };
+
+  config.den.schema.host.imports = [
     (
       { config, ... }:
       {
