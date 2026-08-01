@@ -180,6 +180,7 @@
               kagi-mcp
               mcp-remote
               openportal
+              strava-mcp
               super-productivity-mcp
               workspace-mcp
             ]);
