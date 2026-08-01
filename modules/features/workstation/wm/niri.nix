@@ -5,6 +5,7 @@
     includes = [
       den.aspects.window-manager-binds
       den.aspects.window-manager-rules
+      den.aspects.niri-dynamic-open-float
     ];
 
     nixos =
@@ -157,6 +158,8 @@
                 monitorsToWorkspaces monitors;
             };
           };
+
+        home.packages = [ pkgs.nirius ];
       };
   };
 

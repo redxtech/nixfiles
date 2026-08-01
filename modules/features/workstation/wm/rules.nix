@@ -77,6 +77,22 @@
           open-floating = true;
         }
 
+        # indicate screencasted windows with red colors.
+        {
+          matches = [ { is-window-cast-target = true; } ];
+          border.inactive.color = "#7d0d2d";
+          shadow.color = "#7d0d2d70";
+          focus-ring = {
+            enable = true;
+            active.color = "#f38ba8";
+            inactive.color = "#7d0d2d";
+          };
+          tab-indicator = {
+            active.color = "#f38ba8";
+            inactive.color = "#7d0d2d";
+          };
+        }
+
         # steam stuff
         {
           matches = [ { app-id = "gamescope"; } ];

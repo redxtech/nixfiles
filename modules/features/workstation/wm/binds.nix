@@ -57,7 +57,8 @@
 
           # system
           {
-            "Mod+Backspace".action.spawn = noctalia "panel-toggle session";
+            "Mod+Backspace".action.spawn = lib.getExe config.scripts.scripts.powermenu;
+            "Mod+Shift+Backspace".action.spawn = noctalia "panel-toggle session";
             "Mod+Shift+E".action.quit = { };
             "Mod+Shift+P".action.power-off-monitors = { };
             "Mod+Shift+Slash".action.show-hotkey-overlay = { };
@@ -78,6 +79,10 @@
             "Mod+T".action.toggle-column-tabbed-display = { };
             "Mod+Comma".action.consume-window-into-column = { };
             "Mod+Period".action.expel-window-from-column = { };
+            "Mod+Y".action.spawn = [
+              (lib.getExe pkgs.nirius)
+              "toggle-follow-mode"
+            ];
 
             "Mod+grave".action.toggle-overview = { };
 
