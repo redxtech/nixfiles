@@ -14,10 +14,8 @@
           enable = true;
 
           # servers to consider adding:
-          # - superpowers (https://github.com/obra/superpowers)
-          # - worldmonitor (https://github.com/koala73/worldmonitor)
           # - context7 (https://github.com/upstash/context7)
-          # - strava (https://support.strava.com/en-us/articles/15401531-strava-mcp-connector)
+          # - strava (https://support.strava.com/en-us/articles/15401531-strava-mcp-connector) - when released
           # - thunderbird (https://github.com/TKasperczyk/thunderbird-mcp)
 
           servers = {
@@ -34,28 +32,9 @@
               command = lib.getExe inputs'.kolu.packages.default;
               args = [ "mcp" ];
             };
-            vaulted = {
-              enabled = false;
-              command = lib.getExe self'.packages.vaulted;
-              args = [ "mcp" ];
-            };
-            liftosaur = {
-              command = lib.getExe self'.packages.mcp-remote;
-              args = [
-                "https://www.liftosaur.com/mcp"
-                "--header"
-                "Authorization:Bearer \${MCP_LIFTOSAUR_KEY}"
-              ];
-              env.MCP_LIFTOSAUR_KEY.file = config.sops.secrets.mcp-liftosaur-key.path;
-            };
-            homeassistant = {
-              command = lib.getExe self'.packages.mcp-remote;
-              args = [
-                "https://ha.mothership.sucha.foo/api/mcp"
-                "--header"
-                "Authorization:Bearer \${MCP_HOMEASSISTANT_KEY}"
-              ];
-              env.MCP_HOMEASSISTANT_KEY.file = config.sops.secrets.mcp-homeassistant-key.path;
+            kagi = {
+              command = lib.getExe self'.packages.kagi-mcp;
+              env.KAGI_API_KEY.file = config.sops.secrets.mcp-kagi-key.path;
             };
             github = {
               command = lib.getExe self'.packages.mcp-remote;
@@ -66,7 +45,33 @@
               ];
               env.MCP_GITHUB_KEY.file = config.sops.secrets.mcp-github-key.path;
             };
+            vaulted = {
+              enabled = false;
+              command = lib.getExe self'.packages.vaulted;
+              args = [ "mcp" ];
+            };
+            liftosaur = {
+              enabled = false;
+              command = lib.getExe self'.packages.mcp-remote;
+              args = [
+                "https://www.liftosaur.com/mcp"
+                "--header"
+                "Authorization:Bearer \${MCP_LIFTOSAUR_KEY}"
+              ];
+              env.MCP_LIFTOSAUR_KEY.file = config.sops.secrets.mcp-liftosaur-key.path;
+            };
+            homeassistant = {
+              enabled = false;
+              command = lib.getExe self'.packages.mcp-remote;
+              args = [
+                "https://ha.mothership.sucha.foo/api/mcp"
+                "--header"
+                "Authorization:Bearer \${MCP_HOMEASSISTANT_KEY}"
+              ];
+              env.MCP_HOMEASSISTANT_KEY.file = config.sops.secrets.mcp-homeassistant-key.path;
+            };
             obsidian = {
+              enabled = false;
               command = lib.getExe self'.packages.mcp-remote;
               args = [
                 "http://localhost:27123/mcp"
@@ -74,10 +79,6 @@
                 "Authorization:Bearer \${MCP_OBSIDIAN_KEY}"
               ];
               env.MCP_OBSIDIAN_KEY.file = config.sops.secrets.mcp-obsidian-key.path;
-            };
-            kagi = {
-              command = lib.getExe self'.packages.kagi-mcp;
-              env.KAGI_API_KEY.file = config.sops.secrets.mcp-kagi-key.path;
             };
           };
         };

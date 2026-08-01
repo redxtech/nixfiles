@@ -47,10 +47,9 @@
             lsp = true;
 
             plugin = [
-              # "superpowers@git+https://github.com/obra/superpowers.git"
               "background-agents@git+https://github.com/kdcokenny/opencode-background-agents.git"
-              "autotitle@git+https://github.com/pawelma/opencode-autotitle.git"
               "notify@git+github.com/kdcokenny/opencode-notify.git"
+              "@tarquinen/opencode-smart-title"
             ];
           };
 

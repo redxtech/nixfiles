@@ -46,8 +46,8 @@
               "Mod+G".action.spawn = lib.getExe pkgs.nemo-with-extensions;
               "Mod+N".action.spawn = lib.getExe pkgs.obsidian;
 
-              "Mod+Space".action.spawn = noctalia "panel-toggle launcher";
-              "Mod+Shift+Space".action.spawn = lib.getExe config.programs.fuzzel.package;
+              "Mod+Space".action.spawn = lib.getExe config.programs.fuzzel.package;
+              "Mod+Shift+Space".action.spawn = noctalia "panel-toggle launcher";
               "Mod+C".action.spawn = noctalia "panel-toggle clipboard";
               "Mod+Ctrl+L".action.spawn = noctalia "session lock";
 
