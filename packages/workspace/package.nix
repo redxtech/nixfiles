@@ -77,6 +77,7 @@
       apps.workspace-cli = {
         type = "app";
         program = lib.getExe' workspace-mcp "workspace-cli";
+        meta.description = "run workspace-cli";
       };
     };
 
