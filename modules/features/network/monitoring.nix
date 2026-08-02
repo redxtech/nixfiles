@@ -190,6 +190,5 @@
           users.groups.alloy = { };
         };
       };
-
   };
 }
