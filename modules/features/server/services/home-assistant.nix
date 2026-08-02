@@ -72,7 +72,6 @@
             (mkBLE "Cam's Phone" "cam_phone")
             (mkBLE "Kira's Phone" "kira_phone")
           ];
-          lovelace.mode = "yaml";
           homeassistant = {
             country = "CA";
             currency = "CAD";
@@ -339,7 +338,7 @@
 
         extraPackages = python3Packages: [
           python3Packages.psycopg2
-          self'.packages.python-unifi-ap
+          python3Packages.unifi-ap
         ];
         customComponents =
           (with pkgs.home-assistant-custom-components; [

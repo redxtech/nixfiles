@@ -14,7 +14,6 @@
         settings = {
           APP_URL = "https://id.${config.networking.fqdn}";
           TRUST_PROXY = true;
-          KEYS_STORAGE = "database";
           PORT = port;
 
           EMAIL_LOGIN_NOTIFICATION_ENABLED = true;
