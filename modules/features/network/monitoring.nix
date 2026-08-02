@@ -51,7 +51,7 @@
 
           services.alloy = {
             enable = true;
-            extraFlags = [ "--server.http.listen-addr=0.0.0.0:12346" ];
+            extraFlags = [ "--server.http.listen-addr=0.0.0.0:${toString config.network.services.alloy}" ];
 
             configPath = pkgs.writeText "alloy-config.alloy" (
               builtins.concatStringsSep "\n" [
