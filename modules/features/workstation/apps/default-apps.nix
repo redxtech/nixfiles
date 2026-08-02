@@ -4,7 +4,7 @@
       let
         firefox = "firefox-nightly.desktop";
         images = [
-          # "qimgv.desktop"
+          "qimgv.desktop"
           "feh.desktop"
           "org.gnome.gThumb.desktop"
         ];
@@ -91,10 +91,7 @@
 
         defaultApplications =
           let
-            image = [
-              # "qimgv.desktop"
-              "feh.desktop" # TODO: remove this once qimgv is fixed
-            ];
+            image = [ "qimgv.desktop" ];
             video = [ "mpv.desktop" ];
           in
           {

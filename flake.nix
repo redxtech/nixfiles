@@ -79,7 +79,7 @@
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nixcord = {
-      url = "github:FlameFlag/nixcord";
+      url = "github:4evy/nixcord";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware";
