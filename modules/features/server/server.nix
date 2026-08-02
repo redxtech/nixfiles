@@ -51,6 +51,7 @@
         description = "Persistent media root.";
       };
 
+      # TODO: remove one secrets are migrated
       legacySopsFile = lib.mkOption {
         type = lib.types.path;
         default = ../../../oldflake/hosts/quasar/secrets.yaml;
@@ -60,7 +61,6 @@
 
     includes = [
       den.aspects.base
-      den.aspects.actual
       den.aspects.adguard
       den.aspects.apprise
       den.aspects.bento
@@ -73,12 +73,10 @@
       den.aspects.coredns
       den.aspects.ddclient
       den.aspects.esphome
-      den.aspects.espresense-companion
       den.aspects.flaresolverr
       den.aspects.flood
-      den.aspects.github-runner
+      # den.aspects.github-runner
       den.aspects.grafana
-      den.aspects.ha-fusion
       den.aspects.hercules-ci-agent
       den.aspects.home-assistant
       den.aspects.homepage
@@ -95,7 +93,6 @@
       den.aspects.loki
       den.aspects.mosquitto
       den.aspects.music-assistant
-      den.aspects.n8n
       den.aspects.navidrome
       den.aspects.network
       den.aspects.network._.server
@@ -119,12 +116,14 @@
       den.aspects.tautulli
       den.aspects.traefik._.server
       den.aspects.tubearchivist
-      den.aspects.unpoller
+      # disable until back to beach house
+      # den.aspects.unpoller
       den.aspects.uptime-kuma
       den.aspects.virtualisation._.containers
       den.aspects.watchtower
       den.aspects.yt
-      den.aspects.zigbee2mqtt
+      # disable until back to beach house
+      # den.aspects.zigbee2mqtt
     ];
 
     nixos =
