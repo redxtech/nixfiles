@@ -1,0 +1,124 @@
+{
+  flake.homeManagerModules.ai =
+    {
+      config,
+      inputs',
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      cfg = config.ai;
+
+      formatSkill =
+        name: source:
+        pkgs.runCommand "formatted-agent-skill-${name}"
+          {
+            nativeBuildInputs = [
+              pkgs.perl
+              pkgs.yq-go
+            ];
+          }
+          ''
+            cp -RL ${source} "$out"
+            chmod -R u+w "$out"
+            perl -i -pe '
+              if ($. == 1 && /^---\s*$/) {
+                $in_frontmatter = 1;
+              } elsif ($in_frontmatter && /^---\s*$/) {
+                $in_frontmatter = 0;
+              } elsif ($in_frontmatter && /^description:\s*(.*)$/) {
+                $description = $1;
+                unless ($description =~ /^"/ || substr($description, 0, 1) eq chr 39 || $description =~ /^[>|][+-]?$/) {
+                  $description =~ s/\\/\\\\/g;
+                  $description =~ s/"/\\"/g;
+                  $_ = "description: \"$description\"\n";
+                }
+              }
+            ' "$out/SKILL.md"
+            yq --front-matter=process -i '.description style="double"' "$out/SKILL.md"
+          '';
+    in
+    {
+      options.ai = {
+        agents = lib.mkOption {
+          type = lib.types.attrsOf (lib.types.either lib.types.lines lib.types.path);
+          default = { };
+          description = "Agent definitions shared by supported coding agents";
+        };
+
+        skills = lib.mkOption {
+          type = lib.types.attrsOf (lib.types.either lib.types.lines lib.types.path);
+          default = { };
+          description = "Skill definitions shared by supported coding agents";
+        };
+
+        # TODO: add support for codex & claude-code
+        extraPackages = lib.mkOption {
+          type = lib.types.listOf lib.types.package;
+          default = [ ];
+          description = "Extra packages to install for the agents";
+        };
+      };
+
+      config = lib.mkMerge [
+        {
+          # TODO: remove when packages are automatically injected into all the harnesses
+          home.packages = cfg.extraPackages;
+
+          home.file = lib.mapAttrs' (
+            name: source:
+            lib.nameValuePair ".agents/skills/${name}" {
+              source = formatSkill name source;
+            }
+          ) cfg.skills;
+        }
+
+        (lib.mkIf config.programs.opencode.enable {
+          programs.opencode = {
+            inherit (cfg) agents skills extraPackages;
+          };
+        })
+
+        (lib.mkIf config.programs.claude-code.enable {
+          programs.claude-code = {
+            inherit (cfg) agents skills;
+          };
+
+          home.packages = [ inputs'.llm-agents.packages.claude-agent-acp ];
+        })
+
+        (lib.mkIf config.programs.codex.enable (
+          let
+            tomlFormat = pkgs.formats.toml { };
+            codexPackage = inputs'.llm-agents.packages.codex;
+
+            agentText =
+              source:
+              if builtins.isPath source || lib.hasPrefix "/" source then builtins.readFile source else source;
+
+            codexAgents = lib.mapAttrs (name: source: {
+              description = "${name} agent";
+              config_file = tomlFormat.generate "codex-agent-${name}.toml" {
+                # TODO: Parse or strip harness-specific frontmatter before sharing agent prompts across harnesses.
+                developer_instructions = agentText source;
+              };
+            }) cfg.agents;
+
+            codex = pkgs.writeShellScriptBin "codex" ''
+              exec ${lib.getExe codexPackage} --profile nix "$@"
+            '';
+          in
+          {
+            programs.codex = {
+              package = codex;
+              inherit (cfg) skills;
+              profiles.nix.agents = codexAgents;
+            };
+
+            home.packages = [ inputs'.llm-agents.packages.codex-acp ];
+          }
+        ))
+      ];
+    };
+}

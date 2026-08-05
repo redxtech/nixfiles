@@ -1,4 +1,4 @@
-{ den, ... }:
+{ self, den, ... }:
 
 {
   den.aspects.ai = {
@@ -11,7 +11,6 @@
     homeManager =
       {
         self',
-        config,
         inputs',
         lib,
         pkgs,
@@ -49,35 +48,6 @@
         aiSlopCureLint = pkgs.writers.writePython3Bin "ste-lint" { doCheck = false; } (
           builtins.readFile (aiSlopCure + "/videos/ep01-the-cure-for-ai-slop/ste-lint.py")
         );
-
-        formatSkill =
-          name: source:
-          pkgs.runCommand "formatted-agent-skill-${name}"
-            {
-              nativeBuildInputs = [
-                pkgs.perl
-                pkgs.yq-go
-              ];
-            }
-            ''
-              cp -RL ${source} "$out"
-              chmod -R u+w "$out"
-              perl -i -pe '
-                if ($. == 1 && /^---\s*$/) {
-                  $in_frontmatter = 1;
-                } elsif ($in_frontmatter && /^---\s*$/) {
-                  $in_frontmatter = 0;
-                } elsif ($in_frontmatter && /^description:\s*(.*)$/) {
-                  $description = $1;
-                  unless ($description =~ /^"/ || substr($description, 0, 1) eq chr 39 || $description =~ /^[>|][+-]?$/) {
-                    $description =~ s/\\/\\\\/g;
-                    $description =~ s/"/\\"/g;
-                    $_ = "description: \"$description\"\n";
-                  }
-                }
-              ' "$out/SKILL.md"
-              yq --front-matter=process -i '.description style="double"' "$out/SKILL.md"
-            '';
 
         # the hickey/lowy agents delegate to the skills of the same name;
         # fact-check is a hard dependency of every review skill
@@ -130,40 +100,21 @@
           "productivity/teach"
           "productivity/writing-great-skills"
         ];
-
-        cfg = config.ai;
       in
       {
-        options.ai = {
-          agents = lib.mkOption {
-            type = lib.types.attrsOf (lib.types.either lib.types.lines lib.types.path);
-            default = { };
-            description = "Agent definitions shared by supported coding agents";
-          };
+        imports = [
+          self.homeManagerModules.ai
+        ];
 
-          skills = lib.mkOption {
-            type = lib.types.attrsOf (lib.types.either lib.types.lines lib.types.path);
-            default = { };
-            description = "Skill definitions shared by supported coding agents";
-          };
-
-          # TODO: add support for codex & claude-code
-          extraPackages = lib.mkOption {
-            type = lib.types.listOf lib.types.package;
-            default = [ ];
-            description = "Extra packages to install for the agents";
-          };
-        };
-
-        config = lib.mkMerge [
-          {
-            ai.agents = {
+        config = {
+          ai = {
+            agents = {
               hickey = agency + "/.apm/agents/hickey.md";
               lowy = agency + "/.apm/agents/lowy.md";
               technical-writer = ./opencode/agents/technical-writer.md;
             };
 
-            ai.skills =
+            skills =
               builtins.listToAttrs (
                 map (name: {
                   inherit name;
@@ -197,7 +148,7 @@
                 ];
               };
 
-            ai.extraPackages = [
+            extraPackages = [
               inputs'.kolu.packages.default
             ]
             ++ (with inputs'.llm-agents.packages; [
@@ -213,80 +164,19 @@
               super-productivity-mcp
               workspace-mcp
             ]);
+          };
 
-            programs.codex.enable = true;
 
-            home.packages =
-              with inputs'.llm-agents.packages;
-              [
-                # general tools
-                apm # agent package manager
-                ccusage # token usage
-                codegraph # code indexing and search
-                openskills # skills installer
-                rtk # token consumption optimization
-              ]
-              # TODO: remove when packages are automatically injected into all the harnesses
-              ++ cfg.extraPackages;
-
-            home.file = lib.mapAttrs' (
-              name: source:
-              lib.nameValuePair ".agents/skills/${name}" {
-                source = formatSkill name source;
-              }
-            ) cfg.skills;
-          }
-
-          (lib.mkIf config.programs.opencode.enable {
-            programs.opencode = {
-              agents = cfg.agents;
-              skills = cfg.skills;
-
-              extraPackages = cfg.extraPackages;
-            };
-          })
-
-          (lib.mkIf config.programs.claude-code.enable {
-            programs.claude-code = {
-              agents = cfg.agents;
-              skills = cfg.skills;
-            };
-
-            home.packages = [ inputs'.llm-agents.packages.claude-agent-acp ];
-          })
-
-          (lib.mkIf config.programs.codex.enable (
-            let
-              tomlFormat = pkgs.formats.toml { };
-              codexPackage = inputs'.llm-agents.packages.codex;
-
-              agentText =
-                source:
-                if builtins.isPath source || lib.hasPrefix "/" source then builtins.readFile source else source;
-
-              codexAgents = lib.mapAttrs (name: source: {
-                description = "${name} agent";
-                config_file = tomlFormat.generate "codex-agent-${name}.toml" {
-                  # TODO: Parse or strip harness-specific frontmatter before sharing agent prompts across harnesses.
-                  developer_instructions = agentText source;
-                };
-              }) cfg.agents;
-
-              codex = pkgs.writeShellScriptBin "codex" ''
-                exec ${lib.getExe codexPackage} --profile nix "$@"
-              '';
-            in
-            {
-              programs.codex = {
-                package = codex;
-                skills = cfg.skills;
-                profiles.nix.agents = codexAgents;
-              };
-
-              home.packages = [ inputs'.llm-agents.packages.codex-acp ];
-            }
-          ))
-        ];
+          home.packages = with inputs'.llm-agents.packages; [
+            # general tools
+            apm # agent package manager
+            ccusage # token usage
+            codegraph # code indexing and search
+            openskills # skills installer
+            herdr # agent runner
+            rtk # token consumption optimization
+          ];
+        };
       };
   };
 
