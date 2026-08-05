@@ -14,7 +14,7 @@
         dataDir = "${host.settings.server.configRoot}/zigbee2mqtt";
         settings = {
           frontend.port = 7800;
-          serial.port = "/dev/ttyUSB0";
+          serial.port = "/dev/ttyUSB0"; # TODO: use a /dev/serial/by-id path
           permit_join = false;
           homeassistant = lib.mkForce config.services.home-assistant.enable;
           advanced.network_key = "!secrets.yaml network_key";

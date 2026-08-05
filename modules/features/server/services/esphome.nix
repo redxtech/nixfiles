@@ -7,7 +7,6 @@
       services.esphome = {
         enable = true;
         address = "0.0.0.0";
-        openFirewall = true;
       };
 
       systemd.services.esphome.serviceConfig.EnvironmentFile = config.sops.secrets.esphome_env.path;
