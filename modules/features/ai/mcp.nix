@@ -46,6 +46,7 @@
               env.MCP_GITHUB_KEY.file = config.sops.secrets.mcp-github-key.path;
             };
             repowise = {
+              enabled = false; # until i can actually see it in use
               command = lib.getExe self'.packages.repowise;
               args = [ "mcp" ];
             };
