@@ -79,6 +79,9 @@
 
           startAgent = false;
         };
+
+        # mosbile shell
+        programs.mosh.enable = true;
       };
 
     homeManager = { user, lib, ... }: {

@@ -178,6 +178,8 @@
             ]);
           };
 
+          programs.codex.enable = true;
+          programs.pi-coding-agent.enable = true;
 
           services.openportal.enable = true;
           services.openportal.directory = "%h/Code/nixfiles";
