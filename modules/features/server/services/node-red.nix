@@ -22,7 +22,7 @@
       ];
 
       sops.secrets.node-red = {
-        sopsFile = host.settings.server.legacySopsFile;
+        sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
         mode = "0440";
         group = config.users.users.node-red.group;
       };

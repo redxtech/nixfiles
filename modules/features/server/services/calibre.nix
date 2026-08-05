@@ -62,8 +62,8 @@
 
       networking.firewall.allowedTCPPorts = [ 8808 ];
       sops.secrets = {
-        calibre_user.sopsFile = server.legacySopsFile;
-        calibre_pw.sopsFile = server.legacySopsFile;
+        calibre_user.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+        calibre_pw.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
       };
     };
 }

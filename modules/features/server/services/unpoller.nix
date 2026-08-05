@@ -36,6 +36,6 @@
         volumes = [ ((self.lib.server.volumes server).config "unpoller") ];
       };
 
-      sops.secrets."unpoller.env".sopsFile = server.legacySopsFile;
+      sops.secrets."unpoller.env".sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

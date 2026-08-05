@@ -271,6 +271,6 @@
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock:ro" ];
       };
 
-      sops.secrets.homepage_env.sopsFile = host.settings.server.legacySopsFile;
+      sops.secrets.homepage_env.sopsFile = ../../../../secrets/hosts/quasar/homepage.yaml;
     };
 }

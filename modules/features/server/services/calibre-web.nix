@@ -48,6 +48,6 @@
         ];
       };
 
-      sops.secrets.CALIBRE_WEB_HARDCOVER_KEY.sopsFile = server.legacySopsFile;
+      sops.secrets.CALIBRE_WEB_HARDCOVER_KEY.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

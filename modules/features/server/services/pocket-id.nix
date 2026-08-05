@@ -25,7 +25,7 @@
       };
 
       sops.secrets.pocket_id_env = {
-        sopsFile = host.settings.server.legacySopsFile;
+        sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
         group = config.services.pocket-id.group;
         mode = "440";
       };

@@ -30,7 +30,7 @@
       };
 
       sops.secrets.zigbee2mqtt_secrets = {
-        sopsFile = host.settings.server.legacySopsFile;
+        sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
         mode = "0440";
         group = config.users.users.zigbee2mqtt.group;
         path = "${config.services.zigbee2mqtt.dataDir}/secrets.yaml";

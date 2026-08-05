@@ -23,6 +23,6 @@
         ];
       };
 
-      sops.secrets."ddclient.conf".sopsFile = server.legacySopsFile;
+      sops.secrets."ddclient.conf".sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

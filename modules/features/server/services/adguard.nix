@@ -107,7 +107,7 @@
         inherit (config.services.traefik) group;
       };
 
-      sops.secrets.adguard_exporter.sopsFile = server.legacySopsFile;
+      sops.secrets.adguard_exporter.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
 
       networking.firewall = {
         allowedTCPPorts = [ 853 ];
