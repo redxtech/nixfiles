@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.beszel.settings.secretsFile = self.lib.server.mkSecretsFileOption "Beszel";
+
   den.aspects.beszel.nixos =
     { config, host, ... }:
     let
@@ -49,6 +51,6 @@
         };
       };
 
-      sops.secrets.beszel_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.beszel_env.sopsFile = host.settings.beszel.secretsFile;
     };
 }

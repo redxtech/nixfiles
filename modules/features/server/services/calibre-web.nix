@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.calibre-web.settings.secretsFile = self.lib.server.mkSecretsFileOption "Calibre Web";
+
   den.aspects.calibre-web.nixos =
     { config, host, ... }:
     let
@@ -48,6 +50,6 @@
         ];
       };
 
-      sops.secrets.CALIBRE_WEB_HARDCOVER_KEY.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.CALIBRE_WEB_HARDCOVER_KEY.sopsFile = host.settings.calibre-web.secretsFile;
     };
 }

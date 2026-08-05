@@ -1,10 +1,15 @@
+{ self, ... }:
+
 {
+  den.aspects.hercules-ci-agent.settings.secretsFile =
+    self.lib.server.mkSecretsFileOption "Hercules CI agent";
+
   den.aspects.hercules-ci-agent.nixos =
     { config, host, ... }:
     let
       secretPath = name: config.sops.secrets."hercules-ci-agent-${name}".path;
       secret = {
-        sopsFile = ../../../../secrets/hosts/quasar/ci.yaml;
+        sopsFile = host.settings.hercules-ci-agent.secretsFile;
         owner = "hercules-ci-agent";
       };
     in

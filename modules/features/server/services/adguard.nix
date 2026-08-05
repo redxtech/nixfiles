@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.adguard.settings.secretsFile = self.lib.server.mkSecretsFileOption "AdGuard";
+
   den.aspects.adguard.nixos =
     {
       config,
@@ -107,7 +109,7 @@
         inherit (config.services.traefik) group;
       };
 
-      sops.secrets.adguard_exporter.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.adguard_exporter.sopsFile = host.settings.adguard.secretsFile;
 
       networking.firewall = {
         allowedTCPPorts = [ 853 ];

@@ -1,4 +1,9 @@
+{ self, ... }:
+
 {
+  den.aspects.home-assistant.settings.secretsFile =
+    self.lib.server.mkSecretsFileOption "Home Assistant";
+
   den.aspects.home-assistant.nixos =
     {
       config,
@@ -406,8 +411,7 @@
       };
 
       sops.secrets."secrets.yaml" = {
-        # TODO: make this no longer reference a host-specific secrets file
-        sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
+        sopsFile = host.settings.home-assistant.secretsFile;
         path = "${hassHome}/secrets.yaml";
         group = config.users.users.hass.group;
         mode = "0440";

@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.radarr.settings.secretsFile = self.lib.server.mkSecretsFileOption "Radarr";
+
   den.aspects.radarr.nixos =
     { config, host, ... }:
     let
@@ -54,6 +56,6 @@
 
       monitoring.scrapeTargets.radarr_exportarr = 9708;
       network.services.radarr = 7878;
-      sops.secrets.exportarr_radarr.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.exportarr_radarr.sopsFile = host.settings.radarr.secretsFile;
     };
 }

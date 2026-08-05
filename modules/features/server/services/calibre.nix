@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.calibre.settings.secretsFile = self.lib.server.mkSecretsFileOption "Calibre";
+
   den.aspects.calibre.nixos =
     { config, host, ... }:
     let
@@ -62,8 +64,8 @@
 
       networking.firewall.allowedTCPPorts = [ 8808 ];
       sops.secrets = {
-        calibre_user.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
-        calibre_pw.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+        calibre_user.sopsFile = host.settings.calibre.secretsFile;
+        calibre_pw.sopsFile = host.settings.calibre.secretsFile;
       };
     };
 }

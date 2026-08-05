@@ -1,4 +1,8 @@
+{ self, ... }:
+
 {
+  den.aspects.mosquitto.settings.secretsFile = self.lib.server.mkSecretsFileOption "Mosquitto";
+
   den.aspects.mosquitto.nixos =
     { config, host, ... }:
     let
@@ -38,8 +42,8 @@
       networking.firewall.allowedTCPPorts = [ 1883 ];
 
       sops.secrets = {
-        mosquitto_espresense_password.sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
-        mosquitto_homeassistant_password.sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
+        mosquitto_espresense_password.sopsFile = host.settings.mosquitto.secretsFile;
+        mosquitto_homeassistant_password.sopsFile = host.settings.mosquitto.secretsFile;
       };
     };
 }

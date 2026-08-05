@@ -1,6 +1,8 @@
-{ lib, ... }:
+{ lib, self, ... }:
 
 {
+  den.aspects.homepage.settings.secretsFile = self.lib.server.mkSecretsFileOption "Homepage";
+
   den.aspects.homepage.nixos =
     { config, host, ... }:
     let
@@ -271,6 +273,6 @@
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock:ro" ];
       };
 
-      sops.secrets.homepage_env.sopsFile = ../../../../secrets/hosts/quasar/homepage.yaml;
+      sops.secrets.homepage_env.sopsFile = host.settings.homepage.secretsFile;
     };
 }

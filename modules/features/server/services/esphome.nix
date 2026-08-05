@@ -1,4 +1,8 @@
+{ self, ... }:
+
 {
+  den.aspects.esphome.settings.secretsFile = self.lib.server.mkSecretsFileOption "ESPHome";
+
   den.aspects.esphome.nixos =
     { config, host, ... }:
     {
@@ -10,6 +14,6 @@
       };
 
       systemd.services.esphome.serviceConfig.EnvironmentFile = config.sops.secrets.esphome_env.path;
-      sops.secrets.esphome_env.sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
+      sops.secrets.esphome_env.sopsFile = host.settings.esphome.secretsFile;
     };
 }

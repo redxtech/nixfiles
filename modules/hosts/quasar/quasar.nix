@@ -1,25 +1,74 @@
-{ den, inputs, ... }:
+{
+  den,
+  inputs,
+  lib,
+  ...
+}:
 
 {
   den.hosts.x86_64-linux.quasar = {
     users.gabe = { };
     # users.data = { };
 
-    settings = {
-      base = {
-        dockerDNS = [ "192.168.50.1" ];
-        fs.btrfs = true;
-        fs.zfs = true;
+    settings =
+      let
+        secretFiles = {
+          ci = ../../../secrets/hosts/quasar/ci.yaml;
+          containers = ../../../secrets/hosts/quasar/containers.yaml;
+          home-assistant = ../../../secrets/hosts/quasar/home-assistant.yaml;
+          homepage = ../../../secrets/hosts/quasar/homepage.yaml;
+          shared = ../../../secrets/hosts/quasar/secrets.yaml;
+        };
+        aspectSecretsFiles = {
+          adguard = secretFiles.containers;
+          beszel = secretFiles.containers;
+          booklore = secretFiles.containers;
+          calibre = secretFiles.containers;
+          calibre-web = secretFiles.containers;
+          ddclient = secretFiles.containers;
+          esphome = secretFiles.home-assistant;
+          github-runner = secretFiles.ci;
+          grafana = secretFiles.shared;
+          hercules-ci-agent = secretFiles.ci;
+          home-assistant = secretFiles.home-assistant;
+          homepage = secretFiles.homepage;
+          jdownloader = secretFiles.containers;
+          mosquitto = secretFiles.home-assistant;
+          navidrome = secretFiles.containers;
+          node-red = secretFiles.home-assistant;
+          paperless = secretFiles.containers;
+          pocket-id = secretFiles.containers;
+          qdirstat = secretFiles.containers;
+          qui = secretFiles.containers;
+          radarr = secretFiles.containers;
+          sonarr = secretFiles.containers;
+          tubearchivist = secretFiles.containers;
+          unpoller = secretFiles.containers;
+          watchtower = secretFiles.containers;
+          zigbee2mqtt = secretFiles.home-assistant;
+        };
+      in
+      lib.mapAttrs (_: secretsFile: { inherit secretsFile; }) aspectSecretsFiles
+      // {
+        influxdb = {
+          secretsFile = secretFiles.home-assistant;
+          grafanaSecretsFile = secretFiles.shared;
+        };
+
+        base = {
+          dockerDNS = [ "192.168.50.1" ];
+          fs.btrfs = true;
+          fs.zfs = true;
+        };
+
+        network.ip = "192.168.50.208";
+
+        portainer.dataDir = "/pool/data/portainer";
+
+        tunnel.id = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
+
+        gpu.nvidia.enable = true;
       };
-
-      network.ip = "192.168.50.208";
-
-      portainer.dataDir = "/pool/data/portainer";
-
-      tunnel.id = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
-
-      gpu.nvidia.enable = true;
-    };
   };
 
   den.aspects.quasar = {

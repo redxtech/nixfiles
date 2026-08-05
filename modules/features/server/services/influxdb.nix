@@ -1,4 +1,11 @@
+{ self, ... }:
+
 {
+  den.aspects.influxdb.settings = {
+    secretsFile = self.lib.server.mkSecretsFileOption "InfluxDB";
+    grafanaSecretsFile = self.lib.server.mkSecretsFileOption "Grafana's InfluxDB integration";
+  };
+
   den.aspects.influxdb.nixos =
     { config, host, ... }:
     let
@@ -67,7 +74,7 @@
       sops.secrets =
         let
           influxSecret = {
-            sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
+            sopsFile = host.settings.influxdb.secretsFile;
             mode = "0440";
             group = config.users.users.influxdb2.group;
           };
@@ -77,7 +84,7 @@
           influx_main_token = influxSecret;
           influx_homeassistant_token = influxSecret;
           influx_grafana_token = influxSecret // {
-            sopsFile = ../../../../secrets/hosts/quasar/secrets.yaml;
+            sopsFile = host.settings.influxdb.grafanaSecretsFile;
           };
         };
     };

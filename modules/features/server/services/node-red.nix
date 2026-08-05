@@ -1,4 +1,8 @@
+{ self, ... }:
+
 {
+  den.aspects.node-red.settings.secretsFile = self.lib.server.mkSecretsFileOption "Node-RED";
+
   den.aspects.node-red.nixos =
     {
       config,
@@ -22,7 +26,7 @@
       ];
 
       sops.secrets.node-red = {
-        sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
+        sopsFile = host.settings.node-red.secretsFile;
         mode = "0440";
         group = config.users.users.node-red.group;
       };

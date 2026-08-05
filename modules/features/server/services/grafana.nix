@@ -1,10 +1,14 @@
+{ self, ... }:
+
 {
+  den.aspects.grafana.settings.secretsFile = self.lib.server.mkSecretsFileOption "Grafana";
+
   den.aspects.grafana.nixos =
-    { config, ... }:
+    { config, host, ... }:
     let
       port = 3000;
       secret = {
-        sopsFile = ../../../../secrets/hosts/quasar/secrets.yaml;
+        sopsFile = host.settings.grafana.secretsFile;
         group = config.users.users.grafana.group;
         mode = "0440";
       };

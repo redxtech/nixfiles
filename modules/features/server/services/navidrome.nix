@@ -1,4 +1,8 @@
+{ self, ... }:
+
 {
+  den.aspects.navidrome.settings.secretsFile = self.lib.server.mkSecretsFileOption "Navidrome";
+
   den.aspects.navidrome.nixos =
     { config, host, ... }:
     {
@@ -23,6 +27,6 @@
       };
 
       systemd.services.navidrome.serviceConfig.EnvironmentFile = config.sops.secrets.navidrome_env.path;
-      sops.secrets.navidrome_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.navidrome_env.sopsFile = host.settings.navidrome.secretsFile;
     };
 }

@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.sonarr.settings.secretsFile = self.lib.server.mkSecretsFileOption "Sonarr";
+
   den.aspects.sonarr.nixos =
     { config, host, ... }:
     let
@@ -54,6 +56,6 @@
 
       monitoring.scrapeTargets.sonarr_exportarr = 9707;
       network.services.sonarr = 8989;
-      sops.secrets.exportarr_sonarr.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.exportarr_sonarr.sopsFile = host.settings.sonarr.secretsFile;
     };
 }

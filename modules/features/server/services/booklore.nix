@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.booklore.settings.secretsFile = self.lib.server.mkSecretsFileOption "BookLore";
+
   den.aspects.booklore.nixos =
     { config, host, ... }:
     let
@@ -55,6 +57,6 @@
         };
       };
 
-      sops.secrets.booklore_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.booklore_env.sopsFile = host.settings.booklore.secretsFile;
     };
 }
