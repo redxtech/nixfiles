@@ -11,7 +11,6 @@
 
       services.node-red = {
         enable = true;
-        openFirewall = true;
         withNpmAndGcc = true;
         configFile = config.sops.secrets.node-red.path;
       };

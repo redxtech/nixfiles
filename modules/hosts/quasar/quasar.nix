@@ -37,7 +37,10 @@
         common-pc-ssd
       ];
 
-      hardware.facter.reportPath = ./facter.json;
+      hardware.facter = {
+        reportPath = ./facter.json;
+        detected.dhcp.enable = false;
+      };
 
       hardware.nvidia = {
         branch = "legacy_580";

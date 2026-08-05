@@ -20,14 +20,10 @@
           weight = -10;
         };
         environment = {
-          DEFAULT_SERVERS = "https://jellyfin.quasar.sucha.foo";
+          DEFAULT_SERVERS = "https://jellyfin.${config.networking.fqdn}";
           HISTORY_ROUTER_MODE = "1";
         };
         ports = [ (mkPort 8099 80) ];
-        volumes = [
-          (volumes.config "jackett")
-          volumes.allDownloads
-        ];
       };
     };
 }

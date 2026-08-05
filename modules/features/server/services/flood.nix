@@ -4,7 +4,6 @@
 
     services.flood = {
       enable = true;
-      openFirewall = true;
       port = 8113;
       extraArgs = [ "" ];
     };

@@ -78,8 +78,8 @@
             name = "Beach House";
             temperature_unit = "C";
             unit_system = "metric";
-            external_url = "https://ha.quasar.sucha.foo";
-            internal_url = "https://ha.quasar.sucha.foo";
+            external_url = "https://ha.${config.networking.fqdn}";
+            internal_url = "https://ha.${config.networking.fqdn}";
             latitude = "!secret latitude";
             longitude = "!secret longitude";
             elevation = "!secret elevation";
@@ -399,8 +399,6 @@
           local-user  gabe  hass
         '';
         authentication = ''
-          local  hass  hass                trust
-          local  hass  hass                trust
           local  hass  hass                trust
           host   hass  hass  samehost      trust
           host   hass  hass  bastion       scram-sha-256
