@@ -81,6 +81,7 @@
         };
 
         # mosbile shell
+        services.eternal-terminal.enable = true;
         programs.mosh.enable = true;
       };
 

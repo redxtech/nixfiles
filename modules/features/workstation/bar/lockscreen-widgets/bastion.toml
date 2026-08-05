@@ -1,6 +1,6 @@
 enabled = true
 schema_version = 2
-widget_order = ["lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1", "lockscreen-widget-0000000000000001", "lockscreen-widget-0000000000000002"]
+widget_order = ["lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1", "lockscreen-widget-0000000000000001", "lockscreen-widget-0000000000000004"]
 
 [grid]
 cell_size = 16
@@ -8,7 +8,7 @@ major_interval = 4
 visible = true
 
 [widget."lockscreen-login-box@DP-1"]
-box_height = 200.0
+box_height = 201.0
 box_width = 912.0
 cx = 1280.0
 cy = 1320.0
@@ -27,11 +27,10 @@ layout = "regular"
 show_caps_lock = true
 show_keyboard_layout = true
 show_login_button = true
-show_password_hint = true
 show_session_buttons = true
 
 [widget."lockscreen-login-box@DP-2"]
-box_height = 200.0
+box_height = 201.0
 box_width = 720.0
 cx = 1280.0
 cy = 1321.0
@@ -50,7 +49,6 @@ layout = "regular"
 show_caps_lock = true
 show_keyboard_layout = true
 show_login_button = true
-show_password_hint = true
 show_session_buttons = true
 
 [widget.lockscreen-widget-0000000000000001]
@@ -66,6 +64,20 @@ type = "clock"
 center_text = true
 clock_style = "digital"
 format = "{:%H:%M:%S}"
+
+[widget.lockscreen-widget-0000000000000002]
+box_height = 176.0
+box_width = 896.0
+cx = 1280.0
+cy = 1112.0
+output = "DP-1"
+rotation = 0.0
+type = "fancy_audio_visualizer"
+
+[widget.lockscreen-widget-0000000000000002.settings]
+background = true
+fade_when_idle = true
+visualization_mode = "bars_rings"
 
 [widget.lockscreen-widget-0000000000000004]
 box_height = 176.0

@@ -21,11 +21,6 @@
           name = "KDE Connect Indicator";
           settings.NoDisplay = "true";
         };
-        "org.kde.kdeconnect.app" = {
-          exec = "";
-          name = "KDE Connect";
-          settings.NoDisplay = "true";
-        };
       };
     };
   };

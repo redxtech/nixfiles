@@ -1,4 +1,5 @@
-config_version = 7
+[backdrop]
+enabled = true
 
 [bar]
 order = [ "Primary" ]
@@ -12,9 +13,10 @@ order = [ "Primary" ]
         "sysmon_gpu",
         "ram",
         "tray",
+        "status",
+        "bar",
         "notifications",
         "recorder",
-        "tailscale",
         "network",
         "volume",
         "brightness",
@@ -57,6 +59,7 @@ sidebar = "full"
 enabled = false
 
 [dock]
+background_opacity = 1.0
 launcher_position = "start"
 
 [hot_corners.top_left]
@@ -96,7 +99,7 @@ widget_order = [
     "lockscreen-login-box@DP-2",
     "lockscreen-login-box@DP-1",
     "lockscreen-widget-0000000000000001",
-    "lockscreen-widget-0000000000000002"
+    "lockscreen-widget-0000000000000004"
 ]
 
     [lockscreen_widgets.grid]
@@ -105,7 +108,7 @@ widget_order = [
     visible = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
-    box_height = 200.0
+    box_height = 201.0
     box_width = 912.0
     cx = 1280.0
     cy = 1320.0
@@ -124,11 +127,10 @@ widget_order = [
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
-        show_password_hint = true
         show_session_buttons = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-2"]
-    box_height = 200.0
+    box_height = 201.0
     box_width = 720.0
     cx = 1280.0
     cy = 1321.0
@@ -147,7 +149,6 @@ widget_order = [
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
-        show_password_hint = true
         show_session_buttons = true
 
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
@@ -178,7 +179,25 @@ widget_order = [
         fade_when_idle = true
         visualization_mode = "bars_rings"
 
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000004]
+    box_height = 176.0
+    box_width = 896.0
+    cx = 1280.0
+    cy = 1112.0
+    output = "DP-1"
+    rotation = 0.0
+    type = "fancy_audio_visualizer"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000004.settings]
+        background = true
+        fade_when_idle = false
+        visualization_mode = "bars_rings"
+
+[notification]
+background_opacity = 1.0
+
 [osd]
+background_opacity = 1.0
 orientation = "vertical"
 position_vertical = "top_right"
 
@@ -186,12 +205,14 @@ position_vertical = "top_right"
 audio_source = "both"
 filename_pattern = "recording_%Y%m%d_%H%M%S"
 
-[plugin_settings."noctalia/tailscale"]
-show_ip = false
-tailscale-panel_open_near_click = true
-
 [plugins]
-enabled = [ "noctalia/screen_recorder", "noctalia/tailscale" ]
+enabled = [
+    "pozzoo/hassio",
+    "noctalia/screen_recorder",
+    "noctalia/bitwarden",
+    "icefish/phone-connect",
+    "cleboost/ssh-launcher"
+]
 
     [[plugins.source]]
     kind = "git"
@@ -203,16 +224,13 @@ enabled = [ "noctalia/screen_recorder", "noctalia/tailscale" ]
     location = "https://github.com/noctalia-dev/community-plugins"
     name = "community"
 
-    [[plugins.source]]
-    kind = "git"
-    location = "https://github.com/itsJai42/noctalia-v5-plugins"
-    name = "noctalia-v5-port"
-
 [shell]
 avatar_path = "/home/gabe/.face"
 clipboard_image_action_command = "satty -f {path}"
 date_format = "%A, %B %e, %Y"
+font_family = "Noto Sans"
 launch_apps_as_systemd_services = true
+niri_overview_type_to_launch_enabled = true
 password_style = "random"
 polkit_agent = true
 screen_time_enabled = true
@@ -277,6 +295,9 @@ time_format = "{:%H:%M:%S}"
 
 [theme]
 builtin = "Dracula"
+custom_palette = "stylix"
+mode = "dark"
+source = "custom"
 
 [wallpaper]
 directory = "/home/gabe/Pictures/Wallpaper"
@@ -287,21 +308,26 @@ transition_on_startup = true
     interval_seconds = 3600
 
     [wallpaper.default]
-    path = "/home/gabe/Pictures/Wallpaper/new_beginning_4k.png"
+    path = "/home/gabe/Pictures/Wallpaper/all_I_need_4k.png"
 
     [wallpaper.last]
-    path = "/home/gabe/Pictures/Wallpaper/new_beginning_4k.png"
+    path = "/home/gabe/Pictures/Wallpaper/all_I_need_4k.png"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/gabe/Pictures/Wallpaper/new_beginning_4k.png"
+    path = "/home/gabe/Pictures/Wallpaper/all_I_need_4k.png"
 
     [wallpaper.monitors.DP-2]
-    path = "/home/gabe/Pictures/Wallpaper/new_beginning_4k.png"
+    path = "/home/gabe/Pictures/Wallpaper/all_I_need_4k.png"
 
 [widget.active_window]
 capsule = true
 max_length = 300
 title_scroll = "on_hover"
+
+[widget.bar]
+capsule = true
+enabled = false
+type = "icefish/phone-connect:bar"
 
 [widget.battery]
 capsule = true
@@ -354,6 +380,10 @@ type = "noctalia/screen_recorder:recorder"
 capsule = true
 capsule_foreground = "error"
 
+[widget.status]
+capsule = true
+type = "pozzoo/hassio:status"
+
 [widget.sysmon]
 show_label = false
 stat = "cpu_temp"
@@ -371,10 +401,6 @@ type = "sysmon"
 show_label = false
 stat = "gpu_usage"
 type = "sysmon"
-
-[widget.tailscale]
-capsule = true
-type = "noctalia/tailscale:tailscale"
 
 [widget.tray]
 capsule = true

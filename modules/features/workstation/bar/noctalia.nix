@@ -80,16 +80,16 @@
           };
         };
 
-        # sops.secrets = {
-        #   github-feed = {
-        #     sopsFile = ../../../../secrets/users/gabe/noctalia.yaml;
-        #     path = config.xdg.configHome + "/noctalia/plugins/github-feed/settings.json";
-        #   };
-        #   hassio = {
-        #     sopsFile = ../../../../secrets/users/gabe/noctalia.yaml;
-        #     path = config.xdg.configHome + "/noctalia/plugins/hassio/settings.json";
-        #   };
-        # };
+        sops.secrets = {
+          bitwarden = {
+            sopsFile = ../../../../secrets/users/gabe/noctalia.yaml;
+            path = config.xdg.configHome + "/noctalia/bitwarden.toml";
+          };
+          hassio = {
+            sopsFile = ../../../../secrets/users/gabe/noctalia.yaml;
+            path = config.xdg.configHome + "/noctalia/hassio.toml";
+          };
+        };
       };
   };
 
