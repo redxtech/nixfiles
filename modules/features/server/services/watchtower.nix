@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.watchtower.settings.secretsFile = self.lib.server.mkSecretsFileOption "Watchtower";
+
   den.aspects.watchtower.nixos =
     { config, host, ... }:
     let
@@ -39,6 +41,6 @@
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 
-      sops.secrets.watchtower_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.watchtower_env.sopsFile = host.settings.watchtower.secretsFile;
     };
 }

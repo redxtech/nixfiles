@@ -1,4 +1,8 @@
+{ self, ... }:
+
 {
+  den.aspects.pocket-id.settings.secretsFile = self.lib.server.mkSecretsFileOption "Pocket ID";
+
   den.aspects.pocket-id.nixos =
     { config, host, ... }:
     let
@@ -25,7 +29,7 @@
       };
 
       sops.secrets.pocket_id_env = {
-        sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+        sopsFile = host.settings.pocket-id.secretsFile;
         group = config.services.pocket-id.group;
         mode = "440";
       };

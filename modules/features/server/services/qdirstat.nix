@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.qdirstat.settings.secretsFile = self.lib.server.mkSecretsFileOption "QDirStat";
+
   den.aspects.qdirstat.nixos =
     { config, host, ... }:
     let
@@ -40,8 +42,8 @@
       };
 
       sops.secrets = {
-        qdirstat_user.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
-        qdirstat_pw.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+        qdirstat_user.sopsFile = host.settings.qdirstat.secretsFile;
+        qdirstat_pw.sopsFile = host.settings.qdirstat.secretsFile;
       };
     };
 }

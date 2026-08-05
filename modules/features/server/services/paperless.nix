@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.paperless.settings.secretsFile = self.lib.server.mkSecretsFileOption "Paperless";
+
   den.aspects.paperless.nixos =
     { config, host, ... }:
     let
@@ -57,6 +59,6 @@
         };
       };
 
-      sops.secrets.paperless_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.paperless_env.sopsFile = host.settings.paperless.secretsFile;
     };
 }

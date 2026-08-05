@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.jdownloader.settings.secretsFile = self.lib.server.mkSecretsFileOption "JDownloader";
+
   den.aspects.jdownloader.nixos =
     { config, host, ... }:
     let
@@ -30,6 +32,6 @@
         ];
       };
 
-      sops.secrets.jdownloader_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.jdownloader_env.sopsFile = host.settings.jdownloader.secretsFile;
     };
 }

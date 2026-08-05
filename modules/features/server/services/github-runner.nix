@@ -1,4 +1,9 @@
+{ self, ... }:
+
 {
+  den.aspects.github-runner.settings.secretsFile =
+    self.lib.server.mkSecretsFileOption "GitHub runner";
+
   den.aspects.github-runner.nixos =
     { config, host, ... }:
     {
@@ -9,6 +14,6 @@
         tokenFile = config.sops.secrets.ghrunner-system-builder.path;
       };
 
-      sops.secrets.ghrunner-system-builder.sopsFile = ../../../../secrets/hosts/quasar/ci.yaml;
+      sops.secrets.ghrunner-system-builder.sopsFile = host.settings.github-runner.secretsFile;
     };
 }

@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.unpoller.settings.secretsFile = self.lib.server.mkSecretsFileOption "UniFi Poller";
+
   den.aspects.unpoller.nixos =
     { config, host, ... }:
     let
@@ -36,6 +38,6 @@
         volumes = [ ((self.lib.server.volumes server).config "unpoller") ];
       };
 
-      sops.secrets."unpoller.env".sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets."unpoller.env".sopsFile = host.settings.unpoller.secretsFile;
     };
 }

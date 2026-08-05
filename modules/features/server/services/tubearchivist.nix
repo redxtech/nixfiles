@@ -1,6 +1,9 @@
 { self, ... }:
 
 {
+  den.aspects.tubearchivist.settings.secretsFile =
+    self.lib.server.mkSecretsFileOption "TubeArchivist";
+
   den.aspects.tubearchivist.nixos =
     { config, host, ... }:
     let
@@ -67,6 +70,6 @@
         };
       };
 
-      sops.secrets.tubearchivist_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.tubearchivist_env.sopsFile = host.settings.tubearchivist.secretsFile;
     };
 }

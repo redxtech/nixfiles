@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.qui.settings.secretsFile = self.lib.server.mkSecretsFileOption "Qui";
+
   den.aspects.qui.nixos =
     { config, host, ... }:
     let
@@ -33,6 +35,6 @@
         volumes = [ ((self.lib.server.volumes server).config "qui") ];
       };
 
-      sops.secrets.qui_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets.qui_env.sopsFile = host.settings.qui.secretsFile;
     };
 }

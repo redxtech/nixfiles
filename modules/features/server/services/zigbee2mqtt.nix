@@ -1,4 +1,8 @@
+{ self, ... }:
+
 {
+  den.aspects.zigbee2mqtt.settings.secretsFile = self.lib.server.mkSecretsFileOption "Zigbee2MQTT";
+
   den.aspects.zigbee2mqtt.nixos =
     {
       config,
@@ -30,7 +34,7 @@
       };
 
       sops.secrets.zigbee2mqtt_secrets = {
-        sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
+        sopsFile = host.settings.zigbee2mqtt.secretsFile;
         mode = "0440";
         group = config.users.users.zigbee2mqtt.group;
         path = "${config.services.zigbee2mqtt.dataDir}/secrets.yaml";

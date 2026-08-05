@@ -1,6 +1,8 @@
 { self, ... }:
 
 {
+  den.aspects.ddclient.settings.secretsFile = self.lib.server.mkSecretsFileOption "ddclient";
+
   den.aspects.ddclient.nixos =
     {
       config,
@@ -23,6 +25,6 @@
         ];
       };
 
-      sops.secrets."ddclient.conf".sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+      sops.secrets."ddclient.conf".sopsFile = host.settings.ddclient.secretsFile;
     };
 }
