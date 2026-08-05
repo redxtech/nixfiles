@@ -39,6 +39,6 @@
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 
-      sops.secrets.watchtower_env.sopsFile = server.legacySopsFile;
+      sops.secrets.watchtower_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

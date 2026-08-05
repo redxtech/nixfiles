@@ -405,8 +405,9 @@
         '';
       };
 
-      sops.secrets."homeassistant_secrets.yaml" = {
-        sopsFile = server.legacySopsFile;
+      sops.secrets."secrets.yaml" = {
+        # TODO: make this no longer reference a host-specific secrets file
+        sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
         path = "${hassHome}/secrets.yaml";
         group = config.users.users.hass.group;
         mode = "0440";

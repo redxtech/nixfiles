@@ -40,8 +40,8 @@
       };
 
       sops.secrets = {
-        qdirstat_user.sopsFile = server.legacySopsFile;
-        qdirstat_pw.sopsFile = server.legacySopsFile;
+        qdirstat_user.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
+        qdirstat_pw.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
       };
     };
 }

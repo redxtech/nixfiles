@@ -49,6 +49,6 @@
         };
       };
 
-      sops.secrets.beszel_env.sopsFile = server.legacySopsFile;
+      sops.secrets.beszel_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

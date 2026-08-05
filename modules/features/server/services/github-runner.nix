@@ -9,6 +9,6 @@
         tokenFile = config.sops.secrets.ghrunner-system-builder.path;
       };
 
-      sops.secrets.ghrunner-system-builder.sopsFile = host.settings.server.legacySopsFile;
+      sops.secrets.ghrunner-system-builder.sopsFile = ../../../../secrets/hosts/quasar/ci.yaml;
     };
 }

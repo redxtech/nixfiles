@@ -67,7 +67,7 @@
       sops.secrets =
         let
           influxSecret = {
-            sopsFile = server.legacySopsFile;
+            sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
             mode = "0440";
             group = config.users.users.influxdb2.group;
           };
@@ -76,7 +76,9 @@
           influx_main_password = influxSecret;
           influx_main_token = influxSecret;
           influx_homeassistant_token = influxSecret;
-          influx_grafana_token = influxSecret;
+          influx_grafana_token = influxSecret // {
+            sopsFile = ../../../../secrets/hosts/quasar/secrets.yaml;
+          };
         };
     };
 }

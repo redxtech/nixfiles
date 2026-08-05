@@ -33,6 +33,6 @@
         volumes = [ ((self.lib.server.volumes server).config "qui") ];
       };
 
-      sops.secrets.qui_env.sopsFile = server.legacySopsFile;
+      sops.secrets.qui_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

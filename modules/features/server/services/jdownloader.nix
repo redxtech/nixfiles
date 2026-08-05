@@ -30,6 +30,6 @@
         ];
       };
 
-      sops.secrets.jdownloader_env.sopsFile = server.legacySopsFile;
+      sops.secrets.jdownloader_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

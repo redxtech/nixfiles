@@ -10,6 +10,6 @@
       };
 
       systemd.services.esphome.serviceConfig.EnvironmentFile = config.sops.secrets.esphome_env.path;
-      sops.secrets.esphome_env.sopsFile = host.settings.server.legacySopsFile;
+      sops.secrets.esphome_env.sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
     };
 }

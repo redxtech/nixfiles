@@ -67,6 +67,6 @@
         };
       };
 
-      sops.secrets.tubearchivist_env.sopsFile = server.legacySopsFile;
+      sops.secrets.tubearchivist_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

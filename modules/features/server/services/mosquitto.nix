@@ -38,8 +38,8 @@
       networking.firewall.allowedTCPPorts = [ 1883 ];
 
       sops.secrets = {
-        mosquitto_espresense_password.sopsFile = server.legacySopsFile;
-        mosquitto_homeassistant_password.sopsFile = server.legacySopsFile;
+        mosquitto_espresense_password.sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
+        mosquitto_homeassistant_password.sopsFile = ../../../../secrets/hosts/quasar/home-assistant.yaml;
       };
     };
 }

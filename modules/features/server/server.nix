@@ -50,13 +50,6 @@
         default = "/pool/media";
         description = "Persistent media root.";
       };
-
-      # TODO: remove one secrets are migrated
-      legacySopsFile = lib.mkOption {
-        type = lib.types.path;
-        default = ../../../oldflake/hosts/quasar/secrets.yaml;
-        description = "Legacy Quasar SOPS file used by services pending secret migration.";
-      };
     };
 
     includes = [

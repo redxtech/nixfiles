@@ -4,7 +4,7 @@
     let
       secretPath = name: config.sops.secrets."hercules-ci-agent-${name}".path;
       secret = {
-        sopsFile = host.settings.server.legacySopsFile;
+        sopsFile = ../../../../secrets/hosts/quasar/ci.yaml;
         owner = "hercules-ci-agent";
       };
     in

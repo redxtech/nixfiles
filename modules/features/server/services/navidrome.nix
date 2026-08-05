@@ -23,6 +23,6 @@
       };
 
       systemd.services.navidrome.serviceConfig.EnvironmentFile = config.sops.secrets.navidrome_env.path;
-      sops.secrets.navidrome_env.sopsFile = host.settings.server.legacySopsFile;
+      sops.secrets.navidrome_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

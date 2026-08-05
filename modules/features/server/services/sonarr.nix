@@ -54,6 +54,6 @@
 
       monitoring.scrapeTargets.sonarr_exportarr = 9707;
       network.services.sonarr = 8989;
-      sops.secrets.exportarr_sonarr.sopsFile = server.legacySopsFile;
+      sops.secrets.exportarr_sonarr.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }

@@ -57,6 +57,6 @@
         };
       };
 
-      sops.secrets.paperless_env.sopsFile = server.legacySopsFile;
+      sops.secrets.paperless_env.sopsFile = ../../../../secrets/hosts/quasar/containers.yaml;
     };
 }
