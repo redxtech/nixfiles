@@ -50,6 +50,35 @@
           builtins.readFile (aiSlopCure + "/videos/ep01-the-cure-for-ai-slop/ste-lint.py")
         );
 
+        formatSkill =
+          name: source:
+          pkgs.runCommand "formatted-agent-skill-${name}"
+            {
+              nativeBuildInputs = [
+                pkgs.perl
+                pkgs.yq-go
+              ];
+            }
+            ''
+              cp -RL ${source} "$out"
+              chmod -R u+w "$out"
+              perl -i -pe '
+                if ($. == 1 && /^---\s*$/) {
+                  $in_frontmatter = 1;
+                } elsif ($in_frontmatter && /^---\s*$/) {
+                  $in_frontmatter = 0;
+                } elsif ($in_frontmatter && /^description:\s*(.*)$/) {
+                  $description = $1;
+                  unless ($description =~ /^"/ || substr($description, 0, 1) eq chr 39 || $description =~ /^[>|][+-]?$/) {
+                    $description =~ s/\\/\\\\/g;
+                    $description =~ s/"/\\"/g;
+                    $_ = "description: \"$description\"\n";
+                  }
+                }
+              ' "$out/SKILL.md"
+              yq --front-matter=process -i '.description style="double"' "$out/SKILL.md"
+            '';
+
         # the hickey/lowy agents delegate to the skills of the same name;
         # fact-check is a hard dependency of every review skill
         agencySkills = [
@@ -201,7 +230,10 @@
               ++ cfg.extraPackages;
 
             home.file = lib.mapAttrs' (
-              name: source: lib.nameValuePair ".agents/skills/${name}" { inherit source; }
+              name: source:
+              lib.nameValuePair ".agents/skills/${name}" {
+                source = formatSkill name source;
+              }
             ) cfg.skills;
           }
 
