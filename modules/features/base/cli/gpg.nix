@@ -1,14 +1,7 @@
-{ inputs, self, ... }:
-
 {
   den.aspects.gpg = {
-    nixos = {
-      programs.gnupg.agent.enable = true;
-    };
-
     homeManager =
       {
-        config,
         pkgs,
         lib,
         host,
@@ -26,22 +19,6 @@
             ]
           ))
           ++ (lib.optionals (!hasDisplay) (with pkgs; [ pinentry-curses ]));
-
-        # TODO: remove after PR (https://github.com/nix-community/home-manager/pull/5720) is merged
-        agentCfg = config.services.gpg-agent;
-        gpgPkg = config.programs.gpg.package;
-        gpgSshSupportStr = ''
-          			${gpgPkg}/bin/gpg-connect-agent --quiet updatestartuptty /bye > /dev/null
-          			'';
-        gpgInitStr = ''
-          			GPG_TTY="$(tty)"
-          			export GPG_TTY
-          			''
-        + lib.optionalString agentCfg.enableSshSupport gpgSshSupportStr;
-        gpgFishInitStr = ''
-          			set -gx GPG_TTY (tty)
-          			''
-        + lib.optionalString agentCfg.enableSshSupport gpgSshSupportStr;
       in
       {
         home.packages = with pkgs; [ gpgme ] ++ pinentryPkgs;
@@ -49,19 +26,9 @@
         services.gpg-agent = {
           enable = true;
           enableSshSupport = true;
-          sshKeys = [ "11148591F2B2026E9B2227BD5C7A1973A2838278" ];
-          pinentry.package = if hasDisplay then pkgs.pinentry-gnome3 else pkgs.pinentry-curses;
           enableExtraSocket = true;
-
-          enableBashIntegration = false;
-          enableZshIntegration = false;
-          enableFishIntegration = false;
+          pinentry.package = if hasDisplay then pkgs.pinentry-gnome3 else pkgs.pinentry-curses;
         };
-
-        # do it ourselves until PR merged
-        programs.bash.initExtra = gpgInitStr;
-        programs.zsh.initContent = gpgInitStr;
-        programs.fish.interactiveShellInit = gpgFishInitStr;
 
         programs.gpg = {
           enable = true;
@@ -111,21 +78,6 @@
               trust = 5;
             }
           ];
-        };
-
-        # link /run/user/$UID/gnupg to ~/.gnupg-sockets
-        # so that SSH config does not have to know the UID
-        systemd.user.services.link-gnupg-sockets = {
-          Unit = {
-            Description = "link gnupg sockets from /run to /home";
-          };
-          Service = {
-            Type = "oneshot";
-            ExecStart = "${pkgs.coreutils}/bin/ln -Tfs /run/user/%U/gnupg %h/.gnupg-sockets";
-            ExecStop = "${pkgs.coreutils}/bin/rm $HOME/.gnupg-sockets";
-            RemainAfterExit = true;
-          };
-          Install.WantedBy = [ "default.target" ];
         };
 
         # TODO: enable gpg in firefox ?

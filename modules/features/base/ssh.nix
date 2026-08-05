@@ -2,8 +2,10 @@
 
 {
   den.aspects.ssh = {
+    settings.forwardDiskKey = lib.mkEnableOption "forwarding the disk-backed Ed25519 key to trusted devices";
+
     nixos =
-      { config, ... }:
+      { host, config, ... }:
       let
         inherit (builtins)
           attrNames
@@ -14,6 +16,7 @@
           ;
         inherit (lib) mkDefault optional;
         inherit (config.networking) hostName;
+        inherit (host.settings.tailscale) tailnet;
 
         publicKey = name: ../../hosts/${name}/ssh_host_ed25519_key.pub;
         hostNames = filter (name: pathExists (publicKey name)) (attrNames self.nixosConfigurations);
@@ -24,18 +27,15 @@
             domain = self.nixosConfigurations.${name}.config.networking.domain;
           in
           "${name}.${domain}";
-
-        # TODO: pull from network/tailscale module
-        tailnet = "colobus-pirate.ts.net";
       in
       {
         services.openssh = {
           enable = true;
           settings = {
+            AllowAgentForwarding = true;
+            GatewayPorts = "clientspecified";
             PasswordAuthentication = false;
             PermitRootLogin = "prohibit-password";
-            StreamLocalBindUnlink = "yes";
-            GatewayPorts = "clientspecified";
             X11Forwarding = true;
           };
 
@@ -85,102 +85,114 @@
         programs.mosh.enable = true;
       };
 
-    homeManager = { user, lib, ... }: {
-      programs.ssh =
-        let
-          username = user.userName;
-          identityFile = "~/.ssh/id_rsa_yubikey.pub";
-          identityFiles = [
-            identityFile
-            "~/.ssh/id_ed25519"
-          ];
-          # TODO: fix gpg-agent forwarding
-          # remoteForwards = [
-          #   {
-          #     bind.address = "/run/user/%i/gnupg/S.gpg-agent";
-          #     host.address = "/run/user/%i/gnupg/S.gpg-agent.extra";
-          #   }
-          # ];
-
-          mkHost =
-            args:
-            {
-              IdentityFile = identityFile;
-              User = username;
-              IdentitiesOnly = true;
-            }
-            // args;
-
-          mkDevice =
-            name:
-            mkHost {
-              # RemoteForward = remoteForwards;
-              IdentityFile = identityFiles;
-              HostName = "${name}.colobus-pirate.ts.net";
-              # HostName = "${name}.sucha.foo"; # TODO: maybe?
-              ForwardAgent = true;
-            };
-        in
-        {
-          enable = true;
-          enableDefaultConfig = false;
-
-          settings = {
-            bastion = mkDevice "bastion";
-            voyager = mkDevice "voyager";
-            quasar = mkDevice "quasar";
-            homeassistant = mkHost {
-              User = "hassio";
-              HostName = "homeassistant";
-            };
-            sb = mkHost {
-              User = "redxtech";
-              HostName = "titan.usbx.me";
-            };
-            rsync = mkHost {
-              User = "fm1620";
-              HostName = "fm1620.rsync.net";
-            };
-
-            "aur.archlinux.org" = mkHost {
-              User = "aur";
-              IdentityFile = "~/.ssh/aur.pub";
-            };
-            "github.com" = mkHost {
-              IdentityFile = identityFiles;
-            };
-
-            "*" =
-              lib.hm.dag.entryAfter
+    homeManager =
+      {
+        user,
+        host,
+        lib,
+        ...
+      }:
+      {
+        programs.ssh =
+          let
+            cfg = host.settings.ssh;
+            username = user.userName;
+            identityFile = "~/.ssh/id_rsa_yubikey.pub";
+            diskIdentityFile = "~/.ssh/id_ed25519";
+            identityFiles = [
+              identityFile
+              diskIdentityFile
+            ];
+            deviceIdentityFiles =
+              if cfg.forwardDiskKey then
                 [
-                  "aur.archlinux.org"
-                  "bastion"
-                  "github.com"
-                  "homeassistant"
-                  "quasar"
-                  "rsync"
-                  "sb"
-                  "voyager"
+                  diskIdentityFile
+                  identityFile
                 ]
-                {
-                  ForwardAgent = false;
-                  AddKeysToAgent = "no";
-                  Compression = false;
-                  ServerAliveInterval = 0;
-                  ServerAliveCountMax = 3;
-                  HashKnownHosts = false;
-                  UserKnownHostsFile = "~/.ssh/known_hosts";
-                  ControlMaster = "no";
-                  ControlPath = "~/.ssh/master-%r@%n:%p";
-                  ControlPersist = "no";
-                };
-          };
-        };
+              else
+                identityFiles;
+            mkHost =
+              args:
+              {
+                IdentityFile = identityFile;
+                User = username;
+                IdentitiesOnly = true;
+              }
+              // args;
 
-      home.file = {
-        ".ssh/id_rsa_yubikey.pub".source = ../../users/gabe/gpg.pub;
-        ".ssh/id_ed25519.pub".source = ../../users/gabe/ssh.pub;
+            mkDevice =
+              name:
+              mkHost (
+                {
+                  IdentityFile = deviceIdentityFiles;
+                  HostName = "${name}.colobus-pirate.ts.net";
+                  # HostName = "${name}.sucha.foo"; # TODO: maybe?
+                  ForwardAgent = true;
+                }
+                // lib.optionalAttrs cfg.forwardDiskKey { AddKeysToAgent = "yes"; }
+              );
+          in
+          {
+            enable = true;
+            enableDefaultConfig = false;
+
+            settings = {
+              bastion = mkDevice "bastion";
+              voyager = mkDevice "voyager";
+              quasar = mkDevice "quasar";
+              homeassistant = mkHost {
+                User = "hassio";
+                HostName = "homeassistant";
+              };
+              sb = mkHost {
+                User = "redxtech";
+                HostName = "titan.usbx.me";
+              };
+              rsync = mkHost {
+                User = "fm1620";
+                HostName = "fm1620.rsync.net";
+              };
+
+              "aur.archlinux.org" = mkHost {
+                User = "aur";
+                IdentityFile = "~/.ssh/aur.pub";
+              };
+              "github.com" = mkHost {
+                IdentityFile = identityFiles;
+                User = "git";
+              };
+
+              "*" =
+                lib.hm.dag.entryAfter
+                  [
+                    "aur.archlinux.org"
+                    "bastion"
+                    "github.com"
+                    "homeassistant"
+                    "quasar"
+                    "rsync"
+                    "sb"
+                    "voyager"
+                  ]
+                  {
+                    ForwardAgent = false;
+                    AddKeysToAgent = "no";
+                    Compression = false;
+                    ServerAliveInterval = 0;
+                    ServerAliveCountMax = 3;
+                    HashKnownHosts = false;
+                    UserKnownHostsFile = "~/.ssh/known_hosts";
+                    ControlMaster = "no";
+                    ControlPath = "~/.ssh/master-%r@%n:%p";
+                    ControlPersist = "no";
+                  };
+            };
+          };
+
+        home.file = {
+          ".ssh/id_rsa_yubikey.pub".source = ../../users/gabe/gpg.pub;
+          ".ssh/id_ed25519.pub".source = ../../users/gabe/ssh.pub;
+        };
       };
-    };
   };
 }
