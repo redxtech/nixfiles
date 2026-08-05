@@ -93,14 +93,13 @@
 
           Service = {
             ExecStart = lib.escapeShellArgs arguments;
+            Environment = lib.optional (cfg.extraPackages != [ ]) "PATH=${lib.makeBinPath cfg.extraPackages}";
             Restart = "on-failure";
             RestartSec = 10;
             WorkingDirectory = cfg.directory;
           };
 
           Install.WantedBy = [ "default.target" ];
-
-          path = cfg.extraPackages;
         };
       };
     };

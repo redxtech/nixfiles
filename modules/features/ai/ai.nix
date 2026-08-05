@@ -4,9 +4,20 @@
   den.aspects.ai = {
     includes = [
       den.aspects.kolu
+      den.aspects.herdr
       den.aspects.mcp
       den.aspects.opencode
     ];
+
+    nixos =
+      { host, config, ... }:
+      let
+        homeConfig = config.home-manager.users.${host.settings.base.primaryUser};
+      in
+      {
+        network.services.portal = homeConfig.services.openportal.port;
+        network.services.opencode = homeConfig.services.openportal.opencodePort;
+      };
 
     homeManager =
       {
@@ -104,6 +115,7 @@
       {
         imports = [
           self.homeManagerModules.ai
+          self.homeManagerModules.openportal
         ];
 
         config = {
@@ -166,6 +178,9 @@
             ]);
           };
 
+
+          services.openportal.enable = true;
+          services.openportal.directory = "%h/Code/nixfiles";
 
           home.packages = with inputs'.llm-agents.packages; [
             # general tools
