@@ -103,10 +103,8 @@
 
           settings = {
             global = {
-              # TODO: do we need to login for this to work?
-
-              # username = "redxtech";
-              # password_cmd = "${pkgs.coreutils}/bin/cat ${config.xdg.configHome}/spotify-tui/spotify.txt";
+              username = "redxtech";
+              password_cmd = "${lib.getExe' pkgs.coreutils "cat"} ${config.sops.secrets.spotifyd.path}";
 
               use_mpris = true;
               backend = "pulseaudio"; # TODO: try "pipe"
@@ -120,6 +118,7 @@
         };
 
         sops.secrets.spotify-player-client-id.sopsFile = ../../../../secrets/users/gabe/secrets.yaml;
+        sops.secrets.spotifyd.sopsFile = ../../../../secrets/users/gabe/secrets.yaml;
       };
   };
 

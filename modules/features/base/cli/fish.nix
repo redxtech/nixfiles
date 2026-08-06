@@ -407,65 +407,12 @@
             source ${config.xdg.configHome}/fish/env.local.fish
           end
 
-          if test -f ${config.xdg.configHome}/fish/env.secrets.fish;
-            source ${config.xdg.configHome}/fish/env.secrets.fish
+          if test -f ${config.sops.secrets."local.env".path};
+            source ${config.sops.secrets."local.env".path}
           end
         '';
       };
 
-      # TODO: figure out how to read from secrets in a good way
-
-      # xdg.configFile."fish/env.secrets.fish".text =
-      #   let
-      #     inherit (builtins) concatStringsSep elemAt map;
-      #     cat = pkgs.coreutils + "/bin/cat";
-      #     mkSecret =
-      #       entry:
-      #       let
-      #         name = elemAt entry 0;
-      #         secret = elemAt entry 1;
-      #         path = config.sops.secrets.${secret}.path;
-      #       in
-      #       ''set --export ${name} "$(${cat} ${path} 2>/dev/null)"'';
-      #     secrets = [
-      #       [
-      #         "YOUTUBE_API_KEY"
-      #         "youtube"
-      #       ]
-      #       [
-      #         "BW_SESSION"
-      #         "bw"
-      #       ]
-      #       [
-      #         "CACHIX_AUTH_TOKEN"
-      #         "cachix"
-      #       ]
-      #       [
-      #         "CACHIX_ACTIVATE_TOKEN"
-      #         "cachix-activate"
-      #       ]
-      #       [
-      #         "HASS_SERVER"
-      #         "hass_url"
-      #       ]
-      #       [
-      #         "HASS_TOKEN"
-      #         "hass_token"
-      #       ]
-      #       [
-      #         "OPENROUTER_KEY"
-      #         "openrouter_key"
-      #       ]
-      #       [
-      #         "OPENAI_KEY"
-      #         "openai_key"
-      #       ]
-      #     ];
-      #     envFile = concatStringsSep "\n" (map mkSecret secrets);
-      #   in
-      #   ''
-      #     ${envFile}
-      #     set --export NIX_CONFIG "access-tokens = github.com=$(${cat} ${config.sops.secrets.nix-github-token.path} 2>/dev/null)"
-      #   '';
+      sops.secrets."local.env".sopsFile = ../../../../secrets/users/gabe/env.yaml;
     };
 }
