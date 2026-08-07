@@ -5,8 +5,9 @@ result
 # odu artifacts
 .ci
 
-# worktrees
+# ai stuff
 .worktrees
+.pi-subagents
 
 # vm images
 *.qcow2

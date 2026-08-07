@@ -31,7 +31,6 @@
           peazip # archive manager
           piper # gui for ratbagd/logitech mouse control
           # postman # api client
-          prismlauncher # minecraft launcher
           # qdirstat # disk usage analyzer
           seahorse # gpg manager
           super-productivity # productivity app

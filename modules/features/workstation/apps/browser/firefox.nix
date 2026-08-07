@@ -225,11 +225,21 @@
                       inherit updateInterval;
                       urls = [
                         {
+                          template = "https://search.nixos.org/options?channel=unstable&query={searchTerms}&source=home_manager&type=options";
+                        }
+                      ];
+                      icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                      definedAliases = [ "hm" ];
+                    };
+                    "Home Manager Old" = {
+                      inherit updateInterval;
+                      urls = [
+                        {
                           template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=master";
                         }
                       ];
                       icon = "https://home-manager-options.extranix.com/home-manager-option-search/images/favicon.png";
-                      definedAliases = [ "hm" ];
+                      definedAliases = [ "hmo" ];
                     };
                     "Arch Wiki" = {
                       inherit updateInterval;

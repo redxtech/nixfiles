@@ -166,10 +166,16 @@
             ++ (with inputs'.llm-agents.packages; [
               apm
               codegraph
+              openspec
               rtk
             ])
             ++ (with self'.packages; [
+              cyber-mux
+              docker-axi
+              gh-axi
+              gws-axi
               kagi-mcp
+              kubernetes-axi
               mcp-remote
               openportal
               strava-mcp
@@ -191,15 +197,19 @@
           home.packages = with inputs'.llm-agents.packages; [
             # general tools
             apm # agent package manager
+            aven # powerful todo manager
+            # beads # agent-first issue tracker
+            but # cli for gitbutler
             ccusage # token usage
+            codegraph # code indexing and search
+            gitbutler # git client
             hunk # review-first diff viewer
             omp # oh-my-pi
-            codegraph # code indexing and search
-            openskills # skills installer
-            herdr # agent runner
             rtk # token consumption optimization
+            skills # vercel skills installer
 
             pkgs.bun # a lot of tools use bun
+            # pkgs.dolt # git for data
           ];
         };
       };
