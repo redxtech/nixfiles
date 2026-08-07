@@ -179,7 +179,11 @@
           };
 
           programs.codex.enable = true;
-          programs.pi-coding-agent.enable = true;
+
+          programs.pi-coding-agent = {
+            enable = true;
+            package = inputs'.llm-agents.packages.pi;
+          };
 
           services.openportal.enable = true;
           services.openportal.directory = "%h/Code/nixfiles";
@@ -188,6 +192,8 @@
             # general tools
             apm # agent package manager
             ccusage # token usage
+            hunk # review-first diff viewer
+            omp # oh-my-pi
             codegraph # code indexing and search
             openskills # skills installer
             herdr # agent runner

@@ -6,6 +6,7 @@
         package = inputs'.llm-agents.packages.herdr;
 
         settings = {
+          onboarding = false;
           theme = {
             name = "dracula";
             auto_switch = false;
