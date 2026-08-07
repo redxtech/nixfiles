@@ -198,6 +198,8 @@
             openskills # skills installer
             herdr # agent runner
             rtk # token consumption optimization
+
+            pkgs.bun # a lot of tools use bun
           ];
         };
       };

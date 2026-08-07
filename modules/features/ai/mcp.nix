@@ -33,7 +33,12 @@
               args = [ "mcp" ];
             };
             kagi = {
-              command = lib.getExe self'.packages.kagi-mcp;
+              command = lib.getExe self'.packages.mcp-remote;
+              args = [
+                "https://mcp.kagi.com/mcp"
+                "--header"
+                "Authorization:Bearer \${KAGI_API_KEY}"
+              ];
               env.KAGI_API_KEY.file = config.sops.secrets.mcp-kagi-key.path;
             };
             github = {

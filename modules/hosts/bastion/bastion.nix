@@ -19,10 +19,7 @@
 
       network.ip = "192.168.50.151";
       tunnel.id = "10f40833-b341-4f16-9920-2b5796744e15";
-
       gpu.amd = true;
-
-      hermes.hasHostEnv = true;
 
       monitors = {
         enable = true;
@@ -127,6 +124,7 @@
 
       den.aspects.ai
       den.aspects.gpu
+      den.aspects.hermes
       den.aspects.network-mounts
       den.aspects.streaming
     ];

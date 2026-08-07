@@ -33,6 +33,7 @@
           # postman # api client
           prismlauncher # minecraft launcher
           # qdirstat # disk usage analyzer
+          seahorse # gpg manager
           super-productivity # productivity app
           tauon # audio player
           via # keyboard flasher
