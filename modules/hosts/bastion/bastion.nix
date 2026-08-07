@@ -123,6 +123,7 @@
       den.aspects.tunnel
 
       den.aspects.ai
+      den.aspects.agentsview
       den.aspects.gpu
       den.aspects.hermes
       den.aspects.network-mounts
