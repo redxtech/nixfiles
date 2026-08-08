@@ -35,6 +35,7 @@
                 "users"
                 "video"
                 "audio"
+                "input"
               ]
               ++ ifTheyExist [
                 "data"

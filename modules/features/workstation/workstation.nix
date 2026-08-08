@@ -40,6 +40,7 @@
       den.aspects.spotify
       den.aspects.terminal
       den.aspects.video-player
+      den.aspects.voice-typing
 
       # include workstation-only sub-aspects
       den.aspects.bluetooth._.for-workstation

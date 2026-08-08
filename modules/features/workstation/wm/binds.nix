@@ -1,12 +1,11 @@
-{ inputs, self, ... }:
-
 {
   den.aspects.window-manager-binds.homeManager =
     {
+      self',
+      host,
       config,
       pkgs,
       lib,
-      host,
       ...
     }:
     {
@@ -257,6 +256,25 @@
 
               "Ctrl+Print".action.screenshot-screen = { };
               "Alt+Print".action.screenshot-window = { };
+            }
+          )
+
+          # voice control
+          (
+            let
+              vox = lib.getExe self'.packages.voxtype-full;
+            in
+            {
+              "Mod+V".action.spawn = [
+                vox
+                "record"
+                "toggle"
+              ];
+              "Mod+Shift+V".action.spawn = [
+                vox
+                "record"
+                "stop"
+              ];
             }
           )
 

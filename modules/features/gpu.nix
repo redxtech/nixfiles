@@ -44,7 +44,7 @@
           environment.systemPackages = [
             pkgs.clinfo # OpenCL info tool
           ]
-          ++ lib.optional cfg.amd pkgs.amdgpu_top;
+          ++ lib.optionals cfg.amd (with pkgs; [ amdgpu_top ]);
 
           boot.initrd.kernelModules =
             (lib.optional cfg.amd "amdgpu") ++ (lib.optional cfg.nvidia.enable "nvidia");
@@ -58,6 +58,8 @@
             enable32Bit = true;
             extraPackages = lib.optionals cfg.amd [ pkgs.rocmPackages.clr.icd ];
           };
+
+          hardware.amdgpu.opencl.enable = cfg.amd;
 
           # from https://nixos.wiki/wiki/Nvidia
           hardware.nvidia = lib.mkIf cfg.nvidia.enable {
