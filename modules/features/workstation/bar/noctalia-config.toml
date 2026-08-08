@@ -13,8 +13,8 @@ order = [ "Primary" ]
         "sysmon_gpu",
         "ram",
         "tray",
+        "status_2",
         "status",
-        "bar",
         "notifications",
         "recorder",
         "network",
@@ -211,7 +211,8 @@ enabled = [
     "noctalia/screen_recorder",
     "noctalia/bitwarden",
     "icefish/phone-connect",
-    "cleboost/ssh-launcher"
+    "cleboost/ssh-launcher",
+    "gabedunn/voxtype"
 ]
 
     [[plugins.source]]
@@ -383,6 +384,10 @@ capsule_foreground = "error"
 [widget.status]
 capsule = true
 type = "pozzoo/hassio:status"
+
+[widget.status_2]
+capsule = true
+type = "gabedunn/voxtype:status"
 
 [widget.sysmon]
 show_value = false
