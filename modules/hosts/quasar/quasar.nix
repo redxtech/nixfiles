@@ -57,6 +57,7 @@
 
         base = {
           dockerDNS = [ "192.168.50.1" ];
+          dockerStorageDriver = "overlay2";
           fs.btrfs = true;
           fs.zfs = true;
         };

@@ -37,6 +37,15 @@
         description = "DNS servers to use for docker";
       };
 
+      dockerStorageDriver = lib.mkOption {
+        type = lib.types.enum [
+          "btrfs"
+          "overlay2"
+        ];
+        default = "overlay2";
+        description = "Docker storage driver for the filesystem backing /var/lib/docker.";
+      };
+
       useZen = lib.mkOption {
         type = lib.types.bool;
         default = false;
@@ -102,7 +111,7 @@
             metrics-addr = "0.0.0.0:9323";
           };
 
-          storageDriver = lib.mkIf cfg.fs.btrfs "btrfs";
+          storageDriver = cfg.dockerStorageDriver;
         };
 
         # for interacting with qmk keyboards + etc

@@ -14,6 +14,7 @@
         hasDisplay = true;
         fs.btrfs = true;
         dockerDNS = [ "192.168.50.1" ];
+        dockerStorageDriver = "btrfs";
         useZen = true;
       };
 
