@@ -15,14 +15,18 @@
         homeConfig = config.home-manager.users.${host.settings.base.primaryUser};
       in
       {
-        network.services.portal = homeConfig.services.openportal.port;
-        network.services.opencode = homeConfig.services.openportal.opencodePort;
+        network.services = {
+          opencode = homeConfig.services.openportal.opencodePort;
+          paseo = homeConfig.services.paseo.port;
+          portal = homeConfig.services.openportal.port;
+        };
       };
 
     homeManager =
       {
         self',
         inputs',
+        osConfig,
         lib,
         pkgs,
         ...
@@ -116,6 +120,7 @@
         imports = [
           self.homeManagerModules.ai
           self.homeManagerModules.openportal
+          self.homeManagerModules.paseo
         ];
 
         config = {
@@ -191,8 +196,23 @@
             package = inputs'.llm-agents.packages.pi;
           };
 
-          services.openportal.enable = true;
-          services.openportal.directory = "%h/Code/nixfiles";
+          services.openportal = {
+            enable = true;
+            directory = "%h/Code/nixfiles";
+          };
+
+          services.paseo = {
+            enable = true;
+            package = self'.packages.paseo;
+
+            host = "0.0.0.0";
+            hostnames = [
+              "localhost"
+              osConfig.networking.hostName
+              "paseo.${osConfig.networking.fqdn}" # TODO: fix websocket not working on full url
+            ];
+            webUi.enable = true;
+          };
 
           home.packages = with inputs'.llm-agents.packages; [
             # general tools
@@ -205,6 +225,7 @@
             gitbutler # git client
             hunk # review-first diff viewer
             omp # oh-my-pi
+            paseo-desktop # agent orchestration
             rtk # token consumption optimization
             skills # vercel skills installer
 
