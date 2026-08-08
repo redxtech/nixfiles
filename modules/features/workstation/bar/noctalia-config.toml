@@ -347,7 +347,7 @@ tooltip_format = "{:%A, %B %d - %H:%M:%S}"
 vertical_format = "{:%H %M}"
 
 [widget.cpu]
-show_label = false
+show_value = false
 
 [widget.launcher]
 glyph = "rocket"
@@ -370,7 +370,7 @@ capsule = true
 hide_inactive = true
 
 [widget.ram]
-show_label = false
+show_value = true
 
 [widget.recorder]
 capsule = true
@@ -385,20 +385,20 @@ capsule = true
 type = "pozzoo/hassio:status"
 
 [widget.sysmon]
-show_label = false
+show_value = false
 stat = "cpu_temp"
 
 [widget.sysmon_cpu]
-show_label = false
+show_value = false
 type = "sysmon"
 
 [widget.sysmon_cpu_temp]
-show_label = false
+show_value = false
 stat = "cpu_temp"
 type = "sysmon"
 
 [widget.sysmon_gpu]
-show_label = false
+show_value = false
 stat = "gpu_usage"
 type = "sysmon"
 
