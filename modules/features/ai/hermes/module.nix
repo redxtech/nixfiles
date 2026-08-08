@@ -350,6 +350,12 @@
           description = "Extra packages available to Hermes and its terminal sessions";
         };
 
+        extraLibraries = lib.mkOption {
+          type = lib.types.listOf lib.types.package;
+          default = [ ];
+          description = "Shared libraries available to Hermes processes";
+        };
+
         extraPlugins = lib.mkOption {
           type = lib.types.listOf lib.types.package;
           default = [ ];
@@ -408,10 +414,29 @@
 
           {
             services.hermes-agent.finalPackage =
-              if cfg.extraPythonPackages == [ ] && cfg.extraDependencyGroups == [ ] then
-                cfg.package
+              let
+                package =
+                  if cfg.extraPythonPackages == [ ] && cfg.extraDependencyGroups == [ ] then
+                    cfg.package
+                  else
+                    cfg.package.override { inherit (cfg) extraPythonPackages extraDependencyGroups; };
+              in
+              if cfg.extraLibraries == [ ] then
+                package
               else
-                cfg.package.override { inherit (cfg) extraPythonPackages extraDependencyGroups; };
+                pkgs.symlinkJoin {
+                  name = "${package.name}-with-extra-libraries";
+                  inherit (package) meta passthru;
+                  paths = [ package ];
+                  nativeBuildInputs = [ pkgs.makeWrapper ];
+                  postBuild = ''
+                    for executable in "$out"/bin/*; do
+                      wrapProgram "$executable" \
+                        --prefix LD_LIBRARY_PATH : ${lib.escapeShellArg (lib.makeLibraryPath cfg.extraLibraries)} \
+                        --prefix PATH : ${lib.escapeShellArg (lib.makeBinPath [ pkgs.binutils ])}
+                    done
+                  '';
+                };
 
             assertions =
               let

@@ -39,9 +39,19 @@
             context.engine = "lcm";
             memory.provider = "honcho";
 
+            session_reset = {
+              mode = "idle";
+              idle_minutes = 15;
+              notify = false;
+            };
+
             toolsets = [ "all" ];
 
             terminal.backend = "local";
+
+            tts.provider = "elevenlabs";
+            tts.elevenlabs.voice_id = "CwhRBWXzGAHq8TQ4Fs17";
+            # tts.elevenlabs.voice_id = "LruHrtVF6PSyGItzMNHS"; # TODO: use when not on free tier
 
             display = {
               show_reasoning = true;
@@ -62,6 +72,8 @@
             pkgs.ffmpeg-full
             rtk
           ];
+
+          extraLibraries = [ pkgs.portaudio ];
 
           extraPlugins = [
             (pkgs.fetchFromGitHub {
