@@ -70,6 +70,7 @@
 
           extraPackages = with inputs'.llm-agents.packages; [
             pkgs.ffmpeg-full
+            self'.packages.gh-axi
             rtk
           ];
 
@@ -115,6 +116,7 @@
 
           # TODO: pull from config.mcp
           mcpServers = {
+            codebase-memory.command = lib.getExe self'.packages.codebase-memory-mcp;
             nixos.command = lib.getExe pkgs.mcp-nixos;
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
             kolu = {

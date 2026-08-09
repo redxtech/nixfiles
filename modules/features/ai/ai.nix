@@ -64,6 +64,15 @@
           builtins.readFile (aiSlopCure + "/videos/ep01-the-cure-for-ai-slop/ste-lint.py")
         );
 
+        localSkill =
+          name:
+          pkgs.linkFarm "${name}-skill" [
+            {
+              name = "SKILL.md";
+              path = ./skills/${name}.md;
+            }
+          ];
+
         # the hickey/lowy agents delegate to the skills of the same name;
         # fact-check is a hard dependency of every review skill
         agencySkills = [
@@ -125,10 +134,12 @@
 
         config = {
           ai = {
+            context = [ ./agents/AGENTS.md ];
+
             agents = {
               hickey = agency + "/.apm/agents/hickey.md";
               lowy = agency + "/.apm/agents/lowy.md";
-              technical-writer = ./opencode/agents/technical-writer.md;
+              technical-writer = ./agents/technical-writer.md;
             };
 
             skills =
@@ -151,6 +162,11 @@
                 }) mattPocockSkills
               )
               // {
+                home-assistant-cli = localSkill "home-assistant-cli";
+                kolu-cli = localSkill "kolu-cli";
+                obsidian-cli = localSkill "obsidian-cli";
+                vaulted-cli = localSkill "vaulted-cli";
+
                 ste-writing = pkgs.linkFarm "ste-writing-skill" [
                   {
                     name = "SKILL.md";
@@ -170,7 +186,6 @@
             ]
             ++ (with inputs'.llm-agents.packages; [
               apm
-              codegraph
               openspec
               rtk
             ])
@@ -221,7 +236,6 @@
             # beads # agent-first issue tracker
             but # cli for gitbutler
             ccusage # token usage
-            codegraph # code indexing and search
             gitbutler # git client
             hunk # review-first diff viewer
             omp # oh-my-pi

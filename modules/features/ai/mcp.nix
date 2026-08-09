@@ -19,15 +19,9 @@
           # - thunderbird (https://github.com/TKasperczyk/thunderbird-mcp)
 
           servers = {
+            codebase-memory.command = lib.getExe self'.packages.codebase-memory-mcp;
             nixos.command = lib.getExe pkgs.mcp-nixos;
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
-            codegraph = {
-              command = lib.getExe inputs'.llm-agents.packages.codegraph;
-              args = [
-                "serve"
-                "--mcp"
-              ];
-            };
             kolu = {
               command = lib.getExe inputs'.kolu.packages.default;
               args = [ "mcp" ];
@@ -49,11 +43,6 @@
                 "Authorization:Bearer \${MCP_GITHUB_KEY}"
               ];
               env.MCP_GITHUB_KEY.file = config.sops.secrets.mcp-github-key.path;
-            };
-            repowise = {
-              enabled = false; # until i can actually see it in use
-              command = lib.getExe self'.packages.repowise;
-              args = [ "mcp" ];
             };
             vaulted = {
               enabled = false;
@@ -94,10 +83,10 @@
         };
 
         home.packages = [
+          self'.packages.codebase-memory-mcp
           self'.packages.mcp-remote
           self'.packages.super-productivity-mcp
           self'.packages.kagi-mcp
-          self'.packages.repowise
           self'.packages.vaulted
         ];
 

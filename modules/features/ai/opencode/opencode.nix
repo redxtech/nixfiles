@@ -27,7 +27,6 @@
 
           extraPackages = with inputs'.llm-agents.packages; [
             apm
-            codegraph
             rtk
             inputs'.kolu.packages.default
             pkgs.python3
@@ -61,17 +60,6 @@
 
             ## Process Management
             New PTYs, subagents, and other background processes must be started using kolu, via the kolu MCP.
-
-            <!-- CODEGRAPH_START -->
-            ## CodeGraph
-
-            In repositories indexed by CodeGraph (a `.codegraph/` directory exists at the repo root), reach for it BEFORE grep/find or reading files when you need to understand or locate code:
-
-            - **MCP tool** (when available): `codegraph_explore` answers most code questions in one call — the relevant symbols' verbatim source plus the call paths between them, including dynamic-dispatch hops grep can't follow. Name a file or symbol in the query to read its current line-numbered source. If it's listed but deferred, load it by name via tool search.
-            - **Shell** (always works): `codegraph explore "<symbol names or question>"` prints the same output.
-
-            If there is no `.codegraph/` directory, run `codegraph init` to initialize it.
-            <!-- CODEGRAPH_END -->
           '';
         };
 

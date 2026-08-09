@@ -298,6 +298,27 @@
         "type": "github"
       }
     },
+    "codebase-memory-mcp": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783462510,
+        "narHash": "sha256-4P7PVz6vLbokrrKv1QzsWJ3SNULpwyufcXmloHJUVqQ=",
+        "owner": "DeusData",
+        "repo": "codebase-memory-mcp",
+        "rev": "b637e3330c96cfe452da623db068c241aaa3ec01",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DeusData",
+        "ref": "v0.9.0",
+        "repo": "codebase-memory-mcp",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1766774972,
@@ -1832,6 +1853,7 @@
     "root": {
       "inputs": {
         "chaotic": "chaotic",
+        "codebase-memory-mcp": "codebase-memory-mcp",
         "den": "den",
         "deploy-rs": "deploy-rs",
         "disko": "disko",

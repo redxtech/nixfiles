@@ -18,6 +18,7 @@ dev-shell:
 packages:
     nix build \
       .#packages.x86_64-linux.bastion \
+      .#packages.x86_64-linux.codebase-memory-mcp \
       .#packages.x86_64-linux.cockpit-benchmark \
       .#packages.x86_64-linux.cockpit-docker \
       .#packages.x86_64-linux.cockpit-file-sharing \

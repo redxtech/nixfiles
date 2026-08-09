@@ -10,6 +10,11 @@
     let
       cfg = config.ai;
 
+      contextText = lib.concatMapStringsSep "\n\n" (
+        source: if builtins.isPath source then builtins.readFile source else source
+      ) cfg.context;
+      contextFile = pkgs.writeText "AGENTS.md" contextText;
+
       formatSkill =
         name: source:
         pkgs.runCommand "formatted-agent-skill-${name}"
@@ -53,6 +58,21 @@
           description = "Skill definitions shared by supported coding agents";
         };
 
+        context = lib.mkOption {
+          type = lib.types.listOf (lib.types.either lib.types.lines lib.types.path);
+          default = [ ];
+          description = ''
+            Global agent context. Strings and file contents are concatenated in order,
+            separated by blank lines, and installed as AGENTS.md for supported agents.
+          '';
+          example = lib.literalExpression ''
+            [
+              ./agents/AGENTS.md
+              "Additional global instructions"
+            ]
+          '';
+        };
+
         # TODO: add support for codex & claude-code
         extraPackages = lib.mkOption {
           type = lib.types.listOf lib.types.package;
@@ -66,23 +86,33 @@
           # TODO: remove when packages are automatically injected into all the harnesses
           home.packages = cfg.extraPackages;
 
-          home.file = lib.mapAttrs' (
-            name: source:
-            lib.nameValuePair ".agents/skills/${name}" {
-              source = formatSkill name source;
-            }
-          ) cfg.skills;
+          home.file =
+            lib.mapAttrs' (
+              name: source:
+              lib.nameValuePair ".agents/skills/${name}" {
+                source = formatSkill name source;
+              }
+            ) cfg.skills
+            // lib.optionalAttrs (cfg.context != [ ]) {
+              ".agents/AGENTS.md".source = contextFile;
+            };
         }
 
         (lib.mkIf config.programs.opencode.enable {
           programs.opencode = {
             inherit (cfg) agents skills extraPackages;
+          }
+          // lib.optionalAttrs (cfg.context != [ ]) {
+            context = lib.mkBefore contextText;
           };
         })
 
         (lib.mkIf config.programs.claude-code.enable {
           programs.claude-code = {
             inherit (cfg) agents skills;
+          }
+          // lib.optionalAttrs (cfg.context != [ ]) {
+            context = lib.mkBefore contextText;
           };
 
           home.packages = [ inputs'.llm-agents.packages.claude-agent-acp ];
@@ -114,11 +144,18 @@
               package = codex;
               inherit (cfg) skills;
               profiles.nix.agents = codexAgents;
+            }
+            // lib.optionalAttrs (cfg.context != [ ]) {
+              context = lib.mkBefore contextText;
             };
 
             home.packages = [ inputs'.llm-agents.packages.codex-acp ];
           }
         ))
+
+        (lib.mkIf (config.programs.pi-coding-agent.enable && cfg.context != [ ]) {
+          programs.pi-coding-agent.context = lib.mkBefore contextText;
+        })
       ];
     };
 }
