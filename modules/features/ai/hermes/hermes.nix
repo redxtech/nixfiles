@@ -29,6 +29,8 @@
           environmentFiles = [ config.sops.secrets."hermes.env".path ];
           environment.CUA_DRIVER_RS_ENABLE_WAYLAND = "1";
 
+          documents."AGENTS.md" = config.ai.contextFile;
+
           settings = {
             model.provider = "openai-codex";
             model.default = "gpt-5.6-sol";
@@ -68,11 +70,14 @@
             ];
           };
 
-          extraPackages = with inputs'.llm-agents.packages; [
-            pkgs.ffmpeg-full
-            self'.packages.gh-axi
-            rtk
-          ];
+          extraPackages =
+            with inputs'.llm-agents.packages;
+            [
+              pkgs.ffmpeg-full
+              self'.packages.gh-axi
+              rtk
+            ]
+            ++ config.ai.extraPackages;
 
           extraLibraries = [ pkgs.portaudio ];
 
@@ -118,6 +123,7 @@
           mcpServers = {
             codebase-memory.command = lib.getExe self'.packages.codebase-memory-mcp;
             nixos.command = lib.getExe pkgs.mcp-nixos;
+            strava.command = lib.getExe self'.packages.strava-mcp;
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
             kolu = {
               command = lib.getExe inputs'.kolu.packages.default;
@@ -138,15 +144,9 @@
               headers.Authorization = "Bearer \${MCP_LIFTOSAUR_KEY}";
               timeout = 180;
             };
-            strava.command = lib.getExe self'.packages.strava-mcp;
             homeassistant = {
               url = "https://ha.mothership.sucha.foo/api/mcp";
               headers.Authorization = "Bearer \${MCP_HOMEASSISTANT_KEY}";
-              timeout = 180;
-            };
-            obsidian = {
-              url = "http://localhost:27123/mcp/";
-              headers.Authorization = "Bearer \${MCP_OBSIDIAN_KEY}";
               timeout = 180;
             };
           };

@@ -73,6 +73,12 @@
           '';
         };
 
+        contextFile = lib.mkOption {
+          type = lib.types.path;
+          readOnly = true;
+          description = "Generated AGENTS.md containing the combined global agent context";
+        };
+
         # TODO: add support for codex & claude-code
         extraPackages = lib.mkOption {
           type = lib.types.listOf lib.types.package;
@@ -83,6 +89,8 @@
 
       config = lib.mkMerge [
         {
+          ai.contextFile = contextFile;
+
           # TODO: remove when packages are automatically injected into all the harnesses
           home.packages = cfg.extraPackages;
 
