@@ -53,6 +53,13 @@
           hash = "sha256-dQtG6usJWlg/FqTajrjcs8GSdymH92WsgLiUaCfvKPA=";
         };
 
+        obsidianSkills = pkgs.fetchFromGitHub {
+          owner = "kepano";
+          repo = "obsidian-skills";
+          rev = "a1dc48e68138490d522c04cbf5822214c6eb1202"; # main
+          hash = "sha256-/Kr3cMaN81WXFxgWMNt/QQhEMzuu3e3WJpspqjrnPss=";
+        };
+
         aiSlopCure = pkgs.fetchFromGitHub {
           owner = "woosal1337";
           repo = "blog";
@@ -124,6 +131,14 @@
           "productivity/teach"
           "productivity/writing-great-skills"
         ];
+
+        obsidianSkillNames = [
+          "defuddle"
+          "json-canvas"
+          "obsidian-bases"
+          "obsidian-cli"
+          "obsidian-markdown"
+        ];
       in
       {
         imports = [
@@ -161,10 +176,15 @@
                   value = mattPocock + "/skills/${path}";
                 }) mattPocockSkills
               )
+              // builtins.listToAttrs (
+                map (name: {
+                  inherit name;
+                  value = obsidianSkills + "/skills/${name}";
+                }) obsidianSkillNames
+              )
               // {
                 home-assistant-cli = localSkill "home-assistant-cli";
                 kolu-cli = localSkill "kolu-cli";
-                obsidian-cli = localSkill "obsidian-cli";
                 vaulted-cli = localSkill "vaulted-cli";
 
                 ste-writing = pkgs.linkFarm "ste-writing-skill" [
@@ -183,6 +203,7 @@
 
             extraPackages = [
               inputs'.kolu.packages.default
+              pkgs.defuddle
             ]
             ++ (with inputs'.llm-agents.packages; [
               apm
@@ -203,6 +224,13 @@
               workspace-mcp
             ]);
           };
+
+          home.file = builtins.listToAttrs (
+            map (name: {
+              name = ".agents/skills/${name}";
+              value.force = true;
+            }) obsidianSkillNames
+          );
 
           programs.codex.enable = true;
 
