@@ -149,8 +149,6 @@
 
         config = {
           ai = {
-            context = [ ./agents/AGENTS.md ];
-
             agents = {
               hickey = agency + "/.apm/agents/hickey.md";
               lowy = agency + "/.apm/agents/lowy.md";
@@ -183,6 +181,7 @@
                 }) obsidianSkillNames
               )
               // {
+                cyber-mux = localSkill "cyber-mux";
                 home-assistant-cli = localSkill "home-assistant-cli";
                 kolu-cli = localSkill "kolu-cli";
                 vaulted-cli = localSkill "vaulted-cli";
@@ -200,6 +199,8 @@
                   }
                 ];
               };
+
+            context = [ ./agents/AGENTS.md ];
 
             extraPackages = [
               inputs'.kolu.packages.default
