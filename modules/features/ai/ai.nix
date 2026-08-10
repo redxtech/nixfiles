@@ -236,7 +236,8 @@
 
           programs.pi-coding-agent = {
             enable = true;
-            package = inputs'.llm-agents.packages.pi;
+            # pi-lcm uses better-sqlite3, which is unsupported by pi's bun runtime.
+            package = inputs'.llm-agents.packages.pi.override { useBun = false; };
             extraPackages = [
               pkgs.gcc
               pkgs.gnumake
