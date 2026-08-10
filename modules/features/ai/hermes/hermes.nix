@@ -26,6 +26,15 @@
           enable = true;
           dashboard.enable = true;
 
+          profileGateways.assistant = {
+            workingDirectory = "${config.home.homeDirectory}/Documents/personal";
+            extraArgs = [
+              "run"
+              "--replace"
+              "--external-supervisor"
+            ];
+          };
+
           environmentFiles = [ config.sops.secrets."hermes.env".path ];
           environment.CUA_DRIVER_RS_ENABLE_WAYLAND = "1";
 

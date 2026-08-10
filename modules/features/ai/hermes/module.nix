@@ -92,6 +92,69 @@
         ]
         ++ cfg.extraPackages
       );
+
+      mkGatewayService =
+        {
+          description,
+          gatewayHome,
+          workingDirectory,
+          extraArgs,
+          needsNetwork ? false,
+        }:
+        {
+          Unit = {
+            Description = description;
+          }
+          // lib.optionalAttrs needsNetwork {
+            Wants = [ "network-online.target" ];
+            After = [ "network-online.target" ];
+          };
+
+          Service = {
+            Environment = [
+              "HOME=${config.home.homeDirectory}"
+              "HERMES_HOME=${gatewayHome}"
+              "HERMES_MANAGED=true"
+              "PATH=${servicePath}"
+            ];
+            ExecStart = lib.escapeShellArgs (
+              [
+                "${cfg.finalPackage}/bin/hermes"
+                "gateway"
+              ]
+              ++ extraArgs
+            );
+            Restart = "always";
+            RestartSec = 5;
+            TimeoutStopSec = 30;
+            WorkingDirectory = workingDirectory;
+            UMask = "0077";
+
+            NoNewPrivileges = true;
+            PrivateTmp = true;
+            ProtectHome = false;
+            ProtectSystem = "strict";
+            ReadWritePaths = [
+              gatewayHome
+              workingDirectory
+            ];
+          };
+
+          Install.WantedBy = [ "default.target" ];
+        };
+
+      mkProfileGatewayService =
+        profile: gateway:
+        mkGatewayService {
+          description = "Hermes Agent Gateway (${profile} profile)";
+          gatewayHome = "${hermesHome}/profiles/${profile}";
+          inherit (gateway) workingDirectory extraArgs;
+          needsNetwork = true;
+        };
+
+      invalidProfileNames = lib.filter (
+        profile: profile == "default" || builtins.match "[a-z0-9][a-z0-9_-]{0,63}" profile == null
+      ) (builtins.attrNames cfg.profileGateways);
     in
     {
       options.services.hermes-agent = {
@@ -344,6 +407,39 @@
           description = "Extra arguments for hermes gateway";
         };
 
+        profileGateways = lib.mkOption {
+          type = lib.types.attrsOf (
+            lib.types.submodule {
+              options = {
+                workingDirectory = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Working directory for this profile's gateway";
+                };
+
+                extraArgs = lib.mkOption {
+                  type = lib.types.listOf lib.types.str;
+                  default = [ ];
+                  description = "Extra arguments for this profile's gateway";
+                };
+              };
+            }
+          );
+          default = { };
+          description = "Hermes profile gateways to run as separate user services, keyed by profile name";
+          example = lib.literalExpression ''
+            {
+              assistant = {
+                workingDirectory = "''${config.home.homeDirectory}/Documents/personal";
+                extraArgs = [
+                  "run"
+                  "--replace"
+                  "--external-supervisor"
+                ];
+              };
+            }
+          '';
+        };
+
         extraPackages = lib.mkOption {
           type = lib.types.listOf lib.types.package;
           default = [ ];
@@ -447,6 +543,10 @@
                   assertion = builtins.length pluginNames == builtins.length (lib.unique pluginNames);
                   message = "services.hermes-agent.extraPlugins contains duplicate plugin names: ${toString pluginNames}";
                 }
+                {
+                  assertion = invalidProfileNames == [ ];
+                  message = "services.hermes-agent.profileGateways contains invalid profile names: ${toString invalidProfileNames}; names must match [a-z0-9][a-z0-9_-]{0,63} and must not be default";
+                }
               ];
 
             home = {
@@ -516,43 +616,17 @@
                   '';
             };
 
-            systemd.user.services.hermes-agent = {
-              Unit = {
-                Description = "Hermes Agent Gateway";
+            systemd.user.services = {
+              hermes-agent = mkGatewayService {
+                description = "Hermes Agent Gateway";
+                gatewayHome = hermesHome;
+                inherit (cfg) workingDirectory extraArgs;
               };
-
-              Service = {
-                Environment = [
-                  "HOME=${config.home.homeDirectory}"
-                  "HERMES_HOME=${hermesHome}"
-                  "HERMES_MANAGED=true"
-                  "PATH=${servicePath}"
-                ];
-                ExecStart = lib.escapeShellArgs (
-                  [
-                    "${cfg.finalPackage}/bin/hermes"
-                    "gateway"
-                  ]
-                  ++ cfg.extraArgs
-                );
-                Restart = "always";
-                RestartSec = 5;
-                TimeoutStopSec = 30;
-                WorkingDirectory = cfg.workingDirectory;
-                UMask = "0077";
-
-                NoNewPrivileges = true;
-                PrivateTmp = true;
-                ProtectHome = false;
-                ProtectSystem = "strict";
-                ReadWritePaths = [
-                  hermesHome
-                  cfg.workingDirectory
-                ];
-              };
-
-              Install.WantedBy = [ "default.target" ];
-            };
+            }
+            // lib.mapAttrs' (
+              profile: gateway:
+              lib.nameValuePair "hermes-agent-${profile}" (mkProfileGatewayService profile gateway)
+            ) cfg.profileGateways;
           }
 
           (lib.mkIf cfg.dashboard.enable {
