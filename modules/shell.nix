@@ -1,5 +1,3 @@
-{ inputs, self, ... }:
-
 {
   perSystem =
     { pkgs, inputs', ... }:

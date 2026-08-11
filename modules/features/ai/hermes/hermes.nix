@@ -1,4 +1,4 @@
-{ lib, self, ... }:
+{ self, ... }:
 
 {
   den.aspects.hermes = {
@@ -26,7 +26,18 @@
           enable = true;
           dashboard.enable = true;
 
+          gateway.port = 8642;
+          gateway.unsetEnvironment = [
+            "DISCORD_BOT_TOKEN"
+            "MATTERMOST_TOKEN"
+            "MATRIX_ACCESS_TOKEN"
+            "SLACK_BOT_TOKEN"
+            "TELEGRAM_BOT_TOKEN"
+            "WEIXIN_TOKEN"
+          ];
+
           profileGateways.assistant = {
+            port = 8643;
             workingDirectory = "${config.home.homeDirectory}/Documents/personal";
             extraArgs = [
               "run"
@@ -35,55 +46,59 @@
             ];
           };
 
-          environmentFiles = [ config.sops.secrets."hermes.env".path ];
-          environment.CUA_DRIVER_RS_ENABLE_WAYLAND = "1";
-
+          managedSkills = config.ai.finalSkills;
           documents."AGENTS.md" = config.ai.contextFile;
 
-          settings = {
-            model.provider = "openai-codex";
-            model.default = "gpt-5.6-sol";
-
-            dashboard.theme = "clean-webui";
-            dashboard.show_token_analytics = true;
-
-            context.engine = "lcm";
-            memory.provider = "honcho";
-
-            session_reset = {
-              mode = "idle";
-              idle_minutes = 15;
-              notify = false;
-            };
-
-            toolsets = [ "all" ];
-
-            terminal.backend = "local";
-
-            tts.provider = "elevenlabs";
-            tts.elevenlabs.voice_id = "CwhRBWXzGAHq8TQ4Fs17";
-            # tts.elevenlabs.voice_id = "LruHrtVF6PSyGItzMNHS"; # TODO: use when not on free tier
-
-            display = {
-              show_reasoning = true;
-              streaming = true;
-              show_cost = true;
-              timestamps = true;
-            };
-
-            approvals.mode = "smart";
-
+          managedSettings = {
             plugins.enabled = [
               "hermes-lcm"
               "rtk-rewrite"
             ];
+
+            mcp_servers = {
+              codebase-memory = {
+                command = "codebase-memory-mcp";
+                args = [ ];
+              };
+              nixos = {
+                command = "mcp-nixos";
+                args = [ ];
+              };
+              super-productivity = {
+                command = "super-productivity-mcp";
+                args = [ ];
+              };
+              strava = {
+                command = "strava-mcp-server";
+                args = [ ];
+              };
+              liftosaur = {
+                url = "https://www.liftosaur.com/mcp";
+                headers.Authorization = "Bearer \${MCP_LIFTOSAUR_KEY}";
+                timeout = 180;
+              };
+              kagi = {
+                url = "https://mcp.kagi.com/mcp";
+                headers.Authorization = "Bearer \${MCP_KAGI_KEY}";
+                timeout = 180;
+              };
+            };
           };
+
+          environmentFiles = [ config.sops.secrets."hermes.env".path ];
+          environment.CUA_DRIVER_RS_ENABLE_WAYLAND = "1";
 
           extraPackages =
             with inputs'.llm-agents.packages;
             [
               pkgs.ffmpeg-full
+              pkgs.home-assistant-cli
+              pkgs.mcp-nixos
+              pkgs.obsidian
+              self'.packages.codebase-memory-mcp
+              self'.packages.cua-driver
               self'.packages.gh-axi
+              self'.packages.vaulted
               rtk
             ]
             ++ config.ai.extraPackages;
@@ -127,53 +142,21 @@
             "voice"
             "tts-premium"
           ];
-
-          # TODO: pull from config.mcp
-          mcpServers = {
-            codebase-memory.command = lib.getExe self'.packages.codebase-memory-mcp;
-            nixos.command = lib.getExe pkgs.mcp-nixos;
-            strava.command = lib.getExe self'.packages.strava-mcp;
-            super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
-            kolu = {
-              command = lib.getExe inputs'.kolu.packages.default;
-              args = [ "mcp" ];
-            };
-            kagi = {
-              url = "https://mcp.kagi.com/mcp";
-              headers.Authorization = "Bearer \${MCP_KAGI_KEY}";
-              timeout = 180;
-            };
-            github = {
-              url = "https://api.githubcopilot.com/mcp";
-              headers.Authorization = "Bearer \${MCP_GITHUB_KEY}";
-              timeout = 180;
-            };
-            liftosaur = {
-              url = "https://www.liftosaur.com/mcp";
-              headers.Authorization = "Bearer \${MCP_LIFTOSAUR_KEY}";
-              timeout = 180;
-            };
-            homeassistant = {
-              url = "https://ha.mothership.sucha.foo/api/mcp";
-              headers.Authorization = "Bearer \${MCP_HOMEASSISTANT_KEY}";
-              timeout = 180;
-            };
-          };
         };
 
-        home.packages = [
-          inputs'.hermes-agent.packages.desktop
-          self'.packages.cua-driver
-        ];
+        home.packages = [ config.services.hermes-agent.desktopPackage ];
 
-        home.file.".hermes/dashboard-themes/clean-webui.yaml".source = "${
-          pkgs.fetchFromGitHub {
-            owner = "fplanque";
-            repo = "hermes-agent-dashboard-theme-clean";
-            rev = "e7d58098f3a3ffc6866e59f4f054fa64c09913e0";
-            hash = "sha256-DDBws/rdcwCaUJ2TeGIuaDR0EaDrI0qGs7LhYxHAd9A=";
-          }
-        }/clean-webui.yaml";
+        home.file.".hermes/dashboard-themes/clean-webui.yaml" = {
+          force = true;
+          source = "${
+            pkgs.fetchFromGitHub {
+              owner = "fplanque";
+              repo = "hermes-agent-dashboard-theme-clean";
+              rev = "e7d58098f3a3ffc6866e59f4f054fa64c09913e0";
+              hash = "sha256-DDBws/rdcwCaUJ2TeGIuaDR0EaDrI0qGs7LhYxHAd9A=";
+            }
+          }/clean-webui.yaml";
+        };
 
         sops.secrets."hermes.env".sopsFile = ../../../../secrets/users/gabe/hermes.yaml;
       };

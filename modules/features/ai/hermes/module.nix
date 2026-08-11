@@ -21,57 +21,17 @@
           lib.foldl' lib.recursiveUpdate { } (map (definition: definition.value) definitions);
       };
 
-      generatedConfigFile = pkgs.writeText "hermes-config.yaml" (
-        builtins.toJSON (lib.recursiveUpdate { terminal.cwd = cfg.workingDirectory; } cfg.settings)
+      yamlFormat = pkgs.formats.yaml { };
+      managedConfigFile = yamlFormat.generate "hermes-managed-config.yaml" cfg.managedSettings;
+      managedDirectory = pkgs.linkFarm "hermes-managed-scope" [
+        {
+          name = "config.yaml";
+          path = managedConfigFile;
+        }
+      ];
+      managedSkillsDirectory = pkgs.linkFarm "hermes-managed-skills" (
+        lib.mapAttrsToList (name: path: { inherit name path; }) cfg.managedSkills
       );
-
-      configMergeScript = pkgs.writeScript "hermes-config-merge" ''
-        #!${pkgs.python3.withPackages (pythonPackages: [ pythonPackages.pyyaml ])}/bin/python3
-        import json, yaml, sys
-        from pathlib import Path
-
-        nix_json, config_path = sys.argv[1], Path(sys.argv[2])
-
-        with open(nix_json) as config_file:
-            nix = json.load(config_file)
-
-        existing = {}
-        if config_path.exists():
-            with open(config_path) as config_file:
-                existing = yaml.safe_load(config_file) or {}
-
-        def deep_merge(base, override):
-            result = dict(base)
-            for key, value in override.items():
-                if key in result and isinstance(result[key], dict) and isinstance(value, dict):
-                    result[key] = deep_merge(result[key], value)
-                else:
-                    result[key] = value
-            return result
-
-        with open(config_path, "w") as config_file:
-            yaml.dump(deep_merge(existing, nix), config_file, default_flow_style=False, sort_keys=False)
-      '';
-
-      generatedEnvironmentFile = pkgs.writeText "hermes-environment" (
-        lib.concatStringsSep "\n" (lib.mapAttrsToList (name: value: "${name}=${value}") cfg.environment)
-      );
-
-      environmentMergeScript = pkgs.writeShellScript "hermes-environment-merge" ''
-        set -eu
-
-        destination="$1"
-        shift
-
-        ${pkgs.coreutils}/bin/install -m 0600 ${generatedEnvironmentFile} "$destination"
-        for file in "$@"; do
-          if [ -f "$file" ]; then
-            printf '\n' >> "$destination"
-            ${pkgs.coreutils}/bin/cat "$file" >> "$destination"
-          fi
-        done
-      '';
-
       documents = pkgs.linkFarm "hermes-documents" (
         lib.mapAttrsToList (name: value: {
           inherit name;
@@ -83,6 +43,57 @@
         }) cfg.documents
       );
 
+      hermesEnvironmentLoader =
+        pkgs.writers.writePython3Bin "hermes-environment-loader"
+          {
+            libraries = [ pkgs.python3Packages.python-dotenv ];
+            flakeIgnore = [ "E501" ];
+          }
+          ''
+            import os
+            import sys
+            from pathlib import Path
+
+            from dotenv import dotenv_values
+
+            for environment_file in ${builtins.toJSON cfg.environmentFiles}:
+                path = Path(environment_file)
+                if not path.is_file():
+                    raise SystemExit(f"Hermes environment file is missing: {path}")
+                for name, value in dotenv_values(path).items():
+                    if value is not None:
+                        os.environ[name] = value
+
+            os.environ["HERMES_MANAGED_DIR"] = ${builtins.toJSON (toString cfg.managedDirectory)}
+            executable = ${builtins.toJSON (lib.getExe cfg.finalPackage)}
+            os.execv(executable, [executable, *sys.argv[1:]])
+          '';
+
+      pythonEnvironmentVariables = [
+        "PYTHONHOME"
+        "PYTHONPATH"
+        "PYTHONUSERBASE"
+        "VIRTUAL_ENV"
+      ];
+
+      interactiveHermes = pkgs.writeShellScriptBin "hermes" ''
+        unset ${lib.escapeShellArgs pythonEnvironmentVariables}
+        exec ${lib.getExe hermesEnvironmentLoader} "$@"
+      '';
+
+      hermesConfigMigrator = pkgs.writeShellScriptBin "hermes-config-migrate-noninteractive" ''
+        unset ${lib.escapeShellArgs pythonEnvironmentVariables}
+        exec ${cfg.finalPackage.hermesVenv}/bin/python3 -c \
+          'from hermes_cli.config import migrate_config; migrate_config(interactive=False, quiet=True)'
+      '';
+
+      mkGatewayHermes =
+        name: port:
+        pkgs.writeShellScriptBin name ''
+          export API_SERVER_PORT=${lib.escapeShellArg (toString port)}
+          exec ${lib.getExe cfg.finalPackage} "$@"
+        '';
+
       servicePath = lib.makeBinPath (
         [
           cfg.finalPackage
@@ -93,17 +104,39 @@
         ++ cfg.extraPackages
       );
 
+      serviceEnvironment =
+        gatewayHome: extraEnvironment:
+        [
+          "HOME=${config.home.homeDirectory}"
+          "HERMES_HOME=${gatewayHome}"
+          "PATH=${servicePath}"
+        ]
+        ++ lib.mapAttrsToList (name: value: "${name}=${value}") cfg.environment
+        ++ lib.mapAttrsToList (name: value: "${name}=${value}") extraEnvironment
+        ++ [ "HERMES_MANAGED_DIR=${cfg.managedDirectory}" ];
+
       mkGatewayService =
         {
+          name,
           description,
           gatewayHome,
           workingDirectory,
           extraArgs,
+          port,
+          environment ? { },
+          unsetEnvironment ? [ ],
           needsNetwork ? false,
         }:
+        let
+          gatewayHermes = mkGatewayHermes name port;
+          gatewayEnvironment = environment // {
+            API_SERVER_PORT = toString port;
+          };
+        in
         {
           Unit = {
             Description = description;
+            ConditionPathExists = [ "!${hermesHome}/.managed" ];
           }
           // lib.optionalAttrs needsNetwork {
             Wants = [ "network-online.target" ];
@@ -111,15 +144,11 @@
           };
 
           Service = {
-            Environment = [
-              "HOME=${config.home.homeDirectory}"
-              "HERMES_HOME=${gatewayHome}"
-              "HERMES_MANAGED=true"
-              "PATH=${servicePath}"
-            ];
+            Environment = serviceEnvironment gatewayHome gatewayEnvironment;
+            EnvironmentFile = cfg.environmentFiles;
             ExecStart = lib.escapeShellArgs (
               [
-                "${cfg.finalPackage}/bin/hermes"
+                (lib.getExe gatewayHermes)
                 "gateway"
               ]
               ++ extraArgs
@@ -138,7 +167,8 @@
               gatewayHome
               workingDirectory
             ];
-          };
+          }
+          // lib.optionalAttrs (unsetEnvironment != [ ]) { UnsetEnvironment = unsetEnvironment; };
 
           Install.WantedBy = [ "default.target" ];
         };
@@ -146,15 +176,45 @@
       mkProfileGatewayService =
         profile: gateway:
         mkGatewayService {
+          name = "hermes-agent-${profile}";
           description = "Hermes Agent Gateway (${profile} profile)";
           gatewayHome = "${hermesHome}/profiles/${profile}";
-          inherit (gateway) workingDirectory extraArgs;
+          inherit (gateway)
+            workingDirectory
+            extraArgs
+            port
+            environment
+            ;
           needsNetwork = true;
         };
 
+      gatewayPorts = [
+        cfg.gateway.port
+      ]
+      ++ lib.mapAttrsToList (_profile: gateway: gateway.port) cfg.profileGateways;
       invalidProfileNames = lib.filter (
         profile: profile == "default" || builtins.match "[a-z0-9][a-z0-9_-]{0,63}" profile == null
       ) (builtins.attrNames cfg.profileGateways);
+      isSinglePathComponent =
+        name: name != "" && name != "." && name != ".." && builtins.baseNameOf name == name;
+      invalidDocumentNames = lib.filter (name: !(isSinglePathComponent name)) (
+        builtins.attrNames cfg.documents
+      );
+      invalidManagedSkillNames = lib.filter (name: !(isSinglePathComponent name)) (
+        builtins.attrNames cfg.managedSkills
+      );
+
+      linkPlugins = pluginDirectory: ''
+        run mkdir -p ${lib.escapeShellArg pluginDirectory}
+        run find ${lib.escapeShellArg pluginDirectory} -maxdepth 1 -type l -name 'nix-managed-*' -delete
+        ${lib.concatMapStringsSep "\n" (plugin: ''
+          if [ ! -f ${lib.escapeShellArg "${plugin}/plugin.yaml"} ]; then
+            echo "extraPlugins entry '${plugin}' has no plugin.yaml" >&2
+            exit 1
+          fi
+          run ln -sfn ${lib.escapeShellArg (toString plugin)} ${lib.escapeShellArg "${pluginDirectory}/nix-managed-${lib.getName plugin}"}
+        '') cfg.extraPlugins}
+      '';
     in
     {
       options.services.hermes-agent = {
@@ -189,6 +249,12 @@
           description = "The hermes-agent package after applying package extensions";
         };
 
+        desktopPackage = lib.mkOption {
+          type = lib.types.package;
+          readOnly = true;
+          description = "Hermes Desktop configured to launch the managed interactive wrapper";
+        };
+
         workingDirectory = lib.mkOption {
           type = lib.types.str;
           default = "${hermesHome}/workspace";
@@ -196,215 +262,66 @@
           description = "Working directory for the agent";
         };
 
-        configFile = lib.mkOption {
-          type = lib.types.nullOr lib.types.path;
-          default = null;
-          description = "Existing config.yaml to install instead of generating one from settings";
+        managedDirectory = lib.mkOption {
+          type = lib.types.path;
+          readOnly = true;
+          description = "Generated directory containing the Nix-owned Hermes managed configuration";
         };
 
-        settings = lib.mkOption {
+        managedSettings = lib.mkOption {
           type = deepConfigType;
           default = { };
-          description = "Declarative Hermes configuration rendered to config.yaml";
-          example = lib.literalExpression ''
-            {
-              model = "anthropic/claude-sonnet-4";
-              terminal.backend = "local";
-              toolsets = [ "all" ];
-            }
-          '';
+          description = "Selective Nix-owned Hermes configuration rendered through managed scope";
         };
 
-        environmentFiles = lib.mkOption {
-          type = lib.types.listOf lib.types.str;
-          default = [ ];
-          description = "Environment files containing secrets to merge into the Hermes .env file";
-        };
-
-        environment = lib.mkOption {
-          type = lib.types.attrsOf lib.types.str;
+        managedSkills = lib.mkOption {
+          type = lib.types.attrsOf lib.types.path;
           default = { };
-          description = "Non-secret environment variables to write to the Hermes .env file";
-        };
-
-        authFile = lib.mkOption {
-          type = lib.types.nullOr lib.types.path;
-          default = null;
-          description = "auth.json file to seed when Hermes has no existing authentication state";
-        };
-
-        authFileForceOverwrite = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Always overwrite auth.json from authFile";
+          description = "Read-only skills exposed to Hermes through managed scope";
         };
 
         documents = lib.mkOption {
           type = lib.types.attrsOf (lib.types.either lib.types.str lib.types.path);
           default = { };
-          description = "Workspace documents keyed by filename";
-          example = lib.literalExpression ''
-            {
-              "SOUL.md" = "You are a helpful AI assistant.";
-              "USER.md" = ./documents/USER.md;
-            }
-          '';
+          description = "Nix-owned workspace documents keyed by filename";
         };
 
-        mcpServers = lib.mkOption {
-          type = lib.types.attrsOf (
-            lib.types.submodule {
-              options = {
-                command = lib.mkOption {
-                  type = lib.types.nullOr lib.types.str;
-                  default = null;
-                  description = "MCP server command for stdio transport";
-                };
+        environmentFiles = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "Environment files containing secrets for Hermes services";
+        };
 
-                args = lib.mkOption {
-                  type = lib.types.listOf lib.types.str;
-                  default = [ ];
-                  description = "Command-line arguments for stdio transport";
-                };
-
-                env = lib.mkOption {
-                  type = lib.types.attrsOf lib.types.str;
-                  default = { };
-                  description = "Environment variables for the MCP server process";
-                };
-
-                url = lib.mkOption {
-                  type = lib.types.nullOr lib.types.str;
-                  default = null;
-                  description = "MCP server URL for HTTP transport";
-                };
-
-                headers = lib.mkOption {
-                  type = lib.types.attrsOf lib.types.str;
-                  default = { };
-                  description = "HTTP headers for the MCP server";
-                };
-
-                auth = lib.mkOption {
-                  type = lib.types.nullOr (lib.types.enum [ "oauth" ]);
-                  default = null;
-                  description = "Authentication method for the MCP server";
-                };
-
-                enabled = lib.mkOption {
-                  type = lib.types.bool;
-                  default = true;
-                  description = "Whether to enable the MCP server";
-                };
-
-                timeout = lib.mkOption {
-                  type = lib.types.nullOr lib.types.int;
-                  default = null;
-                  description = "Tool call timeout in seconds";
-                };
-
-                connect_timeout = lib.mkOption {
-                  type = lib.types.nullOr lib.types.int;
-                  default = null;
-                  description = "Initial connection timeout in seconds";
-                };
-
-                tools = lib.mkOption {
-                  type = lib.types.nullOr (
-                    lib.types.submodule {
-                      options = {
-                        include = lib.mkOption {
-                          type = lib.types.listOf lib.types.str;
-                          default = [ ];
-                          description = "Tool allowlist";
-                        };
-
-                        exclude = lib.mkOption {
-                          type = lib.types.listOf lib.types.str;
-                          default = [ ];
-                          description = "Tool blocklist";
-                        };
-                      };
-                    }
-                  );
-                  default = null;
-                  description = "Filter the tools exposed by this server";
-                };
-
-                sampling = lib.mkOption {
-                  type = lib.types.nullOr (
-                    lib.types.submodule {
-                      options = {
-                        enabled = lib.mkOption {
-                          type = lib.types.bool;
-                          default = true;
-                          description = "Whether to enable sampling";
-                        };
-
-                        model = lib.mkOption {
-                          type = lib.types.nullOr lib.types.str;
-                          default = null;
-                          description = "Model override for sampling requests";
-                        };
-
-                        max_tokens_cap = lib.mkOption {
-                          type = lib.types.nullOr lib.types.int;
-                          default = null;
-                          description = "Maximum tokens per sampling request";
-                        };
-
-                        timeout = lib.mkOption {
-                          type = lib.types.nullOr lib.types.int;
-                          default = null;
-                          description = "Sampling request timeout in seconds";
-                        };
-
-                        max_rpm = lib.mkOption {
-                          type = lib.types.nullOr lib.types.int;
-                          default = null;
-                          description = "Maximum sampling requests per minute";
-                        };
-
-                        max_tool_rounds = lib.mkOption {
-                          type = lib.types.nullOr lib.types.int;
-                          default = null;
-                          description = "Maximum tool-use rounds per sampling request";
-                        };
-
-                        allowed_models = lib.mkOption {
-                          type = lib.types.listOf lib.types.str;
-                          default = [ ];
-                          description = "Models the server may request";
-                        };
-
-                        log_level = lib.mkOption {
-                          type = lib.types.nullOr (
-                            lib.types.enum [
-                              "debug"
-                              "info"
-                              "warning"
-                            ]
-                          );
-                          default = null;
-                          description = "Sampling audit log level";
-                        };
-                      };
-                    }
-                  );
-                  default = null;
-                  description = "Configuration for server-initiated sampling requests";
-                };
-              };
-            }
-          );
+        environment = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
           default = { };
-          description = "MCP server configurations to merge into settings.mcp_servers";
+          description = "Non-secret environment variables for Hermes services and interactive shells";
         };
 
         extraArgs = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [ ];
-          description = "Extra arguments for hermes gateway";
+          description = "Extra arguments for the default Hermes gateway";
+        };
+
+        gateway = {
+          port = lib.mkOption {
+            type = lib.types.port;
+            default = 8642;
+            description = "API server port for the default Hermes gateway";
+          };
+
+          environment = lib.mkOption {
+            type = lib.types.attrsOf lib.types.str;
+            default = { };
+            description = "Environment overrides for the default Hermes gateway";
+          };
+
+          unsetEnvironment = lib.mkOption {
+            type = lib.types.listOf lib.types.str;
+            default = [ ];
+            description = "Environment variables to remove from the default Hermes gateway after loading environment files";
+          };
         };
 
         profileGateways = lib.mkOption {
@@ -421,6 +338,18 @@
                   default = [ ];
                   description = "Extra arguments for this profile's gateway";
                 };
+
+                port = lib.mkOption {
+                  type = lib.types.port;
+                  description = "API server port for this profile's gateway";
+                };
+
+                environment = lib.mkOption {
+                  type = lib.types.attrsOf lib.types.str;
+                  default = { };
+                  description = "Environment overrides for this profile's gateway";
+                };
+
               };
             }
           );
@@ -429,6 +358,7 @@
           example = lib.literalExpression ''
             {
               assistant = {
+                port = 8643;
                 workingDirectory = "''${config.home.homeDirectory}/Documents/personal";
                 extraArgs = [
                   "run"
@@ -473,66 +403,50 @@
 
       config = lib.mkIf cfg.enable (
         lib.mkMerge [
-          (lib.mkIf (cfg.mcpServers != { }) {
-            services.hermes-agent.settings.mcp_servers = lib.mapAttrs (
-              _name: server:
-              lib.optionalAttrs (server.command != null) { inherit (server) command args; }
-              // lib.optionalAttrs (server.env != { }) { inherit (server) env; }
-              // lib.optionalAttrs (server.url != null) { inherit (server) url; }
-              // lib.optionalAttrs (server.headers != { }) { inherit (server) headers; }
-              // lib.optionalAttrs (server.auth != null) { inherit (server) auth; }
-              // {
-                inherit (server) enabled;
-              }
-              // lib.optionalAttrs (server.timeout != null) { inherit (server) timeout; }
-              // lib.optionalAttrs (server.connect_timeout != null) { inherit (server) connect_timeout; }
-              // lib.optionalAttrs (server.tools != null) {
-                tools = lib.filterAttrs (_name: value: value != [ ]) {
-                  inherit (server.tools) include exclude;
-                };
-              }
-              // lib.optionalAttrs (server.sampling != null) {
-                sampling = lib.filterAttrs (_name: value: value != null && value != [ ]) {
-                  inherit (server.sampling)
-                    enabled
-                    model
-                    max_tokens_cap
-                    timeout
-                    max_rpm
-                    max_tool_rounds
-                    allowed_models
-                    log_level
-                    ;
-                };
-              }
-            ) cfg.mcpServers;
-          })
-
           {
-            services.hermes-agent.finalPackage =
-              let
-                package =
-                  if cfg.extraPythonPackages == [ ] && cfg.extraDependencyGroups == [ ] then
-                    cfg.package
-                  else
-                    cfg.package.override { inherit (cfg) extraPythonPackages extraDependencyGroups; };
-              in
-              if cfg.extraLibraries == [ ] then
-                package
-              else
+            services.hermes-agent = {
+              finalPackage =
+                let
+                  package =
+                    if cfg.extraPythonPackages == [ ] && cfg.extraDependencyGroups == [ ] then
+                      cfg.package
+                    else
+                      cfg.package.override { inherit (cfg) extraPythonPackages extraDependencyGroups; };
+                  wrapperArguments =
+                    lib.concatMap (variable: [
+                      "--unset"
+                      variable
+                    ]) pythonEnvironmentVariables
+                    ++ lib.optionals (cfg.extraLibraries != [ ]) [
+                      "--prefix"
+                      "LD_LIBRARY_PATH"
+                      ":"
+                      (lib.makeLibraryPath cfg.extraLibraries)
+                      "--prefix"
+                      "PATH"
+                      ":"
+                      (lib.makeBinPath [ pkgs.binutils ])
+                    ];
+                in
                 pkgs.symlinkJoin {
-                  name = "${package.name}-with-extra-libraries";
+                  name = "${package.name}-isolated";
                   inherit (package) meta passthru;
                   paths = [ package ];
                   nativeBuildInputs = [ pkgs.makeWrapper ];
                   postBuild = ''
                     for executable in "$out"/bin/*; do
-                      wrapProgram "$executable" \
-                        --prefix LD_LIBRARY_PATH : ${lib.escapeShellArg (lib.makeLibraryPath cfg.extraLibraries)} \
-                        --prefix PATH : ${lib.escapeShellArg (lib.makeBinPath [ pkgs.binutils ])}
+                      wrapProgram "$executable" ${lib.escapeShellArgs wrapperArguments}
                     done
                   '';
                 };
+
+              desktopPackage = cfg.finalPackage.hermesDesktop.override { hermesAgent = interactiveHermes; };
+
+              inherit managedDirectory;
+              managedSettings = lib.optionalAttrs (cfg.managedSkills != { }) {
+                skills.external_dirs = [ (toString managedSkillsDirectory) ];
+              };
+            };
 
             assertions =
               let
@@ -547,11 +461,36 @@
                   assertion = invalidProfileNames == [ ];
                   message = "services.hermes-agent.profileGateways contains invalid profile names: ${toString invalidProfileNames}; names must match [a-z0-9][a-z0-9_-]{0,63} and must not be default";
                 }
+                {
+                  assertion = builtins.length gatewayPorts == builtins.length (lib.unique gatewayPorts);
+                  message = "services.hermes-agent gateway API ports must be unique: ${toString gatewayPorts}";
+                }
+                {
+                  assertion = invalidDocumentNames == [ ];
+                  message = "services.hermes-agent.documents contains invalid filenames: ${toString invalidDocumentNames}";
+                }
+                {
+                  assertion = invalidManagedSkillNames == [ ];
+                  message = "services.hermes-agent.managedSkills contains invalid skill names: ${toString invalidManagedSkillNames}";
+                }
+                {
+                  assertion = !(cfg.environment ? HERMES_MANAGED);
+                  message = "services.hermes-agent.environment must not set HERMES_MANAGED because Hermes configuration is mutable";
+                }
               ];
 
             home = {
-              packages = [ cfg.finalPackage ] ++ cfg.extraPackages;
-              sessionVariables.HERMES_HOME = hermesHome;
+              packages = [ interactiveHermes ] ++ cfg.extraPackages;
+              sessionVariables = cfg.environment // {
+                HERMES_HOME = hermesHome;
+                HERMES_MANAGED_DIR = cfg.managedDirectory;
+              };
+
+              file.".config/hermes-agent/nix-mutable-config-v1".text = ''
+                HERMES_MANAGED_DIR=${cfg.managedDirectory}
+                HERMES_EXECUTABLE=${lib.getExe interactiveHermes}
+                HERMES_CONFIG_MIGRATOR=${lib.getExe hermesConfigMigrator}
+              '';
 
               activation.hermes-agent-setup =
                 lib.hm.dag.entryBetween
@@ -563,41 +502,18 @@
                   ''
                     run mkdir -p \
                       ${lib.escapeShellArg hermesHome} \
-                      ${lib.escapeShellArg "${hermesHome}/cron"} \
-                      ${lib.escapeShellArg "${hermesHome}/logs"} \
-                      ${lib.escapeShellArg "${hermesHome}/memories"} \
-                      ${lib.escapeShellArg "${hermesHome}/plugins"} \
-                      ${lib.escapeShellArg "${hermesHome}/sessions"} \
                       ${lib.escapeShellArg cfg.workingDirectory}
                     run chmod 0700 ${lib.escapeShellArg hermesHome}
 
-                    ${
-                      if cfg.configFile != null then
-                        "run install -m 0600 ${lib.escapeShellArg (toString cfg.configFile)} ${lib.escapeShellArg "${hermesHome}/config.yaml"}"
-                      else
-                        ''
-                          run ${configMergeScript} ${generatedConfigFile} ${lib.escapeShellArg "${hermesHome}/config.yaml"}
-                          run chmod 0600 ${lib.escapeShellArg "${hermesHome}/config.yaml"}
-                        ''
-                    }
-
-                    run touch ${lib.escapeShellArg "${hermesHome}/.managed"}
-                    run chmod 0600 ${lib.escapeShellArg "${hermesHome}/.managed"}
-
-                    ${lib.optionalString (cfg.authFile != null) (
-                      if cfg.authFileForceOverwrite then
-                        "run install -m 0600 ${lib.escapeShellArg (toString cfg.authFile)} ${lib.escapeShellArg "${hermesHome}/auth.json"}"
-                      else
-                        ''
-                          if [ ! -f ${lib.escapeShellArg "${hermesHome}/auth.json"} ]; then
-                            run install -m 0600 ${lib.escapeShellArg (toString cfg.authFile)} ${lib.escapeShellArg "${hermesHome}/auth.json"}
-                          fi
-                        ''
+                    ${lib.concatStringsSep "\n" (
+                      lib.mapAttrsToList (profile: gateway: ''
+                        run mkdir -p \
+                          ${lib.escapeShellArg "${hermesHome}/profiles/${profile}"} \
+                          ${lib.escapeShellArg gateway.workingDirectory}
+                        run chmod 0700 ${lib.escapeShellArg "${hermesHome}/profiles/${profile}"}
+                        ${linkPlugins "${hermesHome}/profiles/${profile}/plugins"}
+                      '') cfg.profileGateways
                     )}
-
-                    ${lib.optionalString (cfg.environment != { } || cfg.environmentFiles != [ ]) ''
-                      run ${environmentMergeScript} ${lib.escapeShellArg "${hermesHome}/.env"} ${lib.escapeShellArgs cfg.environmentFiles}
-                    ''}
 
                     ${lib.concatStringsSep "\n" (
                       lib.mapAttrsToList (name: _value: ''
@@ -605,22 +521,21 @@
                       '') cfg.documents
                     )}
 
-                    run find ${lib.escapeShellArg "${hermesHome}/plugins"} -maxdepth 1 -type l -name 'nix-managed-*' -delete
-                    ${lib.concatMapStringsSep "\n" (plugin: ''
-                      if [ ! -f ${lib.escapeShellArg "${plugin}/plugin.yaml"} ]; then
-                        echo "extraPlugins entry '${plugin}' has no plugin.yaml" >&2
-                        exit 1
-                      fi
-                      run ln -sfn ${lib.escapeShellArg (toString plugin)} ${lib.escapeShellArg "${hermesHome}/plugins/nix-managed-${lib.getName plugin}"}
-                    '') cfg.extraPlugins}
+                    ${linkPlugins "${hermesHome}/plugins"}
                   '';
             };
 
             systemd.user.services = {
               hermes-agent = mkGatewayService {
+                name = "hermes-agent";
                 description = "Hermes Agent Gateway";
                 gatewayHome = hermesHome;
                 inherit (cfg) workingDirectory extraArgs;
+                inherit (cfg.gateway)
+                  port
+                  environment
+                  unsetEnvironment
+                  ;
               };
             }
             // lib.mapAttrs' (
@@ -634,14 +549,12 @@
               Unit = {
                 Description = "Hermes Agent Web Dashboard";
                 After = [ "hermes-agent.service" ];
+                ConditionPathExists = [ "!${hermesHome}/.managed" ];
               };
 
               Service = {
-                Environment = [
-                  "HERMES_HOME=${hermesHome}"
-                  "HERMES_MANAGED=true"
-                ];
-                EnvironmentFile = "-${hermesHome}/.env";
+                Environment = serviceEnvironment hermesHome { };
+                EnvironmentFile = cfg.environmentFiles;
                 ExecStart = lib.escapeShellArgs [
                   (lib.getExe cfg.finalPackage)
                   "dashboard"

@@ -43,6 +43,8 @@
             ' "$out/SKILL.md"
             yq --front-matter=process -i '.description style="double"' "$out/SKILL.md"
           '';
+
+      finalSkills = lib.mapAttrs formatSkill cfg.skills;
     in
     {
       options.ai = {
@@ -56,6 +58,12 @@
           type = lib.types.attrsOf (lib.types.either lib.types.lines lib.types.path);
           default = { };
           description = "Skill definitions shared by supported coding agents";
+        };
+
+        finalSkills = lib.mkOption {
+          type = lib.types.attrsOf lib.types.path;
+          readOnly = true;
+          description = "Formatted skill directories shared by supported coding agents";
         };
 
         context = lib.mkOption {
@@ -89,18 +97,15 @@
 
       config = lib.mkMerge [
         {
-          ai.contextFile = contextFile;
+          ai = { inherit contextFile finalSkills; };
 
           # TODO: remove when packages are automatically injected into all the harnesses
           home.packages = cfg.extraPackages;
 
           home.file =
             lib.mapAttrs' (
-              name: source:
-              lib.nameValuePair ".agents/skills/${name}" {
-                source = formatSkill name source;
-              }
-            ) cfg.skills
+              name: source: lib.nameValuePair ".agents/skills/${name}" { inherit source; }
+            ) finalSkills
             // lib.optionalAttrs (cfg.context != [ ]) {
               ".agents/AGENTS.md".source = contextFile;
             };
