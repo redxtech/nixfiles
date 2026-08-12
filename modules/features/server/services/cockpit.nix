@@ -12,6 +12,7 @@
       }:
       let
         inherit (config.networking) fqdn hostName;
+        inherit (host.settings.tailscale) tailnet;
         cfg = host.settings.base;
       in
       {
@@ -41,6 +42,8 @@
             "wss://${fqdn}"
             "https://cockpit.${fqdn}"
             "wss://cockpit.${fqdn}"
+            "https://cockpit.${tailnet}"
+            "wss://cockpit.${tailnet}"
           ];
 
           settings.WebService = {

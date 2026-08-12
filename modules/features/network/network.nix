@@ -29,19 +29,24 @@
         domainHost = lib.findFirst (
           host: self.nixosConfigurations.${host}.config.network.isHost
         ) null realHosts;
+
+        serviceNames = lib.attrNames cfg.services;
+        invalidServiceNames = lib.filter (
+          name: builtins.match "[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?" name == null
+        ) serviceNames;
       in
       {
         options.network = {
           services = lib.mkOption {
             type = lib.types.attrsOf lib.types.port;
             default = { };
-            description = "Services to enable port assignments";
+            description = "Local HTTP services keyed by DNS-safe service name and assigned loopback port.";
           };
 
           finalServices = lib.mkOption {
             type = lib.types.attrsOf lib.types.port;
             readOnly = true;
-            description = "Final combined set of services";
+            description = "Resolved local HTTP service catalog shared by ingress providers.";
           };
 
           isHost = lib.mkOption {
@@ -63,12 +68,21 @@
           };
         };
 
-        config.network = {
-          ip = hostCfg.ip;
+        config = {
+          assertions = [
+            {
+              assertion = invalidServiceNames == [ ];
+              message = "network.services contains invalid DNS labels: ${toString invalidServiceNames}";
+            }
+          ];
 
-          hostIP = lib.mkIf (!cfg.isHost) self.nixosConfigurations.${domainHost}.config.network.hostIP;
+          network = {
+            ip = hostCfg.ip;
 
-          finalServices = cfg.services;
+            hostIP = lib.mkIf (!cfg.isHost) self.nixosConfigurations.${domainHost}.config.network.hostIP;
+
+            finalServices = cfg.services;
+          };
         };
       };
 

@@ -36,5 +36,23 @@
 
         sops.secrets.tailscale-init-authkey.sopsFile = ../../../secrets/hosts/common/secrets.yaml;
       };
+
+    provides.server.nixos =
+      { config, ... }:
+      let
+        services = config.network.finalServices;
+        mkServeService = port: {
+          endpoints."tcp:443" = "http://127.0.0.1:${toString port}";
+          advertised = true;
+        };
+      in
+      lib.mkIf (services != { }) {
+        # the service keys become stable tailnet DNS names. nix owns the
+        # complete serve configuration, so removing a key removes its route.
+        services.tailscale.serve = {
+          enable = true;
+          services = lib.mapAttrs (_name: port: mkServeService port) services;
+        };
+      };
   };
 }

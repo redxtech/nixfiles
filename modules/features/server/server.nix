@@ -107,6 +107,7 @@
       den.aspects.stirling-pdf
       den.aspects.syncthing
       den.aspects.tautulli
+      den.aspects.tailscale._.server
       den.aspects.traefik._.server
       den.aspects.tubearchivist
       # disable until back to beach house

@@ -7,6 +7,7 @@
     { config, host, ... }:
     let
       inherit (config.networking) fqdn;
+      inherit (host.settings.tailscale) tailnet;
       port = 8082;
     in
     {
@@ -19,6 +20,7 @@
 
         allowedHosts = lib.concatStringsSep "," [
           "home.${fqdn}"
+          "home.${tailnet}"
           "quasar:${toString port}"
         ];
 
