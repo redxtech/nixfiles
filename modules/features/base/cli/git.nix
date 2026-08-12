@@ -145,15 +145,21 @@
       programs.worktrunk = {
         enable = true;
 
-        settings.commit.generation = {
-          command = "PI_SKIP_VERSION_CHECK=1 ${lib.getExe config.programs.pi-coding-agent.package} --print --no-session --model openai-codex/gpt-5.6-luna --thinking low --no-tools --no-extensions --no-skills --no-prompt-templates --no-context-files --system-prompt ''";
-          template-append = ''
-            - Use Conventional Commits (`type: subject` or `type(scope): subject`) by default.
-            - Only use another format when the recent commit history consistently uses it. If history is empty or mixed, use Conventional Commits.
-            - Keep the subject concise but descriptive. Name the features added or the behavior changed/fixed; do not summarize file counts or use vague subjects such as "change files".
-          '';
+        settings = {
+          merge.squash = false;
+          commit.generation = {
+            command = "PI_SKIP_VERSION_CHECK=1 ${lib.getExe config.programs.pi-coding-agent.package} --print --no-session --model openai-codex/gpt-5.6-luna --thinking low --no-tools --no-extensions --no-skills --no-prompt-templates --no-context-files --system-prompt ''";
+            template-append = ''
+              - Use Conventional Commits (`type: subject` or `type(scope): subject`) by default.
+              - Only use another format when the recent commit history consistently uses it. If history is empty or mixed, use Conventional Commits.
+              - Keep the subject concise but descriptive. Name the features added or the behavior changed/fixed; do not summarize file counts or use vague subjects such as "change files".
+              - Avoid the use of capitals unless using an acronym.
+            '';
+          };
         };
       };
+
+      home.shellAliases.wsc = "wt switch --create --execute=pi";
 
       # programs.gh-dash.enable = true;
       # programs.git-cliff.enable = true;
