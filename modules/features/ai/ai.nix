@@ -292,6 +292,7 @@
             gitbutler # git client
             hunk # review-first diff viewer
             omp # oh-my-pi
+            self'.packages.orca # agent orchestration
             paseo-desktop # agent orchestration
             prime-agent # RLM agent
             rtk # token consumption optimization

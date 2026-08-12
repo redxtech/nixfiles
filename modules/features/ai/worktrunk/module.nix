@@ -8,12 +8,19 @@
     }:
     let
       cfg = config.programs.worktrunk;
+      tomlFormat = pkgs.formats.toml { };
     in
     {
       options.programs.worktrunk = {
         enable = lib.mkEnableOption "Worktrunk";
 
         package = lib.mkPackageOption pkgs "worktrunk" { };
+
+        settings = lib.mkOption {
+          inherit (tomlFormat) type;
+          default = { };
+          description = "Worktrunk user configuration written to {file}`$XDG_CONFIG_HOME/worktrunk/config.toml`{/file}.";
+        };
 
         enableBashIntegration = lib.mkEnableOption "Bash integration" // {
           default = config.programs.bash.enable;
@@ -36,6 +43,11 @@
           {
             home.packages = [ cfg.package ];
           }
+
+          (lib.mkIf (cfg.settings != { }) {
+            xdg.configFile."worktrunk/config.toml".source =
+              tomlFormat.generate "worktrunk-config.toml" cfg.settings;
+          })
 
           (lib.mkIf cfg.enableBashIntegration {
             programs.bash.initExtra = ''
