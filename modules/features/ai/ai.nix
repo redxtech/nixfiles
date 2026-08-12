@@ -152,8 +152,20 @@
         config = {
           ai = {
             agents = {
-              hickey = agency + "/.apm/agents/hickey.md";
-              lowy = agency + "/.apm/agents/lowy.md";
+              hickey = {
+                source = agency + "/.apm/agents/hickey.md";
+                frontmatter = {
+                  auto-exit = true;
+                  model = "openai-codex/gpt-5.6-terra";
+                };
+              };
+              lowy = {
+                source = agency + "/.apm/agents/lowy.md";
+                frontmatter = {
+                  auto-exit = true;
+                  model = "openai-codex/gpt-5.6-terra";
+                };
+              };
               technical-writer = ./agents/technical-writer.md;
               scout = {
                 source = ./agents/scout.md;
