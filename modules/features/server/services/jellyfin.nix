@@ -35,7 +35,7 @@
           }
           // {
             JELLYFIN_PublishedServerUrl = "jellyfin.${config.networking.fqdn}";
-            NVIDIA_VISIBLE_DEVICES = "all";
+            # NVIDIA_VISIBLE_DEVICES = "all";
           };
         ports = [
           (mkPorts 8096)

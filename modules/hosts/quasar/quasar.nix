@@ -68,7 +68,7 @@
 
         tunnel.id = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
 
-        gpu.nvidia.enable = true;
+        # gpu.nvidia.enable = true;
       };
   };
 
@@ -77,13 +77,13 @@
       den.aspects.quasar-fs
       den.aspects.server
       den.aspects.tunnel
-      den.aspects.gpu
+      # den.aspects.gpu
     ];
 
     nixos = { config, ... }: {
       imports = with inputs.nixos-hardware.nixosModules; [
         common-cpu-intel-cpu-only
-        common-gpu-nvidia-nonprime
+        # common-gpu-nvidia-nonprime
         common-pc-ssd
       ];
 
@@ -92,11 +92,11 @@
         detected.dhcp.enable = false;
       };
 
-      hardware.nvidia = {
-        branch = "legacy_580";
-        nvidiaSettings = false;
-        open = false;
-      };
+      # hardware.nvidia = {
+      #   branch = "legacy_580";
+      #   nvidiaSettings = false;
+      #   open = false;
+      # };
 
       backup.restic = {
         enable = true;
