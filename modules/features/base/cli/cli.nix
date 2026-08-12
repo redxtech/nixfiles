@@ -91,6 +91,7 @@
             # appimage-run
             atool # archive tools
             bitwarden-cli # password manager
+            bws # bitwarden secrets manager
             cachix # nix cache
             # catdoc # word docs -> text
             comma # run nix commands with ,

@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, inputs', ... }:
+    {
+      inputs',
+      self',
+      pkgs,
+      ...
+    }:
     {
       devShells.default = pkgs.mkShell {
         packages = with pkgs; [
@@ -11,8 +16,11 @@
           # secrets
           age
           age-plugin-yubikey
+          bitwarden-cli
+          bws
           ssh-to-age
           sops
+          self'.packages.secretspec
 
           # nix specific tooling
           nil
