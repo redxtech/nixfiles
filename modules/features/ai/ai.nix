@@ -155,6 +155,12 @@
               hickey = agency + "/.apm/agents/hickey.md";
               lowy = agency + "/.apm/agents/lowy.md";
               technical-writer = ./agents/technical-writer.md;
+              scout = {
+                source = ./agents/scout.md;
+                frontmatter = {
+                  model = "openai-codex/gpt-5.4-mini";
+                };
+              };
             };
 
             skills =
