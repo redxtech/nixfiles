@@ -12,6 +12,7 @@ order = [ "Primary" ]
         "sysmon_cpu_temp",
         "sysmon_gpu",
         "ram",
+        "bar_2",
         "tray",
         "status_2",
         "status",
@@ -201,6 +202,9 @@ background_opacity = 1.0
 orientation = "vertical"
 position_vertical = "top_right"
 
+[plugin_settings."icefish/phone-connect"]
+battery_display = "percent"
+
 [plugin_settings."noctalia/screen_recorder"]
 audio_source = "both"
 filename_pattern = "recording_%Y%m%d_%H%M%S"
@@ -328,6 +332,10 @@ title_scroll = "on_hover"
 [widget.bar]
 capsule = true
 enabled = false
+type = "icefish/phone-connect:bar"
+
+[widget.bar_2]
+capsule = true
 type = "icefish/phone-connect:bar"
 
 [widget.battery]

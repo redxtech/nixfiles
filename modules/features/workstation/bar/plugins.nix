@@ -11,6 +11,7 @@
       }:
       {
         home.packages = with pkgs; [
+          glib # gdbus for plugins
           gpu-screen-recorder # for screen recorder plugin
           qt6.qtwebsockets # for home assistant plugin
         ];
