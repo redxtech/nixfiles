@@ -4,6 +4,8 @@
   den.aspects.git.homeManager =
     { config, pkgs, ... }:
     {
+      imports = [ self.homeManagerModules.worktrunk ];
+
       home.packages = with pkgs; [
         delta # better git diffs
         git-filter-repo # rewrite git history
@@ -134,6 +136,8 @@
           disableStartupPopups = true;
         };
       };
+
+      programs.worktrunk.enable = true;
 
       # programs.gh-dash.enable = true;
       # programs.git-cliff.enable = true;

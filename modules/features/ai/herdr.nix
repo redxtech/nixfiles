@@ -1,6 +1,6 @@
 {
   den.aspects.herdr = {
-    homeManager = { inputs', ... }: {
+    homeManager = { inputs', self', ... }: {
       programs.herdr = {
         enable = true;
         package = inputs'.llm-agents.packages.herdr;
@@ -23,6 +23,8 @@
           };
         };
       };
+
+      home.packages = [ self'.packages.wt-herdr ];
     };
   };
 }
