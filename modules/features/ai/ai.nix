@@ -56,6 +56,13 @@
           hash = "sha256-/Kr3cMaN81WXFxgWMNt/QQhEMzuu3e3WJpspqjrnPss=";
         };
 
+        draculaPi = pkgs.fetchFromGitHub {
+          owner = "dracula";
+          repo = "pi-coding-agent";
+          rev = "4636a603d3c96395732a73ac84d1e7dee1368a55"; # main
+          hash = "sha256-y3Gs79qBmyAdeSxEz2vYnOLkv+cT4jqFeJ2S8TFNMzA=";
+        };
+
         aiSlopCure = pkgs.fetchFromGitHub {
           owner = "woosal1337";
           repo = "blog";
@@ -221,12 +228,16 @@
             ]);
           };
 
-          home.file = builtins.listToAttrs (
-            map (name: {
-              name = ".agents/skills/${name}";
-              value.force = true;
-            }) obsidianSkillNames
-          );
+          home.file =
+            builtins.listToAttrs (
+              map (name: {
+                name = ".agents/skills/${name}";
+                value.force = true;
+              }) obsidianSkillNames
+            )
+            // {
+              ".pi/agent/themes/dracula.json".source = draculaPi + "/dracula.json";
+            };
 
           programs.codex.enable = true;
 
@@ -276,6 +287,7 @@
             hunk # review-first diff viewer
             omp # oh-my-pi
             paseo-desktop # agent orchestration
+            prime-agent # RLM agent
             rtk # token consumption optimization
             skills # vercel skills installer
 
