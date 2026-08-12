@@ -92,6 +92,7 @@
       den.aspects.node-red
       den.aspects.pocket-id
       den.aspects.paperless
+      den.aspects.papra
       den.aspects.plex
       den.aspects.portainer
       den.aspects.prometheus

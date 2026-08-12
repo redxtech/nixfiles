@@ -281,6 +281,8 @@
             '';
           };
 
+          home.environment.PI_SUBAGENT_HERDR_PLACEMENT = "tab";
+
           services.paseo = {
             enable = true;
             package = self'.packages.paseo;

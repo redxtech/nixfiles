@@ -37,6 +37,7 @@
           navidrome = secretFiles.containers;
           node-red = secretFiles.home-assistant;
           paperless = secretFiles.containers;
+          papra = secretFiles.containers;
           pocket-id = secretFiles.containers;
           qdirstat = secretFiles.containers;
           qui = secretFiles.containers;
