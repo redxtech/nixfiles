@@ -125,6 +125,7 @@
 
       den.aspects.ai
       den.aspects.agentsview
+      den.aspects.drishti._.drishti-host
       den.aspects.gpu
       den.aspects.hermes
       den.aspects.network-mounts
