@@ -8,15 +8,29 @@
       description = "The tailnet to use.";
     };
 
+    settings.advertiseTags = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = "Tailscale tags advertised by this host.";
+    };
+
     nixos =
-      { config, lib, ... }:
+      {
+        config,
+        host,
+        lib,
+        ...
+      }:
       {
         services.tailscale =
           let
             flags = [
               "--advertise-exit-node"
               "--ssh"
-            ];
+            ]
+            ++ lib.optional (
+              host.settings.tailscale.advertiseTags != [ ]
+            ) "--advertise-tags=${lib.concatStringsSep "," host.settings.tailscale.advertiseTags}";
           in
           {
             enable = true;
@@ -40,7 +54,14 @@
     provides.server.nixos =
       { config, ... }:
       let
-        services = config.network.finalServices;
+        docktailServiceNames = lib.filter (name: name != null) (
+          lib.mapAttrsToList (
+            _containerName: container: lib.attrByPath [ "labels" "docktail.service.name" ] null container
+          ) config.virtualisation.oci-containers.containers
+        );
+        # docktail owns labeled OCI services; avoid configuring the same
+        # tailscale service through both the native serve module and docktail.
+        services = removeAttrs config.network.finalServices docktailServiceNames;
         mkServeService = port: {
           endpoints."tcp:443" = "http://127.0.0.1:${toString port}";
           advertised = true;

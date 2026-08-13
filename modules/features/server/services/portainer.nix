@@ -17,7 +17,8 @@
       let
         inherit (config.networking) fqdn;
         inherit (self.lib.containers) mkPorts;
-        inherit (self.lib.containers.labels.traefik fqdn) mkAllLabelsPort;
+        inherit (self.lib.containers.labels.traefik fqdn) mkAllLabels;
+        port = 9000;
 
         base = host.settings.base;
         cfg = host.settings.portainer;
@@ -31,7 +32,7 @@
         virtualisation.oci-containers.containers = {
           portainer = {
             image = "portainer/portainer-ee:latest";
-            labels = mkAllLabelsPort "portainer" 9000 {
+            labels = mkAllLabels "portainer" port {
               name = "portainer";
               group = "admin";
               icon = "portainer.svg";
@@ -47,7 +48,7 @@
             };
             ports = [
               "8000:8000"
-              (mkPorts 9000)
+              (mkPorts port)
             ];
             volumes = [
               "/var/run/docker.sock:/var/run/docker.sock"

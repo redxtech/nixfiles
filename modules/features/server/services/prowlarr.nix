@@ -5,13 +5,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
-      inherit (self.lib.containers) mkPort;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      port = 9696;
+      inherit (self.lib.containers) mkPorts;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.prowlarr = {
         image = "lscr.io/linuxserver/prowlarr:latest";
-        labels = mkAllLabelsPort "prowlarr" 9696 {
+        labels = mkAllLabels "prowlarr" port {
           name = "prowlarr";
           group = "arr";
           icon = "prowlarr.svg";
@@ -29,7 +30,7 @@
           gid = server.gid;
           timeZone = config.time.timeZone;
         };
-        ports = [ (mkPort 9696 9696) ];
+        ports = [ (mkPorts port) ];
         volumes = [
           "${server.configRoot}/prowlarr:/config"
           "${server.downloadsRoot}:/downloads"

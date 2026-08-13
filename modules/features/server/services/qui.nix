@@ -7,13 +7,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 7476;
       inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.qui = {
         image = "ghcr.io/autobrr/qui:latest";
-        labels = mkAllLabels "qui" {
+        labels = mkAllLabels "qui" port {
           name = "qui";
           group = "download";
           icon = "qui.svg";
@@ -28,10 +29,10 @@
             timeZone = config.time.timeZone;
           }
           // {
-            QUI__PORT = "7476";
+            QUI__PORT = toString port;
           };
         environmentFiles = [ config.sops.secrets.qui_env.path ];
-        ports = [ (mkPorts 7476) ];
+        ports = [ (mkPorts port) ];
         volumes = [ ((self.lib.server.volumes server).config "qui") ];
       };
 

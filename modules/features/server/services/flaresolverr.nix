@@ -5,13 +5,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8191;
       inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.flaresolverr = {
         image = "ghcr.io/flaresolverr/flaresolverr:latest";
-        labels = mkAllLabels "flaresolverr" {
+        labels = mkAllLabels "flaresolverr" port {
           name = "flaresolverr";
           group = "arr";
           icon = "flaresolverr.svg";
@@ -29,7 +30,7 @@
             LOG_HTML = "false";
             CAPTCHA_SOLVER = "none";
           };
-        ports = [ (mkPorts 8191) ];
+        ports = [ (mkPorts port) ];
       };
     };
 }

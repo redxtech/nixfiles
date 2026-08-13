@@ -7,15 +7,16 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 9130;
       inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
-      monitoring.scrapeTargets.unpoller = 9130;
+      monitoring.scrapeTargets.unpoller = port;
 
       virtualisation.oci-containers.containers.unpoller = {
         image = "ghcr.io/unpoller/unpoller:latest";
-        labels = mkAllLabels "unpoller" {
+        labels = mkAllLabels "unpoller" port {
           name = "unpoller";
           group = "services";
           icon = "https://i.imgur.com/VBHV26V.png";
@@ -34,7 +35,7 @@
             UP_UNIFI_DEFAULT_SAVE_DPI = "true";
           };
         environmentFiles = [ config.sops.secrets."unpoller.env".path ];
-        ports = [ (mkPorts 9130) ];
+        ports = [ (mkPorts port) ];
         volumes = [ ((self.lib.server.volumes server).config "unpoller") ];
       };
 

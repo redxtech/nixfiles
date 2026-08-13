@@ -5,13 +5,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8080;
       inherit (self.lib.containers) mkPort;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.bento = {
         image = "bentopdf/bentopdf:latest";
-        labels = mkAllLabels "bento" {
+        labels = mkAllLabels "bento" port {
           name = "bento";
           group = "utils";
           icon = "bentopdf.svg";
@@ -23,7 +24,7 @@
           gid = server.gid;
           timeZone = config.time.timeZone;
         };
-        ports = [ (mkPort 8282 8080) ];
+        ports = [ (mkPort 8282 port) ];
       };
     };
 }

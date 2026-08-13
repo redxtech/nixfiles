@@ -36,6 +36,14 @@ rec {
     in
     mainLabels // widgetLabels;
 
+  # docktail labels for tailscale serve
+  mkTailscaleLabels = name: port: {
+    "docktail.service.enable" = "true";
+    "docktail.service.name" = name;
+    "docktail.service.port" = toString port;
+    "docktail.service.service-port" = "443";
+  };
+
   # traefik labels
   traefik = fqdn: rec {
     mkTLstr = name: type: "traefik.http.${type}.${name}"; # make traefik label
@@ -57,9 +65,8 @@ rec {
       };
 
     # combined labels
-    mkAllLabels = name: service: (mkLabels name) // mkHomepage service;
-    mkAllLabelsPort =
+    mkAllLabels =
       name: port: service:
-      mkLabelsPort name port // mkHomepage service;
+      mkLabelsPort name port // mkTailscaleLabels name port // mkHomepage service;
   };
 }

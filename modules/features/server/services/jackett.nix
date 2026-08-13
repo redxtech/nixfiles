@@ -6,13 +6,14 @@
     let
       server = host.settings.server;
       volumes = self.lib.server.volumes server;
-      inherit (self.lib.containers) mkPort;
+      port = 9117;
+      inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
-        labels = mkAllLabels "jackett" {
+        labels = mkAllLabels "jackett" port {
           name = "jackett";
           group = "arr";
           icon = "jackett.svg";
@@ -28,7 +29,7 @@
           // {
             AUTO_UPDATE = "true";
           };
-        ports = [ (mkPort 9117 9117) ];
+        ports = [ (mkPorts port) ];
         volumes = [
           (volumes.config "jackett")
           volumes.allDownloads

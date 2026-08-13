@@ -7,9 +7,12 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      httpPort = 8805;
+      httpsPort = 8804;
       inherit (self.lib.containers) mkPort mkPorts;
+      inherit (self.lib.containers.labels) mkTailscaleLabels;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn)
-        mkAllLabelsPort
+        mkAllLabels
         mkTLHstr
         mkTLRstr
         mkTLSstr
@@ -21,7 +24,7 @@
       virtualisation.oci-containers.containers.calibre = {
         image = "lscr.io/linuxserver/calibre:latest";
         labels =
-          mkAllLabelsPort "calibre" 8804 {
+          mkAllLabels "calibre" httpsPort {
             name = "calibre";
             group = "books";
             icon = "calibre.svg";
@@ -29,6 +32,7 @@
             desc = "ebook manager";
             weight = -80;
           }
+          // mkTailscaleLabels "calibre" httpPort
           // {
             "${mkTLSstr "calibre"}.loadbalancer.serverstransport" = "ignorecert@file";
             "${mkTLSstr "calibre"}.loadbalancer.server.scheme" = "https";
@@ -46,12 +50,12 @@
           // {
             FILE__CUSTOM_USER = config.sops.secrets.calibre_user.path;
             FILE__PASSWORD = config.sops.secrets.calibre_pw.path;
-            CUSTOM_PORT = "8805";
-            CUSTOM_HTTPS_PORT = "8804";
+            CUSTOM_PORT = toString httpPort;
+            CUSTOM_HTTPS_PORT = toString httpsPort;
           };
         ports = [
-          (mkPorts 8805)
-          (mkPorts 8804)
+          (mkPorts httpPort)
+          (mkPorts httpsPort)
           (mkPorts 8808)
           (mkPort 8806 8081)
         ];

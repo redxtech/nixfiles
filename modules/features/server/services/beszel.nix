@@ -7,6 +7,7 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8090;
       inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
@@ -14,7 +15,7 @@
       virtualisation.oci-containers.containers = {
         beszel = {
           image = "henrygd/beszel:latest";
-          labels = mkAllLabels "beszel" {
+          labels = mkAllLabels "beszel" port {
             name = "beszel";
             group = "monitoring";
             icon = "beszel.svg";
@@ -23,7 +24,7 @@
             weight = -70;
             widget = {
               type = "beszel";
-              url = "http://${config.networking.hostName}:8090";
+              url = "http://${config.networking.hostName}:${toString port}";
               username = "{{HOMEPAGE_VAR_BESZEL_USER}}";
               password = "{{HOMEPAGE_VAR_BESZEL_PASS}}";
               systemId = "{{HOMEPAGE_VAR_BESZEL_SYSTEMID}}";
@@ -31,7 +32,7 @@
             };
           };
           environment.APP_URL = "https://beszel.${config.networking.fqdn}";
-          ports = [ (mkPorts 8090) ];
+          ports = [ (mkPorts port) ];
           volumes = [ "${server.configRoot}/beszel:/beszel_data" ];
         };
 
@@ -39,7 +40,7 @@
           image = "henrygd/beszel-agent:latest";
           environment = {
             LISTEN = "/beszel_socket/beszel.sock";
-            HUB_URL = "http://localhost:8090";
+            HUB_URL = "http://localhost:${toString port}";
           };
           environmentFiles = [ config.sops.secrets.beszel_env.path ];
           volumes = [

@@ -51,6 +51,11 @@
       in
       lib.mapAttrs (_: secretsFile: { inherit secretsFile; }) aspectSecretsFiles
       // {
+        docktail = {
+          secretsFile = secretFiles.containers;
+          serviceTags = [ "tag:internal-service" ];
+        };
+
         influxdb = {
           secretsFile = secretFiles.home-assistant;
           grafanaSecretsFile = secretFiles.shared;
@@ -66,6 +71,8 @@
         network.ip = "192.168.50.208";
 
         portainer.dataDir = "/pool/data/portainer";
+
+        tailscale.advertiseTags = [ "tag:server" ];
 
         tunnel.id = "7f867cbe-8898-4ff6-be4c-8a3ab626b456";
 

@@ -5,13 +5,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8181;
       inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.tautulli = {
         image = "lscr.io/linuxserver/tautulli:latest";
-        labels = mkAllLabels "tautulli" {
+        labels = mkAllLabels "tautulli" port {
           name = "tautulli";
           group = "monitoring";
           icon = "tautulli.svg";
@@ -23,7 +24,7 @@
           gid = server.gid;
           timeZone = config.time.timeZone;
         };
-        ports = [ (mkPorts 8181) ];
+        ports = [ (mkPorts port) ];
         volumes = [
           ((self.lib.server.volumes server).config "tautulli")
           "${server.configRoot}/plex/Plex Media Server/Logs:/Logs"

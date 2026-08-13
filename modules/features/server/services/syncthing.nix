@@ -6,8 +6,9 @@
     let
       server = host.settings.server;
       volumes = self.lib.server.volumes server;
+      port = 8384;
       inherit (self.lib.containers) mkPorts;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.syncthing = {
@@ -17,7 +18,7 @@
           gid = server.gid;
           timeZone = config.time.timeZone;
         };
-        labels = mkAllLabelsPort "syncthing" 8384 {
+        labels = mkAllLabels "syncthing" port {
           name = "syncthing";
           group = "services";
           icon = "syncthing.svg";
@@ -25,7 +26,7 @@
           desc = "file syncing";
         };
         ports = [
-          (mkPorts 8384)
+          (mkPorts port)
           "22000:22000/tcp"
           "22000:22000/udp"
           "21027:21027/udp"

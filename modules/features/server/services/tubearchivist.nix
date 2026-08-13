@@ -13,6 +13,8 @@
         gid = server.gid;
         timeZone = config.time.timeZone;
       };
+      inherit (host.settings.tailscale) tailnet;
+      port = 8000;
       inherit (self.lib.containers) mkPort;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
@@ -22,7 +24,7 @@
         containers = {
           tubearchivist = {
             image = "bbilly1/tubearchivist:latest";
-            labels = mkAllLabels "tubearchivist" {
+            labels = mkAllLabels "tubearchivist" port {
               name = "tubearchivist";
               group = "download";
               icon = "tube-archivist.png";
@@ -34,10 +36,10 @@
               REDIS_CON = "redis://tubearchivist-redis:6379";
               HOST_UID = toString server.uid;
               HOST_GID = toString server.gid;
-              TA_HOST = "https://tubearchivist.${config.networking.fqdn}";
+              TA_HOST = "https://tubearchivist.${config.networking.fqdn} https://tubearchivist.${tailnet}";
             };
             environmentFiles = [ config.sops.secrets.tubearchivist_env.path ];
-            ports = [ (mkPort 8898 8000) ];
+            ports = [ (mkPort 8898 port) ];
             volumes = [
               "${server.configRoot}/tubearchivist/cache:/cache"
               "${server.mediaRoot}/yt:/youtube"

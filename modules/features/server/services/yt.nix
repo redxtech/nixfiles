@@ -6,13 +6,14 @@
     let
       server = host.settings.server;
       path = "${server.configRoot}/yt";
+      port = 8899;
       inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.yt = {
         image = "ghcr.io/feederbox826/stash-s6:hwaccel-alpine";
-        labels = mkAllLabels "yt" {
+        labels = mkAllLabels "yt" port {
           name = "youtube";
           group = "media";
           icon = "youtube.svg";
@@ -27,14 +28,14 @@
             timeZone = config.time.timeZone;
           }
           // {
-            STASH_PORT = "8899";
+            STASH_PORT = toString port;
             STASH_STASH = "/data/";
             STASH_GENERATED = "/generated/";
             STASH_METADATA = "/metadata/";
             STASH_CACHE = "/cache/";
             INSTALL_PY_DEPS = "true";
           };
-        ports = [ (mkPorts 8899) ];
+        ports = [ (mkPorts port) ];
         volumes = [
           "/etc/localtime:/etc/localtime:ro"
           "${server.mediaRoot}/yt:/yt"

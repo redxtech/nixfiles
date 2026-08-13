@@ -5,6 +5,7 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8080;
       inherit (self.lib.containers) mkPort;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
       devices = map (name: "/dev/${name}") [
@@ -28,7 +29,7 @@
     {
       virtualisation.oci-containers.containers.scrutiny = {
         image = "ghcr.io/analogj/scrutiny:master-omnibus";
-        labels = mkAllLabels "scrutiny" {
+        labels = mkAllLabels "scrutiny" port {
           name = "scrutiny";
           group = "monitoring";
           icon = "scrutiny.svg";
@@ -40,7 +41,7 @@
           gid = server.gid;
           timeZone = config.time.timeZone;
         };
-        ports = [ (mkPort 6080 8080) ];
+        ports = [ (mkPort 6080 port) ];
         volumes = [
           "/run/udev:/run/udev:ro"
           "${server.configRoot}/scrutiny:/opt/scrutiny/config"

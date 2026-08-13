@@ -7,6 +7,7 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8083;
       inherit (self.lib.containers) mkPorts;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels mkTLRstr;
     in
@@ -14,7 +15,7 @@
       virtualisation.oci-containers.containers.calibre-web = {
         image = "crocodilestick/calibre-web-automated:latest";
         labels =
-          mkAllLabels "books" {
+          mkAllLabels "books" port {
             name = "calibre web";
             group = "books";
             icon = "calibre-web.svg";
@@ -42,7 +43,7 @@
             INSTALL_PIP_PACKAGES = "jsonschema";
           };
         environmentFiles = [ config.sops.secrets.CALIBRE_WEB_HARDCOVER_KEY.path ];
-        ports = [ (mkPorts 8083) ];
+        ports = [ (mkPorts port) ];
         volumes = [
           ((self.lib.server.volumes server).config "calibre-web")
           "${server.configRoot}/calibre/Calibre Library:/calibre-library"

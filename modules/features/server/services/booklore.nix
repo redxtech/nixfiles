@@ -12,8 +12,9 @@
         gid = server.gid;
         timeZone = config.time.timeZone;
       };
+      port = 6060;
       inherit (self.lib.containers) mkPorts;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers = {
@@ -21,7 +22,7 @@
         containers = {
           booklore = {
             image = "booklore/booklore:latest";
-            labels = mkAllLabelsPort "booklore" 6060 {
+            labels = mkAllLabels "booklore" port {
               name = "booklore";
               group = "books";
               icon = "book-lore.svg";
@@ -30,10 +31,10 @@
               weight = -100;
             };
             environment = environment // {
-              BOOKLORE_PORT = "6060";
+              BOOKLORE_PORT = toString port;
             };
             environmentFiles = [ config.sops.secrets.booklore_env.path ];
-            ports = [ (mkPorts 6060) ];
+            ports = [ (mkPorts port) ];
             volumes = [
               "${server.configRoot}/booklore/config:/data"
               "${server.configRoot}/booklore/bookdrop:/bookdrop"

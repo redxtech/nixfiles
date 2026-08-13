@@ -5,13 +5,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 80;
       inherit (self.lib.containers) mkPort;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.signaturepdf = {
         image = "ghcr.io/redxtech/signaturepdf:master";
-        labels = mkAllLabels "pdf" {
+        labels = mkAllLabels "pdf" port {
           name = "pdf";
           group = "utils";
           icon = "mdi-signature";
@@ -31,7 +32,7 @@
             DEFAULT_LANGUAGE = "en_CA.UTF-8";
             PDF_STORAGE_ENCRYPTION = "true";
           };
-        ports = [ (mkPort 9208 80) ];
+        ports = [ (mkPort 9208 port) ];
         volumes = [ ((self.lib.server.volumes server).data "pdf") ];
       };
     };

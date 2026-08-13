@@ -7,13 +7,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8080;
       inherit (self.lib.containers) mkPort;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.watchtower = {
         image = "nickfedor/watchtower:latest";
-        labels = mkAllLabels "watchtower" {
+        labels = mkAllLabels "watchtower" port {
           name = "watchtower";
           group = "services";
           icon = "watchtower.svg";
@@ -37,7 +38,7 @@
             WATCHTOWER_HTTP_API_METRICS = "true";
           };
         environmentFiles = [ config.sops.secrets.watchtower_env.path ];
-        ports = [ (mkPort 3400 8080) ];
+        ports = [ (mkPort 3400 port) ];
         volumes = [ "/var/run/docker.sock:/var/run/docker.sock" ];
       };
 

@@ -7,6 +7,8 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      inherit (host.settings.tailscale) tailnet;
+      port = 8000;
       inherit (self.lib.containers) mkPort;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
@@ -16,7 +18,7 @@
         containers = {
           paperless = {
             image = "ghcr.io/paperless-ngx/paperless-ngx:latest";
-            labels = mkAllLabels "docs" {
+            labels = mkAllLabels "docs" port {
               name = "paperless";
               group = "media";
               icon = "paperless.svg";
@@ -37,11 +39,14 @@
                 timeZone = config.time.timeZone;
               }
               // {
+                PAPERLESS_ALLOWED_HOSTS = "docs.${tailnet}";
+                PAPERLESS_CORS_ALLOWED_HOSTS = "https://docs.${tailnet}";
+                PAPERLESS_CSRF_TRUSTED_ORIGINS = "https://docs.${tailnet}";
                 PAPERLESS_URL = "https://docs.${config.networking.fqdn}";
                 PAPERLESS_REDIS = "redis://paperless-redis:6379";
               };
             environmentFiles = [ config.sops.secrets.paperless_env.path ];
-            ports = [ (mkPort 9200 8000) ];
+            ports = [ (mkPort 9200 port) ];
             volumes = [
               "${server.configRoot}/paperless-ngx:/usr/src/paperless/data"
               "${server.dataRoot}/paperless-ngx/media:/usr/src/paperless/media"

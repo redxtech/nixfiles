@@ -5,15 +5,16 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8095;
       inherit (self.lib.containers) mkPorts;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
-      network.services.mass = 8095;
+      network.services.mass = port;
 
       virtualisation.oci-containers.containers.mass = {
         image = "ghcr.io/music-assistant/server:latest";
-        labels = mkAllLabelsPort "mass" 8095 {
+        labels = mkAllLabels "mass" port {
           name = "music assistant";
           group = "home";
           icon = "sh-music-assistant.svg";
@@ -22,7 +23,7 @@
           weight = -70;
         };
         ports = map mkPorts [
-          8095
+          port
           8097
           5090
           5091
@@ -40,7 +41,7 @@
       };
 
       networking.firewall.allowedTCPPorts = [
-        8095
+        port
         8097
       ];
     };

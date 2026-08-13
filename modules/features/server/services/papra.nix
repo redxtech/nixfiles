@@ -11,12 +11,12 @@
       configDir = "${server.configRoot}/papra";
       url = "https://papra.${config.networking.fqdn}";
       inherit (self.lib.containers) mkPorts;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.papra = {
         image = "ghcr.io/papra-hq/papra:26.6.1-rootless";
-        labels = mkAllLabelsPort "papra" port {
+        labels = mkAllLabels "papra" port {
           name = "papra";
           group = "media";
           icon = "papra.svg";

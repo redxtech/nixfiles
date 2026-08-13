@@ -5,13 +5,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 8000;
       inherit (self.lib.containers) mkPort;
       inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.apprise = {
         image = "lscr.io/linuxserver/apprise-api:latest";
-        labels = mkAllLabels "apprise" {
+        labels = mkAllLabels "apprise" port {
           name = "apprise";
           group = "services";
           icon = "mdi-bullhorn";
@@ -23,7 +24,7 @@
           gid = server.gid;
           timeZone = config.time.timeZone;
         };
-        ports = [ (mkPort 9005 8000) ];
+        ports = [ (mkPort 9005 port) ];
         volumes = [ ((self.lib.server.volumes server).config "apprise") ];
       };
     };

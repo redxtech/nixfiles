@@ -6,13 +6,14 @@
     let
       server = host.settings.server;
       volumes = self.lib.server.volumes server;
+      port = 8096;
       inherit (self.lib.containers) mkPorts;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.jellyfin = {
         image = "lscr.io/linuxserver/jellyfin:latest";
-        labels = mkAllLabelsPort "jellyfin" 8096 {
+        labels = mkAllLabels "jellyfin" port {
           name = "jellyfin";
           group = "media";
           icon = "jellyfin.svg";
@@ -38,7 +39,7 @@
             # NVIDIA_VISIBLE_DEVICES = "all";
           };
         ports = [
-          (mkPorts 8096)
+          (mkPorts port)
           (mkPorts 8920)
           "${mkPorts 7359}/udp"
         ];

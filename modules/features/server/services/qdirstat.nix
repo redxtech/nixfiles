@@ -7,8 +7,9 @@
     { config, host, ... }:
     let
       server = host.settings.server;
+      port = 9030;
       inherit (self.lib.containers) mkPorts;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
       secretMount = name: "${config.sops.secrets.${name}.path}:${config.sops.secrets.${name}.path}";
     in
     {
@@ -23,16 +24,16 @@
           // {
             FILE__CUSTOM_USER = config.sops.secrets.qdirstat_user.path;
             FILE__PASSWORD = config.sops.secrets.qdirstat_pw.path;
-            CUSTOM_PORT = "9030";
+            CUSTOM_PORT = toString port;
           };
-        labels = mkAllLabelsPort "qdirstat" 9030 {
+        labels = mkAllLabels "qdirstat" port {
           name = "qdirstat";
           group = "utils";
           icon = "qdirstat.svg";
           href = "https://qdirstat.${config.networking.fqdn}";
           desc = "disk usage statistics";
         };
-        ports = [ (mkPorts 9030) ];
+        ports = [ (mkPorts port) ];
         volumes = [
           ((self.lib.server.volumes server).config "qdirstat")
           (secretMount "qdirstat_user")

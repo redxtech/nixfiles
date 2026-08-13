@@ -13,7 +13,7 @@
       server = host.settings.server;
       inherit (config.networking) fqdn;
       inherit (self.lib.containers) mkPorts;
-      inherit (self.lib.containers.labels.traefik fqdn) mkAllLabelsPort mkTLRstr;
+      inherit (self.lib.containers.labels.traefik fqdn) mkAllLabels mkTLRstr;
 
       name = "adguard";
       adguardHost = "${name}.${fqdn}";
@@ -36,7 +36,7 @@
           inherit environment;
 
           labels = removeAttrs (
-            mkAllLabelsPort name port {
+            mkAllLabels name port {
               name = "adguard";
               group = "network";
               icon = "adguard-home.svg";

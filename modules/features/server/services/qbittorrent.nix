@@ -16,7 +16,7 @@
         timeZone = config.time.timeZone;
       };
       inherit (self.lib.containers) mkPorts;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
 
       mkQbittorrent =
         {
@@ -32,7 +32,7 @@
         }:
         {
           image = "lscr.io/linuxserver/qbittorrent:latest";
-          labels = mkAllLabelsPort route webPort {
+          labels = mkAllLabels route webPort {
             inherit name;
             group = "download";
             icon = "qbittorrent.svg";

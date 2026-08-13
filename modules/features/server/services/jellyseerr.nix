@@ -5,13 +5,14 @@
     { config, host, ... }:
     let
       server = host.settings.server;
-      inherit (self.lib.containers) mkPort;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabelsPort;
+      port = 5055;
+      inherit (self.lib.containers) mkPorts;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
     in
     {
       virtualisation.oci-containers.containers.jellyseerr = {
         image = "fallenbagel/jellyseerr:latest";
-        labels = mkAllLabelsPort "jellyseerr" 5055 {
+        labels = mkAllLabels "jellyseerr" port {
           name = "jellyseerr";
           group = "media";
           icon = "jellyseerr.svg";
@@ -29,7 +30,7 @@
           gid = server.gid;
           timeZone = config.time.timeZone;
         };
-        ports = [ (mkPort 5055 5055) ];
+        ports = [ (mkPorts port) ];
         volumes = [ "${server.configRoot}/jellyseerr:/app/config" ];
         networks = [ "host" ];
       };

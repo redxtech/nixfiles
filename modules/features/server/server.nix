@@ -65,6 +65,7 @@
       den.aspects.cockpit
       den.aspects.coredns
       den.aspects.ddclient
+      den.aspects.docktail
       den.aspects.esphome
       den.aspects.flaresolverr
       den.aspects.flood
