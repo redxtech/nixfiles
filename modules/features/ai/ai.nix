@@ -146,6 +146,7 @@
       {
         imports = [
           self.homeManagerModules.ai
+          self.homeManagerModules.orca
           self.homeManagerModules.paseo
         ];
 
@@ -283,6 +284,8 @@
 
           home.sessionVariables.PI_SUBAGENT_HERDR_PLACEMENT = "tab";
 
+          services.orca.enable = true;
+
           services.paseo = {
             enable = true;
             package = self'.packages.paseo;
@@ -306,7 +309,6 @@
             gitbutler # git client
             hunk # review-first diff viewer
             omp # oh-my-pi
-            self'.packages.orca # agent orchestration
             paseo-desktop # agent orchestration
             prime-agent # RLM agent
             rtk # token consumption optimization

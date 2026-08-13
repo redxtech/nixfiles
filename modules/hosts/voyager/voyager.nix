@@ -144,6 +144,7 @@
       boot.initrd.availableKernelModules = [ "usb_storage" ];
     };
 
+    homeManager = { self', ... }: { home.packages = [ self'.packages.orca ]; };
   };
 
   flake-file.inputs.nixos-hardware.url = "github:nixos/nixos-hardware";
