@@ -281,7 +281,7 @@
             '';
           };
 
-          home.environment.PI_SUBAGENT_HERDR_PLACEMENT = "tab";
+          home.sessionVariables.PI_SUBAGENT_HERDR_PLACEMENT = "tab";
 
           services.paseo = {
             enable = true;
