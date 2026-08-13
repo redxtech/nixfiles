@@ -16,8 +16,44 @@
             "--use-github-releases"
             "--version-regex=${regex}"
           ];
-        githubTagWithRegex = regex: nixUpdate [ "--version-regex=${regex}" ];
         githubTag = nixUpdate [ ];
+        githubMatchingTag =
+          {
+            owner,
+            packageName,
+            repo,
+            tagPrefix,
+          }:
+          pkgs.lib.getExe (
+            pkgs.writeShellApplication {
+              name = "update-${packageName}";
+              runtimeInputs = [
+                pkgs.curl
+                pkgs.jq
+                pkgs.nix-update
+              ];
+              text = ''
+                version="$(
+                  curl --fail --silent --show-error \
+                    https://api.github.com/repos/${owner}/${repo}/git/matching-refs/tags/${tagPrefix} \
+                    | jq --exit-status --raw-output --arg prefix 'refs/tags/${tagPrefix}' '
+                      [
+                        .[].ref
+                        | select(startswith($prefix))
+                        | ltrimstr($prefix)
+                        | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$"))
+                        | { text: ., parts: (split(".") | map(tonumber)) }
+                      ]
+                      | sort_by(.parts)
+                      | last
+                      | .text
+                    '
+                )"
+
+                nix-update --flake --version="$version"
+              '';
+            }
+          );
         npm = nixUpdate [ ];
         unstable = nixUpdate [ "--version=branch" ];
 
@@ -59,16 +95,23 @@
                 path = pathlib.Path(sys.argv[1])
                 version, source_hash = sys.argv[2:]
                 text = path.read_text()
-                text, version_replacements = re.subn(
-                    r'(?m)^(          version = ")[^"]+(";)$',
+                marker = "buildHomeAssistantComponent rec {"
+                if text.count(marker) != 1:
+                    raise SystemExit(
+                        f"expected one component marker in {path}, found {text.count(marker)}"
+                    )
+
+                prefix, component = text.split(marker, maxsplit=1)
+                component, version_replacements = re.subn(
+                    r'(?m)^(\s+version = ")[^"]+(";.*)$',
                     rf'\g<1>{version}\g<2>',
-                    text,
+                    component,
                     count=1,
                 )
-                text, hash_replacements = re.subn(
-                    r'(?m)^(            hash = ")[^"]+(";)$',
+                component, hash_replacements = re.subn(
+                    r'(?m)^(\s+hash = ")[^"]+(";.*)$',
                     rf'\g<1>{source_hash}\g<2>',
-                    text,
+                    component,
                     count=1,
                 )
                 if (version_replacements, hash_replacements) != (1, 1):
@@ -76,7 +119,7 @@
                         f"unexpected replacements in {path}: "
                         f"version={version_replacements}, source hash={hash_replacements}"
                     )
-                path.write_text(text)
+                path.write_text(prefix + marker + component)
                 PY
               '';
             }
@@ -132,22 +175,111 @@
         program = lib.getExe (
           pkgs.writeShellApplication {
             name = "update-pkgs";
+            runtimeInputs = [
+              pkgs.coreutils
+              pkgs.git
+              pkgs.nix
+            ];
             text = ''
               failures=()
 
+              snapshot_worktree() {
+                local object_dir="$1"
+                local index_file
+
+                index_file="$(mktemp)"
+                rm -f "$index_file"
+                GIT_ALTERNATE_OBJECT_DIRECTORIES="$repository_objects" \
+                  GIT_INDEX_FILE="$index_file" \
+                  GIT_OBJECT_DIRECTORY="$object_dir" \
+                  git read-tree HEAD
+                GIT_ALTERNATE_OBJECT_DIRECTORIES="$repository_objects" \
+                  GIT_INDEX_FILE="$index_file" \
+                  GIT_OBJECT_DIRECTORY="$object_dir" \
+                  git add -A -- .
+                GIT_ALTERNATE_OBJECT_DIRECTORIES="$repository_objects" \
+                  GIT_INDEX_FILE="$index_file" \
+                  GIT_OBJECT_DIRECTORY="$object_dir" \
+                  git write-tree
+                rm -f "$index_file"
+              }
+
+              rollback_worktree() {
+                local before="$1"
+                local object_dir="$2"
+                local after
+                local index_file
+
+                after="$(snapshot_worktree "$object_dir")"
+                index_file="$(mktemp)"
+                rm -f "$index_file"
+                GIT_ALTERNATE_OBJECT_DIRECTORIES="$repository_objects" \
+                  GIT_INDEX_FILE="$index_file" \
+                  GIT_OBJECT_DIRECTORY="$object_dir" \
+                  git read-tree "$after"
+                GIT_ALTERNATE_OBJECT_DIRECTORIES="$repository_objects" \
+                  GIT_INDEX_FILE="$index_file" \
+                  GIT_OBJECT_DIRECTORY="$object_dir" \
+                  git read-tree --reset -u "$before"
+                rm -f "$index_file"
+              }
+
+              record_failure() {
+                local package="$1"
+                local phase="$2"
+                local status="$3"
+
+                failures+=("$package ($phase exited with status $status)")
+                printf '==> %s %s failed with status %s; reverting its changes\n' \
+                  "$package" "$phase" "$status" >&2
+              }
+
               run_update() {
                 local package="$1"
+                local after
+                local before
+                local status
+                local transaction_dir
                 shift
 
+                transaction_dir="$(mktemp -d)"
+                mkdir -p "$transaction_dir/objects"
+                before="$(snapshot_worktree "$transaction_dir/objects")"
                 printf '\n==> Updating %s\n' "$package"
                 if UPDATE_NIX_ATTR_PATH="$package" "$@"; then
-                  printf '==> %s succeeded\n' "$package"
+                  after="$(snapshot_worktree "$transaction_dir/objects")"
                 else
                   status=$?
-                  failures+=("$package ($status)")
-                  printf '==> %s failed with status %s\n' "$package" "$status" >&2
+                  record_failure "$package" "update" "$status"
+                  rollback_worktree "$before" "$transaction_dir/objects"
+                  rm -rf "$transaction_dir"
+                  return
                 fi
+
+                if [[ "$before" == "$after" ]]; then
+                  printf '==> %s is already up to date\n' "$package"
+                  rm -rf "$transaction_dir"
+                  return
+                fi
+
+                printf '==> Building %s\n' "$package"
+                if nix build --no-link ".#''${package}"; then
+                  printf '==> %s update and build succeeded\n' "$package"
+                else
+                  status=$?
+                  record_failure "$package" "build" "$status"
+                  rollback_worktree "$before" "$transaction_dir/objects"
+                fi
+                rm -rf "$transaction_dir"
               }
+
+              repository_root="$(git rev-parse --show-toplevel)"
+              cd "$repository_root"
+              git_common_dir="$(git rev-parse --git-common-dir)"
+              if [[ "$git_common_dir" != /* ]]; then
+                git_common_dir="$repository_root/$git_common_dir"
+              fi
+              repository_objects="$git_common_dir/objects"
 
               ${lib.concatStrings updateCommands}
 
@@ -157,7 +289,7 @@
                 exit 1
               fi
 
-              printf '\nAll package update scripts succeeded.\n'
+              printf '\nAll package updates and builds succeeded.\n'
             '';
           }
         );

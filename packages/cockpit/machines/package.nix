@@ -3,7 +3,6 @@
     {
       pkgs,
       lib,
-      packageUpdateScripts,
       ...
     }:
     {
@@ -16,20 +15,18 @@
             ;
 
           pname = "cockpit-machines";
-          version = "355";
+          # later releases require the full source-build recipe used by nixpkgs.
+          version = "341";
         in
         stdenv.mkDerivation {
           inherit pname version;
 
-          # TODO: update to latest release
           src = fetchzip {
             url = "https://github.com/cockpit-project/cockpit-machines/releases/download/${version}/cockpit-machines-${version}.tar.xz";
-            hash = "sha256-lXd3/NkGP76qmFphNCFPIHyMTT6qDULt5uVMdCrcQy8=";
+            hash = "sha256-Tsv18wAN02zQEerIeHAvfs5e0cIWfi7nQey8n1Hv6HI=";
           };
 
           nativeBuildInputs = [ gettext ];
-
-          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           makeFlags = [ "PREFIX=$(out)" ];
 

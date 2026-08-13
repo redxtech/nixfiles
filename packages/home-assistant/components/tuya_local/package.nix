@@ -15,9 +15,9 @@
             python314
             ;
 
-          tinytuya-old = python314.pkgs.buildPythonPackage rec {
+          tinytuya = python314.pkgs.buildPythonPackage rec {
             pname = "tinytuya";
-            version = "1.16.0";
+            version = "1.20.0";
 
             pyproject = true;
             build-system = with python314.pkgs; [ setuptools ];
@@ -26,15 +26,8 @@
               owner = "jasonacox";
               repo = "tinytuya";
               tag = "v${version}";
-              hash = "sha256-K65kZjLa5AJG9FEYAs/Jf2UC8qiP7BkC8znHMHMYeg4=";
+              hash = "sha256-kyLRTfhTB8olZ48rUm+WtnuGZmCojnlUY4CeF+FADWg=";
             };
-
-            postPatch = ''
-              substituteInPlace setup.py \
-                --replace-fail \
-                  "from pkg_resources import DistributionNotFound, get_distribution" \
-                  "from importlib.metadata import PackageNotFoundError as DistributionNotFound, distribution as get_distribution"
-            '';
 
             dependencies = with python314.pkgs; [
               cryptography
@@ -67,7 +60,7 @@
           };
 
           dependencies = with python314.pkgs; [
-            tinytuya-old
+            tinytuya
             tuya-device-sharing-sdk
           ];
 

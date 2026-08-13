@@ -34,7 +34,7 @@
 
           passthru = {
             entrypoint = "layout-card.js";
-            updateScript = packageUpdateScripts.githubRelease;
+            updateScript = packageUpdateScripts.githubReleaseWithRegex "v?([0-9]+\\.[0-9]+\\.[0-9]+)";
           };
 
           meta = with lib; {

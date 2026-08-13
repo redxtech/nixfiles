@@ -15,9 +15,9 @@
             python314
             ;
 
-          pyroute2-old = python314.pkgs.buildPythonPackage rec {
+          pyroute2 = python314.pkgs.buildPythonPackage rec {
             pname = "pyroute2";
-            version = "0.9.4";
+            version = "0.9.6";
 
             pyproject = true;
             buildSystem = with python314.pkgs; [ setuptools ];
@@ -31,7 +31,7 @@
               owner = "svinota";
               repo = "pyroute2";
               tag = version;
-              hash = "sha256-D603ZrLbc/6REx6X0bMvZzeyo0fgTsFL7J+iRTiQLgQ=";
+              hash = "sha256-ZseZQFiR+btDsR+ozcd8DBp0vsNTb6tIzaArQfOk7CI=";
             };
           };
         in
@@ -55,11 +55,7 @@
             tagPrefix = "";
           };
 
-          propagatedBuildInputs = [ pyroute2-old ];
-
-          configurePhase = ''
-            substituteInPlace custom_components/iphonedetect/manifest.json --replace-fail 'pyroute2==0.7.5' 'pyroute2==0.9.4'
-          '';
+          propagatedBuildInputs = [ pyroute2 ];
 
           meta = with lib; {
             changelog = "https://github.com/mudape/iphonedetect/releases/tag/v${version}";

@@ -64,7 +64,12 @@
 
         doCheck = false;
 
-        passthru.updateScript = packageUpdateScripts.githubTagWithRegex "cua-driver-rs-v([0-9]+\\.[0-9]+\\.[0-9]+)";
+        passthru.updateScript = packageUpdateScripts.githubMatchingTag {
+          owner = "trycua";
+          packageName = pname;
+          repo = "cua";
+          tagPrefix = "cua-driver-rs-v";
+        };
 
         meta = {
           description = "Cross-platform MCP server for computer-use automation";

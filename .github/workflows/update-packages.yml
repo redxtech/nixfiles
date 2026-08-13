@@ -57,9 +57,9 @@ jobs:
             echo "## automated vendored package updates"
             echo
             if [[ "$update_status" -eq 0 ]]; then
-              echo "all vendored package update scripts succeeded."
+              echo "all vendored package updates and builds succeeded."
             else
-              echo "successful vendored package updates are included even though some update scripts failed."
+              echo "successful vendored package updates are included even though some updates or builds failed."
               echo
               echo "### failed vendored packages"
               echo
