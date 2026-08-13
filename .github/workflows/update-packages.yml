@@ -1,0 +1,87 @@
+name: update vendored packages
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: update-packages
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: wimpysworld/nothing-but-nix@main
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: |
+            accept-flake-config = true
+      - name: configure cachix uploads
+        uses: cachix/cachix-action@v17
+        with:
+          name: gabedunn
+          signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          skipPush: false
+          useDaemon: true
+
+      - name: update vendored packages
+        id: update
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          log="$RUNNER_TEMP/update-pkgs.log"
+          body="$RUNNER_TEMP/update-pkgs-pr.md"
+
+          set +e
+          nix run .#update-pkgs 2>&1 | tee "$log"
+          update_status="${PIPESTATUS[0]}"
+          set -e
+
+          failures="$({
+            sed -n '/^Package update failures:$/,$p' "$log" \
+              | tail -n +2 \
+              | sed -n 's/^  - /- /p'
+          } || true)"
+
+          {
+            echo "## automated vendored package updates"
+            echo
+            if [[ "$update_status" -eq 0 ]]; then
+              echo "all vendored package update scripts succeeded."
+            else
+              echo "successful vendored package updates are included even though some update scripts failed."
+              echo
+              echo "### failed vendored packages"
+              echo
+              if [[ -n "$failures" ]]; then
+                printf '%s\n' "$failures"
+              else
+                echo "- update runner exited with status $update_status before reporting vendored package failures"
+              fi
+            fi
+            echo
+            echo "[View workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          } > "$body"
+
+          cat "$body" >> "$GITHUB_STEP_SUMMARY"
+          echo "body-path=$body" >> "$GITHUB_OUTPUT"
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/update-packages
+          delete-branch: true
+          commit-message: "chore: update vendored packages"
+          title: "chore: update vendored packages"
+          body-path: ${{ steps.update.outputs.body-path }}
