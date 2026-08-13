@@ -11,41 +11,62 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  NIX_CONFIG: "accept-flake-config = true"
+
 jobs:
   odu:
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'system-builder' }}
     steps:
-      - uses: wimpysworld/nothing-but-nix@main
+      - if: github.event_name == 'pull_request'
+        uses: wimpysworld/nothing-but-nix@main
       - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31
+      - if: github.event_name == 'pull_request'
+        uses: cachix/install-nix-action@v31
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
           extra_nix_config: |
             accept-flake-config = true
-      - uses: cachix/cachix-action@v17
+      - if: github.event_name == 'pull_request'
+        uses: cachix/cachix-action@v17
         with:
           name: gabedunn
-          signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          skipPush: true
       - name: Run CI
+        if: github.event_name == 'pull_request'
         run: |
           nix run .#ci
+      - name: Run CI and upload build results
+        if: github.event_name == 'push'
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        run: |
+          cachix watch-exec --watch-mode post-build-hook gabedunn -- nix run .#ci
 
   omnix:
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'system-builder' }}
     steps:
-      - uses: wimpysworld/nothing-but-nix@main
+      - if: github.event_name == 'pull_request'
+        uses: wimpysworld/nothing-but-nix@main
       - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31
+      - if: github.event_name == 'pull_request'
+        uses: cachix/install-nix-action@v31
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
           extra_nix_config: |
             accept-flake-config = true
-      - uses: cachix/cachix-action@v17
+      - if: github.event_name == 'pull_request'
+        uses: cachix/cachix-action@v17
         with:
           name: gabedunn
-          signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          skipPush: true
       - name: Run CI
+        if: github.event_name == 'pull_request'
         run: |
           nix run github:juspay/omnix -- ci
+      - name: Run CI and upload build results
+        if: github.event_name == 'push'
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        run: |
+          cachix watch-exec --watch-mode post-build-hook gabedunn -- nix run github:juspay/omnix -- ci

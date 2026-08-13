@@ -69,7 +69,7 @@
       den.aspects.esphome
       den.aspects.flaresolverr
       den.aspects.flood
-      # den.aspects.github-runner
+      den.aspects.github-runner
       den.aspects.grafana
       den.aspects.hercules-ci-agent
       den.aspects.home-assistant
