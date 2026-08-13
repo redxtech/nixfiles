@@ -90,8 +90,6 @@
       network = {
         isHost = true;
         hostIP = lib.mkForce config.network.ip;
-
-        services.dash = 4000;
       };
     };
   };
