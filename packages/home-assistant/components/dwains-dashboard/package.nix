@@ -17,13 +17,13 @@
         buildHomeAssistantComponent rec {
           owner = "dwainscheeren";
           domain = "dwains_dashboard";
-          version = "3.7.1";
+          version = "3.10.0";
 
           src = fetchFromGitHub {
             inherit owner;
             repo = "dwains-lovelace-dashboard";
             rev = "v${version}";
-            hash = "sha256-KB5lJkABsEH7eSK4WMldW+WevfH0EjCy3T4NEA3zLrM=";
+            hash = "sha256-JgpzISVu1punpKPLhPUQDUXTGsfyMpM1K9rzrjSSDkY=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubSource {

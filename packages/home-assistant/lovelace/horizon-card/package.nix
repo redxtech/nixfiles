@@ -17,11 +17,11 @@
         stdenv.mkDerivation rec {
           pname = "lovelace-horizon-card";
           owner = "rejuvenate";
-          version = "1.1.0";
+          version = "1.5.3";
 
           src = fetchurl {
             url = "https://github.com/${owner}/${pname}/releases/download/v${version}/${pname}.js";
-            hash = "sha256-tOB3/UJNDTQQKS7/2Ned6Ke8t88cAL13RzO+llChLgw=";
+            hash = "sha256-dl9qDVzIfl6lVhAQr/EVWtYuUxhmZT9QkmBfLOk0VDM=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubRelease;

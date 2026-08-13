@@ -38,13 +38,13 @@
         buildHomeAssistantComponent rec {
           owner = "mudape";
           domain = "iphonedetect";
-          version = "2.4.1";
+          version = "2.5.0";
 
           src = fetchFromGitHub {
             inherit owner;
             repo = domain;
             tag = version;
-            hash = "sha256-AR3WVTcASueiJsumnfZ7jKs7aVs14E2WMdiAvNU6Y2Q=";
+            hash = "sha256-62xFi18LjnWTZ2OknJKJVR4mnLXBWInGS1MPMsYHr4Q=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubSource {

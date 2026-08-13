@@ -16,7 +16,7 @@
             ;
 
           pname = "cockpit-machines";
-          version = "341";
+          version = "355";
         in
         stdenv.mkDerivation {
           inherit pname version;
@@ -24,7 +24,7 @@
           # TODO: update to latest release
           src = fetchzip {
             url = "https://github.com/cockpit-project/cockpit-machines/releases/download/${version}/cockpit-machines-${version}.tar.xz";
-            hash = "sha256-Tsv18wAN02zQEerIeHAvfs5e0cIWfi7nQey8n1Hv6HI=";
+            hash = "sha256-lXd3/NkGP76qmFphNCFPIHyMTT6qDULt5uVMdCrcQy8=";
           };
 
           nativeBuildInputs = [ gettext ];

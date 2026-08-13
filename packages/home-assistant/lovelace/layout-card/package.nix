@@ -16,16 +16,16 @@
         in
         buildNpmPackage rec {
           pname = "lovelace-layout-card";
-          version = "2.4.5";
+          version = "2.4.7";
 
           src = fetchFromGitHub {
             owner = "thomasloven";
             repo = pname;
             rev = "v${version}";
-            hash = "sha256-JqHpd3u3HT9JuAfCQW0Bg/UIQ/pzurQBp9/PFa+0/u0=";
+            hash = "sha256-xni9cTgv5rdpr+Oo4Zh/d/2ERMiqDiTFGAiXEnigqjc=";
           };
 
-          npmDepsHash = "sha256-1Crvtux1IbdtZ5dMxhYcrCw/6IxLpNwNwUMEJpWm4HM=";
+          npmDepsHash = "sha256-Nmi51kCj/e9A0PmO/DIvOplgBnQzIEmCbuM5HjmdKGw=";
 
           installPhase = ''
             mkdir $out

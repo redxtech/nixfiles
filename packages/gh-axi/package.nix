@@ -21,13 +21,13 @@
             ;
 
           pname = "gh-axi";
-          version = "0.1.29";
+          version = "0.1.30";
 
           src = fetchFromGitHub {
             owner = "kunchenguid";
             repo = pname;
             tag = "gh-axi-v${version}";
-            hash = "sha256-xGabDo12fh+YO1ihSo6fyh8bYiELH+iWRDPZ37dMzNI=";
+            hash = "sha256-E9SahmNcpY2a1Uy5CqLe3A5BIv1ecO/xZtZd6zGpv5c=";
           };
         in
         stdenvNoCC.mkDerivation {
@@ -36,7 +36,7 @@
           pnpmDeps = fetchPnpmDeps {
             inherit pname version src;
             fetcherVersion = 4;
-            hash = "sha256-snoKB2/sZmuvqFtmUAVPcyL6hcGX7+EGRN+49wwPX1o=";
+            hash = "sha256-2P0ZZjbJY/cUHRWSxVwFqeL862WjTuFxXC/IdelMsXI=";
           };
 
           nativeBuildInputs = [

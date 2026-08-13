@@ -16,13 +16,13 @@
         in
         stdenv.mkDerivation rec {
           pname = "ha-firemote";
-          version = "4.0.5";
+          version = "4.1.9";
 
           src = fetchFromGitHub {
             owner = "PRProd";
             repo = "HA-Firemote";
             rev = "v${version}";
-            hash = "sha256-pytFgzlDXb2rjRVo5p57cpNwmnK2CYrk0tp683kMZRs=";
+            hash = "sha256-EqAO4lIe+c6LWeM0eotxIXyhq60+ywaYEL21JmXfmr0=";
           };
 
           installPhase = ''

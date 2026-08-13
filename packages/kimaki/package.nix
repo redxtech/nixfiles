@@ -18,14 +18,14 @@
             ;
 
           pname = "kimaki";
-          version = "0.23.1";
+          version = "0.25.0";
         in
         buildNpmPackage {
           inherit pname version;
 
           src = fetchurl {
             url = "https://registry.npmjs.org/kimaki/-/kimaki-${version}.tgz";
-            hash = "sha256-++X50QMr+FfhiaM8KbGnbzeXWgvy3JD4THEm9u7RMl4=";
+            hash = "sha256-uev/5eR/EBi3azOU+UcXONSZD2QZ3aMMQzvxVw4iqjY=";
           };
 
           npmDepsHash = "sha256-cCYF4MlCP7k7UL3Dh8x/3dgU3T3YsScxBD5W1kVFVu0=";

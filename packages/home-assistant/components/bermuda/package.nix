@@ -17,13 +17,13 @@
         buildHomeAssistantComponent rec {
           owner = "agittins";
           domain = "bermuda";
-          version = "0.6.8";
+          version = "0.8.7";
 
           src = fetchFromGitHub {
             inherit owner;
             repo = domain;
             rev = "v${version}";
-            hash = "sha256-IRx8jRXWHlAIWanCZlPfRU2Y2gcoTImIjBUuCNN1ktU=";
+            hash = "sha256-UY4Cd0yt7yAbsYHr+KsLUan3dJSv80hhEPRmoy+8nO4=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubSource {

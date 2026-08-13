@@ -16,14 +16,14 @@
             ;
 
           pname = "cockpit-file-sharing";
-          version = "4.6.0-1";
+          version = "4.6.1-2";
         in
         stdenv.mkDerivation {
           inherit pname version;
 
           src = fetchurl {
             url = "https://github.com/45Drives/cockpit-file-sharing/releases/download/v${version}/cockpit-file-sharing_${version}bookworm_all.deb";
-            hash = "sha256-Js3+jOLYDe6gL00WAUuk+CcoIIX+ehT59z36Y8oaWDs=";
+            hash = "sha256-Y+0PTXMQ6L2qaoOxJr3X05L6uazRB40ccjYdgdFlybk=";
           };
 
           nativeBuildInputs = [ dpkg ];

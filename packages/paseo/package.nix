@@ -18,13 +18,13 @@
 
       nodejs = pkgs.nodejs_22;
       pname = "paseo";
-      version = "0.2.5";
+      version = "0.3.1";
 
       source = fetchFromGitHub {
         owner = "getpaseo";
         repo = "paseo";
         tag = "v${version}";
-        hash = "sha256-3IMEyJS0z83peC1Vzvtj2m+7hm3Uss1qOoE5sMGFITM=";
+        hash = "sha256-m97Pf857LNv871b95cJ2y34OFxoES8JsWsp0wD3Em4I=";
       };
       updateScript = pkgs.writeShellApplication {
         name = "update-paseo";
@@ -108,7 +108,7 @@
         };
 
         inherit nodejs;
-        npmDepsHash = "sha256-FbAuGkXHC6uCLED4X6vOW/T5eUrdxAxNZME6gWsc0w0=";
+        npmDepsHash = "sha256-oXz8hMk+5DlTYK8OndUAjB+RJMDbPqobVGXLFeoH++o=";
 
         # onnxruntime-node downloads from NuGet in its install script; node-pty is rebuilt explicitly below.
         npmRebuildFlags = [ "--ignore-scripts" ];

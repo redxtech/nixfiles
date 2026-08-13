@@ -1,6 +1,6 @@
 { ... }:
 let
-  version = "0.9.0";
+  version = "0.10.3";
 in
 {
   flake-file.inputs.codebase-memory-mcp = {

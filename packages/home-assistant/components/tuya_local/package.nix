@@ -49,13 +49,13 @@
         buildHomeAssistantComponent rec {
           owner = "make-all";
           domain = "tuya_local";
-          version = "2025.1.0";
+          version = "2026.8.0";
 
           src = fetchFromGitHub {
             inherit owner;
             repo = "tuya-local";
             tag = version;
-            hash = "sha256-Bh/FGQBTdh0BtGiI83JhPS3xNAz4NhRqUGwZxxmZrqQ=";
+            hash = "sha256-EehiG62enkvYjFBMqFT+0mOXd5wbZxp5OEZUlDolKzg=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubSource {
