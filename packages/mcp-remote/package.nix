@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.mcp-remote =
         let
@@ -60,7 +65,8 @@
             runHook postInstall
           '';
 
-          passthru.updateScript = pkgs.nix-update-script { };
+          # Upstream publishes stable version tags without GitHub Release objects.
+          passthru.updateScript = packageUpdateScripts.githubTag;
 
           meta = {
             description = "Remote proxy for Model Context Protocol clients";

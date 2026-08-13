@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       # TODO: fix npm build
       packages.cockpit-docker =
@@ -61,6 +66,8 @@
           '';
 
           NODE_OPTIONS = [ "--openssl-legacy-provider" ];
+
+          passthru.updateScript = packageUpdateScripts.unstable;
 
           meta = with lib; {
             description = "Cockpit UI for docker containers";

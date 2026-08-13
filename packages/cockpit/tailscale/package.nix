@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.cockpit-tailscale =
         let
@@ -20,6 +25,9 @@
         in
         stdenv.mkDerivation {
           inherit pname version src;
+
+          # Upstream publishes stable version tags without GitHub Release objects.
+          passthru.updateScript = packageUpdateScripts.githubTag;
 
           installPhase = ''
             mkdir -p $out/share/cockpit

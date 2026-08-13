@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.cockpit-benchmark =
         let
@@ -11,17 +16,18 @@
             ;
 
           pname = "cockpit-benchmark";
-          version = "2.1.1";
+          version = "2.1.3";
         in
         stdenv.mkDerivation {
           inherit pname version;
 
-          # todo: build from source with npm? 2.1.2 doesn't provide prebuilt
           src = fetchurl {
             url = "https://github.com/45Drives/cockpit-benchmark/releases/download/v${version}/cockpit-benchmark_${version}-1focal_all.deb";
-            sha256 = "sha256-6RRjbxU5NbcyjI4WYSaOYyYGYhi9x8ejLlFuJkLhd0M=";
+            sha256 = "sha256-Wci5IAPMyC1kKjDmFUUAvcxNmkJLuUSXWfx/XT1FzzM=";
           };
           nativeBuildInputs = [ dpkg ];
+
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           unpackPhase = "true";
 

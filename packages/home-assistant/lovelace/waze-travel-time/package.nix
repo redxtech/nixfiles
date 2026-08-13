@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-lovelace-waze-travel-time =
         let
@@ -11,7 +16,7 @@
         in
         stdenv.mkDerivation rec {
           pname = "waze-travel-time";
-          version = "2020-05-15";
+          version = "0-unstable-2020-05-15";
 
           src = fetchFromGitHub {
             owner = "r-renato";
@@ -28,7 +33,10 @@
             runHook postInstall
           '';
 
-          passthru.entrypoint = "ha-card-${pname}.js";
+          passthru = {
+            entrypoint = "ha-card-${pname}.js";
+            updateScript = packageUpdateScripts.unstable;
+          };
 
           meta = with lib; {
             changelog = "https://github.com/r-renato/ha-card-waze-travel-time/commits/master";

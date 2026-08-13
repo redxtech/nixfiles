@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-components-dwains-dashboard =
         let
@@ -19,6 +24,13 @@
             repo = "dwains-lovelace-dashboard";
             rev = "v${version}";
             hash = "sha256-KB5lJkABsEH7eSK4WMldW+WevfH0EjCy3T4NEA3zLrM=";
+          };
+
+          passthru.updateScript = packageUpdateScripts.githubSource {
+            file = "packages/home-assistant/components/dwains-dashboard/package.nix";
+            packageName = "home-assistant-components-dwains-dashboard";
+            inherit owner;
+            repo = "dwains-lovelace-dashboard";
           };
 
           meta = with lib; {

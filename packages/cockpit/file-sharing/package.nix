@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.cockpit-file-sharing =
         let
@@ -11,18 +16,19 @@
             ;
 
           pname = "cockpit-file-sharing";
-          version = "4.6.0";
-          build = "1";
+          version = "4.6.0-1";
         in
         stdenv.mkDerivation {
           inherit pname version;
 
           src = fetchurl {
-            url = "https://github.com/45Drives/cockpit-file-sharing/releases/download/v${version}/cockpit-file-sharing_${version}-${build}bookworm_all.deb";
+            url = "https://github.com/45Drives/cockpit-file-sharing/releases/download/v${version}/cockpit-file-sharing_${version}bookworm_all.deb";
             hash = "sha256-Js3+jOLYDe6gL00WAUuk+CcoIIX+ehT59z36Y8oaWDs=";
           };
 
           nativeBuildInputs = [ dpkg ];
+
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           unpackPhase = "true";
 

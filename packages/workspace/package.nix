@@ -2,7 +2,11 @@
 
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      ...
+    }:
     let
       inherit (inputs)
         pyproject-build-systems
@@ -21,6 +25,55 @@
         repo = "google_workspace_mcp";
         tag = "v${version}";
         hash = "sha256-eQXUMCSveNQZQ5InTlz6hENIW89Ok/RgC58nQb7uO1I=";
+      };
+      updateScript = pkgs.writeShellApplication {
+        name = "update-workspace-mcp";
+        runtimeInputs = with pkgs; [
+          curl
+          jq
+          nix
+          python3
+        ];
+        text = ''
+          packageFile=packages/workspace/package.nix
+          tag="$(curl --fail --silent --show-error \
+            https://api.github.com/repos/taylorwilsdon/google_workspace_mcp/releases/latest \
+            | jq --exit-status --raw-output .tag_name)"
+          version="''${tag#v}"
+          sourceHash="$(
+            nix store prefetch-file --unpack --json \
+              "https://github.com/taylorwilsdon/google_workspace_mcp/archive/refs/tags/$tag.tar.gz" \
+              | jq --exit-status --raw-output .hash
+          )"
+
+          python3 - "$packageFile" "$version" "$sourceHash" <<'PY'
+          import pathlib
+          import re
+          import sys
+
+          path = pathlib.Path(sys.argv[1])
+          version, source_hash = sys.argv[2:]
+          text = path.read_text()
+          text, version_replacements = re.subn(
+              r'(?m)^(      version = ")[^"]+(";)$',
+              rf'\g<1>{version}\g<2>',
+              text,
+              count=1,
+          )
+          text, hash_replacements = re.subn(
+              r'(?m)^(        hash = ")[^"]+(";)$',
+              rf'\g<1>{source_hash}\g<2>',
+              text,
+              count=1,
+          )
+          if (version_replacements, hash_replacements) != (1, 1):
+              raise SystemExit(
+                  f"unexpected replacements in {path}: "
+                  f"version={version_replacements}, source hash={hash_replacements}"
+              )
+          path.write_text(text)
+          PY
+        '';
       };
 
       workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = src; };
@@ -56,6 +109,7 @@
       workspace-mcp =
         pkgs.runCommand "workspace-mcp-${version}"
           {
+            passthru.updateScript = lib.getExe updateScript;
             meta = {
               description = "Google Workspace MCP server and CLI";
               homepage = "https://github.com/taylorwilsdon/google_workspace_mcp";

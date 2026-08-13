@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-lovelace-card-tools =
         let
@@ -29,7 +34,10 @@
             cp -r card-tools.js $out
           '';
 
-          passthru.entrypoint = "card-tools.js";
+          passthru = {
+            entrypoint = "card-tools.js";
+            updateScript = packageUpdateScripts.githubRelease;
+          };
 
           meta = with lib; {
             changelog = "https://github.com/thomasloven/lovelace-card-tools/releases/tag/${version}";

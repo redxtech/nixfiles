@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.cyber-mux =
         let
@@ -46,7 +51,7 @@
               }
           '';
 
-          passthru.updateScript = pkgs.nix-update-script { };
+          passthru.updateScript = packageUpdateScripts.npm;
 
           meta = {
             description = "Cross-multiplexer pane control for AI-agent tooling";

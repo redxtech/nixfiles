@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-lovelace-layout-card =
         let
@@ -27,7 +32,10 @@
             cp -r layout-card.js $out
           '';
 
-          passthru.entrypoint = "layout-card.js";
+          passthru = {
+            entrypoint = "layout-card.js";
+            updateScript = packageUpdateScripts.githubRelease;
+          };
 
           meta = with lib; {
             changelog = "https://github.com/thomasloven/lovelace-layout-card/releases/tag/v${version}";

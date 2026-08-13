@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.cockpit-podman =
         let
@@ -23,6 +28,8 @@
           };
 
           nativeBuildInputs = [ gettext ];
+
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           makeFlags = [ "PREFIX=$(out)" ];
 

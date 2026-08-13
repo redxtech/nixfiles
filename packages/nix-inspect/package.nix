@@ -1,6 +1,10 @@
 {
   perSystem =
-    { pkgs, ... }:
+    {
+      pkgs,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.nix-inspect =
         let
@@ -11,7 +15,7 @@
             findutils
             ;
         in
-        writeShellScriptBin "nix-inspect" ''
+        (writeShellScriptBin "nix-inspect" ''
           read -ra EXCLUDED <<< "$@"
           EXCLUDED+=(''${NIX_INSPECT_EXCLUDE[@]:-})
 
@@ -27,6 +31,9 @@
 
           read -ra PROGRAMS <<< "''${PROGRAMS[@]}"
           echo "''${PROGRAMS[@]}"
-        '';
+        '').overrideAttrs
+          {
+            passthru.updateScript = packageUpdateScripts.local "nix-inspect";
+          };
     };
 }

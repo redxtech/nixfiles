@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-components-tuya-local =
         let
@@ -51,6 +56,14 @@
             repo = "tuya-local";
             tag = version;
             hash = "sha256-Bh/FGQBTdh0BtGiI83JhPS3xNAz4NhRqUGwZxxmZrqQ=";
+          };
+
+          passthru.updateScript = packageUpdateScripts.githubSource {
+            file = "packages/home-assistant/components/tuya_local/package.nix";
+            packageName = "home-assistant-components-tuya-local";
+            inherit owner;
+            repo = "tuya-local";
+            tagPrefix = "";
           };
 
           dependencies = with python314.pkgs; [

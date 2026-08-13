@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.kagi-mcp = pkgs.rustPlatform.buildRustPackage (finalAttrs: {
         pname = "kagi-mcp";
@@ -23,9 +28,7 @@
           finalAttrs.pname
         ];
 
-        passthru.updateScript = pkgs.nix-update-script {
-          extraArgs = [ "--version-regex=mcp-v(.*)" ];
-        };
+        passthru.updateScript = packageUpdateScripts.githubReleaseWithRegex "mcp-v(.*)";
 
         meta = {
           description = "MCP server for Kagi search and summarization";

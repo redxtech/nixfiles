@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.gws-axi =
         let
@@ -33,6 +38,8 @@
           '';
 
           dontNpmBuild = true;
+
+          passthru.updateScript = packageUpdateScripts.npm;
 
           meta = {
             description = "Agent-ergonomic CLI for Google Workspace";

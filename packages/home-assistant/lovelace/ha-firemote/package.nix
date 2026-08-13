@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-lovelace-ha-firemote =
         let
@@ -28,7 +33,10 @@
             runHook postInstall
           '';
 
-          passthru.entrypoint = "HA-Firemote.js";
+          passthru = {
+            entrypoint = "HA-Firemote.js";
+            updateScript = packageUpdateScripts.githubRelease;
+          };
 
           meta = with lib; {
             changelog = "https://github.com/PRProd/HA-Firemote/releases/tag/v${version}";

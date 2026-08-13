@@ -1,6 +1,10 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      ...
+    }:
     let
       inherit (pkgs)
         autoPatchelfHook
@@ -21,6 +25,58 @@
         repo = "paseo";
         tag = "v${version}";
         hash = "sha256-3IMEyJS0z83peC1Vzvtj2m+7hm3Uss1qOoE5sMGFITM=";
+      };
+      updateScript = pkgs.writeShellApplication {
+        name = "update-paseo";
+        runtimeInputs = with pkgs; [
+          curl
+          jq
+          nix
+          nix-update
+          python3
+        ];
+        text = ''
+          packageFile=packages/paseo/package.nix
+          tag="$(curl --fail --silent --show-error \
+            https://api.github.com/repos/getpaseo/paseo/releases/latest \
+            | jq --exit-status --raw-output .tag_name)"
+          version="''${tag#v}"
+          sourceHash="$(
+            nix store prefetch-file --unpack --json \
+              "https://github.com/getpaseo/paseo/archive/refs/tags/$tag.tar.gz" \
+              | jq --exit-status --raw-output .hash
+          )"
+
+          python3 - "$packageFile" "$version" "$sourceHash" <<'PY'
+          import pathlib
+          import re
+          import sys
+
+          path = pathlib.Path(sys.argv[1])
+          version, source_hash = sys.argv[2:]
+          text = path.read_text()
+          text, version_replacements = re.subn(
+              r'(?m)^(      version = ")[^"]+(";)$',
+              rf'\g<1>{version}\g<2>',
+              text,
+              count=1,
+          )
+          text, hash_replacements = re.subn(
+              r'(?m)^(        hash = ")[^"]+(";)$',
+              rf'\g<1>{source_hash}\g<2>',
+              text,
+              count=1,
+          )
+          if (version_replacements, hash_replacements) != (1, 1):
+              raise SystemExit(
+                  f"unexpected replacements in {path}: "
+                  f"version={version_replacements}, source hash={hash_replacements}"
+              )
+          path.write_text(text)
+          PY
+
+          nix-update --flake --no-src --version="$version" "''${UPDATE_NIX_ATTR_PATH:-paseo}"
+        '';
       };
     in
     {
@@ -110,7 +166,7 @@
           runHook postInstall
         '';
 
-        passthru.updateScript = pkgs.nix-update-script { };
+        passthru.updateScript = lib.getExe updateScript;
 
         meta = {
           description = "Control AI coding agents from the command line";

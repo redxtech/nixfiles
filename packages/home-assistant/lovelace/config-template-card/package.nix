@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-lovelace-config-template-card =
         let
@@ -17,6 +22,8 @@
             url = "https://github.com/iantrich/config-template-card/releases/download/${version}/config-template-card.js";
             hash = "sha256-7O48fgoQkg6aQy3i5/H5UGrnQkJelXQdGDW71N6lbC4=";
           };
+
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           unpackPhase = ":";
 

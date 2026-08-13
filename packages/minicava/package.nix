@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.minicava = pkgs.stdenv.mkDerivation {
         pname = "minicava";
@@ -28,7 +33,7 @@
             }"
         '';
 
-        passthru.updateScript = pkgs.nix-update-script { extraArgs = [ "--version=branch" ]; };
+        passthru.updateScript = packageUpdateScripts.unstable;
 
         meta = {
           description = "A miniature cava sound visualizer";

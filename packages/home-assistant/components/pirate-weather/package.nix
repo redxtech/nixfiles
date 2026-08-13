@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-components-pirate-weather =
         let
@@ -40,6 +45,13 @@
             repo = "pirate-weather-ha";
             rev = "v${version}";
             hash = "sha256-jRe5KH3Rl2Vf22f7lI05p1IRecIrtH9ozsHh4qWHxP4=";
+          };
+
+          passthru.updateScript = packageUpdateScripts.githubSource {
+            file = "packages/home-assistant/components/pirate-weather/package.nix";
+            packageName = "home-assistant-components-pirate-weather";
+            inherit owner;
+            repo = "pirate-weather-ha";
           };
 
           propagatedBuildInputs = with python314.pkgs; [

@@ -26,6 +26,54 @@
       };
 
       src = fetchurl sources.${stdenv.hostPlatform.system};
+      updateScript = pkgs.writeShellApplication {
+        name = "update-orca";
+        runtimeInputs = with pkgs; [
+          jq
+          nix
+          nix-update
+          python3
+        ];
+        text = ''
+          packageFile=packages/orca/package.nix
+          nix-update --flake --use-github-releases "''${UPDATE_NIX_ATTR_PATH:-orca}"
+
+          version="$(
+            python3 - "$packageFile" <<'PY'
+          import pathlib
+          import re
+          import sys
+
+          match = re.search(r'(?m)^      version = "([^"]+)";', pathlib.Path(sys.argv[1]).read_text())
+          if match is None:
+              raise SystemExit(f"could not find version in {sys.argv[1]}")
+          print(match.group(1))
+          PY
+          )"
+          armUrl="https://github.com/stablyai/orca/releases/download/v$version/orca-linux-arm64.AppImage"
+          armHash="$(nix store prefetch-file --json "$armUrl" | jq --exit-status --raw-output .hash)"
+
+          python3 - "$packageFile" "$armHash" <<'PY'
+          import pathlib
+          import re
+          import sys
+
+          path = pathlib.Path(sys.argv[1])
+          arm_hash = sys.argv[2]
+          text = path.read_text()
+          text, replacements = re.subn(
+              r'(aarch64-linux = \{.*?hash = ")[^"]+(";)',
+              rf'\g<1>{arm_hash}\g<2>',
+              text,
+              count=1,
+              flags=re.DOTALL,
+          )
+          if replacements != 1:
+              raise SystemExit(f"expected one aarch64 hash in {path}, replaced {replacements}")
+          path.write_text(text)
+          PY
+        '';
+      };
       appimageContents = appimageTools.extractType2 {
         inherit pname version src;
       };
@@ -54,7 +102,7 @@
             --set LIBGL_ALWAYS_SOFTWARE 1
         '';
 
-        passthru.updateScript = pkgs.nix-update-script { };
+        passthru.updateScript = lib.getExe updateScript;
 
         meta = {
           description = "ADE for working with a fleet of parallel coding agents";

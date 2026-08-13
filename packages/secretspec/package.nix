@@ -1,6 +1,10 @@
 {
   perSystem =
-    { pkgs, ... }:
+    {
+      pkgs,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.secretspec = pkgs.secretspec.overrideAttrs (oldAttrs: rec {
         version = "0.19.1";
@@ -30,6 +34,10 @@
           export HOME="$TMPDIR"
           export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
         '';
+
+        passthru = (oldAttrs.passthru or { }) // {
+          updateScript = packageUpdateScripts.githubRelease;
+        };
 
         meta = oldAttrs.meta // {
           changelog = "https://github.com/cachix/secretspec/releases/tag/v${version}";

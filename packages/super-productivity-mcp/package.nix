@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.super-productivity-mcp =
         let
@@ -26,6 +31,8 @@
           npmDepsHash = "sha256-hellP4Y+Ur6RxsDSbC+YVRiCMjqwN++mzcgr4DhXdz8=";
 
           nativeBuildInputs = [ zip ];
+
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           meta = {
             description = "MCP server for managing Super Productivity through AI assistants";

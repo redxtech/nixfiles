@@ -4,6 +4,7 @@
       inputs',
       lib,
       pkgs,
+      packageUpdateScripts,
       ...
     }:
     {
@@ -54,6 +55,9 @@
         env = oldAttrs.env // {
           ORT_LIB_LOCATION = "${lib.getLib pkgs.onnxruntime}/lib";
           ORT_PREFER_DYNAMIC_LINK = "1";
+        };
+        passthru = (oldAttrs.passthru or { }) // {
+          updateScript = packageUpdateScripts.flakeInput "llm-agents";
         };
       });
     };

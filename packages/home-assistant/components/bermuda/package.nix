@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-components-bermuda =
         let
@@ -19,6 +24,13 @@
             repo = domain;
             rev = "v${version}";
             hash = "sha256-IRx8jRXWHlAIWanCZlPfRU2Y2gcoTImIjBUuCNN1ktU=";
+          };
+
+          passthru.updateScript = packageUpdateScripts.githubSource {
+            file = "packages/home-assistant/components/bermuda/package.nix";
+            packageName = "home-assistant-components-bermuda";
+            inherit owner;
+            repo = domain;
           };
 
           meta = with lib; {

@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.gh-axi =
         let
@@ -59,9 +64,7 @@
             runHook postInstall
           '';
 
-          passthru.updateScript = pkgs.nix-update-script {
-            extraArgs = [ "--version-regex=gh-axi-v(.*)" ];
-          };
+          passthru.updateScript = packageUpdateScripts.githubReleaseWithRegex "gh-axi-v(.*)";
 
           meta = {
             description = "GitHub CLI wrapper optimized for autonomous agents";

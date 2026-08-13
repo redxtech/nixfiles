@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-lovelace-horizon-card =
         let
@@ -18,6 +23,8 @@
             url = "https://github.com/${owner}/${pname}/releases/download/v${version}/${pname}.js";
             hash = "sha256-tOB3/UJNDTQQKS7/2Ned6Ke8t88cAL13RzO+llChLgw=";
           };
+
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           dontBuild = true;
           dontUnpack = true;

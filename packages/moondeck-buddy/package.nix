@@ -1,6 +1,10 @@
 {
   perSystem =
-    { pkgs, ... }:
+    {
+      pkgs,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.moondeck-buddy =
         let
@@ -11,7 +15,7 @@
             lib
             stdenv
             fetchFromGitHub
-            nix-update-script
+
             pkg-config
             kdePackages
             cmake
@@ -59,7 +63,7 @@
             "Ninja"
           ];
 
-          passthru.updateScript = nix-update-script { };
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           meta = {
             mainProgram = "MoonDeckBuddy";

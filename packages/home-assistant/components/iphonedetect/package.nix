@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-components-iphonedetect =
         let
@@ -40,6 +45,14 @@
             repo = domain;
             tag = version;
             hash = "sha256-AR3WVTcASueiJsumnfZ7jKs7aVs14E2WMdiAvNU6Y2Q=";
+          };
+
+          passthru.updateScript = packageUpdateScripts.githubSource {
+            file = "packages/home-assistant/components/iphonedetect/package.nix";
+            packageName = "home-assistant-components-iphonedetect";
+            inherit owner;
+            repo = domain;
+            tagPrefix = "";
           };
 
           propagatedBuildInputs = [ pyroute2-old ];

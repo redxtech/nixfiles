@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.cockpit-zfs-manager =
         let
@@ -10,7 +15,7 @@
             ;
 
           pname = "cockpit-navigator";
-          version = "1.3.1";
+          version = "0-unstable-2024-01-09";
         in
         stdenv.mkDerivation {
           inherit pname version;
@@ -21,6 +26,8 @@
             rev = "816af25099fccc46a3bff5f831b39d98ef33d514";
             hash = "sha256-aLdsHHVVG6eJrvh3B4grZkDEbCZyDJjX2PuKkON8UcI=";
           };
+
+          passthru.updateScript = packageUpdateScripts.unstable;
 
           installPhase = ''
               mkdir -p $out/share/cockpit/zfs

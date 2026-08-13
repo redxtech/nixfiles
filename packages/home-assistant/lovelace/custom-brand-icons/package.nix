@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-lovelace-custom-brand-icons =
         let
@@ -19,6 +24,8 @@
             rev = "${version}";
             hash = "sha256-ZQFhM75aKniboOR1H3xEjZCx1JVPSkz8omEx+FSDFdA=";
           };
+
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           dontBuild = true;
 

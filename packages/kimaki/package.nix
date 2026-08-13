@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.kimaki =
         let
@@ -44,7 +49,7 @@
               }
           '';
 
-          passthru.updateScript = pkgs.nix-update-script { };
+          passthru.updateScript = packageUpdateScripts.npm;
 
           meta = {
             description = "Collaborative agent orchestrator inside Discord";

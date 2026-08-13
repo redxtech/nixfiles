@@ -1,6 +1,10 @@
 {
   perSystem =
-    { pkgs, ... }:
+    {
+      pkgs,
+      packageUpdateScripts,
+      ...
+    }:
     let
       inherit (pkgs)
         bun
@@ -35,6 +39,8 @@
 
           runHook postInstall
         '';
+
+        passthru.updateScript = packageUpdateScripts.npm;
 
         meta = {
           description = "Mobile-first web interface for coding agents";

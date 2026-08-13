@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-components-spotcast =
         let
@@ -42,6 +47,13 @@
             repo = domain;
             rev = "v${version}";
             hash = "sha256-xjs01S9yFbq3yfe1k+RxZXu3jzaSbXAIY34cl8Wrm7k=";
+          };
+
+          passthru.updateScript = packageUpdateScripts.githubSource {
+            file = "packages/home-assistant/components/spotcast/package.nix";
+            packageName = "home-assistant-components-spotcast";
+            inherit owner;
+            repo = domain;
           };
 
           propagatedBuildInputs = [ spotipy-old ];

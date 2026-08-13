@@ -1,0 +1,12 @@
+{
+  "name": "pg-axi",
+  "version": "0.1.2",
+  "type": "module",
+  "bin": {
+    "pg-axi": "dist/index.js"
+  },
+  "dependencies": {
+    "@toon-format/toon": "^4.1.1",
+    "pg": "^8.22.0"
+  }
+}

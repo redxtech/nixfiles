@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.pi-acp =
         let
@@ -21,7 +26,7 @@
 
           npmDepsHash = "sha256-/fX79XucKojL/6gZbK5eizEfrXso8rlTgiHfJffmDuY=";
 
-          passthru.updateScript = pkgs.nix-update-script { };
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           meta = {
             description = "ACP adapter for the pi coding agent";

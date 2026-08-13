@@ -1,31 +1,38 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
     {
-      packages.strava-mcp =
-        let
-          pname = "strava-mcp";
-          version = "1.2.1";
-        in
-        pkgs.buildNpmPackage {
-          inherit pname version;
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
+    {
+      packages.strava-mcp = pkgs.buildNpmPackage (finalAttrs: {
+        pname = "strava-mcp";
+        version = "1.2.1";
 
-          src = pkgs.fetchFromGitHub {
-            owner = "r-huijts";
-            repo = "strava-mcp";
-            rev = "ac43cc7b0aad2f218b9c42bd639aee696dbee531";
-            hash = "sha256-Hj1cS7xcbYAPocNWxvvpLsHlWVz3QyV3TArlYk3ssng=";
-          };
-
-          npmDepsHash = "sha256-CjFgJ3HKfPlX29Bfs2CwdRGqtR3lO2O6sqModJnPCH4=";
-
-          meta = {
-            description = "MCP server for the Strava API";
-            homepage = "https://github.com/r-huijts/strava-mcp";
-            license = lib.licenses.mit;
-            maintainers = [ lib.maintainers.redxtech ];
-            mainProgram = "strava-mcp-server";
-          };
+        src = pkgs.fetchurl {
+          url = "https://registry.npmjs.org/@r-huijts/strava-mcp-server/-/strava-mcp-server-${finalAttrs.version}.tgz";
+          hash = "sha256-r0ZTAVHyzXwULMSJBpUpb+eJ5PbZ/HoGcIriBQCEpmA=";
         };
+
+        npmDepsHash = "sha256-HFoxTbNfaRX22AYlScL5TFRADvvVZGVvfStXfeSe/+A=";
+        postPatch = ''
+          cp ${./npm-package.json} package.json
+          cp ${./npm-package-lock.json} package-lock.json
+        '';
+        dontNpmBuild = true;
+
+        passthru.updateScript = packageUpdateScripts.npm;
+
+        meta = {
+          description = "MCP server for the Strava API";
+          homepage = "https://github.com/r-huijts/strava-mcp";
+          license = lib.licenses.isc;
+          maintainers = [ lib.maintainers.redxtech ];
+          mainProgram = "strava-mcp-server";
+          platforms = pkgs.nodejs.meta.platforms;
+        };
+      });
     };
 }

@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-lovelace-bubble-card =
         let
@@ -19,6 +24,8 @@
             rev = "v${version}";
             hash = "sha256-vsgu1hvtlppADvaFLeB4xQHbP3wBc6H4p5HbeS3JY80=";
           };
+
+          passthru.updateScript = packageUpdateScripts.githubRelease;
 
           dontBuild = true;
 

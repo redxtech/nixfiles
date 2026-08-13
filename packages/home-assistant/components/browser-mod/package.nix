@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     {
       packages.home-assistant-components-browser-mod =
         let
@@ -19,6 +24,13 @@
             repo = "hass-browser_mod";
             rev = "v${version}";
             hash = "sha256-JqbMgpXstUcQwLXPbIRtcg1OqNZycA0CFRW7G5G7eA8=";
+          };
+
+          passthru.updateScript = packageUpdateScripts.githubSource {
+            file = "packages/home-assistant/components/browser-mod/package.nix";
+            packageName = "home-assistant-components-browser-mod";
+            inherit owner;
+            repo = "hass-browser_mod";
           };
 
           meta = with lib; {

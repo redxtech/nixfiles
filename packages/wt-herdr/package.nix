@@ -4,12 +4,13 @@
       inputs',
       lib,
       pkgs,
+      packageUpdateScripts,
       ...
     }:
     {
       packages.wt-herdr = pkgs.stdenvNoCC.mkDerivation {
         pname = "wt-herdr";
-        version = "unstable";
+        version = "0-unstable-2026-06-14";
 
         src = pkgs.fetchFromGitHub {
           owner = "mattarau";
@@ -20,6 +21,8 @@
 
         nativeBuildInputs = [ pkgs.makeWrapper ];
         nativeCheckInputs = [ pkgs.shellcheck ];
+
+        passthru.updateScript = packageUpdateScripts.unstable;
 
         doCheck = true;
         checkPhase = ''
