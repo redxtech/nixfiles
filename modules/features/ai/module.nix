@@ -266,10 +266,6 @@
             home.packages = [ inputs'.llm-agents.packages.codex-acp ];
           }
         ))
-
-        (lib.mkIf (config.programs.pi-coding-agent.enable && cfg.context != [ ]) {
-          programs.pi-coding-agent.context = lib.mkBefore contextText;
-        })
       ];
     };
 }
