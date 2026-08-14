@@ -190,9 +190,21 @@
           };
 
         home.file = {
+          ".ssh/config".force = true;
           ".ssh/id_rsa_yubikey.pub".source = ../../users/gabe/gpg.pub;
           ".ssh/id_ed25519.pub".source = ../../users/gabe/ssh.pub;
         };
+
+        # materialize the config because openssh rejects nix store ownership in uid-isolated terminals
+        home.activation.materializeSshConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+          sshConfig="$HOME/.ssh/config"
+          sshConfigSource="$(readlink -f "$sshConfig")"
+          sshConfigTmp="$sshConfig.hm-tmp"
+
+          run rm -f "$sshConfigTmp"
+          run install -m 0400 "$sshConfigSource" "$sshConfigTmp"
+          run mv -f "$sshConfigTmp" "$sshConfig"
+        '';
       };
   };
 }
