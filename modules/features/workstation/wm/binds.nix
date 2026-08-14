@@ -43,14 +43,18 @@
 
               "Mod+W".action.spawn = lib.getExe config.programs.firefox.package;
               "Mod+G".action.spawn = lib.getExe pkgs.nemo-with-extensions;
-              "Mod+N".action.spawn = lib.getExe pkgs.obsidian;
+              "Mod+N".action.spawn = [
+                (lib.getExe config.programs.obsidian.package)
+                "eval"
+                "code=const win=require('electron').remote.getCurrentWindow(); win.isMinimized() ? win.restore() : win.show(); win.focus()"
+              ];
 
               "Mod+Space".action.spawn = lib.getExe config.programs.fuzzel.package;
               "Mod+Shift+Space".action.spawn = noctalia "panel-toggle launcher";
               "Mod+C".action.spawn = noctalia "panel-toggle clipboard";
               "Mod+Ctrl+L".action.spawn = noctalia "session lock";
 
-              # TODO: add Mod+M for ndrop btop, Mod+N for obsidian, Mod+Shift+W for choose wallpaper
+              # TODO: add Mod+M for ndrop btop and Mod+Shift+W for choosing a wallpaper
             }
           )
 
