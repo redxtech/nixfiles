@@ -20,7 +20,7 @@
 
         programs.niri = {
           enable = true;
-          package = inputs'.niri-pkgs.packages.niri-unstable;
+          package = inputs'.niri.packages.niri-unstable;
         };
 
         # disable flake cache, since we have it already enabled in this flake's nixConfig
@@ -52,112 +52,108 @@
         ...
       }:
       {
-        programs.niri =
-          let
-            niriPkgs = inputs'.niri-pkgs.packages;
-          in
-          {
-            settings = {
-              xwayland-satellite.path = lib.getExe niriPkgs.xwayland-satellite-unstable;
+        programs.niri = {
+          settings = {
+            xwayland-satellite.path = lib.getExe inputs'.niri.packages.xwayland-satellite-unstable;
 
-              prefer-no-csd = true; # prefer no client side decorations
-              screenshot-path = "${config.xdg.userDirs.pictures}/screenshots/%Y/%Y-%m-%d_%H-%M-%S.png";
-              hotkey-overlay.skip-at-startup = true;
+            prefer-no-csd = true; # prefer no client side decorations
+            screenshot-path = "${config.xdg.userDirs.pictures}/screenshots/%Y/%Y-%m-%d_%H-%M-%S.png";
+            hotkey-overlay.skip-at-startup = true;
 
-              input = {
-                focus-follows-mouse.enable = true;
+            input = {
+              focus-follows-mouse.enable = true;
 
-                keyboard = {
-                  repeat-rate = 40;
-                  repeat-delay = 240;
-                };
-
-                touchpad = {
-                  tap = true;
-                  dwt = true;
-                  scroll-factor = 0.5;
-                  middle-emulation = true;
-
-                  natural-scroll = true;
-                };
-
-                # disable-power-key-handling = true;
+              keyboard = {
+                repeat-rate = 40;
+                repeat-delay = 240;
               };
 
-              animations.slowdown = 0.75;
-              animations.screenshot-ui-open.enable = false;
+              touchpad = {
+                tap = true;
+                dwt = true;
+                scroll-factor = 0.5;
+                middle-emulation = true;
 
-              layout = {
-                gaps = 10;
-                background-color = config.lib.stylix.colors.base00;
-
-                default-column-width.proportion = 2. / 3.;
-                preset-column-widths = [
-                  { proportion = 2. / 3.; }
-                  { proportion = 1. / 3.; }
-                ];
+                natural-scroll = true;
               };
 
-              outputs =
-                let
-                  monitors = host.settings.monitors.monitors;
+              # disable-power-key-handling = true;
+            };
 
-                  mkMonitor =
-                    { name, primary, ... }@monitor:
-                    {
-                      inherit name;
-                      value = {
-                        inherit (monitor) enable scale;
+            animations.slowdown = 0.75;
+            animations.screenshot-ui-open.enable = false;
 
-                        focus-at-startup = primary;
-                        variable-refresh-rate = monitor.vrr;
+            layout = {
+              gaps = 10;
+              background-color = config.lib.stylix.colors.base00;
 
-                        mode = {
-                          inherit (monitor) width height;
-                          refresh = monitor.rate;
-                        };
+              default-column-width.proportion = 2. / 3.;
+              preset-column-widths = [
+                { proportion = 2. / 3.; }
+                { proportion = 1. / 3.; }
+              ];
+            };
 
-                        position = {
-                          inherit (monitor) x y;
-                        };
+            outputs =
+              let
+                monitors = host.settings.monitors.monitors;
+
+                mkMonitor =
+                  { name, primary, ... }@monitor:
+                  {
+                    inherit name;
+                    value = {
+                      inherit (monitor) enable scale;
+
+                      focus-at-startup = primary;
+                      variable-refresh-rate = monitor.vrr;
+
+                      mode = {
+                        inherit (monitor) width height;
+                        refresh = monitor.rate;
+                      };
+
+                      position = {
+                        inherit (monitor) x y;
                       };
                     };
-                in
-                builtins.listToAttrs (map mkMonitor monitors);
+                  };
+              in
+              builtins.listToAttrs (map mkMonitor monitors);
 
-              workspaces =
-                let
-                  monitors = host.settings.monitors.monitors;
+            workspaces =
+              let
+                monitors = host.settings.monitors.monitors;
 
-                  monitorsToWorkspaces =
-                    monitors:
-                    let
-                      inherit (builtins) listToAttrs concatMap;
-                      zeroPad =
-                        n:
-                        let
-                          s = builtins.toString n;
-                          padLength = 2 - builtins.stringLength s;
-                          padding = builtins.concatStringsSep "" (builtins.genList (_: "0") padLength);
-                        in
-                        padding + s;
-                    in
-                    listToAttrs (
-                      concatMap (
-                        monitor:
-                        map (workspace: {
-                          name = "${zeroPad workspace.number}-${workspace.name}";
-                          value = {
-                            inherit (workspace) name;
-                            open-on-output = monitor.name;
-                          };
-                        }) monitor.workspaces
-                      ) monitors
-                    );
-                in
-                monitorsToWorkspaces monitors;
-            };
+                monitorsToWorkspaces =
+                  monitors:
+                  let
+                    inherit (builtins) listToAttrs concatMap;
+                    zeroPad =
+                      n:
+                      let
+                        s = builtins.toString n;
+                        padLength = 2 - builtins.stringLength s;
+                        padding = builtins.concatStringsSep "" (builtins.genList (_: "0") padLength);
+                      in
+                      padding + s;
+                  in
+                  listToAttrs (
+                    concatMap (
+                      monitor:
+                      map (workspace: {
+                        name = "${zeroPad workspace.number}-${workspace.name}";
+                        value = {
+                          inherit (workspace) name;
+                          open-on-output = monitor.name;
+                        };
+                      }) monitor.workspaces
+                    ) monitors
+                  );
+              in
+              monitorsToWorkspaces monitors;
           };
+        };
 
         home.packages = [ pkgs.nirius ];
       };
@@ -167,17 +163,14 @@
   # https://github.com/sodiboo/niri-flake/pull/1548
 
   flake-file = {
-    inputs = {
-      # using this branch to use unmerged config options
-      niri.url = "github:epireyn/niri-flake";
-      # just for the niri-unstable packages
-      niri-pkgs.url = "github:sodiboo/niri-flake";
-      niri-pkgs.inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # using this branch to use unmerged config options
+    inputs.niri.url = "github:epireyn/niri-flake";
 
     nixConfig = {
-      extra-substituters = [ "https://niri.cachix.org" ];
-      extra-trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
+      extra-substituters = [ "https://niri-epireyn.cachix.org" ];
+      extra-trusted-public-keys = [
+        "niri-epireyn.cachix.org-1:tlVyFN7CtsDT+ZcLPS+ekFWeT1X6X4OqvWqbBMyIzFA="
+      ];
     };
   };
 }
