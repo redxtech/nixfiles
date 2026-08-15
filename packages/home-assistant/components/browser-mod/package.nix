@@ -17,13 +17,13 @@
         buildHomeAssistantComponent rec {
           owner = "thomasloven";
           domain = "browser_mod";
-          version = "3.2.0";
+          version = "3.2.1";
 
           src = fetchFromGitHub {
             inherit owner;
             repo = "hass-browser_mod";
             rev = "v${version}";
-            hash = "sha256-85s68pLPQJApVyTVd6XCL5SMBuzmGVwTXbiGHd/6FGU=";
+            hash = "sha256-G/cxktjreZq2rC0oo54hDAUcFuZTz7LZM8+5Hb2PBKA=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubSource {

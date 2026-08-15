@@ -157,13 +157,16 @@
       updatePackages = lib.filterAttrs (
         name: package: !(builtins.elem name excludedPackages) && package ? updateScript
       ) config.packages;
-      updateCommands = lib.mapAttrsToList (
+      updatePackageNames = builtins.attrNames updatePackages;
+      updateCases = lib.mapAttrsToList (
         name: package:
         let
           command = package.updateScript.command or package.updateScript;
         in
         ''
-          run_update ${lib.escapeShellArg name} ${lib.escapeShellArgs (lib.toList command)}
+          ${lib.escapeShellArg name})
+            run_update ${lib.escapeShellArg name} ${lib.escapeShellArgs (lib.toList command)}
+            ;;
         ''
       ) updatePackages;
     in
@@ -281,7 +284,33 @@
               fi
               repository_objects="$git_common_dir/objects"
 
-              ${lib.concatStrings updateCommands}
+              available_packages=( ${lib.escapeShellArgs updatePackageNames} )
+              requested_packages=( "$@" )
+              if ((''${#requested_packages[@]} == 0)); then
+                requested_packages=( "''${available_packages[@]}" )
+              else
+                for package in "''${requested_packages[@]}"; do
+                  package_exists=false
+                  for available_package in "''${available_packages[@]}"; do
+                    if [[ "$package" == "$available_package" ]]; then
+                      package_exists=true
+                      break
+                    fi
+                  done
+
+                  if [[ "$package_exists" == false ]]; then
+                    printf 'Unknown package: %s\n\nAvailable packages:\n' "$package" >&2
+                    printf '  %s\n' "''${available_packages[@]}" >&2
+                    exit 2
+                  fi
+                done
+              fi
+
+              for package in "''${requested_packages[@]}"; do
+                case "$package" in
+                  ${lib.concatStrings updateCases}
+                esac
+              done
 
               if ((''${#failures[@]} > 0)); then
                 printf '\nPackage update failures:\n' >&2
@@ -289,11 +318,11 @@
                 exit 1
               fi
 
-              printf '\nAll package updates and builds succeeded.\n'
+              printf '\nRequested package updates and builds succeeded.\n'
             '';
           }
         );
-        meta.description = "Update all packages in the repository";
+        meta.description = "Update all or selected packages in the repository";
       };
     };
 }
