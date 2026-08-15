@@ -45,7 +45,6 @@
         enable = true;
         configDir = "${server.configRoot}/homeassistant";
         lovelaceConfigWritable = true;
-        openFirewall = true;
 
         config = {
           default_config = { };
@@ -214,7 +213,6 @@
           "image"
           "image_processing"
           "image_upload"
-          "imap"
           "influxdb"
           "input_boolean"
           "input_button"

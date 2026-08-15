@@ -1,12 +1,14 @@
-{ inputs, ... }:
-
 {
   den.aspects.mouse = {
     nixos = {
-      imports = [ inputs.solaar.nixosModules.default ];
-
       services.ratbagd.enable = true;
-      services.solaar.enable = true;
+
+      programs.solaar = {
+        enable = true;
+
+        userService.enable = true;
+        userService.batteryIcons = "symbolic";
+      };
 
       hardware.logitech.wireless.enable = true;
       hardware.logitech.wireless.enableGraphical = true;
@@ -97,10 +99,5 @@
           thumb-scroll-mode: false
       '';
     };
-  };
-
-  flake-file.inputs.solaar = {
-    url = "github:Svenum/Solaar-Flake";
-    inputs.nixpkgs.follows = "nixpkgs";
   };
 }
