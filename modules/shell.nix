@@ -43,8 +43,6 @@
           inputs'.llm-agents.packages.skills
         ];
 
-        env.NIX_CONFIG = "extra-experimental-features = nix-command flakes";
-
         shellHook = ''
           alias ls="eza --group-directories-first"
           alias la="ls -la"

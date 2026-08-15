@@ -51,6 +51,7 @@ packages:
       .#packages.x86_64-linux.nix-inspect \
       .#packages.x86_64-linux.openportal \
       .#packages.x86_64-linux.orca \
+      .#packages.x86_64-linux.pitty \
       .#packages.x86_64-linux.plex-pass \
       .#packages.x86_64-linux.plex-pass-raw \
       .#packages.x86_64-linux.quasar \
