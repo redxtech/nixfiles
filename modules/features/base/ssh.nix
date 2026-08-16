@@ -20,6 +20,14 @@
 
         publicKey = name: ../../hosts/${name}/ssh_host_ed25519_key.pub;
         hostNames = filter (name: pathExists (publicKey name)) (attrNames self.nixosConfigurations);
+        networkIPs = filter (ip: ip != null) (
+          map (name: self.nixosConfigurations.${name}.config.network.ip) (attrNames self.nixosConfigurations)
+        );
+        tailnetIPs = [
+          "100.127.248.117" # bastion
+          "100.124.66.105" # quasar
+          "100.107.238.120" # voyager
+        ];
 
         mkFqdn =
           name:
@@ -55,11 +63,7 @@
         services.fail2ban = {
           enable = mkDefault true;
           maxretry = 5;
-          ignoreIP = [
-            # TODO: pull from network module
-            "100.127.248.117" # bastion
-            "100.107.238.120" # voyager
-          ];
+          ignoreIP = tailnetIPs ++ networkIPs;
         };
 
         programs.ssh = {

@@ -21,29 +21,27 @@
         lib,
         ...
       }:
+      let
+        inherit (host.settings.tailscale) advertiseTags;
+        tailscaleFlags = [
+          "--advertise-exit-node"
+          "--ssh=false"
+        ];
+      in
       {
-        services.tailscale =
-          let
-            setFlags = [
-              "--advertise-exit-node"
-              "--ssh"
-            ];
-            upFlags =
-              setFlags
-              ++ lib.optional (
-                host.settings.tailscale.advertiseTags != [ ]
-              ) "--advertise-tags=${lib.concatStringsSep "," host.settings.tailscale.advertiseTags}";
-          in
-          {
-            enable = true;
-            authKeyFile = config.sops.secrets.tailscale-init-authkey.path;
+        services.tailscale = {
+          enable = true;
+          authKeyFile = config.sops.secrets.tailscale-init-authkey.path;
 
-            openFirewall = true;
-            useRoutingFeatures = lib.mkDefault "both";
-            extraUpFlags = upFlags;
-            # tailscale set does not support changing advertised tags.
-            extraSetFlags = setFlags;
-          };
+          openFirewall = true;
+          useRoutingFeatures = lib.mkDefault "both";
+          extraUpFlags = lib.mkDefault (
+            tailscaleFlags
+            ++ lib.optional (advertiseTags != [ ]) "--advertise-tags=${lib.concatStringsSep "," advertiseTags}"
+          );
+          # tailscale set does not support changing advertised tags.
+          extraSetFlags = lib.mkDefault tailscaleFlags;
+        };
 
         # firewall for tailscale
         networking.firewall = {
@@ -55,8 +53,18 @@
       };
 
     provides.server.nixos =
-      { config, pkgs, ... }:
+      {
+        config,
+        host,
+        pkgs,
+        ...
+      }:
       let
+        inherit (host.settings.tailscale) advertiseTags;
+        tailscaleFlags = [
+          "--advertise-exit-node"
+          "--ssh"
+        ];
         docktailServiceNames = lib.filter (name: name != null) (
           lib.mapAttrsToList (
             _containerName: container: lib.attrByPath [ "labels" "docktail.service.name" ] null container
@@ -118,11 +126,18 @@
           '';
         };
       in
-      lib.mkIf (services != { }) {
+      {
+        services.tailscale = {
+          extraUpFlags =
+            tailscaleFlags
+            ++ lib.optional (advertiseTags != [ ]) "--advertise-tags=${lib.concatStringsSep "," advertiseTags}";
+          extraSetFlags = tailscaleFlags;
+        };
+
         # set-config currently loses the HTTPS listener when its backend uses
         # HTTP, so reconcile through the protocol-aware CLI instead.
         # https://github.com/tailscale/tailscale/issues/18381
-        systemd.services.tailscale-serve = {
+        systemd.services.tailscale-serve = lib.mkIf (services != { }) {
           description = "Tailscale Serve Configuration";
           after = [
             "tailscaled.service"

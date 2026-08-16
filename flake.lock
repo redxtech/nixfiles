@@ -2594,11 +2594,11 @@
         "wt-nvim-src": "wt-nvim-src"
       },
       "locked": {
-        "lastModified": 1786866154,
-        "narHash": "sha256-CFRtHwXuwnmWbwruWXlqaNez5ugNYGAxdoxBHeOzEfI=",
+        "lastModified": 1786893271,
+        "narHash": "sha256-Hl2vDoR/RyrXtu88tq2ilTcn6wHF3/e1f35x42BQ5ys=",
         "owner": "redxtech",
         "repo": "tu",
-        "rev": "5f4e331d7883783625f10eb9073665d01a1b7a91",
+        "rev": "96c88034954df21a45b95c6281c75640459f6e17",
         "type": "github"
       },
       "original": {
