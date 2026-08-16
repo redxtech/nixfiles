@@ -1,5 +1,3 @@
-{ inputs, self, ... }:
-
 {
   den.aspects.terminal = {
     homeManager =

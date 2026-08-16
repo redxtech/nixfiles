@@ -4,7 +4,6 @@
   den.aspects.ai = {
     includes = [
       den.aspects.ai-skills
-      den.aspects.kolu
       den.aspects.herdr
       den.aspects.mcp
       den.aspects.opencode
