@@ -38,6 +38,8 @@
             ll = "${ls} -l";
             l = "${ls} -l";
 
+            cd = "z";
+
             mkd = "mkdir -pv";
             mv = "mv -v";
             rm = "rm -i";
