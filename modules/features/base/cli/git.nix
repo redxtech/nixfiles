@@ -146,6 +146,8 @@
         enable = true;
 
         settings = {
+          # base is only set for --create, which excludes switches and PR checkouts.
+          pre-start = "{% if base %}if [ -f .envrc ]; then direnv allow; fi{% endif %}";
           merge.squash = false;
           commit.generation = {
             command = "PI_SKIP_VERSION_CHECK=1 ${lib.getExe config.programs.pi-coding-agent.package} --print --no-session --model openai-codex/gpt-5.6-luna --thinking low --no-tools --no-extensions --no-skills --no-prompt-templates --no-context-files --system-prompt ''";
