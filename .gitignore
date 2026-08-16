@@ -2,6 +2,8 @@ result
 .direnv
 .devenv
 
+.env
+
 # odu artifacts
 .ci
 
