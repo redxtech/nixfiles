@@ -5,28 +5,15 @@
     homeManager =
       { config, pkgs, ... }:
       {
-        imports = [ inputs.tu.homeModules.default ];
+        imports = [ inputs.tu.homeManagerModules.default ];
 
         home = {
-          sessionVariables = {
-            EDITOR = "tu";
-            VISUAL = "tu";
-            # PAGER = "tu +Man!";
-          };
-
+          sessionVariables.VISUAL = "tu";
           packages = with pkgs; [ nil ];
         };
 
         # my custom, self-contained neovim config
-        # TODO: move to nix-wrapper-modules
-        tu = {
-          enable = true;
-          packageNames = [
-            "tu"
-            "tu-dev"
-            "tu-profile"
-          ];
-        };
+        wrappers.tu.enable = true;
 
         programs.neovim = {
           enable = true;
@@ -65,7 +52,7 @@
           enable = true;
           settings = {
             frame = "none";
-            neovim-bin = lib.getExe config.tu.out.packages.tu;
+            neovim-bin = lib.getExe config.wrappers.tu.wrapper;
           };
         };
 
@@ -74,8 +61,8 @@
           genericName = "Text Editor";
           comment = "Edit text files - custom config";
           icon = "nvim";
-          exec = "${lib.getExe config.programs.kitty.package} ${lib.getExe config.tu.out.packages.tu} %F";
-          settings.TryExec = lib.getExe config.tu.out.packages.tu;
+          exec = "${lib.getExe config.programs.kitty.package} ${lib.getExe config.wrappers.tu.wrapper} %F";
+          settings.TryExec = lib.getExe config.wrappers.tu.wrapper;
           startupNotify = false;
           type = "Application";
           categories = [

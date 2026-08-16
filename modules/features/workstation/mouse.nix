@@ -10,8 +10,6 @@
         userService.batteryIcons = "symbolic";
       };
 
-      hardware.logitech.wireless.enable = true;
-      hardware.logitech.wireless.enableGraphical = true;
     };
 
     homeManager.xdg.configFile = {
