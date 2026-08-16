@@ -12,8 +12,11 @@
     {
       treefmt = {
         projectRootFile = "flake.nix";
-        programs.nixfmt.enable = pkgs.lib.meta.availableOn pkgs.stdenv.buildPlatform pkgs.nixfmt.compiler;
-        programs.nixfmt.package = pkgs.nixfmt;
+        programs.nixfmt = {
+          enable = pkgs.lib.meta.availableOn pkgs.stdenv.buildPlatform pkgs.nixfmt.compiler;
+          package = pkgs.nixfmt;
+          indent = 2;
+        };
         # programs.pendantix.enable = false;
         programs.shellcheck.enable = true;
       };
