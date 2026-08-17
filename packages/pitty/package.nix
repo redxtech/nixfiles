@@ -18,7 +18,7 @@
             ;
 
           pname = "pitty";
-          version = "0.5.18";
+          version = "0.5.20";
         in
         buildNpmPackage {
           inherit pname version;
@@ -27,7 +27,7 @@
             owner = "mistrjirka";
             repo = "PiTTy";
             tag = "v${version}";
-            hash = "sha256-wZJYRfonK3uE8QJ2p8Urd4kYHF14UY9dRRFGFQH2DQY=";
+            hash = "sha256-zU1xgbiJB5Mzj5KUrHcPfheuOlvXpI/jLeo74faN9jQ=";
           };
 
           npmDepsHash = "sha256-TvA5Bp6r+O4h2rTQjMjqaeYzwAkfRw2auj/b6TpxjPQ=";
