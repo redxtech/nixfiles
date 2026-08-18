@@ -1,4 +1,5 @@
 ---
+auto-exit: true
 description: Writes and edits accurate, clear technical documentation
 mode: primary
 temperature: 0.2

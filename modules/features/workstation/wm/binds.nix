@@ -241,7 +241,7 @@
                 in
                 pkgs.writeShellScriptBin script-name ''
                   mkdir -p ${config.xdg.userDirs.pictures}/screenshots/$(date +%Y)
-                  ${wayshot} ${region} --clipboard ${path} ${lib.optionalString edit toSatty}
+                  ${wayshot} --clipboard ${path} ${region} ${lib.optionalString edit toSatty}
                 '';
             in
             {

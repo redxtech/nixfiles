@@ -137,6 +137,7 @@
             prime-agent # RLM agent
             rtk # token consumption optimization
             skills # vercel skills installer
+            tuicr # code revivew tool
 
             pkgs.bun # a lot of tools use bun
             # pkgs.dolt # git for data
