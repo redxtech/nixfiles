@@ -19,12 +19,12 @@
         python313
         ;
 
-      version = "0.42.0";
+      version = "0.43.0";
       src = fetchFromGitHub {
         owner = "repowise-dev";
         repo = "repowise";
         tag = "v${version}";
-        hash = "sha256-NuvaAHmJQIBQ9cLl7pG3ADgKMwafSD1cNrbTTIq66KA=";
+        hash = "sha256-aLNKgmeRx5EHAMUIi3vwgmj9lqZSCILb3IL0kT5GtnQ=";
       };
       updateScript = pkgs.writeShellApplication {
         name = "update-repowise";
