@@ -144,7 +144,6 @@
             rsync # file transfer
             rsyncy # progress bar for rsync
             sd # better sed
-            sqlite # sqlite cli (for mcfly)
             sops # secrets manager
             sshfs # mount ssh filesystems
             steam-run # run binaries in steam FHS
@@ -253,6 +252,9 @@
               starwars = "telnet towel.blinkenlights.nl";
             };
 
+          # ensure systemd processes restart triggers after sops materializes secrets
+          activation.atuin-key-ready = lib.hm.dag.entryBetween [ "reloadSystemd" ] [ "sops-nix" ] "";
+
           sessionVariables = {
             DIRENV_LOG_FORMAT = "";
             ENTE_CLI_CONFIG_DIR = "${config.xdg.configHome}/ente";
@@ -273,6 +275,33 @@
         programs.ripgrep.enable = true;
         programs.ripgrep-all.enable = true;
         programs.zoxide.enable = true;
+
+        programs.atuin = {
+          enable = true;
+          daemon.enable = true;
+          forceOverwriteSettings = true;
+          settings = {
+            sync_address = "https://atuin.super.fish";
+            enter_accept = true;
+            keymap_mode = "vim-insert";
+            dotfiles.enabled = true;
+            key_path = config.sops.secrets.atuin-key.path;
+            daemon.sync_frequency = 300;
+            keys = {
+              accept_past_line_start = true;
+              accept_with_backspace = true;
+            };
+            ai = {
+              enabled = true;
+              endpoint = "https://atuin-ai.super.fish";
+            };
+          };
+        };
+
+        # restart atuin when its encrypted key source changes
+        systemd.user.services.atuin-daemon.Unit.X-Restart-Triggers = [
+          "${config.sops.secrets.atuin-key.sopsFile}"
+        ];
 
         programs.btop = {
           enable = true;
@@ -332,11 +361,6 @@
           historyWidget.command = "";
         };
 
-        programs.mcfly = {
-          enable = true;
-          keyScheme = "vim";
-        };
-
         programs.pay-respects = {
           enable = true;
           enableFishIntegration = true;
@@ -373,8 +397,29 @@
             sponsorblock-mark = "all";
           };
         };
+
+        sops.secrets.atuin-key.sopsFile = ../../../../secrets/users/gabe/secrets.yaml;
       };
   };
+
+  perSystem =
+    { pkgs, ... }:
+    {
+      # login to atuin, run with `secretspec run -- nix run .#atuin-login`
+      apps.atuin-login = {
+        type = "app";
+        program = pkgs.writeShellApplication {
+          name = "atuin-login";
+          runtimeInputs = [ pkgs.atuin ];
+          text = ''
+            : "''${ATUIN_PASSWORD:?ATUIN_PASSWORD must be set}"
+
+            exec atuin login -u gabe -p "$ATUIN_PASSWORD"
+          '';
+        };
+        meta.description = "Log in to the Atuin sync server";
+      };
+    };
 
   flake-file.inputs.nix-autobahn = {
     url = "github:lassulus/nix-autobahn";
