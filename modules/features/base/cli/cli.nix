@@ -144,7 +144,6 @@
             rsync # file transfer
             rsyncy # progress bar for rsync
             sd # better sed
-            sqlite # sqlite cli (for mcfly)
             sops # secrets manager
             sshfs # mount ssh filesystems
             steam-run # run binaries in steam FHS
@@ -264,6 +263,7 @@
         };
 
         programs.atool.enable = true;
+        programs.atuin.enable = true;
         programs.bat.enable = true;
         programs.bash.enable = true;
         programs.fd.enable = true;
@@ -332,11 +332,6 @@
           historyWidget.command = "";
         };
 
-        programs.mcfly = {
-          enable = true;
-          keyScheme = "vim";
-        };
-
         programs.pay-respects = {
           enable = true;
           enableFishIntegration = true;
@@ -375,6 +370,27 @@
         };
       };
   };
+
+  perSystem =
+    { pkgs, ... }:
+    {
+      # login to atuin, run with `secretspec run -- nix run .#atuin-login`
+      apps.atuin-login = {
+        type = "app";
+        program = pkgs.writeShellApplication {
+          name = "atuin-login";
+          runtimeEnv.ATUIN_SYNC_ADDRESS = "https://atuin.super.fish";
+          runtimeInputs = [ pkgs.atuin ];
+          text = ''
+            : "''${ATUIN_PASSWORD:?ATUIN_PASSWORD must be set}"
+            : "''${ATUIN_KEY:?ATUIN_KEY must be set}"
+
+            exec atuin login -u gabe -p "$ATUIN_PASSWORD" -k "$ATUIN_KEY"
+          '';
+        };
+        meta.description = "Log in to the Atuin sync server";
+      };
+    };
 
   flake-file.inputs.nix-autobahn = {
     url = "github:lassulus/nix-autobahn";
