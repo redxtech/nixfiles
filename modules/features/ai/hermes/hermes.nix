@@ -68,6 +68,11 @@
                 command = "super-productivity-mcp";
                 args = [ ];
               };
+              fastmail = {
+                url = "https://www.fastmail.com/dev/mcp";
+                headers.Authorization = "Bearer \${MCP_FASTMAIL_KEY}";
+                timeout = 180;
+              };
               strava = {
                 command = "strava-mcp-server";
                 args = [ ];

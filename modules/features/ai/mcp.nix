@@ -22,10 +22,6 @@
             codebase-memory.command = lib.getExe self'.packages.codebase-memory-mcp;
             nixos.command = lib.getExe pkgs.mcp-nixos;
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
-            kolu = {
-              command = lib.getExe inputs'.kolu.packages.default;
-              args = [ "mcp" ];
-            };
             github = {
               command = lib.getExe self'.packages.mcp-remote;
               args = [

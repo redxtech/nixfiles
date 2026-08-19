@@ -1,5 +1,3 @@
-{ den, ... }:
-
 {
   den.aspects.ai-skills.homeManager =
     { lib, pkgs, ... }:
@@ -58,50 +56,23 @@
         "code-police"
         "elegance"
         "fact-check"
-        "forge-pr"
         "hickey"
         "lowy"
-        "talk"
       ];
 
       koluAgentsSkills = [
-        "agent-debate"
-        "architecture-first-principles"
-        "be"
-        "be-review"
-        "bridge"
-        "coordinator"
         "diataxis"
-        "hostility-review"
-        "kolu"
-        "lens-debate"
+        # "lens-debate"
         "perfection-review"
-        "surface"
       ];
 
       mattPocockSkills = [
-        "engineering/ask-matt"
         "engineering/diagnosing-bugs"
-        "engineering/grill-with-docs"
-        "engineering/triage"
-        "engineering/improve-codebase-architecture"
-        "engineering/setup-matt-pocock-skills"
-        "engineering/tdd"
-        "engineering/to-spec"
-        "engineering/to-tickets"
-        "engineering/wayfinder"
-        "engineering/implement"
-        "engineering/prototype"
+        # "engineering/wayfinder"
         "engineering/research"
-        "engineering/domain-modeling"
         "engineering/codebase-design"
         "engineering/code-review"
-        "engineering/resolving-merge-conflicts"
-        "productivity/grill-me"
         "productivity/grilling"
-        "productivity/handoff"
-        "productivity/teach"
-        "productivity/writing-great-skills"
       ];
 
       obsidianSkillNames = [
@@ -159,7 +130,6 @@
           // {
             cyber-mux = localSkill "cyber-mux";
             home-assistant-cli = localSkill "home-assistant-cli";
-            kolu-cli = localSkill "kolu-cli";
             vaulted-cli = localSkill "vaulted-cli";
 
             ste-writing = pkgs.linkFarm "ste-writing-skill" [
