@@ -130,6 +130,7 @@
       den.aspects.hermes
       den.aspects.network-mounts
       den.aspects.streaming
+      den.aspects.sysdvr
     ];
 
     nixos =

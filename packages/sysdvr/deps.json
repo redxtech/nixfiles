@@ -1,0 +1,27 @@
+[
+  {
+    "pname": "GitInfo",
+    "version": "3.3.5",
+    "hash": "sha256-H3h24HrCyfNv4wHCekdnn9B8Y+33BtpnhpujaqK0VMY="
+  },
+  {
+    "pname": "Microsoft.CSharp",
+    "version": "4.7.0",
+    "hash": "sha256-Enknv2RsFF68lEPdrf5M+BpV1kHoLTVRApKUwuk/pj0="
+  },
+  {
+    "pname": "System.Text.Json",
+    "version": "9.0.0",
+    "hash": "sha256-aM5Dh4okLnDv940zmoFAzRmqZre83uQBtGOImJpoIqk="
+  },
+  {
+    "pname": "System.Threading.Tasks.Extensions",
+    "version": "4.5.4",
+    "hash": "sha256-owSpY8wHlsUXn5xrfYAiu847L6fAKethlvYx97Ri1ng="
+  },
+  {
+    "pname": "ThisAssembly.Constants",
+    "version": "1.4.1",
+    "hash": "sha256-svaYhPkUl47sGYi5EbYACZa3rT10rwE+uqJDaXFABlQ="
+  }
+]
