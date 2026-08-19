@@ -12,7 +12,14 @@
 
         xdg.autostart = {
           enable = true;
-          entries = [ "${config.programs.spicetify.spicedSpotify}/share/applications/spotify.desktop" ];
+          entries =
+            let
+              getDesktop = package: desktopFile: "${package}/share/applications/${desktopFile}.desktop";
+            in
+            [
+              (getDesktop config.programs.spicetify.spicedSpotify "spotify")
+              (getDesktop pkgs.super-productivity "superproductivity")
+            ];
         };
 
         # use niri to start these
@@ -24,7 +31,7 @@
               "mount_all"
             ];
           }
-          { argv = [ (lib.getExe pkgs.thunderbird) ]; } # TODO: look into birdtray
+          { argv = [ (lib.getExe config.programs.thunderbird.package) ]; }
           { argv = [ (lib.getExe config.programs.obsidian.package) ]; }
         ];
       };

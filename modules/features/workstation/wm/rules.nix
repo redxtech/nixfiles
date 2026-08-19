@@ -33,7 +33,10 @@
           open-on-workspace = "chat";
         }
         {
-          matches = [ { app-id = "thunderbird"; } ];
+          matches = [
+            { app-id = "thunderbird"; }
+            { app-id = "eu.betterbird.Betterbird"; }
+          ];
           open-on-workspace = "chat";
         }
         {
