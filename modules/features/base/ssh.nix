@@ -144,6 +144,10 @@
               bastion = mkDevice "bastion";
               voyager = mkDevice "voyager";
               quasar = mkDevice "quasar";
+              otoro = mkHost {
+                User = "superlodon";
+                HostName = "otoro.colobus-ratio.ts.net";
+              };
               homeassistant = mkHost {
                 User = "hassio";
                 HostName = "homeassistant";
@@ -173,6 +177,7 @@
                     "bastion"
                     "github.com"
                     "homeassistant"
+                    "otoro"
                     "quasar"
                     "rsync"
                     "sb"
