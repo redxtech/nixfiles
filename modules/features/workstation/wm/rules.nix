@@ -46,6 +46,10 @@
           default-column-width.proportion = 1.0;
           open-maximized-to-edges = false;
         }
+        {
+          matches = [ { app-id = "md.Obsidian"; } ];
+          on-xdg-activate = "focus";
+        }
 
         {
           matches = [
@@ -149,7 +153,6 @@
         [
           "footclient_float"
           "kitty_float"
-          "obsidian"
           "org.pulseaudio.pavucontrol"
           "pavucontrol"
           "pwvucontrol"

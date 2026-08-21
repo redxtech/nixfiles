@@ -55,6 +55,7 @@
         programs.niri = {
           settings = {
             xwayland-satellite.path = lib.getExe inputs'.niri.packages.xwayland-satellite-unstable;
+            debug.honor-xdg-activation-with-invalid-serial = [ ];
 
             prefer-no-csd = true; # prefer no client side decorations
             screenshot-path = "${config.xdg.userDirs.pictures}/screenshots/%Y/%Y-%m-%d_%H-%M-%S.png";

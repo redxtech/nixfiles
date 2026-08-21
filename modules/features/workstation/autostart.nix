@@ -16,10 +16,7 @@
             let
               getDesktop = package: desktopFile: "${package}/share/applications/${desktopFile}.desktop";
             in
-            [
-              (getDesktop config.programs.spicetify.spicedSpotify "spotify")
-              (getDesktop pkgs.super-productivity "superproductivity")
-            ];
+            [ (getDesktop config.programs.spicetify.spicedSpotify "spotify") ];
         };
 
         # use niri to start these
