@@ -29,6 +29,7 @@
             accountsOrder = [
               "fastmail"
               "super"
+              "gabedunndev"
               "redxtech"
             ];
 
@@ -67,6 +68,15 @@
             passwordCommand = sopsPasswordCommand "super";
             thunderbird.enable = true;
           };
+          gabedunndev = {
+            realName = "Gabe Dunn";
+            address = "gabe@gabedunn.dev";
+            userName = "gabe@gabedunn.dev";
+            imap.host = "imap.purelymail.com";
+            imap.port = 993;
+            passwordCommand = sopsPasswordCommand "gabedunndev";
+            thunderbird.enable = true;
+          };
           redxtech = {
             realName = "Gabe Dunn";
             address = "redxtechx@gmail.com";
@@ -88,6 +98,7 @@
           lib.genAttrs
             [
               "fastmail"
+              "gabedunndev"
               "redxtech"
               "super"
             ]
