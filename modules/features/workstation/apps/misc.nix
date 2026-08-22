@@ -5,6 +5,8 @@
       {
         programs.localsend.enable = true;
         programs.partition-manager.enable = true;
+        # install system-wide so polkit can discover bitwarden's unlock policy.
+        environment.systemPackages = [ pkgs.bitwarden-desktop ];
       };
 
     homeManager =
@@ -13,7 +15,6 @@
         home.packages = with pkgs; [
           # audacity # audio editor
           # beekeeper-studio-ultimate # database manager
-          # bitwarden-desktop # password manager # TODO: re-enable when it doesn't use electron_39
           discord # chat
           ente-desktop # photos app
           feishin # music player

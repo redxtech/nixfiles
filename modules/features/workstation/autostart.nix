@@ -16,7 +16,10 @@
             let
               getDesktop = package: desktopFile: "${package}/share/applications/${desktopFile}.desktop";
             in
-            [ (getDesktop config.programs.spicetify.spicedSpotify "spotify") ];
+            [
+              (getDesktop config.programs.spicetify.spicedSpotify "spotify")
+              (getDesktop pkgs.bitwarden-desktop "bitwarden")
+            ];
         };
 
         # use niri to start these
