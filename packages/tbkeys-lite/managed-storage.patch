@@ -1,0 +1,16 @@
+diff --git a/addon/background.js b/addon/background.js
+index 8f02d2e..8a01d12 100644
+--- a/addon/background.js
++++ b/addon/background.js
+@@ -63,7 +63,10 @@ async function getSettings() {
+     }
+   }
+ 
+-  return settings;
++  // managed settings take precedence over locally stored settings.
++  const managedSettings = await browser.storage.managed.get(optionNames);
++
++  return { ...settings, ...managedSettings };
+ }
+ // Apply key bindings
+ async function applyKeys() {

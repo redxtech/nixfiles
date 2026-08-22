@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index b18cfe8..679ff4b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -20,7 +20,7 @@ $(BLDDIR)/tbkeys-lite.xpi: $(SRC_FILES)
+ 	# Drop update_url
+ 	sed -i '/update_url/d' $(dir $@)/lite/manifest.json
+ 	sed -i 's/\( *"strict_min_version".*\),$$/\1,/' $(dir $@)/lite/manifest.json
+-	sed -i 's/\( *"strict_max_version": \)\(.*\),$$/\1"149.*"/' $(dir $@)/lite/manifest.json
++	sed -i 's/\( *"strict_max_version": \)\(.*\),$$/\1"*"/' $(dir $@)/lite/manifest.json
+ 	# Drop eval()
+ 	sed -i 's#^\( *\)eval(.*#\1// Do nothing#' $(dir $@)/lite/implementation.js
+ 	# Change name
