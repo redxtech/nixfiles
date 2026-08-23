@@ -427,3 +427,7 @@ capsule = true
 [widget.workspaces]
 capsule = true
 hide_when_empty = true
+
+    [widget.workspaces.actions]
+    scroll_left = "exec niri msg action focus-column-left"
+    scroll_right = "exec niri msg action focus-column-right"
