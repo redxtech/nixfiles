@@ -138,6 +138,7 @@
         in
         pkgs.input-fonts.overrideAttrs (oldAttrs: {
           pname = "input-custom";
+          outputs = (oldAttrs.outputs or [ "out" ]) ++ [ "collection" ];
 
           # the bundled customizer targets python 2.6, which nixpkgs no longer provides.
           postPatch = (oldAttrs.postPatch or "") + ''
@@ -167,6 +168,22 @@
               "''${fontPaths[@]}" \
               ${lib.escapeShellArgs customizeArguments} \
               "''${selectionArguments[@]}"
+
+            collectionDirectory="$collection/share/fonts/truetype"
+            mkdir -p "$collectionDirectory"
+
+            ${python}/bin/python3 - \
+              "$collectionDirectory/InputCustom.ttc" \
+              "$fontDirectory"/*.ttf <<'PY'
+            import sys
+
+            from fontTools.ttLib import TTCollection, TTFont
+
+            collection = TTCollection()
+            collection.fonts = [TTFont(path) for path in sys.argv[2:]]
+            collection.save(sys.argv[1])
+            collection.close()
+            PY
           '';
 
           passthru = (oldAttrs.passthru or { }) // {
