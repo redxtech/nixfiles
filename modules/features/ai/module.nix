@@ -1,6 +1,7 @@
 {
   flake.homeManagerModules.ai =
     {
+      self',
       config,
       inputs',
       lib,
@@ -199,6 +200,8 @@
           // lib.optionalAttrs (cfg.context != [ ]) {
             context = lib.mkBefore contextText;
           };
+
+          home.packages = [ self'.packages.pi-acp ];
 
           home.file = lib.mapAttrs' (
             name: source:

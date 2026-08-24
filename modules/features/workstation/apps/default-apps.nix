@@ -85,6 +85,7 @@
             "vlc.desktop"
           ];
           "video/mp4" = videos;
+          "video/quicktime" = videos;
           "video/webm" = videos;
           "video/x-matroska" = videos;
         };
@@ -104,6 +105,7 @@
             "application/pdf" = [ "zathura.desktop" ];
             "application/x-gnome-saved-search" = [ "nemo.desktop" ];
             "video/mp4" = video;
+            "video/quicktime" = video;
             "video/webm" = video;
             "video/x-matroska" = video;
             "x-scheme-handler/postman" = [ "Postman.desktop" ];
