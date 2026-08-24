@@ -324,16 +324,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1786680697,
-        "narHash": "sha256-/m1x8Pj3nJa/Cg6y6/NWII4Y+mPRLP5m5/shnG/PB58=",
+        "lastModified": 1787085599,
+        "narHash": "sha256-lPuayLN6W31zQ45UTQehP+tmoo/UrQJuRsJzi1wZ9Tg=",
         "owner": "DeusData",
         "repo": "codebase-memory-mcp",
-        "rev": "c0bd4bbf8dace58cffdb24fad86d95e325df99f4",
+        "rev": "46ae198fc11cda80e817acbc5f5908d7c2de7032",
         "type": "github"
       },
       "original": {
         "owner": "DeusData",
-        "ref": "v0.10.4",
+        "ref": "v0.10.8",
         "repo": "codebase-memory-mcp",
         "type": "github"
       }
@@ -1215,11 +1215,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1787347293,
-        "narHash": "sha256-cx7FqzFgZuvS9nOsQjA2N+hUOj1kBmwBm3uAX7tA+Bk=",
+        "lastModified": 1787551962,
+        "narHash": "sha256-zfumhlJTGDKSILebSBa8nTKG76ByIPlLkGPAKjxaiwE=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "57b127783da260d656d6cde273620da9d5267c59",
+        "rev": "46e6a013fd49779cd2def2c98fa447f197da3fe7",
         "type": "github"
       },
       "original": {

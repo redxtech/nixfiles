@@ -18,14 +18,14 @@
             ;
 
           pname = "cyber-mux";
-          version = "0.4.0";
+          version = "0.5.0";
         in
         buildNpmPackage {
           inherit pname version;
 
           src = fetchurl {
             url = "https://registry.npmjs.org/cyber-mux/-/cyber-mux-${version}.tgz";
-            hash = "sha256-gi+mTRvZ2jU6lW+BGJUFN4leMcP/Xop2XKlZAvF10zM=";
+            hash = "sha256-v+5vk26ZvU4ufEEo/VDFwchOBdR5xhXbdmiI8w8pLa8=";
           };
 
           npmDepsHash = "sha256-rLMr7NK4gKkCjfJvC6rwUpnXVtzflQ7zyahwc908ByM=";

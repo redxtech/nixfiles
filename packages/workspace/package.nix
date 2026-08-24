@@ -19,12 +19,12 @@
         python313
         ;
 
-      version = "1.24.1";
+      version = "1.25.0";
       src = fetchFromGitHub {
         owner = "taylorwilsdon";
         repo = "google_workspace_mcp";
         tag = "v${version}";
-        hash = "sha256-8tRqlzKYJAULDd/ZN/ziHOidKfzXtFuBWoL1YM0EzyI=";
+        hash = "sha256-mDf7iTag10XcMdSh5kirlu2yJKEpXug4EGIij9UQAzY=";
       };
       updateScript = pkgs.writeShellApplication {
         name = "update-workspace-mcp";
