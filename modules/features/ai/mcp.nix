@@ -31,11 +31,6 @@
               ];
               env.MCP_GITHUB_KEY.file = config.sops.secrets.mcp-github-key.path;
             };
-            vaulted = {
-              enabled = false;
-              command = lib.getExe self'.packages.vaulted;
-              args = [ "mcp" ];
-            };
           };
         };
 
@@ -44,7 +39,6 @@
           self'.packages.mcp-remote
           self'.packages.super-productivity-mcp
           self'.packages.kagi-mcp
-          self'.packages.vaulted
         ];
 
         sops.secrets =

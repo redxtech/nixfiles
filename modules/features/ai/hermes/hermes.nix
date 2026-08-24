@@ -103,7 +103,6 @@
               self'.packages.codebase-memory-mcp
               self'.packages.cua-driver
               self'.packages.gh-axi
-              self'.packages.vaulted
               rtk
             ]
             ++ config.ai.extraPackages;

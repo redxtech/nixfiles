@@ -44,7 +44,6 @@ packages:
       .#packages.x86_64-linux.home-assistant-lovelace-layout-card \
       .#packages.x86_64-linux.home-assistant-lovelace-waze-travel-time \
       .#packages.x86_64-linux.kagi-mcp \
-      .#packages.x86_64-linux.kimaki \
       .#packages.x86_64-linux.mcp-remote \
       .#packages.x86_64-linux.minicava \
       .#packages.x86_64-linux.moondeck-buddy \
@@ -57,7 +56,6 @@ packages:
       .#packages.x86_64-linux.quasar \
       .#packages.x86_64-linux.reboot-to-windows \
       .#packages.x86_64-linux.super-productivity-mcp \
-      .#packages.x86_64-linux.vaulted \
       .#packages.x86_64-linux.vm \
       .#packages.x86_64-linux.voyager \
       .#packages.x86_64-linux.workspace-mcp \

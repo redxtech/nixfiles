@@ -10,7 +10,6 @@ Use the narrowest supported interface that completes the task. Prefer compact, s
 - **Obsidian:** load the `obsidian-cli` skill and use the official `obsidian` CLI for vault operations.
 - **Terminal multiplexers:** load the `cyber-mux` skill and use `cyber-mux` instead of calling `tmux` or `herdr` directly. Use it for visible or persistent panes, interactive or long-running processes outside the current shell, existing-pane control, and pane-associated Git worktrees. Use ordinary shell tools for one-shot non-interactive commands and builtin subagents for delegation that does not need a visible terminal.
 - **Kolu:** load the `kolu-cli` skill and use `kaval-tui` or `padi-tui` only when the task specifically needs Kolu terminal, workspace, repository, branch, or agent-state semantics.
-- **Vaulted:** load the `vaulted-cli` skill. Agents execute secret-dependent commands through `vaulted run --`; secret values must not enter model context.
 
 Keep using the configured MCP for Nix ecosystem research, Super Productivity, Liftosaur, and Strava. Keep using Kagi MCP until a supported Kagi CLI exists.
 
