@@ -70,6 +70,7 @@
       den.aspects.auto-mount
       den.aspects.backup
       den.aspects.ssh
+      den.aspects.moshi
       den.aspects.tailscale # TODO: move to network
     ];
 
