@@ -22,7 +22,6 @@
         aspectSecretsFiles = {
           adguard = secretFiles.containers;
           beszel = secretFiles.containers;
-          booklore = secretFiles.containers;
           calibre = secretFiles.containers;
           calibre-web = secretFiles.containers;
           ddclient = secretFiles.containers;

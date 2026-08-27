@@ -58,16 +58,30 @@
                 ''
                   prometheus.exporter.unix "${hostName}" { }
 
+                  prometheus.exporter.cadvisor "${hostName}" {
+                    docker_host      = "unix:///var/run/docker.sock"
+                    docker_only      = true
+                    storage_duration = "5m"
+
+                    store_container_labels = false
+                    allowlisted_container_labels = [
+                      "com.docker.compose.project",
+                      "com.docker.compose.service",
+                    ]
+                  }
+
+                  prometheus.scrape "${hostName}_cadvisor" {
+                    targets         = prometheus.exporter.cadvisor.${hostName}.targets
+                    forward_to      = [prometheus.relabel.filter_metrics.receiver]
+                    scrape_interval = "30s"
+                  }
+
                   prometheus.scrape "scrape_metrics" {
                     targets         = prometheus.exporter.unix.${hostName}.targets
                     forward_to      = [prometheus.relabel.filter_metrics.receiver]
                     scrape_interval = "10s"
                   }
 
-                  prometheus.scrape "${hostName}_docker" {
-                    targets    = discovery.docker.${hostName}.targets
-                    forward_to = [prometheus.relabel.filter_metrics.receiver]
-                  }
                 ''
                 (mkLocalScraper "docker" 9323)
                 (builtins.concatStringsSep "\n" registeredScrapers)
@@ -83,6 +97,8 @@
                   }
 
                   prometheus.remote_write "metrics_service" {
+                    external_labels = { "host" = "${hostName}" }
+
                     endpoint {
                       url = "http://${monitoringHost}:${p monitoringConfig.services.prometheus.port}/api/v1/write"
                     }
@@ -115,36 +131,6 @@
                   }
                 ''
                 ''
-                  local.file_match "local_files" {
-                    path_targets = [{
-                      "__path__" = "/var/log/*.log",
-                      "job"      = "varlogs",
-                    }]
-                    sync_period = "5s"
-                  }
-
-                  loki.source.file "log_scraper" {
-                    targets       = local.file_match.local_files.targets
-                    forward_to    = [loki.process.filter_logs.receiver]
-                    tail_from_end = true
-                  }
-
-                  loki.process "filter_logs" {
-                    stage.drop {
-                      source              = ""
-                      expression          = ".*Connection closed by authenticating user root"
-                      drop_counter_reason = "noisy"
-                    }
-                    stage.static_labels {
-                      values = {
-                        "app"  = "varlogs",
-                        "host" = "${hostName}",
-                      }
-                    }
-                    forward_to = [loki.write.grafana_loki.receiver]
-                  }
-                ''
-                ''
                   loki.source.docker "docker_logs" {
                     host       = "unix:///var/run/docker.sock"
                     targets    = discovery.docker.${hostName}.targets
@@ -156,8 +142,17 @@
                     relabel_rules = discovery.relabel.docker.rules
                   }
 
+                  loki.process "filter_journal" {
+                    stage.drop {
+                      source              = ""
+                      expression          = ".*Connection closed by authenticating user root"
+                      drop_counter_reason = "noisy"
+                    }
+                    forward_to = [loki.write.grafana_loki.receiver]
+                  }
+
                   loki.source.journal "${hostName}_journal" {
-                    forward_to    = [loki.write.grafana_loki.receiver]
+                    forward_to    = [loki.process.filter_journal.receiver]
                     relabel_rules = discovery.relabel.journal.rules
                     labels        = {
                       "app"  = "journal",
@@ -177,7 +172,16 @@
           };
 
           systemd.services.alloy.serviceConfig = {
+            AmbientCapabilities = [
+              "CAP_DAC_READ_SEARCH"
+              "CAP_SYSLOG"
+            ];
+            CapabilityBoundingSet = [
+              "CAP_DAC_READ_SEARCH"
+              "CAP_SYSLOG"
+            ];
             DynamicUser = lib.mkForce false;
+            NoNewPrivileges = true;
             User = "alloy";
           };
 

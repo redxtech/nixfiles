@@ -50,10 +50,7 @@
               "8000:8000"
               (mkPorts port)
             ];
-            volumes = [
-              "/var/run/docker.sock:/var/run/docker.sock"
-              "${dataDir}:/data"
-            ];
+            volumes = [ "${dataDir}:/data" ];
             extraOptions = [
               "--network"
               "host"

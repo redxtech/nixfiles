@@ -114,6 +114,35 @@
         ++ lib.mapAttrsToList (name: value: "${name}=${value}") cfg.environment
         ++ lib.mapAttrsToList (name: value: "${name}=${value}") extraEnvironment
         ++ [ "HERMES_MANAGED_DIR=${cfg.managedDirectory}" ];
+      formatSocketAddress =
+        host: port:
+        let
+          bareHost = lib.removePrefix "[" (lib.removeSuffix "]" host);
+          formattedHost = if lib.hasInfix ":" bareHost then "[${bareHost}]" else bareHost;
+        in
+        "${formattedHost}:${toString port}";
+      # Hermes derives its authentication and Host-header policy from the bind host, so the
+      # backend must retain the configured host even though wildcard listeners are dialed via loopback.
+      dashboardBackendHost =
+        if cfg.dashboard.host == "0.0.0.0" then
+          "127.0.0.1"
+        else if cfg.dashboard.host == "::" then
+          "::1"
+        else
+          cfg.dashboard.host;
+      dashboardSocketAddress = formatSocketAddress cfg.dashboard.host cfg.dashboard.port;
+      dashboardBackendAddress = formatSocketAddress dashboardBackendHost cfg.dashboard.backendPort;
+      dashboardReadyCheck = pkgs.writeShellScript "wait-for-hermes-dashboard" ''
+        for _attempt in {1..300}; do
+          if (exec 3<>"/dev/tcp/${dashboardBackendHost}/${toString cfg.dashboard.backendPort}") 2>/dev/null; then
+            exit 0
+          fi
+          ${pkgs.coreutils}/bin/sleep 0.1
+        done
+
+        echo "Hermes dashboard did not become ready at ${dashboardBackendAddress}" >&2
+        exit 1
+      '';
 
       mkGatewayService =
         {
@@ -188,10 +217,15 @@
           needsNetwork = true;
         };
 
-      gatewayPorts = [
-        cfg.gateway.port
-      ]
-      ++ lib.mapAttrsToList (_profile: gateway: gateway.port) cfg.profileGateways;
+      gatewayPorts =
+        lib.optional cfg.gateway.enable cfg.gateway.port
+        ++ lib.mapAttrsToList (_profile: gateway: gateway.port) cfg.profileGateways;
+      servicePorts =
+        gatewayPorts
+        ++ lib.optionals cfg.dashboard.enable [
+          cfg.dashboard.port
+          cfg.dashboard.backendPort
+        ];
       invalidProfileNames = lib.filter (
         profile: profile == "default" || builtins.match "[a-z0-9][a-z0-9_-]{0,63}" profile == null
       ) (builtins.attrNames cfg.profileGateways);
@@ -233,6 +267,18 @@
             type = lib.types.str;
             default = "0.0.0.0";
             description = "Host used by the Hermes Agent web dashboard";
+          };
+
+          backendPort = lib.mkOption {
+            type = lib.types.port;
+            default = 19119;
+            description = "Port used by the Hermes Agent web dashboard behind its socket proxy";
+          };
+
+          idleTimeout = lib.mkOption {
+            type = lib.types.str;
+            default = "5min";
+            description = "Time without dashboard connections before stopping its socket proxy and backend";
           };
         };
 
@@ -305,6 +351,10 @@
         };
 
         gateway = {
+          enable = lib.mkEnableOption "the default Hermes gateway" // {
+            default = true;
+          };
+
           port = lib.mkOption {
             type = lib.types.port;
             default = 8642;
@@ -462,8 +512,8 @@
                   message = "services.hermes-agent.profileGateways contains invalid profile names: ${toString invalidProfileNames}; names must match [a-z0-9][a-z0-9_-]{0,63} and must not be default";
                 }
                 {
-                  assertion = builtins.length gatewayPorts == builtins.length (lib.unique gatewayPorts);
-                  message = "services.hermes-agent gateway API ports must be unique: ${toString gatewayPorts}";
+                  assertion = builtins.length servicePorts == builtins.length (lib.unique servicePorts);
+                  message = "services.hermes-agent service ports must be unique: ${toString servicePorts}";
                 }
                 {
                   assertion = invalidDocumentNames == [ ];
@@ -525,60 +575,109 @@
                   '';
             };
 
-            systemd.user.services = {
-              hermes-agent = mkGatewayService {
-                name = "hermes-agent";
-                description = "Hermes Agent Gateway";
-                gatewayHome = hermesHome;
-                inherit (cfg) workingDirectory extraArgs;
-                inherit (cfg.gateway)
-                  port
-                  environment
-                  unsetEnvironment
-                  ;
-              };
-            }
-            // lib.mapAttrs' (
-              profile: gateway:
-              lib.nameValuePair "hermes-agent-${profile}" (mkProfileGatewayService profile gateway)
-            ) cfg.profileGateways;
+            systemd.user.services =
+              lib.optionalAttrs cfg.gateway.enable {
+                hermes-agent = mkGatewayService {
+                  name = "hermes-agent";
+                  description = "Hermes Agent Gateway";
+                  gatewayHome = hermesHome;
+                  inherit (cfg) workingDirectory extraArgs;
+                  inherit (cfg.gateway)
+                    port
+                    environment
+                    unsetEnvironment
+                    ;
+                };
+              }
+              // lib.mapAttrs' (
+                profile: gateway:
+                lib.nameValuePair "hermes-agent-${profile}" (mkProfileGatewayService profile gateway)
+              ) cfg.profileGateways;
           }
 
           (lib.mkIf cfg.dashboard.enable {
-            systemd.user.services.hermes-dashboard = {
-              Unit = {
-                Description = "Hermes Agent Web Dashboard";
-                After = [ "hermes-agent.service" ];
-                ConditionPathExists = [ "!${hermesHome}/.managed" ];
+            systemd.user = {
+              sockets.hermes-dashboard = {
+                Unit = {
+                  Description = "Hermes Agent Web Dashboard Socket";
+                  ConditionPathExists = [ "!${hermesHome}/.managed" ];
+                };
+
+                Socket = {
+                  ListenStream = dashboardSocketAddress;
+                  Service = "hermes-dashboard-proxy.service";
+                };
+
+                Install.WantedBy = [ "sockets.target" ];
               };
 
-              Service = {
-                Environment = serviceEnvironment hermesHome { };
-                EnvironmentFile = cfg.environmentFiles;
-                ExecStart = lib.escapeShellArgs [
-                  (lib.getExe cfg.finalPackage)
-                  "dashboard"
-                  "--host"
-                  cfg.dashboard.host
-                  "--port"
-                  (toString cfg.dashboard.port)
-                  "--no-open"
-                ];
-                Restart = "always";
-                RestartSec = 5;
-                WorkingDirectory = cfg.workingDirectory;
+              services = {
+                hermes-dashboard = {
+                  Unit = {
+                    Description = "Hermes Agent Web Dashboard";
+                    After = lib.optional cfg.gateway.enable "hermes-agent.service";
+                    ConditionPathExists = [ "!${hermesHome}/.managed" ];
+                    StopWhenUnneeded = true;
+                  };
 
-                NoNewPrivileges = true;
-                PrivateTmp = true;
-                ProtectHome = false;
-                ProtectSystem = "strict";
-                ReadWritePaths = [
-                  hermesHome
-                  cfg.workingDirectory
-                ];
+                  Service = {
+                    Environment = serviceEnvironment hermesHome { };
+                    EnvironmentFile = cfg.environmentFiles;
+                    ExecStart = lib.escapeShellArgs [
+                      (lib.getExe cfg.finalPackage)
+                      "dashboard"
+                      "--host"
+                      cfg.dashboard.host
+                      "--port"
+                      (toString cfg.dashboard.backendPort)
+                      "--no-open"
+                    ];
+                    Restart = "always";
+                    RestartSec = 5;
+                    WorkingDirectory = cfg.workingDirectory;
+
+                    NoNewPrivileges = true;
+                    PrivateTmp = true;
+                    ProtectHome = false;
+                    ProtectSystem = "strict";
+                    ReadWritePaths = [
+                      hermesHome
+                      cfg.workingDirectory
+                    ];
+                  };
+                };
+
+                hermes-dashboard-proxy = {
+                  Unit = {
+                    Description = "Hermes Agent Web Dashboard Socket Proxy";
+                    Requires = [
+                      "hermes-dashboard.service"
+                      "hermes-dashboard.socket"
+                    ];
+                    After = [
+                      "hermes-dashboard.service"
+                      "hermes-dashboard.socket"
+                    ];
+                    ConditionPathExists = [ "!${hermesHome}/.managed" ];
+                  };
+
+                  Service = {
+                    ExecStartPre = dashboardReadyCheck;
+                    ExecStart = lib.escapeShellArgs [
+                      "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd"
+                      "--exit-idle-time=${cfg.dashboard.idleTimeout}"
+                      dashboardBackendAddress
+                    ];
+                    Restart = "on-failure";
+                    RestartSec = 1;
+
+                    NoNewPrivileges = true;
+                    PrivateTmp = true;
+                    ProtectHome = true;
+                    ProtectSystem = "strict";
+                  };
+                };
               };
-
-              Install.WantedBy = [ "default.target" ];
             };
           })
 

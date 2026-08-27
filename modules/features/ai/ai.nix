@@ -9,20 +9,10 @@
       den.aspects.opencode
     ];
 
-    nixos =
-      { host, config, ... }:
-      let
-        homeConfig = config.home-manager.users.${host.settings.base.primaryUser};
-      in
-      {
-        network.services.paseo = homeConfig.services.paseo.port;
-      };
-
     homeManager =
       {
         self',
         inputs',
-        osConfig,
         lib,
         pkgs,
         ...
@@ -39,7 +29,6 @@
         imports = [
           self.homeManagerModules.ai
           self.homeManagerModules.orca
-          self.homeManagerModules.paseo
         ];
 
         config = {
@@ -108,21 +97,6 @@
 
           home.sessionVariables.PI_SUBAGENT_HERDR_PLACEMENT = "tab";
 
-          services.orca.enable = true;
-
-          services.paseo = {
-            enable = true;
-            package = self'.packages.paseo;
-
-            host = "0.0.0.0";
-            hostnames = [
-              "localhost"
-              osConfig.networking.hostName
-              "paseo.${osConfig.networking.fqdn}" # TODO: fix websocket not working on full url
-            ];
-            webUi.enable = true;
-          };
-
           home.packages = with inputs'.llm-agents.packages; [
             # general tools
             apm # agent package manager
@@ -133,6 +107,7 @@
             gitbutler # git client
             hunk # review-first diff viewer
             omp # oh-my-pi
+            orca # agent orchestration
             paseo-desktop # agent orchestration
             prime-agent # RLM agent
             rtk # token consumption optimization

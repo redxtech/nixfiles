@@ -110,7 +110,7 @@
         }
         {
           name = "Sunshine Client";
-          matches = "*sink-sunshine-stereo*";
+          matches = ".*sink-sunshine-stereo.*";
         }
       ];
     };

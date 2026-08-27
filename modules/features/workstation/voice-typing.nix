@@ -41,7 +41,7 @@
             language = "en";
             translate = false;
             gpu_isolation = false;
-            on_demand_loading = host.settings.workstation.isLaptop;
+            on_demand_loading = true;
             flash_attention = false;
             eager_processing = false;
             mode = "local";
@@ -91,7 +91,7 @@
           parakeet = {
             streaming = true;
             model = "parakeet-unified-en-0.6b";
-            on_demand_loading = false;
+            on_demand_loading = true;
             streaming_chunk_secs = 0.32;
             streaming_left_context_secs = 5.6;
             streaming_right_context_secs = 0.32;

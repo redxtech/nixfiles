@@ -84,8 +84,7 @@
           startAgent = false;
         };
 
-        # mosbile shell
-        services.eternal-terminal.enable = true;
+        # mobile shell
         programs.mosh.enable = true;
       };
 

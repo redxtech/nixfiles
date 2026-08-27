@@ -26,15 +26,18 @@
           enable = true;
           dashboard.enable = true;
 
-          gateway.port = 8642;
-          gateway.unsetEnvironment = [
-            "DISCORD_BOT_TOKEN"
-            "MATTERMOST_TOKEN"
-            "MATRIX_ACCESS_TOKEN"
-            "SLACK_BOT_TOKEN"
-            "TELEGRAM_BOT_TOKEN"
-            "WEIXIN_TOKEN"
-          ];
+          gateway = {
+            enable = false;
+            port = 8642;
+            unsetEnvironment = [
+              "DISCORD_BOT_TOKEN"
+              "MATTERMOST_TOKEN"
+              "MATRIX_ACCESS_TOKEN"
+              "SLACK_BOT_TOKEN"
+              "TELEGRAM_BOT_TOKEN"
+              "WEIXIN_TOKEN"
+            ];
+          };
 
           profileGateways.assistant = {
             port = 8643;

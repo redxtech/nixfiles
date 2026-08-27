@@ -3,13 +3,13 @@
 {
   den.aspects.idle-inhibit = {
     homeManager =
-      { pkgs, ... }:
+      { config, ... }:
       {
         imports = [ inputs.idle-inhibit.homeModules.default ];
 
         services.wayland-pipewire-idle-inhibit = {
           enable = true;
-          systemdTarget = "sway-session.target";
+          systemdTarget = config.wayland.systemd.target;
           settings = {
             node_blacklist = [ { name = "spotify"; } ];
           };

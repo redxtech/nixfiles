@@ -59,7 +59,6 @@
       den.aspects.bento
       den.aspects.bazarr
       den.aspects.beszel
-      den.aspects.booklore
       den.aspects.calibre
       den.aspects.calibre-web
       den.aspects.cockpit

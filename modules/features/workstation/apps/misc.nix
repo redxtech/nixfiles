@@ -18,6 +18,7 @@
           discord # chat
           ente-desktop # photos app
           feishin # music player
+          fractal # matrix client
           google-chrome # backup browser
           insomnia # api client
           kooha # simple screen recorder
@@ -40,8 +41,6 @@
           wev # wayland event viewer
           xfce4-exo # file opener
         ];
-
-        services.keybase.enable = true;
 
         programs.zathura = {
           enable = true;

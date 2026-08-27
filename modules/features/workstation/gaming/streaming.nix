@@ -25,6 +25,7 @@
           in
           {
             enable = true;
+            autoStart = false;
             openFirewall = true;
             capSysAdmin = true;
 
@@ -87,13 +88,14 @@
         systemd.user.services.moondeck-buddy = lib.mkIf host.settings.streaming.moondeck {
           unitConfig = {
             Description = "MoonDeckBuddy";
-            After = [ "graphical-session.target" ];
+            After = [ "sunshine.service" ];
+            PartOf = [ "sunshine.service" ];
           };
           serviceConfig = {
             ExecStart = lib.getExe self'.packages.moondeck-buddy;
             Restart = "on-failure";
           };
-          wantedBy = [ "graphical-session.target" ];
+          wantedBy = [ "sunshine.service" ];
         };
 
         environment.systemPackages = lib.optional host.settings.streaming.moondeck self'.packages.moondeck-buddy;

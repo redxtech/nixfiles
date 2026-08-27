@@ -61,7 +61,7 @@
           type = lib.types.listOf lib.types.str;
           default = [ ];
           apply = lib.unique;
-          example = [ "booklore" ];
+          example = [ "media" ];
           description = "Docker bridge networks managed for OCI containers.";
         };
 
