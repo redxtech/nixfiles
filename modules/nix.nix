@@ -59,6 +59,14 @@
           # enable hard-linking in nix store
           nix.optimise.automatic = true;
         }
+        ({ config, ... }: {
+          # provide nix access-tokens with sops
+          nix.extraOptions = ''
+            !include ${config.sops.secrets."nix-access-tokens".path}
+          '';
+
+          sops.secrets.nix-access-tokens.sopsFile = ../secrets/hosts/common/secrets.yaml;
+        })
       ];
 
       homeManager =
