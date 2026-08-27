@@ -70,23 +70,6 @@
         programs.thunderbird = {
           enable = true;
 
-          policies."3rdparty".Extensions.${tbkeysLite.addonId} = {
-            mainkeys = builtins.toJSON {
-              "#" = "cmd:cmd_delete";
-              a = "cmd:cmd_replyall";
-              c = "func:MsgNewMessage";
-              f = "cmd:cmd_forward";
-              j = "cmd:cmd_nextMsg";
-              k = "cmd:cmd_previousMsg";
-              h = "cmd:cmd_archive";
-              o = "cmd:cmd_openMessage";
-              r = "cmd:cmd_reply";
-              u = "tbkeys:closeMessageAndRefresh";
-              x = "cmd:cmd_archive";
-            };
-            composekeys = builtins.toJSON { };
-          };
-
           profiles.gabe = {
             isDefault = true;
             extensions = [ tbkeysLite ];

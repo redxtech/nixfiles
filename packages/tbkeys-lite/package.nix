@@ -22,10 +22,7 @@
           hash = "sha256-bCzjsVf0IadtXLtFPppiV+zIwFnD6LKCrDWPDTpqA94=";
         };
 
-        patches = [
-          ./managed-storage.patch
-          ./thunderbird-compatibility.patch
-        ];
+        patches = [ ./thunderbird-compatibility.patch ];
 
         nativeBuildInputs = [ pkgs.zip ];
 
