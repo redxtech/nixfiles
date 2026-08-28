@@ -35,7 +35,6 @@
           # postman # api client
           # qdirstat # disk usage analyzer
           seahorse # gpg manager
-          super-productivity # productivity app
           tauon # audio player
           via # keyboard flasher
           wev # wayland event viewer

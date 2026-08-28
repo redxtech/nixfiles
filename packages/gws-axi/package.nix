@@ -26,7 +26,7 @@
             hash = "sha256-DV6HS0z6DegRd5Pei+9Zm0euzn3xhkgrgNqcUZT0hhk=";
           };
 
-          npmDepsHash = "sha256-fAdQSxmaDGlW4KRPKCRPKF7eO3sC78PmNUoZ6yxivmY=";
+          npmDepsHash = "sha256-usX6XdvrAjo2Y7+sAha1Sb0tGuzjPUJRtEhmTUh3Bx4=";
 
           # The published tarball has no lockfile. These local manifests pin its
           # runtime-only dependency closure and take their release version here.
@@ -38,6 +38,12 @@
           '';
 
           dontNpmBuild = true;
+          doInstallCheck = true;
+          installCheckPhase = ''
+            runHook preInstallCheck
+            $out/bin/gws-axi --help > /dev/null
+            runHook postInstallCheck
+          '';
 
           passthru.updateScript = packageUpdateScripts.npm;
 

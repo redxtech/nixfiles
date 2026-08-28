@@ -12,6 +12,7 @@
     "diff": "^9.0.0",
     "google-auth-library": "^10.7.0",
     "googleapis": "^173.0.0",
+    "marked": "^18.0.9",
     "turndown": "^7.2.4"
   },
   "overrides": {

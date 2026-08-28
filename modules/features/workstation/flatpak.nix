@@ -28,10 +28,7 @@
             Environment.XCURSOR_PATH = "/run/host/user-share/icons:/run/host/share/icons";
           };
 
-          # packages = [
-          #   "com.getpostman.Postman"
-          #   "io.github.seadve.Kooha"
-          # ];
+          packages = [ "com.super_productivity.SuperProductivity" ];
         };
 
         xdg.dataFile."fonts".source =

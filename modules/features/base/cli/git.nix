@@ -163,8 +163,7 @@
 
       home.shellAliases.wsc = "wt switch --create --execute=pi";
 
-      # programs.gh-dash.enable = true;
-      # programs.git-cliff.enable = true;
-      # programs.jujutsu.enable = true;
+      programs.gh-dash.enable = true;
+      programs.jujutsu.enable = true;
     };
 }
