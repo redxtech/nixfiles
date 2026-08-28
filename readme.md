@@ -35,12 +35,13 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 ## packages
 
 <details>
-<summary>show 62 packages</summary>
+<summary>show 63 packages</summary>
 
 | package | version | description | upstream |
 | --- | --- | --- | --- |
 | [`betterbird`](packages/betterbird/package.nix) | `153.1.0esr-bb7` | Fine-tuned version of Mozilla Thunderbird | [source](https://github.com/Betterbird/thunderbird-patches) |
 | [`codebase-memory-mcp`](packages/codebase-memory-mcp/package.nix) | `0.10.8` | MCP server that builds and queries a semantic graph of your codebase | [source](https://github.com/DeusData/codebase-memory-mcp) |
+| [`collie`](packages/collie/package.nix) | `0.35.0` | Mobile web interface for monitoring and controlling Herdr sessions | [source](https://colliepwa.dev) |
 | [`cua-driver`](packages/cua-driver/package.nix) | `0.21.0` | Cross-platform MCP server for computer-use automation | [source](https://github.com/trycua/cua) |
 | [`cyber-mux`](packages/cyber-mux/package.nix) | `0.5.0` | Cross-multiplexer pane control for AI-agent tooling | [source](https://github.com/cyberuni/cyber-mux) |
 | [`docker-axi`](packages/axi/package.nix) | `0-unstable-2026-07-09` | Agent-facing Docker CLI for safe, token-efficient workflows | [source](https://github.com/thatdudealso/docker-axi) |
