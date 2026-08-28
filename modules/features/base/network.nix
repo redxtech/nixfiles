@@ -13,6 +13,9 @@
 
         # networking.nftables.enable = mkDefault true; # TODO: enable when fixed in docker
 
+        # duplicated by network-manager
+        hardware.facter.detected.dhcp.enable = false;
+
         # needed for iwd
         services.gnome.gnome-keyring.enable = true;
 

@@ -48,8 +48,6 @@
           home.packages = with pkgs; [
             bluetuith
           ];
-
-          services.blueman-applet.enable = true;
         };
     };
   };

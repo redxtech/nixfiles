@@ -25,30 +25,15 @@
 
         services.hermes-agent = {
           enable = true;
+          workingDirectory = "${config.home.homeDirectory}/Documents/personal";
+          extraArgs = [
+            "run"
+            "--replace"
+            "--external-supervisor"
+          ];
+
           dashboard.enable = true;
-
-          gateway = {
-            enable = false;
-            port = 8642;
-            unsetEnvironment = [
-              "DISCORD_BOT_TOKEN"
-              "MATTERMOST_TOKEN"
-              "MATRIX_ACCESS_TOKEN"
-              "SLACK_BOT_TOKEN"
-              "TELEGRAM_BOT_TOKEN"
-              "WEIXIN_TOKEN"
-            ];
-          };
-
-          profileGateways.assistant = {
-            port = 8643;
-            workingDirectory = "${config.home.homeDirectory}/Documents/personal";
-            extraArgs = [
-              "run"
-              "--replace"
-              "--external-supervisor"
-            ];
-          };
+          gateway.port = 8642;
 
           managedSkills = config.ai.finalSkills;
           documents."AGENTS.md" = config.ai.contextFile;
