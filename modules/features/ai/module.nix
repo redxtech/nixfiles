@@ -115,6 +115,22 @@
               fi
             '';
 
+      mkAgentFiles =
+        root: agents:
+        lib.mapAttrs' (
+          name: source:
+          lib.nameValuePair "${root}/${name}.md" (
+            if builtins.isPath source || lib.hasPrefix "/" source then
+              { inherit source; }
+            else
+              { text = source; }
+          )
+        ) agents;
+
+      mkSkillFiles =
+        root: skills:
+        lib.mapAttrs' (name: source: lib.nameValuePair "${root}/${name}" { inherit source; }) skills;
+
       finalAgents = lib.mapAttrs formatAgent cfg.agents;
       finalSkills = lib.mapAttrs formatSkill cfg.skills;
     in
@@ -185,9 +201,7 @@
           home.packages = cfg.extraPackages;
 
           home.file =
-            lib.mapAttrs' (
-              name: source: lib.nameValuePair ".agents/skills/${name}" { inherit source; }
-            ) finalSkills
+            mkSkillFiles ".agents/skills" finalSkills
             // lib.optionalAttrs (cfg.context != [ ]) {
               ".agents/AGENTS.md".source = contextFile;
             };
@@ -204,19 +218,46 @@
           home.packages = [ self'.packages.pi-acp ];
 
           home.file =
-            lib.mapAttrs' (
-              name: source:
-              lib.nameValuePair ".pi/agent/agents/${name}.md" (
-                if builtins.isPath source || lib.hasPrefix "/" source then
-                  { inherit source; }
-                else
-                  { text = source; }
-              )
-            ) finalAgents
-            // lib.mapAttrs' (
-              name: source: lib.nameValuePair ".pi/agent/skills/${name}" { inherit source; }
-            ) finalSkills;
+            mkAgentFiles ".pi/agent/agents" finalAgents // mkSkillFiles ".pi/agent/skills" finalSkills;
         })
+
+        (lib.mkIf (lib.elem inputs'.llm-agents.packages.omp config.home.packages) (
+          let
+            validateAgent =
+              name: source:
+              let
+                sourceFile =
+                  if builtins.isPath source || lib.hasPrefix "/" source then
+                    source
+                  else
+                    pkgs.writeText "omp-agent-${name}.md" source;
+              in
+              pkgs.runCommand "validated-omp-agent-${name}.md"
+                {
+                  nativeBuildInputs = [ pkgs.yq-go ];
+                }
+                ''
+                  if ! yq --front-matter=extract -e '
+                    .name != null
+                    and .description != null
+                    and (.name | type == "!!str")
+                    and (.description | type == "!!str")
+                    and (.name | length > 0)
+                    and (.description | length > 0)
+                  ' "${sourceFile}" >/dev/null; then
+                    echo "OMP agent '${name}' must define non-empty name and description frontmatter" >&2
+                    exit 1
+                  fi
+
+                  cp "${sourceFile}" "$out"
+                '';
+
+            agents = lib.mapAttrs validateAgent finalAgents;
+          in
+          {
+            home.file = mkAgentFiles ".omp/agent/agents" agents // mkSkillFiles ".omp/agent/skills" finalSkills;
+          }
+        ))
 
         (lib.mkIf config.programs.opencode.enable {
           programs.opencode = {
