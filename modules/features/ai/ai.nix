@@ -53,6 +53,7 @@
               gh-axi
               gws-axi
               kagi-mcp
+              karakeep-cli
               kubernetes-axi
               mcp-remote
               openportal

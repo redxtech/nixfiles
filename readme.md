@@ -35,7 +35,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 ## packages
 
 <details>
-<summary>show 60 packages</summary>
+<summary>show 62 packages</summary>
 
 | package | version | description | upstream |
 | --- | --- | --- | --- |
@@ -49,6 +49,8 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`himalaya-tui`](packages/himalaya-tui/package.nix) | `0.1.0-unstable-2026-08-16` | TUI to manage emails | [source](https://github.com/pimalaya/himalaya-tui) |
 | [`input-custom`](packages/input-custom/package.nix) | `1.2` | Input fonts with configurable selection, spacing, and letter forms | [source](https://input.djr.com/) |
 | [`kagi-mcp`](packages/kagi-mcp/package.nix) | `1.0.6` | MCP server for Kagi search and summarization | [source](https://github.com/kdcokenny/kagi-rs) |
+| [`karakeep-cli`](packages/karakeep-cli/package.nix) | `0.33.1` | Command-line interface for Karakeep | [source](https://github.com/karakeep-app/karakeep/tree/main/apps/cli) |
+| [`karakeep-mcp`](packages/karakeep-mcp/package.nix) | `0.33.0` | MCP server for Karakeep | [source](https://github.com/karakeep-app/karakeep/tree/main/apps/mcp) |
 | [`kubernetes-axi`](packages/axi/package.nix) | `0-unstable-2026-07-11` | Agent-facing Kubernetes CLI for safe, token-efficient workflows | [source](https://github.com/thatdudealso/kubernetes-axi) |
 | [`mcp-remote`](packages/mcp-remote/package.nix) | `0.1.49` | Remote proxy for Model Context Protocol clients | [source](https://github.com/geelen/mcp-remote) |
 | [`minicava`](packages/minicava/package.nix) | `0-unstable-2023-01-28` | A miniature cava sound visualizer | [source](https://github.com/Misterio77/minicava) |

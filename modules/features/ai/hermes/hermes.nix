@@ -17,6 +17,7 @@
         inputs',
         config,
         pkgs,
+        lib,
         ...
       }:
       {
@@ -63,7 +64,7 @@
               nixos.command = lib.getExe pkgs.mcp-nixos;
               super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
               fastmail = {
-                url = "https://www.fastmail.com/dev/mcp";
+                url = "https://api.fastmail.com/mcp";
                 headers.Authorization = "Bearer \${MCP_FASTMAIL_KEY}";
                 timeout = 180;
               };
@@ -77,6 +78,13 @@
                 url = "https://mcp.kagi.com/mcp";
                 headers.Authorization = "Bearer \${MCP_KAGI_KEY}";
                 timeout = 180;
+              };
+              karakeep = {
+                command = lib.getExe self'.packages.karakeep-mcp;
+                env = {
+                  KARAKEEP_API_ADDR = "https://karakeep.super.fish";
+                  KARAKEEP_API_KEY = "\${MCP_KARAKEEP_KEY}";
+                };
               };
             };
           };

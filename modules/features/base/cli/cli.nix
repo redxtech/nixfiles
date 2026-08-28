@@ -259,6 +259,7 @@
             DIRENV_LOG_FORMAT = "";
             ENTE_CLI_CONFIG_DIR = "${config.xdg.configHome}/ente";
             FFSEND_HOST = "https://send.super.fish";
+            KARAKEEP_SERVER_ADDR = "https://karakeep.super.fish";
             KUBECONFIG = "${config.xdg.configHome}/kube/config";
             PF_INFO = "ascii title os kernel uptime shell term desktop scheme palette";
             PNPM_HOME = "${config.xdg.dataHome}/pnpm";
