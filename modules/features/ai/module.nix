@@ -203,15 +203,19 @@
 
           home.packages = [ self'.packages.pi-acp ];
 
-          home.file = lib.mapAttrs' (
-            name: source:
-            lib.nameValuePair ".pi/agent/agents/${name}.md" (
-              if builtins.isPath source || lib.hasPrefix "/" source then
-                { inherit source; }
-              else
-                { text = source; }
-            )
-          ) finalAgents;
+          home.file =
+            lib.mapAttrs' (
+              name: source:
+              lib.nameValuePair ".pi/agent/agents/${name}.md" (
+                if builtins.isPath source || lib.hasPrefix "/" source then
+                  { inherit source; }
+                else
+                  { text = source; }
+              )
+            ) finalAgents
+            // lib.mapAttrs' (
+              name: source: lib.nameValuePair ".pi/agent/skills/${name}" { inherit source; }
+            ) finalSkills;
         })
 
         (lib.mkIf config.programs.opencode.enable {

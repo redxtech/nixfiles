@@ -59,27 +59,15 @@
             ];
 
             mcp_servers = {
-              codebase-memory = {
-                command = "codebase-memory-mcp";
-                args = [ ];
-              };
-              nixos = {
-                command = "mcp-nixos";
-                args = [ ];
-              };
-              super-productivity = {
-                command = "super-productivity-mcp";
-                args = [ ];
-              };
+              codebase-memory.command = lib.getExe self'.packages.codebase-memory-mcp;
+              nixos.command = lib.getExe pkgs.mcp-nixos;
+              super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
               fastmail = {
                 url = "https://www.fastmail.com/dev/mcp";
                 headers.Authorization = "Bearer \${MCP_FASTMAIL_KEY}";
                 timeout = 180;
               };
-              strava = {
-                command = "strava-mcp-server";
-                args = [ ];
-              };
+              strava.command = lib.getExe self'.packages.strava-mcp;
               liftosaur = {
                 url = "https://www.liftosaur.com/mcp";
                 headers.Authorization = "Bearer \${MCP_LIFTOSAUR_KEY}";

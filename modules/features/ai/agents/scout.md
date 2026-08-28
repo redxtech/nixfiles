@@ -1,17 +1,16 @@
 ---
 name: scout
 description: 'Local codebase reconnaissance for locating files, flows, patterns, and conventions in the current repo.'
-tools: read, bash, grep, write
-model: openai/gpt-5.4-mini
+tools: read, grep, find, ls, bash, write
 thinking: high
-allow-model-override: true
-allowed-models: anthropic/claude-haiku-4-5, zai/glm-5-turbo:high
-mode: background
-auto-exit: true
-session-mode: fork
+systemPromptMode: replace
+inheritProjectContext: true
+inheritGlobalContext: true
+inheritSkills: false
+defaultContext: fork
 async: true
-system-prompt: replace
-enabled: true
+acceptanceRole: read-only
+completionGuard: false
 ---
 
 # Scout Agent

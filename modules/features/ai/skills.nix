@@ -50,8 +50,8 @@
           }
         ];
 
-      # the hickey/lowy agents delegate to the skills of the same name;
-      # fact-check is a hard dependency of every review skill
+      # review agents load the skills of the same name; fact-check is a hard
+      # dependency of every review skill.
       agencySkills = [
         "code-police"
         "elegance"
@@ -86,20 +86,8 @@
     {
       ai = {
         agents = {
-          hickey = {
-            source = agency + "/.apm/agents/hickey.md";
-            frontmatter = {
-              auto-exit = true;
-              model = "openai-codex/gpt-5.6-terra";
-            };
-          };
-          lowy = {
-            source = agency + "/.apm/agents/lowy.md";
-            frontmatter = {
-              auto-exit = true;
-              model = "openai-codex/gpt-5.6-terra";
-            };
-          };
+          hickey = ./agents/hickey.md;
+          lowy = ./agents/lowy.md;
         };
 
         skills =

@@ -4,6 +4,8 @@
 
 Use the narrowest supported interface that completes the task. Prefer compact, structured CLI output over an MCP call when the CLI has equivalent capabilities. Filter large JSON responses before returning them to the model.
 
+When a command returns JSON, use `jq` whenever possible and explicitly select only the attributes needed for the task. Avoid passing complete payloads to the model when a narrower projection is sufficient.
+
 - **Codebase memory:** use the `codebase-memory` MCP before broad grep/find when answering structural code questions. Index an unrecognized repository with `index_repository`, inspect it with `get_architecture` or `get_graph_schema`, and verify returned symbols against source before editing.
 - **GitHub:** use `gh-axi` for GitHub operations and `gh-axi api` for uncovered endpoints. Follow its contextual next-step hints and use command-specific field filters to keep output compact. Use the underlying `gh` directly only when `gh-axi` lacks the required capability, and identify that gap first.
 - **Home Assistant:** load the `home-assistant-cli` skill and use `hass-cli` for state, history, and service operations.

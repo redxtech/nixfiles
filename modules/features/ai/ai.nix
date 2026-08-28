@@ -26,21 +26,13 @@
         };
       in
       {
-        imports = [
-          self.homeManagerModules.ai
-          self.homeManagerModules.orca
-        ];
+        imports = [ self.homeManagerModules.ai ];
 
         config = {
           ai = {
             agents = {
               technical-writer = ./agents/technical-writer.md;
-              scout = {
-                source = ./agents/scout.md;
-                frontmatter = {
-                  model = "openai-codex/gpt-5.4-mini";
-                };
-              };
+              scout = ./agents/scout.md;
             };
 
             context = [ ./agents/AGENTS.md ];
@@ -48,6 +40,7 @@
             extraPackages = [
               inputs'.kolu.packages.default
               pkgs.defuddle
+              pkgs.jq
             ]
             ++ (with inputs'.llm-agents.packages; [
               apm
@@ -94,8 +87,6 @@
               - Do not use `fetch_content`, `code_search`, or `get_search_content` when the `pi-gpt-search` tools can perform the task.
             '';
           };
-
-          home.sessionVariables.PI_SUBAGENT_HERDR_PLACEMENT = "tab";
 
           home.packages = with inputs'.llm-agents.packages; [
             # general tools
