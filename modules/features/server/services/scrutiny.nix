@@ -7,7 +7,7 @@
       server = host.settings.server;
       port = 8080;
       inherit (self.lib.containers) mkPort;
-      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels;
+      inherit (self.lib.containers.labels.traefik config.networking.fqdn) mkAllLabels mkTLRstr;
       devices = map (name: "/dev/${name}") [
         "sda"
         "sdb"
@@ -29,13 +29,17 @@
     {
       virtualisation.oci-containers.containers.scrutiny = {
         image = "ghcr.io/analogj/scrutiny:master-omnibus";
-        labels = mkAllLabels "scrutiny" port {
-          name = "scrutiny";
-          group = "monitoring";
-          icon = "scrutiny.svg";
-          href = "https://scrutiny.${config.networking.fqdn}";
-          desc = "storage health monitoring";
-        };
+        labels =
+          mkAllLabels "scrutiny" port {
+            name = "scrutiny";
+            group = "monitoring";
+            icon = "scrutiny.svg";
+            href = "https://scrutiny.${config.networking.fqdn}";
+            desc = "storage health monitoring";
+          }
+          // {
+            "${mkTLRstr "scrutiny"}.middlewares" = "tinyauth@file";
+          };
         environment = self.lib.server.defaultEnvironment {
           uid = server.uid;
           gid = server.gid;

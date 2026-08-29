@@ -20,6 +20,15 @@
 
       network.ip = "192.168.50.151";
       tunnel.id = "10f40833-b341-4f16-9920-2b5796744e15";
+      tinyauth = {
+        secretsFile = ../../../secrets/hosts/bastion/secrets.yaml;
+        protectedServices = [
+          "agentsview"
+          "drishti"
+          "hermes"
+          "traefik"
+        ];
+      };
       gpu.amd = true;
 
       monitors = {
@@ -122,6 +131,7 @@
       den.aspects.workstation
       den.aspects.network
       den.aspects.tunnel
+      den.aspects.tinyauth
 
       den.aspects.ai
       den.aspects.agentsview

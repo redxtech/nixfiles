@@ -36,7 +36,7 @@
           // {
             "${mkTLSstr "calibre"}.loadbalancer.serverstransport" = "ignorecert@file";
             "${mkTLSstr "calibre"}.loadbalancer.server.scheme" = "https";
-            "${mkTLRstr "calibre"}.middlewares" = "calibre@docker";
+            "${mkTLRstr "calibre"}.middlewares" = "tinyauth@file,calibre@docker";
             "${headerLabel "Cross-Origin-Embedder-Policy"}" = "require-corp";
             "${headerLabel "Cross-Origin-Opener-Policy"}" = "same-origin";
             "${headerLabel "Cross-Origin-Resource-Policy"}" = "same-site";

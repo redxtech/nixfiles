@@ -96,6 +96,11 @@
             };
         };
 
+        networking.firewall.allowedTCPPorts = [
+          80
+          443
+        ];
+
         sops.secrets.cloudflare_traefik_token = {
           sopsFile = ../../../secrets/hosts/common/secrets.yaml;
           owner = "traefik";
@@ -131,11 +136,6 @@
             };
           };
         };
-
-        networking.firewall.allowedTCPPorts = [
-          80
-          443
-        ];
       };
   };
 }

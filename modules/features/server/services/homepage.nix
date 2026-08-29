@@ -138,7 +138,7 @@
                   weight = -100;
                   widget = {
                     type = "traefik";
-                    url = "https://traefik.${fqdn}";
+                    url = "http://localhost:8080";
                   };
                 };
               }

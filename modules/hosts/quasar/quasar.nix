@@ -55,6 +55,14 @@
           serviceTags = [ "tag:internal-service" ];
         };
 
+        tinyauth = {
+          secretsFile = secretFiles.containers;
+          protectedServices = [
+            "flood"
+            "traefik"
+          ];
+        };
+
         influxdb = {
           secretsFile = secretFiles.home-assistant;
           grafanaSecretsFile = secretFiles.shared;
@@ -84,6 +92,7 @@
       den.aspects.quasar-fs
       den.aspects.server
       den.aspects.tunnel
+      den.aspects.tinyauth
       # den.aspects.gpu
     ];
 
