@@ -247,6 +247,11 @@
             ];
             text = ''
               failures=()
+              updates=()
+              changelog_file="''${UPDATE_PKGS_CHANGELOG_FILE:-}"
+              if [[ -n "$changelog_file" ]]; then
+                : > "$changelog_file"
+              fi
 
               snapshot_worktree() {
                 local object_dir="$1"
@@ -299,10 +304,24 @@
                   "$package" "$phase" "$status" >&2
               }
 
+              package_version() {
+                local package="$1"
+
+                nix eval --raw ".#$package" --apply '
+                  package:
+                  let
+                    version = package.version or (builtins.parseDrvName package.name).version;
+                  in
+                  if version == "" then "unversioned" else version
+                '
+              }
+
               run_update() {
                 local package="$1"
                 local after
+                local after_version
                 local before
+                local before_version
                 local status
                 local transaction_dir
                 shift
@@ -310,6 +329,15 @@
                 transaction_dir="$(mktemp -d)"
                 mkdir -p "$transaction_dir/objects"
                 before="$(snapshot_worktree "$transaction_dir/objects")"
+                if before_version="$(package_version "$package")"; then
+                  :
+                else
+                  status=$?
+                  record_failure "$package" "pre-update version evaluation" "$status"
+                  rm -rf "$transaction_dir"
+                  return
+                fi
+
                 printf '\n==> Updating %s\n' "$package"
                 if UPDATE_NIX_ATTR_PATH="$package" "$@"; then
                   after="$(snapshot_worktree "$transaction_dir/objects")"
@@ -326,10 +354,20 @@
                   rm -rf "$transaction_dir"
                   return
                 fi
+                if after_version="$(package_version "$package")"; then
+                  :
+                else
+                  status=$?
+                  record_failure "$package" "post-update version evaluation" "$status"
+                  rollback_worktree "$before" "$transaction_dir/objects"
+                  rm -rf "$transaction_dir"
+                  return
+                fi
 
                 printf '==> Building %s\n' "$package"
                 if nix build --no-link ".#''${package}"; then
                   printf '==> %s update and build succeeded\n' "$package"
+                  updates+=("$package: $before_version -> $after_version")
                 else
                   status=$?
                   record_failure "$package" "build" "$status"
@@ -373,6 +411,13 @@
                   ${lib.concatStrings updateCases}
                 esac
               done
+              if ((''${#updates[@]} > 0)); then
+                printf '\nPackage updates:\n'
+                printf '  - %s\n' "''${updates[@]}"
+                if [[ -n "$changelog_file" ]]; then
+                  printf -- '- %s\n' "''${updates[@]}" > "$changelog_file"
+                fi
+              fi
 
               if ((''${#failures[@]} > 0)); then
                 printf '\nPackage update failures:\n' >&2

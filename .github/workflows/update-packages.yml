@@ -41,23 +41,32 @@ jobs:
         run: |
           log="$RUNNER_TEMP/update-pkgs.log"
           body="$RUNNER_TEMP/update-pkgs-pr.md"
+          changelog="$RUNNER_TEMP/update-pkgs-changelog.md"
 
           set +e
-          nix run .#update-pkgs 2>&1 | tee "$log"
+          UPDATE_PKGS_CHANGELOG_FILE="$changelog" nix run .#update-pkgs 2>&1 | tee "$log"
           update_status="${PIPESTATUS[0]}"
           set -e
 
-          failures="$({
+          failures="$(
             sed -n '/^Package update failures:$/,$p' "$log" \
               | tail -n +2 \
               | sed -n 's/^  - /- /p'
-          } || true)"
+          )"
 
           {
             echo "## automated vendored package updates"
             echo
+            echo "### updated vendored packages"
+            echo
+            if [[ -s "$changelog" ]]; then
+              cat "$changelog"
+            else
+              echo "- no successful package version changes were reported"
+            fi
+            echo
             if [[ "$update_status" -eq 0 ]]; then
-              echo "all vendored package updates and builds succeeded."
+              echo "all vendored package update checks succeeded, and every changed package built successfully."
             else
               echo "successful vendored package updates are included even though some updates or builds failed."
               echo
@@ -75,6 +84,16 @@ jobs:
 
           cat "$body" >> "$GITHUB_STEP_SUMMARY"
           echo "body-path=$body" >> "$GITHUB_OUTPUT"
+          echo "status=$update_status" >> "$GITHUB_OUTPUT"
+          if [[ -s "$changelog" ]]; then
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: update readme package list
+        if: steps.update.outputs.updated == 'true'
+        run: nix run .#packages-to-readme
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8
@@ -85,3 +104,9 @@ jobs:
           commit-message: "chore: update vendored packages"
           title: "chore: update vendored packages"
           body-path: ${{ steps.update.outputs.body-path }}
+
+      - name: report update failures
+        if: steps.update.outputs.status != '0'
+        env:
+          UPDATE_STATUS: ${{ steps.update.outputs.status }}
+        run: exit "$UPDATE_STATUS"
