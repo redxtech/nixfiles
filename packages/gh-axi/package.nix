@@ -21,13 +21,13 @@
             ;
 
           pname = "gh-axi";
-          version = "0.1.33";
+          version = "0.1.35";
 
           src = fetchFromGitHub {
             owner = "kunchenguid";
             repo = pname;
             tag = "gh-axi-v${version}";
-            hash = "sha256-s+d+qTUAE8voiAzAwwtb2AQuYjVIIdow52hz1lRn2ys=";
+            hash = "sha256-zuShaNLCh+u5c+CTeX5cgMCk1PUTK8nd7D5zTjTqt9E=";
           };
         in
         stdenvNoCC.mkDerivation {

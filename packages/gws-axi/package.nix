@@ -16,17 +16,17 @@
             ;
 
           pname = "gws-axi";
-          version = "0.21.0";
+          version = "0.22.0";
         in
         buildNpmPackage {
           inherit pname version;
 
           src = fetchurl {
             url = "https://registry.npmjs.org/${pname}/-/${pname}-${version}.tgz";
-            hash = "sha256-DV6HS0z6DegRd5Pei+9Zm0euzn3xhkgrgNqcUZT0hhk=";
+            hash = "sha256-+NRYqjOImLxCWEDXm4gomwTUIkGDjcp1U3GG3xT7IsY=";
           };
 
-          npmDepsHash = "sha256-usX6XdvrAjo2Y7+sAha1Sb0tGuzjPUJRtEhmTUh3Bx4=";
+          npmDepsHash = "sha256-drVeGhvzSspI0CILhuxHmnnF/Cy+CAww8RERCJPRNKc=";
 
           # The published tarball has no lockfile. These local manifests pin its
           # runtime-only dependency closure and take their release version here.
