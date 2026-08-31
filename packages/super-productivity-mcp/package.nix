@@ -16,7 +16,7 @@
             ;
 
           pname = "super-productivity-mcp";
-          version = "1.5.0";
+          version = "1.6.0";
         in
         buildNpmPackage {
           inherit pname version;
@@ -25,10 +25,10 @@
             owner = "b0x42";
             repo = "Super-Productivity-MCP";
             rev = "v${version}";
-            hash = "sha256-jQ/ZNWwWpDTfNyy75vBqr1p8XwSUuROEZCzR7njCSig=";
+            hash = "sha256-zcoQHOSfyid+98mTrMcv35uwiudLg14wiesM7AnIq6o=";
           };
 
-          npmDepsHash = "sha256-LHwA0eXOtB5t1PaALq7mcXx1B6nmznd8Q2CZu/zlnkQ=";
+          npmDepsHash = "sha256-YZtc+aIpEQXhwLV7FUOoXSiKPTOnxDCsM/bssUXh2eQ=";
 
           nativeBuildInputs = [ zip ];
 
