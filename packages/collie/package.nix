@@ -22,8 +22,8 @@
         systemd
         tailscale
         ;
-      version = "0.36.0";
-      rev = "313ed5dc5bd5c55a466bd108f9ac0deee9ab4807";
+      version = "0.36.1";
+      rev = "96c3bc3374ea49920ba1c62cfe3135277e16bf00";
       updateScript = pkgs.writeShellApplication {
         name = "update-collie";
         runtimeInputs = [
@@ -91,7 +91,7 @@
           owner = "AltanS";
           repo = "collie";
           inherit rev;
-          hash = "sha256-EdFfo6QANPQg7FjAHfsKPgBKliuo2210+bx4tfsxOkU=";
+          hash = "sha256-CsTpMwHbzyDf/XEydN/67mQ31khQS2DKMs0Woy1TKR0=";
         };
 
         # bun has no nixpkgs dependency hook, so vendor both lockfile trees in one fixed-output derivation.
@@ -158,7 +158,7 @@
         '';
 
         COLLIE_BUILD_SHA = builtins.substring 0 7 rev;
-        SOURCE_DATE_EPOCH = "1787914726";
+        SOURCE_DATE_EPOCH = "1788115964";
 
         configurePhase = ''
           runHook preConfigure
