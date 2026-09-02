@@ -6,6 +6,9 @@
 
     homeManager =
       { config, pkgs, ... }:
+      let
+        superProductivityAppId = "com.super_productivity.SuperProductivity";
+      in
       {
         imports = [ inputs.nix-flatpak.homeManagerModules.nix-flatpak ];
 
@@ -28,7 +31,11 @@
             Environment.XCURSOR_PATH = "/run/host/user-share/icons:/run/host/share/icons";
           };
 
-          packages = [ "com.super_productivity.SuperProductivity" ];
+          # electron requests this fixed name inside flatpak's PID namespace.
+          overrides.settings.${superProductivityAppId}."Session Bus Policy"."org.freedesktop.StatusNotifierItem-3-1" =
+            "own";
+
+          packages = [ superProductivityAppId ];
         };
 
         xdg.dataFile."fonts".source =

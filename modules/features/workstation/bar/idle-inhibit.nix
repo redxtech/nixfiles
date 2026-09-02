@@ -11,7 +11,10 @@
           enable = true;
           systemdTarget = config.wayland.systemd.target;
           settings = {
-            node_blacklist = [ { name = "spotify"; } ];
+            node_blacklist = [
+              { name = "spotify"; }
+              { name = "voxtype"; }
+            ];
           };
         };
       };
