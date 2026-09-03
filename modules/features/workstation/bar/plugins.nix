@@ -1,5 +1,3 @@
-{ den, inputs, ... }:
-
 {
   den.aspects.noctalia-plugins = {
     homeManager =
@@ -13,6 +11,7 @@
         home.packages = with pkgs; [
           glib # gdbus for plugins
           gpu-screen-recorder # for screen recorder plugin
+          python3 # for super-productivity plugin
           qt6.qtwebsockets # for home assistant plugin
         ];
 
