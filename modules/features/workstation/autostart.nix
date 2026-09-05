@@ -19,7 +19,6 @@
             Unit = {
               Description = description;
               After = [ "noctalia.service" ];
-              Wants = [ "noctalia.service" ];
               PartOf = [ "graphical-session.target" ];
             };
 
@@ -30,7 +29,7 @@
               TimeoutStartSec = "30s";
             };
 
-            Install.WantedBy = [ "graphical-session.target" ];
+            Install.WantedBy = [ "noctalia.service" ];
           };
 
         trayAutostartApps = [
