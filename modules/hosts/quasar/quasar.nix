@@ -153,9 +153,7 @@
     homeManager =
       { pkgs, ... }:
       {
-        home.packages = [
-          (pkgs.moonlight-qt.override { ffmpeg = pkgs.ffmpeg_8; })
-        ];
+        home.packages = [ pkgs.moonlight-qt ];
       };
   };
 

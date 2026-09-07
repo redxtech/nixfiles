@@ -44,7 +44,6 @@
             ]
             ++ (with inputs'.llm-agents.packages; [
               apm
-              openspec
               rtk
             ])
             ++ (with self'.packages; [
@@ -99,6 +98,7 @@
             gitbutler # git client
             hunk # review-first diff viewer
             omp # oh-my-pi
+            openspec # spec-driven development
             orca # agent orchestration
             paseo-desktop # agent orchestration
             prime-agent # RLM agent

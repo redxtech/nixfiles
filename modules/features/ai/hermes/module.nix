@@ -490,7 +490,20 @@
                   '';
                 };
 
-              desktopPackage = cfg.finalPackage.hermesDesktop.override { hermesAgent = interactiveHermes; };
+              desktopPackage = cfg.finalPackage.hermesDesktop.override (args: {
+                hermesAgent = interactiveHermes;
+                pkgs = args.pkgs // {
+                  # upstream varies the electron headers URL but hard-codes an older checksum.
+                  fetchurl =
+                    fetchArgs:
+                    args.pkgs.fetchurl (
+                      fetchArgs
+                      // lib.optionalAttrs (
+                        fetchArgs.url == "https://artifacts.electronjs.org/headers/dist/v43.4.1/node-v43.4.1-headers.tar.gz"
+                      ) { sha256 = "sha256-CyzcARd1+GhWr8ED7HBYW2MYD+tgetqZFMkaivaGvw0="; }
+                    );
+                };
+              });
 
               inherit managedDirectory;
               managedSettings = lib.optionalAttrs (cfg.managedSkills != { }) {

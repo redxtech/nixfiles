@@ -78,15 +78,15 @@
           '';
         }).override
           {
-            allowAddonSideload = true;
-            crashreporterSupport = false;
+            enableAddonSideload = true;
+            enableCrashReporter = false;
             # keep local source builds within practical memory and time limits.
             enableDebugSymbols = false;
-            geolocationSupport = false;
-            ltoSupport = false;
-            pgoSupport = false;
-            requireSigning = false;
-            webrtcSupport = false;
+            enableLocation = false;
+            enableLTO = false;
+            enablePGO = false;
+            enableAddonSigning = false;
+            enableWebRTC = false;
           };
       # betterbird keeps MOZ_APP_NAME as thunderbird while patching executable names independently.
       betterbird-unwrapped = betterbird-unwrapped-base.overrideAttrs (oldAttrs: {
