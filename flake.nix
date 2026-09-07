@@ -70,7 +70,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
-    kolu.url = "github:juspay/kolu";
     llm-agents.url = "github:numtide/llm-agents.nix";
     niri.url = "github:epireyn/niri-flake";
     nix-autobahn = {

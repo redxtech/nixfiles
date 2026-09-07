@@ -22,7 +22,6 @@ Do not use it for:
 
 - one-shot, non-interactive commands that `bash` can run directly;
 - ordinary delegated work that builtin subagents can perform without a visible terminal;
-- Kolu workspace or agent-state operations that require Kolu's own model rather than generic pane transport.
 
 ## Inspect before acting
 

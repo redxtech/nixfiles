@@ -1173,21 +1173,6 @@
         "type": "github"
       }
     },
-    "kolu": {
-      "locked": {
-        "lastModified": 1788641299,
-        "narHash": "sha256-5TT1tdk5EsInFPzlSA7yxeoCyY7qPyo1i2GahFQXg+0=",
-        "owner": "juspay",
-        "repo": "kolu",
-        "rev": "81bbba9a48abf62399e6c2e99cda55a3de03409a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "juspay",
-        "repo": "kolu",
-        "type": "github"
-      }
-    },
     "lib-aggregate": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -2105,7 +2090,6 @@
         "home-manager": "home-manager_3",
         "idle-inhibit": "idle-inhibit",
         "import-tree": "import-tree",
-        "kolu": "kolu",
         "llm-agents": "llm-agents",
         "niri": "niri",
         "nix-autobahn": "nix-autobahn",

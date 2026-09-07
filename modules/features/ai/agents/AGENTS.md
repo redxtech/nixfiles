@@ -12,7 +12,6 @@ When a command returns JSON, use `jq` whenever possible and explicitly select on
 - **Karakeep:** use `karakeep --json` for Karakeep operations instead of the MCP server. Prefer bounded `bookmarks search ... --limit <count>` calls, then fetch only needed text with `bookmarks content <id> --format markdown --max-chars <count>`. Use `karakeep <command> --help` for unfamiliar operations.
 - **Obsidian:** load the `obsidian-cli` skill and use the official `obsidian` CLI for vault operations.
 - **Terminal multiplexers:** load the `cyber-mux` skill and use `cyber-mux` instead of calling `tmux` or `herdr` directly. Use it for visible or persistent panes, interactive or long-running processes outside the current shell, existing-pane control, and pane-associated Git worktrees. Use ordinary shell tools for one-shot non-interactive commands and builtin subagents for delegation that does not need a visible terminal.
-- **Kolu:** load the `kolu-cli` skill and use `kaval-tui` or `padi-tui` only when the task specifically needs Kolu terminal, workspace, repository, branch, or agent-state semantics.
 
 Keep using the configured MCP for Nix ecosystem research, Super Productivity, Liftosaur, and Strava. Keep using Kagi MCP until a supported Kagi CLI exists.
 

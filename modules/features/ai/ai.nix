@@ -6,7 +6,6 @@
       den.aspects.ai-skills
       den.aspects.herdr
       den.aspects.mcp
-      den.aspects.opencode
     ];
 
     homeManager =
@@ -38,7 +37,6 @@
             context = [ ./agents/AGENTS.md ];
 
             extraPackages = [
-              inputs'.kolu.packages.default
               pkgs.defuddle
               pkgs.jq
             ]
@@ -55,7 +53,6 @@
               karakeep-cli
               kubernetes-axi
               mcp-remote
-              openportal
               strava-mcp
               super-productivity-mcp
               workspace-mcp

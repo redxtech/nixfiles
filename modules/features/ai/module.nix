@@ -259,15 +259,6 @@
           }
         ))
 
-        (lib.mkIf config.programs.opencode.enable {
-          programs.opencode = {
-            inherit (cfg) skills extraPackages;
-          }
-          // lib.optionalAttrs (cfg.context != [ ]) {
-            context = lib.mkBefore contextText;
-          };
-        })
-
         (lib.mkIf config.programs.claude-code.enable {
           programs.claude-code = {
             agents = finalAgents;
