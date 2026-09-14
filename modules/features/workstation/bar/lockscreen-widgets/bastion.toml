@@ -8,11 +8,13 @@ major_interval = 4
 visible = true
 
 [widget."lockscreen-login-box@DP-1"]
-box_height = 201.0
+box_height = 196.0
 box_width = 912.0
 cx = 1280.0
 cy = 1320.0
 output = "DP-1"
+placement_height = 1440.0
+placement_width = 2560.0
 rotation = 0.0
 type = "login_box"
 
@@ -27,14 +29,19 @@ layout = "regular"
 show_caps_lock = true
 show_keyboard_layout = true
 show_login_button = true
+show_media = true
 show_session_buttons = true
+show_unlock_hint = true
+show_weather = true
 
 [widget."lockscreen-login-box@DP-2"]
-box_height = 201.0
+box_height = 196.0
 box_width = 720.0
 cx = 1280.0
 cy = 1321.0
 output = "DP-2"
+placement_height = 1440.0
+placement_width = 2560.0
 rotation = 0.0
 type = "login_box"
 
@@ -49,7 +56,10 @@ layout = "regular"
 show_caps_lock = true
 show_keyboard_layout = true
 show_login_button = true
+show_media = true
 show_session_buttons = true
+show_unlock_hint = true
+show_weather = true
 
 [widget.lockscreen-widget-0000000000000001]
 box_height = 128.0
@@ -57,6 +67,8 @@ box_width = 240.0
 cx = 1280.0
 cy = 208.0
 output = "DP-1"
+placement_height = 1440.0
+placement_width = 2560.0
 rotation = 0.0
 type = "clock"
 
@@ -85,6 +97,8 @@ box_width = 896.0
 cx = 1280.0
 cy = 1112.0
 output = "DP-1"
+placement_height = 1440.0
+placement_width = 2560.0
 rotation = 0.0
 type = "fancy_audio_visualizer"
 
