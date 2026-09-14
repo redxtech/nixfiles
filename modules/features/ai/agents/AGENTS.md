@@ -1,5 +1,11 @@
 # AI feature guidelines
 
+## Technical writing
+
+Before you generate or revise human-readable text, load the `technical-writer` skill. Use that skill as the source of truth for covered artifacts, exclusions, and writing method.
+
+If another skill defines a required procedure or output format, preserve that contract and use `technical-writer` for the wording.
+
 ## Preferred agent interfaces
 
 Use the narrowest supported interface that completes the task. Prefer compact, structured CLI output over an MCP call when the CLI has equivalent capabilities. Filter large JSON responses before returning them to the model.

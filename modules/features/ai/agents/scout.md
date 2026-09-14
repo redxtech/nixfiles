@@ -6,6 +6,7 @@ thinking: high
 systemPromptMode: replace
 inheritProjectContext: true
 inheritGlobalContext: true
+skills: technical-writer, ste-writing
 inheritSkills: false
 defaultContext: fork
 async: true

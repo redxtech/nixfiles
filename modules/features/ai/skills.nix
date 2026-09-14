@@ -118,6 +118,7 @@
           // {
             cyber-mux = localSkill "cyber-mux";
             home-assistant-cli = localSkill "home-assistant-cli";
+            technical-writer = localSkill "technical-writer";
 
             ste-writing = pkgs.linkFarm "ste-writing-skill" [
               {

@@ -44,8 +44,22 @@
       ) cfg.context;
       contextFile = pkgs.writeText "AGENTS.md" contextText;
 
+      technicalWriterRouting = ''
+        ## Technical writing
+
+        Before this skill produces or revises text covered by `technical-writer`, make sure that skill is loaded and follow it. Keep this skill's required procedure and output format authoritative.
+      '';
+      technicalWriterRoutingFile = pkgs.writeText "technical-writer-routing.md" technicalWriterRouting;
+
       formatSkill =
         name: source:
+        let
+          sourceDir =
+            if builtins.isPath source || lib.hasPrefix "/" source then
+              source
+            else
+              pkgs.writeTextDir "SKILL.md" source;
+        in
         pkgs.runCommand "formatted-agent-skill-${name}"
           {
             nativeBuildInputs = [
@@ -54,7 +68,7 @@
             ];
           }
           ''
-            cp -RL ${source} "$out"
+            cp -RL ${sourceDir} "$out"
             chmod -R u+w "$out"
             perl -i -pe '
               if ($. == 1 && /^---\s*$/) {
@@ -71,6 +85,10 @@
               }
             ' "$out/SKILL.md"
             yq --front-matter=process -i '.description style="double"' "$out/SKILL.md"
+            ${lib.optionalString (name != "technical-writer") ''
+              printf '\n' >> "$out/SKILL.md"
+              cat ${technicalWriterRoutingFile} >> "$out/SKILL.md"
+            ''}
           '';
 
       formatAgent =
@@ -262,7 +280,7 @@
         (lib.mkIf config.programs.claude-code.enable {
           programs.claude-code = {
             agents = finalAgents;
-            inherit (cfg) skills;
+            skills = finalSkills;
           }
           // lib.optionalAttrs (cfg.context != [ ]) {
             context = lib.mkBefore contextText;
@@ -295,7 +313,7 @@
           {
             programs.codex = {
               package = codex;
-              inherit (cfg) skills;
+              skills = finalSkills;
               profiles.nix.agents = codexAgents;
             }
             // lib.optionalAttrs (cfg.context != [ ]) {

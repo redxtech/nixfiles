@@ -3,7 +3,7 @@ name: lowy
 description: Evaluate architecture and module boundaries for volatility-based decomposition using Juval Lowy's framework from "Righting Software", building on Parnas. Use when reviewing module splits, service boundaries, new abstractions, or decomposition decisions about where a boundary belongs, how to encapsulate change, or volatility.
 tools: read, grep, find, ls, bash
 model: openai-codex/gpt-5.6-terra
-skills: lowy, fact-check
+skills: lowy, fact-check, technical-writer, ste-writing
 systemPromptMode: replace
 inheritProjectContext: true
 inheritGlobalContext: true
