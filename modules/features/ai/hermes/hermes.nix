@@ -20,6 +20,10 @@
         lib,
         ...
       }:
+      let
+        llmAgentsPackages = inputs'.llm-agents.packages;
+        selfPackages = self'.packages;
+      in
       {
         imports = [ self.homeManagerModules.hermes ];
 
@@ -35,8 +39,7 @@
           dashboard.enable = true;
           gateway.port = 8642;
 
-          managedSkills = config.ai.finalSkills;
-          documents."AGENTS.md" = config.ai.contextFile;
+          documents."AGENTS.md" = ../agents/AGENTS.md;
 
           managedSettings = {
             plugins.enabled = [
@@ -77,19 +80,28 @@
           environmentFiles = [ config.sops.secrets."hermes.env".path ];
           environment.CUA_DRIVER_RS_ENABLE_WAYLAND = "1";
 
-          extraPackages =
-            with inputs'.llm-agents.packages;
-            [
-              pkgs.ffmpeg-full
-              pkgs.home-assistant-cli
-              pkgs.mcp-nixos
-              pkgs.obsidian
-              self'.packages.codebase-memory-mcp
-              self'.packages.cua-driver
-              self'.packages.gh-axi
-              rtk
-            ]
-            ++ config.ai.extraPackages;
+          extraPackages = [
+            pkgs.defuddle
+            pkgs.ffmpeg-full
+            pkgs.home-assistant-cli
+            pkgs.jq
+            pkgs.mcp-nixos
+            pkgs.obsidian
+            selfPackages.codebase-memory-mcp
+            selfPackages.cua-driver
+            selfPackages.cyber-mux
+            selfPackages.docker-axi
+            selfPackages.gh-axi
+            selfPackages.gws-axi
+            selfPackages.kagi-mcp
+            selfPackages.karakeep-cli
+            selfPackages.kubernetes-axi
+            selfPackages.mcp-remote
+            selfPackages.strava-mcp
+            selfPackages.super-productivity-mcp
+            selfPackages.workspace-mcp
+            llmAgentsPackages.rtk
+          ];
 
           extraLibraries = [ pkgs.portaudio ];
 

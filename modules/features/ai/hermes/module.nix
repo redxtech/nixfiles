@@ -29,9 +29,6 @@
           path = managedConfigFile;
         }
       ];
-      managedSkillsDirectory = pkgs.linkFarm "hermes-managed-skills" (
-        lib.mapAttrsToList (name: path: { inherit name path; }) cfg.managedSkills
-      );
       documents = pkgs.linkFarm "hermes-documents" (
         lib.mapAttrsToList (name: value: {
           inherit name;
@@ -234,9 +231,6 @@
       invalidDocumentNames = lib.filter (name: !(isSinglePathComponent name)) (
         builtins.attrNames cfg.documents
       );
-      invalidManagedSkillNames = lib.filter (name: !(isSinglePathComponent name)) (
-        builtins.attrNames cfg.managedSkills
-      );
 
       linkPlugins = pluginDirectory: ''
         run mkdir -p ${lib.escapeShellArg pluginDirectory}
@@ -318,12 +312,6 @@
           type = deepConfigType;
           default = { };
           description = "Selective Nix-owned Hermes configuration rendered through managed scope";
-        };
-
-        managedSkills = lib.mkOption {
-          type = lib.types.attrsOf lib.types.path;
-          default = { };
-          description = "Read-only skills exposed to Hermes through managed scope";
         };
 
         documents = lib.mkOption {
@@ -506,9 +494,6 @@
               });
 
               inherit managedDirectory;
-              managedSettings = lib.optionalAttrs (cfg.managedSkills != { }) {
-                skills.external_dirs = [ (toString managedSkillsDirectory) ];
-              };
             };
 
             assertions =
@@ -531,10 +516,6 @@
                 {
                   assertion = invalidDocumentNames == [ ];
                   message = "services.hermes-agent.documents contains invalid filenames: ${toString invalidDocumentNames}";
-                }
-                {
-                  assertion = invalidManagedSkillNames == [ ];
-                  message = "services.hermes-agent.managedSkills contains invalid skill names: ${toString invalidManagedSkillNames}";
                 }
                 {
                   assertion = !(cfg.environment ? HERMES_MANAGED);
