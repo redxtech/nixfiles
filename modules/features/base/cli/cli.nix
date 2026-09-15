@@ -15,7 +15,12 @@
     ];
 
     nixos =
-      { config, pkgs, ... }:
+      {
+        self',
+        config,
+        pkgs,
+        ...
+      }:
       {
         # fish enables this, but it takes so long to build so i'm disabling it
         documentation.man.cache.enable = false;
@@ -68,6 +73,7 @@
             killall
             mediainfo
             openssl
+            self'.packages.portop
             procps
             ps_mem
             ripgrep

@@ -35,7 +35,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 ## packages
 
 <details>
-<summary>show 62 packages</summary>
+<summary>show 63 packages</summary>
 
 | package | version | description | upstream |
 | --- | --- | --- | --- |
@@ -67,6 +67,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`pitty`](packages/pitty/package.nix) | `0.5.20` | OpenTUI frontend for the Pi coding agent | [source](https://github.com/mistrjirka/PiTTy) |
 | [`plex-pass`](packages/plex-pass/package.nix) | `1.43.3.10896-cb3ebc72d` | Media library streaming server | [source](https://plex.tv/) |
 | [`plex-pass-raw`](packages/plex-pass/package.nix) | `1.43.3.10896-cb3ebc72d` | Media library streaming server | [source](https://plex.tv/) |
+| [`portop`](packages/portop/package.nix) | `0.0.5` | TUI for inspecting and controlling processes that use network ports | [source](https://github.com/padovanl/portop) |
 | [`reboot-to-windows`](packages/reboot-to-windows/package.nix) | `1.5` | desktop launcher that reboots directly into windows | [source](https://github.com/Wartybix/Reboot-To-Windows) |
 | [`repowise`](packages/repowise/package.nix) | `0.47.0` | Codebase intelligence layer for AI coding agents | [source](https://github.com/repowise-dev/repowise) |
 | [`secretspec`](packages/secretspec/package.nix) | `0.19.1` | Declarative secrets, every environment, any provider | [source](https://github.com/cachix/secretspec) |

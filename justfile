@@ -52,6 +52,7 @@ packages:
       .#packages.x86_64-linux.pitty \
       .#packages.x86_64-linux.plex-pass \
       .#packages.x86_64-linux.plex-pass-raw \
+      .#packages.x86_64-linux.portop \
       .#packages.x86_64-linux.quasar \
       .#packages.x86_64-linux.reboot-to-windows \
       .#packages.x86_64-linux.super-productivity-mcp \
