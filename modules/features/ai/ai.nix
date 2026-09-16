@@ -5,6 +5,7 @@
     includes = [
       den.aspects.herdr
       den.aspects.mcp
+      den.aspects.workmux
     ];
 
     homeManager =

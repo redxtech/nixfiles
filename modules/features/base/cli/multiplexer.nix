@@ -87,6 +87,7 @@
 
           # some options
           set -ga terminal-overrides ",xterm-kitty:RGB"
+          set -g extended-keys on
           set -g renumber-windows on
           set -g mode-style "fg=black,bg=brightgreen"
           set -g set-titles on
