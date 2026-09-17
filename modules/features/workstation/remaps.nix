@@ -10,6 +10,7 @@
 
       serviceMode = "user";
       userName = host.settings.base.primaryUser;
+      extraArgs = [ "--ignore 'Logitech G604'" ];
 
       config.modmap = [
         {

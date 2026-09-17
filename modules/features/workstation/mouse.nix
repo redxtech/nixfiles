@@ -1,5 +1,9 @@
+{ den, ... }:
+
 {
   den.aspects.mouse = {
+    includes = [ den.aspects.keymasq ];
+
     nixos = {
       services.ratbagd.enable = true;
 
