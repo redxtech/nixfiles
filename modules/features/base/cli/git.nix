@@ -1,5 +1,3 @@
-{ self, ... }:
-
 {
   den.aspects.git.homeManager =
     {
@@ -9,8 +7,6 @@
       ...
     }:
     {
-      imports = [ self.homeManagerModules.worktrunk ];
-
       home.packages = with pkgs; [
         delta # better git diffs
         git-filter-repo # rewrite git history

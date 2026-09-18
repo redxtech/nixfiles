@@ -10,7 +10,7 @@
       home.packages = with pkgs; [
         vlc # video player
         jellyfin-mpv-shim # watch jellyfin in mpv
-        streamlink-twitch-gui-bin # stream twitch
+        chatterino2 # twitch chat
       ];
 
       programs.mpv = {

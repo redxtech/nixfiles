@@ -1,0 +1,377 @@
+From a4f3e3ba99f372da52c0577e6aa324f1086ec66f Mon Sep 17 00:00:00 2001
+From: Gabe Dunn <gabe@gabedunn.dev>
+Date: Fri, 28 Aug 2026 03:27:55 -0600
+Subject: [PATCH 2/2] feat: port herdr:busy to omp
+
+---
+ .../assets/herdr-agent-state.test.ts          | 219 +++++++++++-------
+ .../assets/omp/herdr-agent-state.ts           |  28 +++
+ .../assets/pi/herdr-agent-state.ts            |   8 +
+ 3 files changed, 176 insertions(+), 79 deletions(-)
+
+diff --git a/src/integration/assets/herdr-agent-state.test.ts b/src/integration/assets/herdr-agent-state.test.ts
+index 355557ed..f07bb037 100644
+--- a/src/integration/assets/herdr-agent-state.test.ts
++++ b/src/integration/assets/herdr-agent-state.test.ts
+@@ -65,6 +65,28 @@ function importFresh(modulePath: string) {
+ 
+ type Handler = (event: unknown, context: unknown) => unknown;
+ 
++const busyIntegrations: readonly {
++  name: string;
++  modulePath: string;
++  socketPrefix: string;
++  configure?: () => void;
++  settle: (handlers: Map<string, Handler>, context: unknown) => void;
++}[] = [
++  {
++    ...integrations[0],
++    socketPrefix: "pi",
++    settle: (handlers, context) => handlers.get("agent_settled")?.({}, context),
++  },
++  {
++    ...integrations[1],
++    socketPrefix: "omp",
++    configure: () => {
++      process.env.HERDR_OMP_IDLE_DEBOUNCE_MS = "0";
++    },
++    settle: (handlers, context) => handlers.get("agent_end")?.({ messages: [] }, context),
++  },
++];
++
+ function createExtensionHarness() {
+   const handlers = new Map<string, Handler>();
+   const eventHandlers = new Map<string, Handler>();
+@@ -366,94 +388,100 @@ test("Pi settlement preserves explicit blocked-state precedence", async () => {
+   expect(requestStates(requests)).toEqual(["idle", "working", "blocked", "idle"]);
+ });
+ 
+-test("Pi treats active sibling work as working", async () => {
+-  const requests = await startRecordingServer("pi-busy-sibling");
+-  const { eventHandlers, handlers, pi } = createExtensionHarness();
+-  const { default: install } = await importFresh("./pi/herdr-agent-state.ts");
+-  install(pi);
+-
+-  const context = piContext(() => true);
+-  await handlers.get("session_start")?.({ reason: "startup" }, context);
+-  await waitFor(() => requestStates(requests).length === 1);
+-
+-  eventHandlers.get("herdr:busy")?.({ active: true, label: "subagents running" }, context);
+-  await waitFor(() => requestStates(requests).length === 2);
+-  expect(requestStates(requests)).toEqual(["idle", "working"]);
+-  expect(requestMessage(requests.at(-1))).toBe("subagents running");
+-
+-  eventHandlers.get("herdr:blocked")?.({ active: true, label: "approval" }, context);
+-  await waitFor(() => requestStates(requests).length === 3);
+-  expect(requestStates(requests)).toEqual(["idle", "working", "blocked"]);
+-
+-  eventHandlers.get("herdr:busy")?.({ active: false }, context);
+-  await Bun.sleep(25);
+-  expect(requestStates(requests)).toEqual(["idle", "working", "blocked"]);
++for (const integration of busyIntegrations) {
++  test(`${integration.name} treats active sibling work as working`, async () => {
++    const requests = await startRecordingServer(`${integration.socketPrefix}-busy-sibling`);
++    integration.configure?.();
++    const { eventHandlers, handlers, pi } = createExtensionHarness();
++    const { default: install } = await importFresh(integration.modulePath);
++    install(pi);
+ 
+-  eventHandlers.get("herdr:blocked")?.({ active: false }, context);
+-  await waitFor(() => requestStates(requests).length === 4);
+-  expect(requestStates(requests)).toEqual(["idle", "working", "blocked", "idle"]);
+-});
++    const context = piContext(() => true);
++    await handlers.get("session_start")?.({ reason: "startup" }, context);
++    await waitFor(() => requestStates(requests).length === 1);
+ 
+-test("Pi restores replayed sibling work during reload", async () => {
+-  const requests = await startRecordingServer("pi-busy-reload");
+-  const { eventHandlers, handlers, pi } = createExtensionHarness();
+-  const { default: install } = await importFresh("./pi/herdr-agent-state.ts");
+-  install(pi);
++    eventHandlers.get("herdr:busy")?.({ active: true, label: "subagents running" }, context);
++    await waitFor(() => requestStates(requests).length === 2);
++    expect(requestStates(requests)).toEqual(["idle", "working"]);
++    expect(requestMessage(requests.at(-1))).toBe("subagents running");
+ 
+-  const context = piContext(() => true);
+-  eventHandlers.get("herdr:busy")?.({ active: true, label: "restored subagent" }, context);
+-  await handlers.get("session_start")?.({ reason: "reload" }, context);
+-  await waitFor(() => requestStates(requests).length === 1);
+-  expect(requestStates(requests)).toEqual(["working"]);
+-  expect(requestMessage(requests.at(-1))).toBe("restored subagent");
++    eventHandlers.get("herdr:blocked")?.({ active: true, label: "approval" }, context);
++    await waitFor(() => requestStates(requests).length === 3);
++    expect(requestStates(requests)).toEqual(["idle", "working", "blocked"]);
+ 
+-  eventHandlers.get("herdr:busy")?.({ active: false }, context);
+-  await waitFor(() => requestStates(requests).length === 2);
+-  expect(requestStates(requests)).toEqual(["working", "idle"]);
+-});
+-
+-test("Pi counts overlapping sibling work and prioritizes the parent", async () => {
+-  const requests = await startRecordingServer("pi-busy-overlap");
+-  const { eventHandlers, handlers, pi } = createExtensionHarness();
+-  const { default: install } = await importFresh("./pi/herdr-agent-state.ts");
+-  install(pi);
++    eventHandlers.get("herdr:busy")?.({ active: false }, context);
++    await Bun.sleep(25);
++    expect(requestStates(requests)).toEqual(["idle", "working", "blocked"]);
+ 
+-  let idle = true;
+-  const context = piContext(() => idle);
+-  await handlers.get("session_start")?.({ reason: "startup" }, context);
+-  await waitFor(() => requestStates(requests).length === 1);
+-
+-  eventHandlers.get("herdr:busy")?.({ active: true, label: "first sibling" }, context);
+-  await waitFor(() => requestStates(requests).length === 2);
++    eventHandlers.get("herdr:blocked")?.({ active: false }, context);
++    await waitFor(() => requestStates(requests).length === 4);
++    expect(requestStates(requests)).toEqual(["idle", "working", "blocked", "idle"]);
++  });
+ 
+-  idle = false;
+-  handlers.get("agent_start")?.({}, context);
+-  await waitFor(() => requestStates(requests).length === 3);
++  test(`${integration.name} restores replayed sibling work during reload`, async () => {
++    const requests = await startRecordingServer(`${integration.socketPrefix}-busy-reload`);
++    integration.configure?.();
++    const { eventHandlers, handlers, pi } = createExtensionHarness();
++    const { default: install } = await importFresh(integration.modulePath);
++    install(pi);
+ 
+-  eventHandlers.get("herdr:busy")?.({ active: true, label: "second sibling" }, context);
+-  await Bun.sleep(25);
+-  expect(requestStates(requests)).toHaveLength(3);
++    const context = piContext(() => true);
++    eventHandlers.get("herdr:busy")?.({ active: true, label: "restored subagent" }, context);
++    await handlers.get("session_start")?.({ reason: "reload" }, context);
++    await waitFor(() => requestStates(requests).length === 1);
++    expect(requestStates(requests)).toEqual(["working"]);
++    expect(requestMessage(requests.at(-1))).toBe("restored subagent");
+ 
+-  idle = true;
+-  handlers.get("agent_settled")?.({}, context);
+-  await waitFor(() => requestStates(requests).length === 4);
++    eventHandlers.get("herdr:busy")?.({ active: false }, context);
++    await waitFor(() => requestStates(requests).length === 2);
++    expect(requestStates(requests)).toEqual(["working", "idle"]);
++  });
+ 
+-  eventHandlers.get("herdr:busy")?.({ active: false }, context);
+-  await waitFor(() => requestStates(requests).length === 5);
+-  expect(requestStates(requests).at(-1)).toBe("working");
+-  expect(requestMessage(requests.at(-1))).toBeUndefined();
++  test(`${integration.name} counts overlapping sibling work and prioritizes the parent`, async () => {
++    const requests = await startRecordingServer(`${integration.socketPrefix}-busy-overlap`);
++    integration.configure?.();
++    const { eventHandlers, handlers, pi } = createExtensionHarness();
++    const { default: install } = await importFresh(integration.modulePath);
++    install(pi);
+ 
+-  eventHandlers.get("herdr:busy")?.({ active: false }, context);
+-  await waitFor(() => requestStates(requests).length === 6);
+-  expect(requestStates(requests)).toEqual([
+-    "idle",
+-    "working",
+-    "working",
+-    "working",
+-    "working",
+-    "idle",
+-  ]);
+-});
++    let idle = true;
++    const context = piContext(() => idle);
++    await handlers.get("session_start")?.({ reason: "startup" }, context);
++    await waitFor(() => requestStates(requests).length === 1);
++
++    eventHandlers.get("herdr:busy")?.({ active: true, label: "first sibling" }, context);
++    await waitFor(() => requestStates(requests).length === 2);
++
++    idle = false;
++    handlers.get("agent_start")?.({}, context);
++    await waitFor(() => requestStates(requests).length === 3);
++
++    eventHandlers.get("herdr:busy")?.({ active: true, label: "second sibling" }, context);
++    await Bun.sleep(25);
++    expect(requestStates(requests)).toHaveLength(3);
++
++    idle = true;
++    integration.settle(handlers, context);
++    await waitFor(() => requestStates(requests).length === 4);
++    expect(requestMessage(requests.at(-1))).toBe("second sibling");
++
++    eventHandlers.get("herdr:busy")?.({ active: false }, context);
++    await waitFor(() => requestStates(requests).length === 5);
++    expect(requestStates(requests).at(-1)).toBe("working");
++    expect(requestMessage(requests.at(-1))).toBeUndefined();
++
++    eventHandlers.get("herdr:busy")?.({ active: false }, context);
++    await waitFor(() => requestStates(requests).length === 6);
++    expect(requestStates(requests)).toEqual([
++      "idle",
++      "working",
++      "working",
++      "working",
++      "working",
++      "idle",
++    ]);
++  });
++}
+ 
+ test("Pi reports the session replacement source", async () => {
+   const requests = await startRecordingServer("pi-session-source");
+@@ -522,7 +550,7 @@ test("Pi waits for a replacement session report before publishing state", async
+   });
+ 
+   configureIntegrationEnvironment(recordingSocketPath);
+-  const { handlers, pi } = createExtensionHarness();
++  const { eventHandlers, handlers, pi } = createExtensionHarness();
+   const { default: install } = await importFresh("./pi/herdr-agent-state.ts");
+   install(pi);
+ 
+@@ -546,6 +574,8 @@ test("Pi waits for a replacement session report before publishing state", async
+     await Bun.sleep(5);
+   }
+   expect(acknowledgeSessionReport).toBeDefined();
++  eventHandlers.get("herdr:busy")?.({ active: true, label: "restored subagent" }, {});
++  eventHandlers.get("herdr:busy")?.({ active: false }, {});
+   expect(
+     requests.some((request) => isRecord(request) && request.method === "pane.report_agent"),
+   ).toBe(false);
+@@ -677,6 +707,37 @@ test("Oh My Pi keeps working when a turn ends with a scheduled continuation", as
+   expect(requestStates(requests)).toEqual(["idle", "working", "idle"]);
+ });
+ 
++test("Oh My Pi debounces idle after sibling work finishes", async () => {
++  const requests = await startRecordingServer("omp-busy-idle-debounce");
++  process.env.HERDR_OMP_IDLE_DEBOUNCE_MS = "50";
++  const { eventHandlers, handlers, pi } = createExtensionHarness();
++
++  const { default: install } = await importFresh("./omp/herdr-agent-state.ts");
++  install(pi);
++
++  let idle = true;
++  const context = piContext(() => idle);
++  await handlers.get("session_start")?.({ reason: "startup" }, context);
++  await waitFor(() => requestStates(requests).length === 1);
++
++  eventHandlers.get("herdr:busy")?.({ active: true, label: "subagents running" }, context);
++  await waitFor(() => requestStates(requests).length === 2);
++  eventHandlers.get("herdr:busy")?.({ active: false }, context);
++  await Bun.sleep(25);
++  expect(requestStates(requests)).toEqual(["idle", "working"]);
++
++  idle = false;
++  handlers.get("agent_start")?.({}, context);
++  await waitFor(() => requestStates(requests).length === 3);
++  await Bun.sleep(75);
++  expect(requestStates(requests)).toEqual(["idle", "working", "working"]);
++
++  idle = true;
++  handlers.get("agent_end")?.({ messages: [] }, context);
++  await waitFor(() => requestStates(requests).length === 4);
++  expect(requestStates(requests).at(-1)).toBe("idle");
++});
++
+ test("Pi retries working state after an unanswered socket attempt", async () => {
+   const { attemptedRequests, deliveredRequests, connectionCount } =
+     await startDroppedFirstResponseServer("pi-retry");
+diff --git a/src/integration/assets/omp/herdr-agent-state.ts b/src/integration/assets/omp/herdr-agent-state.ts
+index fce62106..4a0a4faf 100644
+--- a/src/integration/assets/omp/herdr-agent-state.ts
++++ b/src/integration/assets/omp/herdr-agent-state.ts
+@@ -252,6 +252,8 @@ export default function (pi) {
+   let failureBlocked = false;
+   let failureMessage: string | undefined;
+   let blockedCount = 0;
++  let busyCount = 0;
++  let busyMessage: string | undefined;
+   let blockedMessage: string | undefined;
+   let lastState: AgentState | undefined;
+   let lastMessage: string | undefined;
+@@ -288,6 +290,9 @@ export default function (pi) {
+     if (agentActive || retryHoldActive) {
+       return { state: "working" as const, message: undefined };
+     }
++    if (busyCount > 0) {
++      return { state: "working" as const, message: busyMessage };
++    }
+     return { state: "idle" as const, message: undefined };
+   }
+ 
+@@ -372,6 +377,29 @@ export default function (pi) {
+     activateBlocked(data.label);
+   });
+ 
++  pi.events.on("herdr:busy", (data) => {
++    // sibling extensions can replay busy state before session_start during reload.
++    if (!data?.active) {
++      // inactive events have no sibling identity, so retain the count but discard the label.
++      busyCount = Math.max(0, busyCount - 1);
++      busyMessage = undefined;
++      if (rootSession) {
++        if (busyCount === 0 && desiredState().state === "idle") {
++          scheduleIdle();
++        } else {
++          publishState();
++        }
++      }
++      return;
++    }
++
++    busyCount += 1;
++    busyMessage = data.label;
++    if (rootSession) {
++      publishState();
++    }
++  });
++
+   pi.on("session_start", (_event, ctx) => {
+     if (!activateRootSession(ctx)) {
+       return;
+diff --git a/src/integration/assets/pi/herdr-agent-state.ts b/src/integration/assets/pi/herdr-agent-state.ts
+index eeed8fc4..4c9552f6 100644
+--- a/src/integration/assets/pi/herdr-agent-state.ts
++++ b/src/integration/assets/pi/herdr-agent-state.ts
+@@ -189,6 +189,7 @@ export default function (pi) {
+   let lastState: AgentState | undefined;
+   let lastMessage: string | undefined;
+   let rootSession = false;
++  let statePublishingReady = false;
+ 
+   function desiredState() {
+     if (blockedCount > 0) {
+@@ -204,6 +205,9 @@ export default function (pi) {
+   }
+ 
+   function publishState(force = false) {
++    if (!statePublishingReady) {
++      return;
++    }
+     const next = desiredState();
+     if (!force && next.state === lastState && next.message === lastMessage) {
+       return;
+@@ -234,6 +238,7 @@ export default function (pi) {
+   pi.events.on("herdr:busy", (data) => {
+     // sibling extensions can replay busy state before session_start during reload.
+     if (!data?.active) {
++      // inactive events have no sibling identity, so retain the count but discard the label.
+       busyCount = Math.max(0, busyCount - 1);
+       busyMessage = undefined;
+       if (rootSession) {
+@@ -256,8 +261,11 @@ export default function (pi) {
+       return;
+     }
+     rootSession = true;
++    statePublishingReady = false;
+     updateSessionRef(ctx);
+     await reportSession(event?.reason);
++    // state reports must not target the replacement session before registration is acknowledged.
++    statePublishingReady = true;
+     // A reload can replace this extension mid-run without emitting another agent_start.
+     agentActive = ctx?.isIdle?.() === false;
+     publishState(true);
+-- 
+2.55.0
+

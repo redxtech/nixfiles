@@ -481,14 +481,15 @@
               desktopPackage = cfg.finalPackage.hermesDesktop.override (args: {
                 hermesAgent = interactiveHermes;
                 pkgs = args.pkgs // {
-                  # upstream varies the electron headers URL but hard-codes an older checksum.
+                  # electron headers tarballs get republished whenever nixpkgs bumps electron,
+                  # so pin the checksum for the electron version this nixpkgs provides.
                   fetchurl =
                     fetchArgs:
                     args.pkgs.fetchurl (
                       fetchArgs
                       // lib.optionalAttrs (
-                        fetchArgs.url == "https://artifacts.electronjs.org/headers/dist/v43.4.1/node-v43.4.1-headers.tar.gz"
-                      ) { sha256 = "sha256-CyzcARd1+GhWr8ED7HBYW2MYD+tgetqZFMkaivaGvw0="; }
+                        fetchArgs.url == "https://artifacts.electronjs.org/headers/dist/v43.6.0/node-v43.6.0-headers.tar.gz"
+                      ) { sha256 = "sha256-xDgc5PpkcLpWHnlqVcjBD3SxJKtkUoSGLnJaSSrxJtI="; }
                     );
                 };
               });

@@ -14,7 +14,6 @@
           (lib.optionals hasDisplay (
             with pkgs;
             [
-              gcr
               pinentry-gnome3
             ]
           ))
