@@ -9,6 +9,9 @@
         lib,
         ...
       }:
+      let
+        primaryOutput = lib.findFirst (monitor: monitor.primary) null host.settings.monitors.monitors;
+      in
       {
         programs.steam = {
           enable = true;
@@ -17,7 +20,17 @@
           dedicatedServer.openFirewall = true;
           localNetworkGameTransfers.openFirewall = true;
 
-          gamescopeSession.enable = true;
+          gamescopeSession = {
+            enable = true;
+            args = [
+              "--hdr-enabled"
+              "--adaptive-sync"
+            ]
+            ++ lib.optionals (primaryOutput != null) [
+              "--prefer-output"
+              primaryOutput.name
+            ];
+          };
           protontricks.enable = true;
 
           extest.enable = true;

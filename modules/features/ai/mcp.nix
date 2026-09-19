@@ -19,6 +19,7 @@
           # - thunderbird (https://github.com/TKasperczyk/thunderbird-mcp)
 
           servers = {
+            aperture.url = "https://aperture.colobus-pirate.ts.net/v1/mcp";
             codebase-memory.command = lib.getExe self'.packages.codebase-memory-mcp;
             nixos.command = lib.getExe pkgs.mcp-nixos;
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;

@@ -48,6 +48,9 @@
 
         };
 
+        programs.codex.enable = true;
+        programs.codex.package = llmAgentsPackages.codex;
+
         home.packages = [
           # general tools
           llmAgentsPackages.apm # agent package manager

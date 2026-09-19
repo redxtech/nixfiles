@@ -1182,11 +1182,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1789691599,
-        "narHash": "sha256-dN/uXN9L9M0nt27RtPV1ftB7SVZ7JwiEQwkmf3zd+yA=",
+        "lastModified": 1789769385,
+        "narHash": "sha256-7kRV+kl7vbTZpFwqQCDG3K/BMA67oIklUdVSrlJigws=",
         "owner": "nyrda",
         "repo": "keymasq",
-        "rev": "085c64daf2ea588bf18b8bf0f56107238738dc9e",
+        "rev": "2151d29d909afc9b9925bd86e25db77584df27c3",
         "type": "github"
       },
       "original": {
