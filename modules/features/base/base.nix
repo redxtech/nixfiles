@@ -51,6 +51,12 @@
         default = false;
         description = "Use the zen kernel.";
       };
+
+      useCachy = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Use the cachix nixos module.";
+      };
     };
 
     includes = [
@@ -75,7 +81,12 @@
     ];
 
     nixos =
-      { host, pkgs, ... }:
+      {
+        inputs',
+        host,
+        pkgs,
+        ...
+      }:
       let
         cfg = host.settings.base;
       in
@@ -87,8 +98,17 @@
         # nixos-native user management
         services.userborn.enable = true;
 
-        # TODO: look into cachy kernel
-        boot.kernelPackages = lib.mkIf cfg.useZen pkgs.linuxKernel.packages.linux_zen;
+        boot.kernelPackages =
+          let
+            kernel =
+              if cfg.useCachy then
+                inputs'.chaotic.legacyPackages.linuxPackages_cachyos
+              else if cfg.useZen then
+                pkgs.linuxPackages_zen
+              else
+                pkgs.linuxPackages;
+          in
+          kernel;
 
         # defaults
         hardware.enableRedistributableFirmware = lib.mkDefault true;
