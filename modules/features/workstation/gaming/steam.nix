@@ -38,14 +38,21 @@
           extraPackages = with pkgs; [ mangohud ];
           extraCompatPackages = [
             inputs'.chaotic.packages.proton-cachyos
-            pkgs.proton-ge-bin
+            inputs'.chaotic.packages.proton-ge-custom # instead of pkgs.proton-ge-bin
           ];
         };
 
         programs.gamescope = {
           enable = true;
-          enableWsi = true; # HDR support
           capSysNice = false; # doesn't work inside of steam
+          package = inputs'.chaotic.packages.gamescope_git; # cachyos git build
+        };
+
+        # wires the cachyos git WSI builds in; the gamescope module's enableWsi would
+        # otherwise add the nixpkgs gamescope-wsi pair, mismatching the git gamescope
+        hardware.graphics = {
+          extraPackages = [ inputs'.chaotic.packages.gamescope-wsi_git ];
+          extraPackages32 = [ inputs'.chaotic.packages.gamescope-wsi32_git ];
         };
 
         programs.gamemode = {

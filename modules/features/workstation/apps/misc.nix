@@ -10,7 +10,7 @@
       };
 
     homeManager =
-      { pkgs, lib, ... }:
+      { inputs', pkgs, lib, ... }:
       {
         home.packages = with pkgs; [
           # audacity # audio editor
@@ -29,7 +29,7 @@
           # music-assistant-desktop # music-assistant companion app
           # kdePackages.okular # document reader
           pavucontrol # audio control
-          pwvucontrol # audio control (pipewire)
+          inputs'.chaotic.packages.pwvucontrol_git # audio control (pipewire)
           peazip # archive manager
           piper # gui for ratbagd/logitech mouse control
           # postman # api client

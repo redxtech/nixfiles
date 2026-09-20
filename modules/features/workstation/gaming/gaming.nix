@@ -11,7 +11,9 @@
       default = true;
     };
 
-    nixos = { host, pkgs, ... }: {
+    nixos =
+      { host, inputs', pkgs, ... }:
+      {
       hardware.steam-hardware.enable = true;
       hardware.xpadneo.enable = true;
       hardware.xone.enable = true;
@@ -32,7 +34,7 @@
           faugus-launcher # gui for umu-launcher
           (lutris.override {
             extraPkgs = p: [
-              p.proton-ge-bin
+              inputs'.chaotic.packages.proton-ge-custom # instead of p.proton-ge-bin
               p.umu-launcher
               p.wine
             ];

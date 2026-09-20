@@ -386,6 +386,7 @@
 
         programs.yt-dlp = {
           enable = true;
+          package = inputs'.chaotic.packages.yt-dlp_git;
 
           settings = {
             output = "'[%(release_date>%Y-%m-%d,upload_date>%Y-%m-%d|Unknown)s] %(creator)s - %(title)s.%(ext)s'";
