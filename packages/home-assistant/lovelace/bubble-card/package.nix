@@ -16,13 +16,13 @@
         in
         stdenv.mkDerivation rec {
           pname = "bubble-card";
-          version = "3.3.0";
+          version = "3.4.0";
 
           src = fetchFromGitHub {
             owner = "Clooos";
             repo = "Bubble-Card";
             rev = "v${version}";
-            hash = "sha256-UmGqduu1k5nF0N+3WruSJ172Hu2UwVgMkTKTtSygQQ0=";
+            hash = "sha256-Lo1PEC/wteUGci/FpBEbC2fqIQOlpfzzt26SigH1Teo=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubRelease;

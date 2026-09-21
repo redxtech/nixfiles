@@ -20,13 +20,13 @@
             ;
 
           pname = "mcp-remote";
-          version = "0.8.3";
+          version = "0.14.3";
 
           src = fetchFromGitHub {
             owner = "geelen";
             repo = "mcp-remote";
             rev = "v${version}";
-            hash = "sha256-pnCHGSZRuv67LmnvzVDJZHRpSyiaoY1mNX5mJyZ/2AA=";
+            hash = "sha256-oRsutl0pvt+9IsQ86lr1UgbU7TKJHVoLDLLagutEy58=";
           };
         in
         stdenvNoCC.mkDerivation {
@@ -35,7 +35,7 @@
           pnpmDeps = fetchPnpmDeps {
             inherit pname version src;
             fetcherVersion = 4;
-            hash = "sha256-IebPx63WhlZTIDlccuISxdo9jpzXQ609DKwir2adMl0=";
+            hash = "sha256-pqZIsJos1thOuLoJtRDYPNldhAaaLDlqjdfQ0ntKA/4=";
           };
 
           nativeBuildInputs = [
