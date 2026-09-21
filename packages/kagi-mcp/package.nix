@@ -9,15 +9,15 @@
     {
       packages.kagi-mcp = pkgs.rustPlatform.buildRustPackage (finalAttrs: {
         pname = "kagi-mcp";
-        version = "1.0.6";
+        version = "1.0.7";
 
         src = pkgs.fetchgit {
           url = "https://github.com/kdcokenny/kagi-rs";
           rev = "mcp-v${finalAttrs.version}";
-          hash = "sha256-Yg5Ppom/dH+WB5Ced2PGuFp0O1FPnSkZgLPAn+9vje4=";
+          hash = "sha256-IkkOjr7bZ3/xLlXkT2cgncW3dO6bZJeObIjvw2b4A2Y=";
         };
 
-        cargoHash = "sha256-VO7XZoiVn76lpIXSVBu0ilyxj9RzOapthOCvTdkbeNE=";
+        cargoHash = "sha256-4/viwL2OBSnaSKFZB9Mgct7n83XL0WuoEaYSFze/dKQ=";
 
         cargoBuildFlags = [
           "--package"

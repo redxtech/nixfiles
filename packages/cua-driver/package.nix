@@ -20,12 +20,12 @@
         ;
 
       pname = "cua-driver";
-      version = "0.23.2";
+      version = "0.28.2";
       src = fetchFromGitHub {
         owner = "trycua";
         repo = "cua";
         tag = "cua-driver-rs-v${version}";
-        hash = "sha256-u7VHRF6D11Z/G/mP2zRQj9uxHESw77LpMK+m+8PYKIs=";
+        hash = "sha256-Oya+PJmWdjWZ5UYnmR4z5NoFAVGFRtjH5qjt/foqpPM=";
         postFetch = ''
           find "$out" -mindepth 1 -maxdepth 1 ! -name libs -exec rm -rf {} +
           find "$out/libs" -mindepth 1 -maxdepth 1 ! -name cua-driver -exec rm -rf {} +
