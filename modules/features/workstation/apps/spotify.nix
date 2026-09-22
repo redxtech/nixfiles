@@ -28,7 +28,7 @@
 
               # community extensions
               beautifulLyrics
-              betterGenres
+              # betterGenres
               coverAmbience
               fullAlbumDate
               fullAppDisplayMod
