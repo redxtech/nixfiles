@@ -1,0 +1,9 @@
+name = "Paste"
+mode = "overload"
+description = "ctrl+v"
+
+[actions]
+overload = [
+    { action = "keyboard", target = "key_leftctrl" },
+    { action = "keyboard", target = "key_v" },
+]

@@ -1,0 +1,56 @@
+[profile]
+name = "Overwatch"
+enabled = true
+is_permanent = false
+priority = 3
+notify_on_activation = false
+created_at = "2026-09-16T13:49:39.242315"
+window_rules = [
+    { field = "class", pattern = "steam_app_2357570" },
+    { field = "title", pattern = "Overwatch" },
+]
+
+[devices."046d:4085"]
+always_grab_all = false
+
+[devices."046d:4085".mapping.key_f14]
+action = "keyboard"
+target = "key_e"
+
+[devices."046d:4085".mapping.key_f15]
+action = "keyboard"
+target = "key_q"
+
+[devices."046d:4085".mapping.key_f13]
+action = "keyboard"
+target = "key_grave"
+
+[devices."046d:4085".mapping.key_f17]
+action = "keyboard"
+target = "key_r"
+
+[devices."046d:4085".mapping.key_f18]
+action = "mpris"
+command = "play_pause"
+
+[devices."046d:4085".mapping.key_f19]
+action = "keyboard"
+target = "key_tab"
+
+[devices."046d:4085".mapping.key_f20]
+action = "keyboard"
+target = "key_space"
+rapidfire_enabled = true
+rapidfire_hold_ms = 15
+rapidfire_wait_ms = 15
+
+[devices."046d:4085".mapping.key_f21]
+action = "keyboard"
+target = "key_space"
+rapidfire_enabled = true
+rapidfire_hold_ms = 15
+rapidfire_wait_ms = 15
+
+[devices."046d:4085".mapping.key_f16]
+action = "keyboard"
+target = "key_f"

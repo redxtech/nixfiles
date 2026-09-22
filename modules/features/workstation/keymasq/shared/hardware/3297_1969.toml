@@ -1,0 +1,1252 @@
+[hardware]
+name = "Moonlander"
+vendor_id = "3297"
+product_id = "1969"
+
+[[hardware.evdev.devices]]
+path = "/dev/input/by-id/usb-ZSA_Technology_Labs_Moonlander_Mark_I_P7EEm_7vvlBy-event-if03"
+type = "keyboard"
+id = "event_if03"
+phys = "usb-0000:2a:00.1-5/input3"
+capabilities = [
+    "key_esc",
+    "key_enter",
+    "key_kpminus",
+    "key_kpplus",
+    "key_up",
+    "key_left",
+    "key_right",
+    "key_down",
+    "key_insert",
+    "key_delete",
+    "key_min_interesting",
+    "key_volumedown",
+    "key_volumeup",
+    "key_power",
+    "key_pause",
+    "key_scale",
+    "key_stop",
+    "key_props",
+    "key_undo",
+    "key_copy",
+    "key_open",
+    "key_paste",
+    "key_find",
+    "key_cut",
+    "key_help",
+    "key_menu",
+    "key_calc",
+    "key_sleep",
+    "key_file",
+    "key_www",
+    "key_coffee",
+    "key_mail",
+    "key_bookmarks",
+    "key_back",
+    "key_forward",
+    "key_ejectcd",
+    "key_nextsong",
+    "key_playpause",
+    "key_previoussong",
+    "key_stopcd",
+    "key_record",
+    "key_rewind",
+    "key_phone",
+    "key_config",
+    "key_homepage",
+    "key_refresh",
+    "key_exit",
+    "key_edit",
+    "key_scrollup",
+    "key_scrolldown",
+    "key_new",
+    "key_redo",
+    "key_close",
+    "key_play",
+    "key_fastforward",
+    "key_bassboost",
+    "key_print",
+    "key_camera",
+    "key_chat",
+    "key_search",
+    "key_finance",
+    "key_cancel",
+    "key_brightnessdown",
+    "key_brightnessup",
+    "key_kbdillumtoggle",
+    "key_kbdillumdown",
+    "key_kbdillumup",
+    "key_send",
+    "key_reply",
+    "key_forwardmail",
+    "key_save",
+    "key_documents",
+    "key_unknown",
+    "key_video_next",
+    "key_brightness_auto",
+    "btn_0",
+    "key_select",
+    "key_goto",
+    "key_info",
+    "key_program",
+    "key_pvr",
+    "key_subtitle",
+    "key_full_screen",
+    "key_keyboard",
+    "key_aspect_ratio",
+    "key_pc",
+    "key_tv",
+    "key_tv2",
+    "key_vcr",
+    "key_vcr2",
+    "key_sat",
+    "key_cd",
+    "key_tape",
+    "key_tuner",
+    "key_player",
+    "key_dvd",
+    "key_audio",
+    "key_video",
+    "key_memo",
+    "key_calendar",
+    "key_red",
+    "key_green",
+    "key_yellow",
+    "key_blue",
+    "key_channelup",
+    "key_channeldown",
+    "key_last",
+    "key_next",
+    "key_restart",
+    "key_slow",
+    "key_shuffle",
+    "key_previous",
+    "key_videophone",
+    "key_games",
+    "key_zoomin",
+    "key_zoomout",
+    "key_zoomreset",
+    "key_wordprocessor",
+    "key_editor",
+    "key_spreadsheet",
+    "key_graphicseditor",
+    "key_presentation",
+    "key_database",
+    "key_news",
+    "key_voicemail",
+    "key_addressbook",
+    "key_messenger",
+    "key_brightness_toggle",
+    "key_spellcheck",
+    "key_logoff",
+    "key_media_repeat",
+    "key_images",
+    "key_buttonconfig",
+    "key_taskmanager",
+    "key_journal",
+    "key_controlpanel",
+    "key_appselect",
+    "key_screensaver",
+    "key_voicecommand",
+    "key_assistant",
+    "key_kbd_layout_next",
+    "key_emoji_picker",
+    "key_dictate",
+    "key_camera_access_enable",
+    "key_camera_access_disable",
+    "key_camera_access_toggle",
+    "key_brightness_min",
+    "key_brightness_max",
+    "key_action_on_selection",
+    "key_contextual_insert",
+    "key_contextual_query",
+    "rel_hwheel",
+    "rel_hwheel_hi_res",
+    "abs_volume",
+]
+
+[[hardware.evdev.devices]]
+path = "/dev/input/by-id/usb-ZSA_Technology_Labs_Moonlander_Mark_I_P7EEm_7vvlBy-event-kbd"
+type = "keyboard"
+id = "kbd"
+phys = "usb-0000:2a:00.1-5/input0"
+capabilities = [
+    "key_esc",
+    "key_1",
+    "key_2",
+    "key_3",
+    "key_4",
+    "key_5",
+    "key_6",
+    "key_7",
+    "key_8",
+    "key_9",
+    "key_0",
+    "key_minus",
+    "key_equal",
+    "key_backspace",
+    "key_tab",
+    "key_q",
+    "key_w",
+    "key_e",
+    "key_r",
+    "key_t",
+    "key_y",
+    "key_u",
+    "key_i",
+    "key_o",
+    "key_p",
+    "key_leftbrace",
+    "key_rightbrace",
+    "key_enter",
+    "key_leftctrl",
+    "key_a",
+    "key_s",
+    "key_d",
+    "key_f",
+    "key_g",
+    "key_h",
+    "key_j",
+    "key_k",
+    "key_l",
+    "key_semicolon",
+    "key_apostrophe",
+    "key_grave",
+    "key_leftshift",
+    "key_backslash",
+    "key_z",
+    "key_x",
+    "key_c",
+    "key_v",
+    "key_b",
+    "key_n",
+    "key_m",
+    "key_comma",
+    "key_dot",
+    "key_slash",
+    "key_rightshift",
+    "key_kpasterisk",
+    "key_leftalt",
+    "key_space",
+    "key_capslock",
+    "key_f1",
+    "key_f2",
+    "key_f3",
+    "key_f4",
+    "key_f5",
+    "key_f6",
+    "key_f7",
+    "key_f8",
+    "key_f9",
+    "key_f10",
+    "key_numlock",
+    "key_scrolllock",
+    "key_kp7",
+    "key_kp8",
+    "key_kp9",
+    "key_kpminus",
+    "key_kp4",
+    "key_kp5",
+    "key_kp6",
+    "key_kpplus",
+    "key_kp1",
+    "key_kp2",
+    "key_kp3",
+    "key_kp0",
+    "key_kpdot",
+    "key_zenkakuhankaku",
+    "key_102nd",
+    "key_f11",
+    "key_f12",
+    "key_ro",
+    "key_katakana",
+    "key_hiragana",
+    "key_henkan",
+    "key_katakanahiragana",
+    "key_muhenkan",
+    "key_kpjpcomma",
+    "key_kpenter",
+    "key_rightctrl",
+    "key_kpslash",
+    "key_sysrq",
+    "key_rightalt",
+    "key_home",
+    "key_up",
+    "key_pageup",
+    "key_left",
+    "key_right",
+    "key_end",
+    "key_down",
+    "key_pagedown",
+    "key_insert",
+    "key_delete",
+    "key_min_interesting",
+    "key_volumedown",
+    "key_volumeup",
+    "key_power",
+    "key_kpequal",
+    "key_pause",
+    "key_kpcomma",
+    "key_hangeul",
+    "key_hanja",
+    "key_yen",
+    "key_leftmeta",
+    "key_rightmeta",
+    "key_compose",
+    "key_stop",
+    "key_again",
+    "key_props",
+    "key_undo",
+    "key_front",
+    "key_copy",
+    "key_open",
+    "key_paste",
+    "key_find",
+    "key_cut",
+    "key_help",
+    "key_calc",
+    "key_sleep",
+    "key_www",
+    "key_coffee",
+    "key_back",
+    "key_forward",
+    "key_ejectcd",
+    "key_nextsong",
+    "key_playpause",
+    "key_previoussong",
+    "key_stopcd",
+    "key_refresh",
+    "key_edit",
+    "key_scrollup",
+    "key_scrolldown",
+    "key_kpleftparen",
+    "key_kprightparen",
+    "key_f13",
+    "key_f14",
+    "key_f15",
+    "key_f16",
+    "key_f17",
+    "key_f18",
+    "key_f19",
+    "key_f20",
+    "key_f21",
+    "key_f22",
+    "key_f23",
+    "key_f24",
+    "key_unknown",
+]
+
+[[hardware.evdev.devices]]
+path = "/dev/input/by-id/usb-ZSA_Technology_Labs_Moonlander_Mark_I_P7EEm_7vvlBy-if03-event-kbd"
+type = "keyboard"
+id = "if03_kbd"
+phys = "usb-0000:2a:00.1-5/input3"
+capabilities = [
+    "key_esc",
+    "key_1",
+    "key_2",
+    "key_3",
+    "key_4",
+    "key_5",
+    "key_6",
+    "key_7",
+    "key_8",
+    "key_9",
+    "key_0",
+    "key_minus",
+    "key_equal",
+    "key_backspace",
+    "key_tab",
+    "key_q",
+    "key_w",
+    "key_e",
+    "key_r",
+    "key_t",
+    "key_y",
+    "key_u",
+    "key_i",
+    "key_o",
+    "key_p",
+    "key_leftbrace",
+    "key_rightbrace",
+    "key_enter",
+    "key_leftctrl",
+    "key_a",
+    "key_s",
+    "key_d",
+    "key_f",
+    "key_g",
+    "key_h",
+    "key_j",
+    "key_k",
+    "key_l",
+    "key_semicolon",
+    "key_apostrophe",
+    "key_grave",
+    "key_leftshift",
+    "key_backslash",
+    "key_z",
+    "key_x",
+    "key_c",
+    "key_v",
+    "key_b",
+    "key_n",
+    "key_m",
+    "key_comma",
+    "key_dot",
+    "key_slash",
+    "key_rightshift",
+    "key_kpasterisk",
+    "key_leftalt",
+    "key_space",
+    "key_capslock",
+    "key_f1",
+    "key_f2",
+    "key_f3",
+    "key_f4",
+    "key_f5",
+    "key_f6",
+    "key_f7",
+    "key_f8",
+    "key_f9",
+    "key_f10",
+    "key_numlock",
+    "key_scrolllock",
+    "key_kp7",
+    "key_kp8",
+    "key_kp9",
+    "key_kpminus",
+    "key_kp4",
+    "key_kp5",
+    "key_kp6",
+    "key_kpplus",
+    "key_kp1",
+    "key_kp2",
+    "key_kp3",
+    "key_kp0",
+    "key_kpdot",
+    "key_zenkakuhankaku",
+    "key_102nd",
+    "key_f11",
+    "key_f12",
+    "key_ro",
+    "key_katakana",
+    "key_hiragana",
+    "key_henkan",
+    "key_katakanahiragana",
+    "key_muhenkan",
+    "key_kpjpcomma",
+    "key_kpenter",
+    "key_rightctrl",
+    "key_kpslash",
+    "key_sysrq",
+    "key_rightalt",
+    "key_home",
+    "key_up",
+    "key_pageup",
+    "key_left",
+    "key_right",
+    "key_end",
+    "key_down",
+    "key_pagedown",
+    "key_insert",
+    "key_delete",
+    "key_min_interesting",
+    "key_volumedown",
+    "key_volumeup",
+    "key_power",
+    "key_kpequal",
+    "key_pause",
+    "key_kpcomma",
+    "key_hangeul",
+    "key_hanja",
+    "key_yen",
+    "key_leftmeta",
+    "key_rightmeta",
+    "key_compose",
+    "key_stop",
+    "key_again",
+    "key_props",
+    "key_undo",
+    "key_front",
+    "key_copy",
+    "key_open",
+    "key_paste",
+    "key_find",
+    "key_cut",
+    "key_help",
+    "key_ejectcd",
+    "key_nextsong",
+    "key_playpause",
+    "key_previoussong",
+    "key_stopcd",
+    "key_kpleftparen",
+    "key_kprightparen",
+    "key_f13",
+    "key_f14",
+    "key_f15",
+    "key_f16",
+    "key_f17",
+    "key_f18",
+    "key_f19",
+    "key_f20",
+    "key_f21",
+    "key_f22",
+    "key_f23",
+    "key_f24",
+    "key_unknown",
+]
+
+[[hardware.evdev.devices]]
+path = "/dev/input/by-id/usb-ZSA_Technology_Labs_Moonlander_Mark_I_P7EEm_7vvlBy-if02-event-mouse"
+type = "mouse"
+id = "if02_mouse"
+phys = "usb-0000:2a:00.1-5/input2"
+capabilities = [
+    "btn_left",
+    "btn_right",
+    "btn_middle",
+    "btn_side",
+    "btn_extra",
+    "btn_forward",
+    "btn_back",
+    "btn_task",
+    "rel_x",
+    "rel_y",
+    "rel_hwheel",
+    "rel_wheel",
+    "rel_wheel_hi_res",
+    "rel_hwheel_hi_res",
+]
+
+[hardware.layout]
+type = "keyboard"
+
+[[hardware.layout.buttons]]
+id = "key_esc"
+label = "Esc"
+evdev = "key_esc"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_grave"
+label = "Grave"
+evdev = "key_grave"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_1"
+label = "1"
+evdev = "key_1"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_2"
+label = "2"
+evdev = "key_2"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_3"
+label = "3"
+evdev = "key_3"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_4"
+label = "4"
+evdev = "key_4"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_5"
+label = "5"
+evdev = "key_5"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_6"
+label = "6"
+evdev = "key_6"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_7"
+label = "7"
+evdev = "key_7"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_8"
+label = "8"
+evdev = "key_8"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_9"
+label = "9"
+evdev = "key_9"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_0"
+label = "0"
+evdev = "key_0"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_minus"
+label = "Minus"
+evdev = "key_minus"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_equal"
+label = "Equal"
+evdev = "key_equal"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_backspace"
+label = "Backspace"
+evdev = "key_backspace"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_tab"
+label = "Tab"
+evdev = "key_tab"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_q"
+label = "Q"
+evdev = "key_q"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_w"
+label = "W"
+evdev = "key_w"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_e"
+label = "E"
+evdev = "key_e"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_r"
+label = "R"
+evdev = "key_r"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_t"
+label = "T"
+evdev = "key_t"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_y"
+label = "Y"
+evdev = "key_y"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_u"
+label = "U"
+evdev = "key_u"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_i"
+label = "I"
+evdev = "key_i"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_o"
+label = "O"
+evdev = "key_o"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_p"
+label = "P"
+evdev = "key_p"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_leftbrace"
+label = "Left Brace"
+evdev = "key_leftbrace"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_rightbrace"
+label = "Right Brace"
+evdev = "key_rightbrace"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_backslash"
+label = "Backslash"
+evdev = "key_backslash"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_capslock"
+label = "Capslock"
+evdev = "key_capslock"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_a"
+label = "A"
+evdev = "key_a"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_s"
+label = "S"
+evdev = "key_s"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_d"
+label = "D"
+evdev = "key_d"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f"
+label = "F"
+evdev = "key_f"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_g"
+label = "G"
+evdev = "key_g"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_h"
+label = "H"
+evdev = "key_h"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_j"
+label = "J"
+evdev = "key_j"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_k"
+label = "K"
+evdev = "key_k"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_l"
+label = "L"
+evdev = "key_l"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_semicolon"
+label = "Semicolon"
+evdev = "key_semicolon"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_apostrophe"
+label = "Apostrophe"
+evdev = "key_apostrophe"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_enter"
+label = "Enter"
+evdev = "key_enter"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_leftshift"
+label = "Left Shift"
+evdev = "key_leftshift"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_z"
+label = "Z"
+evdev = "key_z"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_x"
+label = "X"
+evdev = "key_x"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_c"
+label = "C"
+evdev = "key_c"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_v"
+label = "V"
+evdev = "key_v"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_b"
+label = "B"
+evdev = "key_b"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_n"
+label = "N"
+evdev = "key_n"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_m"
+label = "M"
+evdev = "key_m"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_comma"
+label = "Comma"
+evdev = "key_comma"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_dot"
+label = "Dot"
+evdev = "key_dot"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_slash"
+label = "Slash"
+evdev = "key_slash"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_rightshift"
+label = "Right Shift"
+evdev = "key_rightshift"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_leftctrl"
+label = "Left Ctrl"
+evdev = "key_leftctrl"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_leftalt"
+label = "Left Alt"
+evdev = "key_leftalt"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_leftmeta"
+label = "Left Meta"
+evdev = "key_leftmeta"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_space"
+label = "Space"
+evdev = "key_space"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_rightalt"
+label = "Right Alt"
+evdev = "key_rightalt"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_rightctrl"
+label = "Right Ctrl"
+evdev = "key_rightctrl"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_rightmeta"
+label = "Right Meta"
+evdev = "key_rightmeta"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_sysrq"
+label = "Sysrq"
+evdev = "key_sysrq"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_scrolllock"
+label = "Scrolllock"
+evdev = "key_scrolllock"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_pause"
+label = "Pause"
+evdev = "key_pause"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_insert"
+label = "Insert"
+evdev = "key_insert"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_home"
+label = "Home"
+evdev = "key_home"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_pageup"
+label = "Page Up"
+evdev = "key_pageup"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_delete"
+label = "Delete"
+evdev = "key_delete"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_end"
+label = "End"
+evdev = "key_end"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_pagedown"
+label = "Page Down"
+evdev = "key_pagedown"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_up"
+label = "Up"
+evdev = "key_up"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_left"
+label = "Left"
+evdev = "key_left"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_down"
+label = "Down"
+evdev = "key_down"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_right"
+label = "Right"
+evdev = "key_right"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f1"
+label = "F1"
+evdev = "key_f1"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f2"
+label = "F2"
+evdev = "key_f2"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f3"
+label = "F3"
+evdev = "key_f3"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f4"
+label = "F4"
+evdev = "key_f4"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f5"
+label = "F5"
+evdev = "key_f5"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f6"
+label = "F6"
+evdev = "key_f6"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f7"
+label = "F7"
+evdev = "key_f7"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f8"
+label = "F8"
+evdev = "key_f8"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f9"
+label = "F9"
+evdev = "key_f9"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f10"
+label = "F10"
+evdev = "key_f10"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f11"
+label = "F11"
+evdev = "key_f11"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_f12"
+label = "F12"
+evdev = "key_f12"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_numlock"
+label = "Num Lock"
+evdev = "key_numlock"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kpslash"
+label = "Kpslash"
+evdev = "key_kpslash"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kpasterisk"
+label = "Kpasterisk"
+evdev = "key_kpasterisk"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kpminus"
+label = "Kpminus"
+evdev = "key_kpminus"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp7"
+label = "Kp7"
+evdev = "key_kp7"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp8"
+label = "Kp8"
+evdev = "key_kp8"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp9"
+label = "Kp9"
+evdev = "key_kp9"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kpplus"
+label = "Kpplus"
+evdev = "key_kpplus"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp4"
+label = "Kp4"
+evdev = "key_kp4"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp5"
+label = "Kp5"
+evdev = "key_kp5"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp6"
+label = "Kp6"
+evdev = "key_kp6"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp1"
+label = "Kp1"
+evdev = "key_kp1"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp2"
+label = "Kp2"
+evdev = "key_kp2"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp3"
+label = "Kp3"
+evdev = "key_kp3"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kpenter"
+label = "Kpenter"
+evdev = "key_kpenter"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kp0"
+label = "Kp0"
+evdev = "key_kp0"
+source = "event_if03"
+type = "key"
+
+[[hardware.layout.buttons]]
+id = "key_kpdot"
+label = "Kpdot"
+evdev = "key_kpdot"
+source = "event_if03"
+type = "key"
+
+# Optional special keys (not shown in GUI by default)
+# Add entries below into [hardware.layout.buttons] if needed
+# Example entries:
+# { id = "key_volumedown", label = "Volume Down", evdev = "key_volumedown", type = "key" }
+# { id = "key_volumeup", label = "Volume Up", evdev = "key_volumeup", type = "key" }
+# { id = "key_mute", label = "Mute", evdev = "key_mute", type = "key" }
+# { id = "key_playpause", label = "Play Pause", evdev = "key_playpause", type = "key" }

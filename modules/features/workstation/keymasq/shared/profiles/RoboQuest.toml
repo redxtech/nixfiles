@@ -1,0 +1,13 @@
+[profile]
+name = "RoboQuest"
+enabled = true
+is_permanent = false
+priority = 5
+notify_on_activation = false
+created_at = "2026-09-18T14:44:24.072086"
+window_rules = [
+    { field = "class", pattern = "steam_app_692890" },
+    { field = "title", pattern = "RoboQuest" },
+]
+
+[devices]

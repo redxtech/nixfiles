@@ -1,0 +1,9 @@
+name = "Copy"
+mode = "overload"
+description = "ctrl+c"
+
+[actions]
+overload = [
+    { action = "keyboard", target = "key_leftctrl" },
+    { action = "keyboard", target = "key_c" },
+]
