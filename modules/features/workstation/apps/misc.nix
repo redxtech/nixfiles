@@ -10,7 +10,12 @@
       };
 
     homeManager =
-      { inputs', pkgs, lib, ... }:
+      {
+        inputs',
+        pkgs,
+        lib,
+        ...
+      }:
       {
         home.packages = with pkgs; [
           # audacity # audio editor
@@ -33,7 +38,7 @@
           peazip # archive manager
           piper # gui for ratbagd/logitech mouse control
           # postman # api client
-          # qdirstat # disk usage analyzer
+          qdirstat # disk usage analyzer
           seahorse # gpg manager
           tauon # audio player
           via # keyboard flasher
