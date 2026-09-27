@@ -94,8 +94,8 @@
 
       den.aspects.ai
       den.aspects.gpu
-      den.aspects.gpu.has-removable-gpu
       den.aspects.network-mounts
+      den.aspects.travel
       # den.aspects.prime
     ];
 

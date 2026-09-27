@@ -8,6 +8,8 @@
         ...
       }:
       let
+        cfg = config.workstation.autostart;
+
         # some apps need to wait until the tray is ready before starting
         mkTrayAutostartService =
           {
@@ -46,33 +48,58 @@
         ];
       in
       {
-        home.packages = with pkgs; [ dex ];
+        options.workstation.autostart = {
+          networkMounts = lib.mkOption {
+            type = lib.types.bool;
+            default = true;
+            description = "Whether to mount remote filesystems at graphical login.";
+          };
 
-        xdg.autostart = {
-          enable = true;
-          entries =
-            let
-              getDesktop = package: desktopFile: "${package}/share/applications/${desktopFile}.desktop";
-            in
-            [
-              (getDesktop config.programs.spicetify.spicedSpotify "spotify")
-            ];
+          spotify = lib.mkOption {
+            type = lib.types.bool;
+            default = true;
+            description = "Whether to start Spotify at graphical login.";
+          };
+
+          thunderbird = lib.mkOption {
+            type = lib.types.bool;
+            default = true;
+            description = "Whether to start Thunderbird at graphical login.";
+          };
         };
 
-        systemd.user.services = builtins.listToAttrs (map mkTrayAutostartService trayAutostartApps);
+        config = {
+          home.packages = with pkgs; [ dex ];
 
-        # use niri to start these
-        programs.niri.settings.spawn-at-startup = [
-          { argv = [ (lib.getExe' pkgs.nirius "niriusd") ]; }
-          {
+          xdg.autostart = {
+            enable = true;
+            entries = lib.optionals cfg.spotify (
+              let
+                getDesktop = package: desktopFile: "${package}/share/applications/${desktopFile}.desktop";
+              in
+              [
+                (getDesktop config.programs.spicetify.spicedSpotify "spotify")
+              ]
+            );
+          };
+
+          systemd.user.services = builtins.listToAttrs (map mkTrayAutostartService trayAutostartApps);
+
+          # use niri to start these
+          programs.niri.settings.spawn-at-startup = [
+            { argv = [ (lib.getExe' pkgs.nirius "niriusd") ]; }
+            { argv = [ (lib.getExe config.programs.obsidian.package) ]; }
+          ]
+          ++ lib.optional cfg.networkMounts {
             argv = [
               (lib.getExe pkgs.sftpman)
               "mount_all"
             ];
           }
-          { argv = [ (lib.getExe config.programs.thunderbird.package) ]; }
-          { argv = [ (lib.getExe config.programs.obsidian.package) ]; }
-        ];
+          ++ lib.optional cfg.thunderbird {
+            argv = [ (lib.getExe config.programs.thunderbird.package) ];
+          };
+        };
       };
   };
 }

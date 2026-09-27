@@ -85,16 +85,5 @@
         };
       };
 
-    # TODO: add more things to this
-    provides.has-removable-gpu = {
-      nixos = { config, ... }: {
-        specialisation.no-gpu.configuration = {
-          gpu.hasGPU = false; # disable all effects of gpu aspect
-
-          nixpkgs.config.cudaSupport = false;
-          nixpkgs.config.rocmSupport = false;
-        };
-      };
-    };
   };
 }
