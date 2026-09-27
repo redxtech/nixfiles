@@ -290,6 +290,7 @@
           settings = {
             sync_address = "https://atuin.super.fish";
             enter_accept = true;
+            filter_mode_shell_up_key_binding = "session";
             keymap_mode = "vim-insert";
             dotfiles.enabled = true;
             key_path = config.sops.secrets.atuin-key.path;
