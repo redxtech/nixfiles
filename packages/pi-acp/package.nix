@@ -12,7 +12,7 @@
           inherit (pkgs) buildNpmPackage fetchFromGitHub;
 
           pname = "pi-acp";
-          version = "0.0.33";
+          version = "0.0.34";
         in
         buildNpmPackage {
           inherit pname version;
@@ -21,10 +21,10 @@
             owner = "svkozak";
             repo = pname;
             tag = "v${version}";
-            hash = "sha256-fENOOdooi4XbIDjcr02q8qzUCzdo2IW/Bca43SawZ44=";
+            hash = "sha256-QRwxOtTZOY+Np3PkAoy2o2PrUzEqjItM/372sCPlSMo=";
           };
 
-          npmDepsHash = "sha256-/fX79XucKojL/6gZbK5eizEfrXso8rlTgiHfJffmDuY=";
+          npmDepsHash = "sha256-BvLNtFfp1cMVjzWcMRSdhTqiJrTfbFoUbWkkPW9200o=";
 
           passthru.updateScript = packageUpdateScripts.githubRelease;
 
