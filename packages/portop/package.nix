@@ -8,7 +8,7 @@
     }:
     let
       pname = "portop";
-      version = "0.0.5";
+      version = "0.0.7";
     in
     {
       packages.portop = pkgs.buildGoModule {
@@ -18,7 +18,7 @@
           owner = "padovanl";
           repo = "portop";
           tag = "v${version}";
-          hash = "sha256-FsDJ+JMa+9M3bub/AYPYfz95ZLPCmoKNw74agM1H1gc=";
+          hash = "sha256-N+nea3o3KMDsF6yCIWRQ1KC3AO+qOPImu4+bia1GNFg=";
         };
 
         vendorHash = "sha256-aJllcMJduoi8VBWMJWsxm8swXtNonYZzX8etmNZePzc=";
