@@ -39,6 +39,7 @@
                 "general.smoothScroll" = true;
                 "browser.startup.page" = 3;
                 "browser.toolbars.bookmarks.visibility" = "never";
+                "browser.uiCustomization.state" = builtins.fromJSON (builtins.readFile ./uiCustomization.json);
                 "browser.urlbar.update2.engineAliasRefresh" = true;
                 "browser.warnOnQuitShortcut" = false;
                 "devtools.inspector.activeSidebar" = "computedview";
@@ -407,6 +408,63 @@
         # ];
       };
   };
+
+  perSystem =
+    { pkgs, ... }:
+    {
+      apps.write-firefox = {
+        type = "app";
+        program = pkgs.writeShellApplication {
+          name = "write-firefox";
+          runtimeInputs = [
+            pkgs.coreutils
+            pkgs.jq
+          ];
+          text = ''
+            if (( $# != 0 )); then
+              printf 'Usage: nix run .#write-firefox\n' >&2
+              exit 1
+            fi
+
+            prefs="''${XDG_CONFIG_HOME:-$HOME/.config}/mozilla/firefox/gabe/prefs.js"
+            output="$HOME/Code/nixfiles/modules/features/workstation/apps/browser/uiCustomization.json"
+
+            # validate before replacing the file, and keep the rename on the same filesystem
+            temporary=$(mktemp "$(dirname "$output")/.uiCustomization.XXXXXX")
+            trap 'rm -f -- "$temporary"' EXIT
+
+            jq --exit-status --raw-input --null-input '
+              [
+                inputs
+                | select(startswith("user_pref(\"browser.uiCustomization.state\", "))
+                | ltrimstr("user_pref(\"browser.uiCustomization.state\", ")
+                | rtrimstr(");")
+                | fromjson
+                | fromjson
+              ]
+              | if length != 1 then
+                  error("Expected exactly one browser.uiCustomization.state preference")
+                else
+                  .[0]
+                end
+              | if type == "object"
+                  and (.placements | type) == "object"
+                  and (.placements["nav-bar"] | type) == "array"
+                  and (.placements | all(.[]; type == "array" and all(.[]; type == "string")))
+                then .
+                else error("Invalid Firefox UI placements")
+                end
+            ' "$prefs" > "$temporary"
+
+            chmod 644 "$temporary"
+            mv -T -- "$temporary" "$output"
+            printf 'Wrote Firefox UI state to %s\n' "$output"
+            printf 'Rebuild and activate the configuration before the next Firefox startup.\n'
+          '';
+        };
+        meta.description = "Export saved Firefox UI state to the repository";
+      };
+    };
 
   flake-file.inputs.firefox = {
     url = "github:nix-community/flake-firefox-nightly";
