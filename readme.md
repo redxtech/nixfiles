@@ -35,7 +35,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 ## packages
 
 <details>
-<summary>show 62 packages</summary>
+<summary>show 64 packages</summary>
 
 | package | version | description | upstream |
 | --- | --- | --- | --- |
@@ -46,6 +46,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`docker-axi`](packages/axi/package.nix) | `0-unstable-2026-07-09` | Agent-facing Docker CLI for safe, token-efficient workflows | [source](https://github.com/thatdudealso/docker-axi) |
 | [`gh-axi`](packages/gh-axi/package.nix) | `0.1.35` | GitHub CLI wrapper optimized for autonomous agents | [source](https://github.com/kunchenguid/gh-axi) |
 | [`gws-axi`](packages/gws-axi/package.nix) | `0.22.0` | Agent-ergonomic CLI for Google Workspace | [source](https://github.com/JarvusInnovations/gws-axi) |
+| [`herdr`](packages/herdr/package.nix) | `0.9.3` | Terminal workspace manager for AI coding agents | [source](https://herdr.dev) |
 | [`himalaya-tui`](packages/himalaya-tui/package.nix) | `0.1.0-unstable-2026-08-16` | TUI to manage emails | [source](https://github.com/pimalaya/himalaya-tui) |
 | [`input-custom`](packages/input-custom/package.nix) | `1.2` | Input fonts with configurable selection, spacing, and letter forms | [source](https://input.djr.com/) |
 | [`kagi-mcp`](packages/kagi-mcp/package.nix) | `1.0.6` | MCP server for Kagi search and summarization | [source](https://github.com/kdcokenny/kagi-rs) |
@@ -63,6 +64,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`paseo`](packages/paseo/package.nix) | `0.7.0` | Control AI coding agents from the command line | [source](https://github.com/getpaseo/paseo) |
 | [`pg-axi`](packages/axi/package.nix) | `0.1.2` | Agent-facing PostgreSQL CLI for safe, token-efficient workflows | [source](https://github.com/thatdudealso/pg-axi) |
 | [`pi-acp`](packages/pi-acp/package.nix) | `0.0.33` | ACP adapter for the pi coding agent | [source](https://github.com/svkozak/pi-acp) |
+| [`pi-web`](packages/pi-web/package.nix) | `1.202610.1` | Web UI for persistent Pi Coding Agent sessions | [source](https://pi-web.dev/) |
 | [`pitty`](packages/pitty/package.nix) | `0.5.20` | OpenTUI frontend for the Pi coding agent | [source](https://github.com/mistrjirka/PiTTy) |
 | [`plex-pass`](packages/plex-pass/package.nix) | `1.43.3.10896-cb3ebc72d` | Media library streaming server | [source](https://plex.tv/) |
 | [`plex-pass-raw`](packages/plex-pass/package.nix) | `1.43.3.10896-cb3ebc72d` | Media library streaming server | [source](https://plex.tv/) |
@@ -74,7 +76,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`super-productivity-mcp`](packages/super-productivity-mcp/package.nix) | `1.6.0` | MCP server for managing Super Productivity through AI assistants | [source](https://github.com/b0x42/Super-Productivity-MCP) |
 | [`sysdvr`](packages/sysdvr/package.nix) | `6.3` | Nintendo Switch game streaming client | [source](https://github.com/exelix11/SysDVR) |
 | [`tbkeys-lite`](packages/tbkeys-lite/package.nix) | `2.4.3` | Custom Thunderbird keybindings with managed storage support | [source](https://github.com/wshanks/tbkeys) |
-| [`voxtype-full`](packages/voxtype-full/package.nix) | `1.0.1` | Push-to-talk voice-to-text for Wayland | [source](https://github.com/peteonrails/voxtype) |
+| [`voxtype-full`](packages/voxtype-full/package.nix) | `1.1.0` | Push-to-talk voice-to-text for Wayland | [source](https://github.com/peteonrails/voxtype) |
 | [`workspace-mcp`](packages/workspace/package.nix) | `1.25.2` | Google Workspace MCP server and CLI | [source](https://github.com/taylorwilsdon/google_workspace_mcp) |
 | [`wt-herdr`](packages/wt-herdr/package.nix) | `0-unstable-2026-06-14` | herdr agent orchestration for worktrunk worktrees | [source](https://github.com/mattarau/wt-herdr) |
 

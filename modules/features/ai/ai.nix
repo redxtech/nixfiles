@@ -55,9 +55,10 @@
           # general tools
           llmAgentsPackages.apm # agent package manager
           llmAgentsPackages.aven # powerful todo manager
-          # beads # agent-first issue tracker
+          llmAgentsPackages.beads # agent-first issue tracker
           llmAgentsPackages.but # cli for gitbutler
           llmAgentsPackages.ccusage # token usage
+          llmAgentsPackages.chatgpt # codex desktop
           llmAgentsPackages.gitbutler # git client
           llmAgentsPackages.hunk # review-first diff viewer
           llmAgentsPackages.openspec # spec-driven development

@@ -74,6 +74,10 @@
         environment.systemPackages = with pkgs; [
           steamcmd
           steam-tui
+
+          # want these available outside of steam too
+          inputs'.chaotic.packages.proton-cachyos
+          inputs'.chaotic.packages.proton-ge-custom
         ];
 
         nixpkgs.config.packageOverrides = pkgs: {
