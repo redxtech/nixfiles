@@ -15,7 +15,7 @@ always_grab_all = false
 
 [devices."046d:4085".mapping.key_f14]
 action = "keyboard"
-target = "key_e"
+target = "key_1"
 
 [devices."046d:4085".mapping.key_f17]
 action = "keyboard"
@@ -23,8 +23,34 @@ target = "key_r"
 
 [devices."046d:4085".mapping.key_f15]
 action = "keyboard"
-target = "key_4"
+target = "key_3"
 
 [devices."046d:4085".mapping.key_f13]
 action = "keyboard"
-target = "key_1"
+target = "key_q"
+
+[devices."046d:4085".mapping.key_f16]
+action = "keyboard"
+target = "key_3"
+
+[devices."046d:4085".mapping.key_f18]
+action = "mpris"
+command = "play_pause"
+
+[devices."046d:4085".mapping.key_f19]
+action = "keyboard"
+target = "key_2"
+
+[devices."046d:4085".mapping.key_f20]
+action = "keyboard"
+target = "key_space"
+rapidfire_enabled = true
+rapidfire_hold_ms = 15
+rapidfire_wait_ms = 15
+
+[devices."046d:4085".mapping.key_f21]
+action = "keyboard"
+target = "key_space"
+rapidfire_enabled = true
+rapidfire_hold_ms = 15
+rapidfire_wait_ms = 15
