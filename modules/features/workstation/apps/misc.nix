@@ -23,7 +23,6 @@
           discord # chat
           ente-desktop # photos app
           feishin # music player
-          fractal # matrix client
           google-chrome # backup browser
           insomnia # api client
           kooha # simple screen recorder

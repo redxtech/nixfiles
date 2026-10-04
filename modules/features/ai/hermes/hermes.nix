@@ -23,6 +23,32 @@
       let
         llmAgentsPackages = inputs'.llm-agents.packages;
         selfPackages = self'.packages;
+        hermesPythonPackages = config.services.hermes-agent.package.python.pkgs;
+        honchoSource = pkgs.fetchFromGitHub {
+          owner = "plastic-labs";
+          repo = "honcho";
+          rev = "f014a64306bac21f233f51a8e5cddf94a704f62d";
+          hash = "sha256-zZhrst/o66Yo9Z1iHMQkBxtrDLn5haC2uh5nSMcBz8I=";
+        };
+        honchoPlugin = pkgs.runCommand "honcho-1.0.0" { } ''
+          ln -s ${honchoSource}/hermes-plugin-honcho "$out"
+        '';
+        honchoSdk = hermesPythonPackages.buildPythonPackage {
+          pname = "honcho-ai";
+          version = "2.5.0";
+          src = "${honchoSource}/sdks/python";
+          pyproject = true;
+          build-system = [
+            hermesPythonPackages.setuptools
+            hermesPythonPackages.wheel
+          ];
+          # the sealed hermes venv owns these distributions at compatible locked versions
+          buildInputs = [
+            hermesPythonPackages.httpx
+            hermesPythonPackages.pydantic
+          ];
+          pythonImportsCheck = [ "honcho" ];
+        };
       in
       {
         imports = [ self.homeManagerModules.hermes ];
@@ -112,15 +138,17 @@
               rev = "v0.20.0";
               hash = "sha256-yJ1Nn+su7YbKd+cgVOizXChzLbKHqTprSprF1p9/HYk=";
             })
+            honchoPlugin
           ];
 
           extraPythonPackages = [
+            honchoSdk
             (
               let
                 pname = "rtk-hermes";
                 version = "1.2.3";
               in
-              pkgs.python312Packages.buildPythonPackage {
+              hermesPythonPackages.buildPythonPackage {
                 inherit pname version;
                 src = pkgs.fetchFromGitHub {
                   owner = "ogallotti";
@@ -129,7 +157,7 @@
                   hash = "sha256-7YRW6PODrCapfYLFn3DvgHAEME//RGC48GQt+s9ot0s=";
                 };
                 format = "pyproject";
-                build-system = [ pkgs.python312Packages.setuptools ];
+                build-system = [ hermesPythonPackages.setuptools ];
               }
             )
           ];
@@ -138,7 +166,6 @@
             "messaging"
             "edge-tts"
             "exa"
-            "honcho"
             "voice"
             "tts-premium"
           ];

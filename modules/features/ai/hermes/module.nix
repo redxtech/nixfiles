@@ -232,17 +232,23 @@
         builtins.attrNames cfg.documents
       );
 
-      linkPlugins = pluginDirectory: ''
-        run mkdir -p ${lib.escapeShellArg pluginDirectory}
-        run find ${lib.escapeShellArg pluginDirectory} -maxdepth 1 -type l -name 'nix-managed-*' -delete
-        ${lib.concatMapStringsSep "\n" (plugin: ''
-          if [ ! -f ${lib.escapeShellArg "${plugin}/plugin.yaml"} ]; then
-            echo "extraPlugins entry '${plugin}' has no plugin.yaml" >&2
-            exit 1
-          fi
-          run ln -sfn ${lib.escapeShellArg (toString plugin)} ${lib.escapeShellArg "${pluginDirectory}/nix-managed-${lib.getName plugin}"}
-        '') cfg.extraPlugins}
-      '';
+      linkPlugins =
+        pluginDirectory:
+        let
+          honchoPath = lib.escapeShellArg "${pluginDirectory}/honcho";
+        in
+        ''
+          run mkdir -p ${lib.escapeShellArg pluginDirectory}
+          run find ${lib.escapeShellArg pluginDirectory} -maxdepth 1 -type l -name 'nix-managed-*' -delete
+          ${lib.concatMapStringsSep "\n" (plugin: ''
+            if [ ! -f ${lib.escapeShellArg "${plugin}/plugin.yaml"} ]; then
+              echo "extraPlugins entry '${plugin}' has no plugin.yaml" >&2
+              exit 1
+            fi
+            run ln -sfn ${lib.escapeShellArg (toString plugin)} ${lib.escapeShellArg "${pluginDirectory}/nix-managed-${lib.getName plugin}"}
+          '') cfg.extraPlugins}
+          run ln -sfn nix-managed-honcho ${honchoPath}
+        '';
     in
     {
       options.services.hermes-agent = {

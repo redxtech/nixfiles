@@ -69,6 +69,7 @@
       homeManager =
         { pkgs, self', ... }:
         {
+          stylix.targets.rofi.enable = false;
           fonts.fontconfig.antialiasing = true;
           home.pointerCursor.enable = true;
           home.packages = extraFonts pkgs self'.packages.input-custom;

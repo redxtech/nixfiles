@@ -1,14 +1,17 @@
+{ inputs, ... }:
 {
   perSystem =
     {
-      inputs',
       lib,
       pkgs,
       packageUpdateScripts,
       ...
     }:
+    let
+      voxtype = (inputs.llm-agents.overlays.shared-nixpkgs pkgs pkgs).llm-agents.voxtype;
+    in
     {
-      packages.voxtype-full = inputs'.llm-agents.packages.voxtype.overrideAttrs (oldAttrs: {
+      packages.voxtype-full = voxtype.overrideAttrs (oldAttrs: {
         cargoBuildFeatures = [
           "cohere"
           "parakeet"
