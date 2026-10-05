@@ -72,7 +72,9 @@
         );
         # docktail owns labeled OCI services; avoid configuring the same
         # tailscale service through both the native reconciler and docktail.
-        services = removeAttrs config.network.finalServices docktailServiceNames;
+        services = removeAttrs (
+          config.network.finalServices // config.network.tailscaleServices
+        ) docktailServiceNames;
         servicesFile = pkgs.writeText "tailscale-serve-services.json" (builtins.toJSON services);
         docktailServicesFile = pkgs.writeText "tailscale-serve-docktail-services.json" (
           builtins.toJSON docktailServiceNames

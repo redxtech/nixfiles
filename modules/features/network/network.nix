@@ -30,7 +30,7 @@
           host: self.nixosConfigurations.${host}.config.network.isHost
         ) null realHosts;
 
-        serviceNames = lib.attrNames cfg.services;
+        serviceNames = lib.attrNames (cfg.services // cfg.tailscaleServices);
         invalidServiceNames = lib.filter (
           name: builtins.match "[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?" name == null
         ) serviceNames;
@@ -41,6 +41,12 @@
             type = lib.types.attrsOf lib.types.port;
             default = { };
             description = "Local HTTP services keyed by DNS-safe service name and assigned loopback port.";
+          };
+
+          tailscaleServices = lib.mkOption {
+            type = lib.types.attrsOf lib.types.port;
+            default = { };
+            description = "Local HTTP services exposed only through Tailscale Serve, keyed by DNS-safe service name and loopback port.";
           };
 
           finalServices = lib.mkOption {
@@ -72,7 +78,12 @@
           assertions = [
             {
               assertion = invalidServiceNames == [ ];
-              message = "network.services contains invalid DNS labels: ${toString invalidServiceNames}";
+              message = "The network service catalogs contain invalid DNS labels: ${toString invalidServiceNames}";
+            }
+            {
+              assertion =
+                lib.intersectLists (lib.attrNames cfg.services) (lib.attrNames cfg.tailscaleServices) == [ ];
+              message = "network.services and network.tailscaleServices must use distinct service names.";
             }
           ];
 

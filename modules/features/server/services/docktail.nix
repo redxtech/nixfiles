@@ -21,7 +21,9 @@
             _containerName: container: lib.attrByPath [ "labels" "docktail.service.name" ] null container
           ) config.virtualisation.oci-containers.containers
         );
-        nativeServiceNames = removeAttrs config.network.finalServices docktailServiceNames;
+        nativeServiceNames = removeAttrs (
+          config.network.finalServices // config.network.tailscaleServices
+        ) docktailServiceNames;
       in
       {
         virtualisation.oci-containers.containers.docktail = {

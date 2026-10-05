@@ -24,6 +24,7 @@
           beszel = secretFiles.containers;
           calibre = secretFiles.containers;
           calibre-web = secretFiles.containers;
+          cliproxyapi = secretFiles.shared;
           ddclient = secretFiles.containers;
           esphome = secretFiles.home-assistant;
           github-runner = secretFiles.ci;
@@ -91,6 +92,7 @@
     includes = [
       den.aspects.quasar-fs
       den.aspects.server
+      den.aspects.cliproxyapi._.server
       den.aspects.tunnel
       den.aspects.tinyauth
       # den.aspects.gpu

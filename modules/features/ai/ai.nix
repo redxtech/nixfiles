@@ -3,6 +3,7 @@
 {
   den.aspects.ai = {
     includes = [
+      den.aspects.cliproxyapi
       den.aspects.herdr
       den.aspects.mcp
       den.aspects.workmux
