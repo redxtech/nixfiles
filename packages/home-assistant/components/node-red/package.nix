@@ -18,13 +18,13 @@
         buildHomeAssistantComponent rec {
           owner = "zachowj";
           domain = "nodered";
-          version = "4.2.3";
+          version = "4.3.0";
 
           src = fetchFromGitHub {
             inherit owner;
             repo = "hass-node-red";
             rev = "v${version}";
-            hash = "sha256-LOYcyoGwqAe/ufBpYFGJH6wjIKEnMS59LmOeokwsd0w=";
+            hash = "sha256-Cc1qd7TRCHiRXVIvkirtln4L8R2VwR/2xbIxnuwd7Kk=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubSource {
