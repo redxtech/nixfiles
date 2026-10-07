@@ -63,7 +63,8 @@
               softrealtime = "on";
               inhibit_screensaver = 1;
             };
-            gpu = {
+            # voyager uses dynamic GPU power management instead of a forced performance level
+            gpu = lib.mkIf (host.hostName != "voyager") {
               apply_gpu_optimisations = "accept-responsibility";
               gpu_device = 0;
               amd_performance_level = lib.mkIf host.settings.gpu.amd "high";
