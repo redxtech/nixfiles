@@ -11,28 +11,28 @@
         ;
 
       pname = "moshi-hook";
-      version = "0.3.16";
+      version = "0.4.27";
 
       sources = {
         x86_64-linux = {
           os = "Linux";
           arch = "x86_64";
-          hash = "sha256-7pb/POvmhkipYxl2Zgr6SnokfPosyMAw2dXsp4TfWpU=";
+          hash = "sha256-TeM83cCRdxczujUEVbmYVpqBmgxc21vc1K9BeMLlR+M=";
         };
         aarch64-linux = {
           os = "Linux";
           arch = "arm64";
-          hash = "sha256-jfbYPc0aqZxC51FpN/KSSfOo9wTZ2dfuxwP6IoeohmY=";
+          hash = "sha256-u7Ve9+yUSFRI+NGo6i5gACjVej41NvYiB6CUsgENZAs=";
         };
         x86_64-darwin = {
           os = "Darwin";
           arch = "x86_64";
-          hash = "sha256-YIyK9Updet1ObVjOLRtbPqC6U2/Yt+V9lHtfnyROgxE=";
+          hash = "sha256-feu9F+ZLsrYhAdiGe2wqLB050m5kW7FKaxnK+Z/3yQQ=";
         };
         aarch64-darwin = {
           os = "Darwin";
           arch = "arm64";
-          hash = "sha256-FzVQxkN+ZmPb30Nzb8nLyipa+Kz3w9YbLDqXxJY89ZY=";
+          hash = "sha256-K2kADiXuSMq2HEXLNrNbFp4uD+g5k0rFZ0BiFgMQ8F0=";
         };
       };
       source = sources.${stdenv.hostPlatform.system};
