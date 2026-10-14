@@ -70,13 +70,13 @@
         };
 
         base = {
-          dockerDNS = [ "192.168.50.1" ];
+          dockerDNS = [ "192.168.1.1" ];
           dockerStorageDriver = "overlay2";
           fs.btrfs = true;
           fs.zfs = true;
         };
 
-        network.ip = "192.168.50.208";
+        network.ip = "192.168.1.191";
 
         portainer.dataDir = "/pool/data/portainer";
 

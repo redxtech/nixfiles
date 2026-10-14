@@ -8,7 +8,7 @@
       base = {
         hasDisplay = true;
         fs.btrfs = true;
-        dockerDNS = [ "192.168.50.1" ];
+        dockerDNS = [ "192.168.1.1" ];
         dockerStorageDriver = "btrfs";
         useZen = true;
       };
@@ -108,7 +108,7 @@
 
       system.stateVersion = "24.05";
 
-      time.timeZone = "America/Edmonton";
+      time.timeZone = "America/Vancouver";
 
       backup = {
         btrfs = {

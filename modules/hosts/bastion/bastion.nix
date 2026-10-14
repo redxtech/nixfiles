@@ -13,12 +13,12 @@
       base = {
         hasDisplay = true;
         fs.btrfs = true;
-        dockerDNS = [ "192.168.50.1" ];
+        dockerDNS = [ "192.168.1.1" ];
         dockerStorageDriver = "btrfs";
         useCachy = true;
       };
 
-      network.ip = "192.168.50.151";
+      network.ip = "192.168.1.55";
       tunnel.id = "10f40833-b341-4f16-9920-2b5796744e15";
       tinyauth = {
         secretsFile = ../../../secrets/hosts/bastion/secrets.yaml;

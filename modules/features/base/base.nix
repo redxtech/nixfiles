@@ -13,7 +13,7 @@
 
       tz = lib.mkOption {
         type = lib.types.str;
-        default = "America/Edmonton";
+        default = "America/Vancouver";
         description = "The timezone of the machine.";
       };
 
