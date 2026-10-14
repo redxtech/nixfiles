@@ -16,13 +16,13 @@
         in
         stdenv.mkDerivation rec {
           pname = "custom-brand-icons";
-          version = "2026.08.5";
+          version = "2026.10.1";
 
           src = fetchFromGitHub {
             owner = "elax46";
             repo = "custom-brand-icons";
             rev = "${version}";
-            hash = "sha256-rHcZjNpil2YcV2A+Cqz/V22pMfL8eJvlrbQK+Tk9HbE=";
+            hash = "sha256-shGPEqQCzgki/eFSP6aCT1XvAN3jCF+9ljI+9Fm9zXw=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubRelease;
