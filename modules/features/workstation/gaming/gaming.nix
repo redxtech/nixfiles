@@ -12,40 +12,46 @@
     };
 
     nixos =
-      { host, inputs', pkgs, ... }:
       {
-      hardware.steam-hardware.enable = true;
-      hardware.xpadneo.enable = true;
-      hardware.xone.enable = true;
-      services.udev.packages = [ pkgs.game-devices-udev-rules ];
+        host,
+        inputs',
+        pkgs,
+        ...
+      }:
+      {
+        hardware.steam-hardware.enable = true;
+        hardware.xpadneo.enable = true;
+        hardware.xone.enable = true;
+        services.udev.packages = [ pkgs.game-devices-udev-rules ];
 
-      environment.systemPackages =
-        with pkgs;
-        [
-          # tools
-          mangohud
+        environment.systemPackages =
+          with pkgs;
+          [
+            # tools
+            mangohud
 
-          # controller compat
-          SDL2
-        ]
-        ++ lib.optionals host.settings.gaming.extraLaunchers [
-          heroic # epic games launcher
-          umu-launcher # launch games with proton outside of steam
-          faugus-launcher # gui for umu-launcher
-          (lutris.override {
-            extraPkgs = p: [
-              inputs'.chaotic.packages.proton-ge-custom # instead of p.proton-ge-bin
-              p.umu-launcher
-              p.wine
-            ];
-          })
-        ];
-    };
+            # controller compat
+            SDL2
+          ]
+          ++ lib.optionals host.settings.gaming.extraLaunchers [
+            heroic # epic games launcher
+            umu-launcher # launch games with proton outside of steam
+            faugus-launcher # gui for umu-launcher
+            (lutris.override {
+              extraPkgs = p: [
+                inputs'.chaotic.packages.proton-ge-custom # instead of p.proton-ge-bin
+                p.umu-launcher
+                p.wine
+              ];
+            })
+          ];
+      };
 
     homeManager =
       { pkgs, ... }:
       {
         home.packages = with pkgs; [
+          deadlock-mod-manager # mod manager for deadlock
           dolphin-emu # gamecube/wii emulator
           eden # switch emulator
         ];
