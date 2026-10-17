@@ -41,8 +41,6 @@
           "vt.global_cursor_default=0"
         ];
 
-        # TODO: look into binfmt
-
         # TODO: maybe pull from parsed filesystems?
         supportedFilesystems = {
           inherit (cfg.fs) btrfs zfs;

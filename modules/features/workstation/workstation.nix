@@ -14,6 +14,7 @@
       den.aspects.audio
       den.aspects.autostart
       den.aspects.bar
+      den.aspects.compat
       den.aspects.default-apps
       den.aspects.devices
       den.aspects.flatpak
