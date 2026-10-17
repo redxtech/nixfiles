@@ -17,8 +17,9 @@
         enable = true;
         dataDir = "${host.settings.server.configRoot}/zigbee2mqtt";
         settings = {
+          # serial.port = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_f20e7f0b16a6ed11a11ce9a32981d5c7-if00-port0";
           frontend.port = 7800;
-          serial.port = "/dev/ttyUSB0"; # TODO: use a /dev/serial/by-id path
+          serial.port = "/dev/ttyUSB0";
           permit_join = false;
           homeassistant = lib.mkForce config.services.home-assistant.enable;
           advanced.network_key = "!secrets.yaml network_key";

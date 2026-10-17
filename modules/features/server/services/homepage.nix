@@ -99,21 +99,6 @@
                   };
                 };
               }
-              {
-                esphome = {
-                  icon = "esphome.svg";
-                  href = "https://esphome.${fqdn}";
-                  description = "esphome dashboard";
-                  weight = -90;
-                };
-              }
-              {
-                node-red = {
-                  icon = "node-red.svg";
-                  href = "https://node-red.${fqdn}";
-                  description = "flow-based automation";
-                };
-              }
             ];
           }
           {

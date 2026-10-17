@@ -26,7 +26,6 @@
           calibre-web = secretFiles.containers;
           cliproxyapi = secretFiles.shared;
           ddclient = secretFiles.containers;
-          esphome = secretFiles.home-assistant;
           github-runner = secretFiles.ci;
           grafana = secretFiles.shared;
           hercules-ci-agent = secretFiles.ci;
@@ -35,7 +34,6 @@
           jdownloader = secretFiles.containers;
           mosquitto = secretFiles.home-assistant;
           navidrome = secretFiles.containers;
-          node-red = secretFiles.home-assistant;
           paperless = secretFiles.containers;
           papra = secretFiles.containers;
           pocket-id = secretFiles.containers;

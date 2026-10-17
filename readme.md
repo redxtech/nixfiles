@@ -35,7 +35,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 ## packages
 
 <details>
-<summary>show 64 packages</summary>
+<summary>show 63 packages</summary>
 
 | package | version | description | upstream |
 | --- | --- | --- | --- |
@@ -96,7 +96,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 </details>
 
 <details>
-<summary>show 17 home assistant packages</summary>
+<summary>show 16 home assistant packages</summary>
 
 | package | version | description | upstream |
 | --- | --- | --- | --- |
@@ -104,7 +104,6 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`home-assistant-components-browser-mod`](packages/home-assistant/components/browser-mod/package.nix) | `3.2.2` | A Home Assistant integration to turn your browser into a controllable entity and media player | [source](https://github.com/thomasloven/hass-browser_mod) |
 | [`home-assistant-components-dwains-dashboard`](packages/home-assistant/components/dwains-dashboard/package.nix) | `3.10.0` | An fully auto generating Home Assistant UI dashboard for desktop, tablet and mobile by Dwains for desktop, tablet, mobile | [source](https://github.com/dwainscheeren/dwains-lovelace-dashboard) |
 | [`home-assistant-components-iphonedetect`](packages/home-assistant/components/iphonedetect/package.nix) | `2.5.0` | A custom component for Home Assistant to detect iPhones connected to local LAN, even if the phone is in deep sleep | [source](https://github.com/mudape/iphonedetect) |
-| [`home-assistant-components-node-red`](packages/home-assistant/components/node-red/package.nix) | `4.2.3` | Companion Component for node-red-contrib-home-assistant-websocket to help integrate Node-RED with Home Assistant Core | [source](https://github.com/zachowj/hass-node-red) |
 | [`home-assistant-components-pirate-weather`](packages/home-assistant/components/pirate-weather/package.nix) | `1.9.2` | Replacement for the default Dark Sky Home Assistant integration using Pirate Weather | [source](https://github.com/Pirate-Weather/pirate-weather-ha) |
 | [`home-assistant-components-spotcast`](packages/home-assistant/components/spotcast/package.nix) | `4.0.1` | Home assistant custom component to start Spotify playback on an idle chromecast device as well as control spotify connect devices | [source](https://github.com/fondberg/spotcast) |
 | [`home-assistant-components-tuya-local`](packages/home-assistant/components/tuya_local/package.nix) | `2026.8.1` | Local support for Tuya devices in Home Assistant | [source](https://github.com/make-all/tuya-local) |

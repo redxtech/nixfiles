@@ -8,9 +8,6 @@
 
   den.aspects.influxdb.nixos =
     { config, host, ... }:
-    let
-      server = host.settings.server;
-    in
     {
       network.services.influx = 8086;
 
@@ -45,12 +42,6 @@
       };
 
       services.home-assistant.config.influxdb = {
-        api_version = 2;
-        host = "influx.${config.networking.fqdn}";
-        port = 443;
-        organization = "home-assistant";
-        bucket = "default";
-        token = "!secret influx_token";
         tags.source = "HA";
         tags_attributes = [ "friendly_name" ];
         default_measurement = "units";

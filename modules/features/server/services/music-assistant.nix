@@ -40,9 +40,12 @@
         ];
       };
 
-      networking.firewall.allowedTCPPorts = [
-        port
-        8097
-      ];
+      networking.firewall = {
+        allowedTCPPorts = [
+          port
+          8097
+        ];
+        allowedUDPPorts = [ 5353 ];
+      };
     };
 }

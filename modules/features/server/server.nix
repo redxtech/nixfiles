@@ -65,7 +65,6 @@
       den.aspects.coredns
       den.aspects.ddclient
       den.aspects.docktail
-      den.aspects.esphome
       den.aspects.flaresolverr
       den.aspects.flood
       den.aspects.github-runner
@@ -89,7 +88,6 @@
       den.aspects.navidrome
       den.aspects.network
       den.aspects.network._.server
-      den.aspects.node-red
       den.aspects.pocket-id
       den.aspects.paperless
       den.aspects.papra
@@ -111,14 +109,12 @@
       den.aspects.tailscale._.server
       den.aspects.traefik._.server
       den.aspects.tubearchivist
-      # disable until back to beach house
-      # den.aspects.unpoller
+      den.aspects.unpoller
       den.aspects.uptime-kuma
       den.aspects.virtualisation._.containers
       den.aspects.watchtower
       den.aspects.yt
-      # disable until back to beach house
-      # den.aspects.zigbee2mqtt
+      den.aspects.zigbee2mqtt
     ];
 
     nixos =

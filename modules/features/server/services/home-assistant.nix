@@ -18,13 +18,6 @@
       notifyBastion = pkgs.writeShellScript "notify-bastion" ''
         ${pkgs.openssh}/bin/ssh -i ${hassHome}/.ssh/id_ed25519 gabe@bastion "notify-send '$1' '$2' --icon home --app-name 'Home Assistant'"
       '';
-      mkBLE = name: id: {
-        name = "${name} BLE";
-        platform = "mqtt_room";
-        device_id = "!secret espresense_${id}";
-        state_topic = "!secret espresense_${id}_topic";
-        timeout = 60;
-      };
       mkSpotifyDevice = id: name: icon: {
         friendly_name = "Spotify - ${name}";
         initial_value = "!secret spotify_${id}_id";
@@ -49,33 +42,6 @@
         config = {
           default_config = { };
           recorder.db_url = "postgresql://@/hass";
-          http = {
-            use_x_forwarded_for = true;
-            trusted_proxies = [
-              "127.0.0.1"
-              "::1"
-            ];
-          };
-          notify = [
-            {
-              name = "Email";
-              platform = "smtp";
-              sender = "homeassistant@sucha.foo";
-              sender_name = "Home Assistant";
-              recipient = "!secret smtp_default_recipient";
-              server = "!secret smtp_server";
-              port = "!secret smtp_port";
-              username = "!secret smtp_username";
-              password = "!secret smtp_password";
-              encryption = "tls";
-            }
-          ];
-          sensor = [
-            (mkBLE "Gabe's Phone" "gabe_phone")
-            (mkBLE "Gabe's Watch" "gabe_watch")
-            (mkBLE "Cam's Phone" "cam_phone")
-            (mkBLE "Kira's Phone" "kira_phone")
-          ];
           homeassistant = {
             country = "CA";
             currency = "CAD";
@@ -89,14 +55,6 @@
             elevation = "!secret elevation";
             media_dirs.media = server.mediaRoot;
           };
-          device_tracker = [
-            {
-              platform = "unifi_direct";
-              host = "192.168.1.1";
-              username = "!secret unifi_user";
-              password = "!secret unifi_pass";
-            }
-          ];
           shell_command.notify_bastion = ''${notifyBastion} "{{ title }}" "{{ message }}"'';
           spotcast = {
             country = "CA";
@@ -356,7 +314,6 @@
             home-assistant-components-bermuda
             home-assistant-components-browser-mod
             home-assistant-components-iphonedetect
-            home-assistant-components-node-red
             home-assistant-components-pirate-weather
             home-assistant-components-spotcast
             home-assistant-components-tuya-local

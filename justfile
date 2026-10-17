@@ -30,7 +30,6 @@ packages:
       .#packages.x86_64-linux.home-assistant-components-browser-mod \
       .#packages.x86_64-linux.home-assistant-components-dwains-dashboard \
       .#packages.x86_64-linux.home-assistant-components-iphonedetect \
-      .#packages.x86_64-linux.home-assistant-components-node-red \
       .#packages.x86_64-linux.home-assistant-components-pirate-weather \
       .#packages.x86_64-linux.home-assistant-components-spotcast \
       .#packages.x86_64-linux.home-assistant-components-tuya-local \
