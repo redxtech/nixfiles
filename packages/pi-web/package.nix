@@ -2,8 +2,8 @@
   perSystem =
     { pkgs, lib, ... }:
     let
-      version = "1.202610.1";
-      piVersion = "1.0.0";
+      version = "1.202610.3";
+      piVersion = "1.3.0";
       updateScript = pkgs.writeShellApplication {
         name = "update-pi-web";
         runtimeInputs = [
@@ -24,10 +24,10 @@
 
         src = pkgs.fetchurl {
           url = "https://registry.npmjs.org/@jmfederico/pi-web/-/pi-web-${version}.tgz";
-          hash = "sha256-NGJLlXnwlcdBt+HtFNsWeN7GmHTmRlyNi+RQerF2hcI=";
+          hash = "sha256-qFAfNQfmEX+xCxenpWUqet7Ud5G5N5DaZeURYnbTDik=";
         };
 
-        npmDepsHash = "sha256-xlNYO6gVwSvgENJ0zepXj663d/htJZ8107SphPvSJuE=";
+        npmDepsHash = "sha256-4gNGE1iVOoH02JipnPmTu/W7GxBVKfPfirrM8zUaE84=";
         npmDepsFetcherVersion = 2;
         postPatch = ''
           # match the CLI's SDK without pulling a newer pi peer dependency
