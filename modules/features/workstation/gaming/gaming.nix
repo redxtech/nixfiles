@@ -24,6 +24,8 @@
         hardware.xone.enable = true;
         services.udev.packages = [ pkgs.game-devices-udev-rules ];
 
+        environment.sessionVariables.PROTONPATH = "${inputs'.chaotic.packages.proton-cachyos}";
+
         environment.systemPackages =
           with pkgs;
           [
