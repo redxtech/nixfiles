@@ -339,9 +339,9 @@
             home-assistant-lovelace-bubble-card
             home-assistant-lovelace-card-tools
             home-assistant-lovelace-custom-brand-icons
+            home-assistant-lovelace-grid-remote-card
             home-assistant-lovelace-ha-firemote
             home-assistant-lovelace-horizon-card
-            home-assistant-lovelace-waze-travel-time
           ]);
       };
 
