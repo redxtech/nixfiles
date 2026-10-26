@@ -64,11 +64,11 @@
     {
       packages.nostalgy = pkgs.stdenvNoCC.mkDerivation {
         pname = "nostalgy";
-        version = "5.0.5";
+        version = "5.2.10";
 
         src = pkgs.fetchurl {
-          url = "https://addons.thunderbird.net/user-media/addons/_attachments/987740/nostalgy_emails_verwalten_suchen_archivieren-5.0.5-tb.xpi";
-          hash = "sha256-2QpSbZT4bR6fch9P1dlO4k5yiqdfn2YQ/ZoOk25Wrd0=";
+          url = "https://addons.thunderbird.net/user-media/addons/_attachments/987740/nostalgy_emails_verwalten_suchen_archivieren-5.2.10-tb.xpi";
+          hash = "sha256-i+qevgNNEr/z1kyR/kvf9a5EgcM8lN8Hxq0hVR+OWOU=";
         };
 
         dontUnpack = true;
