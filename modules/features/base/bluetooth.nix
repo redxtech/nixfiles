@@ -43,11 +43,28 @@
         };
 
       homeManager =
-        { pkgs, ... }:
+        {
+          osConfig,
+          pkgs,
+          lib,
+          ...
+        }:
         {
           home.packages = with pkgs; [
             bluetuith
           ];
+
+          scripts.scripts = lib.mkIf osConfig.hardware.bluetooth.enable {
+            fix-bluetooth = pkgs.writeShellApplication {
+              name = "fix-bluetooth";
+              runtimeInputs = [
+                pkgs.bluez
+                pkgs.coreutils
+                pkgs.systemd
+              ];
+              text = builtins.readFile ./fix-bluetooth.sh;
+            };
+          };
         };
     };
   };
