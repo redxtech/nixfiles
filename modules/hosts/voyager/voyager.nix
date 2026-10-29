@@ -89,6 +89,7 @@
   den.aspects.voyager = {
     includes = [
       den.aspects.voyager-fs
+      den.aspects.voyager-sleep
       den.aspects.workstation
       den.aspects.network
 

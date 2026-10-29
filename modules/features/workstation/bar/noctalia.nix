@@ -92,6 +92,9 @@
       };
   };
 
+  # polling must outlast voyager's five-second GPU autosuspend delay
+  den.aspects.voyager.homeManager.programs.noctalia.settings.system.monitor.gpu_poll_seconds = 15.0;
+
   # allow exporting noctalia config to a file
   perSystem =
     { pkgs, lib, ... }:
