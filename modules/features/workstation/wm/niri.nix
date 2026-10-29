@@ -47,6 +47,7 @@
         inputs',
         config,
         host,
+        osConfig,
         pkgs,
         lib,
         ...
@@ -157,14 +158,39 @@
         };
 
         home.packages = [ pkgs.nirius ];
+
+        scripts.scripts = lib.mkIf osConfig.programs.niri.enable {
+          reset-monitors = pkgs.writeShellApplication {
+            name = "reset-monitors";
+            runtimeInputs = [
+              config.programs.niri.package
+              pkgs.coreutils
+              pkgs.jq
+            ];
+            text =
+              builtins.readFile ./reset-monitors.sh
+              + "\n"
+              + lib.concatMapStringsSep "\n" (
+                monitor:
+                "reset_monitor ${
+                  lib.escapeShellArgs [
+                    monitor.name
+                    (toString monitor.width)
+                    (toString monitor.height)
+                    (toString monitor.rate)
+                  ]
+                } || status=1"
+              ) (lib.filter (monitor: monitor.enable) host.settings.monitors.monitors)
+              + ''
+
+                exit "$status"
+              '';
+          };
+        };
       };
   };
 
-  # TODO: remove niri-pkgs inputs once the very-refactor branch is merged
-  # https://github.com/sodiboo/niri-flake/pull/1548
-
   flake-file = {
-    # using this branch to use unmerged config options
     inputs.niri.url = "github:epireyn/niri-flake";
 
     nixConfig = {
