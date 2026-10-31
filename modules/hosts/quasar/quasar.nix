@@ -89,6 +89,7 @@
   den.aspects.quasar = {
     includes = [
       den.aspects.quasar-fs
+      den.aspects.quasar-igpu
       den.aspects.server
       den.aspects.cliproxyapi._.server
       den.aspects.tunnel
