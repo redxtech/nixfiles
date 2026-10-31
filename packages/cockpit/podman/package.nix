@@ -16,15 +16,14 @@
             ;
 
           pname = "cockpit-podman";
-          version = "129";
+          version = "132";
         in
         stdenv.mkDerivation {
           inherit pname version;
 
-          # TODO: update to latest release
           src = fetchzip {
             url = "https://github.com/cockpit-project/cockpit-podman/releases/download/${version}/cockpit-podman-${version}.tar.xz";
-            hash = "sha256-OKMIHJCm++NKp0zv5ehIN38u+Uag9q8Ejl99wCNXZKo=";
+            hash = "sha256-yWFmpQKnWM/gl73g6ej+kxexOXNbs1qMZcxtSTviCIo=";
           };
 
           nativeBuildInputs = [ gettext ];
@@ -36,7 +35,8 @@
           postPatch = ''
             touch pkg/lib/cockpit.js
             touch pkg/lib/cockpit-po-plugin.js
-            touch dist/manifest.json
+            # keep the release's prebuilt frontend newer than its patched inputs
+            touch runtime-npm-modules.txt
           '';
 
           dontBuild = true;

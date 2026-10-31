@@ -1,6 +1,11 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     let
       inherit (pkgs)
         SDL2
@@ -194,6 +199,18 @@
 
           runHook postInstallCheck
         '';
+
+        passthru.updateScript = lib.getExe (
+          packageUpdateScripts.nodeScript {
+            packageName = "sysdvr";
+            script = ./update.mjs;
+            args = [ "packages/sysdvr" ];
+            runtimeInputs = [
+              pkgs.nix
+              pkgs.nix-update
+            ];
+          }
+        );
 
         meta = {
           description = "Nintendo Switch game streaming client";

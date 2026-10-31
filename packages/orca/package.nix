@@ -4,6 +4,7 @@
     let
       inherit (pkgs)
         appimageTools
+        desktop-file-utils
         fetchurl
         makeWrapper
         stdenv
@@ -12,16 +13,16 @@
         ;
 
       pname = "orca-ide";
-      version = "1.4.193";
+      version = "1.4.245";
 
       sources = {
         x86_64-linux = {
           url = "https://github.com/stablyai/orca/releases/download/v${version}/orca-linux.AppImage";
-          hash = "sha256-P4Fv8i+cM/nEoeUSzIgoXAEu6/bKqujOvr3ft56QCFU=";
+          hash = "sha256-uNwzG8ck3gTasysc79OWlUANoVpTAiBUuXaC7a0f+dg=";
         };
         aarch64-linux = {
           url = "https://github.com/stablyai/orca/releases/download/v${version}/orca-linux-arm64.AppImage";
-          hash = "sha256-/yw7e2UcTH2I3w38iNLVIMuo4OgUsiMGa294tFvejks=";
+          hash = "sha256-NZFI7gwkORGakRiAOHtTnEVMQtyWAqiAR3yKy+c6lvc=";
         };
       };
 
@@ -81,7 +82,10 @@
       orca = appimageTools.wrapType2 {
         inherit pname version src;
 
-        nativeBuildInputs = [ makeWrapper ];
+        nativeBuildInputs = [
+          desktop-file-utils
+          makeWrapper
+        ];
 
         # Orca starts Xvfb itself in serve mode when DISPLAY is unset. util-linux
         # supplies unshare, which AppRun uses to detect Chromium sandbox support.
@@ -93,8 +97,7 @@
         extraInstallCommands = ''
           install -Dm644 ${appimageContents}/orca-ide.desktop \
             $out/share/applications/orca-ide.desktop
-          substituteInPlace $out/share/applications/orca-ide.desktop \
-            --replace-fail 'Exec=AppRun --no-sandbox %U' 'Exec=orca-ide %U'
+          bash ${./patch-desktop.sh} $out/share/applications/orca-ide.desktop
           cp -r ${appimageContents}/usr/share/icons $out/share/
 
           makeWrapper $out/bin/orca-ide $out/bin/orca-server \

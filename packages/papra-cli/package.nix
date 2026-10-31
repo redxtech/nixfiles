@@ -20,23 +20,33 @@
             ;
 
           pname = "papra-cli";
-          version = "0.2.5";
+          version = "0.2.6";
+          pnpmWorkspaces = [ "@papra/cli..." ];
 
           src = fetchFromGitHub {
             owner = "papra-hq";
             repo = "papra";
             tag = "@papra/cli@${version}";
-            hash = "sha256-3VD/bzEwgh1mBXwwOsz8gq7NqUOV7I4rc+tziFuI1uc=";
+            hash = "sha256-LiGEo+aANVJdBnGDuU/2Iir8gSTYHcbCqAHPMnKvg8E=";
           };
         in
         stdenvNoCC.mkDerivation {
-          inherit pname version src;
+          inherit
+            pname
+            version
+            src
+            pnpmWorkspaces
+            ;
 
           pnpmDeps = fetchPnpmDeps {
-            inherit pname version src;
+            inherit
+              pname
+              version
+              src
+              pnpmWorkspaces
+              ;
             fetcherVersion = 4;
-            hash = "sha256-I0eCsWmpKFKJYz9kunMhKlI3co6z10e97Km4Q4emJO0=";
-            pnpmWorkspaces = [ "@papra/cli..." ];
+            hash = "sha256-oh0OV1Ob4+EJsP2sgvpxFFmTNEyOiduZNz6GbcO69J8=";
           };
 
           nativeBuildInputs = [
@@ -57,7 +67,7 @@
 
             mkdir -p $out/{bin,lib/papra-cli}
             pnpm config set --location=project injectWorkspacePackages true
-            pnpm deploy --ignore-script --filter=@papra/cli --prod $out/lib/papra-cli
+            pnpm deploy --ignore-scripts --filter=@papra/cli --prod $out/lib/papra-cli
             makeWrapper ${lib.getExe nodejs} $out/bin/papra \
               --add-flags "$out/lib/papra-cli/bin/papra.mjs"
 

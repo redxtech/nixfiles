@@ -20,17 +20,12 @@
         ;
 
       pname = "cua-driver";
-      version = "0.23.2";
+      version = "0.38.0";
       src = fetchFromGitHub {
         owner = "trycua";
         repo = "cua";
         tag = "cua-driver-rs-v${version}";
-        hash = "sha256-u7VHRF6D11Z/G/mP2zRQj9uxHESw77LpMK+m+8PYKIs=";
-        postFetch = ''
-          find "$out" -mindepth 1 -maxdepth 1 ! -name libs -exec rm -rf {} +
-          find "$out/libs" -mindepth 1 -maxdepth 1 ! -name cua-driver -exec rm -rf {} +
-          find "$out/libs/cua-driver" -mindepth 1 -maxdepth 1 ! -name rust ! -name wayland-helper -exec rm -rf {} +
-        '';
+        hash = "sha256-Fpryc6Vg9vtV3zRCaL4S38v8l4JluU95o86dQbzkDPM=";
       };
     in
     {

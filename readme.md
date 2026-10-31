@@ -35,13 +35,13 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 ## packages
 
 <details>
-<summary>show 63 packages</summary>
+<summary>show 62 packages</summary>
 
 | package | version | description | upstream |
 | --- | --- | --- | --- |
 | [`betterbird`](packages/betterbird/package.nix) | `153.1.0esr-bb7` | Fine-tuned version of Mozilla Thunderbird | [source](https://github.com/Betterbird/thunderbird-patches) |
 | [`codebase-memory-mcp`](packages/codebase-memory-mcp/package.nix) | `0.10.8` | MCP server that builds and queries a semantic graph of your codebase | [source](https://github.com/DeusData/codebase-memory-mcp) |
-| [`cua-driver`](packages/cua-driver/package.nix) | `0.23.2` | Cross-platform MCP server for computer-use automation | [source](https://github.com/trycua/cua) |
+| [`cua-driver`](packages/cua-driver/package.nix) | `0.38.0` | Cross-platform MCP server for computer-use automation | [source](https://github.com/trycua/cua) |
 | [`cyber-mux`](packages/cyber-mux/package.nix) | `0.5.0` | Cross-multiplexer pane control for AI-agent tooling | [source](https://github.com/cyberuni/cyber-mux) |
 | [`docker-axi`](packages/axi/package.nix) | `0-unstable-2026-07-09` | Agent-facing Docker CLI for safe, token-efficient workflows | [source](https://github.com/thatdudealso/docker-axi) |
 | [`gh-axi`](packages/gh-axi/package.nix) | `0.1.35` | GitHub CLI wrapper optimized for autonomous agents | [source](https://github.com/kunchenguid/gh-axi) |
@@ -59,23 +59,22 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`moshi`](packages/moshi/package.nix) | `0.3.16` | Daemon and CLI that bridges AI coding agents to the Moshi mobile app | [source](https://getmoshi.app) |
 | [`nix-inspect`](packages/nix-inspect/package.nix) | `unversioned` | lists the nix store packages represented in the current PATH | — |
 | [`nostalgy`](packages/nostalgy/package.nix) | `5.0.5` | Keyboard-oriented message filing and folder navigation for Thunderbird | [source](https://github.com/opto/nostalgy-xpi) |
-| [`orca`](packages/orca/package.nix) | `1.4.193` | ADE for working with a fleet of parallel coding agents | [source](https://github.com/stablyai/orca) |
-| [`papra-cli`](packages/papra-cli/package.nix) | `0.2.5` | Command-line interface for the Papra document management platform | [source](https://github.com/papra-hq/papra) |
+| [`orca`](packages/orca/package.nix) | `1.4.245` | ADE for working with a fleet of parallel coding agents | [source](https://github.com/stablyai/orca) |
+| [`papra-cli`](packages/papra-cli/package.nix) | `0.2.6` | Command-line interface for the Papra document management platform | [source](https://github.com/papra-hq/papra) |
 | [`paseo`](packages/paseo/package.nix) | `0.7.0` | Control AI coding agents from the command line | [source](https://github.com/getpaseo/paseo) |
 | [`pg-axi`](packages/axi/package.nix) | `0.1.2` | Agent-facing PostgreSQL CLI for safe, token-efficient workflows | [source](https://github.com/thatdudealso/pg-axi) |
 | [`pi-acp`](packages/pi-acp/package.nix) | `0.0.33` | ACP adapter for the pi coding agent | [source](https://github.com/svkozak/pi-acp) |
 | [`pi-web`](packages/pi-web/package.nix) | `1.202610.1` | Web UI for persistent Pi Coding Agent sessions | [source](https://pi-web.dev/) |
-| [`pitty`](packages/pitty/package.nix) | `0.5.20` | OpenTUI frontend for the Pi coding agent | [source](https://github.com/mistrjirka/PiTTy) |
+| [`pitty`](packages/pitty/package.nix) | `0.6.43` | OpenTUI frontend for the Pi coding agent | [source](https://github.com/mistrjirka/PiTTy) |
 | [`plex-pass`](packages/plex-pass/package.nix) | `1.43.3.10896-cb3ebc72d` | Media library streaming server | [source](https://plex.tv/) |
 | [`plex-pass-raw`](packages/plex-pass/package.nix) | `1.43.3.10896-cb3ebc72d` | Media library streaming server | [source](https://plex.tv/) |
 | [`portop`](packages/portop/package.nix) | `0.0.5` | TUI for inspecting and controlling processes that use network ports | [source](https://github.com/padovanl/portop) |
 | [`reboot-to-windows`](packages/reboot-to-windows/package.nix) | `1.5` | desktop launcher that reboots directly into windows | [source](https://github.com/Wartybix/Reboot-To-Windows) |
 | [`repowise`](packages/repowise/package.nix) | `0.47.0` | Codebase intelligence layer for AI coding agents | [source](https://github.com/repowise-dev/repowise) |
-| [`secretspec`](packages/secretspec/package.nix) | `0.19.1` | Declarative secrets, every environment, any provider | [source](https://github.com/cachix/secretspec) |
+| [`secretspec`](packages/secretspec/package.nix) | `0.21.1` | Declarative secrets, every environment, any provider | [source](https://github.com/cachix/secretspec) |
 | [`strava-mcp`](packages/strava-mcp/package.nix) | `1.2.1` | MCP server for the Strava API | [source](https://github.com/r-huijts/strava-mcp) |
 | [`super-productivity-mcp`](packages/super-productivity-mcp/package.nix) | `1.6.0` | MCP server for managing Super Productivity through AI assistants | [source](https://github.com/b0x42/Super-Productivity-MCP) |
 | [`sysdvr`](packages/sysdvr/package.nix) | `6.3` | Nintendo Switch game streaming client | [source](https://github.com/exelix11/SysDVR) |
-| [`tbkeys-lite`](packages/tbkeys-lite/package.nix) | `2.4.3` | Custom Thunderbird keybindings with managed storage support | [source](https://github.com/wshanks/tbkeys) |
 | [`voxtype-full`](packages/voxtype-full/package.nix) | `1.1.0` | Push-to-talk voice-to-text for Wayland | [source](https://github.com/peteonrails/voxtype) |
 | [`workspace-mcp`](packages/workspace/package.nix) | `1.25.2` | Google Workspace MCP server and CLI | [source](https://github.com/taylorwilsdon/google_workspace_mcp) |
 | [`wt-herdr`](packages/wt-herdr/package.nix) | `0-unstable-2026-06-14` | herdr agent orchestration for worktrunk worktrees | [source](https://github.com/mattarau/wt-herdr) |
@@ -89,7 +88,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`cockpit-docker`](packages/cockpit/docker/package.nix) | `0-unstable-2024-03-02` | Cockpit UI for docker containers | [source](https://github.com/pk5ls20/cockpit-docker-upstream-mrevjd) |
 | [`cockpit-file-sharing`](packages/cockpit/file-sharing/package.nix) | `4.6.1-2` | Cockpit UI for managing shares | [source](https://github.com/45Drives/cockpit-file-sharing) |
 | [`cockpit-machines`](packages/cockpit/machines/package.nix) | `356` | Cockpit UI for virtual machines | [source](https://github.com/cockpit-project/cockpit-machines) |
-| [`cockpit-podman`](packages/cockpit/podman/package.nix) | `129` | Cockpit UI for podman containers | [source](https://github.com/cockpit-project/cockpit-podman) |
+| [`cockpit-podman`](packages/cockpit/podman/package.nix) | `132` | Cockpit UI for podman containers | [source](https://github.com/cockpit-project/cockpit-podman) |
 | [`cockpit-tailscale`](packages/cockpit/tailscale/package.nix) | `0.0.6` | Cockpit UI for tailscale | [source](https://github.com/spotsnel/cockpit-tailscale) |
 | [`cockpit-zfs-manager`](packages/cockpit/zfs-manager/package.nix) | `0-unstable-2024-01-09` | Cockpit UI for managing ZFS | [source](https://github.com/leroycep/cockpit-zfs-manager) |
 

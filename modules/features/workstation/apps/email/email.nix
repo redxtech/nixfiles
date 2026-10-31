@@ -6,7 +6,6 @@
 
     homeManager =
       {
-        self',
         config,
         lib,
         pkgs,
@@ -14,7 +13,6 @@
       }:
       let
         emailSecretsFile = ../../../../../secrets/users/gabe/email.yaml;
-        tbkeysLite = self'.packages.tbkeys-lite;
         imapAccountUri = address: host: "imap://${lib.escapeURL address}@${host}";
         imapUri =
           address: host: folder:
@@ -72,7 +70,6 @@
 
           profiles.gabe = {
             isDefault = true;
-            extensions = [ tbkeysLite ];
             withExternalGnupg = true;
 
             accountsOrder = [

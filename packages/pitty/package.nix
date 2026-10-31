@@ -18,7 +18,7 @@
             ;
 
           pname = "pitty";
-          version = "0.5.20";
+          version = "0.6.43";
         in
         buildNpmPackage {
           inherit pname version;
@@ -27,32 +27,20 @@
             owner = "mistrjirka";
             repo = "PiTTy";
             tag = "v${version}";
-            hash = "sha256-zU1xgbiJB5Mzj5KUrHcPfheuOlvXpI/jLeo74faN9jQ=";
+            hash = "sha256-ADuyUo0r7jyo6ZdxHIx8XtVBE8O82sXi3PV74KARWd8=";
           };
 
-          npmDepsHash = "sha256-TvA5Bp6r+O4h2rTQjMjqaeYzwAkfRw2auj/b6TpxjPQ=";
+          npmDepsHash = "sha256-Q8mDdyrjltDwnK9Toslf9kldGBRvVAGMwxpzQnR6lDU=";
           npmDepsFetcherVersion = 2;
 
           nativeBuildInputs = [ makeWrapper ];
 
           postPatch = ''
-            # The upstream lockfile omits integrity hashes for three nested Pi packages.
-            substituteInPlace package-lock.json \
-              --replace-fail \
-                '"resolved": "https://registry.npmjs.org/@earendil-works/pi-agent-core/-/pi-agent-core-0.80.6.tgz",' \
-                $'"resolved": "https://registry.npmjs.org/@earendil-works/pi-agent-core/-/pi-agent-core-0.80.6.tgz",\n      "integrity": "sha512-Lvn89ko42h5ETUb6Z0Ku6ldskEqXaTdQBYvSa0+7bdG9V6rUEpXptv5e0OVZ1HDcvi8s6/2lGCQWsxKX+DFHNw==",' \
-              --replace-fail \
-                '"resolved": "https://registry.npmjs.org/@earendil-works/pi-ai/-/pi-ai-0.80.6.tgz",' \
-                $'"resolved": "https://registry.npmjs.org/@earendil-works/pi-ai/-/pi-ai-0.80.6.tgz",\n      "integrity": "sha512-7xfLk8sANBp+bpPEbjoOZTbPxsa+++b1JXAoSJsNa3vbs9AHHEclmvg54XLQcxH+fuwaeti/g2jeIfJ+mVYLpA==",' \
-              --replace-fail \
-                '"resolved": "https://registry.npmjs.org/@earendil-works/pi-tui/-/pi-tui-0.80.6.tgz",' \
-                $'"resolved": "https://registry.npmjs.org/@earendil-works/pi-tui/-/pi-tui-0.80.6.tgz",\n      "integrity": "sha512-bSuzS4EVSqEPj/Qr/p9eqCESfKsGuDNbl77EGci8Iaqqt/C/XCBZL1MjXaxSWW1NsT5afjp/Cb0NTPzOLv/aPA==",'
-
             # Resolve PiTTy's JSX config from its package root while preserving the user's cwd.
             substituteInPlace bin/pitty.mjs \
               --replace-fail \
-                'const child = spawn(bun, ["run", `--preload=''${preload}`, path.join(root, "src", "index.tsx"), ...process.argv.slice(2)], { cwd: process.cwd(), stdio: "inherit", env: childEnv });' \
-                'const child = spawn(bun, ["run", `--preload=''${preload}`, path.join(root, "src", "index.tsx"), "--cwd", process.cwd(), ...process.argv.slice(2)], { cwd: root, stdio: "inherit", env: childEnv });'
+                'const child = spawn(bun, ["run", `--preload=''${preload}`, entry, ...process.argv.slice(2)], { cwd: process.cwd(), stdio: "inherit", env: childEnv });' \
+                'const child = spawn(bun, ["run", `--preload=''${preload}`, entry, "--cwd", process.cwd(), ...process.argv.slice(2)], { cwd: root, stdio: "inherit", env: childEnv });'
           '';
 
           npmRebuildFlags = [ "--ignore-scripts" ];
