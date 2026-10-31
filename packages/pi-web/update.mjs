@@ -52,6 +52,8 @@ export async function updatePackage(directory, tools = { fetchMetadata, run }) {
     const manifest = structuredClone(metadata);
     delete manifest.scripts;
     delete manifest.devDependencies;
+    // nix packages the SDK with the web app instead of discovering a global install
+    delete manifest.peerDependenciesMeta;
     const manifestFile = join(temporary, 'package.json');
     const generatedLock = join(temporary, 'package-lock.json');
     const install = () => tools.run('npm', ['install', '--package-lock-only', '--ignore-scripts', '--no-audit', '--no-fund'], {

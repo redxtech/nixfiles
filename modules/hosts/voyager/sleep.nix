@@ -42,14 +42,15 @@
           '';
 
           makeWrapperArgs = [
-            "--prefix PATH : ${
-              lib.makeBinPath [
-                pkgs.systemd
-                pkgs.glib
-                pkgs.libnotify
-                inputs'.noctalia.packages.default
-              ]
-            }"
+            "--prefix"
+            "PATH"
+            ":"
+            (lib.makeBinPath [
+              pkgs.systemd
+              pkgs.glib
+              pkgs.libnotify
+              inputs'.noctalia.packages.default
+            ])
           ];
 
           installCheckPhase = ''

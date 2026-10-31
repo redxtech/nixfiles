@@ -1,8 +1,21 @@
-{ inputs, self, ... }:
+{ lib, ... }:
 
 {
   den.aspects.window-manager-rules.homeManager = {
     programs.niri.settings = {
+      # TODO: restore the typed rule when niri-flake exposes on-xdg-activate again
+      includes = lib.mkAfter [
+        {
+          path = builtins.toFile "obsidian-activation.kdl" ''
+            window-rule {
+                match app-id="md.Obsidian"
+                on-xdg-activate "focus"
+            }
+          '';
+          required = true;
+        }
+      ];
+
       window-rules = [
         {
           background-effect = {
@@ -46,11 +59,6 @@
           default-column-width.proportion = 1.0;
           open-maximized-to-edges = false;
         }
-        {
-          matches = [ { app-id = "md.Obsidian"; } ];
-          on-xdg-activate = "focus";
-        }
-
         {
           matches = [
             {

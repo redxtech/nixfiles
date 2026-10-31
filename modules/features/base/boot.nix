@@ -18,11 +18,6 @@
           efi.canTouchEfiVariables = true;
         };
 
-        initrd = {
-          verbose = false;
-          systemd.enable = true;
-        };
-
         plymouth = {
           enable = true;
           # TODO: make theme take colours from stylix??

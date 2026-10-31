@@ -2,8 +2,8 @@
   perSystem =
     { pkgs, lib, ... }:
     let
-      version = "1.202610.1";
-      piVersion = "1.0.0";
+      version = "1.202610.8";
+      piVersion = "1.4.0";
       updateScript = pkgs.writeShellApplication {
         name = "update-pi-web";
         runtimeInputs = [
@@ -24,14 +24,14 @@
 
         src = pkgs.fetchurl {
           url = "https://registry.npmjs.org/@jmfederico/pi-web/-/pi-web-${version}.tgz";
-          hash = "sha256-NGJLlXnwlcdBt+HtFNsWeN7GmHTmRlyNi+RQerF2hcI=";
+          hash = "sha256-jTMKuGrfIi/IMrlLLMv6V/G2lGNkpYf+z6H3vGbpToA=";
         };
 
-        npmDepsHash = "sha256-xlNYO6gVwSvgENJ0zepXj663d/htJZ8107SphPvSJuE=";
+        npmDepsHash = "sha256-E4tjjHnC+8wRRWqveM2x2SKhaXu3ET3XreOVNNBpva0=";
         npmDepsFetcherVersion = 2;
         postPatch = ''
           # match the CLI's SDK without pulling a newer pi peer dependency
-          ${lib.getExe pkgs.jq} 'del(.scripts, .devDependencies) | .peerDependencies |= with_entries(.value = "${piVersion}")' \
+          ${lib.getExe pkgs.jq} 'del(.scripts, .devDependencies, .peerDependenciesMeta) | .peerDependencies |= with_entries(.value = "${piVersion}")' \
             package.json > package.json.tmp
           mv package.json.tmp package.json
           cp ${./package-lock.json} package-lock.json
