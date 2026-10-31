@@ -1,19 +1,23 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     let
-      version = "1.202610.8";
+      version = "1.202610.9";
       piVersion = "1.4.0";
-      updateScript = pkgs.writeShellApplication {
-        name = "update-pi-web";
+      updateScript = packageUpdateScripts.nodeScript {
+        packageName = "pi-web";
+        script = ./update.mjs;
+        args = [ "packages/pi-web" ];
+        nodejs = pkgs.nodejs_24;
         runtimeInputs = [
-          pkgs.nodejs_24
           pkgs.nix
           pkgs.prefetch-npm-deps
         ];
-        text = ''
-          node ${./update.mjs}
-        '';
       };
     in
     {
@@ -24,10 +28,10 @@
 
         src = pkgs.fetchurl {
           url = "https://registry.npmjs.org/@jmfederico/pi-web/-/pi-web-${version}.tgz";
-          hash = "sha256-jTMKuGrfIi/IMrlLLMv6V/G2lGNkpYf+z6H3vGbpToA=";
+          hash = "sha256-g85tS2LS80C/K6qhL+zxr760eHqC4UA80BWYCXEZ2hg=";
         };
 
-        npmDepsHash = "sha256-E4tjjHnC+8wRRWqveM2x2SKhaXu3ET3XreOVNNBpva0=";
+        npmDepsHash = "sha256-Ggd8TRYRnaoIFylCJLH6w+FhtH8V6UIqOysUmxkYSdA=";
         npmDepsFetcherVersion = 2;
         postPatch = ''
           # match the CLI's SDK without pulling a newer pi peer dependency

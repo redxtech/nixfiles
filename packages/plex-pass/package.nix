@@ -22,12 +22,12 @@
     {
       packages = {
         plex-pass-raw = pkgs.plexRaw.overrideAttrs (old: rec {
-          version = "1.43.3.10896-cb3ebc72d";
+          version = "1.43.5.11079-b3b13e506";
           name = "${old.pname}-${version}";
 
           src = pkgs.fetchurl {
-            url = "https://downloads.plex.tv/plex-media-server-new/1.43.3.10896-cb3ebc72d/debian/plexmediaserver_1.43.3.10896-cb3ebc72d_amd64.deb";
-            hash = "sha256-qgnyZt3PQI4Qz3ulYbbkVObhCbqUFjlraWW9THnzcUk=";
+            url = "https://downloads.plex.tv/plex-media-server-new/1.43.5.11079-b3b13e506/debian/plexmediaserver_1.43.5.11079-b3b13e506_amd64.deb";
+            hash = "sha256-dOmnHJfgbW6SXMQ5gnkUH9g47p30RvkOdpYU+iyHogY=";
           };
 
           passthru = (old.passthru or { }) // {

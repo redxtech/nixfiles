@@ -16,27 +16,26 @@
             ;
 
           pname = "gws-axi";
-          version = "0.22.0";
+          version = "0.37.0";
         in
         buildNpmPackage {
           inherit pname version;
 
           src = fetchurl {
             url = "https://registry.npmjs.org/${pname}/-/${pname}-${version}.tgz";
-            hash = "sha256-+NRYqjOImLxCWEDXm4gomwTUIkGDjcp1U3GG3xT7IsY=";
+            hash = "sha256-+tqZIfZSRAvx2PSswBjFeQKZ5pSWR7d+gpQ09QUWsUA=";
           };
 
-          npmDepsHash = "sha256-drVeGhvzSspI0CILhuxHmnnF/Cy+CAww8RERCJPRNKc=";
+          npmDepsHash = "sha256-0WibX1lAfFycbihiRBpOPRJei+97jVUlEd+fzcqs0kA=";
+          npmDepsFetcherVersion = 2;
 
-          # The published tarball has no lockfile. These local manifests pin its
-          # runtime-only dependency closure and take their release version here.
+          # keep the runtime manifest and lockfile from the same published release
           postPatch = ''
             cp ${./package.json} package.json
             cp ${./package-lock.json} package-lock.json
-            substituteInPlace package.json package-lock.json \
-              --replace-fail '"version": "0.0.0"' '"version": "${version}"'
           '';
 
+          npmRebuildFlags = [ "--ignore-scripts" ];
           dontNpmBuild = true;
           doInstallCheck = true;
           installCheckPhase = ''
@@ -45,7 +44,7 @@
             runHook postInstallCheck
           '';
 
-          passthru.updateScript = packageUpdateScripts.npm;
+          passthru.updateScript = packageUpdateScripts.npmWithLockfile pname;
 
           meta = {
             description = "Agent-ergonomic CLI for Google Workspace";

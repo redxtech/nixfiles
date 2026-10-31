@@ -38,13 +38,13 @@
         buildHomeAssistantComponent rec {
           owner = "Pirate-Weather";
           domain = "pirateweather";
-          version = "1.9.2";
+          version = "1.9.4";
 
           src = fetchFromGitHub {
             inherit owner;
             repo = "pirate-weather-ha";
             rev = "v${version}";
-            hash = "sha256-mtvIwcngkbmaRLGTr3iaDY62SboSUQpYUTobHhT8S58=";
+            hash = "sha256-wxqn6EUpDtkagANYOP/m2R2CMyclSJJ268dXgPBSGVQ=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubSource {

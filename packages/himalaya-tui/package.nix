@@ -1,9 +1,14 @@
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      packageUpdateScripts,
+      ...
+    }:
     let
       pname = "himalaya-tui";
-      version = "0.1.0-unstable-2026-08-16";
+      version = "root-unstable-2026-10-27";
     in
     {
       packages.himalaya-tui = pkgs.rustPlatform.buildRustPackage {
@@ -12,11 +17,13 @@
         src = pkgs.fetchFromGitHub {
           owner = "pimalaya";
           repo = "himalaya-tui";
-          rev = "beed4ed3c801f49a8754f105155b2eef7a200d90";
-          hash = "sha256-8tL6rj93FyEgnedgRPX8EJirj8xPzn7M7osDfP3f5sg=";
+          rev = "d578c08ac355f423f775ba189d5c868fb9647095";
+          hash = "sha256-IkwfeDdHmnUximKlnIzLHo5qmF+lCuF93ABYkXDv4NU=";
         };
 
-        cargoHash = "sha256-SCeORnZilEHWOWAuC6iOpxcLZa8iQRcuN4Y+vpskJK0=";
+        cargoHash = "sha256-QJ+SfK5kC16YeuWa9yW5HiqQZl/Te/ecP0aXRSgBp40=";
+
+        passthru.updateScript = packageUpdateScripts.unstable;
 
         meta = {
           description = "TUI to manage emails";

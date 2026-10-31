@@ -18,28 +18,35 @@
             ;
 
           pname = "cyber-mux";
-          version = "0.5.0";
+          version = "0.10.2";
         in
         buildNpmPackage {
           inherit pname version;
 
           src = fetchurl {
             url = "https://registry.npmjs.org/cyber-mux/-/cyber-mux-${version}.tgz";
-            hash = "sha256-v+5vk26ZvU4ufEEo/VDFwchOBdR5xhXbdmiI8w8pLa8=";
+            hash = "sha256-ofyXc/84kKDKwYhPsQEdiNkOHWm3Mb4Hk2PjXyBSsgE=";
           };
 
-          npmDepsHash = "sha256-rLMr7NK4gKkCjfJvC6rwUpnXVtzflQ7zyahwc908ByM=";
+          npmDepsHash = "sha256-6hv1eOY6kcZ9lUin6t2JCe4UNaLe5JIp8HNUk3gS3eA=";
+          npmDepsFetcherVersion = 2;
 
           nativeBuildInputs = [ makeWrapper ];
 
           postPatch = ''
-            substituteInPlace dist/cli.mjs src/cli.ts \
-              --replace-fail '0.0.0' '${version}'
             cp ${./package.json} package.json
             cp ${./package-lock.json} package-lock.json
           '';
 
+          npmRebuildFlags = [ "--ignore-scripts" ];
           dontNpmBuild = true;
+          doInstallCheck = true;
+          installCheckPhase = ''
+            runHook preInstallCheck
+            $out/bin/cyber-mux --version | grep -Fx "${version}"
+            $out/bin/cyber-mux --help > /dev/null
+            runHook postInstallCheck
+          '';
 
           postFixup = ''
             wrapProgram $out/bin/cyber-mux \
@@ -51,7 +58,7 @@
               }
           '';
 
-          passthru.updateScript = packageUpdateScripts.npm;
+          passthru.updateScript = packageUpdateScripts.npmWithLockfile pname;
 
           meta = {
             description = "Cross-multiplexer pane control for AI-agent tooling";

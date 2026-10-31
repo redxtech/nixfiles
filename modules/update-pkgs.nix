@@ -56,6 +56,50 @@
             }
           );
         npm = nixUpdate [ ];
+        nodeScript =
+          {
+            packageName,
+            script,
+            args,
+            runtimeInputs,
+            nodejs ? pkgs.nodejs,
+          }:
+          let
+            scriptPath = "${script}";
+          in
+          pkgs.writers.makeScriptWriter
+            {
+              interpreter = lib.getExe nodejs;
+              check = "${lib.getExe nodejs} --check ${lib.escapeShellArg scriptPath}\n${lib.getExe nodejs} --check";
+              makeWrapperArgs = [
+                "--prefix"
+                "PATH"
+                ":"
+                (lib.makeBinPath ([ nodejs ] ++ runtimeInputs))
+              ];
+            }
+            "/bin/update-${packageName}"
+            ''
+              import(${builtins.toJSON scriptPath})
+                .then(({ updatePackage }) => updatePackage(...${builtins.toJSON args}))
+                .then(console.log);
+            '';
+        npmWithLockfile =
+          packageName:
+          lib.getExe (
+            packageUpdateScripts.nodeScript {
+              inherit packageName;
+              script = ../scripts/update-npm-package/update.mjs;
+              args = [
+                "packages/${packageName}"
+                packageName
+              ];
+              runtimeInputs = [
+                pkgs.nix
+                pkgs.prefetch-npm-deps
+              ];
+            }
+          );
         unstable = nixUpdate [ "--version=branch" ];
 
         githubSource =

@@ -1,7 +1,7 @@
 {
   "name": "cyber-mux",
-  "version": "0.4.0",
-  "description": "Cross-multiplexer pane control - one contract over tmux and herdr",
+  "version": "0.10.2",
+  "description": "Cross-multiplexer pane control — one contract over tmux and herdr",
   "type": "module",
   "bin": {
     "cyber-mux": "bin/cyber-mux.mjs"
@@ -11,30 +11,30 @@
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
-    "./worktree": {
-      "types": "./dist/worktree.d.mts",
-      "default": "./dist/worktree.mjs"
+    "./agent": {
+      "types": "./dist/agent.d.mts",
+      "default": "./dist/agent.mjs"
+    },
+    "./plugin": {
+      "types": "./dist/plugin.d.mts",
+      "default": "./dist/plugin.mjs"
     },
     "./template": {
       "types": "./dist/template.d.mts",
       "default": "./dist/template.mjs"
     },
-    "./agent": {
-      "types": "./dist/agent.d.mts",
-      "default": "./dist/agent.mjs"
+    "./worktree": {
+      "types": "./dist/worktree.d.mts",
+      "default": "./dist/worktree.mjs"
     },
     "./package.json": "./package.json"
-  },
-  "files": [
-    "bin",
-    "dist",
-    "src"
-  ],
-  "dependencies": {
-    "commander": "^14.0.3"
   },
   "engines": {
     "node": ">=22"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "clibuilder": "^12.0.0",
+    "cyber-agentkit": "^1.0.0"
+  }
 }

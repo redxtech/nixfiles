@@ -16,19 +16,25 @@
             ;
 
           pname = "cockpit-file-sharing";
-          version = "4.6.1-2";
+          version = "4.6.3";
+          updateScript = packageUpdateScripts.nodeScript {
+            packageName = pname;
+            script = ./update.mjs;
+            args = [ "packages/cockpit/file-sharing/package.nix" ];
+            runtimeInputs = [ pkgs.nix ];
+          };
         in
         stdenv.mkDerivation {
           inherit pname version;
 
           src = fetchurl {
-            url = "https://github.com/45Drives/cockpit-file-sharing/releases/download/v${version}/cockpit-file-sharing_${version}bookworm_all.deb";
-            hash = "sha256-Y+0PTXMQ6L2qaoOxJr3X05L6uazRB40ccjYdgdFlybk=";
+            url = "https://github.com/45Drives/cockpit-file-sharing/releases/download/v4.6.3/cockpit-file-sharing_4.6.3-1bookworm_all.deb";
+            hash = "sha256-hM4tkJqsM/7oWfy4YAsAo9EKVLXEw8qcbPgtO+z9nfY=";
           };
 
           nativeBuildInputs = [ dpkg ];
 
-          passthru.updateScript = packageUpdateScripts.githubRelease;
+          passthru.updateScript = lib.getExe updateScript;
 
           unpackPhase = "true";
 
