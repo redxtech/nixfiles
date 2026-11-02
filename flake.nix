@@ -28,7 +28,7 @@
   inputs = {
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     codebase-memory-mcp = {
-      url = "github:DeusData/codebase-memory-mcp/v0.12.1";
+      url = "github:DeusData/codebase-memory-mcp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     den.url = "github:denful/den";

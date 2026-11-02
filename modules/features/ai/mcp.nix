@@ -20,7 +20,7 @@
 
           servers = {
             aperture.url = "https://aperture.colobus-pirate.ts.net/v1/mcp";
-            codebase-memory.command = lib.getExe self'.packages.codebase-memory-mcp;
+            codebase-memory.command = lib.getExe inputs'.codebase-memory-mcp.packages.default;
             nixos.command = lib.getExe pkgs.mcp-nixos;
             super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
             github = {
@@ -52,7 +52,7 @@
         };
 
         home.packages = [
-          self'.packages.codebase-memory-mcp
+          inputs'.codebase-memory-mcp.packages.default
           self'.packages.mcp-remote
           self'.packages.super-productivity-mcp
           self'.packages.kagi-mcp
@@ -70,5 +70,10 @@
             mcp-kagi-key.sopsFile = sopsFile;
           };
       };
+  };
+
+  flake-file.inputs.codebase-memory-mcp = {
+    url = "github:DeusData/codebase-memory-mcp";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
 }
