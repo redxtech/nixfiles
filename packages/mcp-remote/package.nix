@@ -20,13 +20,13 @@
             ;
 
           pname = "mcp-remote";
-          version = "0.15.2";
+          version = "0.16.0";
 
           src = fetchFromGitHub {
             owner = "geelen";
             repo = "mcp-remote";
             rev = "v${version}";
-            hash = "sha256-/bA+kdlnC830fFDAQBQNVm3qTmMSX1hyewaXCkT5Erk=";
+            hash = "sha256-hXelewj2m455ZyLaWKmppUvJKazjBgdYn6NuPSOV534=";
           };
         in
         stdenvNoCC.mkDerivation {

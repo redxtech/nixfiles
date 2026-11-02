@@ -8,7 +8,7 @@
     }:
     let
       pname = "himalaya-tui";
-      version = "root-unstable-2026-10-27";
+      version = "root-unstable-2026-11-02";
     in
     {
       packages.himalaya-tui = pkgs.rustPlatform.buildRustPackage {
@@ -17,11 +17,11 @@
         src = pkgs.fetchFromGitHub {
           owner = "pimalaya";
           repo = "himalaya-tui";
-          rev = "d578c08ac355f423f775ba189d5c868fb9647095";
-          hash = "sha256-IkwfeDdHmnUximKlnIzLHo5qmF+lCuF93ABYkXDv4NU=";
+          rev = "467b476f6a8f84bd6f504b418a0eaeff7d23259e";
+          hash = "sha256-zr9eQVyM2d5s2Z1oSBWBXPfynhCFo5nULey7ZxaUgK0=";
         };
 
-        cargoHash = "sha256-QJ+SfK5kC16YeuWa9yW5HiqQZl/Te/ecP0aXRSgBp40=";
+        cargoHash = "sha256-o/SmlcmRk3adhu/j0gL5hsnH31vDB1Jc9hqftDlnYik=";
 
         passthru.updateScript = packageUpdateScripts.unstable;
 
