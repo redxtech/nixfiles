@@ -53,9 +53,9 @@
       { pkgs, self', ... }:
       {
         home.packages = with pkgs; [
-          deadlock-mod-manager # mod manager for deadlock
           dolphin-emu # gamecube/wii emulator
           eden # switch emulator
+          self'.packages.deadlock-mod-manager # mod manager for deadlock
           self'.packages.deadlock-plus # deadlock companion app
         ];
       };
