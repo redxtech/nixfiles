@@ -32,6 +32,27 @@
         lib,
         ...
       }:
+      let
+        baseSettings = builtins.fromTOML (builtins.readFile ./noctalia-config.toml);
+        hostSettings =
+          if host.settings.workstation.isLaptop then
+            baseSettings
+            // {
+              bar = baseSettings.bar // {
+                Primary = baseSettings.bar.Primary // {
+                  end = lib.remove "custom_button_headphone_fix" baseSettings.bar.Primary.end;
+                };
+              };
+              widget = builtins.removeAttrs baseSettings.widget [ "custom_button_headphone_fix" ];
+            }
+          else
+            lib.recursiveUpdate baseSettings {
+              widget.custom_button_headphone_fix.actions = {
+                left = "exec ${lib.getExe config.scripts.scripts.fix-bluetooth}";
+                right = "exec ${lib.getExe config.scripts.scripts.reset-monitors}";
+              };
+            };
+      in
       {
         imports = [ inputs.noctalia.homeModules.default ];
 
@@ -54,7 +75,7 @@
 
           systemd.enable = true;
 
-          settings = lib.recursiveUpdate (builtins.fromTOML (builtins.readFile ./noctalia-config.toml)) {
+          settings = lib.recursiveUpdate hostSettings {
             shell = {
               avatar_path = "${config.home.homeDirectory}/.face";
               screenshot.directory = "${config.xdg.userDirs.pictures}/Screenshots";
