@@ -3,6 +3,7 @@
 {
   den.aspects.gaming = {
     includes = [
+      den.aspects.deadlock
       den.aspects.minecraft
       den.aspects.steam
     ];
@@ -49,15 +50,11 @@
           ];
       };
 
-    homeManager =
-      { pkgs, self', ... }:
-      {
-        home.packages = with pkgs; [
-          dolphin-emu # gamecube/wii emulator
-          eden # switch emulator
-          self'.packages.deadlock-mod-manager # mod manager for deadlock
-          self'.packages.deadlock-plus # deadlock companion app
-        ];
-      };
+    homeManager = { pkgs, ... }: {
+      home.packages = with pkgs; [
+        dolphin-emu # gamecube/wii emulator
+        eden # switch emulator
+      ];
+    };
   };
 }

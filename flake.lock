@@ -1138,6 +1138,26 @@
         "type": "github"
       }
     },
+    "hyperline-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792720704,
+        "narHash": "sha256-bwKJlFm2U2AGErRmozzylT45kD2Vk6iukAY9uNnxo60=",
+        "owner": "paralin",
+        "repo": "hyperline-nix",
+        "rev": "9b6defa9d7adad9357d2f40e02b9cfc47b95f9e9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "paralin",
+        "repo": "hyperline-nix",
+        "type": "github"
+      }
+    },
     "idle-inhibit": {
       "inputs": {
         "flake-parts": "flake-parts_4",
@@ -2141,6 +2161,7 @@
         "hci-effects": "hci-effects",
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager_3",
+        "hyperline-nix": "hyperline-nix",
         "idle-inhibit": "idle-inhibit",
         "import-tree": "import-tree",
         "keymasq": "keymasq",
