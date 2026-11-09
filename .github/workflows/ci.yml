@@ -19,7 +19,7 @@ jobs:
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'system-builder' }}
     steps:
       - if: github.event_name == 'pull_request'
-        uses: wimpysworld/nothing-but-nix@main
+        uses: wimpysworld/nothing-but-nix@v12
       - uses: actions/checkout@v5
       - if: github.event_name == 'pull_request'
         uses: cachix/install-nix-action@v31
@@ -47,7 +47,7 @@ jobs:
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'system-builder' }}
     steps:
       - if: github.event_name == 'pull_request'
-        uses: wimpysworld/nothing-but-nix@main
+        uses: wimpysworld/nothing-but-nix@v12
       - uses: actions/checkout@v5
       - if: github.event_name == 'pull_request'
         uses: cachix/install-nix-action@v31

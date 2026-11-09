@@ -1,0 +1,152 @@
+name: update flake inputs
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: update-flake-inputs
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  NIX_CONFIG: |
+    accept-flake-config = true
+    max-jobs = 1
+    cores = 2
+    keep-outputs = false
+    min-free = 4294967296
+    max-free = 12884901888
+    auto-optimise-store = true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  update:
+    if: github.ref_type == 'branch' && github.ref_name != 'automation/update-flake-inputs'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      build-ref: ${{ steps.pr.outputs.pull-request-number && steps.pr.outputs.pull-request-head-sha || github.sha }}
+    steps:
+      - uses: wimpysworld/nothing-but-nix@v12
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: ${{ env.NIX_CONFIG }}
+      - name: update all flake inputs
+        run: nix flake update
+      - name: create or update pull request
+        id: pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: ${{ github.ref_name }}
+          branch: automation/update-flake-inputs
+          delete-branch: true
+          add-paths: flake.lock
+          commit-message: "chore: update flake inputs"
+          title: "chore: update flake inputs"
+          body: |
+            update all inputs in `flake.lock`.
+
+            this workflow builds `bastion`, `voyager`, `quasar`, and the default
+            `x86_64-linux` devShell. locally built outputs and the devShell
+            closure are uploaded to `gabedunn` Cachix.
+
+            the pull request is created before the builds, so its existence
+            does not indicate that validation passed.
+
+            [view build results](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+  systems:
+    name: build ${{ matrix.host }}
+    needs: update
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      # reuse uploads between hosts instead of compiling shared packages concurrently
+      max-parallel: 1
+      matrix:
+        host:
+          - bastion
+          - voyager
+          - quasar
+    steps:
+      - uses: wimpysworld/nothing-but-nix@v12
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.update.outputs.build-ref }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: ${{ env.NIX_CONFIG }}
+      - name: configure cachix uploads
+        uses: cachix/cachix-action@v17
+        with:
+          name: gabedunn
+          extraPullNames: nix-community
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+          useDaemon: true
+          cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
+          # keep explicit full-system uploads opt-in for the small cache
+          pushFilter: "-nixos-system-"
+      - name: build system
+        env:
+          HOST: ${{ matrix.host }}
+        run: |
+          nix build \
+            ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
+            --no-update-lock-file \
+            --out-link result-system \
+            --print-build-logs
+
+      # package uploads still include their dependencies, so the cache can fill
+      # - name: push final system closure
+      #   run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-system
+
+  devshell:
+    name: build and cache default devShell
+    needs: update
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: wimpysworld/nothing-but-nix@v12
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.update.outputs.build-ref }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: ${{ env.NIX_CONFIG }}
+      - name: configure cachix uploads
+        uses: cachix/cachix-action@v17
+        with:
+          name: gabedunn
+          extraPullNames: nix-community
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+          useDaemon: true
+          cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
+      - name: build default devShell
+        run: |
+          nix build .#devShells.x86_64-linux.default \
+            --no-update-lock-file \
+            --out-link result-devshell \
+            --print-build-logs
+      - name: push devShell closure
+        run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-devshell
