@@ -20,12 +20,12 @@
         ;
 
       pname = "cua-driver";
-      version = "0.38.0";
+      version = "0.45.4";
       src = fetchFromGitHub {
         owner = "trycua";
         repo = "cua";
         tag = "cua-driver-rs-v${version}";
-        hash = "sha256-Fpryc6Vg9vtV3zRCaL4S38v8l4JluU95o86dQbzkDPM=";
+        hash = "sha256-A502cPBCvWm3Txfs6NB8ratr05LblDtTNPR2Cbcp/yo=";
       };
     in
     {

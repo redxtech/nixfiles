@@ -16,7 +16,7 @@
             ;
 
           pname = "cockpit-file-sharing";
-          version = "4.6.3";
+          version = "4.6.4";
           updateScript = packageUpdateScripts.nodeScript {
             packageName = pname;
             script = ./update.mjs;
@@ -28,8 +28,8 @@
           inherit pname version;
 
           src = fetchurl {
-            url = "https://github.com/45Drives/cockpit-file-sharing/releases/download/v4.6.3/cockpit-file-sharing_4.6.3-1bookworm_all.deb";
-            hash = "sha256-hM4tkJqsM/7oWfy4YAsAo9EKVLXEw8qcbPgtO+z9nfY=";
+            url = "https://github.com/45Drives/cockpit-file-sharing/releases/download/v4.6.4/cockpit-file-sharing_4.6.4-1bookworm_all.deb";
+            hash = "sha256-xWP+uzj9dtKPtctABasfYS/oxcFSwsB1kPTpmrrqCaY=";
           };
 
           nativeBuildInputs = [ dpkg ];

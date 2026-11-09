@@ -16,14 +16,14 @@
             ;
 
           pname = "cockpit-podman";
-          version = "132";
+          version = "133";
         in
         stdenv.mkDerivation {
           inherit pname version;
 
           src = fetchzip {
             url = "https://github.com/cockpit-project/cockpit-podman/releases/download/${version}/cockpit-podman-${version}.tar.xz";
-            hash = "sha256-yWFmpQKnWM/gl73g6ej+kxexOXNbs1qMZcxtSTviCIo=";
+            hash = "sha256-6iLzbGmhS3jk3I0DydkOrQfCNPChklnNEKzfQpIL4/o=";
           };
 
           nativeBuildInputs = [ gettext ];
