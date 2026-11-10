@@ -24,6 +24,8 @@ defaults:
   run:
     shell: bash
 
+# monitoring: remove marked blocks, wrapper lines, and step IDs to disable reports
+# monitoring: helper files are .github/scripts/resource_usage.py and .github/scripts/test_resource_usage.py
 jobs:
   update:
     if: github.ref_type == 'branch' && github.ref_name != 'automation/update-flake-inputs'
@@ -60,8 +62,9 @@ jobs:
           body: |
             update all inputs in `flake.lock`.
 
-            this workflow builds `bastion`, `voyager`, `quasar`, and the default
-            `x86_64-linux` devShell. locally built outputs and the devShell
+            this workflow builds `bastion`, `voyager`, `quasar`,
+            the default `x86_64-linux` devShell, and select packages.
+            package closures, locally built system outputs, and the devShell
             closure are uploaded to `gabedunn` Cachix.
 
             the pull request is created before the builds, so its existence
@@ -69,9 +72,72 @@ jobs:
 
             [view build results](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
+  packages:
+    name: build and cache ${{ matrix.package }}
+    needs: update
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - betterbird
+          - input-custom
+          - secretspec
+          - voxtype-full
+    steps:
+      - uses: wimpysworld/nothing-but-nix@v12
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.update.outputs.build-ref }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: ${{ env.NIX_CONFIG }}
+      - name: configure cachix uploads
+        uses: cachix/cachix-action@v17
+        with:
+          name: gabedunn
+          extraPullNames: nix-community
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+          useDaemon: true
+          cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
+      - name: build package
+        id: build # monitoring: used only by the report steps
+        env:
+          PACKAGE: ${{ matrix.package }}
+        run: |
+          # monitoring: remove the next line to disable sampling
+          python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
+            nix build \
+              ".#packages.x86_64-linux.${PACKAGE}" \
+              --no-update-lock-file \
+              --out-link result-package \
+              --print-build-logs
+      - name: push package closure
+        run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-package
+      # monitoring: begin
+      - name: summarize build resource usage
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        continue-on-error: true
+        run: python3 .github/scripts/resource_usage.py report --output-dir "$RUNNER_TEMP/resource-usage"
+      - name: upload build resource usage
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: resource-usage-package-${{ matrix.package }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/resource-usage/
+          retention-days: 30
+          if-no-files-found: warn
+      # monitoring: end
+
   systems:
     name: build ${{ matrix.host }}
-    needs: update
+    needs: [update, packages]
+    if: ${{ !cancelled() && needs.update.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     strategy:
@@ -105,18 +171,36 @@ jobs:
           # keep explicit full-system uploads opt-in for the small cache
           pushFilter: "-nixos-system-"
       - name: build system
+        id: build # monitoring: used only by the report steps
         env:
           HOST: ${{ matrix.host }}
         run: |
-          nix build \
-            ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
-            --no-update-lock-file \
-            --out-link result-system \
-            --print-build-logs
+          # monitoring: remove the next line to disable sampling
+          python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
+            nix build \
+              ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
+              --no-update-lock-file \
+              --out-link result-system \
+              --print-build-logs
 
       # package uploads still include their dependencies, so the cache can fill
       # - name: push final system closure
       #   run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-system
+      # monitoring: begin
+      - name: summarize build resource usage
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        continue-on-error: true
+        run: python3 .github/scripts/resource_usage.py report --output-dir "$RUNNER_TEMP/resource-usage"
+      - name: upload build resource usage
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: resource-usage-system-${{ matrix.host }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/resource-usage/
+          retention-days: 30
+          if-no-files-found: warn
+      # monitoring: end
 
   devshell:
     name: build and cache default devShell
@@ -143,10 +227,28 @@ jobs:
           useDaemon: true
           cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
       - name: build default devShell
+        id: build # monitoring: used only by the report steps
         run: |
-          nix build .#devShells.x86_64-linux.default \
-            --no-update-lock-file \
-            --out-link result-devshell \
-            --print-build-logs
+          # monitoring: remove the next line to disable sampling
+          python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
+            nix build .#devShells.x86_64-linux.default \
+              --no-update-lock-file \
+              --out-link result-devshell \
+              --print-build-logs
       - name: push devShell closure
         run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-devshell
+      # monitoring: begin
+      - name: summarize build resource usage
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        continue-on-error: true
+        run: python3 .github/scripts/resource_usage.py report --output-dir "$RUNNER_TEMP/resource-usage"
+      - name: upload build resource usage
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: resource-usage-devshell-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/resource-usage/
+          retention-days: 30
+          if-no-files-found: warn
+      # monitoring: end
