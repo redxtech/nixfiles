@@ -74,7 +74,7 @@
             ];
 
             mcp_servers = {
-              codebase-memory.command = lib.getExe inputs'.codebase-memory-mcp.packages.default;
+              codebase-memory.command = lib.getExe selfPackages.codebase-memory-mcp;
               nixos.command = lib.getExe pkgs.mcp-nixos;
               super-productivity.command = lib.getExe self'.packages.super-productivity-mcp;
               fastmail = {
@@ -113,7 +113,7 @@
             pkgs.jq
             pkgs.mcp-nixos
             pkgs.obsidian
-            inputs'.codebase-memory-mcp.packages.default
+            selfPackages.codebase-memory-mcp
             selfPackages.cua-driver
             selfPackages.cyber-mux
             selfPackages.docker-axi
