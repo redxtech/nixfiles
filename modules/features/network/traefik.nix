@@ -36,6 +36,7 @@
 
               websecure = {
                 address = ":443";
+                transport.respondingTimeouts.readTimeout = "10m";
                 http.tls = {
                   certResolver = "cloudflare";
                   domains = [

@@ -92,6 +92,7 @@
       den.aspects.quasar-igpu
       den.aspects.server
       den.aspects.cliproxyapi._.server
+      den.aspects.cache._.server
       den.aspects.tunnel
       den.aspects.tinyauth
       # den.aspects.gpu
@@ -114,6 +115,8 @@
       #   nvidiaSettings = false;
       #   open = false;
       # };
+
+      services.atticd.secretsFile = ../../../secrets/hosts/quasar/secrets.yaml;
 
       backup.restic = {
         enable = true;

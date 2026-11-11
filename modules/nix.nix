@@ -1,4 +1,9 @@
-{ inputs, lib, ... }:
+{
+  den,
+  inputs,
+  lib,
+  ...
+}:
 
 {
   den.aspects.nix-config =
@@ -44,6 +49,8 @@
       };
     in
     {
+      includes = [ den.aspects.cache ];
+
       nixos = lib.mkMerge [
         {
           inherit (cfg) nix nixpkgs;
