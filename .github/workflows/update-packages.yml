@@ -34,17 +34,20 @@ jobs:
           skipPush: false
           useDaemon: true
 
+      - name: configure Attic cache
+        uses: ./.github/actions/attic-cache
       - name: update vendored packages
         id: update
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
           log="$RUNNER_TEMP/update-pkgs.log"
           body="$RUNNER_TEMP/update-pkgs-pr.md"
           changelog="$RUNNER_TEMP/update-pkgs-changelog.md"
 
           set +e
-          UPDATE_PKGS_CHANGELOG_FILE="$changelog" nix run .#update-pkgs 2>&1 | tee "$log"
+          UPDATE_PKGS_CHANGELOG_FILE="$changelog" bash .github/scripts/attic-ci.sh nix run .#update-pkgs 2>&1 | tee "$log"
           update_status="${PIPESTATUS[0]}"
           set -e
 

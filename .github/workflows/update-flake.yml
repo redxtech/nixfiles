@@ -66,6 +66,8 @@ jobs:
             the default `x86_64-linux` devShell, and select packages.
             package closures, locally built system outputs, and the devShell
             closure are uploaded to `gabedunn` Cachix.
+            attic also receives locally built outputs and the complete package,
+            system, and devShell closures.
 
             the pull request is created before the builds, so its existence
             does not indicate that validation passed.
@@ -104,14 +106,17 @@ jobs:
           signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
           useDaemon: true
           cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
+      - name: configure Attic cache
+        uses: ./.github/actions/attic-cache
       - name: build package
         id: build # monitoring: used only by the report steps
         env:
           PACKAGE: ${{ matrix.package }}
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
           # monitoring: remove the next line to disable sampling
           python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-            nix build \
+            bash .github/scripts/attic-ci.sh --result ./result-package nix build \
               ".#packages.x86_64-linux.${PACKAGE}" \
               --no-update-lock-file \
               --out-link result-package \
@@ -170,14 +175,17 @@ jobs:
           cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
           # keep explicit full-system uploads opt-in for the small cache
           pushFilter: "-nixos-system-"
+      - name: configure Attic cache
+        uses: ./.github/actions/attic-cache
       - name: build system
         id: build # monitoring: used only by the report steps
         env:
           HOST: ${{ matrix.host }}
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
           # monitoring: remove the next line to disable sampling
           python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-            nix build \
+            bash .github/scripts/attic-ci.sh --result ./result-system nix build \
               ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
               --no-update-lock-file \
               --out-link result-system \
@@ -226,12 +234,16 @@ jobs:
           signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
           useDaemon: true
           cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
+      - name: configure Attic cache
+        uses: ./.github/actions/attic-cache
       - name: build default devShell
         id: build # monitoring: used only by the report steps
+        env:
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
           # monitoring: remove the next line to disable sampling
           python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-            nix build .#devShells.x86_64-linux.default \
+            bash .github/scripts/attic-ci.sh --result ./result-devshell nix build .#devShells.x86_64-linux.default \
               --no-update-lock-file \
               --out-link result-devshell \
               --print-build-logs
