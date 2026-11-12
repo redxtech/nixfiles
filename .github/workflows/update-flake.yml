@@ -29,7 +29,7 @@ defaults:
   run:
     shell: bash
 
-# monitoring: remove marked blocks, wrapper lines, and step IDs to disable reports
+# monitoring: remove marked blocks and sampler wrapper lines to disable reports
 # monitoring: helper files are .github/scripts/resource_usage.py and .github/scripts/test_resource_usage.py
 jobs:
   update:
@@ -135,6 +135,9 @@ jobs:
     if: needs.update.outputs.should-build == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 360
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -155,8 +158,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
           cachix-signing-key: ${{ secrets.CACHIX_SIGNING_KEY }}
+          tailscale-client-id: ${{ vars.TS_CI_CLIENT_ID }}
+          tailscale-audience: ${{ vars.TS_CI_AUDIENCE }}
       - name: build package
-        id: build # monitoring: used only by the report steps
+        id: build
         env:
           PACKAGE: ${{ matrix.package }}
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
@@ -165,6 +170,7 @@ jobs:
             python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
               bash .github/scripts/build-target.sh ".#packages.x86_64-linux.${PACKAGE}" ./result-package
       - name: push package closure
+        if: ${{ !cancelled() && steps.build.outputs.build-succeeded == 'true' }}
         run: bash .github/scripts/time-command.sh "cachix upload" cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-package
       # monitoring: begin
       - name: summarize build resource usage
@@ -187,6 +193,9 @@ jobs:
     needs: [update, packages]
     runs-on: ubuntu-latest
     timeout-minutes: 360
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       # reuse uploads between hosts instead of compiling shared packages concurrently
@@ -208,6 +217,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
           cachix-signing-key: ${{ secrets.CACHIX_SIGNING_KEY }}
+          tailscale-client-id: ${{ vars.TS_CI_CLIENT_ID }}
+          tailscale-audience: ${{ vars.TS_CI_AUDIENCE }}
           # keep explicit full-system uploads opt-in for the small cache
           cachix-push-filter: "-nixos-system-"
       - name: build system
@@ -244,6 +255,9 @@ jobs:
     needs: [update, packages]
     runs-on: ubuntu-latest
     timeout-minutes: 360
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: wimpysworld/nothing-but-nix@v12
       - uses: actions/checkout@v5
@@ -256,8 +270,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
           cachix-signing-key: ${{ secrets.CACHIX_SIGNING_KEY }}
+          tailscale-client-id: ${{ vars.TS_CI_CLIENT_ID }}
+          tailscale-audience: ${{ vars.TS_CI_AUDIENCE }}
       - name: build default devShell
-        id: build # monitoring: used only by the report steps
+        id: build
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
@@ -265,6 +281,7 @@ jobs:
             python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
               bash .github/scripts/build-target.sh .#devShells.x86_64-linux.default ./result-devshell
       - name: push devShell closure
+        if: ${{ !cancelled() && steps.build.outputs.build-succeeded == 'true' }}
         run: bash .github/scripts/time-command.sh "cachix upload" cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-devshell
       # monitoring: begin
       - name: summarize build resource usage

@@ -10,6 +10,12 @@ inputs:
   cachix-signing-key:
     description: Key for Cachix signatures
     required: true
+  tailscale-client-id:
+    description: Tailscale federated identity client ID
+    required: true
+  tailscale-audience:
+    description: Tailscale federated identity audience
+    required: true
   cachix-push-filter:
     description: Pattern for outputs to exclude from Cachix uploads
     default: ""
@@ -32,3 +38,7 @@ runs:
         pushFilter: ${{ inputs.cachix-push-filter }}
     - name: configure Attic cache
       uses: ./.github/actions/attic-cache
+      with:
+        connect-tailnet: "true"
+        tailscale-client-id: ${{ inputs.tailscale-client-id }}
+        tailscale-audience: ${{ inputs.tailscale-audience }}

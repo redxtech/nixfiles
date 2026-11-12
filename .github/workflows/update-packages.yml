@@ -17,6 +17,10 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
     steps:
       - uses: wimpysworld/nothing-but-nix@v12
       - uses: actions/checkout@v5
@@ -36,6 +40,10 @@ jobs:
 
       - name: configure Attic cache
         uses: ./.github/actions/attic-cache
+        with:
+          connect-tailnet: "true"
+          tailscale-client-id: ${{ vars.TS_CI_CLIENT_ID }}
+          tailscale-audience: ${{ vars.TS_CI_AUDIENCE }}
       - name: update vendored packages
         id: update
         env:

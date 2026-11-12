@@ -77,7 +77,8 @@ in
                   tailscaleHost
                   listen
                 ];
-                api-endpoint = "https://${cacheHost}/";
+                api-endpoint = "https://${tailscaleHost}/";
+                substituter-endpoint = "https://${cacheHost}/";
                 database.url = "sqlite://${stateDir}/server.db?mode=rwc";
                 storage = {
                   type = "local";

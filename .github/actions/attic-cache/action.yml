@@ -1,5 +1,15 @@
 name: configure Attic cache
-description: Install the pinned CI runtime and trust Quasar's public cache
+description: Install the CI runtime, trust the public cache, and optionally connect for uploads
+inputs:
+  connect-tailnet:
+    description: Connect an ephemeral GitHub-hosted runner for uploads
+    default: "false"
+  tailscale-client-id:
+    description: Tailscale federated identity client ID
+    default: ""
+  tailscale-audience:
+    description: Tailscale federated identity audience
+    default: ""
 runs:
   using: composite
   steps:
@@ -19,8 +29,16 @@ runs:
         # retain GC roots for every runtime package until the job finishes
         paths="$(nix build --inputs-from . \
           nixpkgs#attic-client nixpkgs#bash nixpkgs#coreutils \
-          nixpkgs#util-linux nixpkgs#jq nixpkgs#python3 \
+          nixpkgs#util-linux nixpkgs#jq nixpkgs#python3 nixpkgs#curl \
           --no-write-lock-file --out-link "$RUNNER_TEMP/ci-runtime" --print-out-paths)"
         while IFS= read -r path; do
           echo "$path/bin" >> "$GITHUB_PATH"
         done <<< "$paths"
+    # never replace the self-hosted runner's existing Tailscale connection
+    - name: connect ephemeral cache uploader
+      if: inputs.connect-tailnet == 'true' && runner.environment == 'github-hosted'
+      uses: tailscale/github-action@v4
+      with:
+        oauth-client-id: ${{ inputs.tailscale-client-id }}
+        audience: ${{ inputs.tailscale-audience }}
+        tags: tag:ci-cache

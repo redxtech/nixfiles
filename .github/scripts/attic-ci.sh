@@ -14,11 +14,12 @@ umask 077
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 mkdir -p "$work/config/attic" "$work/roots"
+endpoint="https://attic.colobus-pirate.ts.net/"
 printf '%s' "$ATTIC_TOKEN" > "$work/config/attic/token"
 cat > "$work/config/attic/config.toml" <<EOF
 default-server = "ci"
 [servers.ci]
-endpoint = "https://cache.quasar.sucha.foo/"
+endpoint = "$endpoint"
 token-file = "$work/config/attic/token"
 EOF
 
@@ -51,15 +52,29 @@ post-build-hook = $work/hook"
 unset ATTIC_TOKEN
 build_status=0
 bash "$script_dir/time-command.sh" "nix command (evaluation, build, and substitution)" "$@" || build_status=$?
-if [[ "$build_status" -eq 0 && ${#results[@]} -gt 0 ]]; then
-  printf '%s\n' "${results[@]}" >> "$queue"
+if [[ "$build_status" -eq 0 ]]; then
+  # a failed Attic upload must not suppress the independent Cachix closure push
+  if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+    echo 'build-succeeded=true' >> "$GITHUB_OUTPUT"
+  fi
+  if [[ ${#results[@]} -gt 0 ]]; then
+    printf '%s\n' "${results[@]}" >> "$queue"
+  fi
 fi
 
 upload_status=0
 if [[ -s "$queue" ]]; then
-  LC_ALL=C sort -u "$queue" | XDG_CONFIG_HOME="$work/config" \
-    bash "$script_dir/time-command.sh" "attic upload" attic push ci:main --jobs 2 --stdin \
-    || upload_status=$?
+  # attic follows discovery, so reject a server that would send uploads back through Cloudflare
+  if curl --fail --silent --show-error --connect-timeout 10 --max-time 30 \
+    --retry 2 "${endpoint}_api/v1/cache-config/main" \
+    | jq --exit-status --arg endpoint "$endpoint" '.api_endpoint == $endpoint' > /dev/null; then
+    LC_ALL=C sort -u "$queue" | XDG_CONFIG_HOME="$work/config" \
+      bash "$script_dir/time-command.sh" "attic upload" attic push ci:main --jobs 2 --stdin \
+      || upload_status=$?
+  else
+    echo 'Attic discovery failed or advertised a different API endpoint. Deploy the Tailscale API endpoint on Quasar.' >&2
+    upload_status=1
+  fi
 fi
 if [[ "$upload_status" -ne 0 ]]; then
   echo "Attic upload failed with status $upload_status" >&2
