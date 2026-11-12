@@ -1,0 +1,14 @@
+--- a/client/src/api/mod.rs
++++ b/client/src/api/mod.rs
+@@ -245,5 +245,7 @@ fn build_http_client(token: Option<&str>) -> HttpClient {
+-    reqwest::Client::builder()
+-        .default_headers(headers)
+-        .build()
+-        .unwrap()
++    let builder = reqwest::Client::builder().default_headers(headers);
++    // tolerate receiver backpressure during large CI uploads
++    #[cfg(target_os = "linux")]
++    let builder = builder.tcp_user_timeout(std::time::Duration::from_secs(600));
++
++    builder.build().unwrap()
+ }

@@ -68,9 +68,20 @@ if [[ -s "$queue" ]]; then
   if curl --fail --silent --show-error --connect-timeout 10 --max-time 30 \
     --retry 2 "${endpoint}_api/v1/cache-config/main" \
     | jq --exit-status --arg endpoint "$endpoint" '.api_endpoint == $endpoint' > /dev/null; then
-    LC_ALL=C sort -u "$queue" | XDG_CONFIG_HOME="$work/config" \
-      bash "$script_dir/time-command.sh" "attic upload" attic push ci:main --jobs 2 --stdin \
-      || upload_status=$?
+    # each attempt must receive the complete queue, not the previous attempt's remaining stdin
+    LC_ALL=C sort -u "$queue" > "$work/upload-paths"
+    for attempt in 1 2 3; do
+      upload_status=0
+      XDG_CONFIG_HOME="$work/config" \
+        bash "$script_dir/time-command.sh" "attic upload" attic push ci:main --jobs 2 --stdin \
+        < "$work/upload-paths" || upload_status=$?
+      if [[ "$upload_status" -eq 0 || "$attempt" -eq 3 ]]; then
+        break
+      fi
+      delay=$((attempt * 5))
+      echo "Attic upload attempt $attempt of 3 failed with status $upload_status. Retry in $delay seconds." >&2
+      sleep "$delay"
+    done
   else
     echo 'Attic discovery failed or advertised a different API endpoint. Deploy the Tailscale API endpoint on Quasar.' >&2
     upload_status=1

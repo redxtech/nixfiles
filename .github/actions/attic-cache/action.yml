@@ -28,7 +28,7 @@ runs:
       run: |
         # retain GC roots for every runtime package until the job finishes
         paths="$(nix build --inputs-from . \
-          nixpkgs#attic-client nixpkgs#bash nixpkgs#coreutils \
+          .#attic-client-ci nixpkgs#bash nixpkgs#coreutils \
           nixpkgs#util-linux nixpkgs#jq nixpkgs#python3 nixpkgs#curl \
           --no-write-lock-file --out-link "$RUNNER_TEMP/ci-runtime" --print-out-paths)"
         while IFS= read -r path; do

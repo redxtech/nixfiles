@@ -22,6 +22,7 @@ in
 
       nixos =
         {
+          self',
           config,
           host,
           lib,
@@ -69,6 +70,7 @@ in
 
             services.atticd = {
               enable = true;
+              package = self'.packages.attic-server;
               environmentFile = config.sops.secrets.attic_server_env.path;
               settings = {
                 inherit listen;
