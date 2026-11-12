@@ -324,7 +324,6 @@
             apexcharts-card
             atomic-calendar-revive
             button-card
-            card-mod
             decluttering-card
             hourly-weather
             light-entity-card
@@ -333,6 +332,7 @@
             multiple-entity-row
             mushroom
             template-entity-row
+            # uix
             universal-remote-card
           ])
           ++ (with self'.packages; [

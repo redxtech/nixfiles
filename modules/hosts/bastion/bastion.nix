@@ -26,7 +26,6 @@
           "agentsview"
           "drishti"
           "hermes"
-          "pi-web"
           "traefik"
         ];
       };
@@ -135,7 +134,6 @@
       den.aspects.tinyauth
 
       den.aspects.ai
-      den.aspects.pi-web
       den.aspects.agentsview
       den.aspects.drishti._.drishti-host
       den.aspects.gpu

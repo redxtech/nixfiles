@@ -35,7 +35,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 ## packages
 
 <details>
-<summary>show 62 packages</summary>
+<summary>show 61 packages</summary>
 
 | package | version | description | upstream |
 | --- | --- | --- | --- |
@@ -64,7 +64,6 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`paseo`](packages/paseo/package.nix) | `0.7.0` | Control AI coding agents from the command line | [source](https://github.com/getpaseo/paseo) |
 | [`pg-axi`](packages/axi/package.nix) | `0.1.2` | Agent-facing PostgreSQL CLI for safe, token-efficient workflows | [source](https://github.com/thatdudealso/pg-axi) |
 | [`pi-acp`](packages/pi-acp/package.nix) | `0.0.33` | ACP adapter for the pi coding agent | [source](https://github.com/svkozak/pi-acp) |
-| [`pi-web`](packages/pi-web/package.nix) | `1.202610.1` | Web UI for persistent Pi Coding Agent sessions | [source](https://pi-web.dev/) |
 | [`pitty`](packages/pitty/package.nix) | `0.6.43` | OpenTUI frontend for the Pi coding agent | [source](https://github.com/mistrjirka/PiTTy) |
 | [`plex-pass`](packages/plex-pass/package.nix) | `1.43.3.10896-cb3ebc72d` | Media library streaming server | [source](https://plex.tv/) |
 | [`plex-pass-raw`](packages/plex-pass/package.nix) | `1.43.3.10896-cb3ebc72d` | Media library streaming server | [source](https://plex.tv/) |
