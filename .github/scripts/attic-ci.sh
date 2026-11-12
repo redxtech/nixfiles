@@ -11,7 +11,7 @@ done
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 umask 077
-work="$(mktemp -d)"
+work="$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/attic-ci.XXXXXXXX")"
 trap 'rm -rf "$work"' EXIT
 mkdir -p "$work/config/attic" "$work/roots"
 endpoint="https://attic.colobus-pirate.ts.net/"
