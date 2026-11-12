@@ -1,5 +1,5 @@
 name: configure Attic cache
-description: Install the pinned Attic client and trust Quasar's public cache
+description: Install the pinned CI runtime and trust Quasar's public cache
 runs:
   using: composite
   steps:
@@ -13,9 +13,14 @@ runs:
           echo 'extra-trusted-public-keys = cache.quasar.sucha.foo-1:avw2bKdcZFvA4wivKF3HipWPSO6R3iW79oykb/xKn5w='
           echo 'ATTIC_NIX_CONFIG'
         } >> "$GITHUB_ENV"
-    - name: install Attic client
+    - name: install CI runtime
       shell: bash
       run: |
-        client="$(nix build --inputs-from . nixpkgs#attic-client \
-          --no-write-lock-file --out-link "$RUNNER_TEMP/attic-client" --print-out-paths)"
-        echo "$client/bin" >> "$GITHUB_PATH"
+        # retain GC roots for every runtime package until the job finishes
+        paths="$(nix build --inputs-from . \
+          nixpkgs#attic-client nixpkgs#bash nixpkgs#coreutils \
+          nixpkgs#util-linux nixpkgs#jq nixpkgs#python3 \
+          --no-write-lock-file --out-link "$RUNNER_TEMP/ci-runtime" --print-out-paths)"
+        while IFS= read -r path; do
+          echo "$path/bin" >> "$GITHUB_PATH"
+        done <<< "$paths"
