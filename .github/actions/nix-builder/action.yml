@@ -1,0 +1,34 @@
+name: configure Nix builder
+description: Install Nix and configure Cachix and Attic
+inputs:
+  github-token:
+    description: Token for GitHub input downloads
+    required: true
+  cachix-auth-token:
+    description: Token for Cachix uploads
+    required: true
+  cachix-signing-key:
+    description: Key for Cachix signatures
+    required: true
+  cachix-push-filter:
+    description: Pattern for outputs to exclude from Cachix uploads
+    default: ""
+runs:
+  using: composite
+  steps:
+    - uses: cachix/install-nix-action@v31
+      with:
+        github_access_token: ${{ inputs.github-token }}
+        extra_nix_config: ${{ env.NIX_CONFIG }}
+    - name: configure cachix uploads
+      uses: cachix/cachix-action@v17
+      with:
+        name: gabedunn
+        extraPullNames: nix-community
+        authToken: ${{ inputs.cachix-auth-token }}
+        signingKey: ${{ inputs.cachix-signing-key }}
+        useDaemon: true
+        cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
+        pushFilter: ${{ inputs.cachix-push-filter }}
+    - name: configure Attic cache
+      uses: ./.github/actions/attic-cache

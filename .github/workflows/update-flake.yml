@@ -2,6 +2,11 @@ name: update flake inputs
 
 on:
   workflow_dispatch:
+    inputs:
+      force-build:
+        description: Build and cache targets even when there is no update PR
+        type: boolean
+        default: false
 
 concurrency:
   group: update-flake-inputs
@@ -36,6 +41,8 @@ jobs:
       pull-requests: write
     outputs:
       build-ref: ${{ steps.pr.outputs.pull-request-number && steps.pr.outputs.pull-request-head-sha || github.sha }}
+      has-pr: ${{ steps.pr.outputs.pull-request-number != '' }}
+      should-build: ${{ steps.pr.outputs.pull-request-number != '' || inputs.force-build }}
     steps:
       - uses: wimpysworld/nothing-but-nix@v12
       - uses: actions/checkout@v5
@@ -71,12 +78,61 @@ jobs:
 
             the pull request is created before the builds, so its existence
             does not indicate that validation passed.
+            the `update-flake / validation` commit status reports the build
+            and cache upload results for this pull request's exact head commit.
 
             [view build results](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+  status:
+    name: set pending validation status
+    needs: update
+    if: needs.update.outputs.has-pr == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      statuses: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/github-script@v8
+        env:
+          STATUS_PHASE: pending
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        with:
+          script: |
+            const report = require('./.github/scripts/update-flake-status.cjs');
+            await report({ github, context, core });
+
+  report:
+    name: report validation results
+    needs: [update, status, packages, systems, devshell]
+    if: ${{ always() && needs.update.result != 'skipped' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      statuses: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/github-script@v8
+        env:
+          STATUS_PHASE: complete
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        with:
+          script: |
+            const report = require('./.github/scripts/update-flake-status.cjs');
+            await report({ github, context, core });
 
   packages:
     name: build and cache ${{ matrix.package }}
     needs: update
+    if: needs.update.outputs.should-build == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     strategy:
@@ -93,36 +149,23 @@ jobs:
         with:
           ref: ${{ needs.update.outputs.build-ref }}
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - name: configure Nix builder
+        uses: ./.github/actions/nix-builder
         with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          extra_nix_config: ${{ env.NIX_CONFIG }}
-      - name: configure cachix uploads
-        uses: cachix/cachix-action@v17
-        with:
-          name: gabedunn
-          extraPullNames: nix-community
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
-          useDaemon: true
-          cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
-      - name: configure Attic cache
-        uses: ./.github/actions/attic-cache
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          cachix-signing-key: ${{ secrets.CACHIX_SIGNING_KEY }}
       - name: build package
         id: build # monitoring: used only by the report steps
         env:
           PACKAGE: ${{ matrix.package }}
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
-          # monitoring: remove the next line to disable sampling
-          python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-            bash .github/scripts/attic-ci.sh --result ./result-package nix build \
-              ".#packages.x86_64-linux.${PACKAGE}" \
-              --no-update-lock-file \
-              --out-link result-package \
-              --print-build-logs
+          bash .github/scripts/attic-ci.sh --result ./result-package \
+            python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
+              bash .github/scripts/build-target.sh ".#packages.x86_64-linux.${PACKAGE}" ./result-package
       - name: push package closure
-        run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-package
+        run: bash .github/scripts/time-command.sh "cachix upload" cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-package
       # monitoring: begin
       - name: summarize build resource usage
         if: ${{ always() && steps.build.outcome != 'skipped' }}
@@ -142,7 +185,6 @@ jobs:
   systems:
     name: build ${{ matrix.host }}
     needs: [update, packages]
-    if: ${{ !cancelled() && needs.update.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     strategy:
@@ -160,36 +202,23 @@ jobs:
         with:
           ref: ${{ needs.update.outputs.build-ref }}
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - name: configure Nix builder
+        uses: ./.github/actions/nix-builder
         with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          extra_nix_config: ${{ env.NIX_CONFIG }}
-      - name: configure cachix uploads
-        uses: cachix/cachix-action@v17
-        with:
-          name: gabedunn
-          extraPullNames: nix-community
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
-          useDaemon: true
-          cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          cachix-signing-key: ${{ secrets.CACHIX_SIGNING_KEY }}
           # keep explicit full-system uploads opt-in for the small cache
-          pushFilter: "-nixos-system-"
-      - name: configure Attic cache
-        uses: ./.github/actions/attic-cache
+          cachix-push-filter: "-nixos-system-"
       - name: build system
         id: build # monitoring: used only by the report steps
         env:
           HOST: ${{ matrix.host }}
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
-          # monitoring: remove the next line to disable sampling
-          python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-            bash .github/scripts/attic-ci.sh --result ./result-system nix build \
-              ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
-              --no-update-lock-file \
-              --out-link result-system \
-              --print-build-logs
+          bash .github/scripts/attic-ci.sh --result ./result-system \
+            python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
+              bash .github/scripts/build-target.sh ".#nixosConfigurations.${HOST}.config.system.build.toplevel" ./result-system
 
       # package uploads still include their dependencies, so the cache can fill
       # - name: push final system closure
@@ -212,7 +241,7 @@ jobs:
 
   devshell:
     name: build and cache default devShell
-    needs: update
+    needs: [update, packages]
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
@@ -221,34 +250,22 @@ jobs:
         with:
           ref: ${{ needs.update.outputs.build-ref }}
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - name: configure Nix builder
+        uses: ./.github/actions/nix-builder
         with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          extra_nix_config: ${{ env.NIX_CONFIG }}
-      - name: configure cachix uploads
-        uses: cachix/cachix-action@v17
-        with:
-          name: gabedunn
-          extraPullNames: nix-community
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
-          useDaemon: true
-          cachixArgs: "--jobs 2 --num-concurrent-chunks 1"
-      - name: configure Attic cache
-        uses: ./.github/actions/attic-cache
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          cachix-signing-key: ${{ secrets.CACHIX_SIGNING_KEY }}
       - name: build default devShell
         id: build # monitoring: used only by the report steps
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
-          # monitoring: remove the next line to disable sampling
-          python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-            bash .github/scripts/attic-ci.sh --result ./result-devshell nix build .#devShells.x86_64-linux.default \
-              --no-update-lock-file \
-              --out-link result-devshell \
-              --print-build-logs
+          bash .github/scripts/attic-ci.sh --result ./result-devshell \
+            python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
+              bash .github/scripts/build-target.sh .#devShells.x86_64-linux.default ./result-devshell
       - name: push devShell closure
-        run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-devshell
+        run: bash .github/scripts/time-command.sh "cachix upload" cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-devshell
       # monitoring: begin
       - name: summarize build resource usage
         if: ${{ always() && steps.build.outcome != 'skipped' }}

@@ -252,7 +252,8 @@ def summary(samples: list[Sample]) -> str:
     lines = [
         "### build resource usage",
         "",
-        "Build-phase samples only. Setup, cache uploads, and post-job cleanup are outside this report.",
+        "Nix command samples include evaluation and substitution. Attic and explicit Cachix uploads are outside this report.",
+        "Background Cachix uploads can overlap the Nix command.",
         "",
         "RAM used is total minus available memory. CPU busy is normalized across all CPUs.",
         "",
@@ -266,6 +267,7 @@ def summary(samples: list[Sample]) -> str:
     lines += [
         "",
         "The resource-usage artifact contains `usage.svg` and `samples.csv`.",
+        "When phase timing is enabled, `timings.tsv` records the phase, elapsed seconds, and exit status.",
         "Sampling can miss brief peaks. The temporary filesystem follows the build step's `TMPDIR`.",
         "",
     ]

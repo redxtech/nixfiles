@@ -3,12 +3,6 @@ description: Install the pinned Attic client and trust Quasar's public cache
 runs:
   using: composite
   steps:
-    - name: install Attic client
-      shell: bash
-      run: |
-        client="$(nix build --inputs-from . nixpkgs#attic-client \
-          --no-write-lock-file --out-link "$RUNNER_TEMP/attic-client" --print-out-paths)"
-        echo "$client/bin" >> "$GITHUB_PATH"
     - name: configure cache downloads
       shell: bash
       run: |
@@ -19,3 +13,9 @@ runs:
           echo 'extra-trusted-public-keys = cache.quasar.sucha.foo-1:avw2bKdcZFvA4wivKF3HipWPSO6R3iW79oykb/xKn5w='
           echo 'ATTIC_NIX_CONFIG'
         } >> "$GITHUB_ENV"
+    - name: install Attic client
+      shell: bash
+      run: |
+        client="$(nix build --inputs-from . nixpkgs#attic-client \
+          --no-write-lock-file --out-link "$RUNNER_TEMP/attic-client" --print-out-paths)"
+        echo "$client/bin" >> "$GITHUB_PATH"

@@ -8,6 +8,7 @@ while [[ "${1:-}" == --result ]]; do
   shift 2
 done
 [[ $# -gt 0 ]] || { echo 'Provide a build command' >&2; exit 2; }
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 umask 077
 work="$(mktemp -d)"
@@ -49,14 +50,15 @@ post-build-hook = $work/hook"
 # credentials stay in the temporary client config, not the build environment
 unset ATTIC_TOKEN
 build_status=0
-"$@" || build_status=$?
+bash "$script_dir/time-command.sh" "nix command (evaluation, build, and substitution)" "$@" || build_status=$?
 if [[ "$build_status" -eq 0 && ${#results[@]} -gt 0 ]]; then
   printf '%s\n' "${results[@]}" >> "$queue"
 fi
 
 upload_status=0
 if [[ -s "$queue" ]]; then
-  LC_ALL=C sort -u "$queue" | XDG_CONFIG_HOME="$work/config" attic push ci:main --jobs 2 --stdin \
+  LC_ALL=C sort -u "$queue" | XDG_CONFIG_HOME="$work/config" \
+    bash "$script_dir/time-command.sh" "attic upload" attic push ci:main --jobs 2 --stdin \
     || upload_status=$?
 fi
 if [[ "$upload_status" -ne 0 ]]; then
