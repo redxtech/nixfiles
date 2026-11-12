@@ -5,9 +5,6 @@ result-*
 
 .env
 
-# odu artifacts
-.ci
-
 # ai stuff
 .worktrees
 .pi-subagents

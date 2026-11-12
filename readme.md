@@ -1,4 +1,4 @@
-[![odu CI](https://github.com/redxtech/nixfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/redxtech/nixfiles/actions/workflows/ci.yml)
+[![CI](https://github.com/redxtech/nixfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/redxtech/nixfiles/actions/workflows/ci.yml)
 
 # my nixOS flake
 
@@ -16,7 +16,7 @@ this repository contains the nixOS and home-manager configuration for my systems
   - `server` adds the homelab services used by `quasar`.
 - remote deployments through deploy-rs
 - secret management through sops-nix and age
-- CI through odu, omnix, github actions, and cachix
+- CI through omnix, github actions, and cachix
 - custom packages, modules, services, scripts, and nix library functions
 
 the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox nightly, and tailscale.

@@ -29,7 +29,6 @@
 
   perSystem =
     {
-      inputs',
       lib,
       pkgs,
       ...
@@ -38,21 +37,20 @@
       apps.ci = {
         type = "app";
         program = pkgs.writeShellScriptBin "ci" ''
-          ${lib.getExe inputs'.odu.packages.default} run \
-            --no-strict \
-            --host x86_64-linux=localhost \
-            "$@"
+          exec ${lib.getExe pkgs.omnix} ci run "$@"
         '';
-        meta.description = "run ci with odu";
+        meta.description = "run ci with omnix";
       };
     };
 
-  flake-file.inputs = {
-    odu.url = "github:juspay/odu";
-    hci-effects = {
-      url = "github:hercules-ci/hercules-ci-effects";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+  flake.om.ci.default.root = {
+    dir = ".";
+    steps.flake-check.enable = true;
+  };
+
+  flake-file.inputs.hci-effects = {
+    url = "github:hercules-ci/hercules-ci-effects";
+    inputs.flake-parts.follows = "flake-parts";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
 }

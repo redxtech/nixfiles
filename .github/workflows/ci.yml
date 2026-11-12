@@ -15,7 +15,7 @@ env:
   NIX_CONFIG: "accept-flake-config = true"
 
 jobs:
-  odu:
+  omnix:
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'system-builder' }}
     steps:
       - if: github.event_name == 'pull_request'
@@ -45,34 +45,3 @@ jobs:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
           cachix watch-exec --watch-mode post-build-hook gabedunn -- bash .github/scripts/attic-ci.sh nix run .#ci
-
-  omnix:
-    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'system-builder' }}
-    steps:
-      - if: github.event_name == 'pull_request'
-        uses: wimpysworld/nothing-but-nix@v12
-      - uses: actions/checkout@v5
-      - if: github.event_name == 'pull_request'
-        uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          extra_nix_config: |
-            accept-flake-config = true
-      - if: github.event_name == 'pull_request'
-        uses: cachix/cachix-action@v17
-        with:
-          name: gabedunn
-          skipPush: true
-      - name: configure Attic cache
-        uses: ./.github/actions/attic-cache
-      - name: Run CI
-        if: github.event_name == 'pull_request'
-        run: |
-          nix run github:juspay/omnix -- ci
-      - name: Run CI and upload build results
-        if: github.event_name == 'push'
-        env:
-          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
-        run: |
-          cachix watch-exec --watch-mode post-build-hook gabedunn -- bash .github/scripts/attic-ci.sh nix run github:juspay/omnix -- ci

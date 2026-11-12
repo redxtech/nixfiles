@@ -85,7 +85,6 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst";
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
-    odu.url = "github:juspay/odu";
     pyproject-build-systems = {
       url = "github:pyproject-nix/build-system-pkgs";
       inputs = {

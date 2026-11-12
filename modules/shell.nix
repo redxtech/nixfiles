@@ -28,14 +28,12 @@
           nixfmt
           nix-prefetch-scripts
           statix
-          just
 
           # remote deploy
           inputs'.deploy-rs.packages.deploy-rs
 
           # ci
           omnix
-          inputs'.odu.packages.default
 
           # ai tooling
           mcp-nixos
