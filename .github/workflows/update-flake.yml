@@ -20,6 +20,7 @@ env:
     accept-flake-config = true
     max-jobs = 1
     cores = 2
+    keep-going = true
     keep-outputs = false
     min-free = 4294967296
     max-free = 12884901888
@@ -191,6 +192,7 @@ jobs:
   systems:
     name: build ${{ matrix.host }}
     needs: [update, packages]
+    if: ${{ !cancelled() && needs.update.result == 'success' && needs.update.outputs.should-build == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
