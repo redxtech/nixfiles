@@ -1,0 +1,9 @@
+{
+  "name": "nixfiles-flake-repair",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.19.0" },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "1.4.0"
+  }
+}

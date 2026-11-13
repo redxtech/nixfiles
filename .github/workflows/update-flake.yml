@@ -42,6 +42,7 @@ jobs:
       pull-requests: write
     outputs:
       build-ref: ${{ steps.pr.outputs.pull-request-number && steps.pr.outputs.pull-request-head-sha || github.sha }}
+      pr-number: ${{ steps.pr.outputs.pull-request-number }}
       has-pr: ${{ steps.pr.outputs.pull-request-number != '' }}
       should-build: ${{ steps.pr.outputs.pull-request-number != '' || inputs.force-build }}
     steps:
@@ -79,8 +80,11 @@ jobs:
 
             the pull request is created before the builds, so its existence
             does not indicate that validation passed.
-            the `update-flake / validation` commit status reports the build
-            and cache upload results for this pull request's exact head commit.
+            the `update-flake / validation` commit status reports the initial build
+            and cache upload results for the update commit.
+            a bounded repair can add evidence-backed compatibility renames to this PR.
+            `update-flake / repair-validation` reports builds of the exact repaired tree.
+            repairs do not rerun cache uploads, merge this PR, or deploy a host.
 
             [view build results](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
@@ -166,10 +170,20 @@ jobs:
         env:
           PACKAGE: ${{ matrix.package }}
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+          BUILD_REF: ${{ needs.update.outputs.build-ref }}
+          BUILD_DIAGNOSTIC_DIR: ${{ runner.temp }}/build-diagnostic
         run: |
           bash .github/scripts/attic-ci.sh --result ./result-package \
             python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
               bash .github/scripts/build-target.sh ".#packages.x86_64-linux.${PACKAGE}" ./result-package
+      - name: upload package diagnostic
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-diagnostic-package-${{ matrix.package }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/build-diagnostic/diagnostic.json
+          if-no-files-found: warn
+          retention-days: 14
       - name: push package closure
         if: ${{ !cancelled() && steps.build.outputs.build-succeeded == 'true' }}
         run: bash .github/scripts/time-command.sh "cachix upload" cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-package
@@ -228,10 +242,21 @@ jobs:
         env:
           HOST: ${{ matrix.host }}
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+          BUILD_REF: ${{ needs.update.outputs.build-ref }}
+          BUILD_DIAGNOSTIC_DIR: ${{ runner.temp }}/build-diagnostic
         run: |
           bash .github/scripts/attic-ci.sh --result ./result-system \
             python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
               bash .github/scripts/build-target.sh ".#nixosConfigurations.${HOST}.config.system.build.toplevel" ./result-system
+
+      - name: upload system diagnostic
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-diagnostic-system-${{ matrix.host }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/build-diagnostic/diagnostic.json
+          if-no-files-found: warn
+          retention-days: 14
 
       # package uploads still include their dependencies, so the cache can fill
       # - name: push final system closure
@@ -255,6 +280,7 @@ jobs:
   devshell:
     name: build and cache default devShell
     needs: [update, packages]
+    if: ${{ !cancelled() && needs.update.result == 'success' && needs.update.outputs.should-build == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
@@ -278,10 +304,20 @@ jobs:
         id: build
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+          BUILD_REF: ${{ needs.update.outputs.build-ref }}
+          BUILD_DIAGNOSTIC_DIR: ${{ runner.temp }}/build-diagnostic
         run: |
           bash .github/scripts/attic-ci.sh --result ./result-devshell \
             python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
               bash .github/scripts/build-target.sh .#devShells.x86_64-linux.default ./result-devshell
+      - name: upload devShell diagnostic
+        if: ${{ always() && steps.build.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-diagnostic-devshell-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/build-diagnostic/diagnostic.json
+          if-no-files-found: warn
+          retention-days: 14
       - name: push devShell closure
         if: ${{ !cancelled() && steps.build.outputs.build-succeeded == 'true' }}
         run: bash .github/scripts/time-command.sh "cachix upload" cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-devshell
@@ -300,3 +336,238 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
       # monitoring: end
+
+  repair-plan:
+    name: classify failed update builds
+    needs: [update, packages, systems, devshell]
+    if: >-
+      ${{ !cancelled() && github.ref == 'refs/heads/main' &&
+          needs.update.result == 'success' && needs.update.outputs.has-pr == 'true' &&
+          (needs.packages.result == 'failure' || needs.systems.result == 'failure' || needs.devshell.result == 'failure') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      eligible: ${{ steps.plan.outputs.eligible }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: control
+          persist-credentials: false
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.update.outputs.build-ref }}
+          path: candidate
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: build-diagnostic-*-${{ github.run_attempt }}
+          path: diagnostics
+      - name: prepare immutable repair context
+        id: plan
+        env:
+          BUILD_REF: ${{ needs.update.outputs.build-ref }}
+          BASE_REF: ${{ github.sha }}
+          REPAIR_PR: ${{ needs.update.outputs.pr-number }}
+        run: >-
+          python3 control/.github/repair/workflow.py prepare
+          --candidate candidate --diagnostics diagnostics --output repair/plan.json
+      - uses: actions/upload-artifact@v7
+        with:
+          name: repair-plan-${{ github.run_attempt }}
+          path: repair/plan.json
+          retention-days: 14
+
+  repair-diagnose:
+    name: diagnose and propose a bounded repair
+    needs: repair-plan
+    if: ${{ !cancelled() && needs.repair-plan.result == 'success' && needs.repair-plan.outputs.eligible == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      has-patch: ${{ steps.check.outputs.has-patch }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: control
+          persist-credentials: false
+      - uses: actions/download-artifact@v8
+        with:
+          name: repair-plan-${{ github.run_attempt }}
+          path: repair
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: install pinned agent runtime
+        run: npm ci --ignore-scripts --no-audit --no-fund --prefix control/.github/repair
+      - name: connect ephemeral repair reader
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ vars.TS_REPAIR_CLIENT_ID }}
+          audience: ${{ vars.TS_REPAIR_AUDIENCE }}
+          tags: tag:ci-repair
+      - name: diagnose through Quasar
+        env:
+          CLIPROXYAPI_REPAIR_KEY: ${{ secrets.CLIPROXYAPI_REPAIR_KEY }}
+          PI_OFFLINE: '1'
+          PI_TELEMETRY: '0'
+          PI_SKIP_VERSION_CHECK: '1'
+        run: node control/.github/repair/agent.mjs repair/plan.json repair/proposal.json
+      - name: enforce the rename policy
+        id: check
+        run: >-
+          python3 control/.github/repair/workflow.py check
+          --plan repair/plan.json --proposal repair/proposal.json --output repair/checked.json
+      - name: upload diagnosis
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: repair-proposal-${{ github.run_attempt }}
+          path: |
+            repair/proposal.json
+            repair/checked.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  repair-validate:
+    name: validate repair for ${{ matrix.id }}
+    needs: [update, repair-diagnose]
+    if: ${{ !cancelled() && needs.repair-diagnose.result == 'success' && needs.repair-diagnose.outputs.has-patch == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - id: betterbird
+            target: .#packages.x86_64-linux.betterbird
+          - id: input-custom
+            target: .#packages.x86_64-linux.input-custom
+          - id: secretspec
+            target: .#packages.x86_64-linux.secretspec
+          - id: voxtype-full
+            target: .#packages.x86_64-linux.voxtype-full
+          - id: bastion
+            target: .#nixosConfigurations.bastion.config.system.build.toplevel
+          - id: voyager
+            target: .#nixosConfigurations.voyager.config.system.build.toplevel
+          - id: quasar
+            target: .#nixosConfigurations.quasar.config.system.build.toplevel
+          - id: devshell
+            target: .#devShells.x86_64-linux.default
+    steps:
+      - uses: wimpysworld/nothing-but-nix@v12
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: control
+          persist-credentials: false
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.update.outputs.build-ref }}
+          path: candidate
+          persist-credentials: false
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: baseline
+          persist-credentials: false
+      - uses: actions/download-artifact@v8
+        with:
+          name: repair-plan-${{ github.run_attempt }}
+          path: repair
+      - uses: actions/download-artifact@v8
+        with:
+          name: repair-proposal-${{ github.run_attempt }}
+          path: repair
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: |
+            ${{ env.NIX_CONFIG }}
+            extra-substituters = https://cache.quasar.sucha.foo/main https://gabedunn.cachix.org https://nix-community.cachix.org
+            extra-trusted-public-keys = cache.quasar.sucha.foo-1:avw2bKdcZFvA4wivKF3HipWPSO6R3iW79oykb/xKn5w=
+      - name: validate baseline and repaired target without upload credentials
+        env:
+          TARGET: ${{ matrix.target }}
+        run: >-
+          python3 control/.github/repair/workflow.py validate
+          --candidate candidate --baseline baseline
+          --plan repair/plan.json --proposal repair/proposal.json
+          --target "$TARGET" --output "$RUNNER_TEMP/repair-validation/receipt.json"
+      - name: upload validation evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: repair-validation-${{ matrix.id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/repair-validation/
+          if-no-files-found: warn
+          retention-days: 14
+
+  repair-publish:
+    name: report diagnosis and publish verified fixes
+    needs: [update, repair-plan, repair-diagnose, repair-validate]
+    if: ${{ !cancelled() && needs.repair-plan.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: control
+          persist-credentials: false
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.update.outputs.build-ref }}
+          path: candidate
+          persist-credentials: false
+      - uses: actions/download-artifact@v8
+        with:
+          name: repair-plan-${{ github.run_attempt }}
+          path: repair
+      - name: download optional diagnosis
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: repair-proposal-${{ github.run_attempt }}
+          path: repair
+      - name: download optional validation evidence
+        if: needs.repair-validate.result != 'skipped'
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          pattern: repair-validation-*-${{ github.run_attempt }}
+          path: validation
+      - name: reconstruct the exact validated tree
+        if: needs.repair-validate.result == 'success'
+        run: >-
+          python3 control/.github/repair/workflow.py bundle
+          --candidate candidate --plan repair/plan.json --proposal repair/proposal.json
+          --validation validation --output repair/bundle.json
+      - name: update the existing PR without merging
+        if: ${{ !cancelled() }}
+        uses: actions/github-script@v8
+        env:
+          BUILD_REF: ${{ needs.update.outputs.build-ref }}
+          BASE_REF: ${{ github.sha }}
+          BASE_BRANCH: ${{ github.ref_name }}
+          REPAIR_PR: ${{ needs.update.outputs.pr-number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          REPAIR_PLAN: repair/plan.json
+          REPAIR_PROPOSAL: repair/proposal.json
+          REPAIR_CHECKED: repair/checked.json
+          REPAIR_BUNDLE: repair/bundle.json
+        with:
+          script: |
+            const publish = require('./control/.github/repair/publish.cjs');
+            await publish({ github, context, core });

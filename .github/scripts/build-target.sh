@@ -5,6 +5,10 @@ target="${1:?Provide a flake target}"
 result="${2:?Provide a result path}"
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
+if [[ -n "${BUILD_DIAGNOSTIC_DIR:-}" ]]; then
+  exec python3 "$script_dir/../repair/capture.py" "$target" "$result" "$BUILD_DIAGNOSTIC_DIR"
+fi
+
 # each target evaluates independently so system errors cannot block package builds
 bash "$script_dir/time-command.sh" "evaluation" \
   nix eval "${target}.drvPath" --raw --no-update-lock-file > /dev/null
