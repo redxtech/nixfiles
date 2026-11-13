@@ -18,17 +18,17 @@
             ;
 
           pname = "cyber-mux";
-          version = "0.10.2";
+          version = "0.12.0";
         in
         buildNpmPackage {
           inherit pname version;
 
           src = fetchurl {
             url = "https://registry.npmjs.org/cyber-mux/-/cyber-mux-${version}.tgz";
-            hash = "sha256-ofyXc/84kKDKwYhPsQEdiNkOHWm3Mb4Hk2PjXyBSsgE=";
+            hash = "sha256-xdgNfwolCVBskp4+p0M36SQc1L0Op7TSxKlAvZIF7vQ=";
           };
 
-          npmDepsHash = "sha256-6hv1eOY6kcZ9lUin6t2JCe4UNaLe5JIp8HNUk3gS3eA=";
+          npmDepsHash = "sha256-Qip47bbiaSMX/gC0fVCVggVN8xDdiqWRPXCeXcUP8WQ=";
           npmDepsFetcherVersion = 2;
 
           nativeBuildInputs = [ makeWrapper ];

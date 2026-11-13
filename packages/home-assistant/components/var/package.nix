@@ -17,13 +17,13 @@
         buildHomeAssistantComponent rec {
           owner = "snarky-snark";
           domain = "var";
-          version = "0.15.5";
+          version = "0.15.6";
 
           src = fetchFromGitHub {
             inherit owner;
             repo = "home-assistant-variables";
             rev = "v${version}";
-            hash = "sha256-Mrrob3P1tY0EvGWVybTFRe7JsxsA/JUXSLbNPDPm5ro=";
+            hash = "sha256-RF9aGSVZ/JZwAfioHFPxFut8U3RNAlk8Q6yumieY0FY=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubSource {

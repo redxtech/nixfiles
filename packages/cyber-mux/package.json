@@ -1,6 +1,6 @@
 {
   "name": "cyber-mux",
-  "version": "0.10.2",
+  "version": "0.12.0",
   "description": "Cross-multiplexer pane control — one contract over tmux and herdr",
   "type": "module",
   "bin": {
@@ -34,7 +34,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "clibuilder": "^12.0.0",
-    "cyber-agentkit": "^1.0.0"
+    "cyber-agentkit": "^2.0.0"
+  },
+  "peerDependencies": {
+    "clibuilder": "^12.2.0"
+  },
+  "peerDependenciesMeta": {
+    "clibuilder": {
+      "optional": true
+    }
   }
 }
