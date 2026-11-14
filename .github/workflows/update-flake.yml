@@ -82,7 +82,9 @@ jobs:
             does not indicate that validation passed.
             the `update-flake / validation` commit status reports the initial build
             and cache upload results for the update commit.
-            a bounded repair can add evidence-backed compatibility renames to this PR.
+            up to three bounded repair attempts can add validated compatibility fixes to this PR.
+            the managed repair report lists proposed changes, build results, and the published commit.
+            the run also uploads a repair-report artifact with exact diffs and action records.
             `update-flake / repair-validation` reports builds of the exact repaired tree.
             repairs do not rerun cache uploads, merge this PR, or deploy a host.
 
@@ -181,7 +183,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: build-diagnostic-package-${{ matrix.package }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/build-diagnostic/diagnostic.json
+          path: ${{ runner.temp }}/build-diagnostic/
           if-no-files-found: warn
           retention-days: 14
       - name: push package closure
@@ -254,7 +256,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: build-diagnostic-system-${{ matrix.host }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/build-diagnostic/diagnostic.json
+          path: ${{ runner.temp }}/build-diagnostic/
           if-no-files-found: warn
           retention-days: 14
 
@@ -315,7 +317,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: build-diagnostic-devshell-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/build-diagnostic/diagnostic.json
+          path: ${{ runner.temp }}/build-diagnostic/
           if-no-files-found: warn
           retention-days: 14
       - name: push devShell closure
@@ -380,7 +382,7 @@ jobs:
           retention-days: 14
 
   repair-diagnose:
-    name: diagnose and propose a bounded repair
+    name: diagnose and propose repair attempt 1
     needs: repair-plan
     if: ${{ !cancelled() && needs.repair-plan.result == 'success' && needs.repair-plan.outputs.eligible == 'true' }}
     runs-on: ubuntu-latest
@@ -388,9 +390,12 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    env:
+      REPAIR_ATTEMPT: '1'
+      PREVIOUS_REPAIR_ATTEMPT: '0'
     outputs:
       has-patch: ${{ steps.check.outputs.has-patch }}
-    steps:
+    steps: &repair-diagnose-steps
       - uses: actions/checkout@v5
         with:
           ref: ${{ github.sha }}
@@ -400,47 +405,75 @@ jobs:
         with:
           name: repair-plan-${{ github.run_attempt }}
           path: repair
+      - name: download the previous proposal
+        if: env.REPAIR_ATTEMPT != '1'
+        uses: actions/download-artifact@v8
+        with:
+          name: repair-proposal-${{ env.PREVIOUS_REPAIR_ATTEMPT }}-${{ github.run_attempt }}
+          path: previous
+      - name: download the previous validation
+        if: env.REPAIR_ATTEMPT != '1'
+        uses: actions/download-artifact@v8
+        with:
+          pattern: repair-validation-${{ env.PREVIOUS_REPAIR_ATTEMPT }}-*-${{ github.run_attempt }}
+          path: validation
+      - name: admit a bounded revision
+        id: context
+        if: env.REPAIR_ATTEMPT != '1'
+        run: >-
+          python3 control/.github/repair/workflow.py revise
+          --plan previous/plan.json --proposal previous/proposal.json
+          --validation validation --output repair/plan.json
       - uses: actions/setup-node@v6
+        if: steps.context.outputs.eligible != 'false'
         with:
           node-version: '24'
       - name: install pinned agent runtime
+        if: steps.context.outputs.eligible != 'false'
         run: npm ci --ignore-scripts --no-audit --no-fund --prefix control/.github/repair
       - name: connect ephemeral repair reader
+        if: steps.context.outputs.eligible != 'false'
         uses: tailscale/github-action@v4
         with:
           oauth-client-id: ${{ vars.TS_REPAIR_CLIENT_ID }}
           audience: ${{ vars.TS_REPAIR_AUDIENCE }}
           tags: tag:ci-repair
       - name: diagnose through Quasar
+        if: steps.context.outputs.eligible != 'false'
         env:
           CLIPROXYAPI_REPAIR_KEY: ${{ secrets.CLIPROXYAPI_REPAIR_KEY }}
           PI_OFFLINE: '1'
           PI_TELEMETRY: '0'
           PI_SKIP_VERSION_CHECK: '1'
         run: node control/.github/repair/agent.mjs repair/plan.json repair/proposal.json
-      - name: enforce the rename policy
+      - name: enforce the compatibility repair policy
         id: check
+        if: steps.context.outputs.eligible != 'false'
         run: >-
           python3 control/.github/repair/workflow.py check
           --plan repair/plan.json --proposal repair/proposal.json --output repair/checked.json
-      - name: upload diagnosis
+      - name: upload diagnosis and action context
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: repair-proposal-${{ github.run_attempt }}
+          name: repair-proposal-${{ env.REPAIR_ATTEMPT }}-${{ github.run_attempt }}
           path: |
+            repair/plan.json
             repair/proposal.json
             repair/checked.json
+            repair/error.json
           if-no-files-found: warn
           retention-days: 14
 
   repair-validate:
-    name: validate repair for ${{ matrix.id }}
+    name: validate repair attempt 1 for ${{ matrix.id }}
     needs: [update, repair-diagnose]
     if: ${{ !cancelled() && needs.repair-diagnose.result == 'success' && needs.repair-diagnose.outputs.has-patch == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
-    strategy:
+    env:
+      REPAIR_ATTEMPT: '1'
+    strategy: &repair-validation-strategy
       fail-fast: false
       max-parallel: 2
       matrix:
@@ -461,7 +494,7 @@ jobs:
             target: .#nixosConfigurations.quasar.config.system.build.toplevel
           - id: devshell
             target: .#devShells.x86_64-linux.default
-    steps:
+    steps: &repair-validation-steps
       - uses: wimpysworld/nothing-but-nix@v12
       - uses: actions/checkout@v5
         with:
@@ -484,7 +517,7 @@ jobs:
           path: repair
       - uses: actions/download-artifact@v8
         with:
-          name: repair-proposal-${{ github.run_attempt }}
+          name: repair-proposal-${{ env.REPAIR_ATTEMPT }}-${{ github.run_attempt }}
           path: repair
       - uses: cachix/install-nix-action@v31
         with:
@@ -505,14 +538,68 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: repair-validation-${{ matrix.id }}-${{ github.run_attempt }}
+          name: repair-validation-${{ env.REPAIR_ATTEMPT }}-${{ matrix.id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/repair-validation/
           if-no-files-found: warn
           retention-days: 14
 
+  repair-diagnose-2:
+    name: diagnose and propose repair attempt 2
+    needs: [repair-plan, repair-validate]
+    if: ${{ !cancelled() && needs.repair-validate.result == 'failure' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      REPAIR_ATTEMPT: '2'
+      PREVIOUS_REPAIR_ATTEMPT: '1'
+    outputs:
+      has-patch: ${{ steps.check.outputs.has-patch }}
+    steps: *repair-diagnose-steps
+
+  repair-validate-2:
+    name: validate repair attempt 2 for ${{ matrix.id }}
+    needs: [update, repair-diagnose-2]
+    if: ${{ !cancelled() && needs.repair-diagnose-2.result == 'success' && needs.repair-diagnose-2.outputs.has-patch == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      REPAIR_ATTEMPT: '2'
+    strategy: *repair-validation-strategy
+    steps: *repair-validation-steps
+
+  repair-diagnose-3:
+    name: diagnose and propose repair attempt 3
+    needs: [repair-plan, repair-validate-2]
+    if: ${{ !cancelled() && needs.repair-validate-2.result == 'failure' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      REPAIR_ATTEMPT: '3'
+      PREVIOUS_REPAIR_ATTEMPT: '2'
+    outputs:
+      has-patch: ${{ steps.check.outputs.has-patch }}
+    steps: *repair-diagnose-steps
+
+  repair-validate-3:
+    name: validate repair attempt 3 for ${{ matrix.id }}
+    needs: [update, repair-diagnose-3]
+    if: ${{ !cancelled() && needs.repair-diagnose-3.result == 'success' && needs.repair-diagnose-3.outputs.has-patch == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      REPAIR_ATTEMPT: '3'
+    strategy: *repair-validation-strategy
+    steps: *repair-validation-steps
+
   repair-publish:
-    name: report diagnosis and publish verified fixes
-    needs: [update, repair-plan, repair-diagnose, repair-validate]
+    name: report all attempts and publish verified fixes
+    needs: [update, repair-plan, repair-diagnose, repair-validate, repair-diagnose-2, repair-validate-2, repair-diagnose-3, repair-validate-3]
     if: ${{ !cancelled() && needs.repair-plan.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -535,25 +622,26 @@ jobs:
         with:
           name: repair-plan-${{ github.run_attempt }}
           path: repair
-      - name: download optional diagnosis
+      - name: download all proposal evidence
         continue-on-error: true
         uses: actions/download-artifact@v8
         with:
-          name: repair-proposal-${{ github.run_attempt }}
-          path: repair
-      - name: download optional validation evidence
-        if: needs.repair-validate.result != 'skipped'
+          pattern: repair-proposal-*-${{ github.run_attempt }}
+          path: evidence
+      - name: download all validation evidence
         continue-on-error: true
         uses: actions/download-artifact@v8
         with:
           pattern: repair-validation-*-${{ github.run_attempt }}
-          path: validation
-      - name: reconstruct the exact validated tree
-        if: needs.repair-validate.result == 'success'
+          path: evidence
+      - name: prepare the action report and exact validated tree
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          REPAIR_JOB_RESULTS: ${{ toJSON(needs) }}
         run: >-
-          python3 control/.github/repair/workflow.py bundle
-          --candidate candidate --plan repair/plan.json --proposal repair/proposal.json
-          --validation validation --output repair/bundle.json
+          python3 control/.github/repair/workflow.py report
+          --plan repair/plan.json --evidence evidence --candidate candidate
+          --output repair/report.json --bundle repair/bundle.json
       - name: update the existing PR without merging
         if: ${{ !cancelled() }}
         uses: actions/github-script@v8
@@ -564,10 +652,20 @@ jobs:
           REPAIR_PR: ${{ needs.update.outputs.pr-number }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
           REPAIR_PLAN: repair/plan.json
-          REPAIR_PROPOSAL: repair/proposal.json
-          REPAIR_CHECKED: repair/checked.json
+          REPAIR_REPORT: repair/report.json
           REPAIR_BUNDLE: repair/bundle.json
         with:
           script: |
             const publish = require('./control/.github/repair/publish.cjs');
             await publish({ github, context, core });
+      - name: upload the remediation action report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: repair-report-${{ github.run_attempt }}
+          path: |
+            repair/report.json
+            repair/report.md
+            repair/attempt-*.patch
+          if-no-files-found: error
+          retention-days: 14

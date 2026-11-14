@@ -1,8 +1,10 @@
-"""Fail-closed policy for evidence-backed identifier renames."""
+"""Fail-closed policy for bounded, evidence-backed compatibility repairs."""
 
+import difflib
 import hashlib
 import json
 import re
+import subprocess
 from pathlib import PurePosixPath
 
 TARGETS = [
@@ -23,7 +25,8 @@ SENSITIVE = re.compile(
     r"auth|secret|password|token|credential|permission|polkit|sudo|ssh|firewall|network|"
     r"tailscale|traefik|cache|attic|sops|boot|kernel|hardware|disk|filesystem|storage|"
     r"database|postgres|mysql|sqlite|migration|backup|recovery|systemd|security|"
-    r"sandbox|insecure|unfree|assert|check|test|patch|hash|fetch|update|portal|user",
+    r"sandbox|insecure|unfree|assert|check|test|patch|hash|fetch|update|portal|user|"
+    r"crypto|openssl|gnutls|certificate|privilege|capability|oauth|jwt",
     re.IGNORECASE,
 )
 INFRASTRUCTURE = re.compile(
@@ -61,6 +64,169 @@ def editable(path):
         and not SENSITIVE.search(path)
         and not path.startswith("modules/features/server/")
     )
+
+
+def package_path(path):
+    return (
+        isinstance(path, str)
+        and bool(re.fullmatch(r"packages/[A-Za-z0-9_./-]+\.(?:nix|patch)", path))
+        and str(PurePosixPath(path)) == path
+        and ".." not in PurePosixPath(path).parts
+        and not re.search(SENSITIVE.pattern.replace("|patch", ""), path, re.IGNORECASE)
+    )
+
+
+def compatibility_change(snapshot, edit):
+    path, old, new = edit["path"], edit["old"], edit["new"]
+    require(package_path(path), "Only local package recipes and patches can change.")
+    require(
+        all(isinstance(value, str) and 0 < len(value) <= 8192 for value in (old, new)),
+        "Invalid compatibility edit text.",
+    )
+    require(
+        old != new
+        and old.endswith("\n")
+        and new.endswith("\n")
+        and "\x00" not in old + new
+        and "\r" not in old + new,
+        "A compatibility edit must replace complete text lines.",
+    )
+    original = snapshot["files"][path]
+    lines = original.splitlines(keepends=True)
+    line = edit["line"]
+    require(1 <= line <= len(lines), "The edit line is outside the source file.")
+    offset = sum(len(value) for value in lines[: line - 1])
+    require(
+        original.startswith(old, offset) and original.count(old) == 1,
+        "The compatibility edit does not match unique source text.",
+    )
+    changed = [
+        value[2:]
+        for value in difflib.ndiff(old.splitlines(), new.splitlines())
+        if value.startswith(("+ ", "- "))
+    ]
+    require(len(changed) <= 80, "The compatibility edit changes too many lines.")
+    protected = re.compile(
+        r"auth|secret|password|token|credential|permission|polkit|sudo|ssh|firewall|"
+        r"tailscale|traefik|attic|sops|boot|kernel|hardware|filesystem|database|"
+        r"migration|backup|recovery|systemd|security|sandbox|hardening|insecure|"
+        r"\b(?:version|rev|tag|src|sourceRoot|url|owner|repo|hash|sha\d*|outputHash|"
+        r"[A-Za-z]*[Ii]nputs|dependencies|deps|patches|enable|disable[A-Za-z]*|"
+        r"dont[A-Za-z]*|doCheck|doInstallCheck|check[A-Za-z]*|test[A-Za-z]*|"
+        r"assert[A-Za-z]*|verify[A-Za-z]*|buildPhase|installPhase|phases|"
+        r"preBuild|postBuild|preCheck|postCheck|preInstall|postInstall|"
+        r"return|exit|throw|exec|curl|wget|eval|import|builtins|mkDerivation|runCommand)\b|"
+        r"(?:check|test|assert|verify|disable|enable|skip|without)[A-Za-z0-9_]*|"
+        r"crypto|openssl|gnutls|certificate|privilege|capability|oauth|jwt|"
+        r"-fno-|-Wno-|FORTIFY_SOURCE|STACK_PROTECTOR|RELRO|NDEBUG|execstack",
+        re.IGNORECASE,
+    )
+    require(
+        not any(protected.search(value) for value in changed),
+        "The compatibility edit affects a protected concern or build control.",
+    )
+    result = original[:offset] + new + original[offset + len(old) :]
+    if edit["kind"] == "source-patch":
+        require(
+            path.endswith(".patch"),
+            "A source-patch edit must change an existing patch.",
+        )
+        prefix = str(PurePosixPath(path).parent) + "/"
+        require(
+            any(
+                name.startswith(prefix)
+                and name.endswith(".nix")
+                and f"./{PurePosixPath(path).name}" in source
+                for name, source in snapshot["files"].items()
+            ),
+            "The patch is not referenced by its local package recipe.",
+        )
+
+        def headers(text):
+            return [
+                value
+                for value in text.splitlines()
+                if value.startswith(("diff --git ", "--- ", "+++ "))
+            ]
+
+        require(
+            headers(original) == headers(result) and headers(original),
+            "A patch cannot change its source file targets.",
+        )
+        require(
+            not SENSITIVE.search("\n".join(headers(original))),
+            "The patch source target affects a protected concern.",
+        )
+        require(
+            original.count("\n@@ ") == result.count("\n@@ "),
+            "A patch cannot add or remove hunks.",
+        )
+        require(
+            not re.search(
+                r"^(?:GIT binary patch|Binary files|.*file mode|(?:old|new) mode|(?:rename|copy) (?:from|to))",
+                result,
+                re.MULTILINE,
+            ),
+            "Only text patch hunks can change.",
+        )
+        pending = None
+        seen_hunk = False
+        for value in result.splitlines():
+            if match := re.match(r"^@@ -\d+(?:,(\d+))? \+\d+(?:,(\d+))? @@", value):
+                require(pending is None, "The previous patch hunk is incomplete.")
+                pending = [int(match[1] or 1), int(match[2] or 1)]
+                seen_hunk = True
+                if pending == [0, 0]:
+                    pending = None
+            elif pending is not None:
+                if value == "\\ No newline at end of file":
+                    continue
+                require(
+                    bool(value) and value[0] in " +-", "Invalid patch hunk content."
+                )
+                pending[0] -= int(value[0] in " -")
+                pending[1] -= int(value[0] in " +")
+                require(min(pending) >= 0, "The patch hunk line counts do not match.")
+                if pending == [0, 0]:
+                    pending = None
+            elif seen_hunk and value.startswith(("+", "-", " ")):
+                require(
+                    value.startswith(("--- ", "+++ ")) or value in ("--", "-- "),
+                    "The patch has extra content outside its hunks.",
+                )
+        require(seen_hunk and pending is None, "The patch has an incomplete hunk.")
+        check = subprocess.run(
+            ["git", "apply", "--numstat", "-"],
+            input=result,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        require(check.returncode == 0, "The source patch is not a valid unified diff.")
+    else:
+        require(path.endswith(".nix"), "A package recipe edit must change a Nix file.")
+        binding = re.match(
+            r"\s*(NIX_CFLAGS_COMPILE|CFLAGS|CXXFLAGS|cmakeFlags|mesonFlags|configureFlags|makeFlags|postPatch)\s*=",
+            old,
+        )
+        require(
+            binding is not None,
+            "Only complete compiler-flag or postPatch bindings can change.",
+        )
+        key = binding[1]
+        require(
+            re.match(rf"\s*{key}\s*=", code_mask(original)[offset:]),
+            "The package binding is inside a string or comment.",
+        )
+        for text in (old, new):
+            require(
+                "${" not in text
+                and re.fullmatch(
+                    rf"\s*{key}\s*=\s*(?:\[\s*\])?\s*;\s*", code_mask(text)
+                ),
+                "The package binding must keep its name and use only literal strings.",
+            )
+    return result
 
 
 def failed_phase(record):
@@ -109,6 +275,7 @@ def prepare_records(records, sha):
     require(seen == set(TARGETS), "Diagnostics are missing for one or more targets.")
     eligible = bool(failures) and all(
         0 < failed_phase(record)["exit_code"] < 128
+        and failed_phase(record).get("infrastructure_failure") is not True
         and not INFRASTRUCTURE.search(failed_phase(record)["log"])
         for record in failures
     )
@@ -210,9 +377,12 @@ def apply_proposal(snapshot, proposal):
     require(bool(edits), "A repair must contain edits.")
     changes = {}
     locations = set()
-    logs = {
-        record["target"]: failed_phase(record)["log"] for record in snapshot["failures"]
-    }
+    compatibility_paths = set()
+    logs = {}
+    for record in [*snapshot.get("historyFailures", []), *snapshot["failures"]]:
+        logs[record["target"]] = (
+            logs.get(record["target"], "") + "\n" + failed_phase(record)["log"]
+        )
     for edit in edits:
         require(
             set(edit) == {"path", "line", "old", "new", "kind", "target", "evidence"},
@@ -220,7 +390,9 @@ def apply_proposal(snapshot, proposal):
         )
         path, line = edit["path"], edit["line"]
         require(
-            isinstance(path, str) and editable(path) and path in snapshot["files"],
+            isinstance(path, str)
+            and path in snapshot["files"]
+            and (editable(path) or package_path(path)),
             "The edit path is not allowed.",
         )
         require(
@@ -228,6 +400,38 @@ def apply_proposal(snapshot, proposal):
             "Invalid or duplicate edit location.",
         )
         locations.add((path, line))
+        if edit["kind"] in ("package-compatibility", "source-patch"):
+            require(
+                path not in changes, "Only one compatibility edit can change a file."
+            )
+            evidence = edit["evidence"]
+            require(
+                isinstance(evidence, str)
+                and 0 < len(evidence) <= 2000
+                and edit["target"] in logs
+                and evidence in logs[edit["target"]],
+                "Evidence is not in a failed build log.",
+            )
+            require(
+                re.search(
+                    r"error:|fatal error|FAILED|failed with exit|does not apply|cannot (?:find|convert)|no matching",
+                    evidence,
+                    re.IGNORECASE,
+                ),
+                "The evidence does not identify a package compatibility failure.",
+            )
+            package = PurePosixPath(path).parts[1]
+            require(
+                package.lower() in logs[edit["target"]].lower(),
+                "The failed log does not identify this local package.",
+            )
+            changes[path] = compatibility_change(snapshot, edit)
+            compatibility_paths.add(path)
+            continue
+        require(
+            editable(path) and path not in compatibility_paths,
+            "The rename path is not allowed.",
+        )
         old, new = edit["old"], edit["new"]
         require(
             isinstance(old, str) and isinstance(new, str), "Invalid attribute name."
@@ -301,7 +505,14 @@ def apply_proposal(snapshot, proposal):
         changes[path] = "".join(lines)
     require(len(changes) <= 3, "A repair can change at most three files.")
     require(
+        all(len(value.encode()) <= 65536 for value in changes.values()),
+        "A repair file exceeds the size limit.",
+    )
+    require(
         sum(len(value.encode()) for value in changes.values()) <= 196608,
         "Repair files exceed the size limit.",
     )
+    if previous := snapshot.get("previous"):
+        prior = apply_proposal({**snapshot, "previous": None}, previous["proposal"])
+        require(changes != prior, "The revised proposal repeats the previous repair.")
     return changes

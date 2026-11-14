@@ -1,10 +1,27 @@
 import { readFile, writeFile, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import {
   createAgentSession, createExtensionRuntime, ModelRuntime,
   SessionManager, SettingsManager,
 } from "@earendil-works/pi-coding-agent";
+
+export function diagnosticExcerpt(log, limit = 16000) {
+  if (log.length <= limit) return log;
+  const match = /error:|fatal error|Hunk #\d+ FAILED|FAILED|builder failed/i.exec(log);
+  const start = Math.max(0, (match?.index ?? 0) - 2000);
+  const marker = "\n[output omitted, read the diagnostic snapshot for more]\n";
+  const front = Math.floor((limit - marker.length) * 0.75);
+  return log.slice(start, start + front) + marker + log.slice(-(limit - marker.length - front));
+}
+
+export function safeError(error, apiKey = "") {
+  let message = String(error?.message ?? error);
+  if (apiKey) message = message.replaceAll(apiKey, "[redacted]");
+  return message.replace(/Bearer\s+\S+/gi, "Bearer [redacted]")
+    .replace(/\b(?:sk|tskey)-[A-Za-z0-9_-]+/g, "[redacted]")
+    .replace(/[\u0000-\u001f\u007f]/g, " ").slice(0, 2000);
+}
 
 export function snapshotTools(files, maxCalls = 40) {
   let calls = 0;
@@ -80,10 +97,12 @@ export async function diagnose(plan, output, options = {}) {
       getAppendSystemPrompt: () => [], getAppendSystemPromptSources: () => [],
       extendResources: () => {}, reload: async () => {},
     };
+    const diagnosticFiles = Object.fromEntries([...(plan.historyFailures ?? []), ...plan.failures].flatMap((record, i) =>
+      Object.entries(record.phases).map(([phase, value]) => [`diagnostics/${i}/${phase}.log`, value.log])));
     ({ session } = await createAgentSession({
       cwd: directory, agentDir: directory, modelRuntime: runtime,
       model, thinkingLevel: "medium",
-      tools: ["read_source", "search_source"], customTools: snapshotTools(plan.files), resourceLoader,
+      tools: ["read_source", "search_source"], customTools: snapshotTools({ ...plan.files, ...diagnosticFiles }), resourceLoader,
       sessionManager: SessionManager.inMemory(directory),
       settingsManager: SettingsManager.inMemory({
         compaction: { enabled: false }, retry: { enabled: false, provider: { maxRetries: 0, timeoutMs: 120000 } },
@@ -105,14 +124,16 @@ export async function diagnose(plan, output, options = {}) {
     });
     timer = setTimeout(abort, 10 * 60 * 1000);
     await session.prompt(JSON.stringify({
-      sha: plan.sha, base: plan.base, inputs: plan.inputs,
-      files: Object.keys(plan.files),
+      sha: plan.sha, base: plan.base, inputs: plan.inputs, attempt: plan.attempt ?? 1,
+      previous: plan.previous,
+      files: Object.keys(plan.files), diagnostics: Object.keys(diagnosticFiles),
       failures: plan.failures.map((record) => ({ ...record, phases: Object.fromEntries(
-        Object.entries(record.phases).map(([name, phase]) => [name, { ...phase, log: phase.log.slice(-16000) }]),
+        Object.entries(record.phases).map(([name, phase]) => [name, { ...phase, log: diagnosticExcerpt(phase.log, Math.min(16000, Math.floor(96000 / Math.max(1, plan.failures.length)))) }]),
       ) })),
     }));
     await aborting;
     const last = session.messages.filter((message) => message.role === "assistant").at(-1);
+    if (last?.stopReason === "error") throw new Error(last.errorMessage || "The model request failed.");
     if (exceeded || !last || last.stopReason !== "stop") throw new Error("The diagnosis did not complete within its limits.");
     const text = session.getLastAssistantText();
     if (!text || Buffer.byteLength(text) > 32768) throw new Error("The diagnosis exceeds the output limit.");
@@ -120,6 +141,8 @@ export async function diagnose(plan, output, options = {}) {
     if (JSON.stringify(proposal).includes(apiKey)) throw new Error("The diagnosis contains a protected credential.");
     await writeFile(output, JSON.stringify(proposal));
     console.log(`Diagnosis completed in ${turns} turns, ${tokens} reported tokens.`);
+  } catch (error) {
+    throw new Error(safeError(error, apiKey));
   } finally {
     clearTimeout(timer);
     await aborting;
@@ -131,8 +154,10 @@ export async function diagnose(plan, output, options = {}) {
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
   try {
     await diagnose(JSON.parse(await readFile(process.argv[2], "utf8")), process.argv[3]);
-  } catch {
-    console.error("Diagnosis failed. Check the model service, credential, response format, and execution limits.");
+  } catch (error) {
+    const message = safeError(error, process.env.CLIPROXYAPI_REPAIR_KEY);
+    console.error(`Diagnosis failed: ${message}`);
+    await writeFile(join(dirname(process.argv[3]), "error.json"), JSON.stringify({ stage: "diagnosis", message }));
     process.exitCode = 1;
   }
 }
