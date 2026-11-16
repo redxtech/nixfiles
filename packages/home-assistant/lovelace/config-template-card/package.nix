@@ -16,11 +16,11 @@
         in
         stdenvNoCC.mkDerivation rec {
           pname = "config-template-card";
-          version = "1.3.6";
+          version = "2.1.0";
 
           src = fetchurl {
             url = "https://github.com/iantrich/config-template-card/releases/download/${version}/config-template-card.js";
-            hash = "sha256-7O48fgoQkg6aQy3i5/H5UGrnQkJelXQdGDW71N6lbC4=";
+            hash = "sha256-RbLcNHgDkkIIE70p2KlNoP8m7jdGJo2eChhbSXqfe5c=";
           };
 
           passthru.updateScript = packageUpdateScripts.githubRelease;
