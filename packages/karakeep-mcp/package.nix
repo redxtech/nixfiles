@@ -18,11 +18,11 @@
         in
         stdenvNoCC.mkDerivation (finalAttrs: {
           pname = "karakeep-mcp";
-          version = "0.34.0";
+          version = "0.35.0";
 
           src = fetchurl {
             url = "https://registry.npmjs.org/@karakeep/mcp/-/mcp-${finalAttrs.version}.tgz";
-            hash = "sha256-8dr1XuiKExl54hT7a7NaqNsmxMhHlitJKBeUKz2hkWs=";
+            hash = "sha256-HikbE7fOCGCoJC3sk1WuNu81TMQHY/BfblWNQzSIC1k=";
           };
 
           nativeBuildInputs = [ makeWrapper ];

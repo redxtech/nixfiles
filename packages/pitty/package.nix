@@ -18,7 +18,7 @@
             ;
 
           pname = "pitty";
-          version = "0.6.54";
+          version = "0.6.57";
         in
         buildNpmPackage {
           inherit pname version;
@@ -27,10 +27,10 @@
             owner = "mistrjirka";
             repo = "PiTTy";
             tag = "v${version}";
-            hash = "sha256-mjaWDzbQCE1Lo6cXApdhTx7IVcYP8czEhlrQ1bcUi7s=";
+            hash = "sha256-iITntLhkRNV/xUmczTN4pdjQajdTQ6wb/SHVCuuLA+0=";
           };
 
-          npmDepsHash = "sha256-MOhobqxOysFpTqwKbsWt/n0/3khvNYaYbgUSwegeRmM=";
+          npmDepsHash = "sha256-d9cligmKoyZghtQQRxn0ZC9hQvG9QF+z5n03xVnWHbA=";
           npmDepsFetcherVersion = 2;
 
           nativeBuildInputs = [ makeWrapper ];
