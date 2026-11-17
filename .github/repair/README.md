@@ -55,6 +55,7 @@ model errors retain their HTTP status and error message, with the repair credent
 | `library-rename` | `lib.*` attribute reference |
 | `package-compatibility` | complete literal compiler-flag or `postPatch` binding in an existing local package recipe |
 | `source-patch` | text replacement in an existing patch referenced by its local package recipe |
+| `dependency-addition` | additive repair of an existing literal dependency list in a local package recipe |
 
 a rename requires a failed-log excerpt that explicitly suggests the replacement and names both final identifiers.
 rename candidates remain existing nix files under `modules/features/` and `packages/`.
@@ -63,15 +64,44 @@ feature activation, values, strings, and comments cannot change through a rename
 
 package compatibility edits are limited to existing files under `packages/`.
 the failed log must identify that package and contain an exact compatibility-error excerpt.
-one complete-line text block can change per compatibility file.
+multiple non-overlapping complete-line text blocks can change the same compatibility file.
+compatibility and dependency blocks can share a recipe.
+every block uses text and line numbers from the original snapshot, regardless of edit order.
+the policy rejects overlaps and files that mix renames with block edits.
 each block is at most 8,192 characters, with at most 80 changed lines.
 
 recipe bindings are limited to `NIX_CFLAGS_COMPILE`, `CFLAGS`, `CXXFLAGS`, `cmakeFlags`, `mesonFlags`, `configureFlags`, `makeFlags`, and `postPatch`.
 these bindings must retain their names and use literal strings or lists of literal strings without interpolation.
 source patches must retain their file targets and number of hunks.
-the policy checks unified-diff syntax and hunk line counts.
+the policy checks unified-diff syntax and hunk line counts for each source-patch edit.
+it checks unified-diff syntax again after it combines the blocks in a patch file.
 
-source identities, hashes, versions, dependencies, patch removal, disabled checks, weakened assertions, and security-sensitive changes remain report-only.
+dependency additions use the same file, text-block, and evidence limits as package compatibility edits.
+the supported list bindings are:
+
+| dependency type | bindings |
+| --- | --- |
+| build | `buildInputs`, `nativeBuildInputs` |
+| propagated | `propagatedBuildInputs`, `propagatedNativeBuildInputs` |
+| check | `checkInputs`, `nativeCheckInputs` |
+| runtime | `runtimeInputs` |
+| python | `dependencies`, `build-system` |
+| platform-specific | `depsBuildBuild`, `depsBuildHost`, `depsBuildTarget`, `depsHostHost`, `depsHostTarget`, `depsTargetTarget` |
+
+a dependency edit preserves the binding name, existing entries, and their order.
+it adds one to eight distinct `pkgs.*` attribute references, such as `pkgs.zstd` or `pkgs.python3Packages.setuptools`.
+a missing-dependency error must identify the local package.
+each added dependency must appear by name on a missing-dependency error line in the quoted evidence.
+that line must have the local package's nix build-log prefix, such as `cua-driver>`.
+name matching accepts a `lib` prefix and equivalent hyphens and underscores.
+references to the `dev`, `lib`, `bin`, `out`, and `static` outputs use the package name for evidence matching.
+the policy rejects security-sensitive dependencies and setup hooks.
+existing list entries must be attribute references.
+strings, comments, function calls, interpolation, conditional lists, and list concatenation are outside the permitted form.
+function arguments and `inherit` bindings cannot change.
+dependency removals, replacements, new bindings, and manifest edits remain report-only.
+
+source identities, hashes, versions, patch removal, disabled checks, weakened assertions, and security-sensitive changes remain report-only.
 the policy rejects new files and input rollbacks.
 third-party source absent from the snapshot cannot be repaired automatically.
 policy checks and successful builds do not prove semantic equivalence.

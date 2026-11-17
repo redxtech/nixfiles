@@ -30,6 +30,7 @@ automatic changes have these categories:
 - `library-rename`: rename a `lib.*` attribute reference
 - `package-compatibility`: replace a bounded text block in an existing local package nix recipe
 - `source-patch`: adapt a bounded text block in an existing patch referenced by its local package recipe
+- `dependency-addition`: add missing dependencies to an existing literal list in a local package nix recipe
 
 for a rename, quote a failed-log excerpt that explicitly suggests the replacement.
 the excerpt must name both final attribute identifiers.
@@ -38,17 +39,37 @@ preserve the value and feature activation.
 limit package compatibility edits to existing files under `packages/`.
 quote an exact compiler, configure, or patch error from a failed log.
 explain the causal connection and why the edit preserves intended behavior.
-use one complete-line text replacement per compatibility file.
-for a recipe, replace the complete literal compiler-flag or `postPatch` binding.
+use a complete-line text replacement for each compatibility or dependency edit.
+multiple non-overlapping blocks may change the same file.
+compatibility and dependency blocks may share a recipe.
+use the original snapshot's text and line numbers for every block, regardless of edit order.
+do not use text or line numbers produced by earlier edits.
+do not combine renames with block edits in the same file.
+for a `package-compatibility` recipe edit, replace the complete literal compiler-flag or `postPatch` binding.
 its `old` and `new` fields contain literal source text, including final newlines.
 the `old` block must start at `line` and occur only once in the original file.
 each block is at most 8,192 characters, with at most 80 changed lines.
 a source-patch edit must preserve its file targets and number of hunks.
 do not remove patches or add new files.
 
+for each `dependency-addition` edit, replace one complete existing literal list binding.
+permitted bindings are `buildInputs`, `nativeBuildInputs`, `propagatedBuildInputs`, `propagatedNativeBuildInputs`, `checkInputs`, `nativeCheckInputs`, `runtimeInputs`, `dependencies`, `build-system`, `depsBuildBuild`, `depsBuildHost`, `depsBuildTarget`, `depsHostHost`, `depsHostTarget`, and `depsTargetTarget`.
+preserve the binding name, existing entries, and their order.
+add one to eight distinct `pkgs.*` attribute references, such as `pkgs.zstd` or `pkgs.python3Packages.setuptools`.
+use qualified references instead of adding function arguments or `inherit` bindings.
+quote an exact missing-dependency error that identifies the local package.
+each added dependency must appear by name on a missing-dependency error line in that excerpt.
+that line must have the local package's nix build-log prefix, such as `cua-driver>`.
+the policy accepts a `lib` prefix and equivalent hyphens and underscores in diagnostic names.
+for an output such as `pkgs.zstd.dev`, the error must name `zstd`, not `dev`.
+security-sensitive packages and setup hooks remain report-only.
+strings, comments, function calls, interpolation, conditional lists, and list concatenation are not permitted in the replaced binding.
+for example, a missing `libzstd` error permits adding `pkgs.zstd` to an existing `buildInputs` list.
+
 return a report without edits for these cases:
 
-- hash, version, source identity, input, or dependency changes
+- hash, version, source identity, or flake input changes
+- dependency removals, replacements, new bindings, manifest edits, or changes outside the permitted literal lists
 - input rollbacks or third-party source that is absent from the snapshot
 - changes to secrets, permissions, authentication, networking, services, storage, or recovery
 - feature removal, disabled checks, removed tests, weakened assertions, or build-control bypasses

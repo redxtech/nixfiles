@@ -40,6 +40,40 @@ SUGGESTION = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 
+DEPENDENCY_LISTS = {
+    "buildInputs",
+    "nativeBuildInputs",
+    "propagatedBuildInputs",
+    "propagatedNativeBuildInputs",
+    "checkInputs",
+    "nativeCheckInputs",
+    "runtimeInputs",
+    "dependencies",
+    "build-system",
+    "depsBuildBuild",
+    "depsBuildHost",
+    "depsBuildTarget",
+    "depsHostHost",
+    "depsHostTarget",
+    "depsTargetTarget",
+}
+MISSING_DEPENDENCY = re.compile(
+    r"not found|no (?:package|module named)|cannot find|could not find|"
+    r"could not locate|cannot locate|missing (?:dependency|package|library|module)",
+    re.IGNORECASE,
+)
+PROTECTED_DEPENDENCY = re.compile(
+    r"auth|secret|password|token|credential|permission|polkit|sudo|ssh|firewall|network|"
+    r"wireguard|openvpn|strongswan|iptables|nftables|iproute|iputils|libpcap|tcpdump|nmap|"
+    r"tailscale|traefik|attic|sops|boot|kernel|linux|hardware|disk|filesystem|storage|"
+    r"database|postgres|mysql|sqlite|"
+    r"migration|backup|recovery|systemd|security|sandbox|hardening|insecure|"
+    r"crypto|openssl|gnutls|certificate|privilege|capability|oauth|jwt|"
+    r"fetch|runCommand|callPackage|mkDerivation|builtins|override|hook|"
+    r"make(?:Shell|Binary)?Wrapper|separateDebugInfo|setupDebugInfoDirs",
+    re.IGNORECASE,
+)
+
 
 def require(condition, message):
     if not condition:
@@ -76,6 +110,84 @@ def package_path(path):
     )
 
 
+def dependency_change(original, offset, old, new, evidence, package):
+    binding = re.compile(
+        r"(?P<head>\s*(?P<key>[A-Za-z-]+)\s*=\s*\[)(?P<body>[^\[\]]*)(?P<tail>\]\s*;\s*)\Z"
+    )
+    before, after = binding.fullmatch(old), binding.fullmatch(new)
+    require(
+        before is not None
+        and after is not None
+        and before["key"] in DEPENDENCY_LISTS
+        and before["head"] == after["head"]
+        and before["tail"] == after["tail"],
+        "Only an existing literal dependency list can change.",
+    )
+    require(
+        code_mask(original)[offset : offset + len(old)] == old,
+        "The dependency list is inside a string or comment.",
+    )
+    reference = rf"{IDENTIFIER}(?:\.{IDENTIFIER})*"
+    items = []
+    for match in (before, after):
+        require(
+            re.fullmatch(rf"\s*(?:{reference}(?:\s+{reference})*)?\s*", match["body"]),
+            "Dependency lists must contain only attribute references.",
+        )
+        items.append(match["body"].split())
+    existing, updated = items
+    remaining = iter(existing)
+    expected = next(remaining, None)
+    additions = []
+    for item in updated:
+        if item == expected:
+            expected = next(remaining, None)
+        else:
+            additions.append(item)
+    require(
+        expected is None
+        and 0 < len(additions) <= 8
+        and len(set(additions)) == len(additions)
+        and not set(additions).intersection(existing),
+        "A dependency repair must add one to eight entries without removal, replacement, reordering, or duplication.",
+    )
+    package_prefix = re.compile(rf"^\s*{re.escape(package)}>\s*", re.IGNORECASE)
+    errors = [
+        line[match.end() :]
+        for line in evidence.splitlines()
+        if (match := package_prefix.match(line))
+        and MISSING_DEPENDENCY.search(line[match.end() :])
+    ]
+    for item in additions:
+        require(
+            item.startswith("pkgs.") and not PROTECTED_DEPENDENCY.search(item),
+            "New dependencies must use unprotected pkgs attribute references.",
+        )
+        parts = item.split(".")
+        if len(parts) > 2 and parts[-1] in {"dev", "lib", "bin", "out", "static"}:
+            parts.pop()
+        name = "[-_]".join(re.escape(part) for part in re.split("[-_]", parts[-1]))
+        require(
+            any(
+                re.search(rf"(?<![\w-])(?:lib)?{name}(?![\w-])", line, re.IGNORECASE)
+                for line in errors
+            ),
+            "Each new dependency must appear in a missing-dependency error.",
+        )
+    return original[:offset] + new + original[offset + len(old) :]
+
+
+def check_patch_syntax(text):
+    check = subprocess.run(
+        ["git", "apply", "--numstat", "-"],
+        input=text,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    require(check.returncode == 0, "The source patch is not a valid unified diff.")
+
+
 def compatibility_change(snapshot, edit):
     path, old, new = edit["path"], edit["old"], edit["new"]
     require(package_path(path), "Only local package recipes and patches can change.")
@@ -106,6 +218,11 @@ def compatibility_change(snapshot, edit):
         if value.startswith(("+ ", "- "))
     ]
     require(len(changed) <= 80, "The compatibility edit changes too many lines.")
+    if edit["kind"] == "dependency-addition":
+        require(path.endswith(".nix"), "A dependency repair must change a Nix recipe.")
+        return dependency_change(
+            original, offset, old, new, edit["evidence"], PurePosixPath(path).parts[1]
+        )
     protected = re.compile(
         r"auth|secret|password|token|credential|permission|polkit|sudo|ssh|firewall|"
         r"tailscale|traefik|attic|sops|boot|kernel|hardware|filesystem|database|"
@@ -195,14 +312,7 @@ def compatibility_change(snapshot, edit):
                     "The patch has extra content outside its hunks.",
                 )
         require(seen_hunk and pending is None, "The patch has an incomplete hunk.")
-        check = subprocess.run(
-            ["git", "apply", "--numstat", "-"],
-            input=result,
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-        require(check.returncode == 0, "The source patch is not a valid unified diff.")
+        check_patch_syntax(result)
     else:
         require(path.endswith(".nix"), "A package recipe edit must change a Nix file.")
         binding = re.match(
@@ -377,7 +487,7 @@ def apply_proposal(snapshot, proposal):
     require(bool(edits), "A repair must contain edits.")
     changes = {}
     locations = set()
-    compatibility_paths = set()
+    compatibility_blocks = {}
     logs = {}
     for record in [*snapshot.get("historyFailures", []), *snapshot["failures"]]:
         logs[record["target"]] = (
@@ -400,9 +510,14 @@ def apply_proposal(snapshot, proposal):
             "Invalid or duplicate edit location.",
         )
         locations.add((path, line))
-        if edit["kind"] in ("package-compatibility", "source-patch"):
+        if edit["kind"] in (
+            "package-compatibility",
+            "source-patch",
+            "dependency-addition",
+        ):
             require(
-                path not in changes, "Only one compatibility edit can change a file."
+                path not in changes,
+                "Renames and compatibility blocks cannot share a file.",
             )
             evidence = edit["evidence"]
             require(
@@ -413,7 +528,9 @@ def apply_proposal(snapshot, proposal):
                 "Evidence is not in a failed build log.",
             )
             require(
-                re.search(
+                MISSING_DEPENDENCY.search(evidence)
+                if edit["kind"] == "dependency-addition"
+                else re.search(
                     r"error:|fatal error|FAILED|failed with exit|does not apply|cannot (?:find|convert)|no matching",
                     evidence,
                     re.IGNORECASE,
@@ -421,15 +538,30 @@ def apply_proposal(snapshot, proposal):
                 "The evidence does not identify a package compatibility failure.",
             )
             package = PurePosixPath(path).parts[1]
+            if edit["kind"] == "dependency-addition":
+                require(
+                    package.lower() in evidence.lower(),
+                    "The dependency error must identify the local package.",
+                )
             require(
                 package.lower() in logs[edit["target"]].lower(),
                 "The failed log does not identify this local package.",
             )
-            changes[path] = compatibility_change(snapshot, edit)
-            compatibility_paths.add(path)
+            compatibility_change(snapshot, edit)
+            original = snapshot["files"][path]
+            offset = sum(
+                len(value) for value in original.splitlines(keepends=True)[: line - 1]
+            )
+            end = offset + len(edit["old"])
+            blocks = compatibility_blocks.setdefault(path, [])
+            require(
+                all(end <= start or offset >= stop for start, stop, _ in blocks),
+                "Compatibility blocks cannot overlap in the original source.",
+            )
+            blocks.append((offset, end, edit["new"]))
             continue
         require(
-            editable(path) and path not in compatibility_paths,
+            editable(path) and path not in compatibility_blocks,
             "The rename path is not allowed.",
         )
         old, new = edit["old"], edit["new"]
@@ -503,6 +635,13 @@ def apply_proposal(snapshot, proposal):
         lines[line - 1], count = token.subn(new, lines[line - 1])
         require(count == 1, "The identifier is not unique on the source line.")
         changes[path] = "".join(lines)
+    for path, blocks in compatibility_blocks.items():
+        result = snapshot["files"][path]
+        for start, end, replacement in sorted(blocks, reverse=True):
+            result = result[:start] + replacement + result[end:]
+        if path.endswith(".patch"):
+            check_patch_syntax(result)
+        changes[path] = result
     require(len(changes) <= 3, "A repair can change at most three files.")
     require(
         all(len(value.encode()) <= 65536 for value in changes.values()),
