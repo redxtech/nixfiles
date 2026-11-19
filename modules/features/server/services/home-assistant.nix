@@ -308,6 +308,7 @@
             localtuya
             tuya_local
             spook
+            uix
             waste_collection_schedule
           ])
           ++ (with self'.packages; [
@@ -332,7 +333,6 @@
             multiple-entity-row
             mushroom
             template-entity-row
-            # uix
             universal-remote-card
           ])
           ++ (with self'.packages; [

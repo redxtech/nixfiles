@@ -44,7 +44,6 @@
             selfPackages.mcp-remote
             selfPackages.strava-mcp
             selfPackages.super-productivity-mcp
-            selfPackages.workspace-mcp
           ];
 
         };

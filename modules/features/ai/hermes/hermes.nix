@@ -128,7 +128,6 @@
             pkgs.mcp-nixos
             pkgs.obsidian
             selfPackages.codebase-memory-mcp
-            selfPackages.cua-driver
             selfPackages.cyber-mux
             selfPackages.docker-axi
             selfPackages.gh-axi
@@ -139,7 +138,6 @@
             selfPackages.mcp-remote
             selfPackages.strava-mcp
             selfPackages.super-productivity-mcp
-            selfPackages.workspace-mcp
             llmAgentsPackages.rtk
           ];
 
