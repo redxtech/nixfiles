@@ -1190,6 +1190,26 @@
         "type": "github"
       }
     },
+    "luciole": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795062523,
+        "narHash": "sha256-M0fW1rZWz3cVIWDtnWUx4GnnzoWOEJUa4bhfqKLyTRs=",
+        "owner": "noctalia-dev",
+        "repo": "luciole",
+        "rev": "0b37f2cc760c241ce2cf78dbdc4744f18a5b66b7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "luciole",
+        "type": "github"
+      }
+    },
     "luvit-meta": {
       "flake": false,
       "locked": {
@@ -2022,6 +2042,7 @@
         "import-tree": "import-tree",
         "keymasq": "keymasq",
         "llm-agents": "llm-agents",
+        "luciole": "luciole",
         "niri": "niri",
         "nix-autobahn": "nix-autobahn",
         "nix-flatpak": "nix-flatpak",

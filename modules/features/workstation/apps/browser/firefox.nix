@@ -56,6 +56,7 @@
                 "security.insecure_field_warning.contextual.enabled" = false;
                 "svg.context-properties.content.enabled" = true;
                 "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+                "widget.use-xdg-desktop-portal.file-picker" = 1;
 
                 "layout.frame_rate" = 144;
                 "gfx.vsync.force-disable-waitforvblank" = true;

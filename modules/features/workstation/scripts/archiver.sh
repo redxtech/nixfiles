@@ -39,9 +39,11 @@ archive_files() {
 	dir="$(dirname "$(realpath "$1")")"
 	nameNoExt="${basename%.*}"
 
-	# turn files from $@ into relative paths
-	# shellcheck disable=SC2046
-	set -- $(for file in "$@"; do relpath "$dir" "$file"; done)
+	local -a files=()
+	for file in "$@"; do
+		files+=("$(relpath "$dir" "$file")")
+	done
+	set -- "${files[@]}"
 
 	# choose name for archive
 	archive_name=$(echo "$nameNoExt" | rofi_cmd "archive filename: ")
@@ -66,7 +68,7 @@ archive_files() {
 
 	# compress files
 	pushd "$dir" >/dev/null || exit 1
-	apack "$output" "$@"
+	apack -- "$output" "$@"
 	archive_status="$?"
 	popd >/dev/null || exit 1
 

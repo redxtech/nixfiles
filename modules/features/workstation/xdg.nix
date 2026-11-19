@@ -21,9 +21,30 @@
                 "gnome"
               ];
               "org.freedesktop.impl.portal.AppChooser" = [ "gtk" ];
-              "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+              "org.freedesktop.impl.portal.FileChooser" = [
+                "luciole"
+                "gtk"
+              ];
               "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
               "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+            };
+
+            # niri's desktop-specific file takes precedence over the shared defaults
+            niri = {
+              default = [
+                "gnome"
+                "gtk"
+              ];
+              "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+              "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+              "org.freedesktop.impl.portal.Secret" = [
+                "oo7-portal"
+                "gnome-keyring"
+              ];
+              "org.freedesktop.impl.portal.FileChooser" = [
+                "luciole"
+                "gtk"
+              ];
             };
           };
         };

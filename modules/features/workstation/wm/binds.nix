@@ -42,7 +42,10 @@
               ];
 
               "Mod+W".action.spawn = lib.getExe config.programs.firefox.package;
-              "Mod+G".action.spawn = lib.getExe pkgs.nemo-with-extensions;
+              "Mod+G".action.spawn = [
+                (lib.getExe' pkgs.xdg-utils "xdg-open")
+                config.home.homeDirectory
+              ];
               "Mod+N".action.spawn = [
                 (lib.getExe config.programs.obsidian.package)
                 "eval"

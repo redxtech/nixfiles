@@ -72,6 +72,10 @@
     import-tree.url = "github:denful/import-tree";
     keymasq.url = "github:nyrda/keymasq";
     llm-agents.url = "github:numtide/llm-agents.nix";
+    luciole = {
+      url = "github:noctalia-dev/luciole";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     niri.url = "github:epireyn/niri-flake";
     nix-autobahn = {
       url = "github:lassulus/nix-autobahn";

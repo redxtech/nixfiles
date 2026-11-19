@@ -76,6 +76,7 @@
             # "qcomicbook.desktop"
           ];
           "inode/directory" = [
+            "dev.noctalia.luciole.desktop"
             "nemo.desktop"
             "thunar.desktop"
             "ranger.desktop"
@@ -96,7 +97,7 @@
             video = [ "mpv.desktop" ];
           in
           {
-            "inode/directory" = [ "nemo.desktop" ];
+            "inode/directory" = [ "dev.noctalia.luciole.desktop" ];
             "image/jpeg" = image;
             "image/png" = image;
             "image/gif" = image;

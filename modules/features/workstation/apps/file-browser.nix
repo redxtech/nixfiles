@@ -6,8 +6,9 @@
       default = true;
     };
 
-    nixos = { host, ... }: {
+    nixos = { host, inputs', ... }: {
       services.tumbler.enable = true;
+      xdg.portal.extraPortals = [ inputs'.luciole.packages.default ];
 
       # xdce config for thunar
       programs.xfconf.enable = host.settings.file-browser.enableThunar;
@@ -15,6 +16,7 @@
 
     homeManager =
       {
+        inputs',
         host,
         config,
         pkgs,
@@ -311,7 +313,88 @@
               ];
             }
           ))
+
+          # luciole config
+          {
+            home.packages = [ inputs'.luciole.packages.default ];
+
+            xdg.dataFile =
+              let
+                scripts = config.scripts.scripts;
+                notify = lib.getExe pkgs.libnotify;
+                mkAction =
+                  name:
+                  {
+                    command,
+                    multiple ? false,
+                    allowDirectories ? false,
+                  }:
+                  lib.nameValuePair "luciole/scripts/${name}" {
+                    source = lib.getExe (
+                      pkgs.writeShellApplication {
+                        name = "luciole-${lib.strings.sanitizeDerivationName name}";
+                        text = ''
+                          if [ "$#" ${if multiple then "-lt" else "-ne"} 1 ]; then
+                            ${notify} -- "${name}" "${
+                              if multiple then "Select at least one file or folder." else "Select exactly one file."
+                            }"
+                            exit 1
+                          fi
+
+                          for path in "$@"; do
+                            if [ ! -f "$path" ]${lib.optionalString allowDirectories ''&& [ ! -d "$path" ]''}; then
+                              ${notify} -- "${name}" "${
+                                if allowDirectories then "Select a file or folder that exists." else "Select a regular file."
+                              }"
+                              exit 1
+                            fi
+                          done
+
+                          exec ${command} "$@"
+                        '';
+                      }
+                    );
+                  };
+              in
+              lib.mapAttrs' mkAction {
+                "Convert Image" = {
+                  command = lib.getExe scripts.convert-image;
+                };
+                "Create Archive" = {
+                  command = lib.getExe scripts.archiver;
+                  multiple = true;
+                  allowDirectories = true;
+                };
+                "Unpack Archive".command = lib.getExe scripts.unarchiver;
+                "Encode Video" = {
+                  command = lib.getExe scripts.encoder;
+                };
+                "Clam Scan" = {
+                  command = "${term} --app-id footclient_float --hold -- ${lib.getExe' pkgs.clamav "clamscan"} --recursive --";
+                  multiple = true;
+                  allowDirectories = true;
+                };
+                "Show Mediainfo" = {
+                  command = "${term} --app-id footclient_float --hold -- ${lib.getExe pkgs.mediainfo} --";
+                };
+              }
+              // {
+                "dbus-1/services/org.freedesktop.FileManager1.service".source =
+                  "${inputs'.luciole.packages.default}/share/dbus-1/services/dev.noctalia.luciole.FileManager1.service";
+              };
+
+            # reuse noctalia's stylix palette so derived color roles stay identical
+            programs.noctalia.settings.theme.templates.user.luciole = {
+              input_path = "${inputs'.luciole.packages.default}/share/luciole/templates/colors.toml";
+              output_path = "${config.xdg.configHome}/luciole/colors.toml";
+            };
+          }
         ]
       );
+  };
+
+  flake-file.inputs.luciole = {
+    url = "github:noctalia-dev/luciole";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
 }
