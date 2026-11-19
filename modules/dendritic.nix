@@ -15,8 +15,8 @@
     };
   };
 
-  # import packages as well as modules
+  # keep package and script modules beside their implementations
   flake-file.outputs = ''
-    inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree [ ./modules ./packages ])
+    inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree [ ./modules ./packages ./scripts ])
   '';
 }
