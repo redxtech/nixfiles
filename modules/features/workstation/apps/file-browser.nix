@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ inputs, lib, ... }:
 
 {
   den.aspects.file-browser = {
@@ -16,19 +16,20 @@
 
     homeManager =
       {
-        inputs',
         host,
         config,
         pkgs,
         lib,
         ...
       }:
-      lib.mkMerge (
-        let
-          term = lib.getExe' pkgs.foot "footclient";
-          termFloat = "${term} --class footclient_float";
-        in
-        [
+      let
+        term = lib.getExe' pkgs.foot "footclient";
+        termFloat = "${term} --class footclient_float";
+      in
+      {
+        imports = [ inputs.luciole.homeModules.default ];
+
+        config = lib.mkMerge [
           # nemo config
           {
             home.packages = with pkgs; [
@@ -316,7 +317,7 @@
 
           # luciole config
           {
-            home.packages = [ inputs'.luciole.packages.default ];
+            programs.luciole.enable = true;
 
             xdg.dataFile =
               let
@@ -380,17 +381,17 @@
               }
               // {
                 "dbus-1/services/org.freedesktop.FileManager1.service".source =
-                  "${inputs'.luciole.packages.default}/share/dbus-1/services/dev.noctalia.luciole.FileManager1.service";
+                  "${config.programs.luciole.package}/share/dbus-1/services/dev.noctalia.luciole.FileManager1.service";
               };
 
             # reuse noctalia's stylix palette so derived color roles stay identical
             programs.noctalia.settings.theme.templates.user.luciole = {
-              input_path = "${inputs'.luciole.packages.default}/share/luciole/templates/colors.toml";
+              input_path = "${config.programs.luciole.package}/share/luciole/templates/colors.toml";
               output_path = "${config.xdg.configHome}/luciole/colors.toml";
             };
           }
-        ]
-      );
+        ];
+      };
   };
 
   flake-file.inputs.luciole.url = "github:noctalia-dev/luciole";
