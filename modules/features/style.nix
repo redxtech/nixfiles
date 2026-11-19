@@ -15,13 +15,25 @@
     in
     {
       nixos =
-        { pkgs, self', ... }:
+        {
+          self',
+          lib,
+          pkgs,
+          ...
+        }:
         {
           imports = [ inputs.stylix.nixosModules.stylix ];
 
           stylix = {
             enable = true;
-            base16Scheme = "${pkgs.base16-schemes}/share/themes/dracula.yaml";
+            base16Scheme =
+              let
+                yaml = builtins.readFile "${inputs.stylix.inputs.tinted-schemes}/base24/dracula.yaml";
+                lines = lib.splitString "\n" yaml;
+                # the pinned YAML parser cannot handle indented comment-only lines
+                withoutCommentLines = builtins.filter (line: builtins.match "[[:space:]]*#.*" line == null) lines;
+              in
+              builtins.toFile "dracula.yaml" (lib.concatStringsSep "\n" withoutCommentLines);
             polarity = "dark";
 
             cursor = {

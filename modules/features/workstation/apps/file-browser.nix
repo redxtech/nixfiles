@@ -393,8 +393,5 @@
       );
   };
 
-  flake-file.inputs.luciole = {
-    url = "github:noctalia-dev/luciole";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+  flake-file.inputs.luciole.url = "github:noctalia-dev/luciole";
 }

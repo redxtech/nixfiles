@@ -21,7 +21,20 @@
                 size = toString fonts.sizes.terminal;
               in
               lib.mkForce "${fonts.monospace.name}:size=${size}, Symbols Nerd Font:size=${size}";
-            colors-dark.alpha-mode = "matching";
+            colors-dark =
+              let
+                colors = config.lib.stylix.colors;
+              in
+              {
+                alpha-mode = "matching";
+                # stylix assigns normal colors to these bright-color slots
+                bright1 = lib.mkForce colors.base12;
+                bright2 = lib.mkForce colors.base14;
+                bright3 = lib.mkForce colors.base13;
+                bright4 = lib.mkForce colors.base16;
+                bright5 = lib.mkForce colors.base17;
+                bright6 = lib.mkForce colors.base15;
+              };
             scrollback.lines = 10000;
             cursor = {
               style = "beam";
@@ -120,7 +133,8 @@
             shellIntegration.enableFishIntegration = true;
             shellIntegration.mode = "enabled";
 
-            extraConfig = ''
+            # keep bright-color overrides after stylix's theme include
+            extraConfig = lib.mkAfter ''
               # Nerd Fonts v3.2.0
               symbol_map U+e000-U+e00a,U+ea60-U+ebeb,U+e0a0-U+e0c8,U+e0ca,U+e0cc-U+e0d7,U+e200-U+e2a9,U+e300-U+e3e3,U+e5fa-U+e6b1,U+e700-U+e7c5,U+ed00-U+efc1,U+f000-U+f2ff,U+f000-U+f2e0,U+f300-U+f372,U+f400-U+f533,U+f0001-U+f1af0 Symbols Nerd Font Mono
 
@@ -135,6 +149,13 @@
               map kitty_mod+h kitty_scrollback_nvim                                                                                                                 # browse scrollback buffer in nvim
               map kitty_mod+g kitty_scrollback_nvim --config ksb_builtin_last_cmd_output                                                                            # browse output of the last shell command in nvim
               mouse_map ctrl+shift+right press ungrabbed combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output # show clicked command output in nvim
+
+              color9 ${colors.base12}
+              color10 ${colors.base14}
+              color11 ${colors.base13}
+              color12 ${colors.base16}
+              color13 ${colors.base17}
+              color14 ${colors.base15}
             '';
           };
 

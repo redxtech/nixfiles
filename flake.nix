@@ -72,10 +72,7 @@
     import-tree.url = "github:denful/import-tree";
     keymasq.url = "github:nyrda/keymasq";
     llm-agents.url = "github:numtide/llm-agents.nix";
-    luciole = {
-      url = "github:noctalia-dev/luciole";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    luciole.url = "github:noctalia-dev/luciole";
     niri.url = "github:epireyn/niri-flake";
     nix-autobahn = {
       url = "github:lassulus/nix-autobahn";
@@ -89,18 +86,6 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst";
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
-    pyproject-build-systems = {
-      url = "github:pyproject-nix/build-system-pkgs";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        pyproject-nix.follows = "pyproject-nix";
-        uv2nix.follows = "uv2nix";
-      };
-    };
-    pyproject-nix = {
-      url = "github:pyproject-nix/pyproject.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -120,13 +105,6 @@
     tu = {
       url = "github:redxtech/tu";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    uv2nix = {
-      url = "github:pyproject-nix/uv2nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        pyproject-nix.follows = "pyproject-nix";
-      };
     };
     xremap = {
       url = "github:xremap/nix-flake";
