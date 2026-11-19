@@ -17,6 +17,7 @@
         libxtst
         pipewire
         pkg-config
+        zstd
         ;
 
       pname = "cua-driver";
@@ -55,6 +56,7 @@
           libxkbcommon
           libxtst
           pipewire
+          zstd
         ];
 
         doCheck = false;

@@ -55,6 +55,20 @@
 
         services.hermes-agent = {
           enable = true;
+          # upstream's header-overlap patch targets newer patchelf, not nixpkgs' 0.15.2
+          package = inputs'.hermes-agent.packages.default.override (
+            previous:
+            lib.optionalAttrs (lib.versionOlder pkgs.patchelf.version "0.18") {
+              pmPackages = lib.mapAttrs (
+                _: package:
+                package.overrideAttrs (old: {
+                  nativeBuildInputs = map (
+                    input: if (input.pname or "") == "patchelf" then pkgs.patchelf else input
+                  ) old.nativeBuildInputs;
+                })
+              ) previous.pmPackages;
+            }
+          );
           workingDirectory = "${config.home.homeDirectory}/Documents/personal";
           extraArgs = [
             "run"
