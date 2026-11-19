@@ -16,6 +16,10 @@
   # enable hm by default
   den.schema.user.classes = lib.mkDefault [ "homeManager" ];
 
-  # host<->user provides
-  den.schema.user.includes = [ den._.mutual-provider ];
+  # preserve user-to-host content without den's transition defaults
+  den.schema.host.includes = [
+    den.batteries.user-aspects
+    den.batteries.mutual-provider
+  ];
+  den.migrations.user-host-content.acknowledged = true;
 }
