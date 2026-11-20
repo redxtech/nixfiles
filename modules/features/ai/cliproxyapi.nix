@@ -52,7 +52,11 @@
             enable = true;
             openFirewall = false;
             settings = {
-              access.api-keys = [ { _secret = config.sops.secrets.cliproxyapi_api_key.path; } ];
+              access.api-keys = [
+                { _secret = config.sops.secrets.cliproxyapi_api_key.path; }
+                { _secret = config.sops.secrets.cliproxyapi_api_key_nixfiles_secretspec.path; }
+                { _secret = config.sops.secrets.cliproxyapi_api_key_gh_repair.path; }
+              ];
               server.port = 8317;
               logging-to-file = true;
               usage-statistics-enabled = true;
@@ -81,6 +85,8 @@
 
           sops.secrets = {
             cliproxyapi_api_key = secret;
+            cliproxyapi_api_key_nixfiles_secretspec = secret;
+            cliproxyapi_api_key_gh_repair = secret;
             cliproxyapi_management_key = secret;
           };
         };
