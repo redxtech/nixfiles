@@ -10,4 +10,29 @@ window_rules = [
     { field = "title", pattern = "RoboQuest" },
 ]
 
-[devices]
+[devices."046d:4085"]
+always_grab_all = false
+
+[devices."046d:4085".mapping.key_f13]
+action = "keyboard"
+target = "key_e"
+
+[devices."046d:4085".mapping.key_f14]
+action = "keyboard"
+target = "key_q"
+
+[devices."046d:4085".mapping.key_f16]
+action = "keyboard"
+target = "key_f"
+
+[devices."046d:4085".mapping.key_f17]
+action = "keyboard"
+target = "key_r"
+
+[devices."046d:4085".mapping.key_f18]
+action = "mpris"
+command = "play_pause"
+
+[devices."046d:4085".mapping.key_f19]
+action = "keyboard"
+target = "key_tab"
