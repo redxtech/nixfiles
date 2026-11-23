@@ -59,7 +59,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`mcp-remote`](packages/mcp-remote/package.nix) | `0.16.6` | Remote proxy for Model Context Protocol clients | [source](https://github.com/geelen/mcp-remote) |
 | [`minicava`](packages/minicava/package.nix) | `0-unstable-2023-01-28` | A miniature cava sound visualizer | [source](https://github.com/Misterio77/minicava) |
 | [`moondeck-buddy`](packages/moondeck-buddy/package.nix) | `1.11.0` | Helper to work with moonlight on a steamdeck | [source](https://github.com/FrogTheFrog/moondeck-buddy) |
-| [`moshi`](packages/moshi/package.nix) | `0.4.55` | Daemon and CLI that bridges AI coding agents to the Moshi mobile app | [source](https://getmoshi.app) |
+| [`moshi`](packages/moshi/package.nix) | `0.4.64` | Daemon and CLI that bridges AI coding agents to the Moshi mobile app | [source](https://getmoshi.app) |
 | [`nix-inspect`](packages/nix-inspect/package.nix) | `unversioned` | lists the nix store packages represented in the current PATH | — |
 | [`papra-cli`](packages/papra-cli/package.nix) | `0.2.6` | Command-line interface for the Papra document management platform | [source](https://github.com/papra-hq/papra) |
 | [`pg-axi`](packages/axi/package.nix) | `0.1.2` | Agent-facing PostgreSQL CLI for safe, token-efficient workflows | [source](https://github.com/thatdudealso/pg-axi) |
@@ -73,7 +73,7 @@ the workstation configuration uses niri, noctalia, fish, neovim, foot, firefox n
 | [`strava-mcp`](packages/strava-mcp/package.nix) | `1.2.1` | MCP server for the Strava API | [source](https://github.com/r-huijts/strava-mcp) |
 | [`super-productivity-mcp`](packages/super-productivity-mcp/package.nix) | `1.8.0` | MCP server for managing Super Productivity through AI assistants | [source](https://github.com/b0x42/Super-Productivity-MCP) |
 | [`sysdvr`](packages/sysdvr/package.nix) | `6.3` | Nintendo Switch game streaming client | [source](https://github.com/exelix11/SysDVR) |
-| [`voxtype-full`](packages/voxtype-full/package.nix) | `1.2.2` | Push-to-talk voice-to-text for Wayland | [source](https://github.com/peteonrails/voxtype) |
+| [`voxtype-full`](packages/voxtype-full/package.nix) | `1.3.1` | Push-to-talk voice-to-text for Wayland | [source](https://github.com/peteonrails/voxtype) |
 | [`wt-herdr`](packages/wt-herdr/package.nix) | `0-unstable-2026-06-14` | herdr agent orchestration for worktrunk worktrees | [source](https://github.com/mattarau/wt-herdr) |
 
 <details>
