@@ -7,7 +7,26 @@
       ...
     }:
     let
-      nixUpdate = extraArgs: pkgs.nix-update-script { extraArgs = [ "--flake" ] ++ extraArgs; };
+      nixUpdatePackage =
+        if pkgs.nix-update.version == "1.16.0" then
+          pkgs.nix-update.overrideAttrs (oldAttrs: {
+            # nix 2.35 no longer copies the flake to the store on metadata lookup
+            patches = (oldAttrs.patches or [ ]) ++ [
+              (pkgs.fetchpatch {
+                url = "https://github.com/Mic92/nix-update/commit/dcef4fdd7edbd9ef83c701e5d92a3df81fbd0e33.patch";
+                hash = "sha256-uNOfiYbLAm/0Ret2nUQ3Wxd1IoOsclRbF11z2gGx0vM=";
+              })
+            ];
+          })
+        else
+          pkgs.nix-update;
+      nixUpdate =
+        extraArgs:
+        [
+          (lib.getExe nixUpdatePackage)
+          "--flake"
+        ]
+        ++ extraArgs;
       packageUpdateScripts = {
         githubRelease = nixUpdate [ "--use-github-releases" ];
         githubReleaseWithRegex =
@@ -30,7 +49,7 @@
               runtimeInputs = [
                 pkgs.curl
                 pkgs.jq
-                pkgs.nix-update
+                nixUpdatePackage
               ];
               text = ''
                 version="$(

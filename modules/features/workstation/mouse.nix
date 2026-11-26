@@ -1,11 +1,20 @@
-{ den, ... }:
+{ den, self, ... }:
 
 {
   den.aspects.mouse = {
     includes = [ den.aspects.keymasq ];
 
     nixos = {
+      imports = [ self.nixosModules.mouse-debounce ];
+
       services.ratbagd.enable = true;
+
+      services.mouse-debounce = {
+        enable = true;
+        # filter only the G604 passthrough without taking its input from keymasq
+        devicePhys = "keymasq/passthrough/046d:4085/if02_mouse";
+        settings.buttons."273" = 50;
+      };
 
       programs.solaar = {
         enable = true;

@@ -1,0 +1,287 @@
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -226,13 +226,46 @@
+     is_debounced: bool,
+ }
+
+-#[derive(Clone, Copy)]
+-struct ButtonState {
+-    logical_state: bool,
+-    physical_state: bool,
+-    press_lockout_until: Option<Instant>,
+-    release_deadline: Option<Instant>,
+-    pending_release: bool,
++struct ButtonStates {
++    pressed: Vec<bool>,
++    release_deadlines: HashMap<usize, Instant>,
++}
++
++impl ButtonStates {
++    fn new(count: usize) -> Self {
++        Self {
++            pressed: vec![false; count],
++            release_deadlines: HashMap::new(),
++        }
++    }
++
++    fn press(&mut self, code: usize) -> bool {
++        self.release_deadlines.remove(&code);
++        !std::mem::replace(&mut self.pressed[code], true)
++    }
++
++    fn release(&mut self, code: usize, now: Instant, dur: Duration) {
++        if self.pressed[code] {
++            // duplicate release events do not interrupt a continuous release
++            self.release_deadlines
++                .entry(code)
++                .or_insert_with(|| deadline_after(now, dur));
++        }
++    }
++
++    fn drain_due(&mut self, now: Instant) -> Vec<(Instant, usize)> {
++        let mut due = Vec::new();
++        self.release_deadlines.retain(|&code, deadline| {
++            if now < *deadline {
++                return true;
++            }
++            self.pressed[code] = false;
++            due.push((*deadline, code));
++            false
++        });
++        due.sort_unstable();
++        due
++    }
+ }
+
+ struct RunParams<'a> {
+@@ -327,16 +360,7 @@
+             .skip(0x100)
+             .for_each(|c| c.is_debounced = true);
+     }
+-    let mut btn_states = vec![
+-        ButtonState {
+-            logical_state: false,
+-            physical_state: false,
+-            press_lockout_until: None,
+-            release_deadline: None,
+-            pending_release: false,
+-        };
+-        table_size
+-    ];
++    let mut btn_states = ButtonStates::new(table_size);
+
+     if let Some(cfg_buttons) = p.cfg_buttons {
+         for (code_str, &ms) in cfg_buttons {
+@@ -408,15 +432,11 @@
+     });
+
+     let mut emit_buffer: Vec<InputEvent> = Vec::with_capacity(64);
+-    let mut pending_codes: Vec<usize> = Vec::with_capacity(16);
+
+     loop {
+         let now = Instant::now();
+
+-        let next_deadline = pending_codes
+-            .iter()
+-            .filter_map(|&code| btn_states[code].release_deadline)
+-            .min();
++        let next_deadline = btn_states.release_deadlines.values().min();
+
+         let timeout = next_deadline.map(|nd| nd.saturating_duration_since(now));
+
+@@ -436,36 +456,14 @@
+         // Drain-before-fresh: an already-expired release must hit the wire
+         // before events that arrived in the same tick. Sorted by deadline so
+         // heterogeneous per-button windows emit in deadline order.
+-        let mut due: Vec<(Instant, usize)> = pending_codes
+-            .iter()
+-            .filter_map(|&code| {
+-                btn_states[code]
+-                    .release_deadline
+-                    .map(|dl| (dl, code))
+-            })
+-            .filter(|(dl, _)| now >= *dl)
+-            .collect();
+-        due.sort();
+-        let mut emitted_deferred = false;
++        let due = btn_states.drain_due(now);
++        let emitted_deferred = !due.is_empty();
+         for (_, code) in due {
+-            let dur = btn_configs[code].debounce_dur;
+-            let state = &mut btn_states[code];
+-            if !state.physical_state && state.logical_state {
+-                state.logical_state = false;
+-                emit_buffer.push(now_event(EventType::KEY.0, code as u16, 0));
+-                emitted_deferred = true;
+-                // Trailing-edge guard: the press lockout anchored at press time
+-                // always expired before this release fired, leaving a phantom
+-                // window. Re-anchor it here.
+-                state.press_lockout_until = Some(deadline_after(now, dur));
+-                if p.verbose {
+-                    eprintln!("Emitted deferred RELEASE BTN={code}");
+-                }
++            emit_buffer.push(now_event(EventType::KEY.0, code as u16, 0));
++            if p.verbose {
++                eprintln!("Emitted deferred RELEASE BTN={code}");
+             }
+-            state.release_deadline = None;
+-            state.pending_release = false;
+         }
+-        pending_codes.retain(|&code| btn_states[code].release_deadline.is_some());
+         if emitted_deferred {
+             emit_buffer.push(now_event(
+                 EventType::SYNCHRONIZATION.0,
+@@ -482,55 +480,13 @@
+                         let value = ev.value();
+
+                         if code < table_size && btn_configs[code].is_debounced {
+-                            let config = &btn_configs[code];
+-                            let state = &mut btn_states[code];
+-
+-                            state.physical_state = value != 0;
+-
+-                            if state.physical_state {
+-                                // Bounded release: chatter while a release is
+-                                // pending must not cancel/extend it. Swallow
+-                                // the edge and let the expiry guard decide on
+-                                // sampled physical state. A genuine re-hold
+-                                // (physical==1 at expiry) suppresses the
+-                                // release and clears the deadline there.
+-                                if state.logical_state && state.release_deadline.is_some() {
+-                                    continue;
+-                                }
+-                                state.release_deadline = None;
+-
+-                                let lockout_over = state
+-                                    .press_lockout_until
+-                                    .map(|t| now >= t)
+-                                    .unwrap_or(true);
+-
+-                                if !state.logical_state && lockout_over {
+-                                    state.logical_state = true;
+-                                    state.press_lockout_until =
+-                                        Some(deadline_after(now, config.debounce_dur));
+-                                    if value == 2 {
+-                                        emit_buffer.push(now_event(
+-                                            EventType::KEY.0,
+-                                            code as u16,
+-                                            1,
+-                                        ));
+-                                    } else {
+-                                        emit_buffer.push(ev);
+-                                    }
+-                                } else if p.verbose && !lockout_over && !state.logical_state {
+-                                    eprintln!("Blocked bounce on PRESS BTN={code}");
+-                                }
+-                            } else if state.logical_state {
+-                                // First-release-wins: re-arming on every edge
+-                                // lets sub-window chatter slide the deadline
+-                                // forever. Keep the original deadline.
+-                                if state.release_deadline.is_none() {
+-                                    state.release_deadline =
+-                                        Some(deadline_after(now, config.debounce_dur));
+-                                    if !state.pending_release {
+-                                        state.pending_release = true;
+-                                        pending_codes.push(code);
+-                                    }
++                            if value == 0 {
++                                btn_states.release(code, now, btn_configs[code].debounce_dur);
++                            } else if btn_states.press(code) {
++                                if value == 2 {
++                                    emit_buffer.push(now_event(EventType::KEY.0, code as u16, 1));
++                                } else {
++                                    emit_buffer.push(ev);
+                                 }
+                             }
+                         } else {
+@@ -546,8 +502,8 @@
+                 // Best-effort release flush: the compositor saw our presses on
+                 // this virt node; never leave it stuck down across teardown.
+                 let mut flush: Vec<InputEvent> = Vec::new();
+-                for (code, state) in btn_states.iter().enumerate() {
+-                    if state.logical_state {
++                for (code, &pressed) in btn_states.pressed.iter().enumerate() {
++                    if pressed {
+                         flush.push(now_event(EventType::KEY.0, code as u16, 0));
+                     }
+                 }
+@@ -563,17 +519,6 @@
+             }
+         }
+
+-        // Reap stale entries left by press-cancel races (deadline None) so the
+-        // next min() computation never sees them.
+-        pending_codes.retain(|&code| {
+-            if btn_states[code].release_deadline.is_none() {
+-                btn_states[code].pending_release = false;
+-                false
+-            } else {
+-                true
+-            }
+-        });
+-
+         // Swallowed bounces still forward their frame SYN; drop SYN-only noise
+         // so fully-suppressed clicks emit nothing.
+         if !emitted_deferred
+@@ -654,4 +599,59 @@
+             break;
+         }
+     }
+-}
+\ No newline at end of file
++}
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    const WINDOW: Duration = Duration::from_millis(50);
++
++    #[test]
++    fn accepts_double_click_at_or_after_release_deadline() {
++        let start = Instant::now();
++        let release = start + Duration::from_millis(10);
++        for gap in [50, 62, 75, 81, 86, 88] {
++            let mut buttons = ButtonStates::new(1);
++            assert!(buttons.press(0));
++            buttons.release(0, release, WINDOW);
++            assert_eq!(
++                buttons.drain_due(release + Duration::from_millis(gap)),
++                [(release + WINDOW, 0)]
++            );
++            assert!(buttons.press(0));
++        }
++    }
++
++    #[test]
++    fn repress_cancels_release_until_a_full_uninterrupted_window() {
++        let start = Instant::now();
++        let at = |ms| start + Duration::from_millis(ms);
++        let mut buttons = ButtonStates::new(1);
++        assert!(buttons.press(0));
++        buttons.release(0, at(10), WINDOW);
++        assert!(buttons.drain_due(at(51)).is_empty());
++        assert!(!buttons.press(0));
++        buttons.release(0, at(55), WINDOW);
++        assert!(buttons.drain_due(at(70)).is_empty());
++        buttons.release(0, at(100), WINDOW);
++        assert!(buttons.drain_due(at(104)).is_empty());
++        assert_eq!(buttons.drain_due(at(105)), [(at(105), 0)]);
++        assert!(buttons.drain_due(at(200)).is_empty());
++    }
++
++    #[test]
++    fn buttons_drain_independently_in_deadline_order() {
++        let start = Instant::now();
++        let mut buttons = ButtonStates::new(3);
++        for (code, ms) in [(0, 50), (1, 40), (2, 10)] {
++            assert!(buttons.press(code));
++            buttons.release(code, start, Duration::from_millis(ms));
++        }
++        assert!(!buttons.press(2));
++        assert_eq!(
++            buttons.drain_due(start + WINDOW),
++            [(start + Duration::from_millis(40), 1), (start + WINDOW, 0)]
++        );
++        assert!(!buttons.press(2));
++    }
++}
