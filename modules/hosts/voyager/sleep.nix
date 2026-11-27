@@ -1,6 +1,6 @@
 {
   den.aspects.voyager-sleep = {
-    nixos = {
+    nixos = { pkgs, ... }: {
       services.logind.settings.Login = {
         # the session observer routes managed events, with fail-closed native fallbacks
         HandleLidSwitch = "ignore";
@@ -15,7 +15,32 @@
         AllowHibernation = true;
         AllowSuspendThenHibernate = true;
         HibernateDelaySec = "30min";
-        HibernateOnACPower = false;
+        HibernateOnACPower = true;
+      };
+
+      # systemd has one hibernation delay, so select it when native sleep starts
+      systemd.services.systemd-suspend-then-hibernate = {
+        preStart = ''
+          delay=30min
+          if ${pkgs.systemd}/bin/systemd-ac-power; then
+            delay=2h
+          else
+            status=$?
+            if [ "$status" -ne 1 ]; then
+              exit "$status"
+            fi
+          fi
+          directory=/run/systemd/sleep.conf.d
+          ${pkgs.coreutils}/bin/install -d -m 0755 "$directory"
+          temporary=$(${pkgs.coreutils}/bin/mktemp "$directory/.voyager.XXXXXX")
+          trap '${pkgs.coreutils}/bin/rm -f "$temporary"' EXIT
+          printf '[Sleep]\nHibernateDelaySec=%s\n' "$delay" > "$temporary"
+          ${pkgs.coreutils}/bin/chmod 0644 "$temporary"
+          ${pkgs.coreutils}/bin/mv -f "$temporary" "$directory/90-voyager.conf"
+        '';
+        postStop = ''
+          ${pkgs.coreutils}/bin/rm -f /run/systemd/sleep.conf.d/90-voyager.conf
+        '';
       };
     };
 
@@ -69,13 +94,22 @@
         programs.noctalia.settings = {
           hooks.started = lib.mkAfter [ "systemctl --user restart voyager-sleep.service" ];
 
-          # replace only voyager's shared idle action and preserve the lock/display timers
-          idle.behavior.lock-and-suspend = lib.mkForce {
-            action = "command";
-            command = "${command} idle-threshold";
-            enabled = true;
-            resume_command = "${command} active";
-            timeout = 1795.0;
+          # keep the battery threshold latched while AC waits for its longer timeout
+          idle.behavior = {
+            lock-and-suspend = lib.mkForce {
+              action = "command";
+              command = "${command} idle-threshold";
+              enabled = true;
+              resume_command = "${command} active";
+              timeout = 1795.0;
+            };
+            ac-suspend = {
+              action = "command";
+              command = "${command} idle-threshold --ac";
+              enabled = true;
+              resume_command = "${command} active";
+              timeout = 3595.0;
+            };
           };
 
           shell.session.power.suspend = "${command} request manual";

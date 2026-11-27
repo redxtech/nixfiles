@@ -461,30 +461,38 @@ class IdleLatch:
     def __init__(self, directory: Path) -> None:
         self.path, self.lock = directory / "idle.json", directory / "idle.lock"
 
-    def update(self, session: str, idle: bool, order: int) -> None:
+    def update(self, session: str, threshold: int, order: int) -> None:
         # callbacks overlap, so a delayed idle callback must not overwrite newer activity
         descriptor = os.open(self.lock, os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)
         with os.fdopen(descriptor, "r+") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX)
             if self.path.exists():
                 previous = json.loads(self.path.read_text())
-                if previous.get("session") == session and previous["order"] > order:
-                    return
+                if previous.get("session") == session:
+                    if previous["order"] > order:
+                        return
+                    if threshold:
+                        threshold = max(threshold, previous.get("threshold", 0))
             with tempfile.NamedTemporaryFile(
                 mode="w", dir=self.path.parent, delete=False
             ) as output:
                 temporary = Path(output.name)
-                json.dump({"session": session, "idle": idle, "order": order}, output)
+                json.dump(
+                    {"session": session, "threshold": threshold, "order": order}, output
+                )
             try:
                 temporary.replace(self.path)
             finally:
                 temporary.unlink(missing_ok=True)
 
-    def reached(self, session: str) -> bool:
-        if not self.path.exists():
+    def reached(self, session: str, power: str) -> bool:
+        if power not in {"battery", "ac"} or not self.path.exists():
             return False
         value = json.loads(self.path.read_text())
-        return value.get("session") == session and value.get("idle") is True
+        threshold = 2 if power == "ac" else 1
+        return (
+            value.get("session") == session and value.get("threshold", 0) >= threshold
+        )
 
 
 class Admission:
@@ -533,7 +541,7 @@ class Worker:
     def eligible(self, trigger: Trigger, session: str) -> bool:
         power, lid, docked = self.native.hardware()
         if trigger == Trigger.IDLE:
-            return power == "battery" and self.latch.reached(session)
+            return self.latch.reached(session, power)
         if trigger == Trigger.LID:
             return power == "battery" and lid is True and docked is False
         return True
@@ -692,17 +700,13 @@ class Observer:
     def hardware_change(self) -> None:
         current = self.native.hardware()
         previous, self.previous = self.previous, current
-        if (
-            current[0] == "battery"
-            and previous[0] != "battery"
-            and self.latch.reached(self.session)
-        ):
+        if current[0] != previous[0] and self.latch.reached(self.session, current[0]):
             self.admission.submit(Trigger.IDLE)
         if previous[1] is False and current[1] is True:
             self.admission.submit(Trigger.LID)
 
     def run(self) -> None:
-        self.latch.update(self.session, False, time.monotonic_ns())
+        self.latch.update(self.session, 0, time.monotonic_ns())
         events = Events()
         try:
             events.start(LOGIN, LOGIN_PATH)
@@ -740,8 +744,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("observer").add_argument("--notify-socket", required=True)
-    for name in ("idle-threshold", "active"):
-        commands.add_parser(name)
+    commands.add_parser("idle-threshold").add_argument("--ac", action="store_true")
+    commands.add_parser("active")
     for name in ("request", "worker"):
         commands.add_parser(name).add_argument("trigger", choices=list(Trigger))
     args = parser.parse_args()
@@ -771,8 +775,11 @@ def main() -> int:
         if args.command in {"active", "idle-threshold"}:
             latch = IdleLatch(directory)
             session = native.session()["id"]
-            latch.update(session, args.command == "idle-threshold", order)
-            if args.command == "active" or native.hardware()[0] != "battery":
+            threshold = (2 if args.ac else 1) if args.command == "idle-threshold" else 0
+            latch.update(session, threshold, order)
+            if args.command == "active" or not latch.reached(
+                session, native.hardware()[0]
+            ):
                 return 0
             trigger = Trigger.IDLE
         else:
