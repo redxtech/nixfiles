@@ -73,13 +73,14 @@
             killall
             mediainfo
             openssl
-            self'.packages.portop
             procps
             ps_mem
             ripgrep
             rsync
             tealdeer
             wget
+            self'.packages.portop
+            self'.packages.ramwho
           ];
         };
       };
