@@ -8,7 +8,6 @@ while [[ "${1:-}" == --result ]]; do
   shift 2
 done
 [[ $# -gt 0 ]] || { echo 'Provide a build command' >&2; exit 2; }
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 umask 077
 work="$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/attic-ci.XXXXXXXX")"
@@ -51,7 +50,7 @@ post-build-hook = $work/hook"
 # credentials stay in the temporary client config, not the build environment
 unset ATTIC_TOKEN
 build_status=0
-bash "$script_dir/time-command.sh" "nix command (evaluation, build, and substitution)" "$@" || build_status=$?
+"$@" || build_status=$?
 if [[ "$build_status" -eq 0 ]]; then
   # a failed Attic upload must not suppress the independent Cachix closure push
   if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
@@ -73,7 +72,7 @@ if [[ -s "$queue" ]]; then
     for attempt in 1 2 3; do
       upload_status=0
       XDG_CONFIG_HOME="$work/config" \
-        bash "$script_dir/time-command.sh" "attic upload" attic push ci:main --jobs 2 --stdin \
+        attic push ci:main --jobs 2 --stdin \
         < "$work/upload-paths" || upload_status=$?
       if [[ "$upload_status" -eq 0 || "$attempt" -eq 3 ]]; then
         break

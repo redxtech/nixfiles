@@ -10,8 +10,6 @@ if [[ -n "${BUILD_DIAGNOSTIC_DIR:-}" ]]; then
 fi
 
 # each target evaluates independently so system errors cannot block package builds
-bash "$script_dir/time-command.sh" "evaluation" \
-  nix eval "${target}.drvPath" --raw --no-update-lock-file > /dev/null
+nix eval "${target}.drvPath" --raw --no-update-lock-file > /dev/null
 # keep flake output selection unchanged and reuse Nix's evaluation cache
-bash "$script_dir/time-command.sh" "build and substitution (includes cached evaluation)" \
-  nix build "$target" --no-update-lock-file --out-link "$result" --print-build-logs
+nix build "$target" --no-update-lock-file --out-link "$result" --print-build-logs

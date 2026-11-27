@@ -30,8 +30,6 @@ defaults:
   run:
     shell: bash
 
-# monitoring: remove marked blocks and sampler wrapper lines to disable reports
-# monitoring: helper files are .github/scripts/resource_usage.py and .github/scripts/test_resource_usage.py
 jobs:
   update:
     if: github.ref_type == 'branch' && github.ref_name != 'automation/update-flake-inputs'
@@ -176,8 +174,7 @@ jobs:
           BUILD_DIAGNOSTIC_DIR: ${{ runner.temp }}/build-diagnostic
         run: |
           bash .github/scripts/attic-ci.sh --result ./result-package \
-            python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-              bash .github/scripts/build-target.sh ".#packages.x86_64-linux.${PACKAGE}" ./result-package
+            bash .github/scripts/build-target.sh ".#packages.x86_64-linux.${PACKAGE}" ./result-package
       - name: upload package diagnostic
         if: ${{ always() && steps.build.outcome != 'skipped' }}
         uses: actions/upload-artifact@v7
@@ -188,22 +185,7 @@ jobs:
           retention-days: 14
       - name: push package closure
         if: ${{ !cancelled() && steps.build.outputs.build-succeeded == 'true' }}
-        run: bash .github/scripts/time-command.sh "cachix upload" cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-package
-      # monitoring: begin
-      - name: summarize build resource usage
-        if: ${{ always() && steps.build.outcome != 'skipped' }}
-        continue-on-error: true
-        run: python3 .github/scripts/resource_usage.py report --output-dir "$RUNNER_TEMP/resource-usage"
-      - name: upload build resource usage
-        if: ${{ always() && steps.build.outcome != 'skipped' }}
-        continue-on-error: true
-        uses: actions/upload-artifact@v7
-        with:
-          name: resource-usage-package-${{ matrix.package }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/resource-usage/
-          retention-days: 30
-          if-no-files-found: warn
-      # monitoring: end
+        run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-package
 
   systems:
     name: build ${{ matrix.host }}
@@ -240,7 +222,7 @@ jobs:
           # keep explicit full-system uploads opt-in for the small cache
           cachix-push-filter: "-nixos-system-"
       - name: build system
-        id: build # monitoring: used only by the report steps
+        id: build
         env:
           HOST: ${{ matrix.host }}
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
@@ -248,8 +230,7 @@ jobs:
           BUILD_DIAGNOSTIC_DIR: ${{ runner.temp }}/build-diagnostic
         run: |
           bash .github/scripts/attic-ci.sh --result ./result-system \
-            python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-              bash .github/scripts/build-target.sh ".#nixosConfigurations.${HOST}.config.system.build.toplevel" ./result-system
+            bash .github/scripts/build-target.sh ".#nixosConfigurations.${HOST}.config.system.build.toplevel" ./result-system
 
       - name: upload system diagnostic
         if: ${{ always() && steps.build.outcome != 'skipped' }}
@@ -263,21 +244,6 @@ jobs:
       # package uploads still include their dependencies, so the cache can fill
       # - name: push final system closure
       #   run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-system
-      # monitoring: begin
-      - name: summarize build resource usage
-        if: ${{ always() && steps.build.outcome != 'skipped' }}
-        continue-on-error: true
-        run: python3 .github/scripts/resource_usage.py report --output-dir "$RUNNER_TEMP/resource-usage"
-      - name: upload build resource usage
-        if: ${{ always() && steps.build.outcome != 'skipped' }}
-        continue-on-error: true
-        uses: actions/upload-artifact@v7
-        with:
-          name: resource-usage-system-${{ matrix.host }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/resource-usage/
-          retention-days: 30
-          if-no-files-found: warn
-      # monitoring: end
 
   devshell:
     name: build and cache default devShell
@@ -310,8 +276,7 @@ jobs:
           BUILD_DIAGNOSTIC_DIR: ${{ runner.temp }}/build-diagnostic
         run: |
           bash .github/scripts/attic-ci.sh --result ./result-devshell \
-            python3 .github/scripts/resource_usage.py record --output-dir "$RUNNER_TEMP/resource-usage" -- \
-              bash .github/scripts/build-target.sh .#devShells.x86_64-linux.default ./result-devshell
+            bash .github/scripts/build-target.sh .#devShells.x86_64-linux.default ./result-devshell
       - name: upload devShell diagnostic
         if: ${{ always() && steps.build.outcome != 'skipped' }}
         uses: actions/upload-artifact@v7
@@ -322,22 +287,7 @@ jobs:
           retention-days: 14
       - name: push devShell closure
         if: ${{ !cancelled() && steps.build.outputs.build-succeeded == 'true' }}
-        run: bash .github/scripts/time-command.sh "cachix upload" cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-devshell
-      # monitoring: begin
-      - name: summarize build resource usage
-        if: ${{ always() && steps.build.outcome != 'skipped' }}
-        continue-on-error: true
-        run: python3 .github/scripts/resource_usage.py report --output-dir "$RUNNER_TEMP/resource-usage"
-      - name: upload build resource usage
-        if: ${{ always() && steps.build.outcome != 'skipped' }}
-        continue-on-error: true
-        uses: actions/upload-artifact@v7
-        with:
-          name: resource-usage-devshell-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/resource-usage/
-          retention-days: 30
-          if-no-files-found: warn
-      # monitoring: end
+        run: cachix push --jobs 2 --num-concurrent-chunks 1 gabedunn ./result-devshell
 
   repair-plan:
     name: classify failed update builds
